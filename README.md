@@ -53,7 +53,7 @@ bible-app/
 
 | Layer        | Technology                                    |
 |-------------|-----------------------------------------------|
-| Backend     | Python 3.13 + FastAPI                         |
+| Backend     | Python 3.14 + FastAPI                         |
 | Database    | Supabase (PostgreSQL) + Row Level Security    |
 | Auth        | Supabase Auth (Email + Google OAuth)          |
 | AI          | OpenAI API (multi-agent)                      |
@@ -128,7 +128,7 @@ python scripts/seed_bible.py
 ```
 
 The dependency set is trimmed to packages installable with plain `pip` for the current backend.
-Optional Rust-backed and unused auth extras were removed from `requirements.txt`.
+Pins were updated to versions that support Python 3.14 wheels and optional Rust-backed / unused auth extras were removed from `requirements.txt`.
 
 ## Environment Variables
 
