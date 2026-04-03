@@ -5,209 +5,1188 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bible App</title>
   <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#faf7f0;--panel:#fffdf8;--panel-2:#f6f1e7;--text:#221d16;--muted:#8a7a68;--line:#ddd2c3;--line-soft:#ece4d7;--accent:#6d4c31;--accent-soft:#efdfcb;--topbar:56px;--taskbar:64px;--side-width:38%;--ui:"Segoe UI",-apple-system,BlinkMacSystemFont,sans-serif;--serif:Georgia,"Times New Roman",serif}
-    body{font-family:var(--serif);background:linear-gradient(180deg,#fcfaf5 0%,var(--bg) 55%,#f3ede3 100%);color:var(--text);height:100vh;overflow:hidden}
-    button{font:inherit;color:inherit}
-    .chrome-hide-top{transform:translateY(-110%)!important}.chrome-hide-bottom{transform:translateY(110%)!important}
-    .topbar,.taskbar{position:fixed;left:0;right:0;z-index:100;background:rgba(255,253,248,.94);backdrop-filter:blur(14px)}
-    .topbar{top:0;height:var(--topbar);padding:12px 20px;display:flex;align-items:center;border-bottom:1px solid var(--line);transition:transform .3s ease}
-    .taskbar{bottom:0;height:var(--taskbar);display:flex;justify-content:center;align-items:center;gap:24px;border-top:1px solid var(--line);transition:transform .3s ease}
-    .nav-left{display:flex;gap:8px;min-width:0}
-    .nav-btn{display:flex;align-items:center;gap:8px;min-width:0;padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:#f4efe5;font-family:var(--ui);font-size:14px;font-weight:600;cursor:pointer}
-    .nav-btn:hover{background:#ece3d4}.nav-btn.active{background:var(--text);border-color:var(--text);color:#fff}
-    .nav-btn-label{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.chevron{width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid currentColor;opacity:.75;transition:transform .2s ease}.nav-btn.active .chevron{transform:rotate(180deg)}
-    .content-shell{position:fixed;top:var(--topbar);bottom:var(--taskbar);left:0;right:0;overflow:hidden}
-    .content-area{height:100%;display:flex;overflow:hidden}
-    .side-pane{width:0;min-width:0;flex-shrink:0;display:flex;flex-direction:column;overflow:hidden;background:linear-gradient(180deg,rgba(255,253,248,.98),rgba(246,241,231,.98));border-right:1px solid var(--line-soft)}
-    .side-pane.open{width:var(--side-width);min-width:220px}.side-pane.transitioning{transition:width .28s ease}
-    .side-header{position:sticky;top:0;z-index:10;padding:14px 18px 12px;background:rgba(255,253,248,.95);border-bottom:1px solid var(--line-soft);font-family:var(--ui)}
-    .side-eyebrow{display:block;margin-bottom:4px;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-    .side-title{font-size:18px;font-weight:700}.side-subtitle{margin-top:4px;font-size:13px;line-height:1.45;color:var(--muted)}.side-subtitle:empty{display:none}
-    .side-scroll,.bible-pane,.book-panel{overflow-y:auto;overflow-x:hidden;scrollbar-width:thin}
-    .side-scroll{flex:1;overscroll-behavior:contain}.side-scroll::-webkit-scrollbar,.bible-pane::-webkit-scrollbar,.book-panel::-webkit-scrollbar{width:5px}
-    .side-scroll::-webkit-scrollbar-thumb,.bible-pane::-webkit-scrollbar-thumb,.book-panel::-webkit-scrollbar-thumb{background:#c8bcad;border-radius:999px}
-    .commentary-entry{padding:16px 18px;border-bottom:1px solid var(--line-soft);transition:background .16s ease,border-color .16s ease}
-    .commentary-entry.synced{background:linear-gradient(180deg,rgba(250,240,221,.7),rgba(255,249,239,.96));border-color:#e2d2be}
-    .commentary-label{display:inline-flex;padding:5px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-family:var(--ui);font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
-    .commentary-text{margin-top:12px;font-size:15px;line-height:1.8;color:#2c241b}
-    .placeholder-block{padding:28px 18px;font-family:var(--ui);line-height:1.6;color:var(--muted)} .placeholder-card{margin-top:12px;padding:18px;border:1px dashed var(--line);border-radius:18px;background:rgba(255,255,255,.55)}
-    .pane-divider{width:0;flex-shrink:0;position:relative;background:linear-gradient(180deg,#d8cdbd,#cdbfae);opacity:0;cursor:col-resize;transition:opacity .18s ease,background .18s ease}
-    .pane-divider::after{content:"";position:absolute;top:0;bottom:0;left:-5px;right:-5px}.pane-divider.visible{width:6px;opacity:1}.pane-divider:hover,.pane-divider.dragging{background:linear-gradient(180deg,#b6926f,#9d7b59)}
-    .bible-pane{flex:1;overscroll-behavior:contain}
-    .reader-wrap{max-width:720px;margin:0 auto;padding:42px 24px 72px}
-    .reader-book{font-family:var(--ui);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#9d8d7b}
-    .reader-chapter{margin-top:8px;margin-bottom:30px;font-size:clamp(46px,8vw,62px);line-height:.95;letter-spacing:-.06em}
-    .reader-passages{font-size:19px;line-height:2.05}.verse-line{display:inline}.vnum{margin-right:3px;font-family:var(--ui);font-size:10px;font-weight:700;vertical-align:super;color:#b2a290;line-height:0;user-select:none}
-    .state-msg{padding:84px 20px;text-align:center;color:var(--muted);font-family:var(--ui);font-size:14px;line-height:1.6}.spinner{display:inline-block;width:22px;height:22px;margin-bottom:12px;border:2px solid #ddd3c5;border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
-    .popup-overlay{display:none;position:fixed;inset:0;z-index:200}.popup-overlay.open{display:block}
-    .book-panel,.version-panel{position:absolute;top:calc(var(--topbar) - 4px);left:20px;background:rgba(255,253,248,.98);border:1px solid var(--line);border-radius:22px;box-shadow:0 14px 36px rgba(34,29,22,.12);z-index:201}
-    .book-panel{width:min(320px,calc(100vw - 28px));max-height:calc(100vh - 92px);overflow-y:auto;overflow-x:hidden} .version-panel{min-width:230px;overflow:hidden}
-    .testament-label,.version-header{position:sticky;top:0;padding:12px 16px 8px;background:rgba(255,253,248,.96);border-bottom:1px solid var(--line-soft);font-family:var(--ui);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-    .book-row{border-bottom:1px solid var(--line-soft)} .book-btn,.version-item{width:100%;display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border:none;background:transparent;font-family:var(--ui);font-size:14px;text-align:left;cursor:pointer}
-    .book-btn:hover,.version-item:hover{background:#f7f0e4}.book-btn.expanded,.version-item.selected{background:#efe4d3}.expand-arrow{width:0;height:0;border-top:5px solid transparent;border-bottom:5px solid transparent;border-left:7px solid currentColor;color:var(--muted);transition:transform .2s ease,color .2s ease} .book-btn.expanded .expand-arrow{transform:rotate(90deg);color:var(--accent)}
-    .chapter-picker{display:none;flex-wrap:wrap;gap:6px;padding:8px 16px 14px;background:#f8f1e5}.chapter-picker.open{display:flex}
-    .ch-btn{width:34px;height:34px;border:1px solid var(--line);border-radius:10px;background:#fffdf8;font-family:var(--ui);font-size:12px;font-weight:600;cursor:pointer}.ch-btn:hover,.ch-btn.current{background:var(--text);border-color:var(--text);color:#fff}
-    .v-abbr{min-width:42px;font-size:14px;font-weight:800}.v-name{flex:1;font-size:13px;color:var(--muted)}.v-check{font-weight:800;color:var(--accent)}
-    .ch-nav{position:fixed;bottom:calc(var(--taskbar) + 12px);z-index:99;transition:transform .3s ease,opacity .3s ease}.ch-nav-prev{left:16px}.ch-nav-next{right:16px}
-    .ch-nav-btn{width:46px;height:46px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:999px;background:rgba(255,253,248,.96);box-shadow:0 10px 22px rgba(34,29,22,.12);font-size:22px;cursor:pointer}.ch-nav-btn:disabled{opacity:.28;cursor:default}
-    .taskbar-btn{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:76px;border:none;background:transparent;padding:6px 8px;border-radius:16px;cursor:pointer;color:var(--muted);font-family:var(--ui)}
-    .taskbar-btn:hover{background:rgba(239,228,211,.58)}.taskbar-btn.active{color:var(--accent)}.taskbar-btn.is-primary{color:var(--text)}
-    .taskbar-icon{width:34px;height:34px;display:grid;place-items:center;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.8)}
-    .taskbar-icon svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-    .taskbar-icon .icon-solid{fill:currentColor;stroke:none}
-    .taskbar-btn.active .taskbar-icon,.taskbar-btn.is-primary .taskbar-icon{border-color:rgba(109,76,49,.2);background:linear-gradient(180deg,#f5e7d2,#edd8bf)} .taskbar-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
-    .slide-in-right{animation:slide-in-right .22s ease}.slide-in-left{animation:slide-in-left .22s ease}.no-select{user-select:none}
-    @keyframes spin{to{transform:rotate(360deg)}} @keyframes slide-in-right{from{transform:translateX(40px);opacity:0}to{transform:translateX(0);opacity:1}} @keyframes slide-in-left{from{transform:translateX(-40px);opacity:0}to{transform:translateX(0);opacity:1}}
-    @media (max-width:960px){:root{--side-width:44%}.taskbar{gap:12px}.ch-nav-prev{left:10px}.ch-nav-next{right:10px}}
-    @media (max-width:700px){:root{--topbar:60px;--taskbar:68px;--side-width:52%}.topbar{padding:10px 12px}.nav-left{width:100%}.nav-btn{flex:1;justify-content:space-between}.reader-wrap{padding:32px 16px 64px}.reader-passages{font-size:18px;line-height:1.95}.commentary-entry,.placeholder-block{padding-left:14px;padding-right:14px}}
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    :root {
+      --bg: #faf7f0;
+      --panel: #fffdf8;
+      --panel-2: #f6f1e7;
+      --text: #221d16;
+      --muted: #8a7a68;
+      --line: #ddd2c3;
+      --line-soft: #ece4d7;
+      --accent: #6d4c31;
+      --accent-soft: #efdfcb;
+      --topbar: 56px;
+      --taskbar: 64px;
+      --side-width: 38%;
+      --ui: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+      --serif: Georgia, "Times New Roman", serif;
+    }
+    body {
+      font-family: var(--serif);
+      background: linear-gradient(180deg, #fcfaf5 0%, var(--bg) 55%, #f3ede3 100%);
+      color: var(--text);
+      height: 100vh;
+      overflow: hidden;
+    }
+    button {
+      font: inherit;
+      color: inherit;
+    }
+    .chrome-hide-top {
+      transform: translateY(-110%) !important;
+    }
+    .chrome-hide-bottom {
+      transform: translateY(110%) !important;
+    }
+    .topbar,
+    .taskbar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(255, 253, 248, 0.94);
+      backdrop-filter: blur(14px);
+    }
+    .topbar {
+      top: 0;
+      height: var(--topbar);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+      transition: transform 0.3s ease;
+    }
+    .taskbar {
+      bottom: 0;
+      height: var(--taskbar);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+      border-top: 1px solid var(--line);
+      transition: transform 0.3s ease;
+    }
+    .nav-left {
+      display: flex;
+      gap: 8px;
+      min-width: 0;
+    }
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      padding: 8px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #f4efe5;
+      font-family: var(--ui);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .nav-btn:hover {
+      background: #ece3d4;
+    }
+    .nav-btn.active {
+      background: var(--text);
+      border-color: var(--text);
+      color: #fff;
+    }
+    .nav-btn-label {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .chevron {
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 7px solid currentColor;
+      opacity: 0.75;
+      transition: transform 0.2s ease;
+    }
+    .nav-btn.active .chevron {
+      transform: rotate(180deg);
+    }
+    .content-shell {
+      position: fixed;
+      top: var(--topbar);
+      bottom: var(--taskbar);
+      left: 0;
+      right: 0;
+      overflow: hidden;
+    }
+    .content-area {
+      height: 100%;
+      display: flex;
+      overflow: hidden;
+    }
+    .side-pane {
+      width: 0;
+      min-width: 0;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(255, 253, 248, 0.98), rgba(246, 241, 231, 0.98));
+      border-right: 1px solid var(--line-soft);
+    }
+    .side-pane.open {
+      width: var(--side-width);
+      min-width: 220px;
+    }
+    .side-pane.transitioning {
+      transition: width 0.28s ease;
+    }
+    .side-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 14px 18px 12px;
+      background: rgba(255, 253, 248, 0.95);
+      border-bottom: 1px solid var(--line-soft);
+      font-family: var(--ui);
+    }
+    .side-eyebrow {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .side-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .side-subtitle {
+      margin-top: 4px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+    .side-subtitle:empty {
+      display: none;
+    }
+    .side-scroll,
+    .bible-pane,
+    .book-panel {
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: thin;
+    }
+    .side-scroll {
+      flex: 1;
+      overscroll-behavior: contain;
+    }
+    .side-scroll::-webkit-scrollbar,
+    .bible-pane::-webkit-scrollbar,
+    .book-panel::-webkit-scrollbar {
+      width: 5px;
+    }
+    .side-scroll::-webkit-scrollbar-thumb,
+    .bible-pane::-webkit-scrollbar-thumb,
+    .book-panel::-webkit-scrollbar-thumb {
+      background: #c8bcad;
+      border-radius: 999px;
+    }
+    .commentary-entry {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line-soft);
+      transition: background 0.16s ease, border-color 0.16s ease;
+    }
+    .commentary-entry.synced {
+      background: linear-gradient(180deg, rgba(250, 240, 221, 0.7), rgba(255, 249, 239, 0.96));
+      border-color: #e2d2be;
+    }
+    .commentary-label {
+      display: inline-flex;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-family: var(--ui);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .commentary-text {
+      margin-top: 12px;
+      font-size: 15px;
+      line-height: 1.8;
+      color: #2c241b;
+    }
+    .placeholder-block {
+      padding: 28px 18px;
+      font-family: var(--ui);
+      line-height: 1.6;
+      color: var(--muted);
+    }
+    .placeholder-card {
+      margin-top: 12px;
+      padding: 18px;
+      border: 1px dashed var(--line);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.55);
+    }
+    .pane-divider {
+      width: 0;
+      flex-shrink: 0;
+      position: relative;
+      background: linear-gradient(180deg, #d8cdbd, #cdbfae);
+      opacity: 0;
+      cursor: col-resize;
+      transition: opacity 0.18s ease, background 0.18s ease;
+    }
+    .pane-divider::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: -5px;
+      right: -5px;
+    }
+    .pane-divider.visible {
+      width: 6px;
+      opacity: 1;
+    }
+    .pane-divider:hover,
+    .pane-divider.dragging {
+      background: linear-gradient(180deg, #b6926f, #9d7b59);
+    }
+    .bible-pane {
+      flex: 1;
+      overscroll-behavior: contain;
+    }
+    .reader-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 42px 24px 72px;
+    }
+    .reader-book {
+      font-family: var(--ui);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #9d8d7b;
+    }
+    .reader-chapter {
+      margin-top: 8px;
+      margin-bottom: 30px;
+      font-size: clamp(46px, 8vw, 62px);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+    }
+    .reader-passages {
+      font-size: 19px;
+      line-height: 2.05;
+    }
+    .verse-line {
+      display: inline;
+    }
+    .vnum {
+      margin-right: 3px;
+      font-family: var(--ui);
+      font-size: 10px;
+      font-weight: 700;
+      vertical-align: super;
+      color: #b2a290;
+      line-height: 0;
+      user-select: none;
+    }
+    .state-msg {
+      padding: 84px 20px;
+      text-align: center;
+      color: var(--muted);
+      font-family: var(--ui);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .spinner {
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      margin-bottom: 12px;
+      border: 2px solid #ddd3c5;
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    .popup-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+    }
+    .popup-overlay.open {
+      display: block;
+    }
+    .book-panel,
+    .version-panel {
+      position: absolute;
+      top: calc(var(--topbar) - 4px);
+      left: 20px;
+      background: rgba(255, 253, 248, 0.98);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: 0 14px 36px rgba(34, 29, 22, 0.12);
+      z-index: 201;
+    }
+    .book-panel {
+      width: min(320px, calc(100vw - 28px));
+      max-height: calc(100vh - 92px);
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    .version-panel {
+      min-width: 230px;
+      overflow: hidden;
+    }
+    .testament-label,
+    .version-header {
+      position: sticky;
+      top: 0;
+      padding: 12px 16px 8px;
+      background: rgba(255, 253, 248, 0.96);
+      border-bottom: 1px solid var(--line-soft);
+      font-family: var(--ui);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .book-row {
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .book-btn,
+    .version-item {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      border: none;
+      background: transparent;
+      font-family: var(--ui);
+      font-size: 14px;
+      text-align: left;
+      cursor: pointer;
+    }
+    .book-btn:hover,
+    .version-item:hover {
+      background: #f7f0e4;
+    }
+    .book-btn.expanded,
+    .version-item.selected {
+      background: #efe4d3;
+    }
+    .expand-arrow {
+      width: 0;
+      height: 0;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 7px solid currentColor;
+      color: var(--muted);
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+    .book-btn.expanded .expand-arrow {
+      transform: rotate(90deg);
+      color: var(--accent);
+    }
+    .chapter-picker {
+      display: none;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 8px 16px 14px;
+      background: #f8f1e5;
+    }
+    .chapter-picker.open {
+      display: flex;
+    }
+    .ch-btn {
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fffdf8;
+      font-family: var(--ui);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .ch-btn:hover,
+    .ch-btn.current {
+      background: var(--text);
+      border-color: var(--text);
+      color: #fff;
+    }
+    .v-abbr {
+      min-width: 42px;
+      font-size: 14px;
+      font-weight: 800;
+    }
+    .v-name {
+      flex: 1;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .v-check {
+      font-weight: 800;
+      color: var(--accent);
+    }
+    .ch-nav {
+      position: fixed;
+      bottom: calc(var(--taskbar) + 12px);
+      z-index: 99;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .ch-nav-prev {
+      left: 16px;
+    }
+    .ch-nav-next {
+      right: 16px;
+    }
+    .ch-nav-btn {
+      width: 46px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 253, 248, 0.96);
+      box-shadow: 0 10px 22px rgba(34, 29, 22, 0.12);
+      font-size: 22px;
+      cursor: pointer;
+    }
+    .ch-nav-btn:disabled {
+      opacity: 0.28;
+      cursor: default;
+    }
+    .taskbar-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      min-width: 76px;
+      border: none;
+      background: transparent;
+      padding: 6px 8px;
+      border-radius: 16px;
+      cursor: pointer;
+      color: var(--muted);
+      font-family: var(--ui);
+    }
+    .taskbar-btn:hover {
+      background: rgba(239, 228, 211, 0.58);
+    }
+    .taskbar-btn.active {
+      color: var(--accent);
+    }
+    .taskbar-btn.is-primary {
+      color: var(--text);
+    }
+    .taskbar-icon {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.8);
+    }
+    .taskbar-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .taskbar-icon .icon-solid {
+      fill: currentColor;
+      stroke: none;
+    }
+    .taskbar-btn.active .taskbar-icon,
+    .taskbar-btn.is-primary .taskbar-icon {
+      border-color: rgba(109, 76, 49, 0.2);
+      background: linear-gradient(180deg, #f5e7d2, #edd8bf);
+    }
+    .taskbar-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .slide-in-right {
+      animation: slide-in-right 0.22s ease;
+    }
+    .slide-in-left {
+      animation: slide-in-left 0.22s ease;
+    }
+    .no-select {
+      user-select: none;
+    }
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    @keyframes slide-in-right {
+      from {
+        transform: translateX(40px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    @keyframes slide-in-left {
+      from {
+        transform: translateX(-40px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    @media (max-width: 960px) {
+      :root {
+        --side-width: 44%;
+      }
+      .taskbar {
+        gap: 12px;
+      }
+      .ch-nav-prev {
+        left: 10px;
+      }
+      .ch-nav-next {
+        right: 10px;
+      }
+    }
+    @media (max-width: 700px) {
+      :root {
+        --topbar: 60px;
+        --taskbar: 68px;
+        --side-width: 52%;
+      }
+      .topbar {
+        padding: 10px 12px;
+      }
+      .nav-left {
+        width: 100%;
+      }
+      .nav-btn {
+        flex: 1;
+        justify-content: space-between;
+      }
+      .reader-wrap {
+        padding: 32px 16px 64px;
+      }
+      .reader-passages {
+        font-size: 18px;
+        line-height: 1.95;
+      }
+      .commentary-entry,
+      .placeholder-block {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+    }
   </style>
 </head>
 <body>
   <nav class="topbar" id="topbar">
     <div class="nav-left">
-      <button class="nav-btn" id="btn-book" type="button"><span class="nav-btn-label" id="lbl-book">Genesis 1</span><span class="chevron" aria-hidden="true"></span></button>
-      <button class="nav-btn" id="btn-version" type="button"><span class="nav-btn-label" id="lbl-version">WEB</span><span class="chevron" aria-hidden="true"></span></button>
+      <button class="nav-btn" id="btn-book" type="button">
+        <span class="nav-btn-label" id="lbl-book">Genesis 1</span>
+        <span class="chevron" aria-hidden="true"></span>
+      </button>
+      <button class="nav-btn" id="btn-version" type="button">
+        <span class="nav-btn-label" id="lbl-version">WEB</span>
+        <span class="chevron" aria-hidden="true"></span>
+      </button>
     </div>
   </nav>
-  <div class="popup-overlay" id="book-overlay"><div class="book-panel" id="book-panel"><div class="state-msg"><span class="spinner"></span><div>Loading...</div></div></div></div>
-  <div class="popup-overlay" id="ver-overlay"><div class="version-panel" id="ver-panel"><div class="version-header">Translation</div></div></div>
-  <div class="content-shell"><div class="content-area">
-    <aside class="side-pane transitioning" id="side-pane">
-      <div class="side-header">
-        <span class="side-eyebrow" id="side-eyebrow">Companion</span>
-        <div class="side-title" id="side-title">Bible Companion</div>
-        <div class="side-subtitle" id="side-subtitle"></div>
+  <div class="popup-overlay" id="book-overlay">
+    <div class="book-panel" id="book-panel">
+      <div class="state-msg">
+        <span class="spinner"></span>
+        <div>Loading...</div>
       </div>
-      <div class="side-scroll" id="side-scroll"></div>
-    </aside>
-    <div class="pane-divider" id="pane-divider"></div>
-    <main class="bible-pane" id="bible-pane"><div class="reader-wrap"><div id="reader"><div class="state-msg"><span class="spinner"></span><div>Loading chapter...</div></div></div></div></main>
-  </div></div>
-  <div class="ch-nav ch-nav-prev" id="ch-nav-prev"><button class="ch-nav-btn" id="btn-prev" type="button" aria-label="Previous chapter">&lsaquo;</button></div>
-  <div class="ch-nav ch-nav-next" id="ch-nav-next"><button class="ch-nav-btn" id="btn-next" type="button" aria-label="Next chapter">&rsaquo;</button></div>
+    </div>
+  </div>
+  <div class="popup-overlay" id="ver-overlay">
+    <div class="version-panel" id="ver-panel">
+      <div class="version-header">Translation</div>
+    </div>
+  </div>
+  <div class="content-shell">
+    <div class="content-area">
+      <aside class="side-pane transitioning" id="side-pane">
+        <div class="side-header">
+          <span class="side-eyebrow" id="side-eyebrow">Companion</span>
+          <div class="side-title" id="side-title">Bible Companion</div>
+          <div class="side-subtitle" id="side-subtitle"></div>
+        </div>
+        <div class="side-scroll" id="side-scroll"></div>
+      </aside>
+      <div class="pane-divider" id="pane-divider"></div>
+      <main class="bible-pane" id="bible-pane">
+        <div class="reader-wrap">
+          <div id="reader">
+            <div class="state-msg">
+              <span class="spinner"></span>
+              <div>Loading chapter...</div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div class="ch-nav ch-nav-prev" id="ch-nav-prev">
+    <button class="ch-nav-btn" id="btn-prev" type="button" aria-label="Previous chapter">&lsaquo;</button>
+  </div>
+  <div class="ch-nav ch-nav-next" id="ch-nav-next">
+    <button class="ch-nav-btn" id="btn-next" type="button" aria-label="Next chapter">&rsaquo;</button>
+  </div>
   <div class="taskbar" id="taskbar">
-    <button class="taskbar-btn" id="tb-commentary" type="button"><span class="taskbar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 7.5h9"></path><path d="M6 11h12"></path><path d="M6 14.5h8"></path><path d="M5 4.5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H12l-4.5 3v-3H5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2Z"></path></svg></span><span class="taskbar-label">Commentary</span></button>
-    <button class="taskbar-btn is-primary" id="tb-bible" type="button"><span class="taskbar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6.5 5.5h8a3 3 0 0 1 3 3v10h-8a3 3 0 0 0-3 3Z"></path><path d="M17.5 18.5h-8a3 3 0 0 0-3 3V8.5a3 3 0 0 1 3-3h8Z"></path><path d="M10 8.5v7"></path><path d="M8.2 12h3.6"></path></svg></span><span class="taskbar-label">Bible</span></button>
-    <button class="taskbar-btn" id="tb-ai" type="button"><span class="taskbar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5 13.9 8l4.6 1.9-4.6 1.9-1.9 4.7-1.9-4.7L5.5 9.9 10.1 8 12 3.5Z" class="icon-solid"></path><path d="M18 14.5 18.9 16.6 21 17.5l-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9.9-2.1Z" class="icon-solid"></path><path d="M6.5 15.5 7.2 17l1.5.7-1.5.7-.7 1.6-.7-1.6-1.6-.7 1.6-.7.7-1.5Z" class="icon-solid"></path></svg></span><span class="taskbar-label">AI</span></button>
+    <button class="taskbar-btn" id="tb-commentary" type="button">
+      <span class="taskbar-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M6 7.5h9"></path>
+          <path d="M6 11h12"></path>
+          <path d="M6 14.5h8"></path>
+          <path d="M5 4.5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H12l-4.5 3v-3H5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2Z"></path>
+        </svg>
+      </span>
+      <span class="taskbar-label">Commentary</span>
+    </button>
+    <button class="taskbar-btn is-primary" id="tb-bible" type="button">
+      <span class="taskbar-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M6.5 5.5h8a3 3 0 0 1 3 3v10h-8a3 3 0 0 0-3 3Z"></path>
+          <path d="M17.5 18.5h-8a3 3 0 0 0-3 3V8.5a3 3 0 0 1 3-3h8Z"></path>
+          <path d="M10 8.5v7"></path>
+          <path d="M8.2 12h3.6"></path>
+        </svg>
+      </span>
+      <span class="taskbar-label">Bible</span>
+    </button>
+    <button class="taskbar-btn" id="tb-ai" type="button">
+      <span class="taskbar-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 3.5 13.9 8l4.6 1.9-4.6 1.9-1.9 4.7-1.9-4.7L5.5 9.9 10.1 8 12 3.5Z" class="icon-solid"></path>
+          <path d="M18 14.5 18.9 16.6 21 17.5l-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9.9-2.1Z" class="icon-solid"></path>
+          <path d="M6.5 15.5 7.2 17l1.5.7-1.5.7-.7 1.6-.7-1.6-1.6-.7 1.6-.7.7-1.5Z" class="icon-solid"></path>
+        </svg>
+      </span>
+      <span class="taskbar-label">AI</span>
+    </button>
   </div>
   <script>
     "use strict";
-    const API="",SIDE_PANEL={NONE:"none",COMMENTARY:"commentary",AI:"ai"};
-    const biblePaneEl=document.getElementById("bible-pane"),sidePaneEl=document.getElementById("side-pane"),sideScrollEl=document.getElementById("side-scroll"),dividerEl=document.getElementById("pane-divider"),readerEl=document.getElementById("reader"),topbarEl=document.getElementById("topbar"),taskbarEl=document.getElementById("taskbar"),prevNavEl=document.getElementById("ch-nav-prev"),nextNavEl=document.getElementById("ch-nav-next"),commentaryBtnEl=document.getElementById("tb-commentary"),aiBtnEl=document.getElementById("tb-ai");
-    const state={books:[],translations:[],book:null,chapter:1,translation:"WEB",expanded:null,sidePanelMode:SIDE_PANEL.NONE,sidePaneWidth:"38%"},commentaryCache=Object.create(null);
-    const aiCopy={eyebrow:"AI Companion",title:"AI Summary",subtitle:"",body:'<div class="placeholder-block">AI summary coming later.</div>'};
-    let lastScrollY=0,chromeVisible=true,commentarySyncRaf=null,isDragging=false,dragStartX=0,dragStartWidth=0,touchStartX=null,touchStartY=0;
-    function escapeHtml(text){return String(text).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#39;")}
-    async function fetchJson(url){const res=await fetch(url);if(!res.ok)throw new Error(`Request failed: ${res.status}`);return res.json()}
-    function setSideState({eyebrow,title,subtitle="",body}){document.getElementById("side-eyebrow").textContent=eyebrow;document.getElementById("side-title").textContent=title;document.getElementById("side-subtitle").textContent=subtitle;sideScrollEl.innerHTML=body}
-    function updateTaskbarState(){commentaryBtnEl.classList.toggle("active",state.sidePanelMode===SIDE_PANEL.COMMENTARY);aiBtnEl.classList.toggle("active",state.sidePanelMode===SIDE_PANEL.AI)}
-    function updateNavLabels(){if(!state.book)return;document.getElementById("lbl-book").textContent=`${state.book.name} ${state.chapter}`;document.getElementById("lbl-version").textContent=state.translation}
-    function isFirstChapter(){return state.book&&state.book.book_number===1&&state.chapter===1} function isLastChapter(){return state.book&&state.book.book_number===66&&state.chapter===state.book.total_chapters}
-    function updateChapterNavButtons(){document.getElementById("btn-prev").disabled=!state.book||isFirstChapter();document.getElementById("btn-next").disabled=!state.book||isLastChapter()}
-    function showChrome(){if(chromeVisible)return;chromeVisible=true;topbarEl.classList.remove("chrome-hide-top");taskbarEl.classList.remove("chrome-hide-bottom");prevNavEl.classList.remove("chrome-hide-bottom");nextNavEl.classList.remove("chrome-hide-bottom")}
-    function hideChrome(){if(!chromeVisible)return;if(document.getElementById("book-overlay").classList.contains("open"))return;if(document.getElementById("ver-overlay").classList.contains("open"))return;chromeVisible=false;topbarEl.classList.add("chrome-hide-top");taskbarEl.classList.add("chrome-hide-bottom");prevNavEl.classList.add("chrome-hide-bottom");nextNavEl.classList.add("chrome-hide-bottom")}
-    function renderChapter(data,direction){let html=`<div class="reader-book">${escapeHtml(data.book)}</div><div class="reader-chapter">${data.chapter}</div><div class="reader-passages">`;for(const verse of data.verses){html+=`<span class="verse-line" data-verse="${verse.verse}"><sup class="vnum">${verse.verse}</sup>${escapeHtml(verse.text)} </span>`}html+="</div>";readerEl.innerHTML=html;if(direction==="next")readerEl.classList.add("slide-in-right");if(direction==="prev")readerEl.classList.add("slide-in-left");readerEl.addEventListener("animationend",()=>readerEl.classList.remove("slide-in-right","slide-in-left"),{once:true})}
-    async function loadChapter(direction=null){if(!state.book){readerEl.innerHTML='<div class="state-msg">No books are available.</div>';return}updateNavLabels();updateChapterNavButtons();readerEl.innerHTML='<div class="state-msg"><span class="spinner"></span><div>Loading chapter...</div></div>';try{const data=await fetchJson(`${API}/api/v1/chapters/${encodeURIComponent(state.book.name)}/${state.chapter}?translation=${encodeURIComponent(state.translation)}`);renderChapter(data,direction);biblePaneEl.scrollTop=0;showChrome();if(state.sidePanelMode===SIDE_PANEL.COMMENTARY)await loadCommentary();if(state.sidePanelMode===SIDE_PANEL.AI)renderAiPlaceholder()}catch{readerEl.innerHTML='<div class="state-msg">Could not load this chapter.</div>'}}
-    function openSidePanel(mode){state.sidePanelMode=mode;sidePaneEl.style.setProperty("--side-width",state.sidePaneWidth);sidePaneEl.classList.add("open");dividerEl.classList.add("visible");updateTaskbarState();if(mode===SIDE_PANEL.COMMENTARY)loadCommentary();if(mode===SIDE_PANEL.AI)renderAiPlaceholder()}
-    function closeSidePanel(){state.sidePanelMode=SIDE_PANEL.NONE;sidePaneEl.classList.remove("open");dividerEl.classList.remove("visible");updateTaskbarState();setSideState({eyebrow:"Companion",title:"Bible Companion",subtitle:"",body:""})}
-    function toggleCommentary(){state.sidePanelMode===SIDE_PANEL.COMMENTARY?closeSidePanel():openSidePanel(SIDE_PANEL.COMMENTARY)} function toggleAiPanel(){state.sidePanelMode===SIDE_PANEL.AI?closeSidePanel():openSidePanel(SIDE_PANEL.AI)}
-    async function loadCommentary(){
-      if(!state.book)return;
-      setSideState({eyebrow:"Commentary",title:"Matthew Henry Commentary",subtitle:"",body:'<div class="state-msg"><span class="spinner"></span><div>Loading commentary...</div></div>'});
-      const cacheKey=`${state.book.book_number}:${state.chapter}:matthew_henry`;
-      if(commentaryCache[cacheKey]){renderCommentary(commentaryCache[cacheKey]);return}
-      try{
-        const entries=await fetchJson(`${API}/api/v1/commentary?book=${encodeURIComponent(state.book.name)}&chapter=${state.chapter}&source=matthew_henry`);
-        commentaryCache[cacheKey]=entries;
-        renderCommentary(entries);
-      }catch{
-        setSideState({eyebrow:"Commentary",title:"Matthew Henry Commentary",subtitle:"",body:'<div class="state-msg">Commentary unavailable.</div>'});
+    const API = "",
+      SIDE_PANEL = { NONE: "none", COMMENTARY: "commentary", AI: "ai" };
+    const biblePaneEl = document.getElementById("bible-pane"),
+      sidePaneEl = document.getElementById("side-pane"),
+      sideScrollEl = document.getElementById("side-scroll"),
+      dividerEl = document.getElementById("pane-divider"),
+      readerEl = document.getElementById("reader"),
+      topbarEl = document.getElementById("topbar"),
+      taskbarEl = document.getElementById("taskbar"),
+      prevNavEl = document.getElementById("ch-nav-prev"),
+      nextNavEl = document.getElementById("ch-nav-next"),
+      commentaryBtnEl = document.getElementById("tb-commentary"),
+      aiBtnEl = document.getElementById("tb-ai");
+    const state = {
+        books: [],
+        translations: [],
+        book: null,
+        chapter: 1,
+        translation: "WEB",
+        expanded: null,
+        sidePanelMode: SIDE_PANEL.NONE,
+        sidePaneWidth: "38%",
+      },
+      commentaryCache = Object.create(null);
+    const aiCopy = {
+      eyebrow: "AI Companion",
+      title: "AI Summary",
+      subtitle: "",
+      body: '<div class="placeholder-block">AI summary coming later.</div>',
+    };
+    let lastScrollY = 0,
+      chromeVisible = true,
+      commentarySyncRaf = null,
+      isDragging = false,
+      dragStartX = 0,
+      dragStartWidth = 0,
+      touchStartX = null,
+      touchStartY = 0;
+    function escapeHtml(text) {
+      return String(text)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+    async function fetchJson(url) {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+      return res.json();
+    }
+    function setSideState({ eyebrow, title, subtitle = "", body }) {
+      document.getElementById("side-eyebrow").textContent = eyebrow;
+      document.getElementById("side-title").textContent = title;
+      document.getElementById("side-subtitle").textContent = subtitle;
+      sideScrollEl.innerHTML = body;
+    }
+    function updateTaskbarState() {
+      commentaryBtnEl.classList.toggle("active", state.sidePanelMode === SIDE_PANEL.COMMENTARY);
+      aiBtnEl.classList.toggle("active", state.sidePanelMode === SIDE_PANEL.AI);
+    }
+    function updateNavLabels() {
+      if (!state.book) return;
+      document.getElementById("lbl-book").textContent = `${state.book.name} ${state.chapter}`;
+      document.getElementById("lbl-version").textContent = state.translation;
+    }
+    function isFirstChapter() {
+      return state.book && state.book.book_number === 1 && state.chapter === 1;
+    }
+    function isLastChapter() {
+      return state.book && state.book.book_number === 66 && state.chapter === state.book.total_chapters;
+    }
+    function updateChapterNavButtons() {
+      document.getElementById("btn-prev").disabled = !state.book || isFirstChapter();
+      document.getElementById("btn-next").disabled = !state.book || isLastChapter();
+    }
+    function showChrome() {
+      if (chromeVisible) return;
+      chromeVisible = true;
+      topbarEl.classList.remove("chrome-hide-top");
+      taskbarEl.classList.remove("chrome-hide-bottom");
+      prevNavEl.classList.remove("chrome-hide-bottom");
+      nextNavEl.classList.remove("chrome-hide-bottom");
+    }
+    function hideChrome() {
+      if (!chromeVisible) return;
+      if (document.getElementById("book-overlay").classList.contains("open")) return;
+      if (document.getElementById("ver-overlay").classList.contains("open")) return;
+      chromeVisible = false;
+      topbarEl.classList.add("chrome-hide-top");
+      taskbarEl.classList.add("chrome-hide-bottom");
+      prevNavEl.classList.add("chrome-hide-bottom");
+      nextNavEl.classList.add("chrome-hide-bottom");
+    }
+    function renderChapter(data, direction) {
+      let html = `<div class="reader-book">${escapeHtml(data.book)}</div><div class="reader-chapter">${data.chapter}</div><div class="reader-passages">`;
+      for (const verse of data.verses) {
+        html += `<span class="verse-line" data-verse="${verse.verse}"><sup class="vnum">${verse.verse}</sup>${escapeHtml(verse.text)} </span>`;
+      }
+      html += "</div>";
+      readerEl.innerHTML = html;
+      if (direction === "next") readerEl.classList.add("slide-in-right");
+      if (direction === "prev") readerEl.classList.add("slide-in-left");
+      readerEl.addEventListener("animationend", () => readerEl.classList.remove("slide-in-right", "slide-in-left"), { once: true });
+    }
+    async function loadChapter(direction = null) {
+      if (!state.book) {
+        readerEl.innerHTML = '<div class="state-msg">No books are available.</div>';
+        return;
+      }
+      updateNavLabels();
+      updateChapterNavButtons();
+      readerEl.innerHTML = '<div class="state-msg"><span class="spinner"></span><div>Loading chapter...</div></div>';
+      try {
+        const data = await fetchJson(
+          `${API}/api/v1/chapters/${encodeURIComponent(state.book.name)}/${state.chapter}?translation=${encodeURIComponent(state.translation)}`
+        );
+        renderChapter(data, direction);
+        biblePaneEl.scrollTop = 0;
+        showChrome();
+        if (state.sidePanelMode === SIDE_PANEL.COMMENTARY) await loadCommentary();
+        if (state.sidePanelMode === SIDE_PANEL.AI) renderAiPlaceholder();
+      } catch {
+        readerEl.innerHTML = '<div class="state-msg">Could not load this chapter.</div>';
       }
     }
-    function renderCommentary(entries){
-      if(state.sidePanelMode!==SIDE_PANEL.COMMENTARY)return;
-      if(!entries||!entries.length){setSideState({eyebrow:"Commentary",title:"Matthew Henry Commentary",subtitle:"",body:'<div class="state-msg">No commentary for this chapter.</div>'});return}
-      let html="";
-      for(const entry of entries){
-        const start=Number(entry.verse_start),end=entry.verse_end==null?start:Number(entry.verse_end),label=end>start?`Verses ${start}-${end}`:`Verse ${start}`;
-        html+=`<section class="commentary-entry" data-verse-start="${start}" data-verse-end="${end}"><div class="commentary-label">${escapeHtml(label)}</div><div class="commentary-text">${escapeHtml(entry.content)}</div></section>`;
+    function openSidePanel(mode) {
+      state.sidePanelMode = mode;
+      sidePaneEl.style.setProperty("--side-width", state.sidePaneWidth);
+      sidePaneEl.classList.add("open");
+      dividerEl.classList.add("visible");
+      updateTaskbarState();
+      if (mode === SIDE_PANEL.COMMENTARY) loadCommentary();
+      if (mode === SIDE_PANEL.AI) renderAiPlaceholder();
+    }
+    function closeSidePanel() {
+      state.sidePanelMode = SIDE_PANEL.NONE;
+      sidePaneEl.classList.remove("open");
+      dividerEl.classList.remove("visible");
+      updateTaskbarState();
+      setSideState({ eyebrow: "Companion", title: "Bible Companion", subtitle: "", body: "" });
+    }
+    function toggleCommentary() {
+      state.sidePanelMode === SIDE_PANEL.COMMENTARY ? closeSidePanel() : openSidePanel(SIDE_PANEL.COMMENTARY);
+    }
+    function toggleAiPanel() {
+      state.sidePanelMode === SIDE_PANEL.AI ? closeSidePanel() : openSidePanel(SIDE_PANEL.AI);
+    }
+    async function loadCommentary() {
+      if (!state.book) return;
+      setSideState({
+        eyebrow: "Commentary",
+        title: "Matthew Henry Commentary",
+        subtitle: "",
+        body: '<div class="state-msg"><span class="spinner"></span><div>Loading commentary...</div></div>',
+      });
+      const cacheKey = `${state.book.book_number}:${state.chapter}:matthew_henry`;
+      if (commentaryCache[cacheKey]) {
+        renderCommentary(commentaryCache[cacheKey]);
+        return;
       }
-      setSideState({eyebrow:"Commentary",title:"Matthew Henry Commentary",subtitle:"",body:html});
-      sideScrollEl.scrollTop=0;
+      try {
+        const entries = await fetchJson(
+          `${API}/api/v1/commentary?book=${encodeURIComponent(state.book.name)}&chapter=${state.chapter}&source=matthew_henry`
+        );
+        commentaryCache[cacheKey] = entries;
+        renderCommentary(entries);
+      } catch {
+        setSideState({
+          eyebrow: "Commentary",
+          title: "Matthew Henry Commentary",
+          subtitle: "",
+          body: '<div class="state-msg">Commentary unavailable.</div>',
+        });
+      }
+    }
+    function renderCommentary(entries) {
+      if (state.sidePanelMode !== SIDE_PANEL.COMMENTARY) return;
+      if (!entries || !entries.length) {
+        setSideState({
+          eyebrow: "Commentary",
+          title: "Matthew Henry Commentary",
+          subtitle: "",
+          body: '<div class="state-msg">No commentary for this chapter.</div>',
+        });
+        return;
+      }
+      let html = "";
+      for (const entry of entries) {
+        const start = Number(entry.verse_start),
+          end = entry.verse_end == null ? start : Number(entry.verse_end),
+          label = end > start ? `Verses ${start}-${end}` : `Verse ${start}`;
+        html += `<section class="commentary-entry" data-verse-start="${start}" data-verse-end="${end}"><div class="commentary-label">${escapeHtml(label)}</div><div class="commentary-text">${escapeHtml(entry.content)}</div></section>`;
+      }
+      setSideState({ eyebrow: "Commentary", title: "Matthew Henry Commentary", subtitle: "", body: html });
+      sideScrollEl.scrollTop = 0;
       requestCommentarySync();
     }
-    function renderAiPlaceholder(){setSideState(aiCopy)}
-    function requestCommentarySync(){if(state.sidePanelMode!==SIDE_PANEL.COMMENTARY)return;if(commentarySyncRaf)cancelAnimationFrame(commentarySyncRaf);commentarySyncRaf=requestAnimationFrame(()=>{commentarySyncRaf=null;syncCommentaryToVerse(getTopVisibleVerse())})}
-    function getTopVisibleVerse(){const paneRect=biblePaneEl.getBoundingClientRect(),verses=biblePaneEl.querySelectorAll(".verse-line[data-verse]");for(const verseEl of verses){const rect=verseEl.getBoundingClientRect();if(rect.bottom>paneRect.top+12)return Number(verseEl.dataset.verse)}return 1}
-    function syncCommentaryToVerse(verseNumber){
-      const entries=sideScrollEl.querySelectorAll(".commentary-entry");
-      if(!entries.length)return;
-      let activeEntry=entries[0];
-      for(const entry of entries){
-        const start=Number(entry.dataset.verseStart),end=Number(entry.dataset.verseEnd);
-        if(verseNumber>=start&&verseNumber<=end){activeEntry=entry;break}
-        if(start<=verseNumber)activeEntry=entry;
+    function renderAiPlaceholder() {
+      setSideState(aiCopy);
+    }
+    function requestCommentarySync() {
+      if (state.sidePanelMode !== SIDE_PANEL.COMMENTARY) return;
+      if (commentarySyncRaf) cancelAnimationFrame(commentarySyncRaf);
+      commentarySyncRaf = requestAnimationFrame(() => {
+        commentarySyncRaf = null;
+        syncCommentaryToVerse(getTopVisibleVerse());
+      });
+    }
+    function getTopVisibleVerse() {
+      const paneRect = biblePaneEl.getBoundingClientRect(),
+        verses = biblePaneEl.querySelectorAll(".verse-line[data-verse]");
+      for (const verseEl of verses) {
+        const rect = verseEl.getBoundingClientRect();
+        if (rect.bottom > paneRect.top + 12) return Number(verseEl.dataset.verse);
       }
-      entries.forEach(entry=>entry.classList.remove("synced"));
+      return 1;
+    }
+    function syncCommentaryToVerse(verseNumber) {
+      const entries = sideScrollEl.querySelectorAll(".commentary-entry");
+      if (!entries.length) return;
+      let activeEntry = entries[0];
+      for (const entry of entries) {
+        const start = Number(entry.dataset.verseStart),
+          end = Number(entry.dataset.verseEnd);
+        if (verseNumber >= start && verseNumber <= end) {
+          activeEntry = entry;
+          break;
+        }
+        if (start <= verseNumber) activeEntry = entry;
+      }
+      entries.forEach((entry) => entry.classList.remove("synced"));
       activeEntry.classList.add("synced");
-      const scrollRect=sideScrollEl.getBoundingClientRect(),entryRect=activeEntry.getBoundingClientRect(),headerHeight=sidePaneEl.querySelector(".side-header").offsetHeight,targetTop=sideScrollEl.scrollTop+(entryRect.top-scrollRect.top)-18,viewportTop=sideScrollEl.scrollTop+headerHeight,viewportBottom=sideScrollEl.scrollTop+sideScrollEl.clientHeight-32,entryTop=sideScrollEl.scrollTop+(entryRect.top-scrollRect.top),entryBottom=entryTop+entryRect.height;
-      if(entryTop<viewportTop||entryBottom>viewportBottom){sideScrollEl.scrollTo({top:Math.max(0,targetTop),behavior:"smooth"})}
-    }
-    function goPrev(){if(!state.book||isFirstChapter())return;if(state.chapter>1){state.chapter-=1}else{state.book=state.books.find(book=>book.book_number===state.book.book_number-1);state.chapter=state.book.total_chapters}loadChapter("prev")}
-    function goNext(){if(!state.book||isLastChapter())return;if(state.chapter<state.book.total_chapters){state.chapter+=1}else{state.book=state.books.find(book=>book.book_number===state.book.book_number+1);state.chapter=1}loadChapter("next")}
-    function openBookPopup(){document.getElementById("btn-book").classList.add("active");buildBookPanel();document.getElementById("book-overlay").classList.add("open")}
-    function closeBookPopup(){document.getElementById("book-overlay").classList.remove("open");document.getElementById("btn-book").classList.remove("active")}
-    function buildTestamentBlock(label,books){let html=`<div class="testament-label">${label}</div>`;for(const book of books){html+=`<div class="book-row"><button class="book-btn" type="button" data-book-number="${book.book_number}"><span>${escapeHtml(book.name)}</span><span class="expand-arrow" aria-hidden="true"></span></button><div class="chapter-picker" id="cp-${book.book_number}">${buildChapters(book)}</div></div>`}return html}
-    function buildChapters(book){let html="";for(let chapter=1;chapter<=book.total_chapters;chapter+=1){const current=state.book&&state.book.book_number===book.book_number&&state.chapter===chapter;html+=`<button class="ch-btn${current?" current":""}" type="button" data-book-number="${book.book_number}" data-chapter="${chapter}">${chapter}</button>`}return html}
-    function buildBookPanel(){
-      const panel=document.getElementById("book-panel"),ot=state.books.filter(book=>book.testament==="OT"),nt=state.books.filter(book=>book.testament==="NT");
-      panel.innerHTML=buildTestamentBlock("Old Testament",ot)+buildTestamentBlock("New Testament",nt);
-      panel.querySelectorAll(".book-btn").forEach(button=>button.addEventListener("click",()=>toggleExpand(Number(button.dataset.bookNumber))));
-      panel.querySelectorAll(".ch-btn").forEach(button=>button.addEventListener("click",event=>{event.stopPropagation();pickChapter(Number(button.dataset.bookNumber),Number(button.dataset.chapter))}));
-      if(state.book){
-        const n=state.book.book_number,bookButton=panel.querySelector(`.book-btn[data-book-number="${n}"]`),chapterPicker=panel.querySelector(`#cp-${n}`);
-        if(bookButton)bookButton.classList.add("expanded");
-        if(chapterPicker)chapterPicker.classList.add("open");
-        state.expanded=n;
-        requestAnimationFrame(()=>bookButton&&bookButton.scrollIntoView({block:"center"}));
+      const scrollRect = sideScrollEl.getBoundingClientRect(),
+        entryRect = activeEntry.getBoundingClientRect(),
+        headerHeight = sidePaneEl.querySelector(".side-header").offsetHeight,
+        targetTop = sideScrollEl.scrollTop + (entryRect.top - scrollRect.top) - 18,
+        viewportTop = sideScrollEl.scrollTop + headerHeight,
+        viewportBottom = sideScrollEl.scrollTop + sideScrollEl.clientHeight - 32,
+        entryTop = sideScrollEl.scrollTop + (entryRect.top - scrollRect.top),
+        entryBottom = entryTop + entryRect.height;
+      if (entryTop < viewportTop || entryBottom > viewportBottom) {
+        sideScrollEl.scrollTo({ top: Math.max(0, targetTop), behavior: "smooth" });
       }
     }
-    function toggleExpand(bookNumber){
-      const panel=document.getElementById("book-panel");
-      if(state.expanded===bookNumber){panel.querySelector(`.book-btn[data-book-number="${bookNumber}"]`)?.classList.remove("expanded");panel.querySelector(`#cp-${bookNumber}`)?.classList.remove("open");state.expanded=null;return}
-      if(state.expanded!==null){panel.querySelector(`.book-btn[data-book-number="${state.expanded}"]`)?.classList.remove("expanded");panel.querySelector(`#cp-${state.expanded}`)?.classList.remove("open")}
-      const bookButton=panel.querySelector(`.book-btn[data-book-number="${bookNumber}"]`),chapterPicker=panel.querySelector(`#cp-${bookNumber}`);bookButton?.classList.add("expanded");chapterPicker?.classList.add("open");state.expanded=bookNumber;
-      requestAnimationFrame(()=>bookButton&&bookButton.scrollIntoView({block:"nearest",behavior:"smooth"}))
+    function goPrev() {
+      if (!state.book || isFirstChapter()) return;
+      if (state.chapter > 1) {
+        state.chapter -= 1;
+      } else {
+        state.book = state.books.find((book) => book.book_number === state.book.book_number - 1);
+        state.chapter = state.book.total_chapters;
+      }
+      loadChapter("prev");
     }
-    function pickChapter(bookNumber,chapter){state.book=state.books.find(book=>book.book_number===bookNumber);state.chapter=chapter;state.expanded=null;closeBookPopup();loadChapter()}
-    function openVersionPopup(){
-      const rect=document.getElementById("btn-version").getBoundingClientRect(),panel=document.getElementById("ver-panel");
-      panel.style.left=`${Math.max(12,rect.left)}px`;
-      let html='<div class="version-header">Translation</div>';
-      for(const translation of state.translations){const selected=translation.id===state.translation;html+=`<button class="version-item${selected?" selected":""}" type="button" data-id="${translation.id}"><span class="v-abbr">${escapeHtml(translation.id)}</span><span class="v-name">${escapeHtml(translation.name)}</span>${selected?'<span class="v-check">OK</span>':""}</button>`}
-      panel.innerHTML=html;
-      panel.querySelectorAll(".version-item").forEach(button=>button.addEventListener("click",()=>pickTranslation(button.dataset.id)));
-      document.getElementById("btn-version").classList.add("active");document.getElementById("ver-overlay").classList.add("open");
+    function goNext() {
+      if (!state.book || isLastChapter()) return;
+      if (state.chapter < state.book.total_chapters) {
+        state.chapter += 1;
+      } else {
+        state.book = state.books.find((book) => book.book_number === state.book.book_number + 1);
+        state.chapter = 1;
+      }
+      loadChapter("next");
     }
-    function closeVersionPopup(){document.getElementById("ver-overlay").classList.remove("open");document.getElementById("btn-version").classList.remove("active")}
-    function pickTranslation(id){state.translation=id;closeVersionPopup();loadChapter()}
-    function beginDividerDrag(clientX){if(state.sidePanelMode===SIDE_PANEL.NONE)return;isDragging=true;dragStartX=clientX;dragStartWidth=sidePaneEl.offsetWidth;sidePaneEl.classList.remove("transitioning");dividerEl.classList.add("dragging");document.body.classList.add("no-select")}
-    function updateDividerDrag(clientX){if(!isDragging)return;const delta=clientX-dragStartX,minWidth=Math.min(220,Math.max(160,Math.floor(window.innerWidth*.34))),maxWidth=Math.max(minWidth+20,Math.floor(window.innerWidth*.72)),nextWidth=Math.max(minWidth,Math.min(maxWidth,dragStartWidth+delta));state.sidePaneWidth=`${nextWidth}px`;sidePaneEl.style.setProperty("--side-width",state.sidePaneWidth)}
-    function endDividerDrag(){if(!isDragging)return;isDragging=false;dividerEl.classList.remove("dragging");sidePaneEl.classList.add("transitioning");document.body.classList.remove("no-select")}
-    async function init(){try{const [books,translations]=await Promise.all([fetchJson(`${API}/api/v1/books`),fetchJson(`${API}/api/v1/translations`).catch(()=>[{id:"WEB",name:"World English Bible"}])]);state.books=books;state.translations=translations;state.book=books.find(book=>book.book_number===1)||books[0]||null;updateTaskbarState();updateNavLabels();await loadChapter()}catch{readerEl.innerHTML='<div class="state-msg">Unable to load the Bible reader.</div>'}}
-    document.getElementById("btn-prev").addEventListener("click",goPrev);document.getElementById("btn-next").addEventListener("click",goNext);
-    biblePaneEl.addEventListener("scroll",()=>{const currentY=biblePaneEl.scrollTop,delta=currentY-lastScrollY;if(delta>6&&currentY>80)hideChrome();else if(delta<-6)showChrome();lastScrollY=currentY;if(currentY<10)showChrome();requestCommentarySync()},{passive:true});
-    document.addEventListener("touchstart",event=>{if(!biblePaneEl.contains(event.target)){touchStartX=null;return}touchStartX=event.touches[0].clientX;touchStartY=event.touches[0].clientY},{passive:true});
-    document.addEventListener("touchend",event=>{if(touchStartX===null)return;const dx=event.changedTouches[0].clientX-touchStartX,dy=event.changedTouches[0].clientY-touchStartY;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5){if(dx<0)goNext();else goPrev()}touchStartX=null},{passive:true});
-    dividerEl.addEventListener("mousedown",event=>{event.preventDefault();beginDividerDrag(event.clientX)});dividerEl.addEventListener("touchstart",event=>beginDividerDrag(event.touches[0].clientX),{passive:true});
-    document.addEventListener("mousemove",event=>updateDividerDrag(event.clientX));document.addEventListener("touchmove",event=>updateDividerDrag(event.touches[0].clientX),{passive:true});document.addEventListener("mouseup",endDividerDrag);document.addEventListener("touchend",endDividerDrag);
-    document.getElementById("btn-book").addEventListener("click",event=>{event.stopPropagation();closeVersionPopup();document.getElementById("book-overlay").classList.contains("open")?closeBookPopup():openBookPopup()});
-    document.getElementById("btn-version").addEventListener("click",event=>{event.stopPropagation();closeBookPopup();document.getElementById("ver-overlay").classList.contains("open")?closeVersionPopup():openVersionPopup()});
-    document.getElementById("book-overlay").addEventListener("click",event=>{if(event.target===event.currentTarget)closeBookPopup()});document.getElementById("ver-overlay").addEventListener("click",event=>{if(event.target===event.currentTarget)closeVersionPopup()});
-    commentaryBtnEl.addEventListener("click",toggleCommentary);aiBtnEl.addEventListener("click",toggleAiPanel);
-    document.addEventListener("keydown",event=>{if(event.key==="Escape"){closeBookPopup();closeVersionPopup()}if(event.key==="ArrowRight")goNext();if(event.key==="ArrowLeft")goPrev()});
-    window.addEventListener("resize",()=>{if(state.sidePanelMode!==SIDE_PANEL.NONE)sidePaneEl.style.setProperty("--side-width",state.sidePaneWidth)});
+    function openBookPopup() {
+      document.getElementById("btn-book").classList.add("active");
+      buildBookPanel();
+      document.getElementById("book-overlay").classList.add("open");
+    }
+    function closeBookPopup() {
+      document.getElementById("book-overlay").classList.remove("open");
+      document.getElementById("btn-book").classList.remove("active");
+    }
+    function buildTestamentBlock(label, books) {
+      let html = `<div class="testament-label">${label}</div>`;
+      for (const book of books) {
+        html += `<div class="book-row"><button class="book-btn" type="button" data-book-number="${book.book_number}"><span>${escapeHtml(book.name)}</span><span class="expand-arrow" aria-hidden="true"></span></button><div class="chapter-picker" id="cp-${book.book_number}">${buildChapters(book)}</div></div>`;
+      }
+      return html;
+    }
+    function buildChapters(book) {
+      let html = "";
+      for (let chapter = 1; chapter <= book.total_chapters; chapter += 1) {
+        const current = state.book && state.book.book_number === book.book_number && state.chapter === chapter;
+        html += `<button class="ch-btn${current ? " current" : ""}" type="button" data-book-number="${book.book_number}" data-chapter="${chapter}">${chapter}</button>`;
+      }
+      return html;
+    }
+    function buildBookPanel() {
+      const panel = document.getElementById("book-panel"),
+        ot = state.books.filter((book) => book.testament === "OT"),
+        nt = state.books.filter((book) => book.testament === "NT");
+      panel.innerHTML = buildTestamentBlock("Old Testament", ot) + buildTestamentBlock("New Testament", nt);
+      panel.querySelectorAll(".book-btn").forEach((button) => button.addEventListener("click", () => toggleExpand(Number(button.dataset.bookNumber))));
+      panel.querySelectorAll(".ch-btn").forEach((button) =>
+        button.addEventListener("click", (event) => {
+          event.stopPropagation();
+          pickChapter(Number(button.dataset.bookNumber), Number(button.dataset.chapter));
+        })
+      );
+      if (state.book) {
+        const n = state.book.book_number,
+          bookButton = panel.querySelector(`.book-btn[data-book-number="${n}"]`),
+          chapterPicker = panel.querySelector(`#cp-${n}`);
+        if (bookButton) bookButton.classList.add("expanded");
+        if (chapterPicker) chapterPicker.classList.add("open");
+        state.expanded = n;
+        requestAnimationFrame(() => bookButton && bookButton.scrollIntoView({ block: "center" }));
+      }
+    }
+    function toggleExpand(bookNumber) {
+      const panel = document.getElementById("book-panel");
+      if (state.expanded === bookNumber) {
+        panel.querySelector(`.book-btn[data-book-number="${bookNumber}"]`)?.classList.remove("expanded");
+        panel.querySelector(`#cp-${bookNumber}`)?.classList.remove("open");
+        state.expanded = null;
+        return;
+      }
+      if (state.expanded !== null) {
+        panel.querySelector(`.book-btn[data-book-number="${state.expanded}"]`)?.classList.remove("expanded");
+        panel.querySelector(`#cp-${state.expanded}`)?.classList.remove("open");
+      }
+      const bookButton = panel.querySelector(`.book-btn[data-book-number="${bookNumber}"]`),
+        chapterPicker = panel.querySelector(`#cp-${bookNumber}`);
+      bookButton?.classList.add("expanded");
+      chapterPicker?.classList.add("open");
+      state.expanded = bookNumber;
+      requestAnimationFrame(() => bookButton && bookButton.scrollIntoView({ block: "nearest", behavior: "smooth" }));
+    }
+    function pickChapter(bookNumber, chapter) {
+      state.book = state.books.find((book) => book.book_number === bookNumber);
+      state.chapter = chapter;
+      state.expanded = null;
+      closeBookPopup();
+      loadChapter();
+    }
+    function openVersionPopup() {
+      const rect = document.getElementById("btn-version").getBoundingClientRect(),
+        panel = document.getElementById("ver-panel");
+      panel.style.left = `${Math.max(12, rect.left)}px`;
+      let html = '<div class="version-header">Translation</div>';
+      for (const translation of state.translations) {
+        const selected = translation.id === state.translation;
+        html += `<button class="version-item${selected ? " selected" : ""}" type="button" data-id="${translation.id}"><span class="v-abbr">${escapeHtml(translation.id)}</span><span class="v-name">${escapeHtml(translation.name)}</span>${selected ? '<span class="v-check">OK</span>' : ""}</button>`;
+      }
+      panel.innerHTML = html;
+      panel.querySelectorAll(".version-item").forEach((button) => button.addEventListener("click", () => pickTranslation(button.dataset.id)));
+      document.getElementById("btn-version").classList.add("active");
+      document.getElementById("ver-overlay").classList.add("open");
+    }
+    function closeVersionPopup() {
+      document.getElementById("ver-overlay").classList.remove("open");
+      document.getElementById("btn-version").classList.remove("active");
+    }
+    function pickTranslation(id) {
+      state.translation = id;
+      closeVersionPopup();
+      loadChapter();
+    }
+    function beginDividerDrag(clientX) {
+      if (state.sidePanelMode === SIDE_PANEL.NONE) return;
+      isDragging = true;
+      dragStartX = clientX;
+      dragStartWidth = sidePaneEl.offsetWidth;
+      sidePaneEl.classList.remove("transitioning");
+      dividerEl.classList.add("dragging");
+      document.body.classList.add("no-select");
+    }
+    function updateDividerDrag(clientX) {
+      if (!isDragging) return;
+      const delta = clientX - dragStartX,
+        minWidth = Math.min(220, Math.max(160, Math.floor(window.innerWidth * 0.34))),
+        maxWidth = Math.max(minWidth + 20, Math.floor(window.innerWidth * 0.72)),
+        nextWidth = Math.max(minWidth, Math.min(maxWidth, dragStartWidth + delta));
+      state.sidePaneWidth = `${nextWidth}px`;
+      sidePaneEl.style.setProperty("--side-width", state.sidePaneWidth);
+    }
+    function endDividerDrag() {
+      if (!isDragging) return;
+      isDragging = false;
+      dividerEl.classList.remove("dragging");
+      sidePaneEl.classList.add("transitioning");
+      document.body.classList.remove("no-select");
+    }
+    async function init() {
+      try {
+        const [books, translations] = await Promise.all([
+          fetchJson(`${API}/api/v1/books`),
+          fetchJson(`${API}/api/v1/translations`).catch(() => [{ id: "WEB", name: "World English Bible" }]),
+        ]);
+        state.books = books;
+        state.translations = translations;
+        state.book = books.find((book) => book.book_number === 1) || books[0] || null;
+        updateTaskbarState();
+        updateNavLabels();
+        await loadChapter();
+      } catch {
+        readerEl.innerHTML = '<div class="state-msg">Unable to load the Bible reader.</div>';
+      }
+    }
+    document.getElementById("btn-prev").addEventListener("click", goPrev);
+    document.getElementById("btn-next").addEventListener("click", goNext);
+    biblePaneEl.addEventListener(
+      "scroll",
+      () => {
+        const currentY = biblePaneEl.scrollTop,
+          delta = currentY - lastScrollY;
+        if (delta > 6 && currentY > 80) hideChrome();
+        else if (delta < -6) showChrome();
+        lastScrollY = currentY;
+        if (currentY < 10) showChrome();
+        requestCommentarySync();
+      },
+      { passive: true }
+    );
+    document.addEventListener(
+      "touchstart",
+      (event) => {
+        if (!biblePaneEl.contains(event.target)) {
+          touchStartX = null;
+          return;
+        }
+        touchStartX = event.touches[0].clientX;
+        touchStartY = event.touches[0].clientY;
+      },
+      { passive: true }
+    );
+    document.addEventListener(
+      "touchend",
+      (event) => {
+        if (touchStartX === null) return;
+        const dx = event.changedTouches[0].clientX - touchStartX,
+          dy = event.changedTouches[0].clientY - touchStartY;
+        if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+          if (dx < 0) goNext();
+          else goPrev();
+        }
+        touchStartX = null;
+      },
+      { passive: true }
+    );
+    dividerEl.addEventListener("mousedown", (event) => {
+      event.preventDefault();
+      beginDividerDrag(event.clientX);
+    });
+    dividerEl.addEventListener(
+      "touchstart",
+      (event) => beginDividerDrag(event.touches[0].clientX),
+      { passive: true }
+    );
+    document.addEventListener("mousemove", (event) => updateDividerDrag(event.clientX));
+    document.addEventListener("touchmove", (event) => updateDividerDrag(event.touches[0].clientX), { passive: true });
+    document.addEventListener("mouseup", endDividerDrag);
+    document.addEventListener("touchend", endDividerDrag);
+    document.getElementById("btn-book").addEventListener("click", (event) => {
+      event.stopPropagation();
+      closeVersionPopup();
+      document.getElementById("book-overlay").classList.contains("open") ? closeBookPopup() : openBookPopup();
+    });
+    document.getElementById("btn-version").addEventListener("click", (event) => {
+      event.stopPropagation();
+      closeBookPopup();
+      document.getElementById("ver-overlay").classList.contains("open") ? closeVersionPopup() : openVersionPopup();
+    });
+    document.getElementById("book-overlay").addEventListener("click", (event) => {
+      if (event.target === event.currentTarget) closeBookPopup();
+    });
+    document.getElementById("ver-overlay").addEventListener("click", (event) => {
+      if (event.target === event.currentTarget) closeVersionPopup();
+    });
+    commentaryBtnEl.addEventListener("click", toggleCommentary);
+    aiBtnEl.addEventListener("click", toggleAiPanel);
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeBookPopup();
+        closeVersionPopup();
+      }
+      if (event.key === "ArrowRight") goNext();
+      if (event.key === "ArrowLeft") goPrev();
+    });
+    window.addEventListener("resize", () => {
+      if (state.sidePanelMode !== SIDE_PANEL.NONE) sidePaneEl.style.setProperty("--side-width", state.sidePaneWidth);
+    });
     init();
   </script>
 </body>
