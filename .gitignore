@@ -50,3 +50,10 @@ htmlcov/
 # OS
 .DS_Store
 Thumbs.db
+
+#agent settings
+.claude/
+.codex/
+.cursor/
+# vscode settings
+.vscode/
