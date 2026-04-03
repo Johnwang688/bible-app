@@ -1,7 +1,11 @@
+from pathlib import Path
+
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.core.config import get_settings
+from app.core.supabase_client import get_supabase
 from app.schemas.bible import BookInfo, ChapterOut, SearchRequest, SearchResult, VerseOut
 from app.schemas.commentary import CommentaryEntry
 from app.services.bible_service import (
@@ -31,7 +35,7 @@ app.add_middleware(
 )
 
 
-@app.get("/", tags=["meta"])
+@app.get("/api", tags=["meta"])
 async def root() -> dict[str, str]:
     return {
         "app": settings.app_name,
@@ -53,6 +57,13 @@ async def health_check() -> dict[str, object]:
             and settings.supabase_service_role_key
         ),
     }
+
+
+@app.get("/api/v1/translations", tags=["bible"])
+async def get_translations() -> list[dict]:
+    db = get_supabase()
+    result = db.table("translations").select("id, name, language, license").order("id").execute()
+    return result.data or []
 
 
 @app.get("/api/v1/books", response_model=list[BookInfo], tags=["bible"])
@@ -149,3 +160,9 @@ async def read_commentary(
 @app.get("/api/v1/commentary/sources", tags=["commentary"])
 async def get_commentary_sources() -> list[dict]:
     return await list_commentary_sources()
+
+
+# Serve the frontend — must be last so API routes take precedence
+_frontend_dir = Path(__file__).parent.parent / "frontend"
+if _frontend_dir.exists():
+    app.mount("/", StaticFiles(directory=_frontend_dir, html=True), name="frontend")
