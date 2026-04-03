@@ -12,7 +12,7 @@ class TranslationInfo(BaseModel):
 
 class VerseOut(BaseModel):
     id: int
-    book: str
+    book: str | None = None
     book_number: int
     chapter: int
     verse: int
