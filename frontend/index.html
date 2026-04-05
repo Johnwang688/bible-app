@@ -238,25 +238,6 @@
       background: var(--scrollthumb);
       border-radius: 999px;
     }
-    .commentary-source-row {
-      display: none;
-      margin-top: 8px;
-    }
-    .commentary-source-select {
-      width: 100%;
-      padding: 6px 10px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--nav-bg);
-      font-family: var(--ui);
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text);
-      cursor: pointer;
-    }
-    .commentary-source-select:hover {
-      background: var(--nav-hover);
-    }
     .commentary-entry {
       padding: 16px 18px;
       border-bottom: 1px solid var(--line-soft);
@@ -283,65 +264,6 @@
       font-size: 15px;
       line-height: 1.8;
       color: var(--text);
-    }
-    .summary-chapter-title {
-      font-family: var(--ui);
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--accent);
-      margin-bottom: 10px;
-      line-height: 1.4;
-    }
-    .summary-text {
-      font-size: 14px;
-      line-height: 1.75;
-      color: var(--text);
-    }
-    .summary-section {
-      margin-top: 14px;
-    }
-    .summary-section-label {
-      font-family: var(--ui);
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 6px;
-    }
-    .summary-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-    }
-    .summary-tag {
-      display: inline-block;
-      padding: 3px 9px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      color: var(--accent);
-      font-family: var(--ui);
-      font-size: 11px;
-      font-weight: 500;
-    }
-    .summary-points {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-    .summary-points li {
-      display: flex;
-      gap: 8px;
-      font-size: 13px;
-      line-height: 1.6;
-      color: var(--text);
-      padding: 3px 0;
-    }
-    .summary-points li::before {
-      content: "\2022";
-      color: var(--accent);
-      flex-shrink: 0;
-      font-weight: 700;
     }
     .placeholder-block {
       padding: 28px 18px;
@@ -2065,12 +1987,6 @@
         <div class="side-header">
           <span class="side-eyebrow" id="side-eyebrow">Companion</span>
           <div class="side-title" id="side-title">Bible Companion</div>
-          <div class="commentary-source-row" id="commentary-source-row">
-            <select class="commentary-source-select" id="commentary-source-select">
-              <option value="matthew_henry">Matthew Henry</option>
-              <option value="summary">Summary</option>
-            </select>
-          </div>
           <div class="side-subtitle" id="side-subtitle"></div>
         </div>
         <div class="side-scroll" id="side-scroll"></div>
@@ -2163,9 +2079,7 @@
       prevNavEl = document.getElementById("ch-nav-prev"),
       nextNavEl = document.getElementById("ch-nav-next"),
       commentaryBtnEl = document.getElementById("tb-commentary"),
-      aiBtnEl = document.getElementById("tb-ai"),
-      commentarySourceRowEl = document.getElementById("commentary-source-row"),
-      commentarySourceSelectEl = document.getElementById("commentary-source-select");
+      aiBtnEl = document.getElementById("tb-ai");
     const state = {
         books: [],
         translations: [],
@@ -2175,14 +2089,8 @@
         expanded: null,
         sidePanelMode: SIDE_PANEL.NONE,
         sidePaneWidth: "38%",
-        commentarySource: "matthew_henry",
       },
       commentaryCache = Object.create(null);
-    // Display names for commentary sources — updated dynamically from the API
-    const commentarySourceNames = {
-      matthew_henry: "Matthew Henry Commentary",
-      summary: "Chapter Summaries",
-    };
     const aiCopy = {
       eyebrow: "AI Companion",
       title: "AI Summary",
@@ -2290,10 +2198,6 @@
       sidePaneEl.style.setProperty("--side-width", state.sidePaneWidth);
       sidePaneEl.classList.add("open");
       dividerEl.classList.add("visible");
-      commentarySourceRowEl.style.display = mode === SIDE_PANEL.COMMENTARY ? "block" : "none";
-      if (mode === SIDE_PANEL.COMMENTARY) {
-        commentarySourceSelectEl.value = state.commentarySource;
-      }
       updateTaskbarState();
       if (mode === SIDE_PANEL.COMMENTARY) loadCommentary();
       if (mode === SIDE_PANEL.AI) renderAiPlaceholder();
@@ -2302,7 +2206,6 @@
       state.sidePanelMode = SIDE_PANEL.NONE;
       sidePaneEl.classList.remove("open");
       dividerEl.classList.remove("visible");
-      commentarySourceRowEl.style.display = "none";
       updateTaskbarState();
       setSideState({ eyebrow: "Companion", title: "Bible Companion", subtitle: "", body: "" });
     }
@@ -2314,111 +2217,51 @@
     }
     async function loadCommentary() {
       if (!state.book) return;
-      const source = state.commentarySource;
-      const sourceName = commentarySourceNames[source] || source;
       setSideState({
         eyebrow: "Commentary",
-        title: sourceName,
+        title: "Matthew Henry Commentary",
         subtitle: "",
         body: '<div class="state-msg"><span class="spinner"></span><div>Loading commentary...</div></div>',
       });
-      const cacheKey = `${state.book.book_number}:${state.chapter}:${source}`;
+      const cacheKey = `${state.book.book_number}:${state.chapter}:matthew_henry`;
       if (commentaryCache[cacheKey]) {
         renderCommentary(commentaryCache[cacheKey]);
         return;
       }
       try {
         const entries = await fetchJson(
-          `${API}/api/v1/commentary?book=${encodeURIComponent(state.book.name)}&chapter=${state.chapter}&source=${encodeURIComponent(source)}`
+          `${API}/api/v1/commentary?book=${encodeURIComponent(state.book.name)}&chapter=${state.chapter}&source=matthew_henry`
         );
         commentaryCache[cacheKey] = entries;
         renderCommentary(entries);
       } catch {
         setSideState({
           eyebrow: "Commentary",
-          title: sourceName,
+          title: "Matthew Henry Commentary",
           subtitle: "",
           body: '<div class="state-msg">Commentary unavailable.</div>',
         });
       }
     }
-    function parseSummaryContent(content) {
-      const result = { title: "", summary: "", themes: [], people: [], points: [], verses: [] };
-      const titleMatch = content.match(/^TITLE::(.+)/m);
-      if (titleMatch) result.title = titleMatch[1].trim();
-      let rest = content.replace(/^TITLE::.+\n?/, "").trim();
-      const themesMatch = rest.match(/^Themes:\s*(.+)$/m);
-      if (themesMatch) result.themes = themesMatch[1].split(" \u00b7 ").map((s) => s.trim()).filter(Boolean);
-      const peopleMatch = rest.match(/^Key People:\s*(.+)$/m);
-      if (peopleMatch) result.people = peopleMatch[1].split(" \u00b7 ").map((s) => s.trim()).filter(Boolean);
-      const versesMatch = rest.match(/^Supporting Verses:\s*(.+)$/m);
-      if (versesMatch) result.verses = versesMatch[1].split(" \u00b7 ").map((s) => s.trim()).filter(Boolean);
-      const pointsMatch = rest.match(/^Key Points:\n([\s\S]+?)(?=\n\n[A-Z]|$)/m);
-      if (pointsMatch) {
-        result.points = pointsMatch[1]
-          .split("\n")
-          .map((line) => line.replace(/^\u2022\s*/, "").trim())
-          .filter(Boolean);
-      }
-      const sectionStart = rest.search(/^(Themes:|Key People:|Key Points:|Supporting Verses:)/m);
-      result.summary = (sectionStart > 0 ? rest.slice(0, sectionStart) : rest).trim();
-      return result;
-    }
-    function renderSummaryEntry(entry) {
-      const start = Number(entry.verse_start),
-        end = entry.verse_end == null ? start : Number(entry.verse_end),
-        p = parseSummaryContent(entry.content);
-      let html = `<section class="commentary-entry" data-verse-start="${start}" data-verse-end="${end}">`;
-      if (p.title) html += `<div class="summary-chapter-title">${escapeHtml(p.title)}</div>`;
-      if (p.summary) html += `<div class="summary-text">${escapeHtml(p.summary)}</div>`;
-      if (p.themes.length) {
-        html += `<div class="summary-section"><div class="summary-section-label">Themes</div><div class="summary-tags">` +
-          p.themes.map((t) => `<span class="summary-tag">${escapeHtml(t)}</span>`).join("") +
-          `</div></div>`;
-      }
-      if (p.people.length) {
-        html += `<div class="summary-section"><div class="summary-section-label">Key People</div><div class="summary-tags">` +
-          p.people.map((t) => `<span class="summary-tag">${escapeHtml(t)}</span>`).join("") +
-          `</div></div>`;
-      }
-      if (p.points.length) {
-        html += `<div class="summary-section"><div class="summary-section-label">Key Points</div><ul class="summary-points">` +
-          p.points.map((pt) => `<li>${escapeHtml(pt)}</li>`).join("") +
-          `</ul></div>`;
-      }
-      if (p.verses.length) {
-        html += `<div class="summary-section"><div class="summary-section-label">Supporting Verses</div><div class="summary-tags">` +
-          p.verses.map((v) => `<span class="summary-tag">${escapeHtml(v)}</span>`).join("") +
-          `</div></div>`;
-      }
-      html += `</section>`;
-      return html;
-    }
     function renderCommentary(entries) {
       if (state.sidePanelMode !== SIDE_PANEL.COMMENTARY) return;
-      const source = state.commentarySource;
-      const sourceName = commentarySourceNames[source] || source;
       if (!entries || !entries.length) {
         setSideState({
           eyebrow: "Commentary",
-          title: sourceName,
+          title: "Matthew Henry Commentary",
           subtitle: "",
           body: '<div class="state-msg">No commentary for this chapter.</div>',
         });
         return;
       }
       let html = "";
-      if (source === "summary") {
-        for (const entry of entries) html += renderSummaryEntry(entry);
-      } else {
-        for (const entry of entries) {
-          const start = Number(entry.verse_start),
-            end = entry.verse_end == null ? start : Number(entry.verse_end),
-            label = end > start ? `Verses ${start}-${end}` : `Verse ${start}`;
-          html += `<section class="commentary-entry" data-verse-start="${start}" data-verse-end="${end}"><div class="commentary-label">${escapeHtml(label)}</div><div class="commentary-text">${escapeHtml(entry.content)}</div></section>`;
-        }
+      for (const entry of entries) {
+        const start = Number(entry.verse_start),
+          end = entry.verse_end == null ? start : Number(entry.verse_end),
+          label = end > start ? `Verses ${start}-${end}` : `Verse ${start}`;
+        html += `<section class="commentary-entry" data-verse-start="${start}" data-verse-end="${end}"><div class="commentary-label">${escapeHtml(label)}</div><div class="commentary-text">${escapeHtml(entry.content)}</div></section>`;
       }
-      setSideState({ eyebrow: "Commentary", title: sourceName, subtitle: "", body: html });
+      setSideState({ eyebrow: "Commentary", title: "Matthew Henry Commentary", subtitle: "", body: html });
       sideScrollEl.scrollTop = 0;
       requestCommentarySync();
     }
@@ -2611,22 +2454,12 @@
     }
     async function init() {
       try {
-        const [books, translations, commentarySources] = await Promise.all([
+        const [books, translations] = await Promise.all([
           fetchJson(`${API}/api/v1/books`),
           fetchJson(`${API}/api/v1/translations`).catch(() => [{ id: "WEB", name: "World English Bible" }]),
-          fetchJson(`${API}/api/v1/commentary/sources`).catch(() => []),
         ]);
         state.books = books;
         state.translations = translations;
-        // Build source name map and populate dropdown from DB
-        if (commentarySources.length) {
-          commentarySources.forEach((src) => {
-            commentarySourceNames[src.id] = src.name;
-          });
-          commentarySourceSelectEl.innerHTML = commentarySources
-            .map((src) => `<option value="${escapeHtml(src.id)}">${escapeHtml(src.name)}</option>`)
-            .join("");
-        }
         state.book = books.find((book) => book.book_number === 1) || books[0] || null;
         updateTaskbarState();
         updateNavLabels();
@@ -2707,10 +2540,6 @@
     });
     commentaryBtnEl.addEventListener("click", toggleCommentary);
     aiBtnEl.addEventListener("click", toggleAiPanel);
-    commentarySourceSelectEl.addEventListener("change", () => {
-      state.commentarySource = commentarySourceSelectEl.value;
-      loadCommentary();
-    });
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") {
         closeBookPopup();

@@ -49,12 +49,18 @@ async def get_commentary(
 
 
 async def list_commentary_sources() -> list[dict]:
-    """Return available commentary sources from the database."""
-    db = get_supabase()
-    result = (
-        db.table("commentary_sources")
-        .select("id, name, license, description")
-        .order("name")
-        .execute()
-    )
-    return result.data or []
+    """Return available commentary sources."""
+    return [
+        {
+            "id": "matthew_henry",
+            "name": "Matthew Henry's Concise Commentary",
+            "license": "Public Domain",
+            "description": "A classic concise commentary covering the entire Bible.",
+        },
+        {
+            "id": "treasury_scripture",
+            "name": "Treasury of Scripture Knowledge",
+            "license": "Public Domain",
+            "description": "Extensive cross-reference system with over 500,000 references.",
+        },
+    ]
