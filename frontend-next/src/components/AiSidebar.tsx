@@ -57,17 +57,23 @@ interface Personality {
   tagline: string;
   avatarBg: string;
   avatarInner: string;
+  /** Static image under `public/` (e.g. `/avatars/name.png`). When set, replaces the SVG face. */
+  avatarImageSrc?: string;
 }
 
 export const PERSONALITIES: Personality[] = [
-  { id: 'jessica', name: 'Jessica', tagline: 'Warm & casual',     avatarBg: '#c07858', avatarInner: '#e8a880' },
+  {
+    id: 'jessica',
+    name: 'Jessica',
+    tagline: 'Warm & casual',
+    avatarBg: '#c07858',
+    avatarInner: '#e8a880',
+    avatarImageSrc: '/avatars/jessica-avatar.png',
+  },
   { id: 'john',    name: 'John',    tagline: 'Direct & grounded', avatarBg: '#4878a0', avatarInner: '#80b0d0' },
   { id: 'girl2',   name: 'Girl 2',  tagline: 'Heart-focused',     avatarBg: '#8858a8', avatarInner: '#c090d8' },
   { id: 'boy2',    name: 'Boy 2',   tagline: 'Classic & wise',    avatarBg: '#7a6038', avatarInner: '#b89058' },
 ];
-
-const JESSICA_THEME = PERSONALITIES.find(p => p.id === 'jessica')!;
-const JOHN_THEME = PERSONALITIES.find(p => p.id === 'john')!;
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -199,311 +205,19 @@ export function restorePersonalityId(): string {
   }
 }
 
-// ─── Jessica avatar (princess — tiara & hair, same viewBox / expressions as before) ─
-
-function JessicaAvatar({ isLoading }: { isLoading: boolean }) {
-  const bg = JESSICA_THEME.avatarBg;
-  const inner = JESSICA_THEME.avatarInner;
-  const hair = '#4a3228';
-  const hairLight = '#5c4034';
-  const gold = '#e8c04a';
-  const goldDeep = '#c49a2a';
-  const gem = '#e85d75';
-  return (
-    <div className={`ai-avatar${isLoading ? ' ai-avatar-loading' : ' ai-avatar-idle'}`} aria-hidden="true">
-      <svg viewBox="0 0 60 70" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
-        {/* Hair volume behind the face */}
-        <path
-          d="M 7 68 Q 6 38 14 24 Q 22 10 30 9 Q 38 10 46 24 Q 54 38 53 68 Z"
-          fill={hair}
-        />
-        <path
-          d="M 14 26 Q 22 14 30 12 Q 38 14 46 26 Q 40 22 30 20 Q 20 22 14 26"
-          fill={hairLight}
-          opacity="0.55"
-        />
-        {/* Face: tapered jaw + higher cheekbones (less “round mascot”) */}
-        <path
-          d="M 30 25.5
-             C 40.5 25.5 48 33.5 48 43.5
-             C 48 53.5 41.5 62 30 63
-             C 18.5 62 12 53.5 12 43.5
-             C 12 33.5 19.5 25.5 30 25.5 Z"
-          fill={inner}
-        />
-        {/* Side curls framing the face (under the tiara) */}
-        <path
-          d="M 11 41 Q 10 33 15 28 Q 18.5 31 17.5 39 Q 14.5 43.5 11 41"
-          fill={hair}
-        />
-        <path
-          d="M 49 41 Q 50 33 45 28 Q 41.5 31 42.5 39 Q 45.5 43.5 49 41"
-          fill={hair}
-        />
-        {/* Tiara on the forehead */}
-        <path
-          d="M 17 28 L 30 14 L 43 28 L 41 31 L 19 31 Z"
-          fill={gold}
-          stroke={goldDeep}
-          strokeWidth="0.9"
-          strokeLinejoin="round"
-        />
-        <circle cx="30" cy="17" r="2.1" fill={gem} />
-        <circle cx="21.5" cy="26" r="1.5" fill={gem} opacity="0.88" />
-        <circle cx="38.5" cy="26" r="1.5" fill={gem} opacity="0.88" />
-        <rect x="18" y="29" width="24" height="2.8" rx="0.8" fill={goldDeep} />
-        {/* Soft cheek tint + freckles (inset, not full “chipmunk” cheeks) */}
-        <ellipse cx="17" cy="47" rx="4.5" ry="2.8" fill="#e86060" opacity="0.2" />
-        <ellipse cx="43" cy="47" rx="4.5" ry="2.8" fill="#e86060" opacity="0.2" />
-        <circle cx="18.5" cy="45.5" r="0.75" fill={bg} opacity="0.22" />
-        <circle cx="16.5" cy="47.5" r="0.65" fill={bg} opacity="0.22" />
-        <circle cx="41.5" cy="45.5" r="0.75" fill={bg} opacity="0.22" />
-        <circle cx="43.5" cy="47.5" r="0.65" fill={bg} opacity="0.22" />
-        {isLoading ? (
-          <>
-            {/* Thinking: warm brow + subtle smile; eyes match idle (forward) */}
-            <path
-              d="M 17.5 33.4 Q 21.5 31.8 25.5 33.4"
-              stroke={bg}
-              strokeWidth="1.1"
-              fill="none"
-              strokeLinecap="round"
-              opacity="0.8"
-            />
-            <path
-              d="M 34.5 33.4 Q 38.5 31.8 42.5 33.4"
-              stroke={bg}
-              strokeWidth="1.1"
-              fill="none"
-              strokeLinecap="round"
-              opacity="0.8"
-            />
-            <path
-              d="M 18 36 Q 22 35.2 26 36"
-              stroke={bg}
-              strokeWidth="0.85"
-              fill="none"
-              strokeLinecap="round"
-              opacity="0.28"
-            />
-            <path
-              d="M 34 36 Q 38 35.2 42 36"
-              stroke={bg}
-              strokeWidth="0.85"
-              fill="none"
-              strokeLinecap="round"
-              opacity="0.28"
-            />
-            <ellipse cx="22" cy="40" rx="3.5" ry="4.2" fill="#1a0c08" />
-            <ellipse cx="38" cy="40" rx="3.5" ry="4.2" fill="#1a0c08" />
-            <ellipse cx="23" cy="38.2" rx="1.35" ry="1.55" fill="white" />
-            <ellipse cx="39" cy="38.2" rx="1.35" ry="1.55" fill="white" />
-            <ellipse cx="20.6" cy="41" rx="0.85" ry="1" fill="white" opacity="0.5" />
-            <ellipse cx="36.6" cy="41" rx="0.85" ry="1" fill="white" opacity="0.5" />
-            {/* Nose bridge + tip */}
-            <path
-              d="M 30 41.5 L 30 45.5 M 27.8 45.8 Q 30 46.6 32.2 45.8"
-              stroke={bg}
-              strokeWidth="1.05"
-              fill="none"
-              strokeLinecap="round"
-              opacity="0.9"
-            />
-            {/* Subtle smile while pondering */}
-            <path
-              d="M 24 53.6 Q 30 56.8 36 53.6"
-              stroke="#1a0c08"
-              strokeWidth="1.15"
-              fill="none"
-              strokeLinecap="round"
-            />
-          </>
-        ) : (
-          <>
-            {/* Soft arch brows */}
-            <path
-              d="M 17.5 34 Q 21.5 32 25.5 34"
-              stroke={bg}
-              strokeWidth="1.15"
-              fill="none"
-              strokeLinecap="round"
-              opacity="0.82"
-            />
-            <path
-              d="M 34.5 34 Q 38.5 32 42.5 34"
-              stroke={bg}
-              strokeWidth="1.15"
-              fill="none"
-              strokeLinecap="round"
-              opacity="0.82"
-            />
-            {/* Almond eyes, slightly closer — less “cartoon animal” */}
-            <ellipse cx="22" cy="40" rx="3.5" ry="4.2" fill="#1a0c08" />
-            <ellipse cx="38" cy="40" rx="3.5" ry="4.2" fill="#1a0c08" />
-            <ellipse cx="23" cy="38.2" rx="1.35" ry="1.55" fill="white" />
-            <ellipse cx="39" cy="38.2" rx="1.35" ry="1.55" fill="white" />
-            <ellipse cx="20.6" cy="41" rx="0.85" ry="1" fill="white" opacity="0.5" />
-            <ellipse cx="36.6" cy="41" rx="0.85" ry="1" fill="white" opacity="0.5" />
-            <path
-              d="M 30 41.8 L 30 45.6 M 28 46 Q 30 46.9 32 46"
-              stroke={bg}
-              strokeWidth="1.05"
-              fill="none"
-              strokeLinecap="round"
-              opacity="0.92"
-            />
-            {/* Smile line only — avoids prominent “buck teeth” read */}
-            <path
-              d="M 24 52.5 Q 30 57.5 36 52.5"
-              stroke="#1a0c08"
-              strokeWidth="1.35"
-              fill="none"
-              strokeLinecap="round"
-            />
-          </>
-        )}
-      </svg>
-    </div>
-  );
-}
-
-// ─── John avatar (older-kid / teen boy — hairline & hoodie, same viewBox + idle/loading as Jessica) ─
-
-function JohnAvatar({ isLoading }: { isLoading: boolean }) {
-  const hoodieTrim = JOHN_THEME.avatarBg;
-  const hoodie = JOHN_THEME.avatarInner;
-  const skin = '#c9a178';
-  const skinDeep = '#a67b52';
-  const hair = '#2a221c';
-
-  return (
-    <div className={`ai-avatar${isLoading ? ' ai-avatar-loading' : ' ai-avatar-idle'}`} aria-hidden="true">
-      <svg viewBox="0 0 60 70" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
-        {/* Hoodie + shoulders */}
-        <path
-          d="M6 62 Q30 56 54 62 L58 70 H2 L6 62"
-          fill={hoodie}
-          opacity="0.9"
-        />
-        <path d="M12 60 Q30 57.5 48 60" stroke={hoodieTrim} strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.85" />
-        {/* Neck */}
-        <rect x="23" y="50" width="14" height="14" rx="3" fill={skinDeep} />
-        {/* Ears */}
-        <ellipse cx="11.5" cy="43.5" rx="3.8" ry="5.2" fill={skin} />
-        <ellipse cx="48.5" cy="43.5" rx="3.8" ry="5.2" fill={skin} />
-        {/* Face — round head */}
-        <circle cx="30" cy="44" r="19" fill={skin} />
-        <ellipse cx="30" cy="47" rx="15" ry="13" fill={skinDeep} opacity="0.12" />
-        {/* Hair — thin stroke along top arc of head (matches face circle cx=30 cy=44 r=19) */}
-        <path
-          d="M 15.27 32 A 19 19 0 0 1 44.73 32"
-          fill="none"
-          stroke={hair}
-          strokeWidth="1.35"
-          strokeLinecap="round"
-        />
-        {/* Light stubble wash — reads older-kid without looking polished-cute */}
-        <ellipse cx="30" cy="51" rx="12" ry="7" fill={hair} opacity="0.06" />
-        {isLoading ? (
-          <>
-            {/* Thinking: open brow + light smile; eyes match idle (forward) */}
-            <path
-              d="M 16.5 32.2 Q 21 31 25.5 32.2"
-              stroke={hair}
-              strokeWidth="1.08"
-              fill="none"
-              strokeLinecap="round"
-              opacity="0.88"
-            />
-            <path
-              d="M 34.5 32.2 Q 39 31 43.5 32.2"
-              stroke={hair}
-              strokeWidth="1.08"
-              fill="none"
-              strokeLinecap="round"
-              opacity="0.88"
-            />
-            <path
-              d="M 17 35 Q 21.5 34.2 26 35"
-              stroke={hair}
-              strokeWidth="0.75"
-              fill="none"
-              strokeLinecap="round"
-              opacity="0.26"
-            />
-            <path
-              d="M 34 35 Q 38.5 34.2 43 35"
-              stroke={hair}
-              strokeWidth="0.75"
-              fill="none"
-              strokeLinecap="round"
-              opacity="0.26"
-            />
-            <ellipse cx="21.5" cy="41" rx="3.2" ry="3.6" fill="#141008" />
-            <ellipse cx="38.5" cy="41" rx="3.2" ry="3.6" fill="#141008" />
-            <circle cx="22.5" cy="39.5" r="1.25" fill="white" />
-            <circle cx="39.5" cy="39.5" r="1.25" fill="white" />
-            <circle cx="20.5" cy="42" r="0.65" fill="white" opacity="0.45" />
-            <circle cx="37.5" cy="42" r="0.65" fill="white" opacity="0.45" />
-            <path
-              d="M 26.5 45.5 L28 48 L31 46.5 L33.5 48.5 L35 45.5"
-              stroke={skinDeep}
-              strokeWidth="1.1"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              opacity="0.85"
-            />
-            <path
-              d="M 24 52.6 Q 30 55.8 36 52.6"
-              stroke="#141008"
-              strokeWidth="1.15"
-              fill="none"
-              strokeLinecap="round"
-            />
-          </>
-        ) : (
-          <>
-            {/* Relaxed, approachable eyes */}
-            <ellipse cx="21.5" cy="41" rx="3.2" ry="3.6" fill="#141008" />
-            <ellipse cx="38.5" cy="41" rx="3.2" ry="3.6" fill="#141008" />
-            <circle cx="22.5" cy="39.5" r="1.25" fill="white" />
-            <circle cx="39.5" cy="39.5" r="1.25" fill="white" />
-            <circle cx="20.5" cy="42" r="0.65" fill="white" opacity="0.45" />
-            <circle cx="37.5" cy="42" r="0.65" fill="white" opacity="0.45" />
-            <path
-              d="M 26.5 45.5 L28 48 L31 46.5 L33.5 48.5 L35 45.5"
-              stroke={skinDeep}
-              strokeWidth="1.1"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              opacity="0.85"
-            />
-            {/* Chill closed-mouth smirk */}
-            <path
-              d="M 24 53 Q 30 57 36 52.5"
-              stroke="#141008"
-              strokeWidth="1.45"
-              fill="none"
-              strokeLinecap="round"
-            />
-          </>
-        )}
-      </svg>
-    </div>
-  );
-}
-
 function AgentAvatar({ personality, isLoading }: { personality: Personality; isLoading: boolean }) {
-  if (personality.id === 'jessica') {
-    return <JessicaAvatar isLoading={isLoading} />;
-  }
-  if (personality.id === 'john') {
-    return <JohnAvatar isLoading={isLoading} />;
-  }
   const bg = personality.avatarBg;
   const inner = personality.avatarInner;
+  const photoSrc = personality.avatarImageSrc;
+
+  if (photoSrc) {
+    return (
+      <div className={`ai-avatar${isLoading ? ' ai-avatar-loading' : ' ai-avatar-idle'}`} aria-hidden="true">
+        <img className="ai-avatar-photo" src={photoSrc} alt="" width={40} height={40} decoding="async" />
+      </div>
+    );
+  }
+
   return (
     <div className={`ai-avatar${isLoading ? ' ai-avatar-loading' : ' ai-avatar-idle'}`} aria-hidden="true">
       <svg viewBox="0 0 60 70" xmlns="http://www.w3.org/2000/svg" width="40" height="40">

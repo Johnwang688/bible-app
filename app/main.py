@@ -1,14 +1,47 @@
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException, Query, Request
+from fastapi import Depends, FastAPI, HTTPException, Query, Request, Response, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from app.core.config import get_settings
+from app.core.security import get_current_user
 from app.core.supabase_client import get_supabase
+from app.schemas.account import (
+    AuthResponse as AccountAuthResponse,
+    ReadingProgressIn,
+    ReadingProgressOut,
+    RefreshSessionRequest,
+    StudyItemCreate,
+    StudyItemOut,
+    StudyItemUpdate,
+    UserProfile,
+    UserProfileUpdate,
+    UserSettingsIn,
+    UserSettingsOut,
+    UserSignIn,
+    UserSignUp,
+)
 from app.schemas.ai import AIChatRequest, AIChatResponse
 from app.schemas.bible import BookInfo, ChapterOut, SearchRequest, SearchResult, VerseOut
 from app.schemas.commentary import CommentaryEntry
+from app.services.account_service import (
+    create_study_item,
+    delete_study_item,
+    get_profile,
+    get_reading_progress,
+    get_user_settings,
+    list_study_items,
+    replace_study_items,
+    refresh_user_session,
+    sign_in_user,
+    sign_out_user,
+    sign_up_user,
+    update_profile,
+    update_study_item,
+    upsert_reading_progress,
+    upsert_user_settings,
+)
 from app.services.ai_service import (
     AIServiceUnavailable,
     RateLimitExceeded,
@@ -169,6 +202,105 @@ async def read_commentary(
 @app.get("/api/v1/commentary/sources", tags=["commentary"])
 async def get_commentary_sources() -> list[dict]:
     return await list_commentary_sources()
+
+
+@app.post("/api/v1/auth/signup", response_model=AccountAuthResponse, tags=["auth"])
+async def auth_sign_up(payload: UserSignUp) -> AccountAuthResponse:
+    return sign_up_user(payload.email.strip(), payload.password, payload.display_name)
+
+
+@app.post("/api/v1/auth/signin", response_model=AccountAuthResponse, tags=["auth"])
+async def auth_sign_in(payload: UserSignIn) -> AccountAuthResponse:
+    return sign_in_user(payload.email.strip(), payload.password)
+
+
+@app.post("/api/v1/auth/refresh", response_model=AccountAuthResponse, tags=["auth"])
+async def auth_refresh(payload: RefreshSessionRequest) -> AccountAuthResponse:
+    return refresh_user_session(payload.refresh_token)
+
+
+@app.post("/api/v1/auth/signout", status_code=status.HTTP_204_NO_CONTENT, tags=["auth"])
+async def auth_sign_out(request: Request, current_user: dict = Depends(get_current_user)) -> Response:
+    auth_header = request.headers.get("authorization")
+    token = auth_header.split(" ", 1)[1] if auth_header and " " in auth_header else None
+    if token:
+        sign_out_user(token)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@app.get("/api/v1/me", response_model=UserProfile, tags=["account"])
+async def read_me(current_user: dict = Depends(get_current_user)) -> UserProfile:
+    return get_profile(current_user["id"])
+
+
+@app.patch("/api/v1/me", response_model=UserProfile, tags=["account"])
+async def patch_me(
+    payload: UserProfileUpdate,
+    current_user: dict = Depends(get_current_user),
+) -> UserProfile:
+    return update_profile(current_user["id"], payload)
+
+
+@app.get("/api/v1/study-items", response_model=list[StudyItemOut], tags=["account"])
+async def read_study_items(current_user: dict = Depends(get_current_user)) -> list[StudyItemOut]:
+    return list_study_items(current_user["id"])
+
+
+@app.post("/api/v1/study-items", response_model=StudyItemOut, tags=["account"])
+async def post_study_item(
+    payload: StudyItemCreate,
+    current_user: dict = Depends(get_current_user),
+) -> StudyItemOut:
+    return create_study_item(current_user["id"], payload)
+
+
+@app.put("/api/v1/study-items", response_model=list[StudyItemOut], tags=["account"])
+async def put_study_items(
+    payload: list[StudyItemCreate],
+    current_user: dict = Depends(get_current_user),
+) -> list[StudyItemOut]:
+    return replace_study_items(current_user["id"], payload)
+
+
+@app.patch("/api/v1/study-items/{item_id}", response_model=StudyItemOut, tags=["account"])
+async def patch_study_item(
+    item_id: int,
+    payload: StudyItemUpdate,
+    current_user: dict = Depends(get_current_user),
+) -> StudyItemOut:
+    return update_study_item(current_user["id"], item_id, payload)
+
+
+@app.delete("/api/v1/study-items/{item_id}", status_code=status.HTTP_204_NO_CONTENT, tags=["account"])
+async def remove_study_item(item_id: int, current_user: dict = Depends(get_current_user)) -> Response:
+    delete_study_item(current_user["id"], item_id)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@app.get("/api/v1/reading-progress", response_model=list[ReadingProgressOut], tags=["account"])
+async def read_reading_progress(current_user: dict = Depends(get_current_user)) -> list[ReadingProgressOut]:
+    return get_reading_progress(current_user["id"])
+
+
+@app.put("/api/v1/reading-progress", response_model=list[ReadingProgressOut], tags=["account"])
+async def put_reading_progress(
+    payload: list[ReadingProgressIn],
+    current_user: dict = Depends(get_current_user),
+) -> list[ReadingProgressOut]:
+    return upsert_reading_progress(current_user["id"], payload)
+
+
+@app.get("/api/v1/user-settings", response_model=UserSettingsOut, tags=["account"])
+async def read_user_settings(current_user: dict = Depends(get_current_user)) -> UserSettingsOut:
+    return get_user_settings(current_user["id"])
+
+
+@app.put("/api/v1/user-settings", response_model=UserSettingsOut, tags=["account"])
+async def put_user_settings(
+    payload: UserSettingsIn,
+    current_user: dict = Depends(get_current_user),
+) -> UserSettingsOut:
+    return upsert_user_settings(current_user["id"], payload)
 
 
 @app.post("/api/v1/ai/chat", response_model=AIChatResponse, tags=["ai"])

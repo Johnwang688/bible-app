@@ -1,6 +1,6 @@
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from app.core.supabase_client import get_supabase
+from app.core.supabase_client import create_supabase
 
 security = HTTPBearer()
 
@@ -13,7 +13,7 @@ async def get_current_user(
     The frontend sends the access_token from Supabase in the Authorization header.
     """
     token = credentials.credentials
-    supabase = get_supabase()
+    supabase = create_supabase()
 
     try:
         user_response = supabase.auth.get_user(token)
