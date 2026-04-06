@@ -1436,14 +1436,14 @@
       border-color: rgba(232, 196, 120, 0.35);
     }
     [data-theme="galaxy"] .theme-card {
-      background: rgba(40, 22, 68, 0.45);
+      background: var(--theme-card-bg, rgba(40, 22, 68, 0.45));
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border-color: rgba(255, 255, 255, 0.14);
+      border-color: var(--theme-card-border, rgba(255, 255, 255, 0.14));
       box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08) inset;
     }
     [data-theme="galaxy"] .theme-card:hover {
-      border-color: rgba(232, 196, 120, 0.35);
+      border-color: var(--theme-card-hover, rgba(232, 196, 120, 0.35));
     }
     [data-theme="galaxy"] .chapter-picker {
       background: rgba(14, 6, 28, 0.85);
@@ -1623,18 +1623,18 @@
     .theme-card {
       position: relative;
       padding: 12px;
-      border: 2px solid var(--line);
+      border: 2px solid var(--theme-card-border, var(--line));
       border-radius: 16px;
-      background: var(--bg);
+      background: var(--theme-card-bg, var(--bg));
       cursor: pointer;
       font-family: var(--ui);
       transition: border-color 0.15s ease;
     }
     .theme-card:hover {
-      border-color: var(--muted);
+      border-color: var(--theme-card-hover, var(--muted));
     }
     .theme-card.selected {
-      border-color: var(--accent);
+      border-color: var(--theme-card-accent, var(--accent));
     }
     .theme-swatches {
       display: flex;
@@ -1649,7 +1649,7 @@
     .theme-name {
       font-size: 12px;
       font-weight: 600;
-      color: var(--text);
+      color: var(--theme-card-text, var(--text));
     }
     .theme-check {
       display: none;
@@ -1658,7 +1658,7 @@
       right: 8px;
       width: 18px;
       height: 18px;
-      background: var(--accent);
+      background: var(--theme-card-accent, var(--accent));
       color: #fff;
       border-radius: 50%;
       font-size: 10px;
@@ -2842,9 +2842,19 @@
         card.classList.toggle("selected", card.dataset.theme === id)
       );
     }
+    function themeCardStyle(theme) {
+      const [bg, border, accent, text] = theme.swatches;
+      return [
+        `--theme-card-bg:${bg}`,
+        `--theme-card-border:${border}`,
+        `--theme-card-hover:${accent}`,
+        `--theme-card-accent:${accent}`,
+        `--theme-card-text:${text}`
+      ].join(";");
+    }
     function buildThemeGrid() {
       themeGridEl.innerHTML = THEMES.map(t =>
-        `<div class="theme-card${t.id === currentTheme ? " selected" : ""}" data-theme="${t.id}" role="button" tabindex="0">` +
+        `<div class="theme-card${t.id === currentTheme ? " selected" : ""}" data-theme="${t.id}" style="${themeCardStyle(t)}" role="button" tabindex="0">` +
         `<div class="theme-swatches">${t.swatches.map(c => `<span style="background:${c}"></span>`).join("")}</div>` +
         `<div class="theme-name">${t.name}</div>` +
         `<span class="theme-check" aria-hidden="true">&#x2713;</span>` +

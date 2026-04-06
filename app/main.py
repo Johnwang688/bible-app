@@ -1,13 +1,21 @@
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from app.core.config import get_settings
 from app.core.supabase_client import get_supabase
+from app.schemas.ai import AIChatRequest, AIChatResponse
 from app.schemas.bible import BookInfo, ChapterOut, SearchRequest, SearchResult, VerseOut
 from app.schemas.commentary import CommentaryEntry
+from app.services.ai_service import (
+    AIServiceUnavailable,
+    RateLimitExceeded,
+    chat_with_ai,
+    check_rate_limit,
+    get_request_identity,
+)
 from app.services.bible_service import (
     get_chapter,
     get_verse,
@@ -51,6 +59,7 @@ async def health_check() -> dict[str, object]:
         "status": "ok",
         "app": settings.app_name,
         "environment": settings.app_env,
+        "openai_configured": bool(settings.openai_api_key and settings.openai_model),
         "supabase_configured": bool(
             settings.supabase_url
             and settings.supabase_anon_key
@@ -160,6 +169,30 @@ async def read_commentary(
 @app.get("/api/v1/commentary/sources", tags=["commentary"])
 async def get_commentary_sources() -> list[dict]:
     return await list_commentary_sources()
+
+
+@app.post("/api/v1/ai/chat", response_model=AIChatResponse, tags=["ai"])
+async def ai_chat(request: Request, payload: AIChatRequest) -> AIChatResponse:
+    message = payload.message.strip()
+    if not message:
+        raise HTTPException(status_code=400, detail="Please enter a question for the AI assistant.")
+    if len(message) > 1500:
+        raise HTTPException(
+            status_code=400,
+            detail="Please keep your message under 1,500 characters so the assistant stays focused and affordable.",
+        )
+
+    try:
+        check_rate_limit(get_request_identity(request))
+        return await chat_with_ai(payload)
+    except RateLimitExceeded as exc:
+        raise HTTPException(
+            status_code=429,
+            detail=exc.message,
+            headers={"Retry-After": str(exc.retry_after_seconds)},
+        ) from exc
+    except AIServiceUnavailable as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
 
 
 # Serve the frontend — must be last so API routes take precedence

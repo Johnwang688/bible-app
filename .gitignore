@@ -32,6 +32,9 @@ wheels/
 
 # Testing / coverage
 .pytest_cache/
+# Pytest cacheprovider uses temp dirs named pytest-cache-files-* before renaming to
+# .pytest_cache; interrupted runs or locked folders (e.g. sync) can leave these behind.
+pytest-cache-files-*/
 .coverage
 .coverage.*
 htmlcov/
@@ -50,6 +53,12 @@ htmlcov/
 # OS
 .DS_Store
 Thumbs.db
+
+# Node / Next.js (never commit dependencies or build output)
+node_modules/
+.next/
+out/
+*.tsbuildinfo
 
 #agent settings
 .claude/
