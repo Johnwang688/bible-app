@@ -69,6 +69,13 @@ def test_prompt_bundle_includes_scripture_fidelity_rules() -> None:
     assert "interpretation, possibility, or uncertainty" in bundle
 
 
+def test_system_prompt_forbids_markdown_in_user_visible_strings() -> None:
+    prompt = ai_service.build_system_prompt()
+
+    assert "plain text only" in prompt
+    assert "does not render Markdown" in prompt
+
+
 def test_trim_history_keeps_last_eight_messages() -> None:
     history = [
         AIHistoryMessage(role="user" if index % 2 == 0 else "assistant", content=f"message-{index}")
@@ -197,6 +204,91 @@ def test_validate_ai_response_infers_reference_for_same_chapter_summary() -> Non
 
     assert "can't support" not in validated.message.lower()
     assert validated.references == ["Genesis 1"]
+
+
+@pytest.mark.parametrize(
+    "user_message",
+    [
+        "What does Genesis 1 teach about God?",
+        "What does genesis 1 teach me about God",
+        "What does Genesis 1 teach me more about God?",
+    ],
+)
+def test_validate_ai_response_infers_reference_for_same_chapter_teach_about_god(user_message: str) -> None:
+    response = AIModelResponse(
+        message=(
+            "Genesis 1 presents God as the sovereign Creator who speaks creation into being, "
+            "orders the cosmos, names the good, and makes humanity in his image."
+        ),
+        references=[],
+        actions=[],
+        suggested_follow_ups=[],
+    )
+
+    validated = ai_service.validate_ai_response(
+        response,
+        user_message=user_message,
+        context=AIContext(book="Genesis", chapter=1, translation="WEB"),
+    )
+
+    assert "can't support" not in validated.message.lower()
+    assert validated.references == ["Genesis 1"]
+
+
+def test_validate_ai_response_infers_reference_when_user_names_active_chapter_generically() -> None:
+    response = AIModelResponse(
+        message="God speaks creation into being and declares it good.",
+        references=[],
+        actions=[],
+        suggested_follow_ups=[],
+    )
+
+    validated = ai_service.validate_ai_response(
+        response,
+        user_message="How does Genesis 1 portray God's authority?",
+        context=AIContext(book="Genesis", chapter=1, translation="WEB"),
+    )
+
+    assert "can't support" not in validated.message.lower()
+    assert validated.references == ["Genesis 1"]
+
+
+def test_validate_ai_response_infers_reference_lowercase_context_book() -> None:
+    response = AIModelResponse(
+        message="In the beginning God created the heavens and the earth.",
+        references=[],
+        actions=[],
+        suggested_follow_ups=[],
+    )
+
+    validated = ai_service.validate_ai_response(
+        response,
+        user_message="What does Genesis 1 emphasize in its opening verses?",
+        context=AIContext(book="genesis", chapter=1, translation="WEB"),
+    )
+
+    assert "can't support" not in validated.message.lower()
+    assert validated.references == ["Genesis 1"]
+
+
+def test_parse_ai_model_response_strips_markdown_fence() -> None:
+    payload = (
+        '```json\n'
+        '{"message": "Hello.", "references": [], "actions": [], "suggested_follow_ups": []}\n'
+        "```"
+    )
+    parsed = ai_service.parse_ai_model_response(payload)
+    assert parsed is not None
+    assert parsed.message == "Hello."
+
+
+def test_parse_ai_model_response_tolerates_leading_prose() -> None:
+    payload = (
+        'Sure thing. {"message": "Hi.", "references": [], "actions": [], "suggested_follow_ups": []}'
+    )
+    parsed = ai_service.parse_ai_model_response(payload)
+    assert parsed is not None
+    assert parsed.message == "Hi."
 
 
 def test_ai_chat_rejects_oversized_message() -> None:

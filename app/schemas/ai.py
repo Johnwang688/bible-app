@@ -37,10 +37,17 @@ class AIAction(BaseModel):
     params: AIActionParams = Field(default_factory=AIActionParams)
 
 
+class AdditionalChapter(BaseModel):
+    book: str
+    chapter: int
+
+
 class AIChatRequest(BaseModel):
     message: str
     context: AIContext
     conversation_history: list[AIHistoryMessage] = Field(default_factory=list)
+    additional_chapters: list[AdditionalChapter] = Field(default_factory=list)
+    personality: str = "jessica"
 
 
 class AIModelResponse(BaseModel):

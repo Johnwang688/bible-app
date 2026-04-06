@@ -1,8 +1,8 @@
 'use client';
 
 import type { CSSProperties } from 'react';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import AiSidebar, { type AIActionParams } from './AiSidebar';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import AiSidebar, { PERSONALITIES, restorePersonalityId, type AIActionParams } from './AiSidebar';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 interface BookInfo {
@@ -120,7 +120,11 @@ export default function BibleApp() {
   });
   const [commentarySources, setCommentarySources] = useState<CommentarySource[]>([]);
   const [commentarySourceMenuOpen, setCommentarySourceMenuOpen] = useState(false);
+  const [personalityId, setPersonalityId] = useState<string>('jessica');
+  const [agentMenuOpen, setAgentMenuOpen] = useState(false);
   const [syncedVerseStart, setSyncedVerseStart]   = useState<number | null>(null);
+  /** Verses to tint after jumping from the AI sidebar (cleared after a few seconds or on manual navigation). */
+  const [aiNavHighlight, setAiNavHighlight]       = useState<{ start: number; end: number } | null>(null);
 
   // ── UI state ───
   const [sidePanelMode, setSidePanelMode]   = useState<SidePanelMode>('none');
@@ -144,6 +148,7 @@ export default function BibleApp() {
   const dynTintRef    = useRef<HTMLDivElement>(null);
   const versionBtnRef = useRef<HTMLButtonElement>(null);
   const commentarySourceMenuRef = useRef<HTMLDivElement>(null);
+  const agentMenuRef = useRef<HTMLDivElement>(null);
   const cometCanvasRef = useRef<HTMLCanvasElement>(null);
 
   // ── Stable refs for use in callbacks without stale closures ───
@@ -172,7 +177,7 @@ export default function BibleApp() {
   const dynIndexRef         = useRef(0);
   const touchStartXRef      = useRef<number | null>(null);
   const touchStartYRef      = useRef(0);
-  const pendingAiVerseScrollRef = useRef<number | null>(null);
+  const pendingAiNavRef = useRef<{ start: number; end: number } | null>(null);
 
   // Keep stable refs in sync
   useEffect(() => { booksRef.current = books; },                             [books]);
@@ -185,13 +190,23 @@ export default function BibleApp() {
   useEffect(() => { currentThemeRef.current = currentTheme; },               [currentTheme]);
 
   useEffect(() => {
+    setPersonalityId(restorePersonalityId());
+  }, []);
+
+  useEffect(() => {
     const handlePointerDown = (event: MouseEvent) => {
       if (!commentarySourceMenuRef.current?.contains(event.target as Node)) {
         setCommentarySourceMenuOpen(false);
       }
+      if (!agentMenuRef.current?.contains(event.target as Node)) {
+        setAgentMenuOpen(false);
+      }
     };
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setCommentarySourceMenuOpen(false);
+      if (event.key === 'Escape') {
+        setCommentarySourceMenuOpen(false);
+        setAgentMenuOpen(false);
+      }
     };
     document.addEventListener('mousedown', handlePointerDown);
     document.addEventListener('keydown', handleKeyDown);
@@ -242,7 +257,12 @@ export default function BibleApp() {
   // ── Chapter loading ────────────────────────────────────────────────────────────
   const loadChapter = useCallback(async (
     book: BookInfo, ch: number, trans: string, direction: 'next' | 'prev' | null = null,
+    opts?: { fromAiNavigate?: boolean },
   ) => {
+    if (!opts?.fromAiNavigate) {
+      pendingAiNavRef.current = null;
+      setAiNavHighlight(null);
+    }
     setChapterLoading(true);
     setChapterError(false);
     setChapterData(null);
@@ -259,6 +279,7 @@ export default function BibleApp() {
         loadCommentaryData(book, ch, commentarySourceRef.current);
       }
     } catch {
+      pendingAiNavRef.current = null;
       setChapterError(true);
       setChapterLoading(false);
     }
@@ -339,16 +360,28 @@ export default function BibleApp() {
     sidePanelModeRef.current === 'ai' ? closeSidePanel() : openSidePanel('ai');
   }, [closeSidePanel, openSidePanel]);
 
+  const bibleBookNamesForAi = useMemo(
+    () => [...new Set(books.map(b => b.name))],
+    [books],
+  );
+
   const handleAiNavigate = useCallback((params: AIActionParams) => {
     if (!params.book || !params.chapter) return;
     const targetBook = booksRef.current.find(
       book => book.name.toLowerCase() === params.book?.toLowerCase(),
     );
     if (!targetBook) return;
-    pendingAiVerseScrollRef.current = params.verse_start ?? null;
+    const vs = params.verse_start;
+    if (vs != null) {
+      const ve = params.verse_end ?? vs;
+      pendingAiNavRef.current = { start: vs, end: Math.max(vs, ve) };
+    } else {
+      pendingAiNavRef.current = null;
+      setAiNavHighlight(null);
+    }
     setCurrentBook(targetBook);
     setChapter(params.chapter);
-    loadChapter(targetBook, params.chapter, translationRef.current);
+    loadChapter(targetBook, params.chapter, translationRef.current, null, { fromAiNavigate: true });
   }, [loadChapter]);
 
   const handleAiOpenCommentary = useCallback((source?: string) => {
@@ -437,14 +470,26 @@ export default function BibleApp() {
   }, [commentaryEntries, sidePanelMode, requestCommentarySync]);
 
   useEffect(() => {
-    const verseNumber = pendingAiVerseScrollRef.current;
-    if (!chapterData || verseNumber == null) return;
+    const pending = pendingAiNavRef.current;
+    if (!chapterData || !pending) return;
+    pendingAiNavRef.current = null;
+    const maxV = chapterData.verses.length
+      ? Math.max(...chapterData.verses.map(v => v.verse))
+      : 1;
+    const start = Math.min(Math.max(1, pending.start), maxV);
+    const end = Math.min(Math.max(start, pending.end), maxV);
     const rafId = requestAnimationFrame(() => {
-      scrollVerseIntoView(verseNumber);
-      pendingAiVerseScrollRef.current = null;
+      scrollVerseIntoView(start);
+      setAiNavHighlight({ start, end });
     });
     return () => cancelAnimationFrame(rafId);
   }, [chapterData, scrollVerseIntoView]);
+
+  useEffect(() => {
+    if (!aiNavHighlight) return;
+    const t = window.setTimeout(() => setAiNavHighlight(null), 4200);
+    return () => clearTimeout(t);
+  }, [aiNavHighlight]);
 
   // ── Scroll handler ────────────────────────────────────────────────────────────
   useEffect(() => {
@@ -929,11 +974,19 @@ export default function BibleApp() {
         <div className="reader-book">{chapterData.book}</div>
         <div className="reader-chapter">{chapterData.chapter}</div>
         <div className="reader-passages">
-          {chapterData.verses.map(v => (
-            <span key={v.verse} className="verse-line" data-verse={v.verse}>
-              <sup className="vnum">{v.verse}</sup>{v.text}{' '}
-            </span>
-          ))}
+          {chapterData.verses.map(v => {
+            const inAiNav =
+              aiNavHighlight != null && v.verse >= aiNavHighlight.start && v.verse <= aiNavHighlight.end;
+            return (
+              <span
+                key={v.verse}
+                className={`verse-line${inAiNav ? ' verse-line--ai-nav' : ''}`}
+                data-verse={v.verse}
+              >
+                <sup className="vnum">{v.verse}</sup>{v.text}{' '}
+              </span>
+            );
+          })}
         </div>
       </div>
     );
@@ -1183,7 +1236,45 @@ export default function BibleApp() {
           >
             <div className="side-header">
               {sidePanelMode === 'ai' ? (
-                <div className="side-title">Assistant</div>
+                <>
+                  <span className="side-eyebrow">Assistant</span>
+                  <div
+                    ref={agentMenuRef}
+                    className={`commentary-source-row visible${agentMenuOpen ? ' open' : ''}`}
+                  >
+                    <button
+                      className="commentary-source-select"
+                      type="button"
+                      aria-haspopup="listbox"
+                      aria-expanded={agentMenuOpen}
+                      onClick={() => setAgentMenuOpen(v => !v)}
+                    >
+                      <span className="commentary-source-select-label">
+                        {PERSONALITIES.find(p => p.id === personalityId)?.name ?? 'Jessica'}
+                      </span>
+                      <span className="commentary-source-chevron" aria-hidden="true" />
+                    </button>
+                    <div className="commentary-source-menu" role="listbox" aria-label="AI assistant">
+                      {PERSONALITIES.map(p => (
+                        <button
+                          key={p.id}
+                          className={`commentary-source-option${p.id === personalityId ? ' selected' : ''}`}
+                          type="button"
+                          role="option"
+                          aria-selected={p.id === personalityId}
+                          onClick={() => {
+                            setPersonalityId(p.id);
+                            try { window.localStorage.setItem('logoslight-ai-personality-v1', p.id); } catch { /* ignore */ }
+                            setAgentMenuOpen(false);
+                          }}
+                        >
+                          <span>{p.name}</span>
+                          {p.id === personalityId && <span className="commentary-source-check">✓</span>}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </>
               ) : (
                 <>
                   <span className="side-eyebrow">{sidePanelEyebrow()}</span>
@@ -1238,6 +1329,8 @@ export default function BibleApp() {
                   currentBookName={currentBook?.name ?? null}
                   chapter={chapter}
                   translation={translation}
+                  personalityId={personalityId}
+                  bibleBookNames={bibleBookNamesForAi}
                   onNavigate={handleAiNavigate}
                   onOpenCommentary={handleAiOpenCommentary}
                 />

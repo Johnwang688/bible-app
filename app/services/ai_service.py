@@ -17,6 +17,7 @@ from app.schemas.ai import (
     AIAction,
     AIActionParams,
     AIActionType,
+    AdditionalChapter,
     AIChatRequest,
     AIChatResponse,
     AIContext,
@@ -27,11 +28,34 @@ from app.services.bible_service import BOOK_DATA, get_chapter, get_verse_range, 
 
 PROMPTS_DIR = Path(__file__).resolve().parents[1] / "prompts" / "ai"
 MAX_HISTORY_MESSAGES = 8
-MAX_OUTPUT_TOKENS = 450
+# Room for verse-grounded answers that need a short paragraph (e.g. "what does this mean?").
+MAX_OUTPUT_TOKENS = 550
 RATE_LIMIT_REQUESTS = 12
 RATE_LIMIT_WINDOW_SECONDS = 300
 DEFAULT_COMMENTARY_SOURCE = "matthew_henry"
 MAX_SUPPLEMENTARY_PASSAGES = 3
+
+PERSONALITY_TONES: dict[str, str] = {
+    "jessica": (
+        "You are Jessica. Talk like a smart, warm friend who genuinely loves the Bible — "
+        "casual, real, and approachable. Use 'I' naturally. No stiff language. "
+        "Get to the point fast and keep it friendly."
+    ),
+    "noah": (
+        "You are Noah. You're direct and grounded — you care about historical context and "
+        "getting the facts right. No fluff. Give the most useful answer quickly and move on."
+    ),
+    "lydia": (
+        "You are Lydia. You bring a devotional, heart-focused perspective. "
+        "You care about how Scripture touches real life. Warm but brief — "
+        "say the meaningful thing and leave space for the person to reflect."
+    ),
+    "eli": (
+        "You are Eli. You have a calm, reverent approach — thoughtful and a little more "
+        "measured than the others, but still clear and never stuffy. "
+        "You respect the weight of Scripture without being heavy-handed."
+    ),
+}
 GENESIS_CH3_EDEN_CROSS_CHAPTER_RE = re.compile(
     r"\b(serpent|deceive|deceived|tree\s+of|forbidden|not\s+eat|shall\s+not\s+eat|"
     r"touch|lest\s+you\s+die|woman|eve|adam|garden|command|tempt|naked)\b",
@@ -43,6 +67,11 @@ LOW_STAKES_USER_MESSAGE_RE = re.compile(
 )
 CHAPTER_SUMMARY_REQUEST_RE = re.compile(
     r"\b(summarize|summary|recap|overview|outline|gist|main points|walk me through)\b",
+    re.IGNORECASE,
+)
+# "What does {book} {n} teach … about …?" including natural variants like "teach me about".
+CHAPTER_TEACH_ABOUT_RE = re.compile(
+    r"\bwhat\s+does\s+.+\s+teach(?:\s+\w+){0,4}\s+about\b",
     re.IGNORECASE,
 )
 BOOK_NAMES = sorted((book["name"] for book in BOOK_DATA), key=len, reverse=True)
@@ -166,19 +195,73 @@ def format_verse_lines(verses: list[Any]) -> str:
     return "\n".join(f"{verse.verse}. {verse.text}" for verse in verses)
 
 
-def infer_reference_for_chapter_summary_request(message: str, context: AIContext) -> str | None:
-    """When the model omits `references`, recover for obvious same-chapter summary asks."""
-    if not CHAPTER_SUMMARY_REQUEST_RE.search(message):
+def coerce_openai_json_text(content: str) -> str:
+    raw = (content or "").strip()
+    if raw.startswith("```"):
+        raw = re.sub(r"^```(?:json)?\s*", "", raw, flags=re.IGNORECASE)
+        raw = re.sub(r"\s*```\s*$", "", raw)
+    return raw.strip()
+
+
+def parse_ai_model_response(content: str | None) -> AIModelResponse | None:
+    """Parse chat completion content into AIModelResponse; tolerate fences and leading prose."""
+    raw = coerce_openai_json_text(content or "")
+    if not raw:
         return None
+
+    def _loads(fragment: str) -> dict[str, Any] | None:
+        try:
+            data = json.loads(fragment)
+        except json.JSONDecodeError:
+            return None
+        return data if isinstance(data, dict) else None
+
+    data = _loads(raw)
+    if data is None:
+        start = raw.find("{")
+        end = raw.rfind("}")
+        if start != -1 and end > start:
+            data = _loads(raw[start : end + 1])
+    if not data:
+        return None
+    try:
+        return AIModelResponse.model_validate(data)
+    except Exception:
+        return None
+
+
+def infer_reference_when_user_names_active_chapter(message: str, context: AIContext) -> str | None:
+    """If the user explicitly cites the active reader chapter, recover `references` when the model omits them."""
+    explicit = extract_explicit_reference(message)
+    if explicit is None:
+        return None
+    resolved_ctx = resolve_book(context.book)
+    if not resolved_ctx:
+        return None
+    if resolved_ctx["name"] != explicit.book or explicit.chapter != context.chapter:
+        return None
+    return f"{resolved_ctx['name']} {context.chapter}"
+
+
+def infer_reference_for_chapter_summary_request(message: str, context: AIContext) -> str | None:
+    """When the model omits `references`, recover for obvious same-chapter summary or theme asks."""
+    is_summary = CHAPTER_SUMMARY_REQUEST_RE.search(message)
+    is_teach_about = CHAPTER_TEACH_ABOUT_RE.search(message)
+    if not is_summary and not is_teach_about:
+        return None
+    resolved_ctx = resolve_book(context.book)
+    if not resolved_ctx:
+        return None
+    canon_book = resolved_ctx["name"]
     explicit = extract_explicit_reference(message)
     if explicit is not None:
-        if explicit.book == context.book and explicit.chapter == context.chapter:
-            return f"{context.book} {context.chapter}"
+        if explicit.book == canon_book and explicit.chapter == context.chapter:
+            return f"{canon_book} {context.chapter}"
         return None
     if re.search(r"\b(this|the)\s+(chapter|passage)\b", message, re.IGNORECASE):
-        return f"{context.book} {context.chapter}"
-    if re.search(r"\bsummarize\s+this\b", message, re.IGNORECASE):
-        return f"{context.book} {context.chapter}"
+        return f"{canon_book} {context.chapter}"
+    if is_summary and re.search(r"\bsummarize\s+this\b", message, re.IGNORECASE):
+        return f"{canon_book} {context.chapter}"
     return None
 
 
@@ -313,6 +396,7 @@ async def build_scripture_payload(
     context: AIContext,
     message: str,
     conversation_history: list[AIHistoryMessage] | None = None,
+    additional_chapters: list[AdditionalChapter] | None = None,
 ) -> ScripturePayload:
     current_chapter = await get_chapter(context.book, context.chapter, context.translation)
     if current_chapter is None:
@@ -323,35 +407,62 @@ async def build_scripture_payload(
         current_chapter_text=format_verse_lines(current_chapter.verses),
     )
 
-    history = conversation_history or []
-    raw_refs = collect_supplementary_references(context, message, history)
-    if not raw_refs:
-        return payload
+    seen_labels: set[str] = {f"{context.book} {context.chapter}".lower()}
 
-    plans = merge_passage_fetch_plans(raw_refs)
-    seen_labels: set[str] = set()
-    for plan in plans:
+    # User-specified additional chapters take priority
+    for extra in (additional_chapters or []):
         if len(payload.supplementary_passages) >= MAX_SUPPLEMENTARY_PASSAGES:
             break
-        fetched = await fetch_passage_for_plan(plan, context.translation)
-        if not fetched:
+        resolved = resolve_book(extra.book)
+        if not resolved:
             continue
-        label, text = fetched
-        key = label.lower()
+        book_name = resolved["name"]
+        key = f"{book_name} {extra.chapter}".lower()
         if key in seen_labels:
             continue
+        chapter_data = await get_chapter(book_name, extra.chapter, context.translation)
+        if not chapter_data:
+            continue
         seen_labels.add(key)
-        payload.supplementary_passages.append((label, text))
+        payload.supplementary_passages.append((f"{book_name} {extra.chapter}", format_verse_lines(chapter_data.verses)))
+
+    # Fill remaining slots with auto-detected references from message/history
+    if len(payload.supplementary_passages) < MAX_SUPPLEMENTARY_PASSAGES:
+        history = conversation_history or []
+        raw_refs = collect_supplementary_references(context, message, history)
+        if raw_refs:
+            plans = merge_passage_fetch_plans(raw_refs)
+            for plan in plans:
+                if len(payload.supplementary_passages) >= MAX_SUPPLEMENTARY_PASSAGES:
+                    break
+                key = plan.label.lower()
+                if key in seen_labels:
+                    continue
+                fetched = await fetch_passage_for_plan(plan, context.translation)
+                if not fetched:
+                    continue
+                label, text = fetched
+                key = label.lower()
+                if key in seen_labels:
+                    continue
+                seen_labels.add(key)
+                payload.supplementary_passages.append((label, text))
 
     return payload
 
 
-def build_system_prompt() -> str:
+def build_system_prompt(personality: str = "jessica") -> str:
     bundle = load_prompt_bundle()
+    tone = PERSONALITY_TONES.get(personality, PERSONALITY_TONES["jessica"])
     return (
+        f"Personality: {tone}\n\n"
         f"{bundle}\n\n"
         "Output requirements:\n"
         "- Return valid JSON matching the provided schema.\n"
+        "- User-visible strings must be plain text only: the app does not render Markdown. Do not use "
+        "asterisks, underscores, backticks, or # headings for emphasis in `message`, `suggested_follow_ups`, "
+        "or any action `label` / `description`. Mention verses naturally (for example Romans 3:23) and list "
+        "them in `references`—do not wrap reference names in * or **.\n"
         "- Keep the answer concise and practical.\n"
         "- Use Scripture references in the `references` array whenever you make a substantive biblical claim.\n"
         "- If the answer is grounded in the Active passage or Current chapter text, include that reference "
@@ -395,8 +506,19 @@ def build_response_schema() -> dict[str, Any]:
                 "type": "object",
                 "additionalProperties": False,
                 "properties": {
-                    "message": {"type": "string"},
-                    "references": {"type": "array", "items": {"type": "string"}},
+                    "message": {
+                        "type": "string",
+                        "description": (
+                            "Assistant reply shown in the app as plain text (no Markdown: no * or ** emphasis)."
+                        ),
+                    },
+                    "references": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "description": "Scripture reference labels only, e.g. Romans 3:23 (no Markdown).",
+                        },
+                    },
                     "actions": {
                         "type": "array",
                         "items": {
@@ -404,8 +526,14 @@ def build_response_schema() -> dict[str, Any]:
                             "additionalProperties": False,
                             "properties": {
                                 "type": {"type": "string", "enum": ["navigate", "open_commentary"]},
-                                "label": {"type": "string"},
-                                "description": {"type": "string"},
+                                "label": {
+                                    "type": "string",
+                                    "description": "Short button or chip label, plain text only (no Markdown).",
+                                },
+                                "description": {
+                                    "type": "string",
+                                    "description": "Optional plain-text hint for the action (no Markdown).",
+                                },
                                 "params": {
                                     "type": "object",
                                     "additionalProperties": False,
@@ -455,7 +583,13 @@ def build_response_schema() -> dict[str, Any]:
                             "required": ["type", "label", "description", "params"],
                         },
                     },
-                    "suggested_follow_ups": {"type": "array", "items": {"type": "string"}},
+                    "suggested_follow_ups": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "description": "Suggested next question, plain text only (no Markdown).",
+                        },
+                    },
                 },
                 "required": ["message", "references", "actions", "suggested_follow_ups"],
             },
@@ -561,7 +695,9 @@ def validate_ai_response(
     if not normalized.message:
         return default_fallback_response(context)
     if requires_scripture_reference(user_message, normalized) and not normalized.references:
-        inferred = infer_reference_for_chapter_summary_request(user_message.strip(), context)
+        inferred = infer_reference_when_user_names_active_chapter(user_message.strip(), context)
+        if not inferred:
+            inferred = infer_reference_for_chapter_summary_request(user_message.strip(), context)
         if inferred:
             normalized = normalized.model_copy(update={"references": normalize_references([inferred])})
         else:
@@ -580,10 +716,11 @@ async def chat_with_ai(payload: AIChatRequest) -> AIChatResponse:
         payload.context,
         payload.message,
         conversation_history=history,
+        additional_chapters=payload.additional_chapters or None,
     )
 
     messages: list[dict[str, str]] = [
-        {"role": "system", "content": build_system_prompt()},
+        {"role": "system", "content": build_system_prompt(payload.personality)},
         {"role": "system", "content": build_context_message(payload.context, scripture)},
     ]
     messages.extend(
@@ -602,9 +739,8 @@ async def chat_with_ai(payload: AIChatRequest) -> AIChatResponse:
         store=False,
         user=format_context_label(payload.context),
     )
-    content = completion.choices[0].message.content or "{}"
-    try:
-        parsed = AIModelResponse.model_validate(json.loads(content))
-    except Exception:
+    content = completion.choices[0].message.content
+    parsed = parse_ai_model_response(content)
+    if parsed is None:
         return default_fallback_response(payload.context)
     return validate_ai_response(parsed, user_message=payload.message, context=payload.context)
