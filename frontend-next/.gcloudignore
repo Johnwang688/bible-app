@@ -1,0 +1,26 @@
+# Used by `gcloud builds submit` — shrinks the source tarball (upload) before Cloud Build.
+# .dockerignore only affects the Docker daemon context; it does NOT trim this upload.
+
+.gcloudignore
+.git
+.gitignore
+
+# Dependencies & build output (large; recreated in Dockerfile)
+node_modules/
+.next/
+out/
+
+# Local env (never upload)
+.env
+.env.*
+!.env.example
+
+# Editor / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Logs
+npm-debug.log*
+*.log

@@ -20,7 +20,7 @@
   --accent: #6d4c31;
   --accent-soft: #efdfcb;
   --topbar: 56px;
-  --taskbar: 64px;
+  --taskbar: 58px;
   --side-width: 38%;
   --ui: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
   --serif: Georgia, "Times New Roman", serif;
@@ -1347,6 +1347,42 @@ select.ai-add-chapter-input optgroup {
   background: #c9a800;
   color: #fff;
 }
+/* Pink (neonrose): reader is neon text on black; popup used panel + text tokens that were both pink. */
+[data-theme="neonrose"] .verse-line--selected {
+  background: rgba(255, 240, 247, 0.93);
+  color: #14040f;
+  box-shadow: inset 0 0 0 1px rgba(255, 113, 205, 0.42);
+}
+[data-theme="neonrose"] .verse-line--selected .vnum {
+  color: #7a0a44;
+}
+[data-theme="neonrose"] .verse-study-popup {
+  --text: #14040f;
+  --muted: #5b2840;
+  --line: rgba(20, 4, 15, 0.16);
+  --panel: #ffffff;
+  --panel-2: #fff5f9;
+  --list-hover: #ffe8f2;
+  --accent: #9c0a54;
+  --accent-soft: #ffd6ea;
+  --rdrlabel: #7a0a44;
+  background: linear-gradient(165deg, #fff8fb 0%, #ffecf4 100%);
+  border-color: color-mix(in srgb, #9c0a54 28%, #ffffff 72%);
+  box-shadow:
+    0 16px 44px rgba(0, 0, 0, 0.5),
+    0 4px 14px rgba(0, 0, 0, 0.28);
+}
+[data-theme="neonrose"] .verse-study-popup .reader-dashboard-label {
+  color: #7a0a44;
+}
+[data-theme="neonrose"] .verse-study-popup .verse-study-close {
+  background: rgba(20, 4, 15, 0.08);
+  color: #5b2840;
+}
+[data-theme="neonrose"] .verse-study-popup .verse-study-close:hover {
+  background: rgba(20, 4, 15, 0.14);
+  color: #14040f;
+}
 .verse-line--bookmarked {
   box-shadow: inset 0 -2px 0 color-mix(in srgb, var(--accent) 70%, transparent);
 }
@@ -1831,11 +1867,12 @@ select.ai-add-chapter-input optgroup {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  min-width: 76px;
+  justify-content: center;
+  gap: 0;
+  min-width: 48px;
   border: none;
   background: transparent;
-  padding: 6px 8px;
+  padding: 10px 8px;
   border-radius: 16px;
   cursor: pointer;
   color: var(--muted);
@@ -2010,6 +2047,14 @@ select.ai-add-chapter-input optgroup {
 [data-theme="pink"] .commentary-entry.synced {
   background: #ffd0dc;
   border-color: #e07898;
+}
+/* Pastel pink: slightly stronger type + card surfaces in the sidebar (My Stuff) on saturated --bg. */
+[data-theme="pink"] .side-pane {
+  --muted: #46182d;
+  --text: #0f0509;
+  --card-bg: color-mix(in srgb, var(--panel) 88%, #ffffff 12%);
+  --card-border: color-mix(in srgb, var(--line) 55%, #3d1520 45%);
+  --card-radius: 16px;
 }
 [data-theme="pink"] .content-shell {
   background:
@@ -3061,8 +3106,28 @@ html[data-dynamic-wave="1"] .side-pane {
 }
 .settings-section-label + .settings-controls,
 .theme-grid + .settings-section-label,
+.theme-grid + .settings-theme-expand + .settings-section-label,
 .settings-controls + .settings-section-label {
   margin-top: 22px;
+}
+.settings-theme-expand {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--panel) 92%, transparent);
+  font-family: var(--ui);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  cursor: pointer;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+.settings-theme-expand:hover {
+  background: var(--list-hover);
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--line));
 }
 .settings-controls {
   display: grid;
@@ -3214,7 +3279,7 @@ html[data-dynamic-wave="1"] .side-pane {
 @media (max-width: 700px) {
   :root {
     --topbar: 60px;
-    --taskbar: 68px;
+    --taskbar: 60px;
     --side-width: 52%;
   }
   .topbar { padding: 10px 12px; }
@@ -3267,7 +3332,7 @@ html[data-dynamic-wave="1"] .side-pane {
     gap: 8px;
   }
   .taskbar-btn {
-    min-width: 60px;
+    min-width: 44px;
     padding-left: 4px;
     padding-right: 4px;
   }
@@ -3647,6 +3712,35 @@ html[data-reduced-motion="1"] .pink-hearts {
 [data-theme="neonrose"] .settings-header {
   background: #f77fbe;
   color: #000000;
+}
+/* Neonrose reader uses neon pink on black; the pink sidebar must use dark text + slightly lifted surfaces. */
+[data-theme="neonrose"] .side-pane {
+  --text: #1a0812;
+  --muted: #4a1834;
+  --line: #c2427e;
+  --line-soft: #d45c94;
+  --accent: #9c0a54;
+  --accent-soft: #ffd6ea;
+  --panel: #ffc4e0;
+  --panel-2: #ffb0d6;
+  --list-hover: #ffb7d8;
+  --list-active: #ff9fcd;
+  --card-bg: color-mix(in srgb, #ffffff 22%, #f77fbe);
+  --card-border: color-mix(in srgb, #1a0812 16%, #f77fbe);
+  --card-radius: 16px;
+}
+/* Same issue as the sidebar: settings sits on pink but inherited tokens are neon-on-black. */
+[data-theme="neonrose"] .settings-panel {
+  --text: #1a0812;
+  --muted: #4a1834;
+  --line: #c2427e;
+  --line-soft: #d45c94;
+  --accent: #9c0a54;
+  --accent-soft: #ffd6ea;
+  --panel: #f77fbe;
+  --panel-2: #ffb0d6;
+  --list-hover: #ffb7d8;
+  --list-active: #ff9fcd;
 }
 [data-theme="neonrose"] .nav-btn,
 [data-theme="neonrose"] .commentary-source-select,

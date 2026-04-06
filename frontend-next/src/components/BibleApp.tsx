@@ -86,8 +86,7 @@ const LEGACY_THEME_ID_MAP: Record<string, string> = {
   'Galaxy Metallic': 'galaxy',
   'galaxy metallic': 'galaxy',
 };
-const FEATURED_THEME_IDS = ['default', 'parchment', 'dark', 'teal', 'forest', 'galaxy'] as const;
-const FEATURED_THEMES = THEMES.filter(theme => FEATURED_THEME_IDS.includes(theme.id as (typeof FEATURED_THEME_IDS)[number]));
+const THEME_GRID_PREVIEW_COUNT = 5;
 const LAST_POSITION_STORAGE_KEY = 'bible-app-last-position';
 const RECENT_PASSAGES_STORAGE_KEY = 'bible-app-recent-passages';
 const HIGHLIGHTS_STORAGE_KEY = 'bible-app-highlights';
@@ -110,6 +109,16 @@ function normalizeThemeId(rawTheme: string | null | undefined) {
   if (!rawTheme) return 'default';
   const mappedTheme = LEGACY_THEME_ID_MAP[rawTheme] ?? rawTheme;
   return THEMES.some(theme => theme.id === mappedTheme) ? mappedTheme : 'default';
+}
+
+/** When collapsed, show the first N themes; if the active theme is not among them, swap it in so selection stays visible. */
+function themesForCollapsedPicker(currentThemeId: string, previewCount: number): ThemeDef[] {
+  const preview = THEMES.slice(0, previewCount);
+  if (preview.some(t => t.id === currentThemeId)) return preview;
+  const current = THEMES.find(t => t.id === currentThemeId);
+  if (!current) return preview;
+  const rest = THEMES.filter(t => t.id !== currentThemeId).slice(0, previewCount - 1);
+  return [current, ...rest];
 }
 
 function safelyParseJson<T>(raw: string | null, fallback: T): T {
@@ -334,6 +343,7 @@ export default function BibleApp() {
   const [versionPanelLeft, setVersionPanelLeft] = useState(20);
   const [versionPopupOpen, setVersionPopupOpen] = useState(false);
   const [settingsOpen, setSettingsOpen]     = useState(false);
+  const [themePickerExpanded, setThemePickerExpanded] = useState(false);
   const [searchOpen, setSearchOpen]         = useState(false);
   const [chromeVisible, setChromeVisible]   = useState(true);
   const [readerAskBubble, setReaderAskBubble] = useState<{ top: number; left: number } | null>(null);
@@ -424,6 +434,10 @@ export default function BibleApp() {
   useEffect(() => {
     setPersonalityId(restorePersonalityId());
   }, []);
+
+  useEffect(() => {
+    if (!settingsOpen) setThemePickerExpanded(false);
+  }, [settingsOpen]);
 
   useEffect(() => {
     const noteKey = currentBook && selectedVerse != null
@@ -2461,6 +2475,28 @@ export default function BibleApp() {
 
     return (
       <div className="study-panel-content">
+        <section className="mystuff-section mystuff-account-section">
+          <div className="mystuff-section-label">Account</div>
+          {!accountProfile && (
+            <>
+              <div className="reader-dashboard-title">Guest study mode</div>
+              <p className="reader-onboarding-copy">
+                Highlights, notes, bookmarks, streak, and recent passages stay on this device until you sign in.
+              </p>
+            </>
+          )}
+          <AuthPanel
+            isBusy={authBusy}
+            error={authError}
+            mode={authMode}
+            profile={accountProfile ? { email: accountProfile.email, display_name: accountProfile.display_name } : null}
+            onModeChange={setAuthMode}
+            onSignIn={handleAuthSignIn}
+            onSignUp={handleAuthSignUp}
+            onSignOut={handleAuthSignOut}
+          />
+        </section>
+
         {/* Reading rhythm */}
         <section className="reader-dashboard">
           <div className="reader-dashboard-card">
@@ -2951,19 +2987,24 @@ export default function BibleApp() {
 
       {/* Taskbar */}
       <div className={`taskbar${chromeVisible ? '' : ' chrome-hide-bottom'}`}>
-        <button className="taskbar-btn taskbar-btn-settings" type="button" onClick={() => setSettingsOpen(true)}>
+        <button
+          className="taskbar-btn taskbar-btn-settings"
+          type="button"
+          aria-label="Settings"
+          onClick={() => setSettingsOpen(true)}
+        >
           <span className="taskbar-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24">
               <circle cx="12" cy="12" r="3" />
               <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z" />
             </svg>
           </span>
-          <span className="taskbar-label">Settings</span>
         </button>
 
         <button
           className={`taskbar-btn${sidePanelMode === 'commentary' ? ' active' : ''}`}
           type="button"
+          aria-label="Commentary"
           onClick={toggleCommentary}
         >
           <span className="taskbar-icon" aria-hidden="true">
@@ -2972,12 +3013,12 @@ export default function BibleApp() {
               <path d="M5 4.5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H12l-4.5 3v-3H5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2Z" />
             </svg>
           </span>
-          <span className="taskbar-label">Commentary</span>
         </button>
 
         <button
           className={`taskbar-btn is-primary${sidePanelMode === 'none' ? ' active' : ''}`}
           type="button"
+          aria-label="Bible reader"
           onClick={closeSidePanel}
         >
           <span className="taskbar-icon" aria-hidden="true">
@@ -2987,12 +3028,12 @@ export default function BibleApp() {
               <path d="M10 8.5v7" /><path d="M8.2 12h3.6" />
             </svg>
           </span>
-          <span className="taskbar-label">Bible</span>
         </button>
 
         <button
           className={`taskbar-btn${sidePanelMode === 'ai' ? ' active' : ''}`}
           type="button"
+          aria-label="AI assistant"
           onClick={toggleAiPanel}
         >
           <span className="taskbar-icon" aria-hidden="true">
@@ -3002,20 +3043,20 @@ export default function BibleApp() {
               <path d="M6.5 15.5 7.2 17l1.5.7-1.5.7-.7 1.6-.7-1.6-1.6-.7 1.6-.7.7-1.5Z" className="icon-solid" />
             </svg>
           </span>
-          <span className="taskbar-label">AI</span>
         </button>
 
         <button
           className={`taskbar-btn${sidePanelMode === 'study' ? ' active' : ''}`}
           type="button"
+          aria-label="My stuff"
           onClick={toggleStudyPanel}
         >
           <span className="taskbar-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24">
-              <path d="M12 3.5a.5.5 0 0 1 .46.31l2.05 4.88 4.88.41a.5.5 0 0 1 .29.88l-3.7 3.2 1.1 4.77a.5.5 0 0 1-.74.54L12 15.77l-4.34 2.72a.5.5 0 0 1-.74-.54l1.1-4.77-3.7-3.2a.5.5 0 0 1 .29-.88l4.88-.41L11.54 3.81A.5.5 0 0 1 12 3.5Z" className="icon-solid" />
+              <circle cx="12" cy="9" r="3.25" />
+              <path d="M5 20.5v-.35c0-3.2 2.85-5.65 7-5.65s7 2.45 7 5.65v.35" />
             </svg>
           </span>
-          <span className="taskbar-label">My Stuff</span>
         </button>
       </div>
 
@@ -3032,7 +3073,7 @@ export default function BibleApp() {
           <div className="settings-body">
             <div className="settings-section-label">Appearance</div>
             <div className="theme-grid">
-              {FEATURED_THEMES.map(theme => (
+              {(themePickerExpanded ? THEMES : themesForCollapsedPicker(currentTheme, THEME_GRID_PREVIEW_COUNT)).map(theme => (
                 <div
                   key={theme.id}
                   className={`theme-card${currentTheme === theme.id ? ' selected' : ''}`}
@@ -3052,6 +3093,15 @@ export default function BibleApp() {
                 </div>
               ))}
             </div>
+            {THEMES.length > THEME_GRID_PREVIEW_COUNT && (
+              <button
+                type="button"
+                className="settings-theme-expand"
+                onClick={() => setThemePickerExpanded(exp => !exp)}
+              >
+                {themePickerExpanded ? 'See less' : 'See more'}
+              </button>
+            )}
             <div className="settings-section-label">Reading</div>
             <div className="settings-controls">
               <label className="settings-field">
@@ -3102,27 +3152,6 @@ export default function BibleApp() {
                 />
                 <span>High contrast</span>
               </label>
-            </div>
-            <div className="settings-section-label">Profile</div>
-            <div className="settings-profile-card">
-              <div className="reader-dashboard-title">
-                {accountProfile ? 'Synced account' : 'Guest study mode'}
-              </div>
-              <p className="reader-onboarding-copy">
-                {accountProfile
-                  ? 'Your study data now syncs across devices signed into this account.'
-                  : 'Your highlights, notes, bookmarks, streak, and recent passages are saved locally on this device until you sign in.'}
-              </p>
-              <AuthPanel
-                isBusy={authBusy}
-                error={authError}
-                mode={authMode}
-                profile={accountProfile ? { email: accountProfile.email, display_name: accountProfile.display_name } : null}
-                onModeChange={setAuthMode}
-                onSignIn={handleAuthSignIn}
-                onSignUp={handleAuthSignUp}
-                onSignOut={handleAuthSignOut}
-              />
             </div>
           </div>
         </div>

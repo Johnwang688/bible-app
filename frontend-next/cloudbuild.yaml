@@ -1,0 +1,18 @@
+# Cloud Build: docker build with BACKEND_URL for Next.js rewrites.
+# Override with: gcloud builds submit --config cloudbuild.yaml --substitutions=_BACKEND_URL=https://your-api.run.app
+substitutions:
+  _BACKEND_URL: 'https://bible-api-593497511935.us-south1.run.app'
+  _IMAGE: 'us-south1-docker.pkg.dev/bible-app-492520/cloud-run-apps/bible-web:latest'
+
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - '${_IMAGE}'
+      - '--build-arg'
+      - 'BACKEND_URL=${_BACKEND_URL}'
+      - '.'
+
+images:
+  - '${_IMAGE}'
