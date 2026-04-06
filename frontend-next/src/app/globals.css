@@ -41,6 +41,8 @@
   --tb-icon-end: #edd8bf;
   --tb-icon-border: rgba(109, 76, 49, 0.2);
   --scrollthumb: #c8bcad;
+  /* Track color for scrollbar-color + ::-webkit-scrollbar-track (avoids default light gray on dark themes) */
+  --scrolltrack: color-mix(in srgb, var(--panel-2) 82%, transparent);
   --vnum: #b2a290;
   --rdrlabel: #9d8d7b;
   --spin-border: #ddd3c5;
@@ -230,6 +232,7 @@ button {
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-width: thin;
+  scrollbar-color: var(--scrollthumb) var(--scrolltrack);
 }
 .side-scroll {
   flex: 1;
@@ -237,14 +240,28 @@ button {
 }
 .side-scroll::-webkit-scrollbar,
 .bible-pane::-webkit-scrollbar,
-.book-panel::-webkit-scrollbar {
+.book-panel::-webkit-scrollbar,
+.settings-panel::-webkit-scrollbar {
   width: 5px;
+}
+.side-scroll::-webkit-scrollbar-track,
+.bible-pane::-webkit-scrollbar-track,
+.book-panel::-webkit-scrollbar-track,
+.settings-panel::-webkit-scrollbar-track {
+  background: var(--scrolltrack);
 }
 .side-scroll::-webkit-scrollbar-thumb,
 .bible-pane::-webkit-scrollbar-thumb,
-.book-panel::-webkit-scrollbar-thumb {
+.book-panel::-webkit-scrollbar-thumb,
+.settings-panel::-webkit-scrollbar-thumb {
   background: var(--scrollthumb);
   border-radius: 999px;
+}
+.side-scroll::-webkit-scrollbar-thumb:hover,
+.bible-pane::-webkit-scrollbar-thumb:hover,
+.book-panel::-webkit-scrollbar-thumb:hover,
+.settings-panel::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--scrollthumb) 78%, var(--accent) 22%);
 }
 .commentary-source-row {
   display: none;
@@ -575,6 +592,50 @@ button.ai-chip:active {
 }
 .ai-add-chapter-input:focus {
   border-color: var(--accent);
+}
+.ai-book-picker-block {
+  flex: 1 1 200px;
+  min-width: 160px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.ai-book-search-input {
+  width: 100%;
+}
+.ai-book-picker-block .ai-book-select {
+  flex: none;
+  width: 100%;
+  min-width: 0;
+}
+.ai-book-select {
+  flex: 1 1 148px;
+  min-width: 120px;
+  max-width: 100%;
+}
+.ai-chapter-select {
+  width: 72px;
+  flex-shrink: 0;
+}
+select.ai-add-chapter-input {
+  cursor: pointer;
+  color: var(--ai-surface-text);
+  background-color: var(--ai-surface);
+}
+select.ai-add-chapter-input:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+select.ai-add-chapter-input option,
+select.ai-add-chapter-input optgroup {
+  color: var(--text);
+  background-color: var(--panel);
+}
+[data-theme="dark"] .ai-add-chapter-form,
+[data-theme="galaxy"] .ai-add-chapter-form,
+[data-theme="rebecca"] .ai-add-chapter-form {
+  color-scheme: dark;
 }
 .ai-add-chapter-input-num {
   width: 54px;
@@ -1009,6 +1070,29 @@ button.ai-chip:active {
 .bible-pane .reader-passages ::selection {
   background: var(--verse-nav-highlight-bg);
 }
+.reader-selection-ask-btn {
+  font-family: var(--ui);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border, rgba(0, 0, 0, 0.12));
+  background: var(--bg);
+  color: var(--text);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  white-space: nowrap;
+  transform: translate(-50%, -100%);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.reader-selection-ask-btn:hover {
+  transform: translate(-50%, calc(-100% - 2px));
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.16);
+}
+.reader-selection-ask-btn:active {
+  transform: translate(-50%, -100%) scale(0.98);
+}
 .vnum {
   margin-right: 3px;
   font-family: var(--ui);
@@ -1188,6 +1272,16 @@ button.ai-chip:active {
 .ch-nav-btn:disabled {
   opacity: 0.28;
   cursor: default;
+}
+/* Prev overlaps the side pane: same dimmed look as :disabled (e.g. Gen 1) but stays clickable */
+.ch-nav-prev.side-pane-open .ch-nav-btn:not(:disabled) {
+  opacity: 0.28;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.ch-nav-prev.side-pane-open .ch-nav-btn:not(:disabled):hover,
+.ch-nav-prev.side-pane-open .ch-nav-btn:not(:disabled):focus-visible {
+  opacity: 1;
 }
 .taskbar-btn {
   display: flex;
@@ -2270,6 +2364,8 @@ html[data-dynamic-wave="1"] .side-pane {
   border-radius: 24px 24px 0 0;
   max-height: 82vh;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollthumb) var(--scrolltrack);
   animation: slide-up 0.26s ease;
 }
 .settings-header {

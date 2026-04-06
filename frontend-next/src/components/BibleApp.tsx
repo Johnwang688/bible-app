@@ -2,7 +2,13 @@
 
 import type { CSSProperties } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import AiSidebar, { PERSONALITIES, restorePersonalityId, type AIActionParams } from './AiSidebar';
+import AiSidebar, {
+  AI_PERSONALITY_STORAGE_KEY,
+  MAX_MESSAGE_CHARS,
+  PERSONALITIES,
+  restorePersonalityId,
+  type AIActionParams,
+} from './AiSidebar';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 interface BookInfo {
@@ -94,6 +100,27 @@ function parseSummaryContent(content: string) {
   return result;
 }
 
+function closestVerseLine(node: Node | null): HTMLElement | null {
+  let n: Node | null = node;
+  if (n?.nodeType === Node.TEXT_NODE) n = n.parentElement;
+  const el = n as Element | null;
+  return el?.closest?.('.verse-line[data-verse]') ?? null;
+}
+
+function buildExplainVersePrompt(refLabel: string | undefined, selectedText: string): string {
+  const intro = 'Explain what this passage means.\n\n';
+  const refLine = refLabel ? `Reference: ${refLabel}\n\n` : '';
+  const normalized = selectedText.replace(/\s+/g, ' ').trim();
+  const quoted = `“${normalized}”`;
+  let full = intro + refLine + quoted;
+  if (full.length <= MAX_MESSAGE_CHARS) return full;
+  const overhead = intro.length + refLine.length + 4;
+  const budget = MAX_MESSAGE_CHARS - overhead;
+  const inner =
+    normalized.length > budget ? `${normalized.slice(0, Math.max(0, budget - 1))}…` : normalized;
+  return intro + refLine + `“${inner}”`;
+}
+
 // ── Main Component ─────────────────────────────────────────────────────────────
 export default function BibleApp() {
   // ── Bible data ───
@@ -136,6 +163,8 @@ export default function BibleApp() {
   const [versionPopupOpen, setVersionPopupOpen] = useState(false);
   const [settingsOpen, setSettingsOpen]     = useState(false);
   const [chromeVisible, setChromeVisible]   = useState(true);
+  const [readerAskBubble, setReaderAskBubble] = useState<{ top: number; left: number } | null>(null);
+  const [aiComposerSeed, setAiComposerSeed] = useState<{ id: number; text: string } | undefined>();
 
   // ── Theme ───
   const [currentTheme, setCurrentTheme] = useState('default');
@@ -150,6 +179,9 @@ export default function BibleApp() {
   const commentarySourceMenuRef = useRef<HTMLDivElement>(null);
   const agentMenuRef = useRef<HTMLDivElement>(null);
   const cometCanvasRef = useRef<HTMLCanvasElement>(null);
+  const readerPassagesRef = useRef<HTMLDivElement>(null);
+  const readerSelectionPayloadRef = useRef<{ text: string; refLabel?: string } | null>(null);
+  const readerSelectionRafRef = useRef<number | null>(null);
 
   // ── Stable refs for use in callbacks without stale closures ───
   const booksRef               = useRef<BookInfo[]>([]);
@@ -360,8 +392,8 @@ export default function BibleApp() {
     sidePanelModeRef.current === 'ai' ? closeSidePanel() : openSidePanel('ai');
   }, [closeSidePanel, openSidePanel]);
 
-  const bibleBookNamesForAi = useMemo(
-    () => [...new Set(books.map(b => b.name))],
+  const bibleBooksForAi = useMemo(
+    () => books.map(b => ({ name: b.name, total_chapters: b.total_chapters })),
     [books],
   );
 
@@ -392,6 +424,98 @@ export default function BibleApp() {
     setSidePanelMode('commentary');
     if (book) loadCommentaryData(book, chapterRef.current, nextSource);
   }, [loadCommentaryData]);
+
+  const clearReaderAskBubble = useCallback(() => {
+    readerSelectionPayloadRef.current = null;
+    setReaderAskBubble(null);
+  }, []);
+
+  const syncReaderTextSelection = useCallback(() => {
+    const root = readerPassagesRef.current;
+    if (!root) {
+      clearReaderAskBubble();
+      return;
+    }
+    const sel = window.getSelection();
+    if (!sel || sel.rangeCount === 0 || sel.isCollapsed) {
+      clearReaderAskBubble();
+      return;
+    }
+    const range = sel.getRangeAt(0);
+    const anchor = range.commonAncestorContainer;
+    const anchorEl =
+      anchor.nodeType === Node.TEXT_NODE ? anchor.parentElement : (anchor as Element);
+    if (!anchorEl || !root.contains(anchorEl)) {
+      clearReaderAskBubble();
+      return;
+    }
+    const raw = sel.toString().replace(/\u00a0/g, ' ').trim();
+    if (raw.length < 2) {
+      clearReaderAskBubble();
+      return;
+    }
+    const rect = range.getBoundingClientRect();
+    if (rect.width < 2 && rect.height < 2) {
+      clearReaderAskBubble();
+      return;
+    }
+    const startLine = closestVerseLine(range.startContainer);
+    const endLine = closestVerseLine(range.endContainer);
+    let refLabel: string | undefined;
+    if (chapterData && startLine?.dataset.verse && endLine?.dataset.verse) {
+      const v1 = Number(startLine.dataset.verse);
+      const v2 = Number(endLine.dataset.verse);
+      if (Number.isFinite(v1) && Number.isFinite(v2)) {
+        const lo = Math.min(v1, v2);
+        const hi = Math.max(v1, v2);
+        refLabel =
+          hi > lo
+            ? `${chapterData.book} ${chapterData.chapter}:${lo}–${hi}`
+            : `${chapterData.book} ${chapterData.chapter}:${lo}`;
+      }
+    }
+    readerSelectionPayloadRef.current = { text: raw, refLabel };
+    setReaderAskBubble({ top: rect.top, left: rect.left + rect.width / 2 });
+  }, [chapterData, clearReaderAskBubble]);
+
+  const scheduleReaderSelectionSync = useCallback(() => {
+    if (readerSelectionRafRef.current != null) cancelAnimationFrame(readerSelectionRafRef.current);
+    readerSelectionRafRef.current = requestAnimationFrame(() => {
+      readerSelectionRafRef.current = null;
+      syncReaderTextSelection();
+    });
+  }, [syncReaderTextSelection]);
+
+  useEffect(() => {
+    document.addEventListener('selectionchange', scheduleReaderSelectionSync);
+    return () => {
+      document.removeEventListener('selectionchange', scheduleReaderSelectionSync);
+      if (readerSelectionRafRef.current != null) cancelAnimationFrame(readerSelectionRafRef.current);
+    };
+  }, [scheduleReaderSelectionSync]);
+
+  useEffect(() => {
+    const pane = biblePaneRef.current;
+    if (!pane) return;
+    const onScroll = () => clearReaderAskBubble();
+    pane.addEventListener('scroll', onScroll, { passive: true });
+    return () => pane.removeEventListener('scroll', onScroll);
+  }, [clearReaderAskBubble]);
+
+  useEffect(() => {
+    clearReaderAskBubble();
+  }, [chapterData?.book, chapterData?.chapter, translation, clearReaderAskBubble]);
+
+  const handleAskFromReaderSelection = useCallback(() => {
+    const payload = readerSelectionPayloadRef.current;
+    if (!payload?.text) return;
+    openSidePanel('ai');
+    setAiComposerSeed({ id: Date.now(), text: buildExplainVersePrompt(payload.refLabel, payload.text) });
+    clearReaderAskBubble();
+    window.getSelection()?.removeAllRanges();
+  }, [openSidePanel, clearReaderAskBubble]);
+
+  const currentAgentName = PERSONALITIES.find(p => p.id === personalityId)?.name ?? 'Jessica';
 
   // ── Commentary sync ───────────────────────────────────────────────────────────
   const getTopVisibleVerse = useCallback((): number => {
@@ -973,7 +1097,7 @@ export default function BibleApp() {
       >
         <div className="reader-book">{chapterData.book}</div>
         <div className="reader-chapter">{chapterData.chapter}</div>
-        <div className="reader-passages">
+        <div className="reader-passages" ref={readerPassagesRef}>
           {chapterData.verses.map(v => {
             const inAiNav =
               aiNavHighlight != null && v.verse >= aiNavHighlight.start && v.verse <= aiNavHighlight.end;
@@ -1264,7 +1388,11 @@ export default function BibleApp() {
                           aria-selected={p.id === personalityId}
                           onClick={() => {
                             setPersonalityId(p.id);
-                            try { window.localStorage.setItem('logoslight-ai-personality-v1', p.id); } catch { /* ignore */ }
+                            try {
+                              window.localStorage.setItem(AI_PERSONALITY_STORAGE_KEY, p.id);
+                            } catch {
+                              /* ignore */
+                            }
                             setAgentMenuOpen(false);
                           }}
                         >
@@ -1330,9 +1458,10 @@ export default function BibleApp() {
                   chapter={chapter}
                   translation={translation}
                   personalityId={personalityId}
-                  bibleBookNames={bibleBookNamesForAi}
+                  bibleBooks={bibleBooksForAi}
                   onNavigate={handleAiNavigate}
                   onOpenCommentary={handleAiOpenCommentary}
+                  composerSeed={aiComposerSeed}
                 />
               )}
             </div>
@@ -1353,8 +1482,25 @@ export default function BibleApp() {
         </div>
       </div>
 
+      {readerAskBubble && chapterData && (
+        <button
+          type="button"
+          className="reader-selection-ask-btn"
+          style={{
+            position: 'fixed',
+            top: readerAskBubble.top - 6,
+            left: readerAskBubble.left,
+            zIndex: 80,
+          }}
+          aria-label={`Ask ${currentAgentName} to explain the selected passage`}
+          onClick={handleAskFromReaderSelection}
+        >
+          Ask {currentAgentName}
+        </button>
+      )}
+
       {/* Chapter nav buttons */}
-      <div className={`ch-nav ch-nav-prev${chromeVisible ? '' : ' chrome-hide-bottom'}`}>
+      <div className={`ch-nav ch-nav-prev${chromeVisible ? '' : ' chrome-hide-bottom'}${sideOpen ? ' side-pane-open' : ''}`}>
         <button
           className="ch-nav-btn"
           type="button"
