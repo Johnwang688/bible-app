@@ -1741,37 +1741,6 @@ select.ai-add-chapter-input optgroup {
   height: 100%;
   column-gap: 0;
 }
-.reader-chapter-next-row {
-  margin-top: 36px;
-  padding-bottom: 10px;
-  display: flex;
-  justify-content: center;
-}
-.reader-next-chapter-btn {
-  min-height: 44px;
-  padding: 10px 20px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--popup-sticky);
-  font-family: var(--ui);
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
-}
-.reader-next-chapter-btn:hover:not(:disabled),
-.reader-next-chapter-btn:focus-visible:not(:disabled) {
-  background: var(--nav-hover);
-  border-color: color-mix(in srgb, var(--line) 78%, var(--accent) 22%);
-}
-.reader-next-chapter-btn:active:not(:disabled) {
-  transform: translateY(1px);
-}
-.reader-next-chapter-btn:disabled {
-  opacity: 0.42;
-  cursor: default;
-}
 .verse-line {
   display: inline;
   border-radius: 0.4em;
@@ -2351,9 +2320,6 @@ select.ai-add-chapter-input optgroup {
 .ch-nav-prev {
   left: 16px;
 }
-.ch-nav-next {
-  right: 16px;
-}
 .ch-nav-btn {
   width: 46px;
   height: 46px;
@@ -2371,17 +2337,14 @@ select.ai-add-chapter-input optgroup {
   opacity: 0.28;
   cursor: default;
 }
-/* Prev/next overlaps the side pane: same dimmed look as :disabled but stays clickable */
-.ch-nav-prev.side-pane-open .ch-nav-btn:not(:disabled),
-.ch-nav-next.side-pane-open .ch-nav-btn:not(:disabled) {
+/* Prev overlaps the side pane: same dimmed look as :disabled but stays clickable */
+.ch-nav-prev.side-pane-open .ch-nav-btn:not(:disabled) {
   opacity: 0.28;
   cursor: pointer;
   transition: opacity 0.2s ease;
 }
 .ch-nav-prev.side-pane-open .ch-nav-btn:not(:disabled):hover,
-.ch-nav-prev.side-pane-open .ch-nav-btn:not(:disabled):focus-visible,
-.ch-nav-next.side-pane-open .ch-nav-btn:not(:disabled):hover,
-.ch-nav-next.side-pane-open .ch-nav-btn:not(:disabled):focus-visible {
+.ch-nav-prev.side-pane-open .ch-nav-btn:not(:disabled):focus-visible {
   opacity: 1;
 }
 .taskbar-btn {
@@ -2640,7 +2603,6 @@ select.ai-add-chapter-input optgroup {
   :root { --side-width: 44%; }
   .taskbar { gap: 12px; }
   .ch-nav-prev { left: 10px; }
-  .ch-nav-next { right: 10px; }
   .reader-wrap--book {
     padding: 28px 16px 64px;
   }
