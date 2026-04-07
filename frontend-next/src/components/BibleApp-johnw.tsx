@@ -49,19 +49,22 @@ interface SearchResult { verse: { book: string; chapter: number; verse: number; 
 interface SavedPassage { book: string; chapter: number; translation: string; savedAt: number; }
 interface VerseNote { key: string; book: string; chapter: number; verse: number; text: string; updatedAt: number; }
 interface ReadingProgress { streak: number; goalMetDays: string[]; todayIso: string; todayChapters: string[]; }
-const READER_FONT_PX_OPTIONS = ['8', '10', '12', '14', '16', '18', '24', '30'] as const;
+const READER_FONT_PX_OPTIONS = ['8', '10', '12', '14', '16', '18', '20', '22', '24', '26', '28', '30'] as const;
 type ReaderFontPx = (typeof READER_FONT_PX_OPTIONS)[number];
-const READER_LINE_HEIGHT_OPTIONS = ['1', '1.15', '1.25', '1.5', '2'] as const;
+const READER_LINE_HEIGHT_OPTIONS = ['1.5', '2', '2.5'] as const;
 type ReaderLineHeightOption = (typeof READER_LINE_HEIGHT_OPTIONS)[number];
 
 const LEGACY_READER_FONT: Record<string, ReaderFontPx> = {
-  comfortable: '16',
-  large: '18',
-  xlarge: '24',
+  comfortable: '20',
+  large: '24',
+  xlarge: '30',
 };
 const LEGACY_READER_LINE_HEIGHT: Record<string, ReaderLineHeightOption> = {
-  relaxed: '1.15',
-  airy: '1.5',
+  relaxed: '1.5',
+  airy: '2',
+  '1': '1.5',
+  '1.15': '1.5',
+  '1.25': '1.5',
 };
 
 interface ReaderSettings {
@@ -116,8 +119,8 @@ const READER_SETTINGS_STORAGE_KEY = 'bible-app-reader-settings';
 const ONBOARDING_STORAGE_KEY = 'bible-app-onboarding-complete';
 const MAX_RECENT_PASSAGES = 8;
 const DEFAULT_READER_SETTINGS: ReaderSettings = {
-  fontScale: '16',
-  lineHeight: '1.15',
+  fontScale: '20',
+  lineHeight: '2',
   reducedMotion: false,
   pageFlipEnabled: true,
   highContrast: false,
@@ -438,6 +441,7 @@ export default function BibleApp() {
   });
   const currentThemeRef = useRef('default');
   const readerSettingsRef = useRef<ReaderSettings>(DEFAULT_READER_SETTINGS);
+  const chapterDataRef = useRef<ChapterData | null>(null);
 
   // ── Imperative refs ───
   const commentaryCache     = useRef<Record<string, CommentaryEntry[]>>({});
@@ -453,6 +457,10 @@ export default function BibleApp() {
   const touchStartXRef      = useRef<number | null>(null);
   const touchStartYRef      = useRef(0);
   const pendingAiNavRef = useRef<{ start: number; end: number } | null>(null);
+  const chapterRequestIdRef = useRef(0);
+  const flipAnimatingRef = useRef(false);
+  const pendingChapterResultRef = useRef<{ data: ChapterData; book: BookInfo; chapter: number } | null>(null);
+  const pendingChapterErrorRef = useRef(false);
   const syncReadyRef        = useRef(false);
   const hydratingAccountRef = useRef(false);
   const accountBootstrapRef = useRef(false);
@@ -468,6 +476,7 @@ export default function BibleApp() {
   useEffect(() => { commentarySourceNamesRef.current = commentarySourceNames; }, [commentarySourceNames]);
   useEffect(() => { currentThemeRef.current = currentTheme; },               [currentTheme]);
   useEffect(() => { readerSettingsRef.current = readerSettings; },           [readerSettings]);
+  useEffect(() => { chapterDataRef.current = chapterData; },                 [chapterData]);
 
   useEffect(() => {
     setPersonalityId(restorePersonalityId());
@@ -613,39 +622,70 @@ export default function BibleApp() {
   }, []);
 
   // ── Chapter loading ────────────────────────────────────────────────────────────
+  const commitLoadedChapter = useCallback((
+    data: ChapterData,
+    book: BookInfo,
+    ch: number,
+  ) => {
+    setChapterData(data);
+    setChapterLoading(false);
+    setChapterError(false);
+    if (biblePaneRef.current) biblePaneRef.current.scrollTop = 0;
+    setChromeVisible(true);
+    if (sidePanelModeRef.current === 'commentary') {
+      loadCommentaryData(book, ch, commentarySourceRef.current);
+    }
+  }, [loadCommentaryData]);
+
   const loadChapter = useCallback(async (
     book: BookInfo, ch: number, trans: string, direction: 'next' | 'prev' | null = null,
     opts?: { fromAiNavigate?: boolean },
   ) => {
+    const requestId = ++chapterRequestIdRef.current;
+    const shouldAnimatePageFlip = Boolean(
+      direction &&
+      readerSettingsRef.current.pageFlipEnabled &&
+      !readerSettingsRef.current.reducedMotion &&
+      chapterDataRef.current,
+    );
     if (!opts?.fromAiNavigate) {
       pendingAiNavRef.current = null;
       setAiNavHighlight(null);
     }
+    pendingChapterResultRef.current = null;
+    pendingChapterErrorRef.current = false;
     setChapterLoading(true);
     setChapterError(false);
-    setChapterData(null);
+    if (shouldAnimatePageFlip) {
+      flipAnimatingRef.current = true;
+      setAnimClass(direction === 'next' ? 'page-flip-next' : 'page-flip-prev');
+    } else {
+      flipAnimatingRef.current = false;
+      setAnimClass('');
+      setChapterData(null);
+    }
     try {
       const data: ChapterData = await fetch(
         `/api/v1/chapters/${encodeURIComponent(book.name)}/${ch}?translation=${encodeURIComponent(trans)}`
       ).then(r => { if (!r.ok) throw new Error(); return r.json(); });
-      setChapterData(data);
-      setAnimClass(
-        direction && readerSettingsRef.current.pageFlipEnabled && !readerSettingsRef.current.reducedMotion
-          ? (direction === 'next' ? 'page-flip-next' : 'page-flip-prev')
-          : '',
-      );
-      setChapterLoading(false);
-      if (biblePaneRef.current) biblePaneRef.current.scrollTop = 0;
-      setChromeVisible(true);
-      if (sidePanelModeRef.current === 'commentary') {
-        loadCommentaryData(book, ch, commentarySourceRef.current);
+      if (requestId !== chapterRequestIdRef.current) return;
+      if (shouldAnimatePageFlip && flipAnimatingRef.current) {
+        pendingChapterResultRef.current = { data, book, chapter: ch };
+        return;
       }
+      commitLoadedChapter(data, book, ch);
     } catch {
+      if (requestId !== chapterRequestIdRef.current) return;
       pendingAiNavRef.current = null;
+      if (shouldAnimatePageFlip && flipAnimatingRef.current) {
+        pendingChapterErrorRef.current = true;
+        return;
+      }
+      setChapterData(null);
       setChapterError(true);
       setChapterLoading(false);
     }
-  }, [loadCommentaryData]);
+  }, [commitLoadedChapter]);
 
   // ── Navigation ─────────────────────────────────────────────────────────────────
   const goPrev = useCallback(() => {
@@ -707,7 +747,9 @@ export default function BibleApp() {
     nextTranslation?: string,
     verseNumber?: number,
   ) => {
-    const targetBook = booksRef.current.find(book => book.name.toLowerCase() === bookName.toLowerCase());
+    const needle = bookName?.toLowerCase();
+    if (needle == null) return false;
+    const targetBook = booksRef.current.find(book => book.name?.toLowerCase() === needle);
     if (!targetBook) return false;
     if (verseNumber != null) {
       pendingAiNavRef.current = { start: verseNumber, end: verseNumber };
@@ -769,6 +811,18 @@ export default function BibleApp() {
     () => sortBookNamesForMatching(books.map(book => book.name)),
     [books],
   );
+
+  const parsedNavigation = useMemo(() => {
+    const trimmed = searchQuery.trim();
+    if (!trimmed) return null;
+    return parseReferenceLabel(trimmed, bookNamesSorted);
+  }, [searchQuery, bookNamesSorted]);
+
+  const bookSuggestions = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    if (!q || q.length < 2 || parsedNavigation) return [];
+    return books.filter(b => b.name.toLowerCase().includes(q)).slice(0, 6);
+  }, [searchQuery, books, parsedNavigation]);
 
   const handleAiNavigate = useCallback((params: AIActionParams) => {
     if (!params.book || !params.chapter) return;
@@ -969,39 +1023,26 @@ export default function BibleApp() {
     recordChapterVisit(currentBook.name, chapter, translation);
   }, [chapter, currentBook, persistRecentPassage, recordChapterVisit, translation]);
 
-  const runSearch = useCallback(async () => {
-    const trimmed = searchQuery.trim();
-    if (!trimmed) {
-      setSearchResults([]);
-      setSearchError(null);
-      return;
-    }
-    const parsed = parseReferenceLabel(trimmed, bookNamesSorted);
-    if (parsed) {
-      const moved = navigateToPassage(parsed.book, parsed.chapter, undefined, parsed.verse_start);
-      setSearchResults([]);
-      setSearchError(moved ? null : 'Could not navigate to that passage.');
-      return;
-    }
+  const runPhraseSearch = useCallback(async (query: string) => {
     setSearchLoading(true);
     setSearchError(null);
     try {
       const response = await fetch('/api/v1/search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: trimmed, translation, limit: 12 }),
+        body: JSON.stringify({ query, translation, limit: 12 }),
       });
       if (!response.ok) throw new Error('Search is unavailable right now.');
       const results = await response.json() as SearchResult[];
       setSearchResults(results);
-      if (!results.length) setSearchError('No matching verses found. Try a shorter phrase or a passage reference.');
+      if (!results.length) setSearchError('No matching verses found.');
     } catch (error) {
       setSearchResults([]);
       setSearchError(error instanceof Error ? error.message : 'Search is unavailable right now.');
     } finally {
       setSearchLoading(false);
     }
-  }, [bookNamesSorted, navigateToPassage, searchQuery, translation]);
+  }, [translation]);
 
   const closeVerseStudyPopup = useCallback(() => {
     setSelectedVerse(null);
@@ -1458,6 +1499,17 @@ export default function BibleApp() {
     const id = window.requestAnimationFrame(() => searchInputRef.current?.focus());
     return () => cancelAnimationFrame(id);
   }, [searchOpen]);
+
+  // Auto-search as user types (debounced); skip if it's a navigable reference
+  useEffect(() => {
+    const trimmed = searchQuery.trim();
+    if (!trimmed || parsedNavigation) {
+      if (!trimmed) { setSearchResults([]); setSearchError(null); }
+      return;
+    }
+    const id = setTimeout(() => void runPhraseSearch(trimmed), 400);
+    return () => clearTimeout(id);
+  }, [searchQuery, parsedNavigation, runPhraseSearch]);
 
   // ── Draggable divider ─────────────────────────────────────────────────────────
   useEffect(() => {
@@ -2113,9 +2165,32 @@ export default function BibleApp() {
     setVersionPopupOpen(true);
   }, []);
 
+  const handleReaderPageAnimationEnd = useCallback(() => {
+    setAnimClass('');
+    if (!flipAnimatingRef.current) return;
+    flipAnimatingRef.current = false;
+    if (pendingChapterResultRef.current) {
+      const pending = pendingChapterResultRef.current;
+      pendingChapterResultRef.current = null;
+      pendingChapterErrorRef.current = false;
+      commitLoadedChapter(pending.data, pending.book, pending.chapter);
+      return;
+    }
+    if (pendingChapterErrorRef.current) {
+      pendingChapterErrorRef.current = false;
+      setChapterData(null);
+      setChapterError(true);
+      setChapterLoading(false);
+      return;
+    }
+    if (chapterLoading) {
+      setChapterData(null);
+    }
+  }, [chapterLoading, commitLoadedChapter]);
+
   // ── Render helpers ────────────────────────────────────────────────────────────
   const renderChapterContent = () => {
-    if (chapterLoading) {
+    if (chapterLoading && !chapterData) {
       return (
         <div className="state-msg">
           <span className="spinner" />
@@ -2129,7 +2204,7 @@ export default function BibleApp() {
     return (
       <div
         className={`reader-page-transition${animClass ? ` ${animClass}` : ''}`}
-        onAnimationEnd={() => setAnimClass('')}
+        onAnimationEnd={handleReaderPageAnimationEnd}
       >
         {false && (
           <section className="reader-dashboard">
@@ -2680,6 +2755,25 @@ export default function BibleApp() {
               <path d="M20 20 16.5 16.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
             </svg>
           </button>
+          <button
+            className={`nav-btn nav-btn-icon-only${sidePanelMode === 'study' ? ' active' : ''}`}
+            type="button"
+            aria-label="My stuff"
+            aria-expanded={sidePanelMode === 'study'}
+            aria-controls="app-side-pane"
+            onClick={e => {
+              e.stopPropagation();
+              setBookPopupOpen(false);
+              setVersionPopupOpen(false);
+              setSearchOpen(false);
+              toggleStudyPanel();
+            }}
+          >
+            <svg className="nav-mystuff-icon" viewBox="0 0 24 24" width={20} height={20} aria-hidden="true">
+              <circle cx="12" cy="9" r="3.25" fill="none" stroke="currentColor" strokeWidth="2" />
+              <path d="M5 20.5v-.35c0-3.2 2.85-5.65 7-5.65s7 2.45 7 5.65v.35" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+          </button>
         </div>
       </nav>
 
@@ -2758,7 +2852,15 @@ export default function BibleApp() {
             className="search-form"
             onSubmit={event => {
               event.preventDefault();
-              void runSearch();
+              const trimmed = searchQuery.trim();
+              if (!trimmed) return;
+              if (parsedNavigation) {
+                navigateToPassage(parsedNavigation.book, parsedNavigation.chapter, undefined, parsedNavigation.verse_start);
+                setSearchOpen(false);
+                setSearchResults([]);
+                return;
+              }
+              void runPhraseSearch(trimmed);
             }}
           >
             <input
@@ -2766,7 +2868,7 @@ export default function BibleApp() {
               className="search-input"
               type="search"
               value={searchQuery}
-              placeholder="John 3, Romans 8:28, or a phrase…"
+              placeholder="Genesis, John 3:16, or a phrase…"
               onChange={event => setSearchQuery(event.target.value)}
               autoComplete="off"
             />
@@ -2786,8 +2888,54 @@ export default function BibleApp() {
               )}
             </button>
           </form>
-          {recentPassages.length > 0 && (
+
+          {/* Navigate to parsed reference */}
+          {parsedNavigation && (
+            <button
+              className="search-nav-hint"
+              type="button"
+              onClick={() => {
+                navigateToPassage(parsedNavigation.book, parsedNavigation.chapter, undefined, parsedNavigation.verse_start);
+                setSearchOpen(false);
+                setSearchResults([]);
+              }}
+            >
+              <span className="search-nav-hint-label">Go to</span>
+              <span className="search-nav-hint-ref">
+                {parsedNavigation.book} {parsedNavigation.chapter}
+                {parsedNavigation.verse_start != null ? `:${parsedNavigation.verse_start}` : ''}
+                {parsedNavigation.verse_end != null && parsedNavigation.verse_end !== parsedNavigation.verse_start
+                  ? `–${parsedNavigation.verse_end}` : ''}
+              </span>
+              <svg viewBox="0 0 24 24" width={16} height={16} aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14M13 6l6 6-6 6"/>
+              </svg>
+            </button>
+          )}
+
+          {/* Book suggestions */}
+          {bookSuggestions.length > 0 && (
             <div className="search-section search-section--compact">
+              <div className="search-section-title">Books</div>
+              <div className="search-chip-row">
+                {bookSuggestions.map(book => (
+                  <button
+                    key={book.name}
+                    className="search-chip"
+                    type="button"
+                    onClick={() => { navigateToPassage(book.name, 1); setSearchOpen(false); }}
+                  >
+                    {book.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Recent passages (only when query is empty) */}
+          {!searchQuery.trim() && recentPassages.length > 0 && (
+            <div className="search-section search-section--compact">
+              <div className="search-section-title">Recent</div>
               <div className="search-chip-row" aria-label="Recent passages">
                 {recentPassages.slice(0, 6).map(entry => (
                   <button
@@ -2802,6 +2950,7 @@ export default function BibleApp() {
               </div>
             </div>
           )}
+
           {searchError && <div className="search-empty">{searchError}</div>}
           {searchResults.length > 0 && (
             <div className="search-results">
@@ -2810,10 +2959,13 @@ export default function BibleApp() {
                   key={`${result.verse.book}-${result.verse.chapter}-${result.verse.verse}-${result.verse.translation}`}
                   className="search-result"
                   type="button"
-                  onClick={() => navigateToPassage(result.verse.book, result.verse.chapter, result.verse.translation, result.verse.verse)}
+                  onClick={() => {
+                    navigateToPassage(result.verse.book, result.verse.chapter, result.verse.translation, result.verse.verse);
+                    setSearchOpen(false);
+                  }}
                 >
                   <div className="search-result-ref">
-                    {result.verse.book} {result.verse.chapter}:{result.verse.verse} ({result.verse.translation})
+                    {result.verse.book} {result.verse.chapter}:{result.verse.verse}
                   </div>
                   <div className="search-result-text">{result.verse.text}</div>
                 </button>
@@ -2824,7 +2976,7 @@ export default function BibleApp() {
       </div>
 
       {/* Content shell */}
-      <div className="content-shell">
+      <div className={`content-shell${chromeVisible ? '' : ' chrome-expanded'}`}>
         {/* Smoke overlay */}
         <div id="smoke-overlay" aria-hidden="true">
           {([ ['300px','300px','var(--muted)','5%','4%','35px','18px','30s','0s'],
@@ -2856,12 +3008,12 @@ export default function BibleApp() {
         {/* Galaxy sparkles */}
         <div className="galaxy-sparkles" aria-hidden="true" />
         <div className="pink-hearts" aria-hidden="true" />
-        <div className="emerald-leaves" aria-hidden="true" />
 
         {/* Main content area */}
         <div className={`content-area${sidePaneOnRight ? ' side-pane-right' : ''}`}>
           {/* Side pane */}
           <aside
+            id="app-side-pane"
             ref={sidePaneRef}
             className={`side-pane${sideOpen ? ' open' : ''}${isPaneTransitioning ? ' transitioning' : ''}`}
             style={{ '--side-width': sidePaneWidth } as React.CSSProperties}
@@ -3093,20 +3245,6 @@ export default function BibleApp() {
             </svg>
           </span>
         </button>
-
-        <button
-          className={`taskbar-btn${sidePanelMode === 'study' ? ' active' : ''}`}
-          type="button"
-          aria-label="My stuff"
-          onClick={toggleStudyPanel}
-        >
-          <span className="taskbar-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24">
-              <circle cx="12" cy="9" r="3.25" />
-              <path d="M5 20.5v-.35c0-3.2 2.85-5.65 7-5.65s7 2.45 7 5.65v.35" />
-            </svg>
-          </span>
-        </button>
       </div>
 
       {/* Settings panel */}
@@ -3170,11 +3308,9 @@ export default function BibleApp() {
                   value={readerSettings.lineHeight}
                   onChange={event => setReaderSettings(prev => ({ ...prev, lineHeight: event.target.value as ReaderLineHeightOption }))}
                 >
-                  <option value="1">1.0</option>
-                  <option value="1.15">1.15</option>
-                  <option value="1.25">1.25</option>
                   <option value="1.5">1.5</option>
                   <option value="2">2.0</option>
+                  <option value="2.5">2.5</option>
                 </select>
               </label>
               <label className="settings-field">

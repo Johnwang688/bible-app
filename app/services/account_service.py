@@ -4,6 +4,7 @@ from datetime import UTC, datetime
 from typing import Any
 
 from fastapi import HTTPException
+from gotrue.errors import AuthApiError
 
 from app.core.supabase_client import create_supabase, get_supabase_admin
 from app.schemas.account import (
@@ -35,24 +36,31 @@ def _require_session(response: Any, message: str) -> AuthResponse:
 
 def sign_up_user(email: str, password: str, display_name: str | None = None) -> AuthResponse:
     client = create_supabase()
-    response = client.auth.sign_up(
-        {
-            "email": email,
-            "password": password,
-            "options": {
-                "data": {"full_name": display_name} if display_name else {},
-            },
-        }
-    )
+    try:
+        response = client.auth.sign_up(
+            {
+                "email": email,
+                "password": password,
+                "options": {
+                    "data": {"full_name": display_name} if display_name else {},
+                },
+            }
+        )
+    except AuthApiError as exc:
+        status = 409 if "already registered" in str(exc).lower() else 400
+        raise HTTPException(status_code=status, detail=str(exc)) from exc
     return _require_session(
         response,
-        "Sign-up succeeded, but no session was returned. Check your auth confirmation settings.",
+        "Sign-up succeeded, but email confirmation is required. Check your inbox.",
     )
 
 
 def sign_in_user(email: str, password: str) -> AuthResponse:
     client = create_supabase()
-    response = client.auth.sign_in_with_password({"email": email, "password": password})
+    try:
+        response = client.auth.sign_in_with_password({"email": email, "password": password})
+    except AuthApiError as exc:
+        raise HTTPException(status_code=401, detail="Invalid email or password.") from exc
     return _require_session(response, "Invalid email or password.")
 
 
@@ -190,16 +198,48 @@ def get_user_settings(user_id: str) -> UserSettingsOut:
     result = db.table("user_settings").select("*").eq("user_id", user_id).limit(1).execute()
     row = (result.data or [None])[0]
     if not row:
-        payload = UserSettingsIn().model_dump()
+        defaults = UserSettingsIn()
+        payload = defaults.model_dump()
         payload["user_id"] = user_id
-        db.table("user_settings").upsert(payload, on_conflict="user_id").execute()
+        try:
+            db.table("user_settings").upsert(payload, on_conflict="user_id").execute()
+        except Exception:
+            # DB schema may be behind pending migrations; fall back to in-memory defaults
+            pass
+        return UserSettingsOut(user_id=user_id, **defaults.model_dump())
+    # Row exists — coerce legacy string values to current schema
+    _coerce_settings_row(row)
+    try:
+        return UserSettingsOut(**row)
+    except Exception:
         return UserSettingsOut(user_id=user_id, **UserSettingsIn().model_dump())
-    return UserSettingsOut(**row)
+
+
+def _coerce_settings_row(row: dict) -> None:
+    """Map legacy column values to current schema values in-place."""
+    _font_scale_map = {"comfortable": "18", "large": "20", "xlarge": "24"}
+    _line_height_map = {"relaxed": "1.5", "airy": "2"}
+    if row.get("font_scale") in _font_scale_map:
+        row["font_scale"] = _font_scale_map[row["font_scale"]]
+    if row.get("line_height") in _line_height_map:
+        row["line_height"] = _line_height_map[row["line_height"]]
+    if "page_flip_enabled" not in row:
+        row["page_flip_enabled"] = True
+    if "side_panel_position" not in row:
+        row["side_panel_position"] = "right"
 
 
 def upsert_user_settings(user_id: str, payload: UserSettingsIn) -> UserSettingsOut:
     db = get_supabase_admin()
     row = payload.model_dump()
     row["user_id"] = user_id
-    db.table("user_settings").upsert(row, on_conflict="user_id").execute()
+    try:
+        db.table("user_settings").upsert(row, on_conflict="user_id").execute()
+    except Exception:
+        # DB schema may be behind pending migrations; partial upsert with known columns
+        safe_row = {k: v for k, v in row.items() if k not in ("page_flip_enabled",)}
+        try:
+            db.table("user_settings").upsert(safe_row, on_conflict="user_id").execute()
+        except Exception:
+            pass
     return get_user_settings(user_id)

@@ -195,14 +195,15 @@ async def search_verses(
     query: str, translation: str = "WEB", book: str | None = None, limit: int = 20
 ) -> list[SearchResult]:
     """
-    Full-text search across verses.
-    Uses Postgres full-text search via Supabase.
+    Phrase search across verses using case-insensitive substring matching.
     """
     db = get_supabase()
 
-    # Use Supabase's textSearch (wraps Postgres ts_query)
-    q = db.table("verses").select("*").text_search("text", query).eq(
-        "translation", translation
+    q = (
+        db.table("verses")
+        .select("*")
+        .ilike("text", f"%{query}%")
+        .eq("translation", translation)
     )
 
     if book:
@@ -210,7 +211,7 @@ async def search_verses(
         if book_info:
             q = q.eq("book_number", book_info["number"])
 
-    result = q.limit(limit).execute()
+    result = q.order("book_number").order("chapter").order("verse").limit(limit).execute()
 
     return [
         SearchResult(verse=VerseOut(**row), relevance=None)

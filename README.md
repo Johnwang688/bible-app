@@ -133,3 +133,11 @@ Pins were updated to versions that support Python 3.14 wheels and optional Rust-
 ## Environment Variables
 
 See `.env.example` for required configuration.
+
+
+##Additional improvements after first round of testing:
+1. for reading the Bible animate the page flip to the right or left. (toggle animations on or off in settings)
+2. dopamine inducing stuff to keep people  engaged.  
+3. specify text size.
+4. don't  do too  many color themes.
+5. tutorial on how to use the app

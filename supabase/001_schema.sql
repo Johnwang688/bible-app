@@ -15,7 +15,9 @@
 -- ============================================================================
 -- 1. TRANSLATIONS — metadata about each Bible version
 -- ============================================================================
-CREATE TABLE translations (
+-- Safe to run multiple times: tables/indexes/policies use IF NOT EXISTS /
+-- DROP IF EXISTS patterns; seeds use ON CONFLICT DO NOTHING.
+CREATE TABLE IF NOT EXISTS translations (
     id          TEXT PRIMARY KEY,            -- e.g. 'KJV', 'WEB', 'CUV'
     name        TEXT NOT NULL,               -- 'King James Version'
     language    TEXT NOT NULL DEFAULT 'en',   -- ISO 639-1 code
@@ -33,13 +35,14 @@ INSERT INTO translations (id, name, language, license, description) VALUES
     ('BSB', 'Berean Standard Bible', 'en', 'Free Use (see berean.bible)',
      'A modern, accurate translation with open licensing.'),
     ('CUV', 'Chinese Union Version (1919)', 'zh', 'Public Domain',
-     '和合本 — The most widely used Chinese Bible translation.');
+     '和合本 — The most widely used Chinese Bible translation.')
+ON CONFLICT (id) DO NOTHING;
 
 
 -- ============================================================================
 -- 2. BOOKS — canonical book list (shared across all translations)
 -- ============================================================================
-CREATE TABLE books (
+CREATE TABLE IF NOT EXISTS books (
     book_number     INT PRIMARY KEY,
     name_en         TEXT NOT NULL,           -- English canonical name
     name_zh         TEXT,                    -- Chinese name (for CUV users)
@@ -115,7 +118,8 @@ INSERT INTO books (book_number, name_en, name_zh, abbreviation, testament, total
     (63, '2 John',          '约翰二书',  '2Jn',  'NT', 1),
     (64, '3 John',          '约翰三书',  '3Jn',  'NT', 1),
     (65, 'Jude',            '犹大书',    'Jud',  'NT', 1),
-    (66, 'Revelation',      '启示录',    'Rev',  'NT', 22);
+    (66, 'Revelation',      '启示录',    'Rev',  'NT', 22)
+ON CONFLICT (book_number) DO NOTHING;
 
 
 -- ============================================================================
@@ -125,7 +129,7 @@ INSERT INTO books (book_number, name_en, name_zh, abbreviation, testament, total
 -- means every query FIRST filters by translation, then by location.
 -- Postgres will never scan KJV rows when you're querying WEB.
 -- ============================================================================
-CREATE TABLE verses (
+CREATE TABLE IF NOT EXISTS verses (
     id              BIGSERIAL PRIMARY KEY,
     translation     TEXT NOT NULL REFERENCES translations(id),
     book_number     INT NOT NULL REFERENCES books(book_number),
@@ -143,7 +147,7 @@ CREATE TABLE verses (
 
 -- PRIMARY lookup index: every Bible read query uses this
 -- "Show me John 3:16 in WEB" → hits this index directly
-CREATE INDEX idx_verses_lookup
+CREATE INDEX IF NOT EXISTS idx_verses_lookup
     ON verses (translation, book_number, chapter, verse);
 
 -- CHAPTER loading: "Show me all of Genesis 1 in KJV"
@@ -151,19 +155,19 @@ CREATE INDEX idx_verses_lookup
 
 -- FULL-TEXT SEARCH index: scoped by translation
 -- "Search for 'love' in WEB" → uses GIN index, filtered to WEB only
-CREATE INDEX idx_verses_fts
+CREATE INDEX IF NOT EXISTS idx_verses_fts
     ON verses USING GIN (text_search);
 
 -- Composite index for translation-scoped text search
 -- This lets Postgres combine the translation filter with FTS efficiently
-CREATE INDEX idx_verses_translation_fts
+CREATE INDEX IF NOT EXISTS idx_verses_translation_fts
     ON verses (translation) INCLUDE (text_search);
 
 
 -- ============================================================================
 -- 4. COMMENTARY SOURCES — metadata about each commentary
 -- ============================================================================
-CREATE TABLE commentary_sources (
+CREATE TABLE IF NOT EXISTS commentary_sources (
     id          TEXT PRIMARY KEY,            -- e.g. 'matthew_henry'
     name        TEXT NOT NULL,
     license     TEXT NOT NULL,
@@ -175,13 +179,14 @@ INSERT INTO commentary_sources (id, name, license, description) VALUES
     ('matthew_henry', 'Matthew Henry''s Concise Commentary', 'Public Domain',
      'A classic concise commentary covering the entire Bible, written 1706-1721.'),
     ('treasury_scripture', 'Treasury of Scripture Knowledge', 'Public Domain',
-     'Over 500,000 cross-references linking related Bible passages.');
+     'Over 500,000 cross-references linking related Bible passages.')
+ON CONFLICT (id) DO NOTHING;
 
 
 -- ============================================================================
 -- 5. COMMENTARIES — commentary text keyed by passage
 -- ============================================================================
-CREATE TABLE commentaries (
+CREATE TABLE IF NOT EXISTS commentaries (
     id              BIGSERIAL PRIMARY KEY,
     source          TEXT NOT NULL REFERENCES commentary_sources(id),
     book_number     INT NOT NULL REFERENCES books(book_number),
@@ -197,18 +202,18 @@ CREATE TABLE commentaries (
 );
 
 -- Fast commentary lookup: "Show me Matthew Henry on Romans 8:28"
-CREATE INDEX idx_commentaries_lookup
+CREATE INDEX IF NOT EXISTS idx_commentaries_lookup
     ON commentaries (source, book_number, chapter, verse_start);
 
 -- FTS on commentary content
-CREATE INDEX idx_commentaries_fts
+CREATE INDEX IF NOT EXISTS idx_commentaries_fts
     ON commentaries USING GIN (content_search);
 
 
 -- ============================================================================
 -- 6. CROSS REFERENCES — links between related passages
 -- ============================================================================
-CREATE TABLE cross_references (
+CREATE TABLE IF NOT EXISTS cross_references (
     id                  BIGSERIAL PRIMARY KEY,
     from_book_number    INT NOT NULL REFERENCES books(book_number),
     from_chapter        INT NOT NULL,
@@ -221,17 +226,17 @@ CREATE TABLE cross_references (
     source              TEXT DEFAULT 'treasury_scripture'
 );
 
-CREATE INDEX idx_xref_from
+CREATE INDEX IF NOT EXISTS idx_xref_from
     ON cross_references (from_book_number, from_chapter, from_verse);
 
-CREATE INDEX idx_xref_to
+CREATE INDEX IF NOT EXISTS idx_xref_to
     ON cross_references (to_book_number, to_chapter, to_verse_start);
 
 
 -- ============================================================================
 -- 7. USER PROFILES — extends Supabase auth.users
 -- ============================================================================
-CREATE TABLE profiles (
+CREATE TABLE IF NOT EXISTS profiles (
     id                      UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
     email                   TEXT,
     display_name            TEXT,
@@ -256,6 +261,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 CREATE TRIGGER on_auth_user_created
     AFTER INSERT ON auth.users
     FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
@@ -264,7 +270,7 @@ CREATE TRIGGER on_auth_user_created
 -- ============================================================================
 -- 8. HIGHLIGHTS — user highlights and bookmarks
 -- ============================================================================
-CREATE TABLE highlights (
+CREATE TABLE IF NOT EXISTS highlights (
     id              BIGSERIAL PRIMARY KEY,
     user_id         UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
     translation     TEXT NOT NULL REFERENCES translations(id),
@@ -277,14 +283,14 @@ CREATE TABLE highlights (
     created_at      TIMESTAMPTZ DEFAULT now()
 );
 
-CREATE INDEX idx_highlights_user
+CREATE INDEX IF NOT EXISTS idx_highlights_user
     ON highlights (user_id, book_number, chapter);
 
 
 -- ============================================================================
 -- 9. READING PROGRESS — track where each user is
 -- ============================================================================
-CREATE TABLE reading_progress (
+CREATE TABLE IF NOT EXISTS reading_progress (
     id              BIGSERIAL PRIMARY KEY,
     user_id         UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
     translation     TEXT NOT NULL REFERENCES translations(id),
@@ -296,7 +302,7 @@ CREATE TABLE reading_progress (
     UNIQUE (user_id, translation, book_number)
 );
 
-CREATE INDEX idx_reading_progress_user
+CREATE INDEX IF NOT EXISTS idx_reading_progress_user
     ON reading_progress (user_id);
 
 
@@ -313,50 +319,61 @@ ALTER TABLE highlights ENABLE ROW LEVEL SECURITY;
 ALTER TABLE reading_progress ENABLE ROW LEVEL SECURITY;
 
 -- Public read access to Bible text
+DROP POLICY IF EXISTS "Bible text is publicly readable" ON verses;
 CREATE POLICY "Bible text is publicly readable"
     ON verses FOR SELECT
     USING (true);
 
 -- Public read access to commentaries
+DROP POLICY IF EXISTS "Commentaries are publicly readable" ON commentaries;
 CREATE POLICY "Commentaries are publicly readable"
     ON commentaries FOR SELECT
     USING (true);
 
 -- Profiles: users can read/update only their own
+DROP POLICY IF EXISTS "Users can view own profile" ON profiles;
 CREATE POLICY "Users can view own profile"
     ON profiles FOR SELECT
     USING (auth.uid() = id);
 
+DROP POLICY IF EXISTS "Users can update own profile" ON profiles;
 CREATE POLICY "Users can update own profile"
     ON profiles FOR UPDATE
     USING (auth.uid() = id);
 
 -- Highlights: users can CRUD only their own
+DROP POLICY IF EXISTS "Users can view own highlights" ON highlights;
 CREATE POLICY "Users can view own highlights"
     ON highlights FOR SELECT
     USING (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can create own highlights" ON highlights;
 CREATE POLICY "Users can create own highlights"
     ON highlights FOR INSERT
     WITH CHECK (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can update own highlights" ON highlights;
 CREATE POLICY "Users can update own highlights"
     ON highlights FOR UPDATE
     USING (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can delete own highlights" ON highlights;
 CREATE POLICY "Users can delete own highlights"
     ON highlights FOR DELETE
     USING (auth.uid() = user_id);
 
 -- Reading progress: users can CRUD only their own
+DROP POLICY IF EXISTS "Users can view own reading progress" ON reading_progress;
 CREATE POLICY "Users can view own reading progress"
     ON reading_progress FOR SELECT
     USING (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can upsert own reading progress" ON reading_progress;
 CREATE POLICY "Users can upsert own reading progress"
     ON reading_progress FOR INSERT
     WITH CHECK (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can update own reading progress" ON reading_progress;
 CREATE POLICY "Users can update own reading progress"
     ON reading_progress FOR UPDATE
     USING (auth.uid() = user_id);

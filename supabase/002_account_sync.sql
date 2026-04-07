@@ -53,9 +53,20 @@ CREATE TABLE IF NOT EXISTS user_settings (
     reduced_motion      BOOLEAN NOT NULL DEFAULT false,
     high_contrast       BOOLEAN NOT NULL DEFAULT false,
     default_panel       TEXT NOT NULL DEFAULT 'none' CHECK (default_panel IN ('none', 'commentary', 'ai', 'study')),
+    side_panel_position TEXT NOT NULL DEFAULT 'right' CHECK (side_panel_position IN ('left', 'right')),
     recent_passages     JSONB NOT NULL DEFAULT '[]'::jsonb,
     updated_at          TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+ALTER TABLE user_settings
+    ADD COLUMN IF NOT EXISTS side_panel_position TEXT NOT NULL DEFAULT 'right';
+
+ALTER TABLE user_settings
+    DROP CONSTRAINT IF EXISTS user_settings_side_panel_position_check;
+
+ALTER TABLE user_settings
+    ADD CONSTRAINT user_settings_side_panel_position_check
+    CHECK (side_panel_position IN ('left', 'right'));
 
 DROP TRIGGER IF EXISTS set_user_settings_updated_at ON user_settings;
 CREATE TRIGGER set_user_settings_updated_at
@@ -78,30 +89,37 @@ CREATE TRIGGER set_profiles_updated_at
 ALTER TABLE study_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_settings ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Users can view own study items" ON study_items;
 CREATE POLICY "Users can view own study items"
     ON study_items FOR SELECT
     USING (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can create own study items" ON study_items;
 CREATE POLICY "Users can create own study items"
     ON study_items FOR INSERT
     WITH CHECK (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can update own study items" ON study_items;
 CREATE POLICY "Users can update own study items"
     ON study_items FOR UPDATE
     USING (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can delete own study items" ON study_items;
 CREATE POLICY "Users can delete own study items"
     ON study_items FOR DELETE
     USING (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can view own user settings" ON user_settings;
 CREATE POLICY "Users can view own user settings"
     ON user_settings FOR SELECT
     USING (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can create own user settings" ON user_settings;
 CREATE POLICY "Users can create own user settings"
     ON user_settings FOR INSERT
     WITH CHECK (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can update own user settings" ON user_settings;
 CREATE POLICY "Users can update own user settings"
     ON user_settings FOR UPDATE
     USING (auth.uid() = user_id);

@@ -99,8 +99,9 @@ class ReadingProgressOut(BaseModel):
 
 
 DefaultPanel = Literal["none", "commentary", "ai", "study"]
-FontScale = Literal["comfortable", "large", "xlarge"]
-LineHeight = Literal["relaxed", "airy"]
+FontScale = Literal["8", "10", "12", "14", "16", "18", "20", "22", "24", "26", "28", "30"]
+LineHeight = Literal["1.5", "2", "2.5"]
+SidePanelPosition = Literal["left", "right"]
 
 
 class RecentPassage(BaseModel):
@@ -112,11 +113,13 @@ class RecentPassage(BaseModel):
 
 class UserSettingsIn(BaseModel):
     theme: str = "default"
-    font_scale: FontScale = "comfortable"
-    line_height: LineHeight = "relaxed"
+    font_scale: FontScale = "20"
+    line_height: LineHeight = "2"
     reduced_motion: bool = False
+    page_flip_enabled: bool = True
     high_contrast: bool = False
     default_panel: DefaultPanel = "none"
+    side_panel_position: SidePanelPosition = "right"
     recent_passages: list[RecentPassage] = []
 
 
