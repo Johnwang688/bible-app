@@ -51,14 +51,16 @@ bible-app/
 
 ## Tech Stack
 
-| Layer        | Technology                                    |
-|-------------|-----------------------------------------------|
-| Backend     | Python 3.14 + FastAPI                         |
-| Database    | Supabase (PostgreSQL) + Row Level Security    |
-| Auth        | Supabase Auth (Email + Google OAuth)          |
-| AI          | OpenAI API (multi-agent)                      |
-| Frontend    | TBD (React or Astro)                          |
-| Deployment  | TBD                                           |
+
+| Layer      | Technology                                 |
+| ---------- | ------------------------------------------ |
+| Backend    | Python 3.14 + FastAPI                      |
+| Database   | Supabase (PostgreSQL) + Row Level Security |
+| Auth       | Supabase Auth (Email + Google OAuth)       |
+| AI         | OpenAI API (multi-agent)                   |
+| Frontend   | TBD (React or Astro)                       |
+| Deployment | TBD                                        |
+
 
 ## AI Agent Architecture
 
@@ -67,8 +69,8 @@ User Input
     │
     ▼
 ┌─────────────────────┐
-│   Orchestrator Agent │  ← Main assistant: interprets intent
-│   (always active)    │     navigates, highlights, searches
+│  Orchestrator Agent │  ← Main assistant: interprets intent
+│  (always active)    │     navigates, highlights, searches
 └────────┬────────────┘
          │ routes to specialized agents when needed
          ├──────────────────┐
@@ -83,26 +85,29 @@ User Input
 ```
 
 - **Orchestrator**: The primary agent users interact with. Handles navigation
-  ("take me to John 3"), highlighting commands, and delegates to sub-agents.
+("take me to John 3"), highlighting commands, and delegates to sub-agents.
 - **Summarizer**: Activated when user selects text and requests a summary
-  (commentary or verse passages). Returns age-appropriate explanations.
+(commentary or verse passages). Returns age-appropriate explanations.
 - **Verse Agent**: Handles verse/chapter lookups, cross-references, and
-  keyword-based search across the Bible text.
+keyword-based search across the Bible text.
 
 ## Bible Translations (MVP)
 
 ### English
+
 - **KJV** — King James Version (Public Domain)
 - **WEB** — World English Bible (Public Domain)
 - **BSB** — Berean Standard Bible (Free use, check license)
 
 ### Chinese
+
 - **CUV** — Chinese Union Version (Public Domain — original 1919)
 - **CUNP** — Chinese Union New Punctuation (check licensing)
 
 ## Commentary
 
 For MVP, we use public domain / openly licensed commentaries:
+
 - **Matthew Henry's Concise Commentary** (Public Domain)
 - **Treasury of Scripture Knowledge** cross-references (Public Domain)
 
@@ -134,10 +139,11 @@ Pins were updated to versions that support Python 3.14 wheels and optional Rust-
 
 See `.env.example` for required configuration.
 
-
 ##Additional improvements after first round of testing:
+
 1. for reading the Bible animate the page flip to the right or left. (toggle animations on or off in settings)
-2. dopamine inducing stuff to keep people  engaged.  
+2. dopamine inducing stuff to keep people  engaged.
 3. specify text size.
 4. don't  do too  many color themes.
 5. tutorial on how to use the app
+
