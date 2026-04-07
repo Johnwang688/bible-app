@@ -60,6 +60,12 @@ interface SearchSuggestion {
 }
 interface SavedPassage { book: string; chapter: number; translation: string; savedAt: number; }
 interface VerseNote { key: string; book: string; chapter: number; verse: number; text: string; updatedAt: number; }
+interface DailyVerse {
+  book: string;
+  chapter: number;
+  verse: number;
+  text: string;
+}
 interface ChapterReadEvidence {
   furthestVerse: number;
   engagedMs: number;
@@ -79,6 +85,8 @@ const READER_FONT_IDS = ['georgia', 'charter', 'palatino', 'garamond', 'times', 
 type ReaderFontId = (typeof READER_FONT_IDS)[number];
 const HIGHLIGHT_COLOR_IDS = ['yellow', 'amber', 'green', 'blue', 'pink', 'lavender', 'mint'] as const;
 type ReaderHighlightColorId = (typeof HIGHLIGHT_COLOR_IDS)[number];
+const READING_MODE_IDS = ['single', 'book'] as const;
+type ReaderReadingMode = (typeof READING_MODE_IDS)[number];
 
 const READER_HIGHLIGHT_PRESETS: Record<
   ReaderHighlightColorId,
@@ -120,6 +128,7 @@ interface ReaderSettings {
   lineHeight: ReaderLineHeightOption;
   readerFont: ReaderFontId;
   highlightColor: ReaderHighlightColorId;
+  readingMode: ReaderReadingMode;
   reducedMotion: boolean;
   pageFlipEnabled: boolean;
   highContrast: boolean;
@@ -175,11 +184,26 @@ const MIN_CHAPTER_READ_MS = 20_000;
 const MAX_CHAPTER_READ_MS = 75_000;
 const CHAPTER_READ_MS_PER_VERSE = 1_500;
 const MAX_ENGAGEMENT_GAP_MS = 15_000;
+const DAILY_VERSE_POOL: DailyVerse[] = [
+  { book: 'Psalms', chapter: 23, verse: 1, text: 'The LORD is my shepherd: I shall lack nothing.' },
+  { book: 'Proverbs', chapter: 3, verse: 5, text: 'Trust in Yahweh with all your heart, and do not lean on your own understanding.' },
+  { book: 'Isaiah', chapter: 41, verse: 10, text: 'Don’t be afraid, for I am with you. Don’t be dismayed, for I am your God.' },
+  { book: 'Matthew', chapter: 11, verse: 28, text: 'Come to me, all you who labor and are heavily burdened, and I will give you rest.' },
+  { book: 'John', chapter: 14, verse: 27, text: 'Peace I leave with you. My peace I give to you; not as the world gives, give I to you.' },
+  { book: 'Romans', chapter: 8, verse: 28, text: 'We know that all things work together for good for those who love God, to those who are called according to his purpose.' },
+  { book: '2 Corinthians', chapter: 5, verse: 7, text: 'For we walk by faith, not by sight.' },
+  { book: 'Galatians', chapter: 6, verse: 9, text: 'Let’s not be weary in doing good, for we will reap in due season, if we don’t give up.' },
+  { book: 'Philippians', chapter: 4, verse: 6, text: 'In nothing be anxious, but in everything, by prayer and petition with thanksgiving, let your requests be made known to God.' },
+  { book: 'Hebrews', chapter: 11, verse: 1, text: 'Now faith is assurance of things hoped for, proof of things not seen.' },
+  { book: '1 Peter', chapter: 5, verse: 7, text: 'Casting all your worries on him, because he cares for you.' },
+  { book: 'Lamentations', chapter: 3, verse: 23, text: 'They are new every morning; great is your faithfulness.' },
+];
 const DEFAULT_READER_SETTINGS: ReaderSettings = {
   fontScale: '20',
   lineHeight: '2',
   readerFont: 'georgia',
   highlightColor: 'yellow',
+  readingMode: 'single',
   reducedMotion: false,
   pageFlipEnabled: true,
   highContrast: false,
@@ -262,11 +286,17 @@ function normalizeReaderSettings(raw: Partial<ReaderSettings> | null | undefined
   if (typeof rawHc === 'string' && (HIGHLIGHT_COLOR_IDS as readonly string[]).includes(rawHc)) {
     highlightColor = rawHc as ReaderHighlightColorId;
   }
+  const rawReadingMode = raw?.readingMode;
+  let readingMode: ReaderReadingMode = DEFAULT_READER_SETTINGS.readingMode;
+  if (typeof rawReadingMode === 'string' && (READING_MODE_IDS as readonly string[]).includes(rawReadingMode)) {
+    readingMode = rawReadingMode as ReaderReadingMode;
+  }
   return {
     fontScale,
     lineHeight,
     readerFont,
     highlightColor,
+    readingMode,
     reducedMotion: Boolean(raw?.reducedMotion),
     pageFlipEnabled: raw?.pageFlipEnabled ?? true,
     highContrast: Boolean(raw?.highContrast),
@@ -280,6 +310,11 @@ function normalizeReaderSettings(raw: Partial<ReaderSettings> | null | undefined
 
 function computeTodayIso() {
   return new Date().toISOString().slice(0, 10);
+}
+
+function selectDailyVerse(todayIso: string): DailyVerse {
+  const seed = todayIso.replace(/-/g, '').split('').reduce((sum, digit) => sum + Number(digit), 0);
+  return DAILY_VERSE_POOL[seed % DAILY_VERSE_POOL.length];
 }
 
 function normalizeDailyGoalChapters(raw: string | null): number {
@@ -398,6 +433,11 @@ function getThemeCardStyle(theme: ThemeDef): CSSProperties {
     '--theme-card-accent': accent,
     '--theme-card-text': text,
   } as CSSProperties;
+}
+
+function splitVersesForBookMode(verses: VerseData[]) {
+  const midpoint = Math.ceil(verses.length / 2);
+  return [verses.slice(0, midpoint), verses.slice(midpoint)];
 }
 
 const DYNAMIC_BASE_THEME    = 'default';
@@ -1403,6 +1443,7 @@ export default function BibleApp() {
   const todayIso = computeTodayIso();
   const chaptersToday = readingProgress.todayIso === todayIso ? readingProgress.todayChapters.length : 0;
   const todayGoalDone = chaptersToday >= dailyGoalChapters;
+  const dailyVerse = selectDailyVerse(todayIso);
   const readingRhythmTitle = todayGoalDone
     ? "Today\u2019s goal is done."
     : dailyGoalChapters === 1
@@ -1704,6 +1745,7 @@ export default function BibleApp() {
     side_panel_position: readerSettings.sidePanelPosition,
     reader_font: readerSettings.readerFont,
     highlight_color: readerSettings.highlightColor,
+    reading_mode: readerSettings.readingMode,
     recent_passages: recentPassages.map(entry => ({
       book: entry.book,
       chapter: entry.chapter,
@@ -1752,6 +1794,7 @@ export default function BibleApp() {
       lineHeight: settings.line_height,
       readerFont: settings.reader_font,
       highlightColor: settings.highlight_color,
+      readingMode: settings.reading_mode,
       reducedMotion: settings.reduced_motion,
       pageFlipEnabled: settings.page_flip_enabled,
       highContrast: settings.high_contrast,
@@ -2766,10 +2809,59 @@ export default function BibleApp() {
     if (chapterError || !chapterData) {
       return <div className="state-msg">Could not load this chapter.</div>;
     }
+    const isBookMode = readerSettings.readingMode === 'book';
+    const [leftPageVerses, rightPageVerses] = splitVersesForBookMode(chapterData.verses);
+    const renderVerse = (v: VerseData) => {
+      const inAiNav =
+        aiNavHighlight != null && v.verse >= aiNavHighlight.start && v.verse <= aiNavHighlight.end;
+      const verseKey = verseStorageKey(chapterData.book, chapterData.chapter, v.verse);
+      const isHighlighted = highlightedVerses.includes(verseKey);
+      const isBookmarked = bookmarkedVerses.includes(verseKey);
+      const hasNote = Boolean(verseNotes[verseKey]);
+      return (
+        <span
+          key={v.verse}
+          className={`verse-line${inAiNav ? ' verse-line--ai-nav' : ''}${selectedVerseGroup.includes(v.verse) ? ' verse-line--selected' : ''}${isHighlighted ? ' verse-line--highlighted' : ''}${isBookmarked ? ' verse-line--bookmarked' : ''}${hasNote ? ' verse-line--noted' : ''}`}
+          data-verse={v.verse}
+          onClick={(e) => {
+            recordChapterEngagement(chapterData.book, chapterData.chapter, translation, v.verse, chapterData.verses.length);
+            if (selectedVerse !== null && v.verse !== selectedVerse) {
+              setSelectedVerseGroup(prev =>
+                prev.includes(v.verse)
+                  ? prev.filter(n => n !== v.verse)
+                  : [...prev, v.verse].sort((a, b) => a - b)
+              );
+              return;
+            }
+            const isDeselecting = selectedVerse === v.verse;
+            if (isDeselecting) {
+              setSelectedVerse(null);
+              setSelectedVerseGroup([]);
+              setVersePopupPos(null);
+            } else {
+              const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+              const popupWidth = 268;
+              const margin = 14;
+              let left = rect.right + margin;
+              if (left + popupWidth > window.innerWidth - 8) {
+                left = Math.max(8, rect.left - popupWidth - margin);
+              }
+              const top = Math.min(rect.top, window.innerHeight - 60);
+              setSelectedVerse(v.verse);
+              setSelectedVerseGroup([v.verse]);
+              setVersePopupPos({ top, left });
+            }
+            setShowVerseNoteEditor(false);
+          }}
+        >
+          <sup className="vnum">{v.verse}</sup>{v.text}{' '}
+        </span>
+      );
+    };
     return (
       <>
       <div
-        className={`reader-page-transition${animClass ? ` ${animClass}` : ''}`}
+        className={`reader-page-transition${isBookMode ? ' reader-page-transition--book' : ''}${animClass ? ` ${animClass}` : ''}`}
         onAnimationEnd={() => {
           if (animClass.includes('exit')) {
             exitAnimDoneRef.current = true;
@@ -2862,7 +2954,21 @@ export default function BibleApp() {
         )}
         <div className="reader-book">{chapterData.book}</div>
         <div className="reader-chapter">{chapterData.chapter}</div>
-        <div className="reader-passages" ref={readerPassagesRef}>
+        {isBookMode ? (
+          <div className="reader-book-spread" ref={readerPassagesRef}>
+            <section className="reader-book-page reader-book-page--left" aria-label="Left page">
+              <div className="reader-passages reader-passages--book">
+                {leftPageVerses.map(renderVerse)}
+              </div>
+            </section>
+            <section className="reader-book-page reader-book-page--right" aria-label="Right page">
+              <div className="reader-passages reader-passages--book">
+                {rightPageVerses.map(renderVerse)}
+              </div>
+            </section>
+          </div>
+        ) : (
+          <div className="reader-passages" ref={readerPassagesRef}>
           {chapterData.verses.map(v => {
             const inAiNav =
               aiNavHighlight != null && v.verse >= aiNavHighlight.start && v.verse <= aiNavHighlight.end;
@@ -2912,6 +3018,18 @@ export default function BibleApp() {
               </span>
             );
           })}
+          </div>
+        )}
+        <div className="reader-chapter-next-row">
+          <button
+            className="reader-next-chapter-btn"
+            type="button"
+            aria-label="Next chapter"
+            disabled={!currentBook || !!isLastChapter()}
+            onClick={goNext}
+          >
+            Next Chapter
+          </button>
         </div>
       </div>
       {selectedVerseData && currentBook && versePopupPos && (
@@ -3355,6 +3473,20 @@ export default function BibleApp() {
                 <p className="home-continue-empty">Open the reader and pick a book to start.</p>
               )}
             </section>
+            <section className="home-screen-card reader-dashboard-card" aria-labelledby="home-daily-verse-heading">
+              <h2 id="home-daily-verse-heading" className="reader-dashboard-label">Verse of the day</h2>
+              <p className="home-daily-verse-text">{dailyVerse.text}</p>
+              <button
+                type="button"
+                className="home-daily-verse-ref"
+                onClick={() => {
+                  const didNavigate = navigateToPassage(dailyVerse.book, dailyVerse.chapter, translation, dailyVerse.verse);
+                  if (didNavigate) openReaderFromHome('none');
+                }}
+              >
+                {dailyVerse.book} {dailyVerse.chapter}:{dailyVerse.verse}
+              </button>
+            </section>
           </div>
         </div>
       )}
@@ -3787,7 +3919,7 @@ export default function BibleApp() {
 
           {/* Bible pane */}
           <main className="bible-pane" ref={biblePaneRef}>
-            <div className="reader-wrap">
+            <div className={`reader-wrap${readerSettings.readingMode === 'book' ? ' reader-wrap--book' : ''}${!sideOpen ? ' reader-wrap--full' : ''}`}>
               {renderChapterContent()}
             </div>
           </main>
@@ -4002,6 +4134,19 @@ export default function BibleApp() {
                   <option value="garamond">Garamond style</option>
                   <option value="times">Times New Roman</option>
                   <option value="sans">Sans (UI)</option>
+                </select>
+              </label>
+              <label className="settings-field">
+                <span>Reading mode</span>
+                <select
+                  value={readerSettings.readingMode}
+                  onChange={event => setReaderSettings(prev => ({
+                    ...prev,
+                    readingMode: event.target.value as ReaderReadingMode,
+                  }))}
+                >
+                  <option value="single">Single column</option>
+                  <option value="book">Double collumn</option>
                 </select>
               </label>
               <label className="settings-field">
