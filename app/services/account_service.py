@@ -35,24 +35,29 @@ def _require_session(response: Any, message: str) -> AuthResponse:
 
 
 def sign_up_user(email: str, password: str, display_name: str | None = None) -> AuthResponse:
-    client = create_supabase()
+    admin = get_supabase_admin()
+    # Create the user via admin API so we can auto-confirm the email without
+    # relying on Supabase's email sender (which has tight rate limits).
     try:
-        response = client.auth.sign_up(
+        admin.auth.admin.create_user(
             {
                 "email": email,
                 "password": password,
-                "options": {
-                    "data": {"full_name": display_name} if display_name else {},
-                },
+                "email_confirm": True,
+                "user_metadata": {"full_name": display_name} if display_name else {},
             }
         )
     except AuthApiError as exc:
         status = 409 if "already registered" in str(exc).lower() else 400
         raise HTTPException(status_code=status, detail=str(exc)) from exc
-    return _require_session(
-        response,
-        "Sign-up succeeded, but email confirmation is required. Check your inbox.",
-    )
+
+    # Sign in immediately to return a live session.
+    client = create_supabase()
+    try:
+        response = client.auth.sign_in_with_password({"email": email, "password": password})
+    except AuthApiError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    return _require_session(response, "Sign-up succeeded but could not create a session.")
 
 
 def sign_in_user(email: str, password: str) -> AuthResponse:
@@ -227,6 +232,12 @@ def _coerce_settings_row(row: dict) -> None:
         row["page_flip_enabled"] = True
     if "side_panel_position" not in row:
         row["side_panel_position"] = "right"
+    _fonts = {"georgia", "charter", "palatino", "garamond", "times", "sans"}
+    _highlights = {"yellow", "amber", "green", "blue", "pink", "lavender", "mint"}
+    if row.get("reader_font") not in _fonts:
+        row["reader_font"] = "georgia"
+    if row.get("highlight_color") not in _highlights:
+        row["highlight_color"] = "yellow"
 
 
 def upsert_user_settings(user_id: str, payload: UserSettingsIn) -> UserSettingsOut:

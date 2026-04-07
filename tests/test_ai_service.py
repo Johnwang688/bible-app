@@ -76,6 +76,13 @@ def test_system_prompt_forbids_markdown_in_user_visible_strings() -> None:
     assert "does not render Markdown" in prompt
 
 
+def test_system_prompt_forbids_debate_roleplay() -> None:
+    prompt = ai_service.build_system_prompt()
+
+    assert "Do not roleplay as a debater" in prompt
+    assert "Do not say provocative or unsupported things" in prompt
+
+
 def test_trim_history_keeps_last_eight_messages() -> None:
     history = [
         AIHistoryMessage(role="user" if index % 2 == 0 else "assistant", content=f"message-{index}")
@@ -186,6 +193,30 @@ def test_validate_ai_response_requires_scripture_support() -> None:
 
     assert "can't support that clearly from Scripture" in validated.message
     assert validated.references == []
+
+
+def test_validate_ai_response_rejects_debate_roleplay_voice() -> None:
+    response = AIModelResponse(
+        message="As a debater, I'll argue the opposite side and push back hard here.",
+        references=["John 3"],
+        actions=[],
+        suggested_follow_ups=[],
+    )
+
+    validated = ai_service.validate_ai_response(
+        response,
+        user_message="Explain this chapter.",
+        context=AIContext(book="John", chapter=3, translation="WEB"),
+    )
+
+    assert "can't switch into a debate or contrarian role" in validated.message
+    assert validated.references == []
+
+
+def test_asks_for_disallowed_roleplay_detects_debate_persona_request() -> None:
+    assert ai_service.asks_for_disallowed_roleplay("Roleplay as a debater and argue with me.")
+    assert ai_service.asks_for_disallowed_roleplay("Play devil's advocate on this chapter.")
+    assert not ai_service.asks_for_disallowed_roleplay("What are the main debates about this verse?")
 
 
 def test_validate_ai_response_infers_reference_for_same_chapter_summary() -> None:

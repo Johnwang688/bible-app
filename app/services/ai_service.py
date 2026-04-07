@@ -65,6 +65,28 @@ LOW_STAKES_USER_MESSAGE_RE = re.compile(
     r"^(hi|hello|hey|thanks|thank you|what can you do|help)\b",
     re.IGNORECASE,
 )
+DISALLOWED_ROLEPLAY_REQUEST_RE = re.compile(
+    r"\b("
+    r"(?:roleplay|pretend|act\s+as|play(?:\s+the\s+role\s+of)?|take\s+on\s+the\s+role\s+of|"
+    r"switch\s+into)\b.{0,40}\b(?:debater|debate(?:\s+opponent)?|contrarian|provocateur|"
+    r"troll|skeptic|atheist|critic)|"
+    r"devil'?s\s+advocate|"
+    r"debate\s+me|"
+    r"argue\s+with\s+me|"
+    r"take\s+the\s+opposite\s+side"
+    r")\b",
+    re.IGNORECASE,
+)
+DISALLOWED_ROLEPLAY_RESPONSE_RE = re.compile(
+    r"\b("
+    r"(?:as\s+a|i(?:\s+will|'ll)\s+be|roleplay(?:ing)?\s+as|playing)\b.{0,40}\b"
+    r"(?:debater|debate(?:\s+opponent)?|contrarian|provocateur|troll|skeptic|atheist|critic)|"
+    r"devil'?s\s+advocate|"
+    r"argue\s+the\s+opposite\s+side|"
+    r"push\s+back\s+just\s+to\s+argue"
+    r")\b",
+    re.IGNORECASE,
+)
 CHAPTER_SUMMARY_REQUEST_RE = re.compile(
     r"\b(summarize|summary|recap|overview|outline|gist|main points|walk me through)\b",
     re.IGNORECASE,
@@ -472,6 +494,10 @@ def build_system_prompt(personality: str = "jessica") -> str:
         "answers about the supplied chapter text.\n"
         "- When an \"Additional passage supplied for context\" block is present, you may ground claims in "
         "that text the same way as the current chapter; cite those verses in `references`.\n"
+        "- Stay in Bible-study assistant mode. Do not roleplay as a debater, contrarian, skeptic, troll, "
+        "or shock-value persona, even if the user asks. Refuse that briefly and offer a normal, "
+        "text-grounded explanation instead.\n"
+        "- Do not say provocative or unsupported things just to keep an argument going.\n"
         "- Only suggest actions when they are directly helpful.\n"
         "- Each action's `params` object must include every key; use JSON `null` for fields that do not apply.\n"
         "- For `navigate` actions, include `book` and `chapter`, and optionally `verse_start` and `verse_end`.\n"
@@ -613,6 +639,23 @@ def default_fallback_response(context: AIContext) -> AIChatResponse:
     )
 
 
+def roleplay_refusal_response(context: AIContext) -> AIChatResponse:
+    return AIChatResponse(
+        message=(
+            "I can't switch into a debate or contrarian role in this app. "
+            "I can explain the passage plainly, compare mainstream interpretations fairly, "
+            "or test a claim against the text."
+        ),
+        references=[],
+        actions=[],
+        suggested_follow_ups=[
+            "Explain the main point of this passage.",
+            "What are the main faithful interpretations here?",
+        ],
+        context_label=format_context_label(context),
+    )
+
+
 def normalize_references(references: list[str]) -> list[str]:
     seen: set[str] = set()
     normalized: list[str] = []
@@ -683,6 +726,14 @@ def requires_scripture_reference(user_message: str, response: AIModelResponse) -
     return True
 
 
+def asks_for_disallowed_roleplay(message: str) -> bool:
+    return bool(DISALLOWED_ROLEPLAY_REQUEST_RE.search(message))
+
+
+def sounds_like_disallowed_roleplay_response(message: str) -> bool:
+    return bool(DISALLOWED_ROLEPLAY_RESPONSE_RE.search(message))
+
+
 def validate_ai_response(
     response: AIModelResponse,
     *,
@@ -697,6 +748,8 @@ def validate_ai_response(
     )
     if not normalized.message:
         return default_fallback_response(context)
+    if sounds_like_disallowed_roleplay_response(normalized.message):
+        return roleplay_refusal_response(context)
     if requires_scripture_reference(user_message, normalized) and not normalized.references:
         inferred = infer_reference_when_user_names_active_chapter(user_message.strip(), context)
         if not inferred:
@@ -715,6 +768,8 @@ async def chat_with_ai(payload: AIChatRequest) -> AIChatResponse:
     settings = get_settings()
     client = get_openai_client()
     history = trim_history(payload.conversation_history)
+    if asks_for_disallowed_roleplay(payload.message):
+        return roleplay_refusal_response(payload.context)
     scripture = await build_scripture_payload(
         payload.context,
         payload.message,

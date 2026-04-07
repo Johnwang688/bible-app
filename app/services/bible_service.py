@@ -79,6 +79,32 @@ for _b in BOOK_DATA:
     _BOOK_BY_NUMBER[_b["number"]] = _b
 
 
+def _normalize_book_key(value: str) -> str:
+    return "".join(ch for ch in value.lower() if ch.isalnum())
+
+
+def _levenshtein_distance(a: str, b: str) -> int:
+    if a == b:
+        return 0
+    if not a:
+        return len(b)
+    if not b:
+        return len(a)
+    prev = list(range(len(b) + 1))
+    curr = [0] * (len(b) + 1)
+    for i, ch_a in enumerate(a, start=1):
+        curr[0] = i
+        for j, ch_b in enumerate(b, start=1):
+            cost = 0 if ch_a == ch_b else 1
+            curr[j] = min(
+                curr[j - 1] + 1,
+                prev[j] + 1,
+                prev[j - 1] + cost,
+            )
+        prev, curr = curr, prev
+    return prev[-1]
+
+
 def resolve_book(identifier: str | int) -> dict | None:
     """Resolve a book by name (fuzzy) or number."""
     if isinstance(identifier, int):
@@ -86,10 +112,34 @@ def resolve_book(identifier: str | int) -> dict | None:
     key = identifier.strip().lower()
     if key in _BOOK_BY_NAME:
         return _BOOK_BY_NAME[key]
+    normalized_key = _normalize_book_key(key)
+    if not normalized_key:
+        return None
+    for book in BOOK_DATA:
+        if _normalize_book_key(book["name"]) == normalized_key:
+            return book
     # Fuzzy: check if any book name starts with the input
-    for name, data in _BOOK_BY_NAME.items():
-        if name.startswith(key):
-            return data
+    prefix_matches = [
+        data for name, data in _BOOK_BY_NAME.items() if name.startswith(key)
+    ]
+    if prefix_matches:
+        return min(prefix_matches, key=lambda data: len(data["name"]))
+
+    best_match: dict | None = None
+    best_distance: int | None = None
+    for book in BOOK_DATA:
+        normalized_name = _normalize_book_key(book["name"])
+        prefix_name = normalized_name[: max(len(normalized_key), 1)]
+        distance = min(
+            _levenshtein_distance(normalized_key, normalized_name),
+            _levenshtein_distance(normalized_key, prefix_name),
+        )
+        if best_distance is None or distance < best_distance:
+            best_match = book
+            best_distance = distance
+    max_distance = 1 if len(normalized_key) <= 4 else 2 if len(normalized_key) <= 8 else 3
+    if best_match and best_distance is not None and best_distance <= max_distance:
+        return best_match
     return None
 
 
@@ -195,23 +245,80 @@ async def search_verses(
     query: str, translation: str = "WEB", book: str | None = None, limit: int = 20
 ) -> list[SearchResult]:
     """
-    Phrase search across verses using case-insensitive substring matching.
+    Phrase search across verses with relevance ranking and a substring fallback.
     """
+    trimmed_query = query.strip()
+    if not trimmed_query:
+        return []
+
     db = get_supabase()
+    safe_limit = max(1, min(limit, 50))
+    book_info = resolve_book(book) if book else None
+
+    try:
+        rpc_result = (
+            db.rpc(
+                "search_bible",
+                {
+                    "p_query": trimmed_query,
+                    "p_translation": translation,
+                    "p_book_number": book_info["number"] if book_info else None,
+                    "p_limit": safe_limit,
+                },
+            )
+            .execute()
+        )
+        ranked_rows = rpc_result.data or []
+        if ranked_rows:
+            results: list[SearchResult] = []
+            for row in ranked_rows:
+                book_number = int(row["book_num"])
+                chapter_num = int(row["chapter_num"])
+                verse_num = int(row["verse_num"])
+                book_meta = _BOOK_BY_NUMBER.get(book_number)
+                results.append(
+                    SearchResult(
+                        verse=VerseOut(
+                            id=book_number * 1_000_000 + chapter_num * 1_000 + verse_num,
+                            book=book_meta["name"] if book_meta else None,
+                            book_number=book_number,
+                            chapter=chapter_num,
+                            verse=verse_num,
+                            text=row["verse_text"],
+                            translation=translation,
+                        ),
+                        relevance=float(row.get("rank") or 0.0),
+                    )
+                )
+            return results
+    except Exception:
+        # Fall back to the original substring-based search if the database RPC
+        # is unavailable or the query cannot be parsed into a tsquery.
+        pass
 
     q = (
         db.table("verses")
         .select("*")
-        .ilike("text", f"%{query}%")
         .eq("translation", translation)
     )
 
-    if book:
-        book_info = resolve_book(book)
-        if book_info:
-            q = q.eq("book_number", book_info["number"])
+    if book_info:
+        q = q.eq("book_number", book_info["number"])
 
-    result = q.order("book_number").order("chapter").order("verse").limit(limit).execute()
+    terms = [term for term in trimmed_query.split() if term]
+    if len(terms) <= 1:
+        q = q.ilike("text", f"%{trimmed_query}%")
+    else:
+        for term in terms:
+            q = q.ilike("text", f"%{term}%")
+
+    result = (
+        q.order("book_number")
+        .order("chapter")
+        .order("verse")
+        .limit(safe_limit)
+        .execute()
+    )
 
     return [
         SearchResult(verse=VerseOut(**row), relevance=None)

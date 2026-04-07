@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 import {
   parseReferenceLabel,
@@ -13,6 +13,7 @@ const AI_SIDEBAR_SESSION_KEY = 'bible-app-ai-sidebar';
 export const AI_PERSONALITY_STORAGE_KEY = 'bible-app-ai-personality';
 const LEGACY_SIDEBAR_SESSION_KEY = 'logoslight-ai-sidebar-v1';
 const LEGACY_PERSONALITY_KEY = 'logoslight-ai-personality-v1';
+const COMPOSER_MAX_HEIGHT_PX = 168;
 
 function removeLegacyAiStorageKeys() {
   if (typeof window === 'undefined') return;
@@ -426,10 +427,24 @@ export default function AiSidebar({
   const starterPrompts = getStarterPrompts(currentBookName, chapter);
   const remainingChars = MAX_MESSAGE_CHARS - draft.length;
 
+  const resizeComposerTextarea = useCallback(() => {
+    const el = composerTextareaRef.current;
+    if (!el) return;
+
+    el.style.height = '0px';
+    const nextHeight = Math.min(el.scrollHeight, COMPOSER_MAX_HEIGHT_PX);
+    el.style.height = `${nextHeight}px`;
+    el.style.overflowY = el.scrollHeight > COMPOSER_MAX_HEIGHT_PX ? 'auto' : 'hidden';
+  }, []);
+
   // Restore session
   useEffect(() => {
     setEntries(restoreTranscript());
   }, []);
+
+  useLayoutEffect(() => {
+    resizeComposerTextarea();
+  }, [draft, resizeComposerTextarea]);
 
   // Prefill composer when parent requests (reader text selection → Ask agent)
   useEffect(() => {
@@ -576,6 +591,22 @@ export default function AiSidebar({
     if (action.type === 'open_commentary') {
       onOpenCommentary(action.params.source);
     }
+  }
+
+  function handleClearChat() {
+    if (isLoading) return;
+    newestAssistantId.current = null;
+    assistantReplyTopRef.current = null;
+    setAnimatedIds(new Set());
+    setEntries([]);
+    setDraft('');
+    setError(null);
+    if (typeof window !== 'undefined') {
+      window.sessionStorage.removeItem(AI_SIDEBAR_SESSION_KEY);
+    }
+    requestAnimationFrame(() => {
+      composerTextareaRef.current?.focus();
+    });
   }
 
   return (
@@ -734,37 +765,57 @@ export default function AiSidebar({
       {/* ── Composer ── */}
       <div className="ai-composer-shell">
         <form className="ai-composer" onSubmit={handleSubmit}>
-          <textarea
-            ref={composerTextareaRef}
-            className="ai-composer-input"
-            value={draft}
-            rows={3}
-            maxLength={MAX_MESSAGE_CHARS}
-            placeholder={
-              currentBookName
-                ? `Ask ${personality.name} about ${currentBookName} ${chapter}...`
-                : 'Waiting for chapter context...'
-            }
-            disabled={isLoading || !currentBookName}
-            onChange={event => setDraft(event.target.value)}
-            onKeyDown={event => {
-              if (event.key === 'Enter' && !event.shiftKey) {
-                event.preventDefault();
-                void sendMessage(draft);
+          <div className="ai-composer-field">
+            <textarea
+              ref={composerTextareaRef}
+              className="ai-composer-input"
+              value={draft}
+              rows={1}
+              maxLength={MAX_MESSAGE_CHARS}
+              placeholder={
+                currentBookName
+                  ? `Ask ${personality.name} about ${currentBookName} ${chapter}...`
+                  : 'Waiting for chapter context...'
               }
-            }}
-          />
-          <div className="ai-composer-footer">
-            <span className={`ai-char-count${remainingChars < 120 ? ' warning' : ''}`}>
-              {remainingChars} characters left
-            </span>
+              disabled={isLoading || !currentBookName}
+              onChange={event => setDraft(event.target.value)}
+              onKeyDown={event => {
+                if (event.key === 'Enter' && !event.shiftKey) {
+                  event.preventDefault();
+                  void sendMessage(draft);
+                }
+              }}
+            />
             <button
               className="ai-send-btn"
               type="submit"
+              aria-label={isLoading ? 'Thinking...' : 'Send message'}
               disabled={isLoading || !draft.trim() || !currentBookName}
             >
-              {isLoading ? 'Thinking...' : 'Ask'}
+              <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                <path
+                  d="M10 15V5M10 5L5.75 9.25M10 5l4.25 4.25"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
             </button>
+          </div>
+          <div className="ai-composer-footer">
+            <button
+              className="ai-clear-chat-btn"
+              type="button"
+              onClick={handleClearChat}
+              disabled={isLoading || (entries.length === 0 && !draft.trim() && !error)}
+            >
+              New chat
+            </button>
+            <span className={`ai-char-count${remainingChars < 120 ? ' warning' : ''}`}>
+              {remainingChars} characters left
+            </span>
           </div>
         </form>
       </div>

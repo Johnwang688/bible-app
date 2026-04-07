@@ -102,6 +102,8 @@ DefaultPanel = Literal["none", "commentary", "ai", "study"]
 FontScale = Literal["8", "10", "12", "14", "16", "18", "20", "22", "24", "26", "28", "30"]
 LineHeight = Literal["1.5", "2", "2.5"]
 SidePanelPosition = Literal["left", "right"]
+ReaderFont = Literal["georgia", "charter", "palatino", "garamond", "times", "sans"]
+HighlightColor = Literal["yellow", "amber", "green", "blue", "pink", "lavender", "mint"]
 
 
 class RecentPassage(BaseModel):
@@ -120,6 +122,8 @@ class UserSettingsIn(BaseModel):
     high_contrast: bool = False
     default_panel: DefaultPanel = "none"
     side_panel_position: SidePanelPosition = "right"
+    reader_font: ReaderFont = "georgia"
+    highlight_color: HighlightColor = "yellow"
     recent_passages: list[RecentPassage] = []
 
 

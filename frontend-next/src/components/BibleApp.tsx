@@ -46,13 +46,61 @@ interface CommentaryEntry { verse_start: number; verse_end: number | null; conte
 interface CommentarySource { id: string; name: string; }
 interface ThemeDef { id: string; name: string; swatches: string[]; }
 interface SearchResult { verse: { book: string; chapter: number; verse: number; text: string; translation: string; }; relevance: number | null; }
+interface SearchSuggestion {
+  id: string;
+  label: string;
+  hint: string;
+  book: string;
+  chapter: number;
+  verseStart?: number;
+  verseEnd?: number;
+  translation?: string;
+  score: number;
+  source: 'direct' | 'recent' | 'popular' | 'typo';
+}
 interface SavedPassage { book: string; chapter: number; translation: string; savedAt: number; }
 interface VerseNote { key: string; book: string; chapter: number; verse: number; text: string; updatedAt: number; }
-interface ReadingProgress { streak: number; goalMetDays: string[]; todayIso: string; todayChapters: string[]; }
+interface ChapterReadEvidence {
+  furthestVerse: number;
+  engagedMs: number;
+}
+interface ReadingProgress {
+  streak: number;
+  goalMetDays: string[];
+  todayIso: string;
+  todayChapters: string[];
+  todayChapterEvidence: Record<string, ChapterReadEvidence>;
+}
 const READER_FONT_PX_OPTIONS = ['8', '10', '12', '14', '16', '18', '20', '22', '24', '26', '28', '30'] as const;
 type ReaderFontPx = (typeof READER_FONT_PX_OPTIONS)[number];
 const READER_LINE_HEIGHT_OPTIONS = ['1.5', '2', '2.5'] as const;
 type ReaderLineHeightOption = (typeof READER_LINE_HEIGHT_OPTIONS)[number];
+const READER_FONT_IDS = ['georgia', 'charter', 'palatino', 'garamond', 'times', 'sans'] as const;
+type ReaderFontId = (typeof READER_FONT_IDS)[number];
+const HIGHLIGHT_COLOR_IDS = ['yellow', 'amber', 'green', 'blue', 'pink', 'lavender', 'mint'] as const;
+type ReaderHighlightColorId = (typeof HIGHLIGHT_COLOR_IDS)[number];
+
+const READER_HIGHLIGHT_PRESETS: Record<
+  ReaderHighlightColorId,
+  { light: string; dark: string; darkText: string }
+> = {
+  yellow: { light: '#ffe066', dark: '#c9a800', darkText: '#fff' },
+  amber: { light: '#ffcc80', dark: '#b07d00', darkText: '#fff' },
+  green: { light: '#b8e6b8', dark: '#2e7d32', darkText: '#fff' },
+  blue: { light: '#a8c8ff', dark: '#1565c0', darkText: '#fff' },
+  pink: { light: '#ffc1e0', dark: '#ad1457', darkText: '#fff' },
+  lavender: { light: '#d4c4ff', dark: '#5e35b1', darkText: '#fff' },
+  mint: { light: '#a8ede4', dark: '#00897b', darkText: '#fff' },
+};
+
+function applyReaderHighlightVars(id: ReaderHighlightColorId) {
+  if (typeof document === 'undefined') return;
+  const p = READER_HIGHLIGHT_PRESETS[id];
+  const root = document.documentElement;
+  root.style.setProperty('--reader-highlight-bg', p.light);
+  root.style.setProperty('--reader-highlight-bg-dark', p.dark);
+  root.style.setProperty('--reader-highlight-fg-dark', p.darkText);
+}
 
 const LEGACY_READER_FONT: Record<string, ReaderFontPx> = {
   comfortable: '16',
@@ -70,6 +118,8 @@ const LEGACY_READER_LINE_HEIGHT: Record<string, ReaderLineHeightOption> = {
 interface ReaderSettings {
   fontScale: ReaderFontPx;
   lineHeight: ReaderLineHeightOption;
+  readerFont: ReaderFontId;
+  highlightColor: ReaderHighlightColorId;
   reducedMotion: boolean;
   pageFlipEnabled: boolean;
   highContrast: boolean;
@@ -115,12 +165,21 @@ const BOOKMARKS_STORAGE_KEY = 'bible-app-bookmarks';
 const NOTES_STORAGE_KEY = 'bible-app-notes';
 const READING_PROGRESS_STORAGE_KEY = 'bible-app-reading-progress';
 const DAILY_GOAL_CHAPTERS_STORAGE_KEY = 'bible-app-daily-goal-chapters';
+const DEFAULT_DAILY_GOAL_CHAPTERS = 3;
 const READER_SETTINGS_STORAGE_KEY = 'bible-app-reader-settings';
 const ONBOARDING_STORAGE_KEY = 'bible-app-onboarding-complete';
 const MAX_RECENT_PASSAGES = 8;
+const MIN_CHAPTER_PROGRESS_RATIO = 0.5;
+const MIN_CHAPTER_PROGRESS_VERSES = 3;
+const MIN_CHAPTER_READ_MS = 20_000;
+const MAX_CHAPTER_READ_MS = 75_000;
+const CHAPTER_READ_MS_PER_VERSE = 1_500;
+const MAX_ENGAGEMENT_GAP_MS = 15_000;
 const DEFAULT_READER_SETTINGS: ReaderSettings = {
   fontScale: '20',
   lineHeight: '2',
+  readerFont: 'georgia',
+  highlightColor: 'yellow',
   reducedMotion: false,
   pageFlipEnabled: true,
   highContrast: false,
@@ -193,9 +252,21 @@ function normalizeReaderSettings(raw: Partial<ReaderSettings> | null | undefined
     if ((READER_LINE_HEIGHT_OPTIONS as readonly string[]).includes(rawLh)) lineHeight = rawLh as ReaderLineHeightOption;
     else if (rawLh in LEGACY_READER_LINE_HEIGHT) lineHeight = LEGACY_READER_LINE_HEIGHT[rawLh];
   }
+  const rawRf = raw?.readerFont;
+  let readerFont: ReaderFontId = DEFAULT_READER_SETTINGS.readerFont;
+  if (typeof rawRf === 'string' && (READER_FONT_IDS as readonly string[]).includes(rawRf)) {
+    readerFont = rawRf as ReaderFontId;
+  }
+  const rawHc = raw?.highlightColor;
+  let highlightColor: ReaderHighlightColorId = DEFAULT_READER_SETTINGS.highlightColor;
+  if (typeof rawHc === 'string' && (HIGHLIGHT_COLOR_IDS as readonly string[]).includes(rawHc)) {
+    highlightColor = rawHc as ReaderHighlightColorId;
+  }
   return {
     fontScale,
     lineHeight,
+    readerFont,
+    highlightColor,
     reducedMotion: Boolean(raw?.reducedMotion),
     pageFlipEnabled: raw?.pageFlipEnabled ?? true,
     highContrast: Boolean(raw?.highContrast),
@@ -213,7 +284,7 @@ function computeTodayIso() {
 
 function normalizeDailyGoalChapters(raw: string | null): number {
   const n = raw ? Number.parseInt(raw, 10) : NaN;
-  if (!Number.isFinite(n)) return 1;
+  if (!Number.isFinite(n)) return DEFAULT_DAILY_GOAL_CHAPTERS;
   return Math.min(25, Math.max(1, Math.floor(n)));
 }
 
@@ -222,11 +293,25 @@ function normalizeReadingProgress(raw: unknown): ReadingProgress {
   if (raw && typeof raw === 'object') {
     const o = raw as Record<string, unknown>;
     if (Array.isArray(o.goalMetDays) && typeof o.todayIso === 'string' && Array.isArray(o.todayChapters)) {
+      const rawEvidence = o.todayChapterEvidence;
+      const todayChapterEvidence: Record<string, ChapterReadEvidence> = {};
+      if (rawEvidence && typeof rawEvidence === 'object') {
+        Object.entries(rawEvidence as Record<string, unknown>).forEach(([key, value]) => {
+          if (!value || typeof value !== 'object') return;
+          const furthestVerse = Number((value as Record<string, unknown>).furthestVerse);
+          const engagedMs = Number((value as Record<string, unknown>).engagedMs);
+          todayChapterEvidence[key] = {
+            furthestVerse: Number.isFinite(furthestVerse) ? Math.max(0, Math.floor(furthestVerse)) : 0,
+            engagedMs: Number.isFinite(engagedMs) ? Math.max(0, Math.floor(engagedMs)) : 0,
+          };
+        });
+      }
       return {
         streak: typeof o.streak === 'number' && o.streak >= 0 ? o.streak : 0,
         goalMetDays: o.goalMetDays.filter((d): d is string => typeof d === 'string'),
         todayIso: o.todayIso,
         todayChapters: o.todayChapters.filter((k): k is string => typeof k === 'string'),
+        todayChapterEvidence,
       };
     }
     const legacyDays = Array.isArray(o.days) ? o.days.filter((d): d is string => typeof d === 'string') : [];
@@ -236,15 +321,16 @@ function normalizeReadingProgress(raw: unknown): ReadingProgress {
       goalMetDays: legacyDays,
       todayIso: today,
       todayChapters: [],
+      todayChapterEvidence: {},
     };
   }
-  return { streak: 0, goalMetDays: [], todayIso: today, todayChapters: [] };
+  return { streak: 0, goalMetDays: [], todayIso: today, todayChapters: [], todayChapterEvidence: {} };
 }
 
 function rollReadingProgressToToday(p: ReadingProgress): ReadingProgress {
   const today = computeTodayIso();
   if (p.todayIso === today) return p;
-  return { ...p, todayIso: today, todayChapters: [] };
+  return { ...p, todayIso: today, todayChapters: [], todayChapterEvidence: {} };
 }
 
 /** Consecutive days ending today (or yesterday if today not logged yet) where the daily chapter goal was met. */
@@ -267,6 +353,40 @@ function computeGoalStreak(goalMetDays: string[], today: string): number {
   return streak;
 }
 
+function syncGoalCompletion(progress: ReadingProgress, dailyGoalChapters: number, today: string): ReadingProgress {
+  const goalMet = progress.todayIso === today && progress.todayChapters.length >= dailyGoalChapters;
+  let goalMetDays = [...progress.goalMetDays];
+  if (goalMet) {
+    if (!goalMetDays.includes(today)) goalMetDays = [...goalMetDays, today];
+  } else {
+    goalMetDays = goalMetDays.filter(d => d !== today);
+  }
+  const streak = computeGoalStreak(goalMetDays, today);
+  const unchanged =
+    streak === progress.streak &&
+    goalMetDays.length === progress.goalMetDays.length &&
+    goalMetDays.every((d, i) => d === progress.goalMetDays[i]);
+  if (unchanged) return progress;
+  return { ...progress, goalMetDays, streak };
+}
+
+function getChapterCreditThreshold(totalVerses: number) {
+  const requiredVerse = Math.min(
+    totalVerses,
+    Math.max(MIN_CHAPTER_PROGRESS_VERSES, Math.ceil(totalVerses * MIN_CHAPTER_PROGRESS_RATIO)),
+  );
+  const requiredMs = Math.min(
+    MAX_CHAPTER_READ_MS,
+    Math.max(MIN_CHAPTER_READ_MS, totalVerses * CHAPTER_READ_MS_PER_VERSE),
+  );
+  return { requiredVerse, requiredMs };
+}
+
+function chapterEvidenceQualifies(evidence: ChapterReadEvidence, totalVerses: number) {
+  const { requiredVerse, requiredMs } = getChapterCreditThreshold(totalVerses);
+  return evidence.furthestVerse >= requiredVerse && evidence.engagedMs >= requiredMs;
+}
+
 function getThemeCardStyle(theme: ThemeDef): CSSProperties {
   const [bg, border, accent, text] = theme.id === 'dynamic'
     ? [DYNAMIC_PREVIEW_BG, DYNAMIC_PREVIEW_BORDER, DYNAMIC_PREVIEW_ACCENT, '#221d16']
@@ -287,11 +407,157 @@ const DYNAMIC_CYCLE_MS      = DYNAMIC_FADE_MS * 2;
 const DYNAMIC_PREVIEW_BG    = '#f7f7f7';
 const DYNAMIC_PREVIEW_BORDER = '#ddd2c3';
 const DYNAMIC_PREVIEW_ACCENT = '#d8cce8';
+const SEARCH_SUGGESTION_LIMIT = 7;
+const BOOK_POPULARITY_SCORES: Record<string, number> = {
+  John: 120,
+  Psalms: 118,
+  Genesis: 114,
+  Romans: 110,
+  Matthew: 108,
+  Proverbs: 106,
+  Isaiah: 102,
+  Luke: 100,
+  Acts: 98,
+  Revelation: 96,
+  '1 Corinthians': 94,
+  Ephesians: 92,
+  James: 90,
+  Hebrews: 88,
+  Philippians: 86,
+  '1 John': 84,
+  Exodus: 82,
+  Mark: 80,
+  Galatians: 78,
+  Daniel: 76,
+};
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 function hexToRgb(hex: string) {
   const n = parseInt(hex.replace('#', ''), 16);
   return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
+}
+
+function normalizeSearchText(value: string) {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function compactSearchText(value: string) {
+  return normalizeSearchText(value).replace(/\s+/g, '');
+}
+
+function normalizeReferenceSpacing(value: string) {
+  return value
+    .replace(/([A-Za-z])(\d)/g, '$1 $2')
+    .replace(/(\d)([A-Za-z])/g, '$1 $2')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function levenshteinDistance(a: string, b: string) {
+  if (a === b) return 0;
+  if (!a.length) return b.length;
+  if (!b.length) return a.length;
+  const prev = Array.from({ length: b.length + 1 }, (_, i) => i);
+  const curr = new Array<number>(b.length + 1).fill(0);
+  for (let i = 0; i < a.length; i += 1) {
+    curr[0] = i + 1;
+    for (let j = 0; j < b.length; j += 1) {
+      const cost = a[i] === b[j] ? 0 : 1;
+      curr[j + 1] = Math.min(
+        curr[j] + 1,
+        prev[j + 1] + 1,
+        prev[j] + cost,
+      );
+    }
+    for (let j = 0; j < prev.length; j += 1) prev[j] = curr[j];
+  }
+  return prev[b.length];
+}
+
+function extractLooseReferenceParts(query: string) {
+  const spaced = normalizeReferenceSpacing(query);
+  if (!spaced) {
+    return { bookPart: '', chapter: undefined, verseStart: undefined, verseEnd: undefined };
+  }
+  const match = spaced.match(/^(.+?)(?:\s+(\d+)(?::(\d+)(?:\s*[–-]\s*(\d+))?)?)?$/u);
+  if (!match) {
+    return { bookPart: spaced, chapter: undefined, verseStart: undefined, verseEnd: undefined };
+  }
+  const chapter = match[2] ? Number.parseInt(match[2], 10) : undefined;
+  const verseStart = match[3] ? Number.parseInt(match[3], 10) : undefined;
+  const verseEnd = match[4] ? Number.parseInt(match[4], 10) : undefined;
+  return {
+    bookPart: match[1]?.trim() ?? spaced,
+    chapter: Number.isFinite(chapter) ? chapter : undefined,
+    verseStart: Number.isFinite(verseStart) ? verseStart : undefined,
+    verseEnd: Number.isFinite(verseEnd) ? verseEnd : undefined,
+  };
+}
+
+function getBookPopularityScore(book: BookInfo) {
+  return BOOK_POPULARITY_SCORES[book.name] ?? Math.max(22, 70 - book.book_number);
+}
+
+function scoreBookMatch(query: string, book: BookInfo) {
+  const normalizedQuery = normalizeSearchText(query);
+  const compactQuery = compactSearchText(query);
+  if (!normalizedQuery || compactQuery.length < 2) return Number.NEGATIVE_INFINITY;
+
+  const normalizedBook = normalizeSearchText(book.name);
+  const compactBook = compactSearchText(book.name);
+  let score = Number.NEGATIVE_INFINITY;
+
+  if (compactBook === compactQuery) score = 560;
+  if (compactBook.startsWith(compactQuery)) {
+    score = Math.max(score, 500 - Math.max(0, compactBook.length - compactQuery.length) * 4);
+  }
+
+  const wordIndex = normalizedBook.indexOf(normalizedQuery);
+  if (wordIndex >= 0) score = Math.max(score, 430 - wordIndex * 18);
+
+  const compactIndex = compactBook.indexOf(compactQuery);
+  if (compactIndex >= 0) score = Math.max(score, 390 - compactIndex * 14);
+
+  const prefixSlice = compactBook.slice(
+    0,
+    Math.min(compactBook.length, Math.max(compactQuery.length, compactQuery.length + 2)),
+  );
+  const distance = Math.min(
+    levenshteinDistance(compactQuery, compactBook),
+    levenshteinDistance(compactQuery, prefixSlice),
+  );
+  const maxDistance = compactQuery.length <= 4 ? 1 : compactQuery.length <= 8 ? 2 : 3;
+  if (distance <= maxDistance) {
+    score = Math.max(
+      score,
+      350 - distance * 52 - Math.abs(compactBook.length - compactQuery.length) * 7,
+    );
+  }
+
+  return score;
+}
+
+function clampChapterForBook(book: BookInfo, chapter?: number) {
+  if (!chapter || chapter < 1) return 1;
+  return Math.min(book.total_chapters, chapter);
+}
+
+function formatSearchSuggestionLabel(
+  book: string,
+  chapter: number,
+  verseStart?: number,
+  verseEnd?: number,
+) {
+  const verseLabel = verseStart == null
+    ? ''
+    : verseEnd != null && verseEnd !== verseStart
+      ? `:${verseStart}-${verseEnd}`
+      : `:${verseStart}`;
+  return `${book} ${chapter}${verseLabel}`;
 }
 
 function parseSummaryContent(content: string) {
@@ -383,6 +649,8 @@ export default function BibleApp() {
   const [themePickerExpanded, setThemePickerExpanded] = useState(false);
   const [searchOpen, setSearchOpen]         = useState(false);
   const [chromeVisible, setChromeVisible]   = useState(true);
+  /** Landing view: bottom taskbar only; taskbar actions enter the reader (and optional sidebar). */
+  const [homeScreenActive, setHomeScreenActive] = useState(true);
   const [readerAskBubble, setReaderAskBubble] = useState<{ top: number; left: number } | null>(null);
   const [aiComposerSeed, setAiComposerSeed] = useState<{ id: number; text: string } | undefined>();
   const [selectedVerse, setSelectedVerse]   = useState<number | null>(null);
@@ -397,7 +665,7 @@ export default function BibleApp() {
   const [bookmarkedVerses, setBookmarkedVerses] = useState<string[]>([]);
   const [verseNotes, setVerseNotes]         = useState<Record<string, VerseNote>>({});
   const [readingProgress, setReadingProgress] = useState<ReadingProgress>(() => normalizeReadingProgress(null));
-  const [dailyGoalChapters, setDailyGoalChapters] = useState(1);
+  const [dailyGoalChapters, setDailyGoalChapters] = useState(DEFAULT_DAILY_GOAL_CHAPTERS);
   const [readingGoalEditing, setReadingGoalEditing] = useState(false);
   const [readerSettings, setReaderSettings] = useState<ReaderSettings>(DEFAULT_READER_SETTINGS);
   const [showOnboarding, setShowOnboarding] = useState(false);
@@ -414,6 +682,7 @@ export default function BibleApp() {
 
   // ── DOM Refs ───
   const biblePaneRef  = useRef<HTMLDivElement>(null);
+  const contentAreaRef = useRef<HTMLDivElement>(null);
   const sideScrollRef = useRef<HTMLDivElement>(null);
   const sidePaneRef   = useRef<HTMLElement>(null);
   const dividerRef    = useRef<HTMLDivElement>(null);
@@ -455,12 +724,19 @@ export default function BibleApp() {
   const dynIndexRef         = useRef(0);
   const touchStartXRef      = useRef<number | null>(null);
   const touchStartYRef      = useRef(0);
+  const touchGestureModeRef = useRef<'chapter' | 'side-toggle'>('chapter');
+  const lastSidePanelModeRef = useRef<Exclude<SidePanelMode, 'none'>>('commentary');
+  const searchRequestIdRef  = useRef(0);
   const pendingAiNavRef = useRef<{ start: number; end: number } | null>(null);
   const pendingFlipDataRef  = useRef<{ data: ChapterData; direction: 'next' | 'prev' } | null>(null);
   const exitAnimDoneRef     = useRef(false);
   const syncReadyRef        = useRef(false);
   const hydratingAccountRef = useRef(false);
   const accountBootstrapRef = useRef(false);
+  const chapterEngagementRef = useRef<{ key: string; lastInteractionAt: number | null }>({
+    key: '',
+    lastInteractionAt: null,
+  });
 
   // Keep stable refs in sync
   useEffect(() => { booksRef.current = books; },                             [books]);
@@ -468,6 +744,9 @@ export default function BibleApp() {
   useEffect(() => { chapterRef.current = chapter; },                         [chapter]);
   useEffect(() => { translationRef.current = translation; },                 [translation]);
   useEffect(() => { sidePanelModeRef.current = sidePanelMode; },             [sidePanelMode]);
+  useEffect(() => {
+    if (sidePanelMode !== 'none') lastSidePanelModeRef.current = sidePanelMode;
+  }, [sidePanelMode]);
   useEffect(() => { sidePanelPositionRef.current = readerSettings.sidePanelPosition; }, [readerSettings.sidePanelPosition]);
   useEffect(() => { commentarySourceRef.current = commentarySource; },       [commentarySource]);
   useEffect(() => { commentarySourceNamesRef.current = commentarySourceNames; }, [commentarySourceNames]);
@@ -527,21 +806,7 @@ export default function BibleApp() {
   useEffect(() => {
     setReadingProgress(prev => {
       const today = computeTodayIso();
-      if (prev.todayIso !== today) return prev;
-      const goalMet = prev.todayChapters.length >= dailyGoalChapters;
-      let goalMetDays = [...prev.goalMetDays];
-      if (goalMet) {
-        if (!goalMetDays.includes(today)) goalMetDays = [...goalMetDays, today];
-      } else {
-        goalMetDays = goalMetDays.filter(d => d !== today);
-      }
-      const streak = computeGoalStreak(goalMetDays, today);
-      const unchanged =
-        streak === prev.streak &&
-        goalMetDays.length === prev.goalMetDays.length &&
-        goalMetDays.every((d, i) => d === prev.goalMetDays[i]);
-      if (unchanged) return prev;
-      return { ...prev, goalMetDays, streak };
+      return syncGoalCompletion(prev, dailyGoalChapters, today);
     });
   }, [dailyGoalChapters]);
 
@@ -550,6 +815,8 @@ export default function BibleApp() {
     window.localStorage.setItem(READER_SETTINGS_STORAGE_KEY, JSON.stringify(readerSettings));
     document.documentElement.dataset.readerScale = readerSettings.fontScale;
     document.documentElement.dataset.readerLineHeight = readerSettings.lineHeight;
+    document.documentElement.dataset.readerFont = readerSettings.readerFont;
+    applyReaderHighlightVars(readerSettings.highlightColor);
     if (readerSettings.reducedMotion) document.documentElement.setAttribute('data-reduced-motion', '1');
     else document.documentElement.removeAttribute('data-reduced-motion');
     if (readerSettings.highContrast) document.documentElement.setAttribute('data-high-contrast', '1');
@@ -653,6 +920,7 @@ export default function BibleApp() {
         if (exitAnimDoneRef.current) {
           // Exit animation already finished — show new content immediately
           setChapterData(data);
+          setChapterLoading(false);
           setAnimClass(direction === 'next' ? 'page-flip-enter-next' : 'page-flip-enter-prev');
           if (biblePaneRef.current) biblePaneRef.current.scrollTop = 0;
           setChromeVisible(true);
@@ -768,6 +1036,7 @@ export default function BibleApp() {
 
   // ── Side panel ────────────────────────────────────────────────────────────────
   const openSidePanel = useCallback((mode: Exclude<SidePanelMode, 'none'>) => {
+    lastSidePanelModeRef.current = mode;
     setSidePanelMode(mode);
     if (mode === 'commentary') {
       const book = currentBookRef.current;
@@ -793,6 +1062,36 @@ export default function BibleApp() {
     sidePanelModeRef.current === 'study' ? closeSidePanel() : openSidePanel('study');
   }, [closeSidePanel, openSidePanel]);
 
+  const openReaderFromHome = useCallback((panel: SidePanelMode) => {
+    setHomeScreenActive(false);
+    if (panel === 'none') {
+      closeSidePanel();
+    } else {
+      openSidePanel(panel);
+    }
+  }, [closeSidePanel, openSidePanel]);
+
+  const goToHome = useCallback(() => {
+    setHomeScreenActive(true);
+    setSettingsOpen(false);
+    closeSidePanel();
+  }, [closeSidePanel]);
+
+  const reopenLastSidePanel = useCallback(() => {
+    const preferredDefault = readerSettingsRef.current.defaultPanel;
+    const preferred =
+      preferredDefault === 'none' ? lastSidePanelModeRef.current : preferredDefault;
+    openSidePanel(preferred);
+  }, [openSidePanel]);
+
+  const toggleReaderFocus = useCallback(() => {
+    if (sidePanelModeRef.current === 'none') {
+      reopenLastSidePanel();
+      return;
+    }
+    closeSidePanel();
+  }, [closeSidePanel, reopenLastSidePanel]);
+
   const bibleBooksForAi = useMemo(
     () => books.map(b => ({ name: b.name, total_chapters: b.total_chapters })),
     [books],
@@ -805,6 +1104,164 @@ export default function BibleApp() {
     () => sortBookNamesForMatching(books.map(book => book.name)),
     [books],
   );
+  const parsedNavigation = useMemo(() => {
+    const trimmed = searchQuery.trim();
+    if (!trimmed) return null;
+    const exact = parseReferenceLabel(trimmed, bookNamesSorted);
+    if (exact) return exact;
+    return parseReferenceLabel(normalizeReferenceSpacing(trimmed), bookNamesSorted);
+  }, [bookNamesSorted, searchQuery]);
+  const looseNavigationParts = useMemo(
+    () => extractLooseReferenceParts(searchQuery),
+    [searchQuery],
+  );
+  const searchSuggestions = useMemo(() => {
+    const trimmed = searchQuery.trim();
+    const suggestions: SearchSuggestion[] = [];
+    const seenDestinations = new Set<string>();
+    const addSuggestion = (suggestion: SearchSuggestion | null) => {
+      if (!suggestion) return;
+      const destinationKey = [
+        suggestion.book.toLowerCase(),
+        suggestion.chapter,
+        suggestion.verseStart ?? '',
+        suggestion.translation ?? '',
+      ].join('::');
+      if (seenDestinations.has(destinationKey)) return;
+      seenDestinations.add(destinationKey);
+      suggestions.push(suggestion);
+    };
+
+    if (!trimmed) {
+      recentPassages.slice(0, 4).forEach((entry, index) => {
+        addSuggestion({
+          id: `recent-${chapterStorageKey(entry.book, entry.chapter, entry.translation)}`,
+          label: formatSearchSuggestionLabel(entry.book, entry.chapter),
+          hint: `Recent passage • ${entry.translation}`,
+          book: entry.book,
+          chapter: entry.chapter,
+          translation: entry.translation,
+          score: 860 - index * 24,
+          source: 'recent',
+        });
+      });
+      [...books]
+        .sort((a, b) => getBookPopularityScore(b) - getBookPopularityScore(a))
+        .slice(0, SEARCH_SUGGESTION_LIMIT)
+        .forEach((book, index) => {
+          addSuggestion({
+            id: `popular-${book.book_number}`,
+            label: formatSearchSuggestionLabel(book.name, 1),
+            hint: index === 0 ? 'Popular book' : 'Popular suggestion',
+            book: book.name,
+            chapter: 1,
+            score: 620 - index * 20 + getBookPopularityScore(book),
+            source: 'popular',
+          });
+        });
+      return suggestions
+        .sort((a, b) => b.score - a.score)
+        .slice(0, SEARCH_SUGGESTION_LIMIT);
+    }
+
+    if (parsedNavigation) {
+      addSuggestion({
+        id: `direct-${parsedNavigation.book}-${parsedNavigation.chapter}-${parsedNavigation.verse_start ?? ''}-${parsedNavigation.verse_end ?? ''}`.toLowerCase(),
+        label: formatSearchSuggestionLabel(
+          parsedNavigation.book,
+          parsedNavigation.chapter,
+          parsedNavigation.verse_start,
+          parsedNavigation.verse_end,
+        ),
+        hint: 'Go to passage',
+        book: parsedNavigation.book,
+        chapter: parsedNavigation.chapter,
+        verseStart: parsedNavigation.verse_start,
+        verseEnd: parsedNavigation.verse_end,
+        score: 1200,
+        source: 'direct',
+      });
+    }
+
+    const bookPart = looseNavigationParts.bookPart || trimmed;
+    const compactQuery = compactSearchText(bookPart);
+    const wantsSpecificPassage = looseNavigationParts.chapter != null || looseNavigationParts.verseStart != null;
+
+    books
+      .map(book => {
+        const matchScore = scoreBookMatch(bookPart, book);
+        if (!Number.isFinite(matchScore)) return null;
+        const popularityScore = getBookPopularityScore(book);
+        return {
+          book,
+          totalScore: matchScore + popularityScore,
+        };
+      })
+      .filter((entry): entry is { book: BookInfo; totalScore: number } => !!entry && entry.totalScore > 250)
+      .sort((a, b) => b.totalScore - a.totalScore)
+      .slice(0, SEARCH_SUGGESTION_LIMIT)
+      .forEach((entry, index) => {
+        const chapter = wantsSpecificPassage ? clampChapterForBook(entry.book, looseNavigationParts.chapter) : 1;
+        const exactish =
+          compactQuery.length > 0 &&
+          (compactSearchText(entry.book.name) === compactQuery
+            || compactSearchText(entry.book.name).startsWith(compactQuery)
+            || normalizeSearchText(entry.book.name).includes(normalizeSearchText(bookPart)));
+        addSuggestion({
+          id: `book-${entry.book.book_number}-${chapter}-${looseNavigationParts.verseStart ?? ''}-${looseNavigationParts.verseEnd ?? ''}`.toLowerCase(),
+          label: formatSearchSuggestionLabel(
+            entry.book.name,
+            chapter,
+            wantsSpecificPassage ? looseNavigationParts.verseStart : undefined,
+            wantsSpecificPassage ? looseNavigationParts.verseEnd : undefined,
+          ),
+          hint: exactish
+            ? index === 0
+              ? 'Popular match'
+              : 'Suggested book'
+            : `Did you mean ${entry.book.name}?`,
+          book: entry.book.name,
+          chapter,
+          verseStart: wantsSpecificPassage ? looseNavigationParts.verseStart : undefined,
+          verseEnd: wantsSpecificPassage ? looseNavigationParts.verseEnd : undefined,
+          score: entry.totalScore - index * 6,
+          source: exactish ? 'popular' : 'typo',
+        });
+      });
+
+    recentPassages.forEach((entry, index) => {
+      const book = books.find(candidate => candidate.name.toLowerCase() === entry.book.toLowerCase());
+      const label = formatSearchSuggestionLabel(entry.book, entry.chapter);
+      const labelMatch = normalizeSearchText(label).includes(normalizeSearchText(trimmed));
+      const bookScore = book ? scoreBookMatch(bookPart, book) : Number.NEGATIVE_INFINITY;
+      const totalScore = Math.max(bookScore, labelMatch ? 320 : Number.NEGATIVE_INFINITY);
+      if (!Number.isFinite(totalScore) || totalScore < 260) return;
+      addSuggestion({
+        id: `recent-match-${chapterStorageKey(entry.book, entry.chapter, entry.translation)}`,
+        label,
+        hint: `Recent passage • ${entry.translation}`,
+        book: entry.book,
+        chapter: entry.chapter,
+        translation: entry.translation,
+        score: totalScore + 44 - index * 5,
+        source: 'recent',
+      });
+    });
+
+    return suggestions
+      .sort((a, b) => b.score - a.score)
+      .slice(0, SEARCH_SUGGESTION_LIMIT);
+  }, [bookNamesSorted, books, looseNavigationParts, parsedNavigation, recentPassages, searchQuery]);
+  const topSearchSuggestion = searchSuggestions[0] ?? null;
+  const searchLooksLikeNavigation = useMemo(() => {
+    const trimmed = searchQuery.trim();
+    if (!trimmed) return false;
+    if (parsedNavigation) return true;
+    if (!topSearchSuggestion) return false;
+    if (looseNavigationParts.chapter != null || looseNavigationParts.verseStart != null) return true;
+    const words = normalizeSearchText(looseNavigationParts.bookPart || trimmed).split(' ').filter(Boolean);
+    return words.length <= 2 && topSearchSuggestion.score >= 320;
+  }, [looseNavigationParts, parsedNavigation, searchQuery, topSearchSuggestion]);
 
   const handleAiNavigate = useCallback((params: AIActionParams) => {
     if (!params.book || !params.chapter) return;
@@ -966,31 +1423,50 @@ export default function BibleApp() {
     });
   }, []);
 
-  const recordChapterVisit = useCallback((bookName: string, currentChapter: number, currentTranslation: string) => {
+  const recordChapterEngagement = useCallback((bookName: string, currentChapter: number, currentTranslation: string, furthestVerse: number, totalVerses: number) => {
     const today = computeTodayIso();
     const chKey = chapterStorageKey(bookName, currentChapter, currentTranslation);
+    const now = Date.now();
+    const priorSession = chapterEngagementRef.current;
+    const sameSession = priorSession.key === chKey;
+    const engagedDelta = sameSession && priorSession.lastInteractionAt != null
+      ? Math.min(MAX_ENGAGEMENT_GAP_MS, Math.max(0, now - priorSession.lastInteractionAt))
+      : 0;
+    chapterEngagementRef.current = { key: chKey, lastInteractionAt: now };
     setReadingProgress(prev => {
-      let todayIso = prev.todayIso;
-      let todayChapters = prev.todayChapters;
-      if (todayIso !== today) {
-        todayIso = today;
-        todayChapters = [];
+      let nextProgress = prev;
+      if (nextProgress.todayIso !== today) {
+        nextProgress = {
+          ...nextProgress,
+          todayIso: today,
+          todayChapters: [],
+          todayChapterEvidence: {},
+        };
       }
-      const nextChapters = todayChapters.includes(chKey) ? todayChapters : [...todayChapters, chKey];
-      const goalMet = nextChapters.length >= dailyGoalChapters;
-      let goalMetDays = [...prev.goalMetDays];
-      if (goalMet) {
-        if (!goalMetDays.includes(today)) goalMetDays = [...goalMetDays, today];
-      } else {
-        goalMetDays = goalMetDays.filter(d => d !== today);
-      }
-      const streak = computeGoalStreak(goalMetDays, today);
-      return {
-        streak,
-        goalMetDays,
-        todayIso,
-        todayChapters: nextChapters,
+      const priorEvidence = nextProgress.todayChapterEvidence[chKey] ?? { furthestVerse: 0, engagedMs: 0 };
+      const nextEvidence: ChapterReadEvidence = {
+        furthestVerse: Math.max(priorEvidence.furthestVerse, furthestVerse),
+        engagedMs: priorEvidence.engagedMs + engagedDelta,
       };
+      const alreadyCounted = nextProgress.todayChapters.includes(chKey);
+      const shouldCount = alreadyCounted || chapterEvidenceQualifies(nextEvidence, totalVerses);
+      const todayChapters = shouldCount && !alreadyCounted
+        ? [...nextProgress.todayChapters, chKey]
+        : nextProgress.todayChapters;
+      const evidenceUnchanged =
+        priorEvidence.furthestVerse === nextEvidence.furthestVerse &&
+        priorEvidence.engagedMs === nextEvidence.engagedMs;
+      if (evidenceUnchanged && todayChapters === nextProgress.todayChapters) {
+        return syncGoalCompletion(nextProgress, dailyGoalChapters, today);
+      }
+      return syncGoalCompletion({
+        ...nextProgress,
+        todayChapters,
+        todayChapterEvidence: {
+          ...nextProgress.todayChapterEvidence,
+          [chKey]: nextEvidence,
+        },
+      }, dailyGoalChapters, today);
     });
   }, [dailyGoalChapters]);
 
@@ -1002,23 +1478,49 @@ export default function BibleApp() {
       translation,
     }));
     persistRecentPassage(currentBook.name, chapter, translation);
-    recordChapterVisit(currentBook.name, chapter, translation);
-  }, [chapter, currentBook, persistRecentPassage, recordChapterVisit, translation]);
+  }, [chapter, currentBook, persistRecentPassage, translation]);
 
-  const runSearch = useCallback(async () => {
-    const trimmed = searchQuery.trim();
+  useEffect(() => {
+    if (!currentBook) return;
+    chapterEngagementRef.current = {
+      key: chapterStorageKey(currentBook.name, chapter, translation),
+      lastInteractionAt: Date.now(),
+    };
+  }, [chapter, currentBook, translation]);
+
+  const applySearchSuggestion = useCallback((
+    suggestion: SearchSuggestion,
+    options?: { closePanel?: boolean },
+  ) => {
+    searchRequestIdRef.current += 1;
+    setSearchLoading(false);
+    const moved = navigateToPassage(
+      suggestion.book,
+      suggestion.chapter,
+      suggestion.translation,
+      suggestion.verseStart,
+    );
+    setSearchResults([]);
+    setSearchError(moved ? null : 'Could not navigate to that passage.');
+    if (moved) {
+      setSearchQuery(suggestion.label);
+      if (options?.closePanel ?? true) setSearchOpen(false);
+    }
+  }, [navigateToPassage]);
+
+  const runPhraseSearch = useCallback(async (
+    query: string,
+    options?: { showEmptyError?: boolean },
+  ) => {
+    const trimmed = query.trim();
     if (!trimmed) {
+      searchRequestIdRef.current += 1;
       setSearchResults([]);
       setSearchError(null);
+      setSearchLoading(false);
       return;
     }
-    const parsed = parseReferenceLabel(trimmed, bookNamesSorted);
-    if (parsed) {
-      const moved = navigateToPassage(parsed.book, parsed.chapter, undefined, parsed.verse_start);
-      setSearchResults([]);
-      setSearchError(moved ? null : 'Could not navigate to that passage.');
-      return;
-    }
+    const requestId = ++searchRequestIdRef.current;
     setSearchLoading(true);
     setSearchError(null);
     try {
@@ -1029,15 +1531,39 @@ export default function BibleApp() {
       });
       if (!response.ok) throw new Error('Search is unavailable right now.');
       const results = await response.json() as SearchResult[];
+      if (requestId !== searchRequestIdRef.current) return;
       setSearchResults(results);
-      if (!results.length) setSearchError('No matching verses found. Try a shorter phrase or a passage reference.');
+      if (!results.length) {
+        setSearchError(
+          options?.showEmptyError
+            ? 'No matching verses found. Try a shorter phrase or a passage reference.'
+            : null,
+        );
+      }
     } catch (error) {
+      if (requestId !== searchRequestIdRef.current) return;
       setSearchResults([]);
       setSearchError(error instanceof Error ? error.message : 'Search is unavailable right now.');
     } finally {
-      setSearchLoading(false);
+      if (requestId === searchRequestIdRef.current) setSearchLoading(false);
     }
-  }, [bookNamesSorted, navigateToPassage, searchQuery, translation]);
+  }, [translation]);
+
+  const runSearch = useCallback(async () => {
+    const trimmed = searchQuery.trim();
+    if (!trimmed) {
+      searchRequestIdRef.current += 1;
+      setSearchResults([]);
+      setSearchError(null);
+      setSearchLoading(false);
+      return;
+    }
+    if (searchLooksLikeNavigation && topSearchSuggestion) {
+      applySearchSuggestion(topSearchSuggestion);
+      return;
+    }
+    await runPhraseSearch(trimmed, { showEmptyError: true });
+  }, [applySearchSuggestion, runPhraseSearch, searchLooksLikeNavigation, searchQuery, topSearchSuggestion]);
 
   const closeVerseStudyPopup = useCallback(() => {
     setSelectedVerse(null);
@@ -1154,13 +1680,18 @@ export default function BibleApp() {
 
   const buildSyncedReadingProgress = useCallback((): SyncedReadingProgress[] => {
     if (!currentBook) return [];
+    const chKey = chapterStorageKey(currentBook.name, chapter, translation);
+    const today = computeTodayIso();
+    const furthestTrackedVerse = readingProgress.todayIso === today
+      ? readingProgress.todayChapterEvidence[chKey]?.furthestVerse ?? 0
+      : 0;
     return [{
       translation,
       book_number: currentBook.book_number,
       chapter,
-      last_verse: selectedVerse ?? 1,
+      last_verse: Math.max(selectedVerse ?? 0, furthestTrackedVerse, 1),
     }];
-  }, [chapter, currentBook, selectedVerse, translation]);
+  }, [chapter, currentBook, readingProgress.todayChapterEvidence, readingProgress.todayIso, selectedVerse, translation]);
 
   const buildSyncedUserSettings = useCallback((): SyncedUserSettings => ({
     theme: currentTheme,
@@ -1171,6 +1702,8 @@ export default function BibleApp() {
     high_contrast: readerSettings.highContrast,
     default_panel: readerSettings.defaultPanel,
     side_panel_position: readerSettings.sidePanelPosition,
+    reader_font: readerSettings.readerFont,
+    highlight_color: readerSettings.highlightColor,
     recent_passages: recentPassages.map(entry => ({
       book: entry.book,
       chapter: entry.chapter,
@@ -1217,6 +1750,8 @@ export default function BibleApp() {
     setReaderSettings(normalizeReaderSettings({
       fontScale: settings.font_scale,
       lineHeight: settings.line_height,
+      readerFont: settings.reader_font,
+      highlightColor: settings.highlight_color,
       reducedMotion: settings.reduced_motion,
       pageFlipEnabled: settings.page_flip_enabled,
       highContrast: settings.high_contrast,
@@ -1434,7 +1969,7 @@ export default function BibleApp() {
   // ── Scroll handler ────────────────────────────────────────────────────────────
   useEffect(() => {
     const pane = biblePaneRef.current;
-    if (!pane) return;
+    if (!pane || !currentBook || !chapterData) return;
     const onScroll = () => {
       const y = pane.scrollTop;
       const delta = y - lastScrollYRef.current;
@@ -1442,36 +1977,89 @@ export default function BibleApp() {
       else if (delta < -6)        setChromeVisible(true);
       if (y < 10)                 setChromeVisible(true);
       lastScrollYRef.current = y;
+      recordChapterEngagement(currentBook.name, chapter, translation, getTopVisibleVerse(), chapterData.verses.length);
       requestCommentarySync(commentaryEntriesRef.current);
     };
     pane.addEventListener('scroll', onScroll, { passive: true });
     return () => pane.removeEventListener('scroll', onScroll);
-  }, [requestCommentarySync]);
+  }, [chapter, chapterData, currentBook, getTopVisibleVerse, recordChapterEngagement, requestCommentarySync, translation]);
 
-  // ── Touch swipe ───────────────────────────────────────────────────────────────
+  // ── Touch swipe + trackpad two-finger swipe ───────────────────────────────────
   useEffect(() => {
     const pane = biblePaneRef.current;
-    if (!pane) return;
+    const contentArea = contentAreaRef.current;
+    if (!pane || !contentArea) return;
+
+    const isHorizontalGesture = (dx: number, dy: number) =>
+      Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5;
+
+    const isSideEdgeStart = (clientX: number) => {
+      const edgeThreshold = 48;
+      return sidePanelPositionRef.current === 'left'
+        ? clientX <= edgeThreshold
+        : clientX >= window.innerWidth - edgeThreshold;
+    };
+
+    // ── Single-finger touch (mobile) ──────────────────────────────────────────
     const onStart = (e: TouchEvent) => {
       touchStartXRef.current = e.touches[0].clientX;
       touchStartYRef.current = e.touches[0].clientY;
+      touchGestureModeRef.current = isSideEdgeStart(e.touches[0].clientX) ? 'side-toggle' : 'chapter';
     };
     const onEnd = (e: TouchEvent) => {
       if (touchStartXRef.current === null) return;
       const dx = e.changedTouches[0].clientX - touchStartXRef.current;
       const dy = e.changedTouches[0].clientY - touchStartYRef.current;
-      if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      if (!isHorizontalGesture(dx, dy)) {
+        touchStartXRef.current = null;
+        touchGestureModeRef.current = 'chapter';
+        return;
+      }
+      if (touchGestureModeRef.current === 'side-toggle') {
+        toggleReaderFocus();
+      } else {
+        // swipe left → previous chapter, swipe right → next chapter
         dx < 0 ? goNext() : goPrev();
       }
       touchStartXRef.current = null;
+      touchGestureModeRef.current = 'chapter';
     };
+
+    // ── Two-finger trackpad horizontal swipe (desktop) ────────────────────────
+    let wheelAccX = 0;
+    let wheelLocked = false;
+    let wheelResetTimer: ReturnType<typeof setTimeout> | null = null;
+
+    const onWheel = (e: WheelEvent) => {
+      // Only handle dominant horizontal movement (two-finger horizontal swipe)
+      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      e.preventDefault();
+      if (wheelLocked) return;
+
+      wheelAccX += e.deltaX;
+
+      if (wheelResetTimer) clearTimeout(wheelResetTimer);
+      wheelResetTimer = setTimeout(() => { wheelAccX = 0; }, 1200);
+
+      if (Math.abs(wheelAccX) > 120) {
+        wheelLocked = true;
+        wheelAccX = 0;
+        toggleReaderFocus();
+        wheelResetTimer = setTimeout(() => { wheelAccX = 0; wheelLocked = false; }, 2000);
+      }
+    };
+
     pane.addEventListener('touchstart', onStart, { passive: true });
     pane.addEventListener('touchend', onEnd, { passive: true });
+    contentArea.addEventListener('wheel', onWheel, { passive: false });
     return () => {
       pane.removeEventListener('touchstart', onStart);
       pane.removeEventListener('touchend', onEnd);
+      contentArea.removeEventListener('wheel', onWheel);
+      if (wheelResetTimer) clearTimeout(wheelResetTimer);
     };
-  }, [goNext, goPrev]);
+  }, [goNext, goPrev, toggleReaderFocus]);
 
   // ── Keyboard ──────────────────────────────────────────────────────────────────
   useEffect(() => {
@@ -1494,6 +2082,22 @@ export default function BibleApp() {
     const id = window.requestAnimationFrame(() => searchInputRef.current?.focus());
     return () => cancelAnimationFrame(id);
   }, [searchOpen]);
+
+  useEffect(() => {
+    if (!searchOpen) return;
+    const trimmed = searchQuery.trim();
+    if (!trimmed || searchLooksLikeNavigation || trimmed.length < 3) {
+      searchRequestIdRef.current += 1;
+      setSearchLoading(false);
+      setSearchResults([]);
+      setSearchError(null);
+      return;
+    }
+    const timeoutId = window.setTimeout(() => {
+      void runPhraseSearch(trimmed, { showEmptyError: false });
+    }, 220);
+    return () => window.clearTimeout(timeoutId);
+  }, [runPhraseSearch, searchLooksLikeNavigation, searchOpen, searchQuery]);
 
   // ── Draggable divider ─────────────────────────────────────────────────────────
   useEffect(() => {
@@ -2163,6 +2767,7 @@ export default function BibleApp() {
       return <div className="state-msg">Could not load this chapter.</div>;
     }
     return (
+      <>
       <div
         className={`reader-page-transition${animClass ? ` ${animClass}` : ''}`}
         onAnimationEnd={() => {
@@ -2271,6 +2876,7 @@ export default function BibleApp() {
                 className={`verse-line${inAiNav ? ' verse-line--ai-nav' : ''}${selectedVerseGroup.includes(v.verse) ? ' verse-line--selected' : ''}${isHighlighted ? ' verse-line--highlighted' : ''}${isBookmarked ? ' verse-line--bookmarked' : ''}${hasNote ? ' verse-line--noted' : ''}`}
                 data-verse={v.verse}
                 onClick={(e) => {
+                  recordChapterEngagement(chapterData.book, chapterData.chapter, translation, v.verse, chapterData.verses.length);
                   // Popup open + clicking a different verse → add/remove from group
                   if (selectedVerse !== null && v.verse !== selectedVerse) {
                     setSelectedVerseGroup(prev =>
@@ -2307,27 +2913,29 @@ export default function BibleApp() {
             );
           })}
         </div>
-        {selectedVerseData && currentBook && versePopupPos && (
-          <section
-            className="verse-study-card verse-study-popup"
-            style={{ top: versePopupPos.top, left: versePopupPos.left }}
-          >
-            <div className="verse-study-header">
-              <div>
-                <div className="reader-dashboard-label">
-                  {selectedVerseGroup.length > 1 ? `${selectedVerseGroup.length} verses` : 'Selected verse'}
-                </div>
-                <div className="verse-study-title">
-                  {formatVerseGroupRef(currentBook.name, chapter, selectedVerseGroup)}
-                </div>
+      </div>
+      {selectedVerseData && currentBook && versePopupPos && (
+        <section
+          className="verse-study-card verse-study-popup"
+          style={{ top: versePopupPos.top, left: versePopupPos.left }}
+        >
+          <div className="verse-study-header">
+            <div>
+              <div className="reader-dashboard-label">
+                {selectedVerseGroup.length > 1 ? `${selectedVerseGroup.length} verses` : 'Selected verse'}
               </div>
-              <button className="verse-study-close" type="button" aria-label="Close" onClick={closeVerseStudyPopup}>
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M6 6l12 12M18 6 6 18" />
-                </svg>
-              </button>
+              <div className="verse-study-title">
+                {formatVerseGroupRef(currentBook.name, chapter, selectedVerseGroup)}
+              </div>
             </div>
-            <div className="verse-study-actions">
+            <button className="verse-study-close" type="button" aria-label="Close" onClick={closeVerseStudyPopup}>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6 6l12 12M18 6 6 18" />
+              </svg>
+            </button>
+          </div>
+          <div className="verse-study-actions">
+            <div className="verse-highlight-row">
               <button className={`verse-action-btn${selectedVerseHighlighted ? ' active' : ''}`} type="button" onClick={toggleVerseHighlight}>
                 <span className="verse-action-icon verse-action-icon--fill" aria-hidden="true">
                   <svg viewBox="0 0 24 24">
@@ -2336,72 +2944,85 @@ export default function BibleApp() {
                 </span>
                 Highlight
               </button>
-              <button className="verse-action-btn" type="button" onClick={copySelectedVerse}>
-                <span className="verse-action-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
-                    <path d="m16 6-4-4-4 4" />
-                    <path d="M12 2v15" />
-                  </svg>
-                </span>
-                Share
-              </button>
-              <button className="verse-action-btn" type="button" onClick={() => openSidePanel('commentary')}>
-                <span className="verse-action-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M6 7.5h9" /><path d="M6 11h12" /><path d="M6 14.5h8" />
-                    <path d="M5 4.5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H12l-4.5 3v-3H5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2Z" />
-                  </svg>
-                </span>
-                Commentary
-              </button>
-              <button
-                className="verse-action-btn"
-                type="button"
-                onClick={() => {
-                  openSidePanel('ai');
-                  const sorted = [...selectedVerseGroup].sort((a, b) => a - b);
-                  const verseTexts = sorted
-                    .map(vn => chapterData?.verses.find(v => v.verse === vn))
-                    .filter(Boolean)
-                    .map(v => v!.text)
-                    .join(' ');
-                  const ref = formatVerseGroupRef(currentBook.name, chapter, sorted);
-                  setAiComposerSeed({ id: Date.now(), text: buildExplainVersePrompt(ref, verseTexts) });
-                }}
-              >
-                <span className="verse-action-icon verse-action-icon--taskbar" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M12 3.5 13.9 8l4.6 1.9-4.6 1.9-1.9 4.7-1.9-4.7L5.5 9.9 10.1 8 12 3.5Z" className="icon-solid" />
-                    <path d="M18 14.5 18.9 16.6 21 17.5l-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9.9-2.1Z" className="icon-solid" />
-                    <path d="M6.5 15.5 7.2 17l1.5.7-1.5.7-.7 1.6-.7-1.6-1.6-.7 1.6-.7.7-1.5Z" className="icon-solid" />
-                  </svg>
-                </span>
-                Ask AI
-              </button>
-            </div>
-            {(showVerseNoteEditor || selectedVerseHighlighted || selectedVerseNote) && (
-              <div className="verse-note-editor">
-                <textarea
-                  className="verse-note-input"
-                  value={currentNoteDraft}
-                  rows={3}
-                  placeholder="Add a note (optional)..."
-                  onChange={event => setCurrentNoteDraft(event.target.value)}
-                />
-                <div className="verse-note-actions">
-                  <button className="verse-action-btn active" type="button" onClick={saveVerseNote}>Save</button>
-                  {selectedVerseNote && (
-                    <button className="verse-action-btn" type="button" onClick={() => { setCurrentNoteDraft(''); setVerseNotes(prev => { const next = { ...prev }; if (selectedVerseKey) delete next[selectedVerseKey]; return next; }); }}>
-                      Remove note
-                    </button>
-                  )}
-                </div>
+              <div className="verse-color-strip" role="group" aria-label="Highlight color">
+                {(['yellow', 'amber', 'green', 'blue', 'pink'] as const).map(colorId => (
+                  <button
+                    key={colorId}
+                    type="button"
+                    aria-label={colorId}
+                    className={`verse-color-dot${readerSettings.highlightColor === colorId ? ' active' : ''}`}
+                    style={{ background: READER_HIGHLIGHT_PRESETS[colorId].light }}
+                    onClick={() => setReaderSettings(prev => ({ ...prev, highlightColor: colorId }))}
+                  />
+                ))}
               </div>
-            )}
-          </section>
-        )}
-      </div>
+            </div>
+            <button className="verse-action-btn" type="button" onClick={copySelectedVerse}>
+              <span className="verse-action-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+                  <path d="m16 6-4-4-4 4" />
+                  <path d="M12 2v15" />
+                </svg>
+              </span>
+              Share
+            </button>
+            <button className="verse-action-btn" type="button" onClick={() => openSidePanel('commentary')}>
+              <span className="verse-action-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M6 7.5h9" /><path d="M6 11h12" /><path d="M6 14.5h8" />
+                  <path d="M5 4.5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H12l-4.5 3v-3H5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2Z" />
+                </svg>
+              </span>
+              Commentary
+            </button>
+            <button
+              className="verse-action-btn"
+              type="button"
+              onClick={() => {
+                openSidePanel('ai');
+                const sorted = [...selectedVerseGroup].sort((a, b) => a - b);
+                const verseTexts = sorted
+                  .map(vn => chapterData?.verses.find(v => v.verse === vn))
+                  .filter(Boolean)
+                  .map(v => v!.text)
+                  .join(' ');
+                const ref = formatVerseGroupRef(currentBook.name, chapter, sorted);
+                setAiComposerSeed({ id: Date.now(), text: buildExplainVersePrompt(ref, verseTexts) });
+              }}
+            >
+              <span className="verse-action-icon verse-action-icon--taskbar" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 3.5 13.9 8l4.6 1.9-4.6 1.9-1.9 4.7-1.9-4.7L5.5 9.9 10.1 8 12 3.5Z" className="icon-solid" />
+                  <path d="M18 14.5 18.9 16.6 21 17.5l-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9.9-2.1Z" className="icon-solid" />
+                  <path d="M6.5 15.5 7.2 17l1.5.7-1.5.7-.7 1.6-.7-1.6-1.6-.7 1.6-.7.7-1.5Z" className="icon-solid" />
+                </svg>
+              </span>
+              Ask AI
+            </button>
+          </div>
+          {(showVerseNoteEditor || selectedVerseHighlighted || selectedVerseNote) && (
+            <div className="verse-note-editor">
+              <textarea
+                className="verse-note-input"
+                value={currentNoteDraft}
+                rows={3}
+                placeholder="Add a note (optional)..."
+                onChange={event => setCurrentNoteDraft(event.target.value)}
+              />
+              <div className="verse-note-actions">
+                <button className="verse-action-btn active" type="button" onClick={saveVerseNote}>Save</button>
+                {selectedVerseNote && (
+                  <button className="verse-action-btn" type="button" onClick={() => { setCurrentNoteDraft(''); setVerseNotes(prev => { const next = { ...prev }; if (selectedVerseKey) delete next[selectedVerseKey]; return next; }); }}>
+                    Remove note
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+        </section>
+      )}
+    </>
     );
   };
 
@@ -2697,7 +3318,49 @@ export default function BibleApp() {
         </svg>
       </div>
 
+      {homeScreenActive && (
+        <div className="home-screen" role="region" aria-label="Home">
+          <div className="home-screen-inner">
+            <header className="home-screen-header">
+              <h1 className="home-screen-title">Welcome</h1>
+              <p className="home-screen-sub">Use the bar below to open the reader, commentary, or AI.</p>
+            </header>
+            <section className="home-screen-card reader-dashboard-card" aria-labelledby="home-streak-heading">
+              <h2 id="home-streak-heading" className="reader-dashboard-label">Your streak</h2>
+              <p className="reader-dashboard-title">{readingProgress.streak} day streak</p>
+              <p className="home-screen-card-caption">{readingRhythmTitle}</p>
+              <div className="reader-dashboard-metrics">
+                <span className="reader-pill">
+                  {chaptersToday} of {dailyGoalChapters} {dailyGoalChapters === 1 ? 'chapter' : 'chapters'} today
+                </span>
+              </div>
+            </section>
+            <section className="home-screen-card reader-dashboard-card" aria-labelledby="home-continue-heading">
+              <h2 id="home-continue-heading" className="reader-dashboard-label">Continue where you left off</h2>
+              {chapterLoading && !chapterData ? (
+                <div className="home-continue-loading">
+                  <span className="spinner" aria-hidden="true" />
+                  <span>Loading your place…</span>
+                </div>
+              ) : currentBook ? (
+                <button
+                  type="button"
+                  className="home-continue-btn"
+                  onClick={() => openReaderFromHome('none')}
+                >
+                  <span className="home-continue-ref">{currentBook.name} {chapter}</span>
+                  <span className="home-continue-meta">{translation}</span>
+                </button>
+              ) : (
+                <p className="home-continue-empty">Open the reader and pick a book to start.</p>
+              )}
+            </section>
+          </div>
+        </div>
+      )}
+
       {/* Topbar */}
+      {!homeScreenActive && (
       <nav className={`topbar${chromeVisible ? '' : ' chrome-hide-top'}`}>
         <div className="nav-left">
           <button
@@ -2761,8 +3424,10 @@ export default function BibleApp() {
           </span>
         </div>
       </nav>
+      )}
 
       {/* Book popup */}
+      {!homeScreenActive && (
       <div
         className={`popup-overlay${bookPopupOpen ? ' open' : ''}`}
         onClick={e => { if (e.target === e.currentTarget) setBookPopupOpen(false); }}
@@ -2805,8 +3470,10 @@ export default function BibleApp() {
           )}
         </div>
       </div>
+      )}
 
       {/* Version popup */}
+      {!homeScreenActive && (
       <div
         className={`popup-overlay${versionPopupOpen ? ' open' : ''}`}
         onClick={e => { if (e.target === e.currentTarget) setVersionPopupOpen(false); }}
@@ -2827,7 +3494,9 @@ export default function BibleApp() {
           ))}
         </div>
       </div>
+      )}
 
+      {!homeScreenActive && (
       <div
         className={`popup-overlay${searchOpen ? ' open' : ''}`}
         onClick={e => { if (e.target === e.currentTarget) setSearchOpen(false); }}
@@ -2865,7 +3534,39 @@ export default function BibleApp() {
               )}
             </button>
           </form>
-          {recentPassages.length > 0 && (
+          {searchSuggestions.length > 0 && (
+            <div className="search-section search-section--compact">
+              <div className="search-section-title">
+                {searchQuery.trim() ? 'Suggestions' : 'Popular & recent'}
+              </div>
+              <div className="search-suggestion-list" role="listbox" aria-label="Search suggestions">
+                {searchSuggestions.map(suggestion => (
+                  <button
+                    key={suggestion.id}
+                    className="search-suggestion"
+                    type="button"
+                    onClick={() => applySearchSuggestion(suggestion)}
+                  >
+                    <div className="search-suggestion-top">
+                      <span className={`search-suggestion-badge search-suggestion-badge--${suggestion.source}`}>
+                        {suggestion.source === 'typo'
+                          ? 'Typo match'
+                          : suggestion.source === 'recent'
+                            ? 'Recent'
+                            : suggestion.source === 'direct'
+                              ? 'Go to'
+                              : 'Popular'}
+                      </span>
+                      <span className="search-suggestion-arrow" aria-hidden="true">&gt;</span>
+                    </div>
+                    <div className="search-suggestion-title">{suggestion.label}</div>
+                    <div className="search-suggestion-subtitle">{suggestion.hint}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          {!searchQuery.trim() && recentPassages.length > 0 && searchSuggestions.length === 0 && (
             <div className="search-section search-section--compact">
               <div className="search-chip-row" aria-label="Recent passages">
                 {recentPassages.slice(0, 6).map(entry => (
@@ -2889,7 +3590,10 @@ export default function BibleApp() {
                   key={`${result.verse.book}-${result.verse.chapter}-${result.verse.verse}-${result.verse.translation}`}
                   className="search-result"
                   type="button"
-                  onClick={() => navigateToPassage(result.verse.book, result.verse.chapter, result.verse.translation, result.verse.verse)}
+                  onClick={() => {
+                    navigateToPassage(result.verse.book, result.verse.chapter, result.verse.translation, result.verse.verse);
+                    setSearchOpen(false);
+                  }}
                 >
                   <div className="search-result-ref">
                     {result.verse.book} {result.verse.chapter}:{result.verse.verse} ({result.verse.translation})
@@ -2901,9 +3605,10 @@ export default function BibleApp() {
           )}
         </div>
       </div>
+      )}
 
       {/* Content shell */}
-      <div className={`content-shell${chromeVisible ? '' : ' chrome-hidden'}`}>
+      <div className={`content-shell${chromeVisible ? '' : ' chrome-hidden'}${homeScreenActive ? ' home-screen-behind' : ''}`}>
         {/* Smoke overlay */}
         <div id="smoke-overlay" aria-hidden="true">
           {([ ['300px','300px','var(--muted)','5%','4%','35px','18px','30s','0s'],
@@ -2938,7 +3643,21 @@ export default function BibleApp() {
         <div className="emerald-leaves" aria-hidden="true" />
 
         {/* Main content area */}
-        <div className={`content-area${sidePaneOnRight ? ' side-pane-right' : ''}`}>
+        <div
+          ref={contentAreaRef}
+          className={`content-area${sidePaneOnRight ? ' side-pane-right' : ''}`}
+        >
+          <button
+            type="button"
+            className={`side-edge-toggle${sidePaneOnRight ? ' side-edge-toggle-right' : ' side-edge-toggle-left'}${sideOpen ? ' open' : ''}`}
+            aria-label={sideOpen ? 'Return to full-screen reader' : 'Open side panel'}
+            aria-expanded={sideOpen}
+            onClick={toggleReaderFocus}
+          >
+            <span className="side-edge-toggle-text">
+              {sideOpen ? 'Full reader' : 'Open panel'}
+            </span>
+          </button>
           {/* Side pane */}
           <aside
             ref={sidePaneRef}
@@ -3075,7 +3794,7 @@ export default function BibleApp() {
         </div>
       </div>
 
-      {readerAskBubble && chapterData && (
+      {readerAskBubble && chapterData && !homeScreenActive && (
         <button
           type="button"
           className="reader-selection-ask-btn"
@@ -3093,7 +3812,7 @@ export default function BibleApp() {
       )}
 
       {/* Chapter nav buttons */}
-      <div className={`ch-nav ch-nav-prev${chromeVisible ? '' : ' chrome-hide-bottom'}${sideOpen && !sidePaneOnRight ? ' side-pane-open' : ''}`}>
+      <div className={`ch-nav ch-nav-prev${chromeVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}${sideOpen && !sidePaneOnRight ? ' side-pane-open' : ''}`}>
         <button
           className="ch-nav-btn"
           type="button"
@@ -3104,7 +3823,7 @@ export default function BibleApp() {
           ‹
         </button>
       </div>
-      <div className={`ch-nav ch-nav-next${chromeVisible ? '' : ' chrome-hide-bottom'}${sideOpen && sidePaneOnRight ? ' side-pane-open' : ''}`}>
+      <div className={`ch-nav ch-nav-next${chromeVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}${sideOpen && sidePaneOnRight ? ' side-pane-open' : ''}`}>
         <button
           className="ch-nav-btn"
           type="button"
@@ -3122,7 +3841,10 @@ export default function BibleApp() {
           className="taskbar-btn taskbar-btn-settings"
           type="button"
           aria-label="Settings"
-          onClick={() => setSettingsOpen(true)}
+          onClick={() => {
+            setHomeScreenActive(false);
+            setSettingsOpen(true);
+          }}
         >
           <span className="taskbar-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24">
@@ -3134,18 +3856,17 @@ export default function BibleApp() {
 
         <span
           className="taskbar-tooltip-wrap"
-          data-tooltip="Commentary"
+          data-tooltip="Home"
         >
           <button
-            className={`taskbar-btn${sidePanelMode === 'commentary' ? ' active' : ''}`}
+            className={`taskbar-btn${homeScreenActive ? ' active' : ''}`}
             type="button"
-            aria-label="Commentary"
-            onClick={toggleCommentary}
+            aria-label="Home"
+            onClick={goToHome}
           >
             <span className="taskbar-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24">
-                <path d="M6 7.5h9" /><path d="M6 11h12" /><path d="M6 14.5h8" />
-                <path d="M5 4.5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H12l-4.5 3v-3H5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2Z" />
+                <path d="M10.5 3.5 3 9.5V20a1.5 1.5 0 0 0 1.5 1.5H9V14h6v7.5h4.5A1.5 1.5 0 0 0 21 20V9.5L13.5 3.5a2 2 0 0 0-3 0Z" />
               </svg>
             </span>
           </button>
@@ -3156,10 +3877,10 @@ export default function BibleApp() {
           data-tooltip="Bible"
         >
           <button
-            className={`taskbar-btn is-primary${sidePanelMode === 'none' ? ' active' : ''}`}
+            className={`taskbar-btn is-primary${!homeScreenActive && sidePanelMode === 'none' ? ' active' : ''}`}
             type="button"
             aria-label="Bible reader"
-            onClick={closeSidePanel}
+            onClick={() => (homeScreenActive ? openReaderFromHome('none') : closeSidePanel())}
           >
             <span className="taskbar-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24">
@@ -3173,13 +3894,32 @@ export default function BibleApp() {
 
         <span
           className="taskbar-tooltip-wrap"
+          data-tooltip="Commentary"
+        >
+          <button
+            className={`taskbar-btn${!homeScreenActive && sidePanelMode === 'commentary' ? ' active' : ''}`}
+            type="button"
+            aria-label="Commentary"
+            onClick={() => (homeScreenActive ? openReaderFromHome('commentary') : toggleCommentary())}
+          >
+            <span className="taskbar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M6 7.5h9" /><path d="M6 11h12" /><path d="M6 14.5h8" />
+                <path d="M5 4.5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H12l-4.5 3v-3H5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2Z" />
+              </svg>
+            </span>
+          </button>
+        </span>
+
+        <span
+          className="taskbar-tooltip-wrap"
           data-tooltip="AI"
         >
           <button
-            className={`taskbar-btn${sidePanelMode === 'ai' ? ' active' : ''}`}
+            className={`taskbar-btn${!homeScreenActive && sidePanelMode === 'ai' ? ' active' : ''}`}
             type="button"
             aria-label="AI assistant"
-            onClick={toggleAiPanel}
+            onClick={() => (homeScreenActive ? openReaderFromHome('ai') : toggleAiPanel())}
           >
             <span className="taskbar-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24">
@@ -3248,6 +3988,23 @@ export default function BibleApp() {
                 </select>
               </label>
               <label className="settings-field">
+                <span>Reading font</span>
+                <select
+                  value={readerSettings.readerFont}
+                  onChange={event => setReaderSettings(prev => ({
+                    ...prev,
+                    readerFont: event.target.value as ReaderFontId,
+                  }))}
+                >
+                  <option value="georgia">Georgia (default)</option>
+                  <option value="charter">Charter</option>
+                  <option value="palatino">Palatino</option>
+                  <option value="garamond">Garamond style</option>
+                  <option value="times">Times New Roman</option>
+                  <option value="sans">Sans (UI)</option>
+                </select>
+              </label>
+              <label className="settings-field">
                 <span>Line spacing</span>
                 <select
                   value={readerSettings.lineHeight}
@@ -3309,7 +4066,7 @@ export default function BibleApp() {
           width: '100%',
           height: '100%',
           pointerEvents: 'none',
-          zIndex: 110,
+          zIndex: homeScreenActive ? 30 : 110,
           display: currentTheme === 'galaxy' || currentTheme === 'pink' ? 'block' : 'none',
         }}
       />
