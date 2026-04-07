@@ -207,26 +207,19 @@ button {
 }
 .content-shell {
   position: fixed;
-  top: var(--topbar);
-  bottom: var(--taskbar);
+  inset: 0;
   left: 0;
   right: 0;
   overflow: hidden;
   z-index: var(--z-content);
   isolation: isolate;
   transform: translateZ(0);
-  /* Delay snap-back until bars have fully slid in (matches bar transition 0.3s) */
-  transition: top 0s 0.3s, bottom 0s 0.3s;
 }
 .content-shell.chrome-hidden {
-  top: 0;
-  bottom: 0;
-  /* Expand instantly when bars hide */
-  transition: top 0s, bottom 0s;
+  inset: 0;
 }
 /* Reader shell stays mounted while home is shown; hide it so only the home layer + taskbar show. */
 .content-shell.home-screen-behind {
-  top: 0;
   visibility: hidden;
   pointer-events: none;
 }
@@ -689,6 +682,17 @@ button {
   font-size: 11px;
   font-weight: 500;
 }
+button.summary-tag {
+  border: none;
+  cursor: pointer;
+  transition: transform 0.12s ease, filter 0.12s ease;
+}
+button.summary-tag:hover {
+  filter: brightness(1.04);
+}
+button.summary-tag:active {
+  transform: scale(0.98);
+}
 .summary-points {
   list-style: none;
   margin: 0;
@@ -795,6 +799,13 @@ button.ai-chip:active {
 }
 .ai-inline-scripture-ref:hover {
   filter: brightness(1.08);
+}
+.ai-citation-row {
+  margin-top: 8px;
+}
+.ai-inline-scripture-pill {
+  margin: 0 3px 2px 0;
+  vertical-align: baseline;
 }
 .ai-context-pill-extra {
   gap: 5px;
@@ -1211,7 +1222,7 @@ select.ai-add-chapter-input optgroup {
   bottom: 0;
   margin-top: auto;
   padding: 0 18px 18px;
-  background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--bg) 92%, transparent) 22%, var(--bg));
+  background: transparent;
 }
 .ai-composer {
   padding: 10px 12px 9px;
@@ -1346,12 +1357,12 @@ select.ai-add-chapter-input optgroup {
 .reader-wrap {
   max-width: 720px;
   margin: 0 auto;
-  padding: 42px 24px 72px;
+  padding: calc(var(--topbar) + 42px) 24px calc(var(--taskbar) + 72px);
 }
 .reader-wrap--book {
   width: 100%;
   max-width: none;
-  padding: 32px 28px 72px;
+  padding: calc(var(--topbar) + 32px) 28px calc(var(--taskbar) + 72px);
 }
 .reader-wrap--book.reader-wrap--full {
   padding-left: 18px;
@@ -3396,11 +3407,11 @@ select.ai-add-chapter-input optgroup {
       rgba(210, 160, 255, 0.07) 50%,
       rgba(110, 210, 255, 0.06) 65%,
       transparent 80%, transparent 100%
-    ),
+  ),
     linear-gradient(180deg, rgba(36,20,58,0.52) 0%, rgba(18,10,36,0.45) 100%);
   background-size: 360% 100%, 100% 100%;
-  backdrop-filter: blur(22px) saturate(1.6);
-  -webkit-backdrop-filter: blur(22px) saturate(1.6);
+  backdrop-filter: blur(14px) saturate(1.35);
+  -webkit-backdrop-filter: blur(14px) saturate(1.35);
   border-color: rgba(255,255,255,0.14);
   animation: galaxy-bar-shimmer 13s linear infinite, galaxy-bar-glow 7s ease-in-out infinite alternate;
 }
@@ -3420,8 +3431,8 @@ select.ai-add-chapter-input optgroup {
 [data-theme="galaxy"] .taskbar::before { top: 0; bottom: auto; }
 [data-theme="galaxy"] .nav-btn {
   background: rgba(48,28,88,0.38);
-  backdrop-filter: blur(14px) saturate(1.45);
-  -webkit-backdrop-filter: blur(14px) saturate(1.45);
+  backdrop-filter: blur(10px) saturate(1.2);
+  -webkit-backdrop-filter: blur(10px) saturate(1.2);
   border: 1px solid rgba(255,255,255,0.16);
   box-shadow: 0 1px 0 rgba(255,255,255,0.14) inset, 0 6px 20px rgba(6,0,18,0.4);
 }
@@ -3431,8 +3442,8 @@ select.ai-add-chapter-input optgroup {
 }
 [data-theme="galaxy"] .nav-btn.active {
   background: rgba(32,18,58,0.72);
-  backdrop-filter: blur(18px) saturate(1.35);
-  -webkit-backdrop-filter: blur(18px) saturate(1.35);
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
   border-color: rgba(232,196,120,0.42);
   color: #fffefb;
   box-shadow: 0 1px 0 rgba(255,255,255,0.1) inset, 0 0 0 1px rgba(0,0,0,0.15) inset, 0 8px 28px rgba(4,0,14,0.55);
@@ -3440,58 +3451,58 @@ select.ai-add-chapter-input optgroup {
 [data-theme="galaxy"] .book-panel,
 [data-theme="galaxy"] .version-panel {
   background: rgba(28,14,48,0.58);
-  backdrop-filter: blur(26px) saturate(1.45);
-  -webkit-backdrop-filter: blur(26px) saturate(1.45);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
   border: 1px solid rgba(255,255,255,0.16);
   box-shadow: 0 1px 0 rgba(255,255,255,0.1) inset, 0 0 0 1px rgba(0,0,0,0.25) inset, 0 20px 56px rgba(2,0,10,0.65);
 }
 [data-theme="galaxy"] .testament-label,
 [data-theme="galaxy"] .version-header {
   background: rgba(20,10,38,0.72);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-bottom-color: rgba(255,255,255,0.1);
 }
 [data-theme="galaxy"] .ch-nav-btn {
   background: rgba(28,14,48,0.55);
-  backdrop-filter: blur(18px) saturate(1.4);
-  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
   border: 1px solid rgba(255,255,255,0.18);
   box-shadow: 0 1px 0 rgba(255,255,255,0.14) inset, 0 10px 28px rgba(0,0,0,0.5);
 }
 [data-theme="galaxy"] .side-header {
   background: rgba(22,12,42,0.72);
-  backdrop-filter: blur(16px) saturate(1.35);
-  -webkit-backdrop-filter: blur(16px) saturate(1.35);
+  backdrop-filter: blur(10px) saturate(1.18);
+  -webkit-backdrop-filter: blur(10px) saturate(1.18);
   border-bottom-color: rgba(255,255,255,0.1);
   box-shadow: 0 1px 0 rgba(255,255,255,0.08) inset;
 }
 [data-theme="galaxy"] .taskbar-icon {
-  backdrop-filter: blur(10px) saturate(1.3);
-  -webkit-backdrop-filter: blur(10px) saturate(1.3);
+  backdrop-filter: blur(6px) saturate(1.15);
+  -webkit-backdrop-filter: blur(6px) saturate(1.15);
   background: rgba(200,195,230,0.12);
   border-color: rgba(255,255,255,0.2);
   box-shadow: 0 1px 0 rgba(255,255,255,0.12) inset, 0 4px 16px rgba(4,0,12,0.35);
 }
 [data-theme="galaxy"] .settings-panel {
   background: rgba(18,8,34,0.78);
-  backdrop-filter: blur(28px) saturate(1.45);
-  -webkit-backdrop-filter: blur(28px) saturate(1.45);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
   border: 1px solid rgba(255,255,255,0.12);
   border-bottom: none;
   box-shadow: 0 1px 0 rgba(255,255,255,0.1) inset, 0 -24px 48px rgba(0,0,0,0.45);
 }
 [data-theme="galaxy"] .settings-header {
   background: rgba(18,8,34,0.82);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-bottom-color: rgba(255,255,255,0.1);
 }
 [data-theme="galaxy"] .settings-close {
   background: rgba(255,255,255,0.08);
   border: 1px solid rgba(255,255,255,0.12);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 [data-theme="galaxy"] .settings-close:hover {
   background: rgba(232,196,120,0.15);
@@ -3499,8 +3510,8 @@ select.ai-add-chapter-input optgroup {
 }
 [data-theme="galaxy"] .theme-card {
   background: var(--theme-card-bg, rgba(40,22,68,0.45));
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-color: var(--theme-card-border, rgba(255,255,255,0.14));
   box-shadow: 0 1px 0 rgba(255,255,255,0.08) inset;
 }
@@ -3509,15 +3520,63 @@ select.ai-add-chapter-input optgroup {
 }
 [data-theme="galaxy"] .chapter-picker {
   background: rgba(14,6,28,0.85);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-top: 1px solid rgba(255,255,255,0.08);
 }
 [data-theme="galaxy"] .ch-btn {
   background: rgba(36,20,62,0.42);
-  backdrop-filter: blur(8px) saturate(1.2);
-  -webkit-backdrop-filter: blur(8px) saturate(1.2);
+  backdrop-filter: blur(5px) saturate(1.08);
+  -webkit-backdrop-filter: blur(5px) saturate(1.08);
   border-color: rgba(255,255,255,0.14);
+}
+html[data-scroll-active="1"][data-theme="galaxy"] .content-shell::before,
+html[data-scroll-active="1"][data-theme="galaxy"] .content-shell::after,
+html[data-scroll-active="1"][data-theme="galaxy"] #wave-bg::before,
+html[data-scroll-active="1"][data-theme="galaxy"] #wave-bg::after,
+html[data-scroll-active="1"][data-theme="galaxy"] #wave-bg,
+html[data-scroll-active="1"][data-theme="galaxy"] .galaxy-sparkles,
+html[data-scroll-active="1"][data-theme="galaxy"] .galaxy-sparkles::before,
+html[data-scroll-active="1"][data-theme="galaxy"] .galaxy-sparkles::after,
+html[data-scroll-active="1"][data-theme="galaxy"] .topbar,
+html[data-scroll-active="1"][data-theme="galaxy"] .taskbar {
+  animation: none;
+}
+html[data-scroll-active="1"][data-theme="galaxy"] #wave-bg,
+html[data-scroll-active="1"][data-theme="galaxy"] .galaxy-sparkles,
+html[data-scroll-active="1"][data-theme="galaxy"] .theme-comet-canvas {
+  display: none !important;
+}
+html[data-scroll-active="1"][data-theme="galaxy"] .content-shell::before,
+html[data-scroll-active="1"][data-theme="galaxy"] .content-shell::after {
+  opacity: 0.06;
+  mix-blend-mode: normal;
+}
+html[data-scroll-active="1"][data-theme="galaxy"] .galaxy-sparkles::before,
+html[data-scroll-active="1"][data-theme="galaxy"] .galaxy-sparkles::after {
+  opacity: 0.24;
+}
+html[data-scroll-active="1"][data-theme="galaxy"] .topbar,
+html[data-scroll-active="1"][data-theme="galaxy"] .taskbar,
+html[data-scroll-active="1"][data-theme="galaxy"] .nav-btn,
+html[data-scroll-active="1"][data-theme="galaxy"] .nav-btn.active,
+html[data-scroll-active="1"][data-theme="galaxy"] .book-panel,
+html[data-scroll-active="1"][data-theme="galaxy"] .version-panel,
+html[data-scroll-active="1"][data-theme="galaxy"] .side-header,
+html[data-scroll-active="1"][data-theme="galaxy"] .ch-nav-btn,
+html[data-scroll-active="1"][data-theme="galaxy"] .taskbar-icon {
+  backdrop-filter: blur(4px) saturate(1.02);
+  -webkit-backdrop-filter: blur(4px) saturate(1.02);
+}
+html[data-scroll-active="1"][data-theme="pink"] .content-shell::before,
+html[data-scroll-active="1"][data-theme="pink"] .pink-hearts::before,
+html[data-scroll-active="1"][data-theme="pink"] .pink-hearts::after {
+  animation: none;
+  opacity: 0.12;
+}
+html[data-scroll-active="1"][data-theme="pink"] .pink-hearts,
+html[data-scroll-active="1"][data-theme="pink"] .theme-comet-canvas {
+  display: none !important;
 }
 
 /* Galaxy: animated aurora behind the glass bars */
@@ -3922,9 +3981,12 @@ html[data-dynamic-wave="1"] .side-pane {
   }
   .side-pane.open {
     position: fixed;
-    inset: var(--topbar) 0 var(--taskbar) 0;
+    inset: 0;
     width: auto;
     min-width: 0;
+    box-sizing: border-box;
+    padding-top: var(--topbar);
+    padding-bottom: var(--taskbar);
     z-index: calc(var(--z-overlay) - 10);
     box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.18);
   }

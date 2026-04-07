@@ -152,6 +152,33 @@ function createId(prefix: string) {
   return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
+function normalizeBookName(book: string) {
+  return book.trim().toLowerCase().replace(/\s+/g, ' ');
+}
+
+function formatReferencePillLabel(
+  reference: string,
+  nav: { book: string; chapter: number; verse_start?: number; verse_end?: number } | null,
+  currentBookName: string | null,
+  currentChapter: number,
+) {
+  if (!nav) return reference;
+  const start = nav.verse_start;
+  const end = nav.verse_end ?? start;
+  const versePart =
+    start == null
+      ? ''
+      : end != null && end !== start
+        ? `${start}-${end}`
+        : `${start}`;
+  const isSameChapter =
+    currentBookName != null &&
+    normalizeBookName(nav.book) === normalizeBookName(currentBookName) &&
+    nav.chapter === currentChapter;
+  if (isSameChapter && versePart) return `v${versePart}`;
+  return versePart ? `${nav.book} ${nav.chapter}:${versePart}` : `${nav.book} ${nav.chapter}`;
+}
+
 function getContextLabel(book: string | null, chapter: number, translation: string) {
   return book ? `${book} ${chapter} (${translation})` : '';
 }
@@ -295,10 +322,14 @@ function LinkedScriptureParagraph({
   text,
   bookNamesSorted,
   onNavigate,
+  currentBookName,
+  currentChapter,
 }: {
   text: string;
   bookNamesSorted: string[];
   onNavigate: (params: AIActionParams) => void;
+  currentBookName: string | null;
+  currentChapter: number;
 }) {
   const segments = useMemo(
     () => segmentTextWithScriptureRefs(text, bookNamesSorted),
@@ -313,7 +344,7 @@ function LinkedScriptureParagraph({
           <button
             key={i}
             type="button"
-            className="ai-inline-scripture-ref"
+            className="summary-tag ai-inline-scripture-pill"
             onClick={() =>
               onNavigate({
                 book: seg.book,
@@ -323,7 +354,12 @@ function LinkedScriptureParagraph({
               })
             }
           >
-            {seg.text}
+            {formatReferencePillLabel(
+              seg.text,
+              { book: seg.book, chapter: seg.chapter, verse_start: seg.verse_start, verse_end: seg.verse_end },
+              currentBookName,
+              currentChapter,
+            )}
           </button>
         ),
       )}
@@ -336,11 +372,15 @@ function AssistantMessageRichBody({
   animate,
   bookNamesSorted,
   onNavigate,
+  currentBookName,
+  currentChapter,
 }: {
   text: string;
   animate: boolean;
   bookNamesSorted: string[];
   onNavigate: (params: AIActionParams) => void;
+  currentBookName: string | null;
+  currentChapter: number;
 }) {
   const [animDone, setAnimDone] = useState(!animate);
 
@@ -357,6 +397,8 @@ function AssistantMessageRichBody({
         text={text}
         bookNamesSorted={bookNamesSorted}
         onNavigate={onNavigate}
+        currentBookName={currentBookName}
+        currentChapter={currentChapter}
       />
     );
   }
@@ -670,10 +712,12 @@ export default function AiSidebar({
                   animate={animatedIds.has(entry.id)}
                   bookNamesSorted={bookNamesSorted}
                   onNavigate={onNavigate}
+                  currentBookName={currentBookName}
+                  currentChapter={chapter}
                 />
               </div>
               {entry.references.length > 0 && (
-                <div className="ai-chip-row">
+                <div className="summary-tags ai-citation-row">
                   {entry.references.map(reference => {
                     const nav = parseReferenceLabel(reference, bookNamesSorted);
                     if (nav) {
@@ -691,12 +735,12 @@ export default function AiSidebar({
                             })
                           }
                         >
-                          {reference}
+                          {formatReferencePillLabel(reference, nav, currentBookName, chapter)}
                         </button>
                       );
                     }
                     return (
-                      <span key={`${entry.id}-${reference}`} className="ai-chip">
+                      <span key={`${entry.id}-${reference}`} className="summary-tag ai-citation-pill">
                         {reference}
                       </span>
                     );

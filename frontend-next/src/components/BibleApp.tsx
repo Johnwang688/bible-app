@@ -184,6 +184,9 @@ const MIN_CHAPTER_READ_MS = 20_000;
 const MAX_CHAPTER_READ_MS = 75_000;
 const CHAPTER_READ_MS_PER_VERSE = 1_500;
 const MAX_ENGAGEMENT_GAP_MS = 15_000;
+const SCROLL_ACTIVE_HOLD_MS = 220;
+const ENGAGEMENT_COMMIT_MS = 240;
+const COMMENTARY_SYNC_THROTTLE_MS = 120;
 const DAILY_VERSE_POOL: DailyVerse[] = [
   { book: 'Psalms', chapter: 23, verse: 1, text: 'The LORD is my shepherd: I shall lack nothing.' },
   { book: 'Proverbs', chapter: 3, verse: 5, text: 'Trust in Yahweh with all your heart, and do not lean on your own understanding.' },
@@ -777,6 +780,24 @@ export default function BibleApp() {
     key: '',
     lastInteractionAt: null,
   });
+  const visibleVersesRef = useRef<Set<number>>(new Set());
+  const topVisibleVerseRef = useRef(1);
+  const verseObserverRef = useRef<IntersectionObserver | null>(null);
+  const engagementTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pendingEngagementRef = useRef<{
+    bookName: string;
+    currentChapter: number;
+    currentTranslation: string;
+    furthestVerse: number;
+    totalVerses: number;
+  } | null>(null);
+  const lastEngagementCommitAtRef = useRef(0);
+  const commentarySyncTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastCommentarySyncAtRef = useRef(0);
+  const scrollActiveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const scrollEffectsDowngradedRef = useRef(false);
+  const chromeVisibleRef = useRef(true);
+  const commentarySyncIdleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Keep stable refs in sync
   useEffect(() => { booksRef.current = books; },                             [books]);
@@ -792,6 +813,7 @@ export default function BibleApp() {
   useEffect(() => { commentarySourceNamesRef.current = commentarySourceNames; }, [commentarySourceNames]);
   useEffect(() => { currentThemeRef.current = currentTheme; },               [currentTheme]);
   useEffect(() => { readerSettingsRef.current = readerSettings; },           [readerSettings]);
+  useEffect(() => { chromeVisibleRef.current = chromeVisible; },             [chromeVisible]);
 
   useEffect(() => {
     setPersonalityId(restorePersonalityId());
@@ -1511,6 +1533,107 @@ export default function BibleApp() {
     });
   }, [dailyGoalChapters]);
 
+  const computeTopVisibleVerseFromDom = useCallback((): number => {
+    const pane = biblePaneRef.current;
+    if (!pane) return 1;
+    const paneRect = pane.getBoundingClientRect();
+    const verses = pane.querySelectorAll<HTMLElement>('.verse-line[data-verse]');
+    for (const el of verses) {
+      const rect = el.getBoundingClientRect();
+      if (rect.bottom > paneRect.top + 12) return Number(el.dataset.verse);
+    }
+    return 1;
+  }, []);
+
+  const updateTopVisibleVerse = useCallback((fallbackVerse?: number) => {
+    if (visibleVersesRef.current.size > 0) {
+      topVisibleVerseRef.current = Math.min(...visibleVersesRef.current);
+      return topVisibleVerseRef.current;
+    }
+    if (fallbackVerse != null) {
+      topVisibleVerseRef.current = fallbackVerse;
+      return fallbackVerse;
+    }
+    const nextVerse = computeTopVisibleVerseFromDom();
+    topVisibleVerseRef.current = nextVerse;
+    return nextVerse;
+  }, [computeTopVisibleVerseFromDom]);
+
+  const getTopVisibleVerse = useCallback((): number => {
+    return topVisibleVerseRef.current || updateTopVisibleVerse();
+  }, [updateTopVisibleVerse]);
+
+  const flushPendingEngagement = useCallback(() => {
+    if (engagementTimerRef.current) {
+      clearTimeout(engagementTimerRef.current);
+      engagementTimerRef.current = null;
+    }
+    const pending = pendingEngagementRef.current;
+    if (!pending) return;
+    pendingEngagementRef.current = null;
+    lastEngagementCommitAtRef.current = Date.now();
+    recordChapterEngagement(
+      pending.bookName,
+      pending.currentChapter,
+      pending.currentTranslation,
+      pending.furthestVerse,
+      pending.totalVerses,
+    );
+  }, [recordChapterEngagement]);
+
+  const scheduleReadingProgressCommit = useCallback((
+    bookName: string,
+    currentChapter: number,
+    currentTranslation: string,
+    furthestVerse: number,
+    totalVerses: number,
+  ) => {
+    const existing = pendingEngagementRef.current;
+    if (
+      existing &&
+      existing.bookName === bookName &&
+      existing.currentChapter === currentChapter &&
+      existing.currentTranslation === currentTranslation
+    ) {
+      existing.furthestVerse = Math.max(existing.furthestVerse, furthestVerse);
+      existing.totalVerses = totalVerses;
+    } else {
+      pendingEngagementRef.current = {
+        bookName,
+        currentChapter,
+        currentTranslation,
+        furthestVerse,
+        totalVerses,
+      };
+    }
+
+    const now = Date.now();
+    const elapsed = now - lastEngagementCommitAtRef.current;
+    if (elapsed >= ENGAGEMENT_COMMIT_MS) {
+      flushPendingEngagement();
+      return;
+    }
+    if (engagementTimerRef.current) return;
+    engagementTimerRef.current = setTimeout(
+      flushPendingEngagement,
+      Math.max(40, ENGAGEMENT_COMMIT_MS - elapsed),
+    );
+  }, [flushPendingEngagement]);
+
+  const markScrollActive = useCallback(() => {
+    if (typeof document === 'undefined') return;
+    if (!scrollEffectsDowngradedRef.current) {
+      document.documentElement.setAttribute('data-scroll-active', '1');
+      scrollEffectsDowngradedRef.current = true;
+    }
+    if (scrollActiveTimerRef.current) clearTimeout(scrollActiveTimerRef.current);
+    scrollActiveTimerRef.current = setTimeout(() => {
+      document.documentElement.removeAttribute('data-scroll-active');
+      scrollEffectsDowngradedRef.current = false;
+      scrollActiveTimerRef.current = null;
+    }, SCROLL_ACTIVE_HOLD_MS);
+  }, []);
+
   useEffect(() => {
     if (typeof window === 'undefined' || !currentBook) return;
     window.localStorage.setItem(LAST_POSITION_STORAGE_KEY, JSON.stringify({
@@ -1912,18 +2035,6 @@ export default function BibleApp() {
   }, [authSession]);
 
   // ── Commentary sync ───────────────────────────────────────────────────────────
-  const getTopVisibleVerse = useCallback((): number => {
-    const pane = biblePaneRef.current;
-    if (!pane) return 1;
-    const paneRect = pane.getBoundingClientRect();
-    const verses = pane.querySelectorAll<HTMLElement>('.verse-line[data-verse]');
-    for (const el of verses) {
-      const rect = el.getBoundingClientRect();
-      if (rect.bottom > paneRect.top + 12) return Number(el.dataset.verse);
-    }
-    return 1;
-  }, []);
-
   const scrollVerseIntoView = useCallback((verseNumber: number) => {
     const pane = biblePaneRef.current;
     if (!pane) return;
@@ -1949,12 +2060,34 @@ export default function BibleApp() {
 
   const requestCommentarySync = useCallback((entries: CommentaryEntry[]) => {
     if (sidePanelModeRef.current !== 'commentary') return;
-    if (commSyncRafRef.current) cancelAnimationFrame(commSyncRafRef.current);
-    commSyncRafRef.current = requestAnimationFrame(() => {
-      commSyncRafRef.current = null;
-      syncCommentaryToVerse(getTopVisibleVerse(), entries);
-    });
+    const now = performance.now();
+    if (commentarySyncTimerRef.current) return;
+    const schedule = () => {
+      if (commSyncRafRef.current) return;
+      commSyncRafRef.current = requestAnimationFrame(() => {
+        commSyncRafRef.current = null;
+        lastCommentarySyncAtRef.current = performance.now();
+        syncCommentaryToVerse(getTopVisibleVerse(), entries);
+      });
+    };
+    if (now - lastCommentarySyncAtRef.current >= COMMENTARY_SYNC_THROTTLE_MS) {
+      schedule();
+      return;
+    }
+    commentarySyncTimerRef.current = setTimeout(() => {
+      commentarySyncTimerRef.current = null;
+      schedule();
+    }, Math.max(16, COMMENTARY_SYNC_THROTTLE_MS - (now - lastCommentarySyncAtRef.current)));
   }, [syncCommentaryToVerse, getTopVisibleVerse]);
+
+  const scheduleCommentarySyncAfterScroll = useCallback((entries: CommentaryEntry[]) => {
+    if (sidePanelModeRef.current !== 'commentary') return;
+    if (commentarySyncIdleTimerRef.current) clearTimeout(commentarySyncIdleTimerRef.current);
+    commentarySyncIdleTimerRef.current = setTimeout(() => {
+      commentarySyncIdleTimerRef.current = null;
+      requestCommentarySync(entries);
+    }, COMMENTARY_SYNC_THROTTLE_MS);
+  }, [requestCommentarySync]);
 
   // Stable ref so scroll handler can always access latest entries
   const commentaryEntriesRef = useRef<CommentaryEntry[]>([]);
@@ -1988,6 +2121,53 @@ export default function BibleApp() {
   }, [commentaryEntries, sidePanelMode, requestCommentarySync]);
 
   useEffect(() => {
+    const pane = biblePaneRef.current;
+    const passages = readerPassagesRef.current;
+    visibleVersesRef.current.clear();
+    topVisibleVerseRef.current = chapterData?.verses[0]?.verse ?? 1;
+    if (!pane || !passages || !chapterData) return;
+
+    const verseEls = passages.querySelectorAll<HTMLElement>('.verse-line[data-verse]');
+    if (!verseEls.length) return;
+
+    if (typeof window.IntersectionObserver !== 'function') {
+      topVisibleVerseRef.current = computeTopVisibleVerseFromDom();
+      return;
+    }
+
+    const observer = new window.IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        const verse = Number((entry.target as HTMLElement).dataset.verse);
+        if (!Number.isFinite(verse)) continue;
+        if (entry.isIntersecting) visibleVersesRef.current.add(verse);
+        else visibleVersesRef.current.delete(verse);
+      }
+      updateTopVisibleVerse(chapterData.verses[0]?.verse ?? 1);
+    }, {
+      root: pane,
+      threshold: 0,
+      rootMargin: '-12px 0px -68% 0px',
+    });
+
+    verseObserverRef.current = observer;
+    verseEls.forEach(el => observer.observe(el));
+    topVisibleVerseRef.current = computeTopVisibleVerseFromDom();
+
+    return () => {
+      observer.disconnect();
+      if (verseObserverRef.current === observer) verseObserverRef.current = null;
+      visibleVersesRef.current.clear();
+    };
+  }, [
+    chapterData?.book,
+    chapterData?.chapter,
+    chapterData?.verses,
+    computeTopVisibleVerseFromDom,
+    readerSettings.readingMode,
+    updateTopVisibleVerse,
+  ]);
+
+  useEffect(() => {
     const pending = pendingAiNavRef.current;
     if (!chapterData || !pending) return;
     pendingAiNavRef.current = null;
@@ -2009,23 +2189,70 @@ export default function BibleApp() {
     return () => clearTimeout(t);
   }, [aiNavHighlight]);
 
+  useEffect(() => {
+    return () => {
+      flushPendingEngagement();
+    };
+  }, [flushPendingEngagement]);
+
+  useEffect(() => {
+    return () => {
+      if (commentarySyncTimerRef.current) clearTimeout(commentarySyncTimerRef.current);
+      if (commentarySyncIdleTimerRef.current) clearTimeout(commentarySyncIdleTimerRef.current);
+      if (engagementTimerRef.current) clearTimeout(engagementTimerRef.current);
+      if (scrollActiveTimerRef.current) clearTimeout(scrollActiveTimerRef.current);
+      if (typeof document !== 'undefined') document.documentElement.removeAttribute('data-scroll-active');
+    };
+  }, []);
+
+  useEffect(() => {
+    flushPendingEngagement();
+    pendingEngagementRef.current = null;
+    lastEngagementCommitAtRef.current = 0;
+    if (engagementTimerRef.current) {
+      clearTimeout(engagementTimerRef.current);
+      engagementTimerRef.current = null;
+    }
+  }, [chapterData?.book, chapterData?.chapter, translation, flushPendingEngagement]);
+
   // ── Scroll handler ────────────────────────────────────────────────────────────
   useEffect(() => {
     const pane = biblePaneRef.current;
     if (!pane || !currentBook || !chapterData) return;
     const onScroll = () => {
+      markScrollActive();
       const y = pane.scrollTop;
       const delta = y - lastScrollYRef.current;
-      if (delta > 6 && y > 80)   setChromeVisible(false);
-      else if (delta < -6)        setChromeVisible(true);
-      if (y < 10)                 setChromeVisible(true);
+      let nextChromeVisible = chromeVisibleRef.current;
+      if (delta > 6 && y > 80) nextChromeVisible = false;
+      else if (delta < -6 || y < 10) nextChromeVisible = true;
+      if (nextChromeVisible !== chromeVisibleRef.current) {
+        chromeVisibleRef.current = nextChromeVisible;
+        setChromeVisible(nextChromeVisible);
+      }
       lastScrollYRef.current = y;
-      recordChapterEngagement(currentBook.name, chapter, translation, getTopVisibleVerse(), chapterData.verses.length);
-      requestCommentarySync(commentaryEntriesRef.current);
+      const topVerse = updateTopVisibleVerse(chapterData.verses[0]?.verse ?? 1);
+      scheduleReadingProgressCommit(
+        currentBook.name,
+        chapter,
+        translation,
+        topVerse,
+        chapterData.verses.length,
+      );
+      scheduleCommentarySyncAfterScroll(commentaryEntriesRef.current);
     };
     pane.addEventListener('scroll', onScroll, { passive: true });
     return () => pane.removeEventListener('scroll', onScroll);
-  }, [chapter, chapterData, currentBook, getTopVisibleVerse, recordChapterEngagement, requestCommentarySync, translation]);
+  }, [
+    chapter,
+    chapterData,
+    currentBook,
+    markScrollActive,
+    scheduleCommentarySyncAfterScroll,
+    scheduleReadingProgressCommit,
+    translation,
+    updateTopVisibleVerse,
+  ]);
 
   // ── Touch swipe + trackpad two-finger swipe ───────────────────────────────────
   useEffect(() => {
@@ -2212,17 +2439,24 @@ export default function BibleApp() {
       return;
     }
 
+    const TOPBAR_H  = 56;
+    const TASKBAR_H = 64;
+    const GUTTER_W  = 52;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let zones = getZones(window.innerWidth, window.innerHeight);
+    let lastDrawAt = 0;
+
     function resize() {
       if (!canvas) return;
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      zones = getZones(canvas.width, canvas.height);
     }
     resize();
     window.addEventListener('resize', resize);
-
-    const TOPBAR_H  = 56;
-    const TASKBAR_H = 64;
-    const GUTTER_W  = 52;
 
     interface CometParticle {
       x: number; y: number;
@@ -2387,12 +2621,12 @@ export default function BibleApp() {
       };
     }
 
-    const ORB_COUNT = 6;
+    const ORB_COUNT = 4;
     const orbs: NebulaOrb[] = isGalaxyTheme
       ? Array.from({ length: ORB_COUNT }, () => spawnOrb(canvas.width, canvas.height))
       : [];
 
-    const COMET_COUNT = 12;
+    const COMET_COUNT = 8;
     const comets: CometParticle[] = isGalaxyTheme
       ? Array.from({ length: COMET_COUNT }, () => {
           const c = spawnComet(canvas.width, canvas.height);
@@ -2407,7 +2641,7 @@ export default function BibleApp() {
         })
       : [];
 
-    const HEART_COUNT = 14;
+    const HEART_COUNT = 10;
     const hearts: HeartParticle[] = isPinkTheme
       ? Array.from({ length: HEART_COUNT }, () => {
           const heart = spawnHeart(canvas.width, canvas.height);
@@ -2423,36 +2657,42 @@ export default function BibleApp() {
         })
       : [];
 
-    function draw() {
-      const ctx = canvas?.getContext('2d');
-      if (!ctx || !canvas) return;
+    function draw(now: number) {
+      if (!canvas) return;
       const w = canvas.width;
       const h = canvas.height;
+      const scrollActive = scrollEffectsDowngradedRef.current;
 
-      ctx.clearRect(0, 0, w, h);
-      const zones = getZones(w, h);
+      if (scrollActive && now - lastDrawAt < 32) {
+        cometRafRef.current = requestAnimationFrame(draw);
+        return;
+      }
+      lastDrawAt = now;
 
-      ctx.save();
-      ctx.beginPath();
-      for (const z of zones) ctx.rect(z.x, z.y, z.w, z.h);
-      ctx.clip();
+      ctx!.clearRect(0, 0, w, h);
+
+      ctx!.save();
+      ctx!.beginPath();
+      for (const z of zones) ctx!.rect(z.x, z.y, z.w, z.h);
+      ctx!.clip();
 
       // ── Nebula orbs (drawn first, behind comets) ─────────────────────────────
       if (isGalaxyTheme) {
-        for (let i = 0; i < orbs.length; i++) {
+        const orbLimit = scrollActive ? Math.min(2, orbs.length) : orbs.length;
+        for (let i = 0; i < orbLimit; i++) {
         const o = orbs[i];
         o.phase += o.phaseSpeed;
         const breathe = 0.65 + 0.35 * Math.sin(o.phase);
         const a = o.baseAlpha * breathe;
 
-        const grd = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.radius);
+        const grd = ctx!.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.radius);
         grd.addColorStop(0,    `rgba(${o.r}, ${o.g}, ${o.b}, ${(a * 1.6).toFixed(3)})`);
         grd.addColorStop(0.45, `rgba(${o.r}, ${o.g}, ${o.b}, ${(a * 0.8).toFixed(3)})`);
         grd.addColorStop(1,    `rgba(${o.r}, ${o.g}, ${o.b}, 0)`);
-        ctx.beginPath();
-        ctx.arc(o.x, o.y, o.radius, 0, Math.PI * 2);
-        ctx.fillStyle = grd;
-        ctx.fill();
+        ctx!.beginPath();
+        ctx!.arc(o.x, o.y, o.radius, 0, Math.PI * 2);
+        ctx!.fillStyle = grd;
+        ctx!.fill();
 
         o.x += o.vx;
         o.y += o.vy;
@@ -2473,7 +2713,8 @@ export default function BibleApp() {
           }
         }
 
-        for (let i = 0; i < comets.length; i++) {
+        const cometLimit = scrollActive ? Math.max(3, Math.ceil(comets.length * 0.5)) : comets.length;
+        for (let i = 0; i < cometLimit; i++) {
           const c = comets[i];
 
           if (c.dead) {
@@ -2490,31 +2731,31 @@ export default function BibleApp() {
             const t  = j / c.tail.length; // 0 = oldest, 1 = near-head
             const [px, py] = c.tail[j - 1];
             const [cx, cy] = c.tail[j];
-            ctx.beginPath();
-            ctx.moveTo(px, py);
-            ctx.lineTo(cx, cy);
-            ctx.strokeStyle = `rgba(255, 210, 60, ${c.alpha * t * 0.85})`;
-            ctx.lineWidth   = Math.max(0.3, c.size * t * 1.4);
-            ctx.lineCap     = 'round';
-            ctx.stroke();
+            ctx!.beginPath();
+            ctx!.moveTo(px, py);
+            ctx!.lineTo(cx, cy);
+            ctx!.strokeStyle = `rgba(255, 210, 60, ${c.alpha * t * 0.85})`;
+            ctx!.lineWidth   = Math.max(0.3, c.size * t * 1.4);
+            ctx!.lineCap     = 'round';
+            ctx!.stroke();
           }
 
         // outer glow
-          const grd = ctx.createRadialGradient(c.x, c.y, 0, c.x, c.y, c.size * 5);
+          const grd = ctx!.createRadialGradient(c.x, c.y, 0, c.x, c.y, c.size * 5);
           grd.addColorStop(0,    `rgba(255, 248, 180, ${c.alpha})`);
           grd.addColorStop(0.35, `rgba(255, 210, 60,  ${c.alpha * 0.6})`);
           grd.addColorStop(0.7,  `rgba(200, 150, 0,   ${c.alpha * 0.2})`);
           grd.addColorStop(1,    'rgba(180, 120, 0, 0)');
-          ctx.beginPath();
-          ctx.arc(c.x, c.y, c.size * 5, 0, Math.PI * 2);
-          ctx.fillStyle = grd;
-          ctx.fill();
+          ctx!.beginPath();
+          ctx!.arc(c.x, c.y, c.size * 5, 0, Math.PI * 2);
+          ctx!.fillStyle = grd;
+          ctx!.fill();
 
         // bright core
-          ctx.beginPath();
-          ctx.arc(c.x, c.y, c.size, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255, 255, 230, ${c.alpha})`;
-          ctx.fill();
+          ctx!.beginPath();
+          ctx!.arc(c.x, c.y, c.size, 0, Math.PI * 2);
+          ctx!.fillStyle = `rgba(255, 255, 230, ${c.alpha})`;
+          ctx!.fill();
 
           c.x += c.vx;
           c.y += c.vy;
@@ -2529,7 +2770,8 @@ export default function BibleApp() {
       }
 
       if (isPinkTheme) {
-        for (let i = 0; i < hearts.length; i++) {
+        const heartLimit = scrollActive ? Math.max(4, Math.ceil(hearts.length * 0.5)) : hearts.length;
+        for (let i = 0; i < heartLimit; i++) {
           const heart = hearts[i];
 
           if (heart.dead) {
@@ -2538,7 +2780,7 @@ export default function BibleApp() {
             continue;
           }
 
-          const glow = ctx.createRadialGradient(
+          const glow = ctx!.createRadialGradient(
             heart.x,
             heart.y + heart.size * 0.45,
             0,
@@ -2549,13 +2791,13 @@ export default function BibleApp() {
           glow.addColorStop(0, `rgba(255, 228, 240, ${heart.alpha * 0.55})`);
           glow.addColorStop(0.45, `rgba(255, 170, 205, ${heart.alpha * 0.24})`);
           glow.addColorStop(1, 'rgba(255, 150, 195, 0)');
-          ctx.beginPath();
-          ctx.arc(heart.x, heart.y + heart.size * 0.45, heart.size * 2.3, 0, Math.PI * 2);
-          ctx.fillStyle = glow;
-          ctx.fill();
+          ctx!.beginPath();
+          ctx!.arc(heart.x, heart.y + heart.size * 0.45, heart.size * 2.3, 0, Math.PI * 2);
+          ctx!.fillStyle = glow;
+          ctx!.fill();
 
-          drawHeart(ctx, heart.x, heart.y, heart.size, `rgba(255, 188, 216, ${heart.alpha})`);
-          drawHeart(ctx, heart.x, heart.y, heart.size * 0.62, `rgba(255, 238, 244, ${heart.alpha * 0.72})`);
+          drawHeart(ctx!, heart.x, heart.y, heart.size, `rgba(255, 188, 216, ${heart.alpha})`);
+          drawHeart(ctx!, heart.x, heart.y, heart.size * 0.62, `rgba(255, 238, 244, ${heart.alpha * 0.72})`);
 
           heart.wobble += heart.wobbleSpeed;
           heart.x += heart.vx + Math.sin(heart.wobble) * 0.16;
@@ -2573,7 +2815,7 @@ export default function BibleApp() {
         }
       }
 
-      ctx.restore();
+      ctx!.restore();
       cometRafRef.current = requestAnimationFrame(draw);
     }
 
@@ -2585,7 +2827,6 @@ export default function BibleApp() {
         cometRafRef.current = null;
       }
       window.removeEventListener('resize', resize);
-      const ctx = canvas.getContext('2d');
       if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
     };
   }, [currentTheme, readerSettings.reducedMotion]);
@@ -2824,6 +3065,7 @@ export default function BibleApp() {
           className={`verse-line${inAiNav ? ' verse-line--ai-nav' : ''}${selectedVerseGroup.includes(v.verse) ? ' verse-line--selected' : ''}${isHighlighted ? ' verse-line--highlighted' : ''}${isBookmarked ? ' verse-line--bookmarked' : ''}${hasNote ? ' verse-line--noted' : ''}`}
           data-verse={v.verse}
           onClick={(e) => {
+            topVisibleVerseRef.current = v.verse;
             recordChapterEngagement(chapterData.book, chapterData.chapter, translation, v.verse, chapterData.verses.length);
             if (selectedVerse !== null && v.verse !== selectedVerse) {
               setSelectedVerseGroup(prev =>
@@ -2982,6 +3224,7 @@ export default function BibleApp() {
                 className={`verse-line${inAiNav ? ' verse-line--ai-nav' : ''}${selectedVerseGroup.includes(v.verse) ? ' verse-line--selected' : ''}${isHighlighted ? ' verse-line--highlighted' : ''}${isBookmarked ? ' verse-line--bookmarked' : ''}${hasNote ? ' verse-line--noted' : ''}`}
                 data-verse={v.verse}
                 onClick={(e) => {
+                  topVisibleVerseRef.current = v.verse;
                   recordChapterEngagement(chapterData.book, chapterData.chapter, translation, v.verse, chapterData.verses.length);
                   // Popup open + clicking a different verse → add/remove from group
                   if (selectedVerse !== null && v.verse !== selectedVerse) {
@@ -4203,6 +4446,7 @@ export default function BibleApp() {
       {/* Galaxy comet canvas — fixed overlay, clips to toolbar/gutter zones only */}
       <canvas
         ref={cometCanvasRef}
+        className="theme-comet-canvas"
         aria-hidden="true"
         style={{
           position: 'fixed',
