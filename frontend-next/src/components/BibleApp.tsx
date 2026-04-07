@@ -3441,7 +3441,6 @@ export default function BibleApp() {
           <div className="home-screen-inner">
             <header className="home-screen-header">
               <h1 className="home-screen-title">Welcome</h1>
-              <p className="home-screen-sub">Use the bar below to open the reader, commentary, or AI.</p>
             </header>
             <section className="home-screen-card reader-dashboard-card" aria-labelledby="home-streak-heading">
               <h2 id="home-streak-heading" className="reader-dashboard-label">Your streak</h2>

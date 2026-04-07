@@ -109,7 +109,6 @@ export default function AuthPanel({
           </button>
         )}
       </div>
-      <div className="auth-copy">Guest mode still works. Sign in only if you want sync across devices.</div>
     </div>
   );
 }
