@@ -110,6 +110,14 @@ button {
 .chrome-hide-bottom {
   transform: translateY(110%) !important;
 }
+/* Hide chrome bars when the user hovers over an open sidebar panel */
+html:has(.side-pane.open:hover) .topbar {
+  transform: translateY(-110%);
+}
+html:has(.side-pane.open:hover) .taskbar,
+html:has(.side-pane.open:hover) .ch-nav {
+  transform: translateY(110%);
+}
 .topbar,
 .taskbar {
   position: fixed;
@@ -191,6 +199,14 @@ button {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nav-btn-book {
+  flex-shrink: 0;
+}
+.nav-btn-book .nav-btn-label {
+  overflow: visible;
+  text-overflow: clip;
   white-space: nowrap;
 }
 .chevron {
@@ -325,32 +341,57 @@ button {
   line-height: 1.45;
   color: var(--muted);
 }
+/* Verse of the day — elevated card treatment */
+.home-daily-verse-card {
+  position: relative;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--accent-soft) 28%, var(--panel) 72%) !important;
+  border-color: color-mix(in srgb, var(--accent) 22%, var(--line) 78%) !important;
+  padding: 20px 22px 18px !important;
+}
+/* Decorative opening quote mark behind the verse text */
+.home-daily-verse-card::before {
+  content: '\201C';
+  position: absolute;
+  top: 4px;
+  left: 14px;
+  font-family: Georgia, serif;
+  font-size: 108px;
+  line-height: 1;
+  color: var(--text);
+  opacity: 0.08;
+  pointer-events: none;
+  user-select: none;
+}
 .home-daily-verse-text {
   margin: 10px 0 0;
-  font-family: var(--ui);
-  font-size: 15px;
-  line-height: 1.6;
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.7;
+  font-style: italic;
   color: var(--text);
+  position: relative;
 }
 .home-daily-verse-ref {
-  margin-top: 12px;
+  margin-top: 14px;
   display: inline-flex;
   align-items: center;
-  border: 1px solid var(--line);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--line) 65%);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--panel) 90%, transparent);
-  padding: 8px 12px;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  padding: 8px 14px;
   font-family: var(--ui);
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.01em;
-  color: var(--text);
+  color: var(--accent);
   cursor: pointer;
+  position: relative;
   transition: border-color 0.15s ease, background 0.15s ease;
 }
 .home-daily-verse-ref:hover {
-  border-color: color-mix(in srgb, var(--line) 60%, var(--accent));
-  background: color-mix(in srgb, var(--panel) 86%, var(--accent) 8%);
+  border-color: color-mix(in srgb, var(--accent) 60%, var(--line) 40%);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
 }
 
 .content-area {
@@ -3857,8 +3898,33 @@ html[data-dynamic-wave="1"] .side-pane {
   font-weight: 600;
   color: var(--text);
 }
+.settings-select-wrap {
+  position: relative;
+  display: block;
+}
+.settings-select-wrap::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  width: 10px;
+  height: 7px;
+  transform: translateY(-50%);
+  background-color: var(--text);
+  clip-path: polygon(50% 100%, 0 0, 100% 0);
+  opacity: 0.75;
+  pointer-events: none;
+}
 .settings-field select {
-  padding: 12px 14px;
+  padding: 12px 44px 12px 14px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+  background-image: none;
+}
+.settings-field select::-ms-expand {
+  display: none;
 }
 .settings-toggle {
   display: flex;
@@ -4001,6 +4067,13 @@ html[data-dynamic-wave="1"] .side-pane {
   .topbar { padding: 10px 12px; }
   .nav-left { flex: 1; min-width: 0; width: auto; }
   .nav-btn { flex: 1; justify-content: space-between; }
+  .nav-btn-book {
+    flex: 0 0 auto;
+  }
+  .nav-btn-version {
+    flex: 1 1 0%;
+    min-width: 0;
+  }
   .nav-btn-search { min-width: 0; }
   .side-edge-toggle {
     top: auto;
@@ -4097,11 +4170,6 @@ html[data-reader-line-height="2"] { --reader-line-height: 2; }
 html[data-reader-line-height="2.5"] { --reader-line-height: 2.5; }
 html[data-reader-line-height="airy"] {
   --reader-line-height: 2.3;
-}
-html[data-high-contrast="1"] {
-  --line: color-mix(in srgb, var(--text) 24%, transparent);
-  --line-soft: color-mix(in srgb, var(--text) 18%, transparent);
-  --bar-bg: color-mix(in srgb, var(--bg) 96%, #000 4%);
 }
 html[data-reduced-motion="1"] *,
 html[data-reduced-motion="1"] *::before,
