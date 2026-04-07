@@ -49,9 +49,9 @@ interface SearchResult { verse: { book: string; chapter: number; verse: number; 
 interface SavedPassage { book: string; chapter: number; translation: string; savedAt: number; }
 interface VerseNote { key: string; book: string; chapter: number; verse: number; text: string; updatedAt: number; }
 interface ReadingProgress { streak: number; goalMetDays: string[]; todayIso: string; todayChapters: string[]; }
-const READER_FONT_PX_OPTIONS = ['8', '10', '12', '14', '16', '18', '24', '30'] as const;
+const READER_FONT_PX_OPTIONS = ['8', '10', '12', '14', '16', '18', '20', '22', '24', '26', '28', '30'] as const;
 type ReaderFontPx = (typeof READER_FONT_PX_OPTIONS)[number];
-const READER_LINE_HEIGHT_OPTIONS = ['1', '1.15', '1.25', '1.5', '2'] as const;
+const READER_LINE_HEIGHT_OPTIONS = ['1.5', '2', '2.5'] as const;
 type ReaderLineHeightOption = (typeof READER_LINE_HEIGHT_OPTIONS)[number];
 
 const LEGACY_READER_FONT: Record<string, ReaderFontPx> = {
@@ -60,8 +60,11 @@ const LEGACY_READER_FONT: Record<string, ReaderFontPx> = {
   xlarge: '24',
 };
 const LEGACY_READER_LINE_HEIGHT: Record<string, ReaderLineHeightOption> = {
-  relaxed: '1.15',
-  airy: '1.5',
+  relaxed: '1.5',
+  airy: '2',
+  '1': '1.5',
+  '1.15': '1.5',
+  '1.25': '1.5',
 };
 
 interface ReaderSettings {
@@ -116,8 +119,8 @@ const READER_SETTINGS_STORAGE_KEY = 'bible-app-reader-settings';
 const ONBOARDING_STORAGE_KEY = 'bible-app-onboarding-complete';
 const MAX_RECENT_PASSAGES = 8;
 const DEFAULT_READER_SETTINGS: ReaderSettings = {
-  fontScale: '16',
-  lineHeight: '1.15',
+  fontScale: '20',
+  lineHeight: '2',
   reducedMotion: false,
   pageFlipEnabled: true,
   highContrast: false,
@@ -453,6 +456,8 @@ export default function BibleApp() {
   const touchStartXRef      = useRef<number | null>(null);
   const touchStartYRef      = useRef(0);
   const pendingAiNavRef = useRef<{ start: number; end: number } | null>(null);
+  const pendingFlipDataRef  = useRef<{ data: ChapterData; direction: 'next' | 'prev' } | null>(null);
+  const exitAnimDoneRef     = useRef(false);
   const syncReadyRef        = useRef(false);
   const hydratingAccountRef = useRef(false);
   const accountBootstrapRef = useRef(false);
@@ -621,29 +626,58 @@ export default function BibleApp() {
       pendingAiNavRef.current = null;
       setAiNavHighlight(null);
     }
-    setChapterLoading(true);
+
+    const useFlip = direction != null
+      && readerSettingsRef.current.pageFlipEnabled
+      && !readerSettingsRef.current.reducedMotion;
+
     setChapterError(false);
-    setChapterData(null);
+
+    if (useFlip) {
+      exitAnimDoneRef.current = false;
+      pendingFlipDataRef.current = null;
+      // Start exit animation immediately; keep old chapterData visible
+      setAnimClass(direction === 'next' ? 'page-flip-exit-next' : 'page-flip-exit-prev');
+    } else {
+      setChapterLoading(true);
+      setChapterData(null);
+      setAnimClass('');
+    }
+
     try {
       const data: ChapterData = await fetch(
         `/api/v1/chapters/${encodeURIComponent(book.name)}/${ch}?translation=${encodeURIComponent(trans)}`
       ).then(r => { if (!r.ok) throw new Error(); return r.json(); });
-      setChapterData(data);
-      setAnimClass(
-        direction && readerSettingsRef.current.pageFlipEnabled && !readerSettingsRef.current.reducedMotion
-          ? (direction === 'next' ? 'page-flip-next' : 'page-flip-prev')
-          : '',
-      );
-      setChapterLoading(false);
-      if (biblePaneRef.current) biblePaneRef.current.scrollTop = 0;
-      setChromeVisible(true);
-      if (sidePanelModeRef.current === 'commentary') {
-        loadCommentaryData(book, ch, commentarySourceRef.current);
+
+      if (useFlip) {
+        if (exitAnimDoneRef.current) {
+          // Exit animation already finished — show new content immediately
+          setChapterData(data);
+          setAnimClass(direction === 'next' ? 'page-flip-enter-next' : 'page-flip-enter-prev');
+          if (biblePaneRef.current) biblePaneRef.current.scrollTop = 0;
+          setChromeVisible(true);
+          if (sidePanelModeRef.current === 'commentary') {
+            loadCommentaryData(book, ch, commentarySourceRef.current);
+          }
+        } else {
+          // Exit animation still running — hand off to onAnimationEnd
+          pendingFlipDataRef.current = { data, direction };
+        }
+      } else {
+        setChapterData(data);
+        setChapterLoading(false);
+        if (biblePaneRef.current) biblePaneRef.current.scrollTop = 0;
+        setChromeVisible(true);
+        if (sidePanelModeRef.current === 'commentary') {
+          loadCommentaryData(book, ch, commentarySourceRef.current);
+        }
       }
     } catch {
       pendingAiNavRef.current = null;
+      pendingFlipDataRef.current = null;
       setChapterError(true);
       setChapterLoading(false);
+      setAnimClass('');
     }
   }, [loadCommentaryData]);
 
@@ -702,12 +736,14 @@ export default function BibleApp() {
   }, [loadChapter]);
 
   const navigateToPassage = useCallback((
-    bookName: string,
+    bookName: string | null | undefined,
     nextChapter: number,
     nextTranslation?: string,
     verseNumber?: number,
   ) => {
-    const targetBook = booksRef.current.find(book => book.name.toLowerCase() === bookName.toLowerCase());
+    if (bookName == null || bookName === '') return false;
+    const needle = bookName.toLowerCase();
+    const targetBook = booksRef.current.find(book => book.name?.toLowerCase() === needle);
     if (!targetBook) return false;
     if (verseNumber != null) {
       pendingAiNavRef.current = { start: verseNumber, end: verseNumber };
@@ -2129,7 +2165,28 @@ export default function BibleApp() {
     return (
       <div
         className={`reader-page-transition${animClass ? ` ${animClass}` : ''}`}
-        onAnimationEnd={() => setAnimClass('')}
+        onAnimationEnd={() => {
+          if (animClass.includes('exit')) {
+            exitAnimDoneRef.current = true;
+            const pending = pendingFlipDataRef.current;
+            if (pending) {
+              pendingFlipDataRef.current = null;
+              setChapterData(pending.data);
+              setAnimClass(pending.direction === 'next' ? 'page-flip-enter-next' : 'page-flip-enter-prev');
+              if (biblePaneRef.current) biblePaneRef.current.scrollTop = 0;
+              setChromeVisible(true);
+              if (sidePanelModeRef.current === 'commentary') {
+                loadCommentaryData(currentBookRef.current!, chapterRef.current, commentarySourceRef.current);
+              }
+            } else {
+              // Data not ready yet — show loading spinner until it arrives
+              setAnimClass('');
+              setChapterLoading(true);
+            }
+          } else {
+            setAnimClass('');
+          }
+        }}
       >
         {false && (
           <section className="reader-dashboard">
@@ -2662,24 +2719,46 @@ export default function BibleApp() {
           </button>
         </div>
         <div className="nav-right">
-          <button
-            className={`nav-btn nav-btn-icon-only${searchOpen ? ' active' : ''}`}
-            type="button"
-            aria-label="Open search"
-            aria-expanded={searchOpen}
-            aria-controls="nav-search-panel"
-            onClick={e => {
-              e.stopPropagation();
-              setBookPopupOpen(false);
-              setVersionPopupOpen(false);
-              setSearchOpen(v => !v);
-            }}
-          >
-            <svg className="nav-search-icon" viewBox="0 0 24 24" width={20} height={20} aria-hidden="true">
-              <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" strokeWidth="2" />
-              <path d="M20 20 16.5 16.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-            </svg>
-          </button>
+          <span className="topbar-tooltip-wrap" data-tooltip="Search">
+            <button
+              className={`nav-btn nav-btn-icon-only${searchOpen ? ' active' : ''}`}
+              type="button"
+              aria-label="Open search"
+              aria-expanded={searchOpen}
+              aria-controls="nav-search-panel"
+              onClick={e => {
+                e.stopPropagation();
+                setBookPopupOpen(false);
+                setVersionPopupOpen(false);
+                setSearchOpen(v => !v);
+              }}
+            >
+              <svg className="nav-search-icon" viewBox="0 0 24 24" width={20} height={20} aria-hidden="true">
+                <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" strokeWidth="2" />
+                <path d="M20 20 16.5 16.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+            </button>
+          </span>
+          <span className="topbar-tooltip-wrap" data-tooltip="Account">
+            <button
+              className={`nav-btn nav-btn-icon-only${sidePanelMode === 'study' ? ' active' : ''}`}
+              type="button"
+              aria-label="My stuff"
+              aria-expanded={sidePanelMode === 'study'}
+              onClick={e => {
+                e.stopPropagation();
+                setBookPopupOpen(false);
+                setVersionPopupOpen(false);
+                setSearchOpen(false);
+                toggleStudyPanel();
+              }}
+            >
+              <svg className="nav-search-icon" viewBox="0 0 24 24" width={20} height={20} aria-hidden="true">
+                <circle cx="12" cy="9" r="3.25" />
+                <path d="M5 20.5v-.35c0-3.2 2.85-5.65 7-5.65s7 2.45 7 5.65v.35" />
+              </svg>
+            </button>
+          </span>
         </div>
       </nav>
 
@@ -2824,7 +2903,7 @@ export default function BibleApp() {
       </div>
 
       {/* Content shell */}
-      <div className="content-shell">
+      <div className={`content-shell${chromeVisible ? '' : ' chrome-hidden'}`}>
         {/* Smoke overlay */}
         <div id="smoke-overlay" aria-hidden="true">
           {([ ['300px','300px','var(--muted)','5%','4%','35px','18px','30s','0s'],
@@ -2869,7 +2948,10 @@ export default function BibleApp() {
             <div className="side-header">
               {sidePanelMode === 'ai' ? (
                 <>
-                  <span className="side-eyebrow">Assistant</span>
+                  <div className="side-header-row">
+                    <span className="side-eyebrow">AI assistant</span>
+                    <span className="side-subtitle side-subtitle-inline">{sidePanelContext}</span>
+                  </div>
                   <div
                     ref={agentMenuRef}
                     className={`commentary-source-row visible${agentMenuOpen ? ' open' : ''}`}
@@ -2917,9 +2999,9 @@ export default function BibleApp() {
                     <span className="side-eyebrow">Commentary</span>
                   )}
                   <div className="side-title">{sidePanelTitle()}</div>
+                  <div className="side-subtitle">{sidePanelContext}</div>
                 </>
               )}
-              <div className="side-subtitle">{sidePanelContext}</div>
               {sidePanelMode === 'commentary' && (
                 <div
                   ref={commentarySourceMenuRef}
@@ -3050,63 +3132,64 @@ export default function BibleApp() {
           </span>
         </button>
 
-        <button
-          className={`taskbar-btn${sidePanelMode === 'commentary' ? ' active' : ''}`}
-          type="button"
-          aria-label="Commentary"
-          onClick={toggleCommentary}
+        <span
+          className="taskbar-tooltip-wrap"
+          data-tooltip="Commentary"
         >
-          <span className="taskbar-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24">
-              <path d="M6 7.5h9" /><path d="M6 11h12" /><path d="M6 14.5h8" />
-              <path d="M5 4.5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H12l-4.5 3v-3H5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2Z" />
-            </svg>
-          </span>
-        </button>
+          <button
+            className={`taskbar-btn${sidePanelMode === 'commentary' ? ' active' : ''}`}
+            type="button"
+            aria-label="Commentary"
+            onClick={toggleCommentary}
+          >
+            <span className="taskbar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M6 7.5h9" /><path d="M6 11h12" /><path d="M6 14.5h8" />
+                <path d="M5 4.5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H12l-4.5 3v-3H5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2Z" />
+              </svg>
+            </span>
+          </button>
+        </span>
 
-        <button
-          className={`taskbar-btn is-primary${sidePanelMode === 'none' ? ' active' : ''}`}
-          type="button"
-          aria-label="Bible reader"
-          onClick={closeSidePanel}
+        <span
+          className="taskbar-tooltip-wrap"
+          data-tooltip="Bible"
         >
-          <span className="taskbar-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24">
-              <path d="M6.5 5.5h8a3 3 0 0 1 3 3v10h-8a3 3 0 0 0-3 3Z" />
-              <path d="M17.5 18.5h-8a3 3 0 0 0-3 3V8.5a3 3 0 0 1 3-3h8Z" />
-              <path d="M10 8.5v7" /><path d="M8.2 12h3.6" />
-            </svg>
-          </span>
-        </button>
+          <button
+            className={`taskbar-btn is-primary${sidePanelMode === 'none' ? ' active' : ''}`}
+            type="button"
+            aria-label="Bible reader"
+            onClick={closeSidePanel}
+          >
+            <span className="taskbar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M6.5 5.5h8a3 3 0 0 1 3 3v10h-8a3 3 0 0 0-3 3Z" />
+                <path d="M17.5 18.5h-8a3 3 0 0 0-3 3V8.5a3 3 0 0 1 3-3h8Z" />
+                <path d="M10 8.5v7" /><path d="M8.2 12h3.6" />
+              </svg>
+            </span>
+          </button>
+        </span>
 
-        <button
-          className={`taskbar-btn${sidePanelMode === 'ai' ? ' active' : ''}`}
-          type="button"
-          aria-label="AI assistant"
-          onClick={toggleAiPanel}
+        <span
+          className="taskbar-tooltip-wrap"
+          data-tooltip="AI"
         >
-          <span className="taskbar-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24">
-              <path d="M12 3.5 13.9 8l4.6 1.9-4.6 1.9-1.9 4.7-1.9-4.7L5.5 9.9 10.1 8 12 3.5Z" className="icon-solid" />
-              <path d="M18 14.5 18.9 16.6 21 17.5l-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9.9-2.1Z" className="icon-solid" />
-              <path d="M6.5 15.5 7.2 17l1.5.7-1.5.7-.7 1.6-.7-1.6-1.6-.7 1.6-.7.7-1.5Z" className="icon-solid" />
-            </svg>
-          </span>
-        </button>
-
-        <button
-          className={`taskbar-btn${sidePanelMode === 'study' ? ' active' : ''}`}
-          type="button"
-          aria-label="My stuff"
-          onClick={toggleStudyPanel}
-        >
-          <span className="taskbar-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24">
-              <circle cx="12" cy="9" r="3.25" />
-              <path d="M5 20.5v-.35c0-3.2 2.85-5.65 7-5.65s7 2.45 7 5.65v.35" />
-            </svg>
-          </span>
-        </button>
+          <button
+            className={`taskbar-btn${sidePanelMode === 'ai' ? ' active' : ''}`}
+            type="button"
+            aria-label="AI assistant"
+            onClick={toggleAiPanel}
+          >
+            <span className="taskbar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 3.5 13.9 8l4.6 1.9-4.6 1.9-1.9 4.7-1.9-4.7L5.5 9.9 10.1 8 12 3.5Z" className="icon-solid" />
+                <path d="M18 14.5 18.9 16.6 21 17.5l-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9.9-2.1Z" className="icon-solid" />
+                <path d="M6.5 15.5 7.2 17l1.5.7-1.5.7-.7 1.6-.7-1.6-1.6-.7 1.6-.7.7-1.5Z" className="icon-solid" />
+              </svg>
+            </span>
+          </button>
+        </span>
       </div>
 
       {/* Settings panel */}
@@ -3170,22 +3253,11 @@ export default function BibleApp() {
                   value={readerSettings.lineHeight}
                   onChange={event => setReaderSettings(prev => ({ ...prev, lineHeight: event.target.value as ReaderLineHeightOption }))}
                 >
-                  <option value="1">1.0</option>
-                  <option value="1.15">1.15</option>
-                  <option value="1.25">1.25</option>
-                  <option value="1.5">1.5</option>
-                  <option value="2">2.0</option>
-                </select>
-              </label>
-              <label className="settings-field">
-                <span>Default side panel</span>
-                <select
-                  value={readerSettings.defaultPanel}
-                  onChange={event => setReaderSettings(prev => ({ ...prev, defaultPanel: event.target.value as SidePanelMode }))}
-                >
-                  <option value="none">Keep reader focused</option>
-                  <option value="commentary">Open commentary</option>
-                  <option value="ai">Open AI</option>
+                  {READER_LINE_HEIGHT_OPTIONS.map(opt => (
+                    <option key={opt} value={opt}>
+                      {opt === '2' ? '2.0' : opt}
+                    </option>
+                  ))}
                 </select>
               </label>
               <label className="settings-field">

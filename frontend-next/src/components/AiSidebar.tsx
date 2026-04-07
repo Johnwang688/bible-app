@@ -8,7 +8,6 @@ import {
   sortBookNamesForMatching,
 } from '@/lib/scriptureReference';
 
-const MAX_ADDITIONAL_CHAPTERS = 3;
 const AI_SIDEBAR_SESSION_KEY = 'bible-app-ai-sidebar';
 /** Persisted assistant personality id (`jessica` | `john` | `girl2` | `boy2`). */
 export const AI_PERSONALITY_STORAGE_KEY = 'bible-app-ai-personality';
@@ -370,112 +369,6 @@ function AssistantMessageRichBody({
   );
 }
 
-// ─── Chapter picker (autocomplete book + chapter dropdown) ───────────────────
-
-function ChapterPickerForm({
-  bibleBooks,
-  onAdd,
-  onCancel,
-}: {
-  bibleBooks: Array<{ name: string; total_chapters: number }>;
-  onAdd: (book: string, chapter: number) => void;
-  onCancel: () => void;
-}) {
-  const [bookQuery, setBookQuery] = useState('');
-  const [selectedBookName, setSelectedBookName] = useState('');
-  const [chapterNum, setChapterNum] = useState(1);
-
-  const filteredBooks = useMemo(() => {
-    const q = bookQuery.toLowerCase().trim();
-    if (!q) return bibleBooks;
-    return bibleBooks.filter(b => b.name.toLowerCase().includes(q));
-  }, [bookQuery, bibleBooks]);
-
-  useEffect(() => {
-    setSelectedBookName(prev => {
-      if (filteredBooks.length === 0) return '';
-      if (filteredBooks.some(b => b.name === prev)) return prev;
-      return filteredBooks[0].name;
-    });
-  }, [filteredBooks]);
-
-  const selectedBook = useMemo(
-    () => bibleBooks.find(b => b.name === selectedBookName) ?? null,
-    [bibleBooks, selectedBookName],
-  );
-
-  useEffect(() => {
-    setChapterNum(1);
-  }, [selectedBookName]);
-
-  useEffect(() => {
-    if (!selectedBook) return;
-    if (chapterNum > selectedBook.total_chapters) {
-      setChapterNum(selectedBook.total_chapters);
-    }
-  }, [selectedBook, chapterNum]);
-
-  return (
-    <div className="ai-add-chapter-form">
-      <div className="ai-book-picker-block">
-        <input
-          className="ai-add-chapter-input ai-book-search-input"
-          type="search"
-          placeholder="Search book…"
-          value={bookQuery}
-          autoComplete="off"
-          aria-label="Filter books by name"
-          onChange={e => setBookQuery(e.target.value)}
-        />
-        <select
-          className="ai-add-chapter-input ai-book-select"
-          aria-label="Book"
-          value={selectedBookName}
-          onChange={e => setSelectedBookName(e.target.value)}
-          disabled={bibleBooks.length === 0 || filteredBooks.length === 0}
-        >
-          {filteredBooks.length === 0 ? (
-            <option value="">
-              {bibleBooks.length === 0 ? 'No books loaded' : 'No matching books'}
-            </option>
-          ) : (
-            filteredBooks.map(b => (
-              <option key={b.name} value={b.name}>
-                {b.name}
-              </option>
-            ))
-          )}
-        </select>
-      </div>
-
-      {selectedBook ? (
-        <select
-          className="ai-add-chapter-input ai-chapter-select"
-          aria-label="Chapter"
-          value={chapterNum}
-          onChange={e => setChapterNum(Number(e.target.value))}
-        >
-          {Array.from({ length: selectedBook.total_chapters }, (_, i) => i + 1).map(n => (
-            <option key={n} value={n}>{n}</option>
-          ))}
-        </select>
-      ) : null}
-
-      <button
-        className="ai-add-chapter-confirm"
-        type="button"
-        disabled={!selectedBook}
-        onClick={() => { if (selectedBook) onAdd(selectedBook.name, chapterNum); }}
-      >
-        Add
-      </button>
-      <button className="ai-add-chapter-cancel" type="button" onClick={onCancel}>
-        Cancel
-      </button>
-    </div>
-  );
-}
-
 /**
  * Adjust scroll on the AI side panel only. `Element.scrollIntoView` walks ancestors
  * and can move unrelated scroll regions (e.g. the Bible reader) when the layout updates.
@@ -519,11 +412,6 @@ export default function AiSidebar({
 
   const bibleBookNames = useMemo(() => bibleBooks.map(b => b.name), [bibleBooks]);
   const bookNamesSorted = useMemo(() => sortBookNamesForMatching(bibleBookNames), [bibleBookNames]);
-
-  // Additional context chapters
-  const [additionalChapters, setAdditionalChapters] = useState<Array<{ book: string; chapter: number }>>([]);
-  const [showAddForm, setShowAddForm] = useState(false);
-  const atMaxChapters = additionalChapters.length >= MAX_ADDITIONAL_CHAPTERS;
 
   // Typewriter: set of entry IDs that should animate on render
   const [animatedIds, setAnimatedIds] = useState<ReadonlySet<string>>(new Set());
@@ -644,7 +532,6 @@ export default function AiSidebar({
         body: JSON.stringify({
           message,
           context: { book: currentBookName, chapter, translation },
-          additional_chapters: additionalChapters,
           personality: personalityId,
           conversation_history: history,
         }),
@@ -676,10 +563,6 @@ export default function AiSidebar({
     }
   }
 
-  function removeAdditionalChapter(index: number) {
-    setAdditionalChapters(prev => prev.filter((_, i) => i !== index));
-  }
-
   function handleSubmit(event: { preventDefault(): void }) {
     event.preventDefault();
     void sendMessage(draft);
@@ -698,44 +581,6 @@ export default function AiSidebar({
   return (
     <div className="ai-workspace">
       <div className="ai-thread">
-
-        {/* ── Context / workspace card ── */}
-        <div className="ai-context-card">
-          <div className="ai-context-label">Study Workspace</div>
-          <div className="ai-context-row">
-            <span className="ai-context-pill">{currentContextLabel || 'Loading context...'}</span>
-            {additionalChapters.map((ch, i) => (
-              <span key={`${ch.book}-${ch.chapter}-${i}`} className="ai-context-pill ai-context-pill-extra">
-                {ch.book} {ch.chapter}
-                <button
-                  className="ai-context-pill-remove"
-                  type="button"
-                  aria-label={`Remove ${ch.book} ${ch.chapter}`}
-                  onClick={() => removeAdditionalChapter(i)}
-                >
-                  ×
-                </button>
-              </span>
-            ))}
-          </div>
-          {atMaxChapters ? (
-            <div className="ai-max-context-note">Max context reached</div>
-          ) : showAddForm ? (
-            <ChapterPickerForm
-              bibleBooks={bibleBooks}
-              onAdd={(book, ch) => {
-                setAdditionalChapters(prev => [...prev, { book, chapter: ch }]);
-                setShowAddForm(false);
-              }}
-              onCancel={() => setShowAddForm(false)}
-            />
-          ) : (
-            <button className="ai-add-chapter-btn" type="button" onClick={() => setShowAddForm(true)}>
-              + Add chapter
-            </button>
-          )}
-
-        </div>
 
         {/* ── Empty state ── */}
         {entries.length === 0 && !isLoading && (
