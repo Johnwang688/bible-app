@@ -123,6 +123,8 @@ const LEGACY_READER_LINE_HEIGHT: Record<string, ReaderLineHeightOption> = {
   '1.25': '1.5',
 };
 
+type GraphicsMode = 'auto' | 'performance' | 'efficiency';
+
 interface ReaderSettings {
   fontScale: ReaderFontPx;
   lineHeight: ReaderLineHeightOption;
@@ -134,6 +136,7 @@ interface ReaderSettings {
   highContrast: boolean;
   defaultPanel: SidePanelMode;
   sidePanelPosition: SidePanelPosition;
+  graphicsMode: GraphicsMode;
 }
 type SidePanelMode = 'none' | 'commentary' | 'ai' | 'study';
 type SidePanelPosition = 'left' | 'right';
@@ -212,6 +215,7 @@ const DEFAULT_READER_SETTINGS: ReaderSettings = {
   highContrast: false,
   defaultPanel: 'none',
   sidePanelPosition: 'right',
+  graphicsMode: 'auto',
 };
 
 function normalizeThemeId(rawTheme: string | null | undefined) {
@@ -308,7 +312,20 @@ function normalizeReaderSettings(raw: Partial<ReaderSettings> | null | undefined
         ? raw.defaultPanel
         : 'none',
     sidePanelPosition: raw?.sidePanelPosition === 'left' ? 'left' : 'right',
+    graphicsMode:
+      raw?.graphicsMode === 'performance' || raw?.graphicsMode === 'efficiency'
+        ? raw.graphicsMode
+        : 'auto',
   };
+}
+
+function detectGraphicsCapability(): 'performance' | 'efficiency' {
+  if (typeof window === 'undefined') return 'efficiency';
+  if (/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)) return 'efficiency';
+  const cores = navigator.hardwareConcurrency ?? 2;
+  const mem = (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 2;
+  if (cores >= 4 && mem >= 4) return 'performance';
+  return 'efficiency';
 }
 
 function computeTodayIso() {
@@ -798,6 +815,7 @@ export default function BibleApp() {
   const scrollEffectsDowngradedRef = useRef(false);
   const chromeVisibleRef = useRef(true);
   const commentarySyncIdleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const resolvedGraphicsModeRef = useRef<'performance' | 'efficiency'>('efficiency');
 
   // Keep stable refs in sync
   useEffect(() => { booksRef.current = books; },                             [books]);
@@ -814,6 +832,11 @@ export default function BibleApp() {
   useEffect(() => { currentThemeRef.current = currentTheme; },               [currentTheme]);
   useEffect(() => { readerSettingsRef.current = readerSettings; },           [readerSettings]);
   useEffect(() => { chromeVisibleRef.current = chromeVisible; },             [chromeVisible]);
+  useEffect(() => {
+    resolvedGraphicsModeRef.current = readerSettings.graphicsMode === 'auto'
+      ? detectGraphicsCapability()
+      : readerSettings.graphicsMode;
+  }, [readerSettings.graphicsMode]);
 
   useEffect(() => {
     setPersonalityId(restorePersonalityId());
@@ -1622,6 +1645,7 @@ export default function BibleApp() {
 
   const markScrollActive = useCallback(() => {
     if (typeof document === 'undefined') return;
+    if (resolvedGraphicsModeRef.current !== 'efficiency') return;
     if (!scrollEffectsDowngradedRef.current) {
       document.documentElement.setAttribute('data-scroll-active', '1');
       scrollEffectsDowngradedRef.current = true;
@@ -2621,12 +2645,13 @@ export default function BibleApp() {
       };
     }
 
-    const ORB_COUNT = 4;
+    const isPerformanceMode = resolvedGraphicsModeRef.current === 'performance';
+    const ORB_COUNT = isPerformanceMode ? 6 : 4;
     const orbs: NebulaOrb[] = isGalaxyTheme
       ? Array.from({ length: ORB_COUNT }, () => spawnOrb(canvas.width, canvas.height))
       : [];
 
-    const COMET_COUNT = 8;
+    const COMET_COUNT = isPerformanceMode ? 14 : 8;
     const comets: CometParticle[] = isGalaxyTheme
       ? Array.from({ length: COMET_COUNT }, () => {
           const c = spawnComet(canvas.width, canvas.height);
@@ -2641,7 +2666,7 @@ export default function BibleApp() {
         })
       : [];
 
-    const HEART_COUNT = 10;
+    const HEART_COUNT = isPerformanceMode ? 16 : 10;
     const hearts: HeartParticle[] = isPinkTheme
       ? Array.from({ length: HEART_COUNT }, () => {
           const heart = spawnHeart(canvas.width, canvas.height);
@@ -2829,7 +2854,7 @@ export default function BibleApp() {
       window.removeEventListener('resize', resize);
       if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
     };
-  }, [currentTheme, readerSettings.reducedMotion]);
+  }, [currentTheme, readerSettings.reducedMotion, readerSettings.graphicsMode]);
 
   // ── Theme management ──────────────────────────────────────────────────────────
   const stopDynamicTheme = useCallback(() => {
@@ -4042,7 +4067,17 @@ export default function BibleApp() {
               {sidePanelMode === 'ai' ? (
                 <>
                   <div className="side-header-row">
-                    <span className="side-eyebrow">AI assistant</span>
+                    <div className="side-header-title-row">
+                      <button
+                        type="button"
+                        className="side-close-btn"
+                        aria-label="Close AI sidebar"
+                        onClick={closeSidePanel}
+                      >
+                        ×
+                      </button>
+                      <span className="side-eyebrow">AI assistant</span>
+                    </div>
                     <span className="side-subtitle side-subtitle-inline">{sidePanelContext}</span>
                   </div>
                   <div
@@ -4089,7 +4124,29 @@ export default function BibleApp() {
               ) : (
                 <>
                   {sidePanelMode === 'commentary' && (
-                    <span className="side-eyebrow">Commentary</span>
+                    <div className="side-header-title-row">
+                      <button
+                        type="button"
+                        className="side-close-btn"
+                        aria-label="Close commentary sidebar"
+                        onClick={closeSidePanel}
+                      >
+                        ×
+                      </button>
+                      <span className="side-eyebrow">Commentary</span>
+                    </div>
+                  )}
+                  {sidePanelMode !== 'commentary' && (
+                    <div className="side-close-row">
+                      <button
+                        type="button"
+                        className="side-close-btn"
+                        aria-label="Close account sidebar"
+                        onClick={closeSidePanel}
+                      >
+                        ×
+                      </button>
+                    </div>
                   )}
                   <div className="side-title">{sidePanelTitle()}</div>
                   <div className="side-subtitle">{sidePanelContext}</div>
@@ -4437,6 +4494,20 @@ export default function BibleApp() {
                   onChange={event => setReaderSettings(prev => ({ ...prev, highContrast: event.target.checked }))}
                 />
                 <span>High contrast</span>
+              </label>
+            </div>
+            <div className="settings-section-label">Advanced Graphics</div>
+            <div className="settings-controls">
+              <label className="settings-field">
+                <span>Graphics mode</span>
+                <select
+                  value={readerSettings.graphicsMode}
+                  onChange={event => setReaderSettings(prev => ({ ...prev, graphicsMode: event.target.value as GraphicsMode }))}
+                >
+                  <option value="auto">Auto (recommended)</option>
+                  <option value="performance">Performance — full effects</option>
+                  <option value="efficiency">Efficiency — reduced while scrolling</option>
+                </select>
               </label>
             </div>
           </div>

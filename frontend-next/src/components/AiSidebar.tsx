@@ -8,12 +8,17 @@ import {
   sortBookNamesForMatching,
 } from '@/lib/scriptureReference';
 
-const AI_SIDEBAR_SESSION_KEY = 'bible-app-ai-sidebar';
+const AI_SIDEBAR_STORAGE_KEY = 'bible-app-ai-sidebar';
 /** Persisted assistant personality id (`jessica` | `john` | `girl2` | `boy2`). */
 export const AI_PERSONALITY_STORAGE_KEY = 'bible-app-ai-personality';
 const LEGACY_SIDEBAR_SESSION_KEY = 'logoslight-ai-sidebar-v1';
 const LEGACY_PERSONALITY_KEY = 'logoslight-ai-personality-v1';
 const COMPOSER_MAX_HEIGHT_PX = 168;
+
+interface AIStoredSidebarState {
+  entries: AITranscriptEntry[];
+  draft: string;
+}
 
 function removeLegacyAiStorageKeys() {
   if (typeof window === 'undefined') return;
@@ -207,17 +212,62 @@ function toHistory(entries: AITranscriptEntry[]): AIHistoryMessage[] {
   }, []);
 }
 
-function restoreTranscript(): AITranscriptEntry[] {
-  if (typeof window === 'undefined') return [];
+function isTranscriptEntry(value: unknown): value is AITranscriptEntry {
+  if (!value || typeof value !== 'object') return false;
+  const entry = value as Partial<AITranscriptEntry>;
+  if (typeof entry.id !== 'string' || typeof entry.kind !== 'string') return false;
+  if (entry.kind === 'context') return typeof (entry as Partial<AIContextEntry>).label === 'string';
+  if (entry.kind === 'user') return typeof (entry as Partial<AIUserEntry>).content === 'string';
+  if (entry.kind === 'assistant') {
+    const assistant = entry as Partial<AIAssistantEntry>;
+    return (
+      typeof assistant.content === 'string' &&
+      Array.isArray(assistant.references) &&
+      Array.isArray(assistant.actions) &&
+      Array.isArray(assistant.suggestedFollowUps) &&
+      typeof assistant.contextLabel === 'string'
+    );
+  }
+  return false;
+}
+
+function normalizeStoredSidebarState(value: unknown): AIStoredSidebarState {
+  if (Array.isArray(value)) {
+    return {
+      entries: value.filter(isTranscriptEntry),
+      draft: '',
+    };
+  }
+  if (!value || typeof value !== 'object') {
+    return { entries: [], draft: '' };
+  }
+  const stored = value as Partial<AIStoredSidebarState>;
+  return {
+    entries: Array.isArray(stored.entries) ? stored.entries.filter(isTranscriptEntry) : [],
+    draft: typeof stored.draft === 'string' ? stored.draft.slice(0, MAX_MESSAGE_CHARS) : '',
+  };
+}
+
+function restoreSidebarState(): AIStoredSidebarState {
+  if (typeof window === 'undefined') return { entries: [], draft: '' };
   removeLegacyAiStorageKeys();
   try {
-    const raw = window.sessionStorage.getItem(AI_SIDEBAR_SESSION_KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed)) return [];
-    return parsed.filter(Boolean);
+    const localRaw = window.localStorage.getItem(AI_SIDEBAR_STORAGE_KEY);
+    if (localRaw) {
+      return normalizeStoredSidebarState(JSON.parse(localRaw));
+    }
+
+    const sessionRaw = window.sessionStorage.getItem(AI_SIDEBAR_STORAGE_KEY);
+    if (sessionRaw) {
+      const restored = normalizeStoredSidebarState(JSON.parse(sessionRaw));
+      window.localStorage.setItem(AI_SIDEBAR_STORAGE_KEY, JSON.stringify(restored));
+      window.sessionStorage.removeItem(AI_SIDEBAR_STORAGE_KEY);
+      return restored;
+    }
+
+    return { entries: [], draft: '' };
   } catch {
-    return [];
+    return { entries: [], draft: '' };
   }
 }
 
@@ -458,6 +508,7 @@ export default function AiSidebar({
 
   // Typewriter: set of entry IDs that should animate on render
   const [animatedIds, setAnimatedIds] = useState<ReadonlySet<string>>(new Set());
+  const hasRestoredSidebarStateRef = useRef(false);
 
   // Scroll refs — top of the in-flight or newest assistant turn (loading bubble or latest reply)
   const endRef = useRef<HTMLDivElement | null>(null);
@@ -481,7 +532,10 @@ export default function AiSidebar({
 
   // Restore session
   useEffect(() => {
-    setEntries(restoreTranscript());
+    const restored = restoreSidebarState();
+    hasRestoredSidebarStateRef.current = true;
+    setEntries(restored.entries);
+    setDraft(restored.draft);
   }, []);
 
   useLayoutEffect(() => {
@@ -507,11 +561,12 @@ export default function AiSidebar({
     return () => cancelAnimationFrame(id);
   }, [composerSeed?.id]);
 
-  // Persist transcript
+  // Persist transcript and draft locally so accidental tab/app closes can recover the latest chat.
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    window.sessionStorage.setItem(AI_SIDEBAR_SESSION_KEY, JSON.stringify(entries));
-  }, [entries]);
+    if (typeof window === 'undefined' || !hasRestoredSidebarStateRef.current) return;
+    const payload: AIStoredSidebarState = { entries, draft };
+    window.localStorage.setItem(AI_SIDEBAR_STORAGE_KEY, JSON.stringify(payload));
+  }, [entries, draft]);
 
   // Claude Code–style rotating verbs while waiting for the model
   useEffect(() => {
@@ -644,7 +699,8 @@ export default function AiSidebar({
     setDraft('');
     setError(null);
     if (typeof window !== 'undefined') {
-      window.sessionStorage.removeItem(AI_SIDEBAR_SESSION_KEY);
+      window.localStorage.removeItem(AI_SIDEBAR_STORAGE_KEY);
+      window.sessionStorage.removeItem(AI_SIDEBAR_STORAGE_KEY);
     }
     requestAnimationFrame(() => {
       composerTextareaRef.current?.focus();

@@ -455,8 +455,45 @@ button {
   gap: 10px;
   flex-wrap: wrap;
 }
+.side-header-title-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
 .side-header-row .side-eyebrow {
   margin-bottom: 0;
+}
+.side-header-title-row .side-eyebrow {
+  margin-bottom: 0;
+}
+.side-close-row {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 6px;
+}
+.side-close-btn {
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-1px);
+}
+.side-close-btn:hover {
+  background: var(--popup-hover);
+  color: var(--text);
+}
+.side-close-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
 }
 .side-title {
   font-size: 18px;
@@ -3968,16 +4005,16 @@ html[data-dynamic-wave="1"] .side-pane {
   .side-edge-toggle {
     top: auto;
     bottom: 88px;
-    min-height: 56px;
-    padding: 10px 8px;
+    min-height: 92px;
+    padding: 12px 6px;
     transform: none;
   }
   .side-edge-toggle.open {
     transform: scale(0.98);
   }
   .side-edge-toggle-text {
-    writing-mode: initial;
-    text-orientation: initial;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
   }
   .side-pane.open {
     position: fixed;
