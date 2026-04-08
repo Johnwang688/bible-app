@@ -494,8 +494,8 @@ export default function AiSidebar({
   onOpenCommentary,
   composerSeed,
 }: AiSidebarProps) {
-  const [entries, setEntries] = useState<AITranscriptEntry[]>([]);
-  const [draft, setDraft] = useState('');
+  const [entries, setEntries] = useState<AITranscriptEntry[]>(() => restoreSidebarState().entries);
+  const [draft, setDraft] = useState<string>(() => restoreSidebarState().draft);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [thinkingVerbIndex, setThinkingVerbIndex] = useState(0);
@@ -508,7 +508,6 @@ export default function AiSidebar({
 
   // Typewriter: set of entry IDs that should animate on render
   const [animatedIds, setAnimatedIds] = useState<ReadonlySet<string>>(new Set());
-  const hasRestoredSidebarStateRef = useRef(false);
 
   // Scroll refs — top of the in-flight or newest assistant turn (loading bubble or latest reply)
   const endRef = useRef<HTMLDivElement | null>(null);
@@ -528,14 +527,6 @@ export default function AiSidebar({
     const nextHeight = Math.min(el.scrollHeight, COMPOSER_MAX_HEIGHT_PX);
     el.style.height = `${nextHeight}px`;
     el.style.overflowY = el.scrollHeight > COMPOSER_MAX_HEIGHT_PX ? 'auto' : 'hidden';
-  }, []);
-
-  // Restore session
-  useEffect(() => {
-    const restored = restoreSidebarState();
-    hasRestoredSidebarStateRef.current = true;
-    setEntries(restored.entries);
-    setDraft(restored.draft);
   }, []);
 
   useLayoutEffect(() => {
@@ -563,9 +554,8 @@ export default function AiSidebar({
 
   // Persist transcript and draft locally so accidental tab/app closes can recover the latest chat.
   useEffect(() => {
-    if (typeof window === 'undefined' || !hasRestoredSidebarStateRef.current) return;
-    const payload: AIStoredSidebarState = { entries, draft };
-    window.localStorage.setItem(AI_SIDEBAR_STORAGE_KEY, JSON.stringify(payload));
+    if (typeof window === 'undefined') return;
+    window.localStorage.setItem(AI_SIDEBAR_STORAGE_KEY, JSON.stringify({ entries, draft } satisfies AIStoredSidebarState));
   }, [entries, draft]);
 
   // Claude Code–style rotating verbs while waiting for the model

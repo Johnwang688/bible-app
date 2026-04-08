@@ -30,7 +30,7 @@ PROMPTS_DIR = Path(__file__).resolve().parents[1] / "prompts" / "ai"
 MAX_HISTORY_MESSAGES = 8
 # Room for verse-grounded answers that need a short paragraph (e.g. "what does this mean?").
 MAX_OUTPUT_TOKENS = 550
-RATE_LIMIT_REQUESTS = 12
+RATE_LIMIT_REQUESTS = 20
 RATE_LIMIT_WINDOW_SECONDS = 300
 DEFAULT_COMMENTARY_SOURCE = "matthew_henry"
 MAX_SUPPLEMENTARY_PASSAGES = 3

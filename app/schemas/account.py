@@ -119,7 +119,6 @@ class UserSettingsIn(BaseModel):
     line_height: LineHeight = "2"
     reduced_motion: bool = False
     page_flip_enabled: bool = True
-    high_contrast: bool = False
     default_panel: DefaultPanel = "none"
     side_panel_position: SidePanelPosition = "right"
     reader_font: ReaderFont = "georgia"

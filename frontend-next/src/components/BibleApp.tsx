@@ -123,6 +123,14 @@ const LEGACY_READER_LINE_HEIGHT: Record<string, ReaderLineHeightOption> = {
   '1.25': '1.5',
 };
 
+/** Morning / afternoon / evening from local clock (`getHours` uses the device timezone). */
+function timeOfDayGreeting(now: Date): string {
+  const h = now.getHours();
+  if (h >= 5 && h < 12) return 'Good morning';
+  if (h >= 12 && h < 17) return 'Good afternoon';
+  return 'Good evening';
+}
+
 type GraphicsMode = 'auto' | 'performance' | 'efficiency';
 
 interface ReaderSettings {
@@ -131,9 +139,8 @@ interface ReaderSettings {
   readerFont: ReaderFontId;
   highlightColor: ReaderHighlightColorId;
   readingMode: ReaderReadingMode;
-  reducedMotion: boolean;
+  specialEffects: boolean;
   pageFlipEnabled: boolean;
-  highContrast: boolean;
   defaultPanel: SidePanelMode;
   sidePanelPosition: SidePanelPosition;
   graphicsMode: GraphicsMode;
@@ -210,9 +217,8 @@ const DEFAULT_READER_SETTINGS: ReaderSettings = {
   readerFont: 'georgia',
   highlightColor: 'yellow',
   readingMode: 'single',
-  reducedMotion: false,
+  specialEffects: true,
   pageFlipEnabled: true,
-  highContrast: false,
   defaultPanel: 'none',
   sidePanelPosition: 'right',
   graphicsMode: 'auto',
@@ -298,15 +304,20 @@ function normalizeReaderSettings(raw: Partial<ReaderSettings> | null | undefined
   if (typeof rawReadingMode === 'string' && (READING_MODE_IDS as readonly string[]).includes(rawReadingMode)) {
     readingMode = rawReadingMode as ReaderReadingMode;
   }
+  let specialEffects = DEFAULT_READER_SETTINGS.specialEffects;
+  if (raw && 'specialEffects' in raw && typeof (raw as ReaderSettings).specialEffects === 'boolean') {
+    specialEffects = (raw as ReaderSettings).specialEffects;
+  } else if (raw && 'reducedMotion' in raw && typeof (raw as { reducedMotion?: boolean }).reducedMotion === 'boolean') {
+    specialEffects = !(raw as { reducedMotion: boolean }).reducedMotion;
+  }
   return {
     fontScale,
     lineHeight,
     readerFont,
     highlightColor,
     readingMode,
-    reducedMotion: Boolean(raw?.reducedMotion),
+    specialEffects,
     pageFlipEnabled: raw?.pageFlipEnabled ?? true,
-    highContrast: Boolean(raw?.highContrast),
     defaultPanel:
       raw?.defaultPanel === 'ai' || raw?.defaultPanel === 'commentary' || raw?.defaultPanel === 'study'
         ? raw.defaultPanel
@@ -706,11 +717,13 @@ export default function BibleApp() {
   const [versionPanelLeft, setVersionPanelLeft] = useState(20);
   const [versionPopupOpen, setVersionPopupOpen] = useState(false);
   const [settingsOpen, setSettingsOpen]     = useState(false);
+  const settingsOpenedFromHomeRef = useRef(false);
   const [themePickerExpanded, setThemePickerExpanded] = useState(false);
   const [searchOpen, setSearchOpen]         = useState(false);
   const [chromeVisible, setChromeVisible]   = useState(true);
   /** Landing view: bottom taskbar only; taskbar actions enter the reader (and optional sidebar). */
   const [homeScreenActive, setHomeScreenActive] = useState(true);
+  const [homeTimeGreeting, setHomeTimeGreeting] = useState('');
   const [readerAskBubble, setReaderAskBubble] = useState<{ top: number; left: number } | null>(null);
   const [aiComposerSeed, setAiComposerSeed] = useState<{ id: number; text: string } | undefined>();
   const [selectedVerse, setSelectedVerse]   = useState<number | null>(null);
@@ -902,10 +915,9 @@ export default function BibleApp() {
     document.documentElement.dataset.readerLineHeight = readerSettings.lineHeight;
     document.documentElement.dataset.readerFont = readerSettings.readerFont;
     applyReaderHighlightVars(readerSettings.highlightColor);
-    if (readerSettings.reducedMotion) document.documentElement.setAttribute('data-reduced-motion', '1');
+    if (!readerSettings.specialEffects) document.documentElement.setAttribute('data-reduced-motion', '1');
     else document.documentElement.removeAttribute('data-reduced-motion');
-    if (readerSettings.highContrast) document.documentElement.setAttribute('data-high-contrast', '1');
-    else document.documentElement.removeAttribute('data-high-contrast');
+    document.documentElement.removeAttribute('data-high-contrast');
   }, [readerSettings]);
 
   useEffect(() => {
@@ -981,7 +993,7 @@ export default function BibleApp() {
 
     const useFlip = direction != null
       && readerSettingsRef.current.pageFlipEnabled
-      && !readerSettingsRef.current.reducedMotion;
+      && readerSettingsRef.current.specialEffects;
 
     setChapterError(false);
 
@@ -1161,6 +1173,14 @@ export default function BibleApp() {
     setSettingsOpen(false);
     closeSidePanel();
   }, [closeSidePanel]);
+
+  useEffect(() => {
+    if (!homeScreenActive) return;
+    const refresh = () => setHomeTimeGreeting(timeOfDayGreeting(new Date()));
+    refresh();
+    const intervalId = window.setInterval(refresh, 60_000);
+    return () => window.clearInterval(intervalId);
+  }, [homeScreenActive]);
 
   const reopenLastSidePanel = useCallback(() => {
     const preferredDefault = readerSettingsRef.current.defaultPanel;
@@ -1885,9 +1905,8 @@ export default function BibleApp() {
     theme: currentTheme,
     font_scale: readerSettings.fontScale,
     line_height: readerSettings.lineHeight,
-    reduced_motion: readerSettings.reducedMotion,
+    reduced_motion: !readerSettings.specialEffects,
     page_flip_enabled: readerSettings.pageFlipEnabled,
-    high_contrast: readerSettings.highContrast,
     default_panel: readerSettings.defaultPanel,
     side_panel_position: readerSettings.sidePanelPosition,
     reader_font: readerSettings.readerFont,
@@ -1942,9 +1961,8 @@ export default function BibleApp() {
       readerFont: settings.reader_font,
       highlightColor: settings.highlight_color,
       readingMode: settings.reading_mode,
-      reducedMotion: settings.reduced_motion,
+      specialEffects: !settings.reduced_motion,
       pageFlipEnabled: settings.page_flip_enabled,
-      highContrast: settings.high_contrast,
       defaultPanel: settings.default_panel,
       sidePanelPosition: settings.side_panel_position,
     }));
@@ -2361,6 +2379,7 @@ export default function BibleApp() {
       if (e.key === 'Escape') {
         setBookPopupOpen(false);
         setVersionPopupOpen(false);
+        if (settingsOpenedFromHomeRef.current) setHomeScreenActive(true);
         setSettingsOpen(false);
         setSearchOpen(false);
       }
@@ -2453,7 +2472,7 @@ export default function BibleApp() {
     const isGalaxyTheme = currentTheme === 'galaxy';
     const isPinkTheme = currentTheme === 'pink';
 
-    if ((!isGalaxyTheme && !isPinkTheme) || readerSettings.reducedMotion) {
+    if ((!isGalaxyTheme && !isPinkTheme) || !readerSettings.specialEffects) {
       if (cometRafRef.current !== null) {
         cancelAnimationFrame(cometRafRef.current);
         cometRafRef.current = null;
@@ -2854,7 +2873,7 @@ export default function BibleApp() {
       window.removeEventListener('resize', resize);
       if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
     };
-  }, [currentTheme, readerSettings.reducedMotion, readerSettings.graphicsMode]);
+  }, [currentTheme, readerSettings.specialEffects, readerSettings.graphicsMode]);
 
   // ── Theme management ──────────────────────────────────────────────────────────
   const stopDynamicTheme = useCallback(() => {
@@ -2865,7 +2884,7 @@ export default function BibleApp() {
   }, []);
 
   const runDynamicRgbStrip = useCallback(() => {
-    if (currentThemeRef.current !== 'dynamic' || readerSettings.reducedMotion) return;
+    if (currentThemeRef.current !== 'dynamic' || !readerSettings.specialEffects) return;
     const nextHex = DYNAMIC_COLORS[dynIndexRef.current % DYNAMIC_COLORS.length];
     dynIndexRef.current++;
     const { r, g, b } = hexToRgb(nextHex);
@@ -2887,7 +2906,7 @@ export default function BibleApp() {
   }, []);
 
   const startDynamicTheme = useCallback(() => {
-    if (readerSettings.reducedMotion) {
+    if (!readerSettings.specialEffects) {
       document.documentElement.removeAttribute('data-dynamic-wave');
       document.documentElement.setAttribute('data-theme', DYNAMIC_BASE_THEME);
       return;
@@ -2895,7 +2914,7 @@ export default function BibleApp() {
     dynIndexRef.current = 0;
     document.documentElement.setAttribute('data-theme', DYNAMIC_BASE_THEME);
     dynTimerRef.current = setTimeout(runDynamicRgbStrip, 0);
-  }, [readerSettings.reducedMotion, runDynamicRgbStrip]);
+  }, [readerSettings.specialEffects, runDynamicRgbStrip]);
 
   const applyTheme = useCallback((id: string) => {
     if (id !== 'dynamic') stopDynamicTheme();
@@ -2941,7 +2960,7 @@ export default function BibleApp() {
     setDailyGoalChapters(storedDailyGoal);
     setReaderSettings(storedReaderSettings);
     setShowOnboarding(localStorage.getItem(ONBOARDING_STORAGE_KEY) !== '1');
-    if (saved === 'dynamic' && !storedReaderSettings.reducedMotion) startDynamicTheme();
+    if (saved === 'dynamic' && storedReaderSettings.specialEffects) startDynamicTheme();
     else {
       document.documentElement.removeAttribute('data-dynamic-wave');
       document.documentElement.setAttribute('data-theme', saved === 'dynamic' ? DYNAMIC_BASE_THEME : saved);
@@ -3708,8 +3727,22 @@ export default function BibleApp() {
         <div className="home-screen" role="region" aria-label="Home">
           <div className="home-screen-inner">
             <header className="home-screen-header">
-              <h1 className="home-screen-title">Welcome</h1>
+              <h1 className="home-screen-title">{homeTimeGreeting || 'Welcome'}</h1>
             </header>
+            <section className="home-screen-card reader-dashboard-card home-daily-verse-card" aria-labelledby="home-daily-verse-heading">
+              <h2 id="home-daily-verse-heading" className="reader-dashboard-label">Verse of the day</h2>
+              <p className="home-daily-verse-text">{dailyVerse.text}</p>
+              <button
+                type="button"
+                className="home-daily-verse-ref"
+                onClick={() => {
+                  const didNavigate = navigateToPassage(dailyVerse.book, dailyVerse.chapter, translation, dailyVerse.verse);
+                  if (didNavigate) openReaderFromHome('none');
+                }}
+              >
+                {dailyVerse.book} {dailyVerse.chapter}:{dailyVerse.verse}
+              </button>
+            </section>
             <section className="home-screen-card reader-dashboard-card" aria-labelledby="home-streak-heading">
               <h2 id="home-streak-heading" className="reader-dashboard-label">Your streak</h2>
               <p className="reader-dashboard-title">{readingProgress.streak} day streak</p>
@@ -3740,20 +3773,6 @@ export default function BibleApp() {
                 <p className="home-continue-empty">Open the reader and pick a book to start.</p>
               )}
             </section>
-            <section className="home-screen-card reader-dashboard-card" aria-labelledby="home-daily-verse-heading">
-              <h2 id="home-daily-verse-heading" className="reader-dashboard-label">Verse of the day</h2>
-              <p className="home-daily-verse-text">{dailyVerse.text}</p>
-              <button
-                type="button"
-                className="home-daily-verse-ref"
-                onClick={() => {
-                  const didNavigate = navigateToPassage(dailyVerse.book, dailyVerse.chapter, translation, dailyVerse.verse);
-                  if (didNavigate) openReaderFromHome('none');
-                }}
-              >
-                {dailyVerse.book} {dailyVerse.chapter}:{dailyVerse.verse}
-              </button>
-            </section>
           </div>
         </div>
       )}
@@ -3763,7 +3782,7 @@ export default function BibleApp() {
       <nav className={`topbar${chromeVisible ? '' : ' chrome-hide-top'}`}>
         <div className="nav-left">
           <button
-            className={`nav-btn${bookPopupOpen ? ' active' : ''}`}
+            className={`nav-btn nav-btn-book${bookPopupOpen ? ' active' : ''}`}
             type="button"
             onClick={e => { e.stopPropagation(); setSearchOpen(false); setVersionPopupOpen(false); setBookPopupOpen(v => !v); }}
           >
@@ -3772,7 +3791,7 @@ export default function BibleApp() {
           </button>
           <button
             ref={versionBtnRef}
-            className={`nav-btn${versionPopupOpen ? ' active' : ''}`}
+            className={`nav-btn nav-btn-version${versionPopupOpen ? ' active' : ''}`}
             type="button"
             onClick={e => { e.stopPropagation(); setBookPopupOpen(false); versionPopupOpen ? setVersionPopupOpen(false) : openVersionPopup(); }}
           >
@@ -4273,7 +4292,7 @@ export default function BibleApp() {
           type="button"
           aria-label="Settings"
           onClick={() => {
-            setHomeScreenActive(false);
+            settingsOpenedFromHomeRef.current = homeScreenActive;
             setSettingsOpen(true);
           }}
         >
@@ -4366,12 +4385,12 @@ export default function BibleApp() {
       {/* Settings panel */}
       <div
         className={`settings-overlay${settingsOpen ? ' open' : ''}`}
-        onClick={e => { if (e.target === e.currentTarget) setSettingsOpen(false); }}
+        onClick={e => { if (e.target === e.currentTarget) { setSettingsOpen(false); if (settingsOpenedFromHomeRef.current) setHomeScreenActive(true); } }}
       >
         <div className="settings-panel">
           <div className="settings-header">
             <span className="settings-title">Settings</span>
-            <button className="settings-close" type="button" aria-label="Close settings" onClick={() => setSettingsOpen(false)}>✕</button>
+            <button className="settings-close" type="button" aria-label="Close settings" onClick={() => { setSettingsOpen(false); if (settingsOpenedFromHomeRef.current) setHomeScreenActive(true); }}>✕</button>
           </div>
           <div className="settings-body">
             <div className="settings-section-label">Appearance</div>
@@ -4409,75 +4428,101 @@ export default function BibleApp() {
             <div className="settings-controls">
               <label className="settings-field">
                 <span>Text size</span>
-                <select
-                  value={readerSettings.fontScale}
-                  onChange={event => setReaderSettings(prev => ({ ...prev, fontScale: event.target.value as ReaderFontPx }))}
-                >
-                  {READER_FONT_PX_OPTIONS.map(px => (
-                    <option key={px} value={px}>{px}px</option>
-                  ))}
-                </select>
+                <span className="settings-select-wrap">
+                  <select
+                    value={readerSettings.fontScale}
+                    onChange={event => setReaderSettings(prev => ({ ...prev, fontScale: event.target.value as ReaderFontPx }))}
+                  >
+                    {READER_FONT_PX_OPTIONS.map(px => (
+                      <option key={px} value={px}>{px}px</option>
+                    ))}
+                  </select>
+                </span>
               </label>
               <label className="settings-field">
                 <span>Reading font</span>
-                <select
-                  value={readerSettings.readerFont}
-                  onChange={event => setReaderSettings(prev => ({
-                    ...prev,
-                    readerFont: event.target.value as ReaderFontId,
-                  }))}
-                >
-                  <option value="georgia">Georgia (default)</option>
-                  <option value="charter">Charter</option>
-                  <option value="palatino">Palatino</option>
-                  <option value="garamond">Garamond style</option>
-                  <option value="times">Times New Roman</option>
-                  <option value="sans">Sans (UI)</option>
-                </select>
+                <span className="settings-select-wrap">
+                  <select
+                    value={readerSettings.readerFont}
+                    onChange={event => setReaderSettings(prev => ({
+                      ...prev,
+                      readerFont: event.target.value as ReaderFontId,
+                    }))}
+                  >
+                    <option value="georgia">Georgia (default)</option>
+                    <option value="charter">Charter</option>
+                    <option value="palatino">Palatino</option>
+                    <option value="garamond">Garamond style</option>
+                    <option value="times">Times New Roman</option>
+                    <option value="sans">Sans (UI)</option>
+                  </select>
+                </span>
               </label>
               <label className="settings-field">
                 <span>Reading mode</span>
-                <select
-                  value={readerSettings.readingMode}
-                  onChange={event => setReaderSettings(prev => ({
-                    ...prev,
-                    readingMode: event.target.value as ReaderReadingMode,
-                  }))}
-                >
-                  <option value="single">Single column</option>
-                  <option value="book">Double collumn</option>
-                </select>
+                <span className="settings-select-wrap">
+                  <select
+                    value={readerSettings.readingMode}
+                    onChange={event => setReaderSettings(prev => ({
+                      ...prev,
+                      readingMode: event.target.value as ReaderReadingMode,
+                    }))}
+                  >
+                    <option value="single">Single column</option>
+                    <option value="book">Double collumn</option>
+                  </select>
+                </span>
               </label>
               <label className="settings-field">
                 <span>Line spacing</span>
-                <select
-                  value={readerSettings.lineHeight}
-                  onChange={event => setReaderSettings(prev => ({ ...prev, lineHeight: event.target.value as ReaderLineHeightOption }))}
-                >
-                  {READER_LINE_HEIGHT_OPTIONS.map(opt => (
-                    <option key={opt} value={opt}>
-                      {opt === '2' ? '2.0' : opt}
-                    </option>
-                  ))}
-                </select>
+                <span className="settings-select-wrap">
+                  <select
+                    value={readerSettings.lineHeight}
+                    onChange={event => setReaderSettings(prev => ({ ...prev, lineHeight: event.target.value as ReaderLineHeightOption }))}
+                  >
+                    {READER_LINE_HEIGHT_OPTIONS.map(opt => (
+                      <option key={opt} value={opt}>
+                        {opt === '2' ? '2.0' : opt}
+                      </option>
+                    ))}
+                  </select>
+                </span>
               </label>
               <label className="settings-field">
                 <span>Side panel position</span>
-                <select
-                  value={readerSettings.sidePanelPosition}
-                  onChange={event => setReaderSettings(prev => ({ ...prev, sidePanelPosition: event.target.value as SidePanelPosition }))}
-                >
-                  <option value="left">Left side</option>
-                  <option value="right">Right side</option>
-                </select>
+                <span className="settings-select-wrap">
+                  <select
+                    value={readerSettings.sidePanelPosition}
+                    onChange={event => setReaderSettings(prev => ({ ...prev, sidePanelPosition: event.target.value as SidePanelPosition }))}
+                  >
+                    <option value="left">Left side</option>
+                    <option value="right">Right side</option>
+                  </select>
+                </span>
+              </label>
+            </div>
+            <div className="settings-section-label">Graphics</div>
+            <div className="settings-controls">
+              <label className="settings-field">
+                <span>Graphics mode</span>
+                <span className="settings-select-wrap">
+                  <select
+                    value={readerSettings.graphicsMode}
+                    onChange={event => setReaderSettings(prev => ({ ...prev, graphicsMode: event.target.value as GraphicsMode }))}
+                  >
+                    <option value="auto">Auto (recommended)</option>
+                    <option value="performance">Performance — full effects</option>
+                    <option value="efficiency">Efficiency — reduced while scrolling</option>
+                  </select>
+                </span>
               </label>
               <label className="settings-toggle">
                 <input
                   type="checkbox"
-                  checked={readerSettings.reducedMotion}
-                  onChange={event => setReaderSettings(prev => ({ ...prev, reducedMotion: event.target.checked }))}
+                  checked={readerSettings.specialEffects}
+                  onChange={event => setReaderSettings(prev => ({ ...prev, specialEffects: event.target.checked }))}
                 />
-                <span>Reduce motion</span>
+                <span>Special effects</span>
               </label>
               <label className="settings-toggle">
                 <input
@@ -4486,28 +4531,6 @@ export default function BibleApp() {
                   onChange={event => setReaderSettings(prev => ({ ...prev, pageFlipEnabled: event.target.checked }))}
                 />
                 <span>Page flip animation</span>
-              </label>
-              <label className="settings-toggle">
-                <input
-                  type="checkbox"
-                  checked={readerSettings.highContrast}
-                  onChange={event => setReaderSettings(prev => ({ ...prev, highContrast: event.target.checked }))}
-                />
-                <span>High contrast</span>
-              </label>
-            </div>
-            <div className="settings-section-label">Advanced Graphics</div>
-            <div className="settings-controls">
-              <label className="settings-field">
-                <span>Graphics mode</span>
-                <select
-                  value={readerSettings.graphicsMode}
-                  onChange={event => setReaderSettings(prev => ({ ...prev, graphicsMode: event.target.value as GraphicsMode }))}
-                >
-                  <option value="auto">Auto (recommended)</option>
-                  <option value="performance">Performance — full effects</option>
-                  <option value="efficiency">Efficiency — reduced while scrolling</option>
-                </select>
               </label>
             </div>
           </div>
