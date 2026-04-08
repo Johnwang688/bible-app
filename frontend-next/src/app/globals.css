@@ -1782,9 +1782,9 @@ select.ai-add-chapter-input optgroup {
   display: flex;
   flex-direction: column;
 }
-/* Hide the large decorative chapter heading in paged mode — the nav bar already shows context */
-.bible-pane--paged .reader-book,
-.bible-pane--paged .reader-chapter {
+/* Hide the full-width book row above the paged viewport only (double-spread uses book/chapter in-page). */
+.bible-pane--paged .reader-page-transition > .reader-book,
+.bible-pane--paged .reader-page-transition > .reader-chapter {
   display: none;
 }
 .reader-paged-viewport {
@@ -1895,15 +1895,43 @@ select.ai-add-chapter-input optgroup {
   max-width: 720px;
 }
 .reader-paged-spread--double {
-  flex-direction: row;
-  gap: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: auto minmax(0, 1fr);
+  column-gap: clamp(22px, 3vw, 42px);
+  row-gap: 0;
 }
-.reader-paged-spread--double .reader-paged-column:first-child {
-  border-right: 1px solid var(--line-soft);
-  padding-right: 6px;
+.reader-paged-double-context-left {
+  grid-column: 1;
+  grid-row: 1;
+  padding: 0 20px 6px;
+  min-width: 0;
+  align-self: start;
+  text-align: left;
 }
-.reader-paged-spread--double .reader-paged-column:last-child {
-  padding-left: 6px;
+/* Same chapter block as scroll layout; verses sit in the grid row below instead of inline flow. */
+.reader-paged-double-context-left .reader-chapter {
+  margin-bottom: 30px;
+}
+.reader-paged-double-context-left--empty {
+  padding: 0;
+  min-height: 0;
+}
+.reader-paged-double-context-right {
+  grid-column: 2;
+  grid-row: 1;
+  padding: 0 20px 6px;
+  min-width: 0;
+}
+.reader-paged-spread--double > .reader-paged-column--double-left {
+  grid-column: 1;
+  grid-row: 2;
+  min-height: 0;
+}
+.reader-paged-spread--double > .reader-paged-column--double-right {
+  grid-column: 2;
+  grid-row: 2;
+  min-height: 0;
 }
 .reader-paged-column {
   flex: 1;
@@ -1913,15 +1941,29 @@ select.ai-add-chapter-input optgroup {
   flex-direction: column;
   height: 100%;
 }
+.reader-paged-col-footer {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: baseline;
+  padding: 8px 20px 0;
+}
+.reader-paged-col-pagenum {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  font-family: var(--ui);
+}
 .reader-paged-sheet {
-  flex: 0 0 auto;
-  max-height: 100%;
+  flex: 0 1 auto;
+  min-height: 0;
   overflow: hidden;
   background: var(--bg);
   box-sizing: border-box;
 }
 .reader-paged-passages {
-  padding: 8px 16px;
+  padding: 8px 20px;
 }
 .reader-paged-tail {
   flex: 1 1 0;
@@ -1935,17 +1977,28 @@ select.ai-add-chapter-input optgroup {
 }
 @media (max-width: 700px) {
   .reader-paged-spread--double {
+    display: flex;
     flex-direction: column;
     gap: 0;
   }
-  .reader-paged-spread--double .reader-paged-column:first-child {
-    border-right: none;
+  .reader-paged-double-context-right {
+    display: none;
+  }
+  .reader-paged-double-context-left {
+    width: 100%;
+    padding: 0 20px 8px;
+  }
+  .reader-paged-spread--double > .reader-paged-column--double-left,
+  .reader-paged-spread--double > .reader-paged-column--double-right {
+    grid-column: unset;
+    grid-row: unset;
+    width: 100%;
+  }
+  .reader-paged-spread--double > .reader-paged-column--double-left {
     border-bottom: 1px solid var(--line-soft);
-    padding-right: 0;
     padding-bottom: 6px;
   }
-  .reader-paged-spread--double .reader-paged-column:last-child {
-    padding-left: 0;
+  .reader-paged-spread--double > .reader-paged-column--double-right {
     padding-top: 6px;
   }
 }
@@ -2225,6 +2278,7 @@ select.ai-add-chapter-input optgroup {
   width: 100%;
 }
 .reader-book-page {
+  position: relative;
   min-height: 68vh;
   padding: 18px 20px 28px;
   border: none;
@@ -2871,6 +2925,11 @@ select.ai-add-chapter-input optgroup {
   flex-direction: column;
   align-items: center;
 }
+.tts-center.chrome-hide-bottom {
+  transform: translateX(-50%) !important;
+  opacity: 0;
+  pointer-events: none;
+}
 .tts-btn-group {
   display: flex;
   align-items: flex-end;
@@ -3246,41 +3305,116 @@ select.ai-add-chapter-input optgroup {
   animation: pagedFlipEnterPrev 880ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
   transform-origin: left center;
 }
+/* Paged two-page spread: cancel full-shell flip; delegate to per-column animations. */
+.reader-paged-flip-shell.reader-page-transition.reader-page-transition--book.page-flip-exit-next,
+.reader-paged-flip-shell.reader-page-transition.reader-page-transition--book.page-flip-enter-next,
+.reader-paged-flip-shell.reader-page-transition.reader-page-transition--book.page-flip-exit-prev,
+.reader-paged-flip-shell.reader-page-transition.reader-page-transition--book.page-flip-enter-prev {
+  animation: none;
+  transform: none;
+  opacity: 1;
+}
+.reader-paged-flip-shell.reader-page-transition--book .reader-paged-spread--double > .reader-paged-column--double-left,
+.reader-paged-flip-shell.reader-page-transition--book .reader-paged-spread--double > .reader-paged-column--double-right {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  position: relative;
+}
+/* Back face: lined texture shown when the page rotates past 90° */
+.reader-paged-flip-shell.reader-page-transition--book .reader-paged-spread--double > .reader-paged-column--double-left::after,
+.reader-paged-flip-shell.reader-page-transition--book .reader-paged-spread--double > .reader-paged-column--double-right::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+  backface-visibility: hidden;
+  pointer-events: none;
+  background-color: var(--bg);
+  background-image: repeating-linear-gradient(
+    transparent 0, transparent 19px,
+    color-mix(in srgb, var(--muted) 22%, transparent) 19px,
+    color-mix(in srgb, var(--muted) 22%, transparent) 20px
+  );
+  background-position: 20px 36px;
+}
+.reader-paged-flip-shell.reader-page-transition--book .reader-paged-spread--double > .reader-paged-column--double-left {
+  transform-origin: right center;
+}
+.reader-paged-flip-shell.reader-page-transition--book .reader-paged-spread--double > .reader-paged-column--double-right {
+  transform-origin: left center;
+}
+.reader-paged-flip-shell.reader-page-transition--book.page-flip-exit-next .reader-paged-spread--double > .reader-paged-column--double-right {
+  animation: bookFlipRightPageForward 260ms cubic-bezier(0.35, 0.04, 0.18, 0.98) forwards;
+}
+.reader-paged-flip-shell.reader-page-transition--book.page-flip-enter-next .reader-paged-spread--double > .reader-paged-column--double-right {
+  animation: bookSettleRightPageForward 180ms cubic-bezier(0.16, 0.88, 0.2, 1) forwards;
+}
+.reader-paged-flip-shell.reader-page-transition--book.page-flip-exit-prev .reader-paged-spread--double > .reader-paged-column--double-left {
+  animation: bookFlipLeftPageBackward 260ms cubic-bezier(0.35, 0.04, 0.18, 0.98) forwards;
+}
+.reader-paged-flip-shell.reader-page-transition--book.page-flip-enter-prev .reader-paged-spread--double > .reader-paged-column--double-left {
+  animation: bookSettleLeftPageBackward 180ms cubic-bezier(0.16, 0.88, 0.2, 1) forwards;
+}
+.reader-paged-flip-shell.reader-page-transition--book.page-flip-exit-next .reader-paged-spread--double > .reader-paged-column--double-left,
+.reader-paged-flip-shell.reader-page-transition--book.page-flip-enter-next .reader-paged-spread--double > .reader-paged-column--double-left {
+  animation: bookPageStay 140ms ease forwards;
+}
+.reader-paged-flip-shell.reader-page-transition--book.page-flip-exit-prev .reader-paged-spread--double > .reader-paged-column--double-right,
+.reader-paged-flip-shell.reader-page-transition--book.page-flip-enter-prev .reader-paged-spread--double > .reader-paged-column--double-right {
+  animation: bookPageStay 140ms ease forwards;
+}
 .reader-page-transition--book {
   transform-style: preserve-3d;
 }
 .reader-page-transition--book.page-flip-exit-next .reader-book-page--right {
-  animation: bookFlipRightPageForward 420ms cubic-bezier(0.35, 0.04, 0.18, 0.98) forwards;
+  animation: bookFlipRightPageForward 260ms cubic-bezier(0.35, 0.04, 0.18, 0.98) forwards;
 }
 .reader-page-transition--book.page-flip-enter-next .reader-book-page--right {
-  animation: bookSettleRightPageForward 320ms cubic-bezier(0.16, 0.88, 0.2, 1) forwards;
+  animation: bookSettleRightPageForward 180ms cubic-bezier(0.16, 0.88, 0.2, 1) forwards;
 }
 .reader-page-transition--book.page-flip-exit-prev .reader-book-page--left {
-  animation: bookFlipLeftPageBackward 420ms cubic-bezier(0.35, 0.04, 0.18, 0.98) forwards;
+  animation: bookFlipLeftPageBackward 260ms cubic-bezier(0.35, 0.04, 0.18, 0.98) forwards;
 }
 .reader-page-transition--book.page-flip-enter-prev .reader-book-page--left {
-  animation: bookSettleLeftPageBackward 320ms cubic-bezier(0.16, 0.88, 0.2, 1) forwards;
+  animation: bookSettleLeftPageBackward 180ms cubic-bezier(0.16, 0.88, 0.2, 1) forwards;
 }
 .reader-page-transition--book.page-flip-exit-next .reader-book-page--left,
 .reader-page-transition--book.page-flip-enter-next .reader-book-page--left,
 .reader-page-transition--book.page-flip-exit-prev .reader-book-page--right,
 .reader-page-transition--book.page-flip-enter-prev .reader-book-page--right {
-  animation: bookPageStay 220ms ease forwards;
+  animation: bookPageStay 140ms ease forwards;
+}
+/* Back-face lined texture for book-scroll pages too */
+.reader-page-transition--book .reader-book-page--left::after,
+.reader-page-transition--book .reader-book-page--right::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+  backface-visibility: hidden;
+  pointer-events: none;
+  background-color: var(--bg);
+  background-image: repeating-linear-gradient(
+    transparent 0, transparent 19px,
+    color-mix(in srgb, var(--muted) 22%, transparent) 19px,
+    color-mix(in srgb, var(--muted) 22%, transparent) 20px
+  );
+  background-position: 20px 36px;
 }
 @keyframes bookFlipRightPageForward {
   from { transform: perspective(2200px) rotateY(0deg); opacity: 1; }
-  to { transform: perspective(2200px) rotateY(-104deg); opacity: 0.65; }
+  to { transform: perspective(2200px) rotateY(-104deg); opacity: 0.7; }
 }
 @keyframes bookSettleRightPageForward {
-  from { transform: perspective(2200px) rotateY(12deg); opacity: 0.82; }
+  from { transform: perspective(2200px) rotateY(10deg); opacity: 0.85; }
   to { transform: perspective(2200px) rotateY(0deg); opacity: 1; }
 }
 @keyframes bookFlipLeftPageBackward {
   from { transform: perspective(2200px) rotateY(0deg); opacity: 1; }
-  to { transform: perspective(2200px) rotateY(104deg); opacity: 0.65; }
+  to { transform: perspective(2200px) rotateY(104deg); opacity: 0.7; }
 }
 @keyframes bookSettleLeftPageBackward {
-  from { transform: perspective(2200px) rotateY(-12deg); opacity: 0.82; }
+  from { transform: perspective(2200px) rotateY(-10deg); opacity: 0.85; }
   to { transform: perspective(2200px) rotateY(0deg); opacity: 1; }
 }
 @keyframes bookPageStay {
