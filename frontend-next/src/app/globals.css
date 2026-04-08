@@ -136,7 +136,7 @@ html:has(.side-pane.open:hover) .ch-nav {
   justify-content: space-between;
   gap: 12px;
   border-bottom: 1px solid var(--line);
-  transition: transform 0.3s ease;
+  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .taskbar {
   bottom: 0;
@@ -146,7 +146,7 @@ html:has(.side-pane.open:hover) .ch-nav {
   align-items: center;
   gap: 24px;
   border-top: 1px solid var(--line);
-  transition: transform 0.3s ease;
+  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .nav-left {
   display: flex;
@@ -1429,8 +1429,15 @@ select.ai-add-chapter-input optgroup {
 }
 .bible-pane {
   flex: 1;
+  min-height: 0;
   overscroll-behavior: contain;
   background: var(--bg);
+}
+.bible-pane.bible-pane--paged {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 .reader-wrap {
   max-width: 720px;
@@ -1445,6 +1452,191 @@ select.ai-add-chapter-input optgroup {
 .reader-wrap--book.reader-wrap--full {
   padding-left: 18px;
   padding-right: 18px;
+}
+.reader-wrap--paged {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  max-width: none;
+  width: 100%;
+  /* Override the large scroll-mode padding — just clear topbar/taskbar */
+  padding: var(--topbar) 0 var(--taskbar);
+}
+/* Bridge flex from .reader-wrap--paged to .reader-paged-viewport (transition wrapper is not flex by default). */
+.reader-wrap--paged > .reader-page-transition {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+/* Hide the large decorative chapter heading in paged mode — the nav bar already shows context */
+.bible-pane--paged .reader-book,
+.bible-pane--paged .reader-chapter {
+  display: none;
+}
+.reader-paged-viewport {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+/* Verse column only — height drives pagination (excludes top book row + bottom page bar). */
+.reader-paged-content {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.reader-paged-context {
+  flex-shrink: 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  padding: 0 16px 6px;
+  font-family: var(--ui);
+  text-align: center;
+}
+.reader-paged-context-book {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rdrlabel);
+}
+.reader-paged-context-sep {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  user-select: none;
+}
+.reader-paged-context-chapter {
+  font-size: clamp(20px, 3.6vw, 26px);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  color: var(--text);
+}
+.reader-paged-pagebar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 16px 4px;
+  font-family: var(--ui);
+}
+.reader-paged-pagebar-fraction {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+.reader-paged-hidden-measure {
+  position: fixed;
+  left: -14000px;
+  top: 0;
+  visibility: hidden;
+  pointer-events: none;
+  box-sizing: border-box;
+  padding: 8px 16px;
+  max-height: none;
+  overflow: visible;
+}
+.reader-paged-measuring {
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+}
+.reader-paged-flip-shell {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  transform-style: preserve-3d;
+}
+.reader-paged-verse-root {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.reader-paged-spread {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  background: var(--bg);
+}
+.reader-paged-spread--single {
+  flex-direction: row;
+  justify-content: center;
+}
+.reader-paged-spread--single .reader-paged-column {
+  max-width: 720px;
+}
+.reader-paged-spread--double {
+  flex-direction: row;
+  gap: 0;
+}
+.reader-paged-spread--double .reader-paged-column:first-child {
+  border-right: 1px solid var(--line-soft);
+  padding-right: 6px;
+}
+.reader-paged-spread--double .reader-paged-column:last-child {
+  padding-left: 6px;
+}
+.reader-paged-column {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.reader-paged-sheet {
+  flex: 0 0 auto;
+  max-height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  box-sizing: border-box;
+}
+.reader-paged-passages {
+  padding: 8px 16px;
+}
+.reader-paged-tail {
+  flex: 1 1 0;
+  min-height: 0;
+  background: var(--bg);
+}
+.reader-paged-full {
+  flex: 1;
+  min-height: 0;
+  background: var(--bg);
+}
+@media (max-width: 700px) {
+  .reader-paged-spread--double {
+    flex-direction: column;
+    gap: 0;
+  }
+  .reader-paged-spread--double .reader-paged-column:first-child {
+    border-right: none;
+    border-bottom: 1px solid var(--line-soft);
+    padding-right: 0;
+    padding-bottom: 6px;
+  }
+  .reader-paged-spread--double .reader-paged-column:last-child {
+    padding-left: 0;
+    padding-top: 6px;
+  }
 }
 .reader-dashboard {
   display: grid;
@@ -2315,7 +2507,7 @@ select.ai-add-chapter-input optgroup {
   position: fixed;
   bottom: calc(var(--taskbar) + 12px);
   z-index: var(--z-ch-nav);
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .ch-nav-prev {
   left: 16px;
@@ -2550,26 +2742,107 @@ select.ai-add-chapter-input optgroup {
   to   { transform: translateX(0);     opacity: 1; }
 }
 @keyframes pageFlipExitNext {
-  from { transform: translateX(0) rotateY(0deg) scale(1);    opacity: 1; }
-  to   { transform: translateX(-6%) rotateY(8deg) scale(0.98); opacity: 0; }
+  0%   { transform: rotateY(0deg);    opacity: 1;    }
+  30%  { transform: rotateY(-28deg);  opacity: 0.95; }
+  100% { transform: rotateY(-90deg);  opacity: 0.0;  }
 }
 @keyframes pageFlipEnterNext {
-  from { transform: translateX(6%) rotateY(-8deg) scale(0.98); opacity: 0; }
-  to   { transform: translateX(0) rotateY(0deg) scale(1);    opacity: 1; }
+  0%   { transform: rotateY(90deg);   opacity: 0.0;  }
+  50%  { transform: rotateY(12deg);   opacity: 1.0;  }
+  72%  { transform: rotateY(-5deg);   opacity: 1.0;  }
+  88%  { transform: rotateY(2deg);    opacity: 1.0;  }
+  100% { transform: rotateY(0deg);    opacity: 1.0;  }
 }
 @keyframes pageFlipExitPrev {
-  from { transform: translateX(0) rotateY(0deg) scale(1);     opacity: 1; }
-  to   { transform: translateX(6%) rotateY(-8deg) scale(0.98); opacity: 0; }
+  0%   { transform: rotateY(0deg);   opacity: 1;    }
+  30%  { transform: rotateY(28deg);  opacity: 0.95; }
+  100% { transform: rotateY(90deg);  opacity: 0.0;  }
 }
 @keyframes pageFlipEnterPrev {
-  from { transform: translateX(-6%) rotateY(8deg) scale(0.98); opacity: 0; }
-  to   { transform: translateX(0) rotateY(0deg) scale(1);     opacity: 1; }
+  0%   { transform: rotateY(-90deg); opacity: 0.0;  }
+  50%  { transform: rotateY(-12deg); opacity: 1.0;  }
+  72%  { transform: rotateY(5deg);   opacity: 1.0;  }
+  88%  { transform: rotateY(-2deg);  opacity: 1.0;  }
+  100% { transform: rotateY(0deg);   opacity: 1.0;  }
 }
-.reader-page-transition { perspective: 1200px; }
-.reader-page-transition.page-flip-exit-next  { animation: pageFlipExitNext  260ms ease-in  forwards; pointer-events: none; }
-.reader-page-transition.page-flip-enter-next { animation: pageFlipEnterNext 280ms ease-out forwards; }
-.reader-page-transition.page-flip-exit-prev  { animation: pageFlipExitPrev  260ms ease-in  forwards; pointer-events: none; }
-.reader-page-transition.page-flip-enter-prev { animation: pageFlipEnterPrev 280ms ease-out forwards; }
+.reader-page-transition { perspective: 1400px; }
+.reader-page-transition.page-flip-exit-next  {
+  animation: pageFlipExitNext 260ms cubic-bezier(0.55, 0.06, 0.68, 0.19) forwards;
+  transform-origin: left center;
+  pointer-events: none;
+}
+.reader-page-transition.page-flip-enter-next {
+  animation: pageFlipEnterNext 480ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform-origin: right center;
+}
+.reader-page-transition.page-flip-exit-prev  {
+  animation: pageFlipExitPrev 260ms cubic-bezier(0.55, 0.06, 0.68, 0.19) forwards;
+  transform-origin: right center;
+  pointer-events: none;
+}
+.reader-page-transition.page-flip-enter-prev {
+  animation: pageFlipEnterPrev 480ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform-origin: left center;
+}
+/* Paged reader: slower, linear 3D turn without overshoot keyframes (avoids jerky settle). */
+@keyframes pagedFlipExitNext {
+  0% {
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: rotateY(-90deg);
+    opacity: 0;
+  }
+}
+@keyframes pagedFlipEnterNext {
+  0% {
+    transform: rotateY(90deg);
+    opacity: 0;
+  }
+  100% {
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+}
+@keyframes pagedFlipExitPrev {
+  0% {
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: rotateY(90deg);
+    opacity: 0;
+  }
+}
+@keyframes pagedFlipEnterPrev {
+  0% {
+    transform: rotateY(-90deg);
+    opacity: 0;
+  }
+  100% {
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+}
+.reader-paged-flip-shell.reader-page-transition.page-flip-exit-next {
+  animation: pagedFlipExitNext 580ms cubic-bezier(0.45, 0, 0.55, 1) forwards;
+  transform-origin: left center;
+  pointer-events: none;
+}
+.reader-paged-flip-shell.reader-page-transition.page-flip-enter-next {
+  animation: pagedFlipEnterNext 880ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform-origin: right center;
+}
+.reader-paged-flip-shell.reader-page-transition.page-flip-exit-prev {
+  animation: pagedFlipExitPrev 580ms cubic-bezier(0.45, 0, 0.55, 1) forwards;
+  transform-origin: right center;
+  pointer-events: none;
+}
+.reader-paged-flip-shell.reader-page-transition.page-flip-enter-prev {
+  animation: pagedFlipEnterPrev 880ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform-origin: left center;
+}
 .reader-page-transition--book {
   transform-style: preserve-3d;
 }
