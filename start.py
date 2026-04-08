@@ -19,6 +19,23 @@ ROOT = Path(__file__).resolve().parent
 FRONTEND_DIR = ROOT / "frontend-next"
 
 
+def _resolve_venv_python(root: Path) -> Path | None:
+    """Project .venv interpreter if it exists (same deps as `pip install -r requirements.txt`)."""
+    if sys.platform == "win32":
+        exe = root / ".venv" / "Scripts" / "python.exe"
+        return exe if exe.is_file() else None
+    for name in ("python3", "python"):
+        exe = root / ".venv" / "bin" / name
+        if exe.is_file():
+            return exe
+    return None
+
+
+def _backend_python() -> Path:
+    venv_py = _resolve_venv_python(ROOT)
+    return venv_py if venv_py is not None else Path(sys.executable)
+
+
 def _resolve_npm() -> str:
     """Windows: subprocess needs a real executable; `npm` is usually npm.cmd."""
     for name in ("npm", "npm.cmd"):
@@ -64,9 +81,10 @@ def main() -> int:
         print(str(e), file=sys.stderr)
         return 1
 
+    py = _backend_python()
     print("Starting backend (port 8000)...")
     backend = subprocess.Popen(
-        [sys.executable, "-m", "uvicorn", "app.main:app", "--reload"],
+        [str(py), "-m", "uvicorn", "app.main:app", "--reload"],
         cwd=ROOT,
         env=env,
     )

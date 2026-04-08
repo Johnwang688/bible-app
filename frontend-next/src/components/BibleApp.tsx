@@ -1,7 +1,7 @@
 'use client';
 
 import type { CSSProperties, Dispatch, SetStateAction } from 'react';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import AiSidebar, {
   AI_PERSONALITY_STORAGE_KEY,
   MAX_MESSAGE_CHARS,
@@ -112,8 +112,54 @@ const READER_FONT_IDS = ['georgia', 'charter', 'palatino', 'garamond', 'times', 
 type ReaderFontId = (typeof READER_FONT_IDS)[number];
 const HIGHLIGHT_COLOR_IDS = ['yellow', 'amber', 'green', 'blue', 'pink', 'lavender', 'mint'] as const;
 type ReaderHighlightColorId = (typeof HIGHLIGHT_COLOR_IDS)[number];
-const READING_MODE_IDS = ['single', 'book'] as const;
+const READING_MODE_IDS = ['single', 'book', 'paged-single', 'paged-double'] as const;
 type ReaderReadingMode = (typeof READING_MODE_IDS)[number];
+
+function isPagedReadingMode(mode: ReaderReadingMode): boolean {
+  return mode === 'paged-single' || mode === 'paged-double';
+}
+
+/** Build paginated slices by filling a measurement div until scrollHeight exceeds pageHeight. */
+function sliceVersesIntoPages(
+  verses: VerseData[],
+  measurer: HTMLDivElement,
+  pageWidth: number,
+  pageHeight: number,
+): VerseData[][] {
+  if (verses.length === 0 || pageWidth < 64 || pageHeight < 64) return [];
+  measurer.innerHTML = '';
+  measurer.style.width = `${Math.floor(pageWidth)}px`;
+  const pages: VerseData[][] = [];
+  let idx = 0;
+  while (idx < verses.length) {
+    measurer.innerHTML = '';
+    const page: VerseData[] = [];
+    let j = idx;
+    while (j < verses.length) {
+      const span = document.createElement('span');
+      span.className = 'verse-line';
+      const sup = document.createElement('sup');
+      sup.className = 'vnum';
+      sup.textContent = String(verses[j].verse);
+      span.appendChild(sup);
+      span.appendChild(document.createTextNode(`${verses[j].text} `));
+      measurer.appendChild(span);
+      if (measurer.scrollHeight > pageHeight) {
+        if (page.length === 0) {
+          page.push(verses[j]);
+          j++;
+        }
+        break;
+      }
+      page.push(verses[j]);
+      j++;
+    }
+    pages.push(page);
+    idx = j;
+  }
+  measurer.innerHTML = '';
+  return pages;
+}
 
 const READER_HIGHLIGHT_PRESETS: Record<
   ReaderHighlightColorId,
@@ -177,6 +223,9 @@ interface ReaderSettings {
 type ReaderSettingsNormalizeInput = {
   [K in keyof ReaderSettings]?:
     ReaderSettings[K] extends string ? ReaderSettings[K] | string : ReaderSettings[K];
+} & {
+  /** Legacy persisted flag; inverted when mapping to `specialEffects`. */
+  reducedMotion?: boolean;
 };
 type SidePanelMode = 'none' | 'commentary' | 'ai' | 'study';
 type SidePanelPosition = 'left' | 'right';
@@ -338,10 +387,10 @@ function normalizeReaderSettings(raw: ReaderSettingsNormalizeInput | null | unde
     readingMode = rawReadingMode as ReaderReadingMode;
   }
   let specialEffects = DEFAULT_READER_SETTINGS.specialEffects;
-  if (raw && 'specialEffects' in raw && typeof (raw as ReaderSettings).specialEffects === 'boolean') {
-    specialEffects = (raw as ReaderSettings).specialEffects;
-  } else if (raw && 'reducedMotion' in raw && typeof (raw as { reducedMotion?: boolean }).reducedMotion === 'boolean') {
-    specialEffects = !(raw as { reducedMotion: boolean }).reducedMotion;
+  if (raw && typeof raw['specialEffects'] === 'boolean') {
+    specialEffects = raw['specialEffects'];
+  } else if (raw && typeof raw['reducedMotion'] === 'boolean') {
+    specialEffects = !raw['reducedMotion'];
   }
   return {
     fontScale,
@@ -350,15 +399,15 @@ function normalizeReaderSettings(raw: ReaderSettingsNormalizeInput | null | unde
     highlightColor,
     readingMode,
     specialEffects,
-    pageFlipEnabled: raw?.pageFlipEnabled ?? true,
+    pageFlipEnabled: typeof raw?.['pageFlipEnabled'] === 'boolean' ? raw['pageFlipEnabled'] : true,
     defaultPanel:
-      raw?.defaultPanel === 'ai' || raw?.defaultPanel === 'commentary' || raw?.defaultPanel === 'study'
-        ? raw.defaultPanel
+      raw?.['defaultPanel'] === 'ai' || raw?.['defaultPanel'] === 'commentary' || raw?.['defaultPanel'] === 'study'
+        ? raw['defaultPanel'] as 'ai' | 'commentary' | 'study'
         : 'none',
-    sidePanelPosition: raw?.sidePanelPosition === 'left' ? 'left' : 'right',
+    sidePanelPosition: raw?.['sidePanelPosition'] === 'left' ? 'left' : 'right',
     graphicsMode:
-      raw?.graphicsMode === 'performance' || raw?.graphicsMode === 'efficiency'
-        ? raw.graphicsMode
+      raw?.['graphicsMode'] === 'performance' || raw?.['graphicsMode'] === 'efficiency'
+        ? raw['graphicsMode'] as 'performance' | 'efficiency'
         : 'auto',
   };
 }
@@ -811,7 +860,10 @@ export default function BibleApp() {
   const settingsOpenedFromHomeRef = useRef(false);
   const [themePickerExpanded, setThemePickerExpanded] = useState(false);
   const [searchOpen, setSearchOpen]         = useState(false);
-  const [chromeVisible, setChromeVisible]   = useState(true);
+  /** Reader: top nav revealed when the pointer nears the top edge (or while hovering it). */
+  const [chromeTopShown, setChromeTopShown] = useState(true);
+  /** Reader: taskbar + chapter arrows when the pointer nears the bottom edge (or while hovering them). */
+  const [chromeBottomShown, setChromeBottomShown] = useState(true);
   /** Landing view: bottom taskbar only; taskbar actions enter the reader (and optional sidebar). */
   const [homeScreenActive, setHomeScreenActive] = useState(true);
   const [homeTimeGreeting, setHomeTimeGreeting] = useState('');
@@ -834,6 +886,11 @@ export default function BibleApp() {
   const [dailyGoalChapters, setDailyGoalChapters] = useState(DEFAULT_DAILY_GOAL_CHAPTERS);
   const [readingGoalEditing, setReadingGoalEditing] = useState(false);
   const [readerSettings, setReaderSettings] = useState<ReaderSettings>(DEFAULT_READER_SETTINGS);
+  /** In-page spreads for paged reading modes (each entry is one printed page of verses). */
+  const [pagedPageSlices, setPagedPageSlices] = useState<VerseData[][] | null>(null);
+  const [chapterSpreadIndex, setChapterSpreadIndex] = useState(0);
+  /** Chapter-internal page flip (separate from chapter-load flip on reader-page-transition). */
+  const [pagedFlipAnim, setPagedFlipAnim] = useState('');
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [currentNoteDraft, setCurrentNoteDraft] = useState('');
   const [showVerseNoteEditor, setShowVerseNoteEditor] = useState(false);
@@ -884,6 +941,13 @@ export default function BibleApp() {
   });
   const currentThemeRef = useRef('default');
   const readerSettingsRef = useRef<ReaderSettings>(DEFAULT_READER_SETTINGS);
+  const pagedPageSlicesRef = useRef<VerseData[][] | null>(null);
+  const chapterSpreadIndexRef = useRef(0);
+  /** Verse column (.reader-paged-content); height drives pagination vs header/footer. */
+  const pagedContentRef = useRef<HTMLDivElement>(null);
+  const pagedMeasureRef = useRef<HTMLDivElement>(null);
+  const pagedFlipPendingRef = useRef<(() => void) | null>(null);
+  const pagedFlipAnimRef = useRef('');
 
   // ── Imperative refs ───
   const commentaryCache     = useRef<Record<string, CommentaryEntry[]>>({});
@@ -927,7 +991,14 @@ export default function BibleApp() {
   const lastCommentarySyncAtRef = useRef(0);
   const scrollActiveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const scrollEffectsDowngradedRef = useRef(false);
-  const chromeVisibleRef = useRef(true);
+  const chromeTopShownRef = useRef(true);
+  const chromeBottomShownRef = useRef(true);
+  const topChromeHoverRef = useRef(false);
+  const bottomChromeHoverRef = useRef(false);
+  /** Latest pointer Y for chrome hide checks when leaving topbar / bottom chrome. */
+  const lastPointerYRef = useRef(0);
+  const lastPointerXRef = useRef(0);
+  const readerChromeCtxRef = useRef({ home: true, overlay: false, coarse: false });
   const commentarySyncIdleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const resolvedGraphicsModeRef = useRef<'performance' | 'efficiency'>('efficiency');
 
@@ -945,7 +1016,92 @@ export default function BibleApp() {
   useEffect(() => { commentarySourceNamesRef.current = commentarySourceNames; }, [commentarySourceNames]);
   useEffect(() => { currentThemeRef.current = currentTheme; },               [currentTheme]);
   useEffect(() => { readerSettingsRef.current = readerSettings; },           [readerSettings]);
-  useEffect(() => { chromeVisibleRef.current = chromeVisible; },             [chromeVisible]);
+  useEffect(() => { pagedPageSlicesRef.current = pagedPageSlices; },           [pagedPageSlices]);
+  useEffect(() => { chapterSpreadIndexRef.current = chapterSpreadIndex; },   [chapterSpreadIndex]);
+  useEffect(() => { pagedFlipAnimRef.current = pagedFlipAnim; },               [pagedFlipAnim]);
+  useEffect(() => { chromeTopShownRef.current = chromeTopShown; },             [chromeTopShown]);
+  useEffect(() => { chromeBottomShownRef.current = chromeBottomShown; },       [chromeBottomShown]);
+
+  useEffect(() => {
+    readerChromeCtxRef.current = {
+      ...readerChromeCtxRef.current,
+      home: homeScreenActive,
+      overlay: bookPopupOpen || versionPopupOpen || searchOpen || settingsOpen,
+      coarse: typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches,
+    };
+  }, [homeScreenActive, bookPopupOpen, versionPopupOpen, searchOpen, settingsOpen]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const mq = window.matchMedia('(pointer: coarse)');
+    const onChange = () => {
+      readerChromeCtxRef.current = {
+        ...readerChromeCtxRef.current,
+        coarse: mq.matches,
+      };
+    };
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
+
+  useEffect(() => {
+    if (homeScreenActive) {
+      setChromeTopShown(true);
+      setChromeBottomShown(true);
+    } else {
+      setChromeTopShown(false);
+      setChromeBottomShown(false);
+    }
+  }, [homeScreenActive]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const onMove = (e: MouseEvent) => {
+      lastPointerYRef.current = e.clientY;
+      lastPointerXRef.current = e.clientX;
+      const { home, overlay, coarse } = readerChromeCtxRef.current;
+      if (home || overlay || coarse) return;
+      const x = e.clientX;
+      const y = e.clientY;
+      const h = window.innerHeight;
+      const w = window.innerWidth;
+      const topZone = h * 0.2;
+      const bottomZone = h * 0.2;
+      if (y <= topZone || topChromeHoverRef.current) setChromeTopShown(true);
+      else if (!topChromeHoverRef.current) setChromeTopShown(false);
+      // Paged mode: corner prev/next buttons sit in the bottom band — don't auto-reveal the taskbar there.
+      const chNavCornerPx = 100;
+      const inPagedChNavCorner =
+        isPagedReadingMode(readerSettingsRef.current.readingMode) &&
+        y >= h - bottomZone &&
+        (x <= chNavCornerPx || x >= w - chNavCornerPx);
+      if (inPagedChNavCorner) {
+        if (!bottomChromeHoverRef.current) setChromeBottomShown(false);
+      } else if (y >= h - bottomZone || bottomChromeHoverRef.current) {
+        setChromeBottomShown(true);
+      } else if (!bottomChromeHoverRef.current) {
+        setChromeBottomShown(false);
+      }
+    };
+    window.addEventListener('mousemove', onMove, { passive: true });
+    return () => {
+      window.removeEventListener('mousemove', onMove);
+    };
+  }, []);
+
+  const enterBottomChrome = useCallback(() => {
+    bottomChromeHoverRef.current = true;
+    setChromeBottomShown(true);
+  }, []);
+
+  const leaveBottomChrome = useCallback(() => {
+    bottomChromeHoverRef.current = false;
+    const h = typeof window !== 'undefined' ? window.innerHeight : 0;
+    if (h === 0) return;
+    const bottomZone = h * 0.2;
+    if (lastPointerYRef.current < h - bottomZone) setChromeBottomShown(false);
+  }, []);
+
   useEffect(() => {
     resolvedGraphicsModeRef.current = readerSettings.graphicsMode === 'auto'
       ? detectGraphicsCapability()
@@ -1126,7 +1282,6 @@ export default function BibleApp() {
           setChapterLoading(false);
           setAnimClass(direction === 'next' ? 'page-flip-enter-next' : 'page-flip-enter-prev');
           if (biblePaneRef.current) biblePaneRef.current.scrollTop = 0;
-          setChromeVisible(true);
           if (sidePanelModeRef.current === 'commentary') {
             loadCommentaryData(book, ch, commentarySourceRef.current);
           }
@@ -1138,7 +1293,6 @@ export default function BibleApp() {
         setChapterData(data);
         setChapterLoading(false);
         if (biblePaneRef.current) biblePaneRef.current.scrollTop = 0;
-        setChromeVisible(true);
         if (sidePanelModeRef.current === 'commentary') {
           loadCommentaryData(book, ch, commentarySourceRef.current);
         }
@@ -1186,6 +1340,69 @@ export default function BibleApp() {
       loadChapter(nextBook, 1, translationRef.current, 'next');
     }
   }, [isLastChapter, loadChapter]);
+
+  const readerStepForward = useCallback(() => {
+    const book = currentBookRef.current;
+    if (!book) return;
+    const mode = readerSettingsRef.current.readingMode;
+    if (!isPagedReadingMode(mode)) {
+      goNext();
+      return;
+    }
+    const slices = pagedPageSlicesRef.current;
+    if (!slices?.length) {
+      goNext();
+      return;
+    }
+    const numSpreads = mode === 'paged-double' ? Math.ceil(slices.length / 2) : slices.length;
+    const ix = chapterSpreadIndexRef.current;
+    if (ix < numSpreads - 1) {
+      const doAdvance = () => { setChapterSpreadIndex(ix + 1); };
+      const fx = readerSettingsRef.current.pageFlipEnabled && readerSettingsRef.current.specialEffects;
+      if (fx) {
+        pagedFlipPendingRef.current = () => {
+          doAdvance();
+          setPagedFlipAnim('page-flip-enter-next');
+        };
+        setPagedFlipAnim('page-flip-exit-next');
+      } else {
+        doAdvance();
+      }
+      return;
+    }
+    goNext();
+  }, [goNext]);
+
+  const readerStepBack = useCallback(() => {
+    const book = currentBookRef.current;
+    if (!book) return;
+    const mode = readerSettingsRef.current.readingMode;
+    if (!isPagedReadingMode(mode)) {
+      goPrev();
+      return;
+    }
+    const slices = pagedPageSlicesRef.current;
+    if (!slices?.length) {
+      goPrev();
+      return;
+    }
+    const ix = chapterSpreadIndexRef.current;
+    if (ix > 0) {
+      const doBack = () => { setChapterSpreadIndex(ix - 1); };
+      const fx = readerSettingsRef.current.pageFlipEnabled && readerSettingsRef.current.specialEffects;
+      if (fx) {
+        pagedFlipPendingRef.current = () => {
+          doBack();
+          setPagedFlipAnim('page-flip-enter-prev');
+        };
+        setPagedFlipAnim('page-flip-exit-prev');
+      } else {
+        doBack();
+      }
+      return;
+    }
+    goPrev();
+  }, [goPrev]);
 
   const pickChapter = useCallback((bookNumber: number, ch: number) => {
     const book = booksRef.current.find(b => b.book_number === bookNumber);
@@ -2620,6 +2837,16 @@ export default function BibleApp() {
 
   // ── Commentary sync ───────────────────────────────────────────────────────────
   const scrollVerseIntoView = useCallback((verseNumber: number) => {
+    const mode = readerSettingsRef.current.readingMode;
+    if (isPagedReadingMode(mode)) {
+      const slices = pagedPageSlicesRef.current;
+      if (!slices?.length) return;
+      const pageIx = slices.findIndex(page => page.some(v => v.verse === verseNumber));
+      if (pageIx < 0) return;
+      const spreadIx = mode === 'paged-double' ? Math.floor(pageIx / 2) : pageIx;
+      setChapterSpreadIndex(spreadIx);
+      return;
+    }
     const pane = biblePaneRef.current;
     if (!pane) return;
     const target = pane.querySelector<HTMLElement>(`.verse-line[data-verse="${verseNumber}"]`);
@@ -2629,6 +2856,72 @@ export default function BibleApp() {
     const top = pane.scrollTop + (targetRect.top - paneRect.top) - 28;
     pane.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
   }, []);
+
+  useEffect(() => {
+    setChapterSpreadIndex(0);
+  }, [chapterData?.book, chapterData?.chapter, translation]);
+
+  useEffect(() => {
+    setPagedFlipAnim('');
+    pagedFlipPendingRef.current = null;
+  }, [chapterData?.book, chapterData?.chapter, translation]);
+
+  useEffect(() => {
+    if (!isPagedReadingMode(readerSettings.readingMode)) {
+      setPagedPageSlices(null);
+      setPagedFlipAnim('');
+      pagedFlipPendingRef.current = null;
+    }
+  }, [readerSettings.readingMode]);
+
+  useEffect(() => {
+    if (!pagedPageSlices?.length) return;
+    if (!isPagedReadingMode(readerSettings.readingMode)) return;
+    const spreads = readerSettings.readingMode === 'paged-double'
+      ? Math.ceil(pagedPageSlices.length / 2)
+      : pagedPageSlices.length;
+    setChapterSpreadIndex(ix => Math.min(ix, Math.max(0, spreads - 1)));
+  }, [pagedPageSlices, readerSettings.readingMode]);
+
+  useLayoutEffect(() => {
+    if (!chapterData?.verses.length) {
+      if (isPagedReadingMode(readerSettings.readingMode)) setPagedPageSlices(null);
+      return;
+    }
+    if (!isPagedReadingMode(readerSettings.readingMode)) return;
+    const vp = pagedContentRef.current;
+    const ms = pagedMeasureRef.current;
+    if (!vp || !ms) return;
+    const run = () => {
+      const h = vp.clientHeight;
+      const w = vp.clientWidth;
+      if (h < 100 || w < 64) return;
+      const isDouble = readerSettings.readingMode === 'paged-double';
+      const sep = isDouble ? 1 : 0; // 1px border separator between columns
+      const pagePad = isDouble ? 12 : 0; // 6px padding each side of each column
+      const rawPageW = isDouble
+        ? Math.max(120, (w - sep - pagePad) / 2)
+        : Math.min(w, 720); // single page: cap to 720px (matches CSS max-width)
+      const pageW = Math.floor(rawPageW);
+      // Subtract a small buffer so measurement rounding never causes visible cut-off
+      // `h` is the verse column area only (.reader-paged-content), not the full paged shell.
+      const slices = sliceVersesIntoPages(chapterData.verses, ms, pageW, h - 12);
+      setPagedPageSlices(slices.length ? slices : [chapterData.verses]);
+    };
+    run();
+    const ro = new ResizeObserver(() => {
+      window.requestAnimationFrame(run);
+    });
+    ro.observe(vp);
+    return () => ro.disconnect();
+  }, [
+    chapterData,
+    readerSettings.readingMode,
+    readerSettings.fontScale,
+    readerSettings.lineHeight,
+    readerSettings.readerFont,
+    sidePanelMode,
+  ]);
 
   const syncCommentaryToVerse = useCallback((verseNumber: number, entries: CommentaryEntry[]) => {
     if (!entries.length) return;
@@ -2710,6 +3003,7 @@ export default function BibleApp() {
     visibleVersesRef.current.clear();
     topVisibleVerseRef.current = chapterData?.verses[0]?.verse ?? 1;
     if (!pane || !passages || !chapterData) return;
+    if (isPagedReadingMode(readerSettings.readingMode)) return;
 
     const verseEls = passages.querySelectorAll<HTMLElement>('.verse-line[data-verse]');
     if (!verseEls.length) return;
@@ -2750,6 +3044,17 @@ export default function BibleApp() {
     readerSettings.readingMode,
     updateTopVisibleVerse,
   ]);
+
+  useEffect(() => {
+    if (!isPagedReadingMode(readerSettings.readingMode) || !pagedPageSlices?.length) return;
+    const mode = readerSettings.readingMode;
+    const leftSlice =
+      mode === 'paged-double'
+        ? pagedPageSlices[chapterSpreadIndex * 2]
+        : pagedPageSlices[chapterSpreadIndex];
+    const v = leftSlice?.[0]?.verse;
+    if (v != null) topVisibleVerseRef.current = v;
+  }, [readerSettings.readingMode, pagedPageSlices, chapterSpreadIndex]);
 
   useEffect(() => {
     const pending = pendingAiNavRef.current;
@@ -2807,12 +3112,25 @@ export default function BibleApp() {
       markScrollActive();
       const y = pane.scrollTop;
       const delta = y - lastScrollYRef.current;
-      let nextChromeVisible = chromeVisibleRef.current;
-      if (delta > 6 && y > 80) nextChromeVisible = false;
-      else if (delta < -6 || y < 10) nextChromeVisible = true;
-      if (nextChromeVisible !== chromeVisibleRef.current) {
-        chromeVisibleRef.current = nextChromeVisible;
-        setChromeVisible(nextChromeVisible);
+      const { home, overlay, coarse } = readerChromeCtxRef.current;
+      if (coarse && !home && !overlay) {
+        let nextTop = chromeTopShownRef.current;
+        let nextBottom = chromeBottomShownRef.current;
+        if (delta > 6 && y > 80) {
+          nextTop = false;
+          nextBottom = false;
+        } else if (delta < -6 || y < 10) {
+          nextTop = true;
+          nextBottom = true;
+        }
+        if (nextTop !== chromeTopShownRef.current) {
+          chromeTopShownRef.current = nextTop;
+          setChromeTopShown(nextTop);
+        }
+        if (nextBottom !== chromeBottomShownRef.current) {
+          chromeBottomShownRef.current = nextBottom;
+          setChromeBottomShown(nextBottom);
+        }
       }
       lastScrollYRef.current = y;
       const topVerse = updateTopVisibleVerse(chapterData.verses[0]?.verse ?? 1);
@@ -2873,34 +3191,51 @@ export default function BibleApp() {
         toggleReaderFocus();
       } else {
         // swipe left → previous chapter, swipe right → next chapter
-        dx < 0 ? goNext() : goPrev();
+        dx < 0 ? readerStepForward() : readerStepBack();
       }
       touchStartXRef.current = null;
       touchGestureModeRef.current = 'chapter';
     };
 
     // ── Two-finger trackpad horizontal swipe (desktop) ────────────────────────
+    // Panel on the right: swipe left (deltaX < 0) opens; swipe right (deltaX > 0) closes.
+    // Panel on the left: the opposite. Avoids canceling deltas and matches edge direction.
     let wheelAccX = 0;
     let wheelLocked = false;
-    let wheelResetTimer: ReturnType<typeof setTimeout> | null = null;
+    let wheelResetTimer: number | null = null;
 
     const onWheel = (e: WheelEvent) => {
       // Only handle dominant horizontal movement (two-finger horizontal swipe)
-      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY) * 1.1) return;
       if (e.ctrlKey || e.metaKey || e.altKey) return;
       e.preventDefault();
       if (wheelLocked) return;
 
-      wheelAccX += e.deltaX;
+      const panelRight = sidePanelPositionRef.current === 'right';
+      const closed = sidePanelModeRef.current === 'none';
+      const wantSign = closed
+        ? (panelRight ? -1 : 1)
+        : (panelRight ? 1 : -1);
+      const sx = Math.sign(e.deltaX);
+      if (sx === 0) return;
+
+      if (sx !== wantSign) {
+        wheelAccX = 0;
+      } else {
+        wheelAccX += e.deltaX;
+      }
 
       if (wheelResetTimer) clearTimeout(wheelResetTimer);
-      wheelResetTimer = setTimeout(() => { wheelAccX = 0; }, 1200);
+      wheelResetTimer = window.setTimeout(() => { wheelAccX = 0; }, 1200);
 
-      if (Math.abs(wheelAccX) > 120) {
+      const threshold = 100;
+      if (wheelAccX * wantSign >= threshold) {
         wheelLocked = true;
         wheelAccX = 0;
-        toggleReaderFocus();
-        wheelResetTimer = setTimeout(() => { wheelAccX = 0; wheelLocked = false; }, 2000);
+        if (closed) reopenLastSidePanel();
+        else closeSidePanel();
+        if (wheelResetTimer) clearTimeout(wheelResetTimer);
+        wheelResetTimer = window.setTimeout(() => { wheelLocked = false; }, 650);
       }
     };
 
@@ -2913,7 +3248,7 @@ export default function BibleApp() {
       contentArea.removeEventListener('wheel', onWheel);
       if (wheelResetTimer) clearTimeout(wheelResetTimer);
     };
-  }, [goNext, goPrev, toggleReaderFocus]);
+  }, [closeSidePanel, goNext, goPrev, readerStepBack, readerStepForward, reopenLastSidePanel, toggleReaderFocus]);
 
   // ── Keyboard ──────────────────────────────────────────────────────────────────
   useEffect(() => {
@@ -2925,12 +3260,12 @@ export default function BibleApp() {
         setSettingsOpen(false);
         setSearchOpen(false);
       }
-      if (e.key === 'ArrowRight') goNext();
-      if (e.key === 'ArrowLeft')  goPrev();
+      if (e.key === 'ArrowRight') readerStepForward();
+      if (e.key === 'ArrowLeft') readerStepBack();
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
-  }, [goNext, goPrev]);
+  }, [readerStepBack, readerStepForward]);
 
   useEffect(() => {
     if (!searchOpen) return;
@@ -3637,6 +3972,13 @@ export default function BibleApp() {
       return <div className="state-msg">Could not load this chapter.</div>;
     }
     const isBookMode = readerSettings.readingMode === 'book';
+    const isPaged = isPagedReadingMode(readerSettings.readingMode);
+    const pagedSpreadCount =
+      isPaged && pagedPageSlices?.length
+        ? readerSettings.readingMode === 'paged-double'
+          ? Math.ceil(pagedPageSlices.length / 2)
+          : pagedPageSlices.length
+        : 0;
     const [leftPageVerses, rightPageVerses] = splitVersesForBookMode(chapterData.verses);
     const renderVerse = (v: VerseData) => {
       const inAiNav =
@@ -3699,7 +4041,6 @@ export default function BibleApp() {
               setChapterData(pending.data);
               setAnimClass(pending.direction === 'next' ? 'page-flip-enter-next' : 'page-flip-enter-prev');
               if (biblePaneRef.current) biblePaneRef.current.scrollTop = 0;
-              setChromeVisible(true);
               if (sidePanelModeRef.current === 'commentary') {
                 loadCommentaryData(currentBookRef.current!, chapterRef.current, commentarySourceRef.current);
               }
@@ -3782,7 +4123,105 @@ export default function BibleApp() {
         )}
         <div className="reader-book">{chapterBookLabel}</div>
         <div className="reader-chapter">{chapterData.chapter}</div>
-        {isBookMode ? (
+        {isPaged ? (
+          <div className="reader-paged-viewport">
+            <header
+              className="reader-paged-context"
+              aria-label={`${chapterBookLabel} ${chapterData.chapter}`}
+            >
+              <span className="reader-paged-context-book">{chapterBookLabel}</span>
+              <span className="reader-paged-context-sep" aria-hidden>
+                ·
+              </span>
+              <span className="reader-paged-context-chapter">{chapterData.chapter}</span>
+            </header>
+            <div ref={pagedContentRef} className="reader-paged-content">
+              <div
+                ref={pagedMeasureRef}
+                className="reader-paged-hidden-measure reader-passages"
+                aria-hidden
+              />
+              {!pagedPageSlices ? (
+                <div className="state-msg reader-paged-measuring">
+                  <span className="spinner" aria-hidden />
+                  <div>Laying out pages…</div>
+                </div>
+              ) : (
+                <div
+                  className={`reader-paged-flip-shell reader-page-transition${pagedFlipAnim ? ` ${pagedFlipAnim}` : ''}`}
+                  onAnimationEnd={(e) => {
+                    if (e.target !== e.currentTarget) return;
+                    const cur = pagedFlipAnimRef.current;
+                    if (cur.includes('exit')) {
+                      const fn = pagedFlipPendingRef.current;
+                      pagedFlipPendingRef.current = null;
+                      fn?.();
+                    } else if (cur.includes('enter')) {
+                      setPagedFlipAnim('');
+                    }
+                  }}
+                >
+                  <div ref={readerPassagesRef} className="reader-paged-verse-root">
+                    {readerSettings.readingMode === 'paged-double' ? (
+                      <div className="reader-paged-spread reader-paged-spread--double">
+                        <div className="reader-paged-column">
+                          {pagedPageSlices[chapterSpreadIndex * 2]?.length ? (
+                            <>
+                              <div className="reader-paged-sheet">
+                                <div className="reader-passages reader-paged-passages">
+                                  {pagedPageSlices[chapterSpreadIndex * 2].map(renderVerse)}
+                                </div>
+                              </div>
+                              <div className="reader-paged-tail" aria-hidden />
+                            </>
+                          ) : (
+                            <div className="reader-paged-full" aria-hidden />
+                          )}
+                        </div>
+                        <div className="reader-paged-column">
+                          {pagedPageSlices[chapterSpreadIndex * 2 + 1]?.length ? (
+                            <>
+                              <div className="reader-paged-sheet">
+                                <div className="reader-passages reader-paged-passages">
+                                  {pagedPageSlices[chapterSpreadIndex * 2 + 1].map(renderVerse)}
+                                </div>
+                              </div>
+                              <div className="reader-paged-tail" aria-hidden />
+                            </>
+                          ) : (
+                            <div className="reader-paged-full" aria-hidden />
+                          )}
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="reader-paged-spread reader-paged-spread--single">
+                        <div className="reader-paged-column">
+                          <div className="reader-paged-sheet">
+                            <div className="reader-passages reader-paged-passages">
+                              {pagedPageSlices[chapterSpreadIndex]?.map(renderVerse)}
+                            </div>
+                          </div>
+                          <div className="reader-paged-tail" aria-hidden />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+            {pagedSpreadCount > 0 ? (
+              <footer
+                className="reader-paged-pagebar"
+                aria-live="polite"
+                aria-label={`Page ${chapterSpreadIndex + 1} of ${pagedSpreadCount} in this chapter`}
+              >
+                <span aria-hidden className="reader-paged-pagebar-fraction">
+                  {chapterSpreadIndex + 1} / {pagedSpreadCount}
+                </span>
+              </footer>
+            ) : null}
+          </div>
+        ) : isBookMode ? (
           <div className="reader-book-spread" ref={readerPassagesRef}>
             <section className="reader-book-page reader-book-page--left" aria-label="Left page">
               <div className="reader-passages reader-passages--book">
@@ -4063,6 +4502,21 @@ export default function BibleApp() {
 
   const sideOpen = sidePanelMode !== 'none';
   const sidePaneOnRight = readerSettings.sidePanelPosition === 'right';
+  const pagedSpreadTotal =
+    !isPagedReadingMode(readerSettings.readingMode) || !pagedPageSlices?.length
+      ? 0
+      : readerSettings.readingMode === 'paged-double'
+        ? Math.ceil(pagedPageSlices.length / 2)
+        : pagedPageSlices.length;
+  const readerAtFirstSpread =
+    !isPagedReadingMode(readerSettings.readingMode) || chapterSpreadIndex === 0;
+  const readerAtLastSpread =
+    !isPagedReadingMode(readerSettings.readingMode) ||
+    (pagedSpreadTotal > 0 && chapterSpreadIndex >= pagedSpreadTotal - 1);
+  const readerNavPrevDisabled =
+    !currentBook || (!!isFirstChapter() && readerAtFirstSpread);
+  const readerNavNextDisabled =
+    !currentBook || (!!isLastChapter() && readerAtLastSpread);
   const selectedVerseHighlighted = selectedVerseKey ? highlightedVerses.includes(selectedVerseKey) : false;
   const selectedVerseBookmarked = selectedVerseKey ? bookmarkedVerses.includes(selectedVerseKey) : false;
   const availableCommentarySources = commentarySources.length > 0
@@ -4260,6 +4714,15 @@ export default function BibleApp() {
     );
   };
 
+  const chromeOverlaysOpen =
+    bookPopupOpen || versionPopupOpen || searchOpen || settingsOpen;
+  const chromeTopVisible =
+    homeScreenActive || chromeOverlaysOpen || chromeTopShown;
+  const chromeBottomVisible =
+    homeScreenActive || chromeOverlaysOpen || chromeBottomShown;
+  const contentShellChromeHidden =
+    !homeScreenActive && !chromeTopVisible && !chromeBottomVisible;
+
   // ── JSX ───────────────────────────────────────────────────────────────────────
   return (
     <>
@@ -4357,7 +4820,20 @@ export default function BibleApp() {
 
       {/* Topbar */}
       {!homeScreenActive && (
-      <nav className={`topbar${chromeVisible ? '' : ' chrome-hide-top'}`}>
+      <nav
+        className={`topbar${chromeTopVisible ? '' : ' chrome-hide-top'}`}
+        onMouseEnter={() => {
+          topChromeHoverRef.current = true;
+          setChromeTopShown(true);
+        }}
+        onMouseLeave={() => {
+          topChromeHoverRef.current = false;
+          const h = typeof window !== 'undefined' ? window.innerHeight : 0;
+          if (h === 0) return;
+          const topZone = h * 0.2;
+          if (lastPointerYRef.current > topZone) setChromeTopShown(false);
+        }}
+      >
         <div className="nav-left">
           <button
             className={`nav-btn nav-btn-book${bookPopupOpen ? ' active' : ''}`}
@@ -4378,6 +4854,59 @@ export default function BibleApp() {
           </button>
         </div>
         <div className="nav-right">
+          <span className="topbar-tooltip-wrap" data-tooltip={
+            readerSettings.readingMode === 'single' ? 'Layout: Scroll' :
+            readerSettings.readingMode === 'book' ? 'Layout: Scroll 2-col' :
+            readerSettings.readingMode === 'paged-single' ? 'Layout: Single page' :
+            'Layout: Spread'
+          }>
+            <button
+              className="nav-btn nav-btn-icon-only"
+              type="button"
+              aria-label="Cycle reading layout"
+              onClick={() => {
+                const modes: ReaderReadingMode[] = ['single', 'book', 'paged-single', 'paged-double'];
+                const idx = modes.indexOf(readerSettings.readingMode);
+                setReaderSettings(prev => ({ ...prev, readingMode: modes[(idx + 1) % modes.length] }));
+              }}
+            >
+              {readerSettings.readingMode === 'single' && (
+                <svg viewBox="0 0 20 20" width={20} height={20} aria-hidden>
+                  <rect x="3" y="4" width="14" height="2" rx="1" fill="currentColor" opacity=".9"/>
+                  <rect x="3" y="9" width="14" height="2" rx="1" fill="currentColor" opacity=".7"/>
+                  <rect x="3" y="14" width="9" height="2" rx="1" fill="currentColor" opacity=".5"/>
+                </svg>
+              )}
+              {readerSettings.readingMode === 'book' && (
+                <svg viewBox="0 0 20 20" width={20} height={20} aria-hidden>
+                  <rect x="2" y="4" width="6" height="1.5" rx=".75" fill="currentColor"/>
+                  <rect x="2" y="7.5" width="6" height="1.5" rx=".75" fill="currentColor"/>
+                  <rect x="2" y="11" width="4" height="1.5" rx=".75" fill="currentColor"/>
+                  <rect x="12" y="4" width="6" height="1.5" rx=".75" fill="currentColor"/>
+                  <rect x="12" y="7.5" width="6" height="1.5" rx=".75" fill="currentColor"/>
+                  <rect x="12" y="11" width="4" height="1.5" rx=".75" fill="currentColor"/>
+                </svg>
+              )}
+              {readerSettings.readingMode === 'paged-single' && (
+                <svg viewBox="0 0 20 20" width={20} height={20} aria-hidden>
+                  <rect x="4" y="2" width="12" height="16" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+                  <rect x="7" y="6" width="6" height="1.5" rx=".75" fill="currentColor"/>
+                  <rect x="7" y="9.5" width="6" height="1.5" rx=".75" fill="currentColor"/>
+                  <rect x="7" y="13" width="4" height="1.5" rx=".75" fill="currentColor"/>
+                </svg>
+              )}
+              {readerSettings.readingMode === 'paged-double' && (
+                <svg viewBox="0 0 22 20" width={22} height={20} aria-hidden>
+                  <rect x="1" y="2" width="9" height="16" rx="1.5" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+                  <rect x="12" y="2" width="9" height="16" rx="1.5" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+                  <rect x="3" y="6" width="5" height="1.2" rx=".6" fill="currentColor"/>
+                  <rect x="3" y="9" width="5" height="1.2" rx=".6" fill="currentColor"/>
+                  <rect x="14" y="6" width="5" height="1.2" rx=".6" fill="currentColor"/>
+                  <rect x="14" y="9" width="5" height="1.2" rx=".6" fill="currentColor"/>
+                </svg>
+              )}
+            </button>
+          </span>
           <span className="topbar-tooltip-wrap" data-tooltip="Search">
             <button
               className={`nav-btn nav-btn-icon-only${searchOpen ? ' active' : ''}`}
@@ -4604,7 +5133,7 @@ export default function BibleApp() {
       )}
 
       {/* Content shell */}
-      <div className={`content-shell${chromeVisible ? '' : ' chrome-hidden'}${homeScreenActive ? ' home-screen-behind' : ''}`}>
+      <div className={`content-shell${contentShellChromeHidden ? ' chrome-hidden' : ''}${homeScreenActive ? ' home-screen-behind' : ''}`}>
         {/* Smoke overlay */}
         <div id="smoke-overlay" aria-hidden="true">
           {([ ['300px','300px','var(--muted)','5%','4%','35px','18px','30s','0s'],
@@ -4814,8 +5343,17 @@ export default function BibleApp() {
           />
 
           {/* Bible pane */}
-          <main className="bible-pane" ref={biblePaneRef}>
-            <div className={`reader-wrap${readerSettings.readingMode === 'book' ? ' reader-wrap--book' : ''}${!sideOpen ? ' reader-wrap--full' : ''}`}>
+          <main
+            className={`bible-pane${isPagedReadingMode(readerSettings.readingMode) ? ' bible-pane--paged' : ''}`}
+            ref={biblePaneRef}
+          >
+            <div
+              className={`reader-wrap${
+                readerSettings.readingMode === 'book' ? ' reader-wrap--book' : ''
+              }${
+                isPagedReadingMode(readerSettings.readingMode) ? ' reader-wrap--paged' : ''
+              }${!sideOpen ? ' reader-wrap--full' : ''}`}
+            >
               {renderChapterContent()}
             </div>
           </main>
@@ -4840,32 +5378,40 @@ export default function BibleApp() {
       )}
 
       {/* Chapter nav buttons */}
-      <div className={`ch-nav ch-nav-prev${chromeVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}${sideOpen && !sidePaneOnRight ? ' side-pane-open' : ''}`}>
+      <div
+        className={`ch-nav ch-nav-prev${chromeBottomVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}${sideOpen && !sidePaneOnRight ? ' side-pane-open' : ''}`}
+        onMouseEnter={isPagedReadingMode(readerSettings.readingMode) ? undefined : enterBottomChrome}
+        onMouseLeave={isPagedReadingMode(readerSettings.readingMode) ? undefined : leaveBottomChrome}
+      >
         <button
           className="ch-nav-btn"
           type="button"
-          aria-label="Previous chapter"
-          disabled={!currentBook || !!isFirstChapter()}
-          onClick={goPrev}
+          aria-label="Previous page or chapter"
+          disabled={readerNavPrevDisabled}
+          onClick={readerStepBack}
         >
           ‹
         </button>
       </div>
 
-      <div className={`ch-nav ch-nav-next${chromeVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}${sideOpen && sidePaneOnRight ? ' side-pane-open' : ''}`}>
+      <div
+        className={`ch-nav ch-nav-next${chromeBottomVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}${sideOpen && sidePaneOnRight ? ' side-pane-open' : ''}`}
+        onMouseEnter={isPagedReadingMode(readerSettings.readingMode) ? undefined : enterBottomChrome}
+        onMouseLeave={isPagedReadingMode(readerSettings.readingMode) ? undefined : leaveBottomChrome}
+      >
         <button
           className="ch-nav-btn"
           type="button"
-          aria-label="Next chapter"
-          disabled={!currentBook || !!isLastChapter()}
-          onClick={goNext}
+          aria-label="Next page or chapter"
+          disabled={readerNavNextDisabled}
+          onClick={readerStepForward}
         >
           &rsaquo;
         </button>
       </div>
 
       {/* TTS play button (center, same level as chapter nav arrows) */}
-      <div className={`ch-nav tts-center${chromeVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}`}>
+      <div className={`ch-nav tts-center${chromeBottomVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}`}>
         <div className="tts-btn-group">
           <button
             className={`ch-nav-btn tts-play-btn${ttsPlaying ? ' tts-playing' : ''}`}
@@ -4938,7 +5484,11 @@ export default function BibleApp() {
       </div>
 
       {/* Taskbar */}
-      <div className={`taskbar${chromeVisible ? '' : ' chrome-hide-bottom'}`}>
+      <div
+        className={`taskbar${chromeBottomVisible ? '' : ' chrome-hide-bottom'}`}
+        onMouseEnter={enterBottomChrome}
+        onMouseLeave={leaveBottomChrome}
+      >
         <button
           className="taskbar-btn taskbar-btn-settings"
           type="button"
@@ -5120,8 +5670,10 @@ export default function BibleApp() {
                       readingMode: event.target.value as ReaderReadingMode,
                     }))}
                   >
-                    <option value="single">Single column</option>
-                    <option value="book">Double collumn</option>
+                    <option value="single">Scroll — single column</option>
+                    <option value="book">Scroll — two columns</option>
+                    <option value="paged-single">Pages — single page (no scroll)</option>
+                    <option value="paged-double">Pages — two pages (spread)</option>
                   </select>
                 </span>
               </label>
