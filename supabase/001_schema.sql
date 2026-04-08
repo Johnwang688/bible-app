@@ -18,7 +18,7 @@
 -- Safe to run multiple times: tables/indexes/policies use IF NOT EXISTS /
 -- DROP IF EXISTS patterns; seeds use ON CONFLICT DO NOTHING.
 CREATE TABLE IF NOT EXISTS translations (
-    id          TEXT PRIMARY KEY,            -- e.g. 'KJV', 'WEB', 'CUV'
+    id          TEXT PRIMARY KEY,            -- e.g. 'WEB', 'CUV', 'ASV'
     name        TEXT NOT NULL,               -- 'King James Version'
     language    TEXT NOT NULL DEFAULT 'en',   -- ISO 639-1 code
     license     TEXT NOT NULL DEFAULT 'Public Domain',
@@ -28,12 +28,8 @@ CREATE TABLE IF NOT EXISTS translations (
 
 -- Seed the MVP translations
 INSERT INTO translations (id, name, language, license, description) VALUES
-    ('KJV', 'King James Version', 'en', 'Public Domain',
-     'The classic 1611 English translation, widely used for over 400 years.'),
     ('WEB', 'World English Bible', 'en', 'Public Domain',
      'A modern public domain translation based on the ASV.'),
-    ('BSB', 'Berean Standard Bible', 'en', 'Free Use (see berean.bible)',
-     'A modern, accurate translation with open licensing.'),
     ('CUV', 'Chinese Union Version (1919)', 'zh', 'Public Domain',
      '和合本 — The most widely used Chinese Bible translation.')
 ON CONFLICT (id) DO NOTHING;

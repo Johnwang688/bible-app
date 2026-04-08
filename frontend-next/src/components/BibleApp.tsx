@@ -42,6 +42,17 @@ interface BookInfo {
   total_chapters: number;
 }
 interface Translation { id: string; name: string; language?: string; }
+
+/** Not offered in the translation picker (may still appear in stored history / API). */
+const TRANSLATION_PICKER_EXCLUDED_IDS = new Set(['KJV', 'BSB']);
+
+function filterTranslationsForPicker(list: Translation[]): Translation[] {
+  return list.filter(t => !TRANSLATION_PICKER_EXCLUDED_IDS.has(t.id.toUpperCase()));
+}
+
+function normalizeTranslationChoice(id: string): string {
+  return TRANSLATION_PICKER_EXCLUDED_IDS.has(id.toUpperCase()) ? 'WEB' : id;
+}
 interface VerseData   { verse: number; text: string; }
 interface ChapterData { book: string; chapter: number; translation: string; verses: VerseData[]; }
 interface CommentaryEntry { verse_start: number; verse_end: number | null; content: string; }
@@ -653,6 +664,12 @@ function getTranslationDisplayId(translationId: string) {
   return translationId;
 }
 
+/** Strips publication-year suffix from display where we prefer a shorter label (e.g. ASV). */
+function getTranslationDisplayName(translationId: string, name: string) {
+  if (translationId.toUpperCase() !== 'ASV') return name;
+  return name.replace(/\s*\(1901\)\s*$/i, '').replace(/\s+1901\s*$/i, '').trim();
+}
+
 function getLocalizedBookName(
   book: Pick<BookInfo, 'name' | 'name_zh' | 'name_zh_simplified'> | null | undefined,
   translationId: string,
@@ -1161,7 +1178,7 @@ export default function BibleApp() {
       pendingAiNavRef.current = null;
       setAiNavHighlight(null);
     }
-    const chosenTranslation = nextTranslation ?? translationRef.current;
+    const chosenTranslation = normalizeTranslationChoice(nextTranslation ?? translationRef.current);
     setCurrentBook(targetBook);
     setChapter(nextChapter);
     setTranslation(chosenTranslation);
@@ -2023,10 +2040,11 @@ export default function BibleApp() {
       const latest = progressItems[0];
       const book = booksByNumber.get(latest.book_number);
       if (book) {
+        const t = normalizeTranslationChoice(latest.translation);
         setCurrentBook(book);
         setChapter(latest.chapter);
-        setTranslation(latest.translation);
-        void loadChapter(book, latest.chapter, latest.translation);
+        setTranslation(t);
+        void loadChapter(book, latest.chapter, t);
       }
     }
     queueMicrotask(() => {
@@ -3027,7 +3045,7 @@ export default function BibleApp() {
           fetch('/api/v1/commentary/sources').then(r => r.json()).catch(() => []) as Promise<CommentarySource[]>,
         ]);
         setBooks(booksData);
-        setTranslations(translationsData);
+        setTranslations(filterTranslationsForPicker(translationsData));
         if (sourcesData.length) {
           setCommentarySources(sourcesData);
           setCommentarySourceNames(prev => {
@@ -3036,7 +3054,7 @@ export default function BibleApp() {
             return next;
           });
         }
-        const initialTranslation = storedLastPosition?.translation ?? 'WEB';
+        const initialTranslation = normalizeTranslationChoice(storedLastPosition?.translation ?? 'WEB');
         const initialBook = booksData.find(b => b.name.toLowerCase() === storedLastPosition?.book?.toLowerCase())
           ?? booksData.find(b => b.book_number === 1)
           ?? booksData[0]
@@ -3958,7 +3976,7 @@ export default function BibleApp() {
               onClick={() => pickTranslation(t.id)}
             >
               <span className="v-abbr">{getTranslationDisplayId(t.id)}</span>
-              <span className="v-name">{t.name}</span>
+              <span className="v-name">{getTranslationDisplayName(t.id, t.name)}</span>
               {t.id === translation && <span className="v-check">✓</span>}
             </button>
           ))}
@@ -4323,6 +4341,18 @@ export default function BibleApp() {
           onClick={goPrev}
         >
           ‹
+        </button>
+      </div>
+
+      <div className={`ch-nav ch-nav-next${chromeVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}${sideOpen && sidePaneOnRight ? ' side-pane-open' : ''}`}>
+        <button
+          className="ch-nav-btn"
+          type="button"
+          aria-label="Next chapter"
+          disabled={!currentBook || !!isLastChapter()}
+          onClick={goNext}
+        >
+          &rsaquo;
         </button>
       </div>
 

@@ -2320,6 +2320,9 @@ select.ai-add-chapter-input optgroup {
 .ch-nav-prev {
   left: 16px;
 }
+.ch-nav-next {
+  right: 16px;
+}
 .ch-nav-btn {
   width: 46px;
   height: 46px;
@@ -2343,8 +2346,17 @@ select.ai-add-chapter-input optgroup {
   cursor: pointer;
   transition: opacity 0.2s ease;
 }
+.ch-nav-next.side-pane-open .ch-nav-btn:not(:disabled) {
+  opacity: 0.28;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
 .ch-nav-prev.side-pane-open .ch-nav-btn:not(:disabled):hover,
 .ch-nav-prev.side-pane-open .ch-nav-btn:not(:disabled):focus-visible {
+  opacity: 1;
+}
+.ch-nav-next.side-pane-open .ch-nav-btn:not(:disabled):hover,
+.ch-nav-next.side-pane-open .ch-nav-btn:not(:disabled):focus-visible {
   opacity: 1;
 }
 .taskbar-btn {
@@ -2603,6 +2615,7 @@ select.ai-add-chapter-input optgroup {
   :root { --side-width: 44%; }
   .taskbar { gap: 12px; }
   .ch-nav-prev { left: 10px; }
+  .ch-nav-next { right: 10px; }
   .reader-wrap--book {
     padding: 28px 16px 64px;
   }
