@@ -95,6 +95,58 @@ def get_profile(user_id: str) -> UserProfile:
     return UserProfile(**row)
 
 
+def get_or_create_profile(user: dict) -> UserProfile:
+    """
+    Return the row from `profiles`, or insert one when auth exists but the trigger
+    did not run (so sign-in + /me sync does not 404 and clear the client session).
+    """
+    user_id = user["id"]
+    db = get_supabase_admin()
+    result = (
+        db.table("profiles")
+        .select("id, email, display_name, avatar_url, preferred_translation, preferred_language")
+        .eq("id", user_id)
+        .limit(1)
+        .execute()
+    )
+    row = (result.data or [None])[0]
+    if row:
+        return UserProfile(**row)
+
+    email = (user.get("email") or "").strip()
+    meta = user.get("user_metadata") or {}
+    display_name: str | None = None
+    if isinstance(meta, dict):
+        raw = (meta.get("full_name") or meta.get("display_name") or "").strip()
+        display_name = raw or None
+    if not display_name and email:
+        display_name = email.split("@", 1)[0]
+
+    try:
+        db.table("profiles").insert(
+            {
+                "id": user_id,
+                "email": email or None,
+                "display_name": display_name,
+            }
+        ).execute()
+    except Exception:
+        # Concurrent request may have inserted the row first.
+        pass
+
+    retry = (
+        db.table("profiles")
+        .select("id, email, display_name, avatar_url, preferred_translation, preferred_language")
+        .eq("id", user_id)
+        .limit(1)
+        .execute()
+    )
+    row = (retry.data or [None])[0]
+    if not row:
+        raise HTTPException(status_code=500, detail="Could not create user profile.")
+    return UserProfile(**row)
+
+
 def update_profile(user_id: str, payload: UserProfileUpdate) -> UserProfile:
     db = get_supabase_admin()
     updates = payload.model_dump(exclude_none=True)

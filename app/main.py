@@ -28,7 +28,7 @@ from app.schemas.commentary import CommentaryEntry
 from app.services.account_service import (
     create_study_item,
     delete_study_item,
-    get_profile,
+    get_or_create_profile,
     get_reading_progress,
     get_user_settings,
     list_study_items,
@@ -230,7 +230,7 @@ async def auth_sign_out(request: Request, current_user: dict = Depends(get_curre
 
 @app.get("/api/v1/me", response_model=UserProfile, tags=["account"])
 async def read_me(current_user: dict = Depends(get_current_user)) -> UserProfile:
-    return get_profile(current_user["id"])
+    return get_or_create_profile(current_user)
 
 
 @app.patch("/api/v1/me", response_model=UserProfile, tags=["account"])

@@ -2784,6 +2784,9 @@ export default function BibleApp() {
     verseNotes,
   ]);
 
+  const syncAccountStateRef = useRef(syncAccountState);
+  syncAccountStateRef.current = syncAccountState;
+
   const handleAuthSignIn = useCallback(async (email: string, password: string) => {
     setAuthBusy(true);
     setAuthError(null);
@@ -3896,14 +3899,15 @@ export default function BibleApp() {
   useEffect(() => {
     if (!authSession || books.length === 0 || accountBootstrapRef.current) return;
     accountBootstrapRef.current = true;
+    const sessionSnapshot = authSession;
     let cancelled = false;
     (async () => {
       try {
-        const refreshed = await refreshSession(authSession);
+        const refreshed = await refreshSession(sessionSnapshot);
         if (cancelled) return;
         persistAuthSession(refreshed);
         setAuthSession(refreshed);
-        await syncAccountState(refreshed);
+        await syncAccountStateRef.current(refreshed);
       } catch {
         if (cancelled) return;
         persistAuthSession(null);
@@ -3915,7 +3919,11 @@ export default function BibleApp() {
     return () => {
       cancelled = true;
     };
-  }, [authSession, books.length, syncAccountState]);
+    /* Intentionally omit authSession object identity and syncAccountState: deps on userId + books
+       only so init hydration and token refresh do not cancel this effect mid-flight (fixes sign-in
+       from /signin when a stored session is restored on first /app load). */
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- see above
+  }, [authSession?.userId, books.length]);
 
   useEffect(() => {
     if (!authSession || !syncReadyRef.current || hydratingAccountRef.current || books.length === 0) return;
@@ -4743,8 +4751,17 @@ export default function BibleApp() {
                 className="mystuff-item"
                 role="button"
                 tabIndex={0}
-                onClick={() => { navigateToPassage(displayBook(entry.book), entry.chapter, translation, entry.verse); closeSidePanel(); }}
-                onKeyDown={e => e.key === 'Enter' && navigateToPassage(displayBook(entry.book), entry.chapter, translation, entry.verse)}
+                onClick={() => {
+                  navigateToPassage(displayBook(entry.book), entry.chapter, translation, entry.verse);
+                  if (homeScreenActive) openReaderFromHome('none');
+                  else closeSidePanel();
+                }}
+                onKeyDown={e => {
+                  if (e.key !== 'Enter') return;
+                  navigateToPassage(displayBook(entry.book), entry.chapter, translation, entry.verse);
+                  if (homeScreenActive) openReaderFromHome('none');
+                  else closeSidePanel();
+                }}
               >
                 <span className="mystuff-item-ref">{displayBook(entry.book)} {entry.chapter}:{entry.verse}</span>
                 {entry.verseText && <span className="mystuff-item-text">{entry.verseText}</span>}
@@ -4794,6 +4811,21 @@ export default function BibleApp() {
           <div className="home-screen-inner">
             <header className="home-screen-header">
               <h1 className="home-screen-title">{homeTimeGreeting || 'Welcome'}</h1>
+              <span className="topbar-tooltip-wrap" data-tooltip="My stuff">
+                <button
+                  className={`nav-btn nav-btn-icon-only${sidePanelMode === 'study' ? ' active' : ''}`}
+                  type="button"
+                  aria-label="My stuff"
+                  aria-expanded={sidePanelMode === 'study'}
+                  aria-controls="home-mystuff-panel"
+                  onClick={() => toggleStudyPanel()}
+                >
+                  <svg className="nav-search-icon" viewBox="0 0 24 24" width={20} height={20} aria-hidden="true">
+                    <circle cx="12" cy="9" r="3.25" />
+                    <path d="M5 20.5v-.35c0-3.2 2.85-5.65 7-5.65s7 2.45 7 5.65v.35" />
+                  </svg>
+                </button>
+              </span>
             </header>
             <section className="home-screen-card reader-dashboard-card home-daily-verse-card" aria-labelledby="home-daily-verse-heading">
               <h2 id="home-daily-verse-heading" className="reader-dashboard-label">Verse of the day</h2>
@@ -4865,6 +4897,30 @@ export default function BibleApp() {
               </div>
             </section>
           </div>
+          {sidePanelMode === 'study' && (
+            <aside
+              className="home-study-pane"
+              id="home-mystuff-panel"
+              role="dialog"
+              aria-label="My Stuff"
+            >
+              <div className="side-header">
+                <div className="side-close-row">
+                  <button
+                    type="button"
+                    className="side-close-btn"
+                    aria-label="Close My Stuff sidebar"
+                    onClick={closeSidePanel}
+                  >
+                    ×
+                  </button>
+                </div>
+                <div className="side-title">{sidePanelTitle()}</div>
+                <div className="side-subtitle">{sidePanelContext}</div>
+              </div>
+              <div className="side-scroll home-study-pane-scroll">{renderStudyContent()}</div>
+            </aside>
+          )}
         </div>
       )}
 
@@ -5317,7 +5373,7 @@ export default function BibleApp() {
             </div>
             <div className="side-scroll" ref={sideScrollRef}>
               {sidePanelMode === 'commentary' && renderCommentaryContent()}
-              {sidePanelMode === 'study' && renderStudyContent()}
+              {sidePanelMode === 'study' && !homeScreenActive && renderStudyContent()}
               {sidePanelMode === 'ai' && (
                 <AiSidebar
                   currentBookName={currentBook?.name ?? null}

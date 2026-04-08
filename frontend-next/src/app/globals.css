@@ -279,16 +279,55 @@ html:has(.side-pane.open:hover) .ch-nav {
   gap: 16px;
 }
 .home-screen-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   margin-bottom: 4px;
 }
 .home-screen-title {
   margin: 0;
+  flex: 1;
+  min-width: 0;
   font-family: var(--ui);
   font-size: 26px;
   font-weight: 800;
   letter-spacing: -0.02em;
   color: var(--text);
   line-height: 1.2;
+}
+
+/* My Stuff sidebar on home (reader shell stays hidden; panel is fixed above home layer) */
+.home-study-pane {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: var(--taskbar);
+  z-index: calc(var(--z-chrome-bar) - 2);
+  width: min(38vw, 400px);
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  border-left: 1px solid var(--line-soft);
+  box-shadow: -12px 0 40px rgba(0, 0, 0, 0.14);
+  animation: home-study-pane-in 0.28s ease;
+}
+@keyframes home-study-pane-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0.92;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+.home-study-pane-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .home-screen-sub {
   margin: 10px 0 0;
