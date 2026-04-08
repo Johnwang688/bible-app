@@ -183,6 +183,12 @@ html:has(.side-pane.open:hover) .ch-nav {
   font-weight: 600;
   cursor: pointer;
 }
+.nav-btn-book,
+.nav-btn-version {
+  padding: 6px 10px;
+  font-size: 13px;
+  gap: 6px;
+}
 .nav-btn:hover {
   background: var(--nav-hover);
 }
@@ -202,11 +208,18 @@ html:has(.side-pane.open:hover) .ch-nav {
   white-space: nowrap;
 }
 .nav-btn-book {
-  flex-shrink: 0;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
 }
-.nav-btn-book .nav-btn-label {
-  overflow: visible;
-  text-overflow: clip;
+.nav-btn-version {
+  flex: 0 0 auto;
+  min-width: 0;
+}
+.nav-btn-book .nav-btn-label,
+.nav-btn-version .nav-btn-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 .chevron {
@@ -255,6 +268,8 @@ html:has(.side-pane.open:hover) .ch-nav {
   -webkit-overflow-scrolling: touch;
   padding: 28px 20px 24px;
   background: var(--bg);
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollthumb) var(--scrolltrack);
 }
 .home-screen-inner {
   max-width: 520px;
@@ -340,6 +355,298 @@ html:has(.side-pane.open:hover) .ch-nav {
   font-size: 14px;
   line-height: 1.45;
   color: var(--muted);
+}
+.tutorial-home-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 18px 20px;
+  border: 1px solid color-mix(in srgb, var(--accent) 16%, var(--line) 84%);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--accent-soft) 55%, transparent) 0, transparent 46%),
+    linear-gradient(180deg, color-mix(in srgb, var(--panel) 92%, var(--accent-soft) 8%), color-mix(in srgb, var(--panel-2) 90%, var(--panel) 10%));
+  box-shadow: 0 18px 40px rgba(34, 29, 22, 0.08);
+}
+.tutorial-home-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.tutorial-home-title {
+  font-family: var(--ui);
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--text);
+}
+.tutorial-home-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.tutorial-home-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  border-radius: 999px;
+  background: var(--text);
+  color: var(--panel);
+  padding: 11px 16px;
+  font-family: var(--ui);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.16s ease, filter 0.16s ease, background 0.16s ease, color 0.16s ease;
+}
+.tutorial-home-btn:hover,
+.tutorial-home-btn:focus-visible {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+}
+.tutorial-home-btn-secondary {
+  background: color-mix(in srgb, var(--panel) 88%, transparent);
+  color: var(--accent);
+}
+.tutorial-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 260;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 24px;
+}
+.tutorial-card {
+  width: min(100%, 620px);
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--line) 82%);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--accent-soft) 60%, transparent) 0, transparent 42%),
+    linear-gradient(180deg, color-mix(in srgb, var(--panel) 95%, #ffffff 5%), color-mix(in srgb, var(--panel-2) 92%, var(--panel) 8%));
+  box-shadow: 0 28px 80px rgba(16, 12, 8, 0.22);
+  padding: 22px;
+}
+.tutorial-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.tutorial-eyebrow {
+  font-family: var(--ui);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.tutorial-title {
+  margin-top: 8px;
+  font-family: var(--ui);
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+.tutorial-close {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--panel) 88%, transparent);
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  cursor: pointer;
+}
+.tutorial-progress {
+  margin-top: 18px;
+}
+.tutorial-progress-text {
+  display: block;
+  font-family: var(--ui);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.tutorial-progress-dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.tutorial-progress-dot {
+  width: 12px;
+  height: 12px;
+  border: none;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--line) 80%, transparent);
+  cursor: pointer;
+  transition: transform 0.16s ease, background 0.16s ease;
+}
+.tutorial-progress-dot.active {
+  background: var(--accent);
+  transform: scale(1.15);
+}
+.tutorial-description {
+  margin-top: 18px;
+  font-family: var(--ui);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text);
+}
+.tutorial-tip-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+.tutorial-tip {
+  padding: 12px 14px;
+  border: 1px solid color-mix(in srgb, var(--line) 88%, transparent);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--panel) 90%, transparent);
+  font-family: var(--ui);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.tutorial-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+.tutorial-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent);
+  border-radius: 999px;
+  background: var(--text);
+  color: var(--panel);
+  padding: 11px 16px;
+  font-family: var(--ui);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.tutorial-action-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.tutorial-action-btn-secondary {
+  background: color-mix(in srgb, var(--panel) 88%, transparent);
+  color: var(--muted);
+  border-color: var(--line);
+}
+.tutorial-action-btn-ghost {
+  background: color-mix(in srgb, var(--accent-soft) 68%, var(--panel) 32%);
+  color: var(--accent);
+}
+.tutorial-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 260;
+  pointer-events: none;
+}
+.tutorial-overlay-dimmer {
+  position: fixed;
+  border-radius: 24px;
+  background: transparent;
+  box-shadow: 0 0 0 9999px rgba(20, 14, 8, 0.45);
+  pointer-events: none;
+}
+.tutorial-spotlight {
+  position: fixed;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  pointer-events: none;
+}
+.tutorial-card {
+  position: fixed;
+  width: min(260px, calc(100vw - 24px));
+  min-height: 0;
+  max-height: none;
+  overflow: visible;
+  padding: 12px 12px 10px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--panel) 96%, #ffffff 4%);
+  box-shadow: 0 12px 28px rgba(16, 12, 8, 0.22);
+  pointer-events: auto;
+}
+.tutorial-card-top {
+  gap: 8px;
+}
+.tutorial-title {
+  margin-top: 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.tutorial-eyebrow {
+  display: none;
+}
+.tutorial-close {
+  width: 26px;
+  height: 26px;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.tutorial-description {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.tutorial-progress {
+  margin-top: 8px;
+}
+.tutorial-progress-text {
+  font-size: 11px;
+}
+.tutorial-progress-dots {
+  gap: 6px;
+  margin-top: 8px;
+}
+.tutorial-progress-dot {
+  width: 8px;
+  height: 8px;
+}
+.tutorial-actions {
+  margin-top: 10px;
+  gap: 6px;
+}
+.tutorial-action-btn {
+  padding: 6px 10px;
+  font-size: 12px;
+}
+.tutorial-card--home {
+  top: 96px;
+  right: 12px;
+}
+.tutorial-card--reader {
+  top: 84px;
+  right: 12px;
+}
+.tutorial-card--search {
+  top: 84px;
+  left: 12px;
+}
+.tutorial-card--verse-tools {
+  top: 136px;
+  left: 12px;
+}
+.tutorial-card--commentary,
+.tutorial-card--ai,
+.tutorial-card--study {
+  top: 84px;
+  left: 12px;
+}
+.tutorial-card--settings {
+  top: 88px;
+  right: 12px;
 }
 /* Verse of the day — elevated card treatment */
 .home-daily-verse-card {
@@ -570,21 +877,24 @@ html:has(.side-pane.open:hover) .ch-nav {
 .bible-pane::-webkit-scrollbar,
 .book-panel::-webkit-scrollbar,
 .settings-panel::-webkit-scrollbar,
-.search-panel::-webkit-scrollbar {
+.search-panel::-webkit-scrollbar,
+.home-screen::-webkit-scrollbar {
   width: 5px;
 }
 .side-scroll::-webkit-scrollbar-track,
 .bible-pane::-webkit-scrollbar-track,
 .book-panel::-webkit-scrollbar-track,
 .settings-panel::-webkit-scrollbar-track,
-.search-panel::-webkit-scrollbar-track {
+.search-panel::-webkit-scrollbar-track,
+.home-screen::-webkit-scrollbar-track {
   background: var(--scrolltrack);
 }
 .side-scroll::-webkit-scrollbar-thumb,
 .bible-pane::-webkit-scrollbar-thumb,
 .book-panel::-webkit-scrollbar-thumb,
 .settings-panel::-webkit-scrollbar-thumb,
-.search-panel::-webkit-scrollbar-thumb {
+.search-panel::-webkit-scrollbar-thumb,
+.home-screen::-webkit-scrollbar-thumb {
   background: var(--scrollthumb);
   border-radius: 999px;
 }
@@ -592,7 +902,8 @@ html:has(.side-pane.open:hover) .ch-nav {
 .bible-pane::-webkit-scrollbar-thumb:hover,
 .book-panel::-webkit-scrollbar-thumb:hover,
 .settings-panel::-webkit-scrollbar-thumb:hover,
-.search-panel::-webkit-scrollbar-thumb:hover {
+.search-panel::-webkit-scrollbar-thumb:hover,
+.home-screen::-webkit-scrollbar-thumb:hover {
   background: color-mix(in srgb, var(--scrollthumb) 78%, var(--accent) 22%);
 }
 .commentary-source-row {
@@ -2359,6 +2670,98 @@ select.ai-add-chapter-input optgroup {
 .ch-nav-next.side-pane-open .ch-nav-btn:not(:disabled):focus-visible {
   opacity: 1;
 }
+
+/* ── TTS center button ─────────────────────────────────────────────────── */
+.tts-center {
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.tts-btn-group {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+.tts-play-btn {
+  position: relative;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.tts-play-btn.tts-playing {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.tts-voice-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--popup-sticky);
+  box-shadow: 0 4px 10px rgba(34, 29, 22, 0.1);
+  cursor: pointer;
+  color: var(--muted);
+  transition: color 0.15s ease, background 0.15s ease;
+}
+.tts-voice-toggle:hover,
+.tts-voice-toggle.active {
+  color: var(--accent);
+}
+.tts-voice-panel {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--popup-sticky);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(34, 29, 22, 0.15);
+  padding: 12px 14px;
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: calc(var(--z-ch-nav) + 1);
+}
+.tts-voice-panel-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tts-label {
+  font-size: 11px;
+  color: var(--muted);
+  min-width: 40px;
+  font-family: var(--ui);
+}
+.tts-select {
+  flex: 1;
+  font-size: 12px;
+  padding: 4px 6px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--ui);
+  cursor: pointer;
+}
+.tts-rate {
+  flex: 1;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+.tts-rate-val {
+  font-size: 11px;
+  color: var(--muted);
+  min-width: 28px;
+  text-align: right;
+  font-family: var(--ui);
+}
+
 .taskbar-btn {
   display: flex;
   flex-direction: column;
@@ -4041,13 +4444,19 @@ html[data-dynamic-wave="1"] .side-pane {
   }
   .topbar { padding: 10px 12px; }
   .nav-left { flex: 1; min-width: 0; width: auto; }
-  .nav-btn { flex: 1; justify-content: space-between; }
+  .nav-left > .nav-btn {
+    flex: 0 1 auto;
+    justify-content: space-between;
+  }
   .nav-btn-book {
-    flex: 0 0 auto;
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: 100%;
   }
   .nav-btn-version {
-    flex: 1 1 0%;
+    flex: 0 0 auto;
     min-width: 0;
+    max-width: min(42%, 6.75rem);
   }
   .nav-btn-search { min-width: 0; }
   .side-edge-toggle {
@@ -4113,6 +4522,26 @@ html[data-dynamic-wave="1"] .side-pane {
     min-width: 44px;
     padding-left: 4px;
     padding-right: 4px;
+  }
+  .tutorial-overlay {
+    padding: 12px;
+    align-items: flex-end;
+  }
+  .tutorial-card {
+    max-height: calc(100vh - 24px);
+    padding: 18px;
+    border-radius: 22px;
+  }
+  .tutorial-title {
+    font-size: 24px;
+  }
+  .tutorial-actions {
+    flex-direction: column;
+  }
+  .tutorial-action-btn,
+  .tutorial-home-btn {
+    width: 100%;
+    justify-content: center;
   }
   .study-panel-content {
     padding: 12px;

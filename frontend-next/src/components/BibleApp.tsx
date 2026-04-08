@@ -73,6 +73,20 @@ interface SearchSuggestion {
 }
 interface SavedPassage { book: string; chapter: number; translation: string; savedAt: number; }
 interface VerseNote { key: string; book: string; chapter: number; verse: number; text: string; updatedAt: number; }
+interface TutorialStep {
+  id: string;
+  title: string;
+  instruction?: string;
+  description?: string;
+  tips?: string[];
+  actionLabel?: string;
+}
+interface TutorialRect {
+  top: string;
+  left: string;
+  width: string;
+  height: string;
+}
 interface DailyVerse {
   book: string;
   chapter: number;
@@ -365,6 +379,15 @@ function normalizeDailyGoalChapters(raw: string | null): number {
   const n = raw ? Number.parseInt(raw, 10) : NaN;
   if (!Number.isFinite(n)) return DEFAULT_DAILY_GOAL_CHAPTERS;
   return Math.min(25, Math.max(1, Math.floor(n)));
+}
+
+function rectToTutorialRect(rect: DOMRect): TutorialRect {
+  return {
+    top: `${Math.max(0, Math.round(rect.top))}px`,
+    left: `${Math.max(0, Math.round(rect.left))}px`,
+    width: `${Math.max(0, Math.round(rect.width))}px`,
+    height: `${Math.max(0, Math.round(rect.height))}px`,
+  };
 }
 
 function normalizeReadingProgress(raw: unknown): ReadingProgress {
@@ -786,6 +809,8 @@ export default function BibleApp() {
   /** Landing view: bottom taskbar only; taskbar actions enter the reader (and optional sidebar). */
   const [homeScreenActive, setHomeScreenActive] = useState(true);
   const [homeTimeGreeting, setHomeTimeGreeting] = useState('');
+  const [tutorialOpen, setTutorialOpen] = useState(false);
+  const [tutorialStepIndex, setTutorialStepIndex] = useState(0);
   const [readerAskBubble, setReaderAskBubble] = useState<{ top: number; left: number } | null>(null);
   const [aiComposerSeed, setAiComposerSeed] = useState<{ id: number; text: string } | undefined>();
   const [selectedVerse, setSelectedVerse]   = useState<number | null>(null);
@@ -812,6 +837,13 @@ export default function BibleApp() {
   const [authBusy, setAuthBusy]             = useState(false);
   const [authError, setAuthError]           = useState<string | null>(null);
 
+  // ── Text-to-Speech ───
+  const [ttsPlaying, setTtsPlaying]             = useState(false);
+  const [ttsVoices, setTtsVoices]               = useState<SpeechSynthesisVoice[]>([]);
+  const [ttsSelectedVoiceUri, setTtsSelectedVoiceUri] = useState<string | null>(null);
+  const [ttsVoiceOpen, setTtsVoiceOpen]         = useState(false);
+  const [ttsRate, setTtsRate]                   = useState(1.0);
+
   // ── Theme ───
   const [currentTheme, setCurrentTheme] = useState('default');
 
@@ -830,6 +862,7 @@ export default function BibleApp() {
   const readerPassagesRef = useRef<HTMLDivElement>(null);
   const readerSelectionPayloadRef = useRef<{ text: string; refLabel?: string } | null>(null);
   const readerSelectionRafRef = useRef<number | null>(null);
+  const tutorialVersePreviewStepRef = useRef<number | null>(null);
 
   // ── Stable refs for use in callbacks without stale closures ───
   const booksRef               = useRef<BookInfo[]>([]);
@@ -990,11 +1023,16 @@ export default function BibleApp() {
       if (!agentMenuRef.current?.contains(event.target as Node)) {
         setAgentMenuOpen(false);
       }
+      const ttsCenter = document.querySelector('.tts-center');
+      if (!ttsCenter?.contains(event.target as Node)) {
+        setTtsVoiceOpen(false);
+      }
     };
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setCommentarySourceMenuOpen(false);
         setAgentMenuOpen(false);
+        setTtsVoiceOpen(false);
       }
     };
     document.addEventListener('mousedown', handlePointerDown);
@@ -1223,6 +1261,10 @@ export default function BibleApp() {
 
   const openReaderFromHome = useCallback((panel: SidePanelMode) => {
     setHomeScreenActive(false);
+    setSettingsOpen(false);
+    setSearchOpen(false);
+    setBookPopupOpen(false);
+    setVersionPopupOpen(false);
     if (panel === 'none') {
       closeSidePanel();
     } else {
@@ -1233,7 +1275,48 @@ export default function BibleApp() {
   const goToHome = useCallback(() => {
     setHomeScreenActive(true);
     setSettingsOpen(false);
+    setSearchOpen(false);
+    setBookPopupOpen(false);
+    setVersionPopupOpen(false);
     closeSidePanel();
+  }, [closeSidePanel]);
+
+  const openTutorial = useCallback((startIndex = 0) => {
+    setTutorialStepIndex(startIndex);
+    setTutorialOpen(true);
+    goToHome();
+  }, [goToHome]);
+
+  const closeTutorial = useCallback(() => {
+    setTutorialOpen(false);
+  }, []);
+
+  const openSearchFromTutorial = useCallback(() => {
+    setHomeScreenActive(false);
+    setSettingsOpen(false);
+    closeSidePanel();
+    setBookPopupOpen(false);
+    setVersionPopupOpen(false);
+    setSearchOpen(true);
+  }, [closeSidePanel]);
+
+  const openStudyFromTutorial = useCallback(() => {
+    setHomeScreenActive(false);
+    setSettingsOpen(false);
+    setSearchOpen(false);
+    setBookPopupOpen(false);
+    setVersionPopupOpen(false);
+    openSidePanel('study');
+  }, [openSidePanel]);
+
+  const openSettingsFromTutorial = useCallback(() => {
+    settingsOpenedFromHomeRef.current = true;
+    setHomeScreenActive(true);
+    setSearchOpen(false);
+    setBookPopupOpen(false);
+    setVersionPopupOpen(false);
+    closeSidePanel();
+    setSettingsOpen(true);
   }, [closeSidePanel]);
 
   useEffect(() => {
@@ -1250,6 +1333,329 @@ export default function BibleApp() {
       preferredDefault === 'none' ? lastSidePanelModeRef.current : preferredDefault;
     openSidePanel(preferred);
   }, [openSidePanel]);
+
+  const tutorialStepsContent = useMemo<TutorialStep[]>(() => [
+    {
+      id: 'home',
+      title: 'Start from Home',
+      description: 'The homepage is your launchpad. This step brings you back home so you can see the daily verse, your streak, and your last reading spot together.',
+      tips: [
+        'Use the verse of the day card to jump straight into today’s passage.',
+        'Check your streak card to see your daily chapter goal progress.',
+        currentBook ? `Use Continue where you left off to reopen ${currentBook.name} ${chapter}.` : 'Once you open a passage, this page will save your spot for next time.',
+      ],
+      actionLabel: 'Replay example',
+    },
+    {
+      id: 'reader',
+      title: 'Read in the Bible Reader',
+      description: 'This step opens a live reading example in John 3 so the user can see the main reader workspace in action.',
+      tips: [
+        'Use the top-left book picker to choose any book and chapter.',
+        `Use the translation picker to swap versions like ${translation}.`,
+        'Use the bottom chapter arrows to move forward or backward quickly.',
+      ],
+      actionLabel: 'Replay example',
+    },
+    {
+      id: 'search',
+      title: 'Find Passages Fast',
+      description: 'This step opens Search and loads a sample reference so the user can see the suggestion flow before navigating.',
+      tips: [
+        'Try references like John 3, Romans 8:28, or Psalm 23.',
+        'You can also search by phrase when you remember words but not the reference.',
+        recentPassages.length > 0 ? `Recent passages are built in, and you currently have ${recentPassages.length} saved.` : 'Recent passages will start appearing here once you navigate a few chapters.',
+      ],
+      actionLabel: 'Replay example',
+    },
+    {
+      id: 'verse-tools',
+      title: 'Study a Verse',
+      description: 'This step loads John 3 and automatically opens verse 16 so the study card appears as a real example.',
+      tips: [
+        'Tap the same verse again to close the study card.',
+        'Tap another verse while the card is open to build a multi-verse selection.',
+        `Your saved items currently total ${highlightedVerses.length + bookmarkedVerses.length + Object.keys(verseNotes).length}. Highlights, bookmarks, and notes all show up in My Stuff.`,
+      ],
+      actionLabel: 'Replay example',
+    },
+    {
+      id: 'commentary',
+      title: 'Open Commentary',
+      description: 'This step opens commentary beside John 3 so the user can see the side-by-side reading setup.',
+      tips: [
+        'Use the taskbar Commentary button to open or close the side panel.',
+        'Switch commentary sources from the dropdown at the top of the panel.',
+        'When commentary sync is active, the panel follows the verse area you are reading.',
+      ],
+      actionLabel: 'Replay example',
+    },
+    {
+      id: 'ai',
+      title: 'Ask the AI Assistant',
+      description: 'This step opens the AI sidebar on John 3 and preloads an example question so the user sees how to start.',
+      tips: [
+        `Open AI from the taskbar and ask a question about the current chapter in ${PERSONALITIES.find(p => p.id === personalityId)?.name ?? 'Jessica'}.`,
+        'Use the suggested follow-up buttons to keep exploring without retyping.',
+        'From the verse study card, use Ask AI to send the selected verses directly into the chat.',
+      ],
+      actionLabel: 'Replay example',
+    },
+    {
+      id: 'study',
+      title: 'Review My Stuff',
+      description: 'This step opens My Stuff so the user can see where account controls, reading rhythm, and saved items live.',
+      tips: [
+        accountProfile ? `You are signed in as ${accountProfile.display_name || accountProfile.email}.` : 'If you sign in, your study data can sync instead of staying only on this device.',
+        'Use Saved to jump back to anything you highlighted or annotated.',
+        'You can edit your daily reading goal from the Reading rhythm card.',
+      ],
+      actionLabel: 'Replay example',
+    },
+    {
+      id: 'settings',
+      title: 'Make the App Yours',
+      description: 'This step opens Settings so the user can see where to customize theme, text, layout, and effects.',
+      tips: [
+        'Use themes to change the overall visual style of the app.',
+        'Adjust text size, font, line spacing, and side panel position for comfort.',
+        'Graphics mode and motion options help balance visual richness and performance.',
+      ],
+      actionLabel: 'Replay example',
+    },
+  ], [
+    accountProfile,
+    bookmarkedVerses.length,
+    chapter,
+    currentBook,
+    highlightedVerses.length,
+    personalityId,
+    recentPassages.length,
+    translation,
+    verseNotes,
+  ]);
+
+  const tutorialSteps = useMemo<TutorialStep[]>(() => ([
+    {
+      id: 'home',
+      title: 'Home',
+      instruction: 'Start here. Tap the daily verse or Continue where you left off to jump back into reading.',
+    },
+    {
+      id: 'reader',
+      title: 'Reader',
+      instruction: `Use the top bar to change the book or switch translations like ${translation}.`,
+    },
+    {
+      id: 'search',
+      title: 'Search',
+      instruction: 'Type a reference or phrase here, then tap a suggestion to go straight to it.',
+    },
+    {
+      id: 'verse-tools',
+      title: 'Verse Tools',
+      instruction: 'Tap a verse to open this card, then highlight it, add a note, open commentary, or ask AI.',
+    },
+    {
+      id: 'commentary',
+      title: 'Commentary',
+      instruction: 'Use this side panel to read commentary beside the chapter without losing your place.',
+    },
+    {
+      id: 'ai',
+      title: 'Ask AI',
+      instruction: `Ask ${PERSONALITIES.find(p => p.id === personalityId)?.name ?? 'Jessica'} about the chapter, or use Ask AI from a selected verse.`,
+    },
+    {
+      id: 'study',
+      title: 'My Stuff',
+      instruction: accountProfile
+        ? 'Your saved verses, notes, and reading rhythm are all collected here.'
+        : 'Sign in here to sync your saved verses, notes, and reading progress.',
+    },
+    {
+      id: 'settings',
+      title: 'Settings',
+      instruction: 'Adjust theme, text size, layout, and effects here to make reading feel right.',
+    },
+  ]), [accountProfile, personalityId, translation]);
+
+  const tutorialStep = tutorialSteps[tutorialStepIndex] ?? tutorialSteps[0];
+  const spotlightOnRight = readerSettings.sidePanelPosition === 'right';
+  const [tutorialMeasuredRect, setTutorialMeasuredRect] = useState<TutorialRect | null>(null);
+  const tutorialFallbackRect = useMemo<TutorialRect>(() => {
+    switch (tutorialStep.id) {
+      case 'home':
+        return { top: '88px', left: 'max(20px, calc(50% - 280px))', width: 'min(560px, calc(100vw - 40px))', height: 'calc(100vh - 180px)' };
+      case 'reader':
+        return { top: '66px', left: '16px', width: 'calc(100vw - 32px)', height: 'calc(100vh - 140px)' };
+      case 'search':
+        return { top: '64px', left: 'calc(100vw - min(540px, calc(100vw - 24px)) - 12px)', width: 'min(540px, calc(100vw - 24px))', height: '320px' };
+      case 'verse-tools':
+        return { top: '150px', left: 'calc(50% + 12px)', width: '280px', height: '340px' };
+      case 'commentary':
+      case 'ai':
+      case 'study':
+        return spotlightOnRight
+          ? { top: '64px', left: 'calc(100vw - min(42vw, 560px))', width: 'min(42vw, 560px)', height: 'calc(100vh - 124px)' }
+          : { top: '64px', left: '0', width: 'min(42vw, 560px)', height: 'calc(100vh - 124px)' };
+      case 'settings':
+        return { top: '72px', left: 'max(20px, calc(50% - 260px))', width: 'min(520px, calc(100vw - 40px))', height: 'calc(100vh - 144px)' };
+      default:
+        return { top: '96px', left: '24px', width: '320px', height: '220px' };
+    }
+  }, [spotlightOnRight, tutorialStep.id]);
+  const tutorialSpotRect = tutorialMeasuredRect ?? tutorialFallbackRect;
+
+  useEffect(() => {
+    if (!tutorialOpen) {
+      setTutorialMeasuredRect(null);
+      return;
+    }
+    const shouldMeasureSidePane =
+      tutorialStep.id === 'commentary' || tutorialStep.id === 'ai' || tutorialStep.id === 'study';
+    if (!shouldMeasureSidePane) {
+      setTutorialMeasuredRect(null);
+      return;
+    }
+
+    const measure = () => {
+      const rect = sidePaneRef.current?.getBoundingClientRect();
+      if (!rect || rect.width <= 0 || rect.height <= 0) {
+        setTutorialMeasuredRect(null);
+        return;
+      }
+      setTutorialMeasuredRect(rectToTutorialRect(rect));
+    };
+
+    const rafId = window.requestAnimationFrame(measure);
+    const settleId = window.setTimeout(measure, 320);
+    const handleResize = () => measure();
+    const pane = sidePaneRef.current;
+
+    window.addEventListener('resize', handleResize);
+    pane?.addEventListener('transitionend', measure);
+
+    return () => {
+      window.cancelAnimationFrame(rafId);
+      window.clearTimeout(settleId);
+      window.removeEventListener('resize', handleResize);
+      pane?.removeEventListener('transitionend', measure);
+    };
+  }, [sidePaneWidth, sidePanelMode, tutorialOpen, tutorialStep.id]);
+
+  /** CSS custom-property vars passed to the overlay container so pieces can use them. */
+  const tutorialOverlayVars = useMemo<CSSProperties>(() => ({
+    ['--spot-top' as string]: tutorialSpotRect.top,
+    ['--spot-left' as string]: tutorialSpotRect.left,
+    ['--spot-width' as string]: tutorialSpotRect.width,
+    ['--spot-height' as string]: tutorialSpotRect.height,
+  }), [tutorialSpotRect]);
+
+  /** Positional style applied only to the spotlight highlight box. */
+  const tutorialSpotlightStyle = useMemo<CSSProperties>(() => ({
+    top: tutorialSpotRect.top,
+    left: tutorialSpotRect.left,
+    width: tutorialSpotRect.width,
+    height: tutorialSpotRect.height,
+  }), [tutorialSpotRect]);
+
+  const runTutorialStepAction = useCallback((stepId: string) => {
+    tutorialVersePreviewStepRef.current = null;
+    setSearchError(null);
+    setSearchResults([]);
+    switch (stepId) {
+      case 'home':
+        goToHome();
+        break;
+      case 'reader':
+        navigateToPassage('John', 3, 'WEB');
+        openReaderFromHome('none');
+        break;
+      case 'verse-tools':
+        navigateToPassage('John', 3, 'WEB', 16);
+        openReaderFromHome('none');
+        setSelectedVerse(null);
+        setSelectedVerseGroup([]);
+        setVersePopupPos(null);
+        tutorialVersePreviewStepRef.current = tutorialStepIndex;
+        break;
+      case 'search':
+        setSearchQuery('Romans 8:28');
+        openSearchFromTutorial();
+        break;
+      case 'commentary':
+        navigateToPassage('John', 3, 'WEB', 16);
+        openReaderFromHome('commentary');
+        break;
+      case 'ai':
+        navigateToPassage('John', 3, 'WEB', 16);
+        openReaderFromHome('ai');
+        setAiComposerSeed({
+          id: Date.now(),
+          text: 'What does John 3 teach about being born again? Give me a simple explanation.',
+        });
+        break;
+      case 'study':
+        navigateToPassage('John', 3, 'WEB', 16);
+        openStudyFromTutorial();
+        break;
+      case 'settings':
+        openSettingsFromTutorial();
+        break;
+      default:
+        break;
+    }
+  }, [
+    goToHome,
+    navigateToPassage,
+    openReaderFromHome,
+    openSearchFromTutorial,
+    openSettingsFromTutorial,
+    openStudyFromTutorial,
+    tutorialStepIndex,
+  ]);
+
+  useEffect(() => {
+    if (!tutorialOpen) return;
+    runTutorialStepAction(tutorialStep.id);
+  }, [runTutorialStepAction, tutorialOpen, tutorialStep.id]);
+
+  useEffect(() => {
+    if (!tutorialOpen || tutorialStep.id !== 'verse-tools') return;
+    if (tutorialVersePreviewStepRef.current !== tutorialStepIndex) return;
+    if (homeScreenActive || chapterLoading || chapterError) return;
+    if (chapterData?.book !== 'John' || chapterData.chapter !== 3) return;
+    const rafId = window.requestAnimationFrame(() => {
+      const verseEl = readerPassagesRef.current?.querySelector<HTMLElement>('[data-verse="16"]');
+      if (!verseEl) return;
+      verseEl.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      window.setTimeout(() => {
+        verseEl.click();
+      }, 180);
+    });
+    tutorialVersePreviewStepRef.current = null;
+    return () => window.cancelAnimationFrame(rafId);
+  }, [chapterData, chapterError, chapterLoading, homeScreenActive, tutorialOpen, tutorialStep.id, tutorialStepIndex]);
+
+  useEffect(() => {
+    if (!tutorialOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setTutorialOpen(false);
+        return;
+      }
+      if (event.key === 'ArrowRight') {
+        setTutorialStepIndex(index => Math.min(index + 1, tutorialSteps.length - 1));
+        return;
+      }
+      if (event.key === 'ArrowLeft') {
+        setTutorialStepIndex(index => Math.max(index - 1, 0));
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [tutorialOpen, tutorialSteps.length]);
 
   const toggleReaderFocus = useCallback(() => {
     if (sidePanelModeRef.current === 'none') {
@@ -1279,6 +1685,65 @@ export default function BibleApp() {
     () => sortBookNamesForMatching(books.map(book => book.name)),
     [books],
   );
+
+  // ── TTS helpers ─────────────────────────────────────────────────────────────
+
+  // Load available voices (async on some browsers)
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.speechSynthesis) return;
+    const load = () => setTtsVoices(window.speechSynthesis.getVoices());
+    load();
+    window.speechSynthesis.addEventListener('voiceschanged', load);
+    return () => window.speechSynthesis.removeEventListener('voiceschanged', load);
+  }, []);
+
+  const ttsLang = useMemo(() => {
+    const lang = translationsById.get(translation)?.language;
+    const upperId = translation.toUpperCase();
+    if (lang === 'zh' || upperId.includes('CUV')) {
+      if (upperId.includes('SIMP')) return 'zh-CN';
+      return 'zh-TW';
+    }
+    if (lang) return lang;
+    return 'en';
+  }, [translation, translationsById]);
+
+  const ttsLangVoices = useMemo(
+    () => ttsVoices.filter(v => v.lang.startsWith(ttsLang.split('-')[0])),
+    [ttsVoices, ttsLang],
+  );
+
+  const stopTts = useCallback(() => {
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
+    setTtsPlaying(false);
+  }, []);
+
+  const startTts = useCallback(() => {
+    if (!chapterData || typeof window === 'undefined' || !window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const text = chapterData.verses.map(v => `${v.verse}. ${v.text}`).join('  ');
+    const utt = new SpeechSynthesisUtterance(text);
+    utt.lang = ttsLang;
+    utt.rate = ttsRate;
+    const voice = ttsSelectedVoiceUri
+      ? ttsVoices.find(v => v.voiceURI === ttsSelectedVoiceUri) ?? ttsLangVoices[0] ?? null
+      : ttsLangVoices[0] ?? null;
+    if (voice) utt.voice = voice;
+    utt.onend = () => setTtsPlaying(false);
+    utt.onerror = () => setTtsPlaying(false);
+    window.speechSynthesis.speak(utt);
+    setTtsPlaying(true);
+  }, [chapterData, ttsLang, ttsRate, ttsSelectedVoiceUri, ttsVoices, ttsLangVoices]);
+
+  const toggleTts = useCallback(() => {
+    if (ttsPlaying) stopTts(); else startTts();
+  }, [ttsPlaying, stopTts, startTts]);
+
+  // Stop playback when chapter changes
+  useEffect(() => { stopTts(); }, [chapterData]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const parsedNavigation = useMemo(() => {
     const trimmed = searchQuery.trim();
     if (!trimmed) return null;
@@ -3582,6 +4047,11 @@ export default function BibleApp() {
     translationsById,
   );
   const currentTranslationLabel = getTranslationDisplayId(translation);
+  const currentTranslationMeta = translationsById.get(translation);
+  const currentTranslationTitle =
+    currentTranslationMeta?.name != null
+      ? `${getTranslationDisplayName(translation, currentTranslationMeta.name)} (${currentTranslationLabel})`
+      : currentTranslationLabel;
   const sidePanelContext = currentBook ? `${currentBookLabel} ${chapter} • ${currentTranslationLabel}` : '';
   const navLabel = currentBook ? `${currentBookLabel} ${chapter}` : 'Select Book';
 
@@ -3843,6 +4313,31 @@ export default function BibleApp() {
                 <p className="home-continue-empty">Open the reader and pick a book to start.</p>
               )}
             </section>
+            <section className="home-screen-card tutorial-home-card" aria-labelledby="home-tutorial-heading">
+              <div className="tutorial-home-copy">
+                <h2 id="home-tutorial-heading" className="reader-dashboard-label">Guided tour</h2>
+                <p className="tutorial-home-title">Learn every feature in a few quick steps.</p>
+                <p className="home-screen-card-caption">
+                  Walk through reading, search, verse tools, commentary, AI, My Stuff, and settings without leaving the app.
+                </p>
+              </div>
+              <div className="tutorial-home-actions">
+                <button
+                  type="button"
+                  className="tutorial-home-btn"
+                  onClick={() => openTutorial(0)}
+                >
+                  Start tutorial
+                </button>
+                <button
+                  type="button"
+                  className="tutorial-home-btn tutorial-home-btn-secondary"
+                  onClick={() => openTutorial(2)}
+                >
+                  Jump to features
+                </button>
+              </div>
+            </section>
           </div>
         </div>
       )}
@@ -3856,7 +4351,7 @@ export default function BibleApp() {
             type="button"
             onClick={e => { e.stopPropagation(); setSearchOpen(false); setVersionPopupOpen(false); setBookPopupOpen(v => !v); }}
           >
-            <span className="nav-btn-label">{navLabel}</span>
+            <span className="nav-btn-label" title={navLabel}>{navLabel}</span>
             <span className="chevron" aria-hidden="true" />
           </button>
           <button
@@ -3865,7 +4360,7 @@ export default function BibleApp() {
             type="button"
             onClick={e => { e.stopPropagation(); setBookPopupOpen(false); versionPopupOpen ? setVersionPopupOpen(false) : openVersionPopup(); }}
           >
-            <span className="nav-btn-label">{currentTranslationLabel}</span>
+            <span className="nav-btn-label" title={currentTranslationTitle}>{currentTranslationLabel}</span>
             <span className="chevron" aria-hidden="true" />
           </button>
         </div>
@@ -4356,6 +4851,79 @@ export default function BibleApp() {
         </button>
       </div>
 
+      {/* TTS play button (center, same level as chapter nav arrows) */}
+      <div className={`ch-nav tts-center${chromeVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}`}>
+        <div className="tts-btn-group">
+          <button
+            className={`ch-nav-btn tts-play-btn${ttsPlaying ? ' tts-playing' : ''}`}
+            type="button"
+            aria-label={ttsPlaying ? 'Stop reading' : 'Read aloud'}
+            disabled={!chapterData}
+            onClick={toggleTts}
+          >
+            {ttsPlaying ? (
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+                <rect x="6" y="5" width="4" height="14" rx="1" />
+                <rect x="14" y="5" width="4" height="14" rx="1" />
+              </svg>
+            ) : (
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+                <path d="M8 5.14v14l11-7-11-7z" />
+              </svg>
+            )}
+          </button>
+          <button
+            className={`tts-voice-toggle${ttsVoiceOpen ? ' active' : ''}`}
+            type="button"
+            aria-label="Voice settings"
+            onClick={() => setTtsVoiceOpen(o => !o)}
+          >
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+              <line x1="12" y1="19" x2="12" y2="23"/>
+              <line x1="8" y1="23" x2="16" y2="23"/>
+            </svg>
+          </button>
+        </div>
+
+        {ttsVoiceOpen && (
+          <div className="tts-voice-panel" onClick={e => e.stopPropagation()}>
+            <div className="tts-voice-panel-row">
+              <label className="tts-label" htmlFor="tts-voice-select">Voice</label>
+              <select
+                id="tts-voice-select"
+                className="tts-select"
+                value={ttsSelectedVoiceUri ?? ''}
+                onChange={e => setTtsSelectedVoiceUri(e.target.value || null)}
+              >
+                <option value="">Auto ({ttsLang})</option>
+                {ttsLangVoices.map(v => (
+                  <option key={v.voiceURI} value={v.voiceURI}>{v.name}</option>
+                ))}
+                {ttsLangVoices.length === 0 && ttsVoices.map(v => (
+                  <option key={v.voiceURI} value={v.voiceURI}>{v.name} ({v.lang})</option>
+                ))}
+              </select>
+            </div>
+            <div className="tts-voice-panel-row">
+              <label className="tts-label" htmlFor="tts-rate-range">Speed</label>
+              <input
+                id="tts-rate-range"
+                type="range"
+                className="tts-rate"
+                min="0.5"
+                max="2"
+                step="0.1"
+                value={ttsRate}
+                onChange={e => setTtsRate(Number(e.target.value))}
+              />
+              <span className="tts-rate-val">{ttsRate.toFixed(1)}×</span>
+            </div>
+          </div>
+        )}
+      </div>
+
       {/* Taskbar */}
       <div className={`taskbar${chromeVisible ? '' : ' chrome-hide-bottom'}`}>
         <button
@@ -4609,6 +5177,72 @@ export default function BibleApp() {
       </div>
 
       {/* Galaxy comet canvas — fixed overlay, clips to toolbar/gutter zones only */}
+      {tutorialOpen && tutorialStep && (
+        <div
+          className="tutorial-overlay"
+          style={tutorialOverlayVars}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="tutorial-title"
+        >
+          <div className="tutorial-overlay-dimmer" style={tutorialSpotlightStyle} aria-hidden="true" />
+          <div className={`tutorial-spotlight tutorial-spotlight--${tutorialStep.id}`} style={tutorialSpotlightStyle} aria-hidden="true" />
+          <section className={`tutorial-card tutorial-card--${tutorialStep.id}`}>
+            <div className="tutorial-card-top">
+              <div>
+                <h2 id="tutorial-title" className="tutorial-title">{tutorialStep.title}</h2>
+              </div>
+              <button
+                type="button"
+                className="tutorial-close"
+                aria-label="Close tutorial"
+                onClick={closeTutorial}
+              >
+                ✕
+              </button>
+            </div>
+            <p className="tutorial-description">{tutorialStep.instruction}</p>
+            <div className="tutorial-actions">
+              <button
+                type="button"
+                className="tutorial-action-btn tutorial-action-btn-secondary"
+                onClick={() => setTutorialStepIndex(index => Math.max(index - 1, 0))}
+                disabled={tutorialStepIndex === 0}
+              >
+                Back
+              </button>
+              <button
+                type="button"
+                className="tutorial-action-btn tutorial-action-btn-ghost"
+                onClick={() => runTutorialStepAction(tutorialStep.id)}
+              >
+                Show again
+              </button>
+              {tutorialStepIndex === tutorialSteps.length - 1 ? (
+                <button
+                  type="button"
+                  className="tutorial-action-btn"
+                  onClick={() => {
+                    closeTutorial();
+                    goToHome();
+                  }}
+                >
+                  Finish tutorial
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="tutorial-action-btn"
+                  onClick={() => setTutorialStepIndex(index => Math.min(index + 1, tutorialSteps.length - 1))}
+                >
+                  Next
+                </button>
+              )}
+            </div>
+          </section>
+        </div>
+      )}
+
       <canvas
         ref={cometCanvasRef}
         className="theme-comet-canvas"
