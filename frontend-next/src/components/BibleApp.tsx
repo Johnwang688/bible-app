@@ -269,6 +269,8 @@ const DAILY_GOAL_CHAPTERS_STORAGE_KEY = 'bible-app-daily-goal-chapters';
 const DEFAULT_DAILY_GOAL_CHAPTERS = 3;
 const READER_SETTINGS_STORAGE_KEY = 'bible-app-reader-settings';
 const ONBOARDING_STORAGE_KEY = 'bible-app-onboarding-complete';
+/** Verse Tools tutorial always uses John 3 and this verse for the spotlight (same passage every time). */
+const TUTORIAL_VERSE_TOOLS_VERSE = 16;
 const MAX_RECENT_PASSAGES = 8;
 const MIN_CHAPTER_PROGRESS_RATIO = 0.5;
 const MIN_CHAPTER_PROGRESS_VERSES = 3;
@@ -436,13 +438,50 @@ function normalizeDailyGoalChapters(raw: string | null): number {
   return Math.min(25, Math.max(1, Math.floor(n)));
 }
 
-function rectToTutorialRect(rect: DOMRect): TutorialRect {
+function boundsToTutorialRect(b: { top: number; left: number; width: number; height: number }): TutorialRect {
   return {
-    top: `${Math.max(0, Math.round(rect.top))}px`,
-    left: `${Math.max(0, Math.round(rect.left))}px`,
-    width: `${Math.max(0, Math.round(rect.width))}px`,
-    height: `${Math.max(0, Math.round(rect.height))}px`,
+    top: `${Math.max(0, b.top)}px`,
+    left: `${Math.max(0, b.left)}px`,
+    width: `${Math.max(0, b.width)}px`,
+    height: `${Math.max(0, b.height)}px`,
   };
+}
+
+/**
+ * Centers a verse line in the reader scroll container. `scrollIntoView({ block: 'center' })` often scrolls the
+ * window or the wrong ancestor when the real scroller is `.bible-pane` or a nested overflow region (e.g. paged).
+ */
+function scrollVerseLineIntoBiblePaneCenter(verseEl: HTMLElement, biblePane: HTMLElement | null) {
+  const pickScrollParent = (): HTMLElement | null => {
+    if (biblePane && biblePane.scrollHeight > biblePane.clientHeight + 2) {
+      return biblePane;
+    }
+    let p: HTMLElement | null = verseEl.parentElement;
+    while (p) {
+      const st = window.getComputedStyle(p);
+      const oy = st.overflowY;
+      if (
+        (oy === 'auto' || oy === 'scroll' || oy === 'overlay') &&
+        p.scrollHeight > p.clientHeight + 2
+      ) {
+        return p;
+      }
+      p = p.parentElement;
+    }
+    return biblePane;
+  };
+
+  const pane = pickScrollParent();
+  if (!pane) {
+    verseEl.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'smooth' });
+    return;
+  }
+  const paneRect = pane.getBoundingClientRect();
+  const verseRect = verseEl.getBoundingClientRect();
+  const yInContent = verseRect.top - paneRect.top + pane.scrollTop;
+  const target = yInContent - pane.clientHeight / 2 + verseRect.height / 2;
+  const maxScroll = Math.max(0, pane.scrollHeight - pane.clientHeight);
+  pane.scrollTo({ top: Math.min(maxScroll, Math.max(0, target)), behavior: 'smooth' });
 }
 
 function normalizeReadingProgress(raw: unknown): ReadingProgress {
@@ -918,6 +957,10 @@ export default function BibleApp() {
   const dividerRef    = useRef<HTMLDivElement>(null);
   const dynTintRef    = useRef<HTMLDivElement>(null);
   const versionBtnRef = useRef<HTMLButtonElement>(null);
+  const tutorialHomeSpotRef = useRef<HTMLDivElement>(null);
+  const searchPanelRef = useRef<HTMLDivElement>(null);
+  const settingsPanelRef = useRef<HTMLDivElement>(null);
+  const verseStudyPopupRef = useRef<HTMLElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const commentarySourceMenuRef = useRef<HTMLDivElement>(null);
   const agentMenuRef = useRef<HTMLDivElement>(null);
@@ -925,7 +968,6 @@ export default function BibleApp() {
   const readerPassagesRef = useRef<HTMLDivElement>(null);
   const readerSelectionPayloadRef = useRef<{ text: string; refLabel?: string } | null>(null);
   const readerSelectionRafRef = useRef<number | null>(null);
-  const tutorialVersePreviewStepRef = useRef<number | null>(null);
 
   // ── Stable refs for use in callbacks without stale closures ───
   const booksRef               = useRef<BookInfo[]>([]);
@@ -1561,11 +1603,14 @@ export default function BibleApp() {
     {
       id: 'home',
       title: 'Start from Home',
-      description: 'The homepage is your launchpad. This step brings you back home so you can see the daily verse, your streak, and your last reading spot together.',
+      description:
+        'The homepage is your launchpad: verse of the day, your streak and daily goal, and Continue where you left off—together in one view.',
       tips: [
-        'Use the verse of the day card to jump straight into today’s passage.',
-        'Check your streak card to see your daily chapter goal progress.',
-        currentBook ? `Use Continue where you left off to reopen ${currentBook.name} ${chapter}.` : 'Once you open a passage, this page will save your spot for next time.',
+        'Verse of the day: tap the reference to open that passage in the reader.',
+        'Your streak card shows your rhythm and how many chapters you’ve read toward today’s goal.',
+        currentBook
+          ? `Continue where you left off jumps back to ${currentBook.name} ${chapter}.`
+          : 'Continue where you left off appears once you’ve opened a passage.',
       ],
       actionLabel: 'Replay example',
     },
@@ -1575,7 +1620,7 @@ export default function BibleApp() {
       description: 'This step opens a live reading example in John 3 so the user can see the main reader workspace in action.',
       tips: [
         'Use the top-left book picker to choose any book and chapter.',
-        `Use the translation picker to swap versions like ${translation}.`,
+        `The translation button next to it switches versions (for example ${getTranslationDisplayId(translation)}).`,
         'Use the bottom chapter arrows to move forward or backward quickly.',
       ],
       actionLabel: 'Replay example',
@@ -1594,10 +1639,10 @@ export default function BibleApp() {
     {
       id: 'verse-tools',
       title: 'Study a Verse',
-      description: 'This step loads John 3 and automatically opens verse 16 so the study card appears as a real example.',
+      description: `This step opens John 3 and spotlights verse ${TUTORIAL_VERSE_TOOLS_VERSE} so you can see exactly which line to tap.`,
       tips: [
-        'Tap the same verse again to close the study card.',
-        'Tap another verse while the card is open to build a multi-verse selection.',
+        'Tap a verse to open the study card for that verse.',
+        'Tap the same verse again to close the card, or tap another verse to add to your selection.',
         `Your saved items currently total ${highlightedVerses.length + bookmarkedVerses.length + Object.keys(verseNotes).length}. Highlights, bookmarks, and notes all show up in My Stuff.`,
       ],
       actionLabel: 'Replay example',
@@ -1629,9 +1674,11 @@ export default function BibleApp() {
       title: 'Review My Stuff',
       description: 'This step opens My Stuff so the user can see where account controls, reading rhythm, and saved items live.',
       tips: [
-        accountProfile ? `You are signed in as ${accountProfile.display_name || accountProfile.email}.` : 'If you sign in, your study data can sync instead of staying only on this device.',
-        'Use Saved to jump back to anything you highlighted or annotated.',
-        'You can edit your daily reading goal from the Reading rhythm card.',
+        'Saved lists highlights, bookmarks, and notes so you can jump back to any passage.',
+        'Reading rhythm tracks your streak and daily chapter goal in one place.',
+        accountProfile
+          ? `Profile: ${accountProfile.display_name || accountProfile.email}.`
+          : 'Account sync keeps study data across devices when you use the same profile.',
       ],
       actionLabel: 'Replay example',
     },
@@ -1662,12 +1709,13 @@ export default function BibleApp() {
     {
       id: 'home',
       title: 'Home',
-      instruction: 'Start here. Tap the daily verse or Continue where you left off to jump back into reading.',
+      instruction:
+        'Verse of the day, your streak and daily chapter goal, and Continue where you left off are highlighted here—tap any of them to start or resume reading.',
     },
     {
       id: 'reader',
-      title: 'Reader',
-      instruction: `Use the top bar to change the book or switch translations like ${translation}.`,
+      title: 'Translation',
+      instruction: `Tap the translation control next to the book (${getTranslationDisplayId(translation)}) to choose another Bible version.`,
     },
     {
       id: 'search',
@@ -1677,7 +1725,7 @@ export default function BibleApp() {
     {
       id: 'verse-tools',
       title: 'Verse Tools',
-      instruction: 'Tap a verse to open this card, then highlight it, add a note, open commentary, or ask AI.',
+      instruction: `John 3:${TUTORIAL_VERSE_TOOLS_VERSE} is outlined below—tap it to open the study card. Use the preview buttons to see what each tool does (they won’t run until you open the card).`,
     },
     {
       id: 'commentary',
@@ -1692,80 +1740,186 @@ export default function BibleApp() {
     {
       id: 'study',
       title: 'My Stuff',
-      instruction: accountProfile
-        ? 'Your saved verses, notes, and reading rhythm are all collected here.'
-        : 'Sign in here to sync your saved verses, notes, and reading progress.',
+      instruction:
+        'Your highlights, notes, bookmarks, and reading streak live here. With an account you can sync study data across devices, manage your profile, and keep your rhythm in one place.',
     },
     {
       id: 'settings',
       title: 'Settings',
       instruction: 'Adjust theme, text size, layout, and effects here to make reading feel right.',
     },
-  ]), [accountProfile, personalityId, translation]);
+  ]), [personalityId, translation]);
 
   const tutorialStep = tutorialSteps[tutorialStepIndex] ?? tutorialSteps[0];
+  /** Verse Tools step: after user opens the study card, spotlight targets the card instead of the verse line. */
+  const tutorialVerseToolsStudyOpen =
+    tutorialOpen &&
+    tutorialStep.id === 'verse-tools' &&
+    selectedVerse !== null &&
+    versePopupPos !== null;
+  const tutorialVerseToolsNavBlocked = tutorialOpen && tutorialStep.id === 'verse-tools';
   const spotlightOnRight = readerSettings.sidePanelPosition === 'right';
-  const [tutorialMeasuredRect, setTutorialMeasuredRect] = useState<TutorialRect | null>(null);
-  const tutorialFallbackRect = useMemo<TutorialRect>(() => {
+  const [tutorialSpotBounds, setTutorialSpotBounds] = useState<{
+    top: number;
+    left: number;
+    width: number;
+    height: number;
+  } | null>(null);
+
+  const tutorialFallbackBounds = useMemo(() => {
+    if (typeof window === 'undefined') {
+      return { top: 80, left: 16, width: 400, height: 300 };
+    }
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
     switch (tutorialStep.id) {
       case 'home':
-        return { top: '88px', left: 'max(20px, calc(50% - 280px))', width: 'min(560px, calc(100vw - 40px))', height: 'calc(100vh - 180px)' };
+        return { top: 72, left: Math.max(20, vw / 2 - 260), width: Math.min(520, vw - 40), height: vh - 160 };
       case 'reader':
-        return { top: '66px', left: '16px', width: 'calc(100vw - 32px)', height: 'calc(100vh - 140px)' };
+        return { top: 56, left: 16, width: vw - 32, height: vh - 120 };
       case 'search':
-        return { top: '64px', left: 'calc(100vw - min(540px, calc(100vw - 24px)) - 12px)', width: 'min(540px, calc(100vw - 24px))', height: '320px' };
+        return { top: 64, left: Math.max(12, vw - Math.min(540, vw - 24) - 12), width: Math.min(540, vw - 24), height: 320 };
       case 'verse-tools':
-        return { top: '150px', left: 'calc(50% + 12px)', width: '280px', height: '340px' };
+        return { top: 150, left: vw / 2 + 12, width: 280, height: 340 };
       case 'commentary':
       case 'ai':
       case 'study':
         return spotlightOnRight
-          ? { top: '64px', left: 'calc(100vw - min(42vw, 560px))', width: 'min(42vw, 560px)', height: 'calc(100vh - 124px)' }
-          : { top: '64px', left: '0', width: 'min(42vw, 560px)', height: 'calc(100vh - 124px)' };
+          ? { top: 64, left: vw - Math.min(vw * 0.42, 560), width: Math.min(vw * 0.42, 560), height: vh - 124 }
+          : { top: 64, left: 0, width: Math.min(vw * 0.42, 560), height: vh - 124 };
       case 'settings':
-        return { top: '72px', left: 'max(20px, calc(50% - 260px))', width: 'min(520px, calc(100vw - 40px))', height: 'calc(100vh - 144px)' };
+        return { top: 72, left: Math.max(20, vw / 2 - 260), width: Math.min(520, vw - 40), height: vh - 144 };
       default:
-        return { top: '96px', left: '24px', width: '320px', height: '220px' };
+        return { top: 96, left: 24, width: 320, height: 220 };
     }
   }, [spotlightOnRight, tutorialStep.id]);
-  const tutorialSpotRect = tutorialMeasuredRect ?? tutorialFallbackRect;
 
-  useEffect(() => {
+  const tutorialSpotRect = useMemo(
+    () => boundsToTutorialRect(tutorialSpotBounds ?? tutorialFallbackBounds),
+    [tutorialSpotBounds, tutorialFallbackBounds],
+  );
+
+  useLayoutEffect(() => {
     if (!tutorialOpen) {
-      setTutorialMeasuredRect(null);
+      setTutorialSpotBounds(null);
       return;
     }
-    const shouldMeasureSidePane =
-      tutorialStep.id === 'commentary' || tutorialStep.id === 'ai' || tutorialStep.id === 'study';
-    if (!shouldMeasureSidePane) {
-      setTutorialMeasuredRect(null);
-      return;
-    }
-
-    const measure = () => {
-      const rect = sidePaneRef.current?.getBoundingClientRect();
-      if (!rect || rect.width <= 0 || rect.height <= 0) {
-        setTutorialMeasuredRect(null);
-        return;
+    const id = tutorialStep.id;
+    const getTarget = (): HTMLElement | null => {
+      switch (id) {
+        case 'home':
+          return tutorialHomeSpotRef.current;
+        case 'reader':
+          return versionBtnRef.current;
+        case 'search':
+          return searchPanelRef.current;
+        case 'verse-tools': {
+          if (selectedVerse !== null && versePopupPos !== null && verseStudyPopupRef.current) {
+            return verseStudyPopupRef.current;
+          }
+          return (
+            readerPassagesRef.current?.querySelector<HTMLElement>(
+              `[data-verse="${TUTORIAL_VERSE_TOOLS_VERSE}"]`,
+            ) ?? null
+          );
+        }
+        case 'commentary':
+        case 'ai':
+        case 'study':
+          return sidePaneRef.current;
+        case 'settings':
+          return settingsPanelRef.current;
+        default:
+          return null;
       }
-      setTutorialMeasuredRect(rectToTutorialRect(rect));
     };
 
-    const rafId = window.requestAnimationFrame(measure);
-    const settleId = window.setTimeout(measure, 320);
-    const handleResize = () => measure();
-    const pane = sidePaneRef.current;
+    const measure = () => {
+      const el = getTarget();
+      if (!el) {
+        setTutorialSpotBounds(null);
+        return;
+      }
+      void el.offsetHeight;
+      const rect = el.getBoundingClientRect();
+      if (rect.width < 2 || rect.height < 2) {
+        setTutorialSpotBounds(null);
+        return;
+      }
+      if (id === 'verse-tools') {
+        const pad = selectedVerse !== null && versePopupPos !== null ? 8 : 6;
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        const top = Math.max(0, rect.top - pad);
+        const left = Math.max(0, rect.left - pad);
+        const right = Math.min(vw, rect.right + pad);
+        const bottom = Math.min(vh, rect.bottom + pad);
+        setTutorialSpotBounds({
+          top,
+          left,
+          width: Math.max(0, right - left),
+          height: Math.max(0, bottom - top),
+        });
+        return;
+      }
+      setTutorialSpotBounds({
+        top: rect.top,
+        left: rect.left,
+        width: rect.width,
+        height: rect.height,
+      });
+    };
 
-    window.addEventListener('resize', handleResize);
+    measure();
+    const el = getTarget();
+    const rafId = window.requestAnimationFrame(measure);
+    const settleId = window.setTimeout(measure, 360);
+    const verseExtraTimers: number[] =
+      id === 'verse-tools'
+        ? [120, 260, 520].map(ms => window.setTimeout(measure, ms))
+        : [];
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(measure) : null;
+    const observeTarget =
+      el ??
+      (id === 'verse-tools'
+        ? selectedVerse !== null && versePopupPos !== null
+          ? verseStudyPopupRef.current
+          : readerPassagesRef.current
+        : null);
+    if (observeTarget && ro) ro.observe(observeTarget);
+    const pane = sidePaneRef.current;
+    window.addEventListener('resize', measure);
+    window.addEventListener('scroll', measure, true);
     pane?.addEventListener('transitionend', measure);
 
     return () => {
       window.cancelAnimationFrame(rafId);
       window.clearTimeout(settleId);
-      window.removeEventListener('resize', handleResize);
+      verseExtraTimers.forEach(t => window.clearTimeout(t));
+      ro?.disconnect();
+      window.removeEventListener('resize', measure);
+      window.removeEventListener('scroll', measure, true);
       pane?.removeEventListener('transitionend', measure);
     };
-  }, [sidePaneWidth, sidePanelMode, tutorialOpen, tutorialStep.id]);
+  }, [
+    chapterData?.book,
+    chapterData?.chapter,
+    chapterLoading,
+    chapterSpreadIndex,
+    homeScreenActive,
+    isPaneTransitioning,
+    pagedPageSlices,
+    readerSettings.readingMode,
+    searchOpen,
+    settingsOpen,
+    sidePanelMode,
+    sidePaneWidth,
+    tutorialOpen,
+    tutorialStep.id,
+    selectedVerse,
+    versePopupPos,
+    showVerseNoteEditor,
+  ]);
 
   /** CSS custom-property vars passed to the overlay container so pieces can use them. */
   const tutorialOverlayVars = useMemo<CSSProperties>(() => ({
@@ -1783,8 +1937,32 @@ export default function BibleApp() {
     height: tutorialSpotRect.height,
   }), [tutorialSpotRect]);
 
+  /** Verse Tools: four transparent hit targets leave the spotlight hole clickable (full-screen catcher blocks it). */
+  const tutorialVerseToolsBlockers = useMemo(() => {
+    if (tutorialStep.id !== 'verse-tools' || !tutorialSpotBounds) return null;
+    if (typeof window === 'undefined') return null;
+    const b = tutorialSpotBounds;
+    const vh = window.innerHeight;
+    const vw = window.innerWidth;
+    return {
+      top: { top: 0, left: 0, width: vw, height: b.top },
+      bottom: {
+        top: b.top + b.height,
+        left: 0,
+        width: vw,
+        height: Math.max(0, vh - b.top - b.height),
+      },
+      left: { top: b.top, left: 0, width: b.left, height: b.height },
+      right: {
+        top: b.top,
+        left: b.left + b.width,
+        width: Math.max(0, vw - b.left - b.width),
+        height: b.height,
+      },
+    };
+  }, [tutorialStep.id, tutorialSpotBounds]);
+
   const runTutorialStepAction = useCallback((stepId: string) => {
-    tutorialVersePreviewStepRef.current = null;
     setSearchError(null);
     setSearchResults([]);
     switch (stepId) {
@@ -1796,23 +1974,22 @@ export default function BibleApp() {
         openReaderFromHome('none');
         break;
       case 'verse-tools':
-        navigateToPassage('John', 3, 'WEB', 16);
+        navigateToPassage('John', 3, 'WEB', TUTORIAL_VERSE_TOOLS_VERSE);
         openReaderFromHome('none');
         setSelectedVerse(null);
         setSelectedVerseGroup([]);
         setVersePopupPos(null);
-        tutorialVersePreviewStepRef.current = tutorialStepIndex;
         break;
       case 'search':
         setSearchQuery('Romans 8:28');
         openSearchFromTutorial();
         break;
       case 'commentary':
-        navigateToPassage('John', 3, 'WEB', 16);
+        navigateToPassage('John', 3, 'WEB', TUTORIAL_VERSE_TOOLS_VERSE);
         openReaderFromHome('commentary');
         break;
       case 'ai':
-        navigateToPassage('John', 3, 'WEB', 16);
+        navigateToPassage('John', 3, 'WEB', TUTORIAL_VERSE_TOOLS_VERSE);
         openReaderFromHome('ai');
         setAiComposerSeed({
           id: Date.now(),
@@ -1820,7 +1997,7 @@ export default function BibleApp() {
         });
         break;
       case 'study':
-        navigateToPassage('John', 3, 'WEB', 16);
+        navigateToPassage('John', 3, 'WEB', TUTORIAL_VERSE_TOOLS_VERSE);
         openStudyFromTutorial();
         break;
       case 'settings':
@@ -1846,28 +2023,43 @@ export default function BibleApp() {
 
   useEffect(() => {
     if (!tutorialOpen || tutorialStep.id !== 'verse-tools') return;
-    if (tutorialVersePreviewStepRef.current !== tutorialStepIndex) return;
     if (homeScreenActive || chapterLoading || chapterError) return;
     if (chapterData?.book !== 'John' || chapterData.chapter !== 3) return;
-    const rafId = window.requestAnimationFrame(() => {
-      const verseEl = readerPassagesRef.current?.querySelector<HTMLElement>('[data-verse="16"]');
+    if (selectedVerse !== null && versePopupPos !== null) return;
+
+    const centerVerse = () => {
+      const verseEl = readerPassagesRef.current?.querySelector<HTMLElement>(
+        `[data-verse="${TUTORIAL_VERSE_TOOLS_VERSE}"]`,
+      );
       if (!verseEl) return;
-      verseEl.scrollIntoView({ block: 'center', behavior: 'smooth' });
-      window.setTimeout(() => {
-        verseEl.click();
-      }, 180);
-    });
-    tutorialVersePreviewStepRef.current = null;
-    return () => window.cancelAnimationFrame(rafId);
-  }, [chapterData, chapterError, chapterLoading, homeScreenActive, tutorialOpen, tutorialStep.id, tutorialStepIndex]);
+      scrollVerseLineIntoBiblePaneCenter(verseEl, biblePaneRef.current);
+    };
+
+    const t0 = window.setTimeout(centerVerse, 0);
+    const t1 = window.setTimeout(centerVerse, 100);
+    const t2 = window.setTimeout(centerVerse, 400);
+    const t3 = window.setTimeout(centerVerse, 650);
+    return () => {
+      window.clearTimeout(t0);
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+      window.clearTimeout(t3);
+    };
+  }, [
+    chapterData,
+    chapterError,
+    chapterLoading,
+    homeScreenActive,
+    selectedVerse,
+    tutorialOpen,
+    tutorialStep.id,
+    tutorialStepIndex,
+    versePopupPos,
+  ]);
 
   useEffect(() => {
     if (!tutorialOpen) return;
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setTutorialOpen(false);
-        return;
-      }
       if (event.key === 'ArrowRight') {
         setTutorialStepIndex(index => Math.min(index + 1, tutorialSteps.length - 1));
         return;
@@ -1879,6 +2071,34 @@ export default function BibleApp() {
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [tutorialOpen, tutorialSteps.length]);
+
+  useEffect(() => {
+    if (!tutorialOpen) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [tutorialOpen]);
+
+  useEffect(() => {
+    if (!tutorialOpen) return;
+    const blockScroll = (e: WheelEvent | TouchEvent) => {
+      if (tutorialStep.id === 'verse-tools' && biblePaneRef.current) {
+        const target = e.target;
+        if (target instanceof Node && biblePaneRef.current.contains(target)) {
+          return;
+        }
+      }
+      e.preventDefault();
+    };
+    document.addEventListener('wheel', blockScroll, { passive: false });
+    document.addEventListener('touchmove', blockScroll, { passive: false });
+    return () => {
+      document.removeEventListener('wheel', blockScroll);
+      document.removeEventListener('touchmove', blockScroll);
+    };
+  }, [tutorialOpen, tutorialStep.id]);
 
   const toggleReaderFocus = useCallback(() => {
     if (sidePanelModeRef.current === 'none') {
@@ -4348,6 +4568,7 @@ export default function BibleApp() {
       </div>
       {selectedVerseData && currentBook && versePopupPos && (
         <section
+          ref={verseStudyPopupRef}
           className="verse-study-card verse-study-popup"
           style={{ top: versePopupPos.top, left: versePopupPos.left }}
         >
@@ -4368,7 +4589,16 @@ export default function BibleApp() {
           </div>
           <div className="verse-study-actions">
             <div className="verse-highlight-row">
-              <button className={`verse-action-btn${selectedVerseHighlighted ? ' active' : ''}`} type="button" onClick={toggleVerseHighlight}>
+              <button
+                className={`verse-action-btn${selectedVerseHighlighted ? ' active' : ''}`}
+                type="button"
+                title={
+                  tutorialVerseToolsNavBlocked
+                    ? 'Add or remove a highlight on this verse using your current highlight color (set in Settings).'
+                    : undefined
+                }
+                onClick={toggleVerseHighlight}
+              >
                 <span className="verse-action-icon verse-action-icon--fill" aria-hidden="true">
                   <svg viewBox="0 0 24 24">
                     <path d="M19 21 12 16.89 5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16Z" />
@@ -4389,7 +4619,16 @@ export default function BibleApp() {
                 ))}
               </div>
             </div>
-            <button className="verse-action-btn" type="button" onClick={copySelectedVerse}>
+            <button
+              className="verse-action-btn"
+              type="button"
+              title={
+                tutorialVerseToolsNavBlocked
+                  ? 'Copy verse text to the clipboard or use your device share sheet.'
+                  : undefined
+              }
+              onClick={copySelectedVerse}
+            >
               <span className="verse-action-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24">
                   <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
@@ -4399,7 +4638,20 @@ export default function BibleApp() {
               </span>
               Share
             </button>
-            <button className="verse-action-btn" type="button" onClick={() => openSidePanel('commentary')}>
+            <button
+              className="verse-action-btn"
+              type="button"
+              aria-disabled={tutorialVerseToolsNavBlocked}
+              title={
+                tutorialVerseToolsNavBlocked
+                  ? 'Opens commentary for this chapter in the side panel, synced to what you read. Disabled during the guided tour so you can focus on highlights and notes here.'
+                  : undefined
+              }
+              onClick={() => {
+                if (tutorialVerseToolsNavBlocked) return;
+                openSidePanel('commentary');
+              }}
+            >
               <span className="verse-action-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24">
                   <path d="M6 7.5h9" /><path d="M6 11h12" /><path d="M6 14.5h8" />
@@ -4411,7 +4663,14 @@ export default function BibleApp() {
             <button
               className="verse-action-btn"
               type="button"
+              aria-disabled={tutorialVerseToolsNavBlocked}
+              title={
+                tutorialVerseToolsNavBlocked
+                  ? 'Opens the AI assistant with your selected verse text. Disabled during the guided tour so you can explore the rest of this card first.'
+                  : undefined
+              }
               onClick={() => {
+                if (tutorialVerseToolsNavBlocked) return;
                 openSidePanel('ai');
                 const sorted = [...selectedVerseGroup].sort((a, b) => a - b);
                 const verseTexts = sorted
@@ -4782,9 +5041,15 @@ export default function BibleApp() {
 
   const chromeOverlaysOpen =
     bookPopupOpen || versionPopupOpen || searchOpen || settingsOpen;
+  const tutorialPinsReaderChrome =
+    tutorialOpen &&
+    !homeScreenActive &&
+    (tutorialStep.id === 'reader' ||
+      tutorialStep.id === 'verse-tools' ||
+      tutorialStep.id === 'search');
   const chromeBottomPinned = ttsVoiceOpen;
   const chromeTopVisible =
-    homeScreenActive || chromeOverlaysOpen || chromeTopShown;
+    homeScreenActive || chromeOverlaysOpen || chromeTopShown || tutorialPinsReaderChrome;
   const chromeBottomVisible =
     homeScreenActive || chromeOverlaysOpen || chromeBottomPinned || chromeBottomShown;
   const contentShellChromeHidden =
@@ -4827,51 +5092,56 @@ export default function BibleApp() {
                 </button>
               </span>
             </header>
-            <section className="home-screen-card reader-dashboard-card home-daily-verse-card" aria-labelledby="home-daily-verse-heading">
-              <h2 id="home-daily-verse-heading" className="reader-dashboard-label">Verse of the day</h2>
-              <p className="home-daily-verse-text">{dailyVerse.text}</p>
-              <button
-                type="button"
-                className="home-daily-verse-ref"
-                onClick={() => {
-                  const didNavigate = navigateToPassage(dailyVerse.book, dailyVerse.chapter, translation, dailyVerse.verse);
-                  if (didNavigate) openReaderFromHome('none');
-                }}
-              >
-                {dailyVerse.book} {dailyVerse.chapter}:{dailyVerse.verse}
-              </button>
-            </section>
-            <section className="home-screen-card reader-dashboard-card" aria-labelledby="home-streak-heading">
-              <h2 id="home-streak-heading" className="reader-dashboard-label">Your streak</h2>
-              <p className="reader-dashboard-title">{readingProgress.streak} day streak</p>
-              <p className="home-screen-card-caption">{readingRhythmTitle}</p>
-              <div className="reader-dashboard-metrics">
-                <span className="reader-pill">
-                  {chaptersToday} of {dailyGoalChapters} {dailyGoalChapters === 1 ? 'chapter' : 'chapters'} today
-                </span>
-              </div>
-            </section>
-            <section className="home-screen-card reader-dashboard-card" aria-labelledby="home-continue-heading">
-              <h2 id="home-continue-heading" className="reader-dashboard-label">Continue where you left off</h2>
-              {chapterLoading && !chapterData ? (
-                <div className="home-continue-loading">
-                  <span className="spinner" aria-hidden="true" />
-                  <span>Loading your place…</span>
-                </div>
-              ) : currentBook ? (
+            <div ref={tutorialHomeSpotRef} className="tutorial-home-highlight-region">
+              <section className="home-screen-card reader-dashboard-card home-daily-verse-card" aria-labelledby="home-daily-verse-heading">
+                <h2 id="home-daily-verse-heading" className="reader-dashboard-label">Verse of the day</h2>
+                <p className="home-daily-verse-text">{dailyVerse.text}</p>
                 <button
                   type="button"
-                  className="home-continue-btn"
-                  onClick={() => openReaderFromHome('none')}
+                  className="home-daily-verse-ref"
+                  onClick={() => {
+                    const didNavigate = navigateToPassage(dailyVerse.book, dailyVerse.chapter, translation, dailyVerse.verse);
+                    if (didNavigate) openReaderFromHome('none');
+                  }}
                 >
-                  <span className="home-continue-ref">{currentBookLabel} {chapter}</span>
-                  <span className="home-continue-meta">{currentTranslationLabel}</span>
+                  {dailyVerse.book} {dailyVerse.chapter}:{dailyVerse.verse}
                 </button>
-              ) : (
-                <p className="home-continue-empty">Open the reader and pick a book to start.</p>
-              )}
-            </section>
-            <section className="home-screen-card tutorial-home-card" aria-labelledby="home-tutorial-heading">
+              </section>
+              <section className="home-screen-card reader-dashboard-card" aria-labelledby="home-streak-heading">
+                <h2 id="home-streak-heading" className="reader-dashboard-label">Your streak</h2>
+                <p className="reader-dashboard-title">{readingProgress.streak} day streak</p>
+                <p className="home-screen-card-caption">{readingRhythmTitle}</p>
+                <div className="reader-dashboard-metrics">
+                  <span className="reader-pill">
+                    {chaptersToday} of {dailyGoalChapters} {dailyGoalChapters === 1 ? 'chapter' : 'chapters'} today
+                  </span>
+                </div>
+              </section>
+              <section className="home-screen-card reader-dashboard-card" aria-labelledby="home-continue-heading">
+                <h2 id="home-continue-heading" className="reader-dashboard-label">Continue where you left off</h2>
+                {chapterLoading && !chapterData ? (
+                  <div className="home-continue-loading">
+                    <span className="spinner" aria-hidden="true" />
+                    <span>Loading your place…</span>
+                  </div>
+                ) : currentBook ? (
+                  <button
+                    type="button"
+                    className="home-continue-btn"
+                    onClick={() => openReaderFromHome('none')}
+                  >
+                    <span className="home-continue-ref">{currentBookLabel} {chapter}</span>
+                    <span className="home-continue-meta">{currentTranslationLabel}</span>
+                  </button>
+                ) : (
+                  <p className="home-continue-empty">Open the reader and pick a book to start.</p>
+                )}
+              </section>
+            </div>
+            <section
+              className="home-screen-card tutorial-home-card"
+              aria-labelledby="home-tutorial-heading"
+            >
               <div className="tutorial-home-copy">
                 <h2 id="home-tutorial-heading" className="reader-dashboard-label">Guided tour</h2>
                 <p className="tutorial-home-title">Learn every feature in a few quick steps.</p>
@@ -5079,7 +5349,7 @@ export default function BibleApp() {
         className={`popup-overlay${searchOpen ? ' open' : ''}`}
         onClick={e => { if (e.target === e.currentTarget) setSearchOpen(false); }}
       >
-        <div className="search-panel search-dropdown-panel" id="nav-search-panel">
+        <div ref={searchPanelRef} className="search-panel search-dropdown-panel" id="nav-search-panel">
           <form
             className="search-form"
             onSubmit={event => {
@@ -5641,7 +5911,7 @@ export default function BibleApp() {
         className={`settings-overlay${settingsOpen ? ' open' : ''}`}
         onClick={e => { if (e.target === e.currentTarget) { setSettingsOpen(false); if (settingsOpenedFromHomeRef.current) setHomeScreenActive(true); } }}
       >
-        <div className="settings-panel">
+        <div ref={settingsPanelRef} className="settings-panel">
           <div className="settings-header">
             <span className="settings-title">Settings</span>
             <button className="settings-close" type="button" aria-label="Close settings" onClick={() => { setSettingsOpen(false); if (settingsOpenedFromHomeRef.current) setHomeScreenActive(true); }}>✕</button>
@@ -5802,8 +6072,53 @@ export default function BibleApp() {
           aria-modal="true"
           aria-labelledby="tutorial-title"
         >
-          <div className="tutorial-overlay-dimmer" style={tutorialSpotlightStyle} aria-hidden="true" />
-          <div className={`tutorial-spotlight tutorial-spotlight--${tutorialStep.id}`} style={tutorialSpotlightStyle} aria-hidden="true" />
+          {tutorialVerseToolsBlockers ? (
+            <>
+              {(['top', 'bottom', 'left', 'right'] as const).map(side => (
+                <div
+                  key={side}
+                  className={`tutorial-blocker tutorial-blocker--${side}`}
+                  style={tutorialVerseToolsBlockers[side]}
+                  aria-hidden="true"
+                  onPointerDown={e => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                  }}
+                />
+              ))}
+            </>
+          ) : (
+            <div
+              className="tutorial-pointer-catcher"
+              aria-hidden="true"
+              onPointerDown={e => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+            />
+          )}
+          <div
+            className={`tutorial-overlay-dimmer${
+              tutorialStep.id === 'verse-tools'
+                ? tutorialVerseToolsStudyOpen
+                  ? ' tutorial-overlay-dimmer--verse-tools-popup'
+                  : ' tutorial-overlay-dimmer--verse-tools-line'
+                : ''
+            }`}
+            style={tutorialSpotlightStyle}
+            aria-hidden="true"
+          />
+          <div
+            className={`tutorial-spotlight tutorial-spotlight--${tutorialStep.id}${
+              tutorialStep.id === 'verse-tools'
+                ? tutorialVerseToolsStudyOpen
+                  ? ' tutorial-spotlight--verse-tools-popup'
+                  : ' tutorial-spotlight--verse-tools-line'
+                : ''
+            }`}
+            style={tutorialSpotlightStyle}
+            aria-hidden="true"
+          />
           <section className={`tutorial-card tutorial-card--${tutorialStep.id}`}>
             <div className="tutorial-card-top">
               <div>
@@ -5818,7 +6133,64 @@ export default function BibleApp() {
                 ✕
               </button>
             </div>
-            <p className="tutorial-description">{tutorialStep.instruction}</p>
+            <p className="tutorial-description">
+              {tutorialStep.id === 'verse-tools' && tutorialVerseToolsStudyOpen
+                ? 'The study card is highlighted. Try Highlight, colors, Share, and notes. Commentary and Ask AI won’t leave this step during the tour—hover them to read what they do.'
+                : tutorialStep.instruction}
+            </p>
+            {tutorialStep.id === 'verse-tools' && !tutorialVerseToolsStudyOpen && (
+              <div className="tutorial-verse-tools-preview" aria-label="Verse tools preview">
+                <p className="tutorial-verse-tools-preview-hint">
+                  Preview — buttons are inactive; tap the outlined verse to use the real card.
+                </p>
+                <div className="tutorial-verse-tools-preview-row" role="group">
+                  <button
+                    type="button"
+                    className="tutorial-verse-tools-preview-btn"
+                    title="Highlights the verse with your chosen color. Change the default color in Settings."
+                    onClick={e => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                  >
+                    Highlight
+                  </button>
+                  <button
+                    type="button"
+                    className="tutorial-verse-tools-preview-btn"
+                    title="Copies the verse text or uses your device share sheet."
+                    onClick={e => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                  >
+                    Share
+                  </button>
+                  <button
+                    type="button"
+                    className="tutorial-verse-tools-preview-btn"
+                    title="Opens commentary for this chapter in the side panel, kept in sync with your reading."
+                    onClick={e => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                  >
+                    Commentary
+                  </button>
+                  <button
+                    type="button"
+                    className="tutorial-verse-tools-preview-btn"
+                    title="Sends the selected verse to the AI assistant with a helpful prompt."
+                    onClick={e => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                  >
+                    Ask AI
+                  </button>
+                </div>
+              </div>
+            )}
             <div className="tutorial-actions">
               <button
                 type="button"

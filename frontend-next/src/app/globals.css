@@ -395,6 +395,12 @@ html:has(.side-pane.open:hover) .ch-nav {
   line-height: 1.45;
   color: var(--muted);
 }
+.tutorial-home-highlight-region {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
 .tutorial-home-card {
   display: flex;
   flex-direction: column;
@@ -456,6 +462,24 @@ html:has(.side-pane.open:hover) .ch-nav {
   align-items: flex-end;
   justify-content: center;
   padding: 24px;
+  pointer-events: none;
+}
+.tutorial-pointer-catcher {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: auto;
+  cursor: default;
+  touch-action: none;
+}
+/* Verse Tools: four panes leave the spotlight hole free so the verse stays tappable */
+.tutorial-blocker {
+  position: fixed;
+  z-index: 2;
+  pointer-events: auto;
+  touch-action: none;
+  background: transparent;
+  cursor: default;
 }
 .tutorial-card {
   width: min(100%, 620px);
@@ -585,27 +609,37 @@ html:has(.side-pane.open:hover) .ch-nav {
   background: color-mix(in srgb, var(--accent-soft) 68%, var(--panel) 32%);
   color: var(--accent);
 }
-.tutorial-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 260;
-  pointer-events: none;
-}
 .tutorial-overlay-dimmer {
   position: fixed;
+  z-index: 1;
   border-radius: 24px;
   background: transparent;
   box-shadow: 0 0 0 9999px rgba(20, 14, 8, 0.45);
   pointer-events: none;
 }
+.tutorial-overlay-dimmer--verse-tools-line {
+  border-radius: 10px;
+}
+.tutorial-overlay-dimmer--verse-tools-popup {
+  border-radius: 22px;
+}
 .tutorial-spotlight {
   position: fixed;
+  z-index: 3;
   border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.72);
+  border: none;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.88);
   pointer-events: none;
+}
+.tutorial-spotlight--verse-tools-line {
+  border-radius: 10px;
+}
+.tutorial-spotlight--verse-tools-popup {
+  border-radius: 22px;
 }
 .tutorial-card {
   position: fixed;
+  z-index: 4;
   width: min(260px, calc(100vw - 24px));
   min-height: 0;
   max-height: none;
@@ -676,6 +710,43 @@ html:has(.side-pane.open:hover) .ch-nav {
 .tutorial-card--verse-tools {
   top: 136px;
   left: 12px;
+  max-width: min(320px, calc(100vw - 24px));
+}
+.tutorial-verse-tools-preview {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid color-mix(in srgb, var(--line) 88%, transparent);
+}
+.tutorial-verse-tools-preview-hint {
+  margin: 0 0 8px;
+  font-family: var(--ui);
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+.tutorial-verse-tools-preview-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.tutorial-verse-tools-preview-btn {
+  flex: 1 1 auto;
+  min-width: 72px;
+  padding: 6px 8px;
+  border: 1px solid color-mix(in srgb, var(--line) 85%, transparent);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--panel) 92%, transparent);
+  font-family: var(--ui);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: default;
+}
+.tutorial-verse-tools-preview-btn:hover,
+.tutorial-verse-tools-preview-btn:focus-visible {
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--line) 65%);
+  background: color-mix(in srgb, var(--accent-soft) 22%, var(--panel) 78%);
+  outline: none;
 }
 .tutorial-card--commentary,
 .tutorial-card--ai,
@@ -2272,6 +2343,13 @@ select.ai-add-chapter-input optgroup {
   background: var(--accent);
   color: #fff;
   border-color: var(--accent);
+}
+.verse-action-btn[aria-disabled='true'] {
+  cursor: help;
+  opacity: 0.92;
+}
+.verse-action-btn[aria-disabled='true']:hover {
+  transform: none;
 }
 .reader-onboarding {
   margin-bottom: 22px;
