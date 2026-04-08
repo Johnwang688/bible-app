@@ -32,6 +32,8 @@ class ChapterOut(BaseModel):
 class BookInfo(BaseModel):
     book_number: int
     name: str
+    name_zh: str | None = None
+    name_zh_simplified: str | None = None
     testament: str  # "OT" or "NT"
     total_chapters: int
 

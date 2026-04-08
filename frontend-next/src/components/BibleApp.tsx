@@ -36,10 +36,23 @@ import { parseReferenceLabel, sortBookNamesForMatching } from '@/lib/scriptureRe
 interface BookInfo {
   book_number: number;
   name: string;
+  name_zh?: string | null;
+  name_zh_simplified?: string | null;
   testament: 'OT' | 'NT';
   total_chapters: number;
 }
-interface Translation { id: string; name: string; }
+interface Translation { id: string; name: string; language?: string; }
+
+/** Not offered in the translation picker (may still appear in stored history / API). */
+const TRANSLATION_PICKER_EXCLUDED_IDS = new Set(['KJV', 'BSB']);
+
+function filterTranslationsForPicker(list: Translation[]): Translation[] {
+  return list.filter(t => !TRANSLATION_PICKER_EXCLUDED_IDS.has(t.id.toUpperCase()));
+}
+
+function normalizeTranslationChoice(id: string): string {
+  return TRANSLATION_PICKER_EXCLUDED_IDS.has(id.toUpperCase()) ? 'WEB' : id;
+}
 interface VerseData   { verse: number; text: string; }
 interface ChapterData { book: string; chapter: number; translation: string; verses: VerseData[]; }
 interface CommentaryEntry { verse_start: number; verse_end: number | null; content: string; }
@@ -631,6 +644,55 @@ function formatSearchSuggestionLabel(
   return `${book} ${chapter}${verseLabel}`;
 }
 
+function getChineseBookNameVariant(
+  translationId: string,
+  translationsById: Map<string, Translation>,
+) {
+  const upperId = translationId.toUpperCase();
+  const language = translationsById.get(translationId)?.language;
+  const upperName = translationsById.get(translationId)?.name.toUpperCase() ?? '';
+  if (upperId.includes('SIMP') || upperName.includes('SIMPLIFIED')) return 'simplified';
+  if (language === 'zh' || upperId === 'CUV' || upperId.includes('TRAD') || upperName.includes('TRADITIONAL')) {
+    return 'traditional';
+  }
+  return null;
+}
+
+function getTranslationDisplayId(translationId: string) {
+  const upperId = translationId.toUpperCase();
+  if (upperId === 'CUV' || upperId === 'CUV-TRAD' || upperId === 'CUV-SIMP') return 'CUV';
+  return translationId;
+}
+
+/** Strips publication-year suffix from display where we prefer a shorter label (e.g. ASV). */
+function getTranslationDisplayName(translationId: string, name: string) {
+  if (translationId.toUpperCase() !== 'ASV') return name;
+  return name.replace(/\s*\(1901\)\s*$/i, '').replace(/\s+1901\s*$/i, '').trim();
+}
+
+function getLocalizedBookName(
+  book: Pick<BookInfo, 'name' | 'name_zh' | 'name_zh_simplified'> | null | undefined,
+  translationId: string,
+  translationsById: Map<string, Translation>,
+) {
+  if (!book) return '';
+  const variant = getChineseBookNameVariant(translationId, translationsById);
+  if (variant === 'simplified') return book.name_zh_simplified ?? book.name_zh ?? book.name;
+  if (variant === 'traditional') return book.name_zh ?? book.name;
+  return book.name;
+}
+
+function getLocalizedBookNameFromRaw(
+  rawBookName: string | null | undefined,
+  translationId: string,
+  booksByName: Map<string, BookInfo>,
+  translationsById: Map<string, Translation>,
+) {
+  if (!rawBookName) return '';
+  const book = booksByName.get(rawBookName.toLowerCase());
+  return getLocalizedBookName(book ?? { name: rawBookName }, translationId, translationsById);
+}
+
 function parseSummaryContent(content: string) {
   const result = {
     title: '', summary: '',
@@ -1116,7 +1178,7 @@ export default function BibleApp() {
       pendingAiNavRef.current = null;
       setAiNavHighlight(null);
     }
-    const chosenTranslation = nextTranslation ?? translationRef.current;
+    const chosenTranslation = normalizeTranslationChoice(nextTranslation ?? translationRef.current);
     setCurrentBook(targetBook);
     setChapter(nextChapter);
     setTranslation(chosenTranslation);
@@ -1197,6 +1259,14 @@ export default function BibleApp() {
     closeSidePanel();
   }, [closeSidePanel, reopenLastSidePanel]);
 
+  const translationsById = useMemo(
+    () => new Map(translations.map(item => [item.id, item])),
+    [translations],
+  );
+  const booksByName = useMemo(
+    () => new Map(books.map(book => [book.name.toLowerCase(), book])),
+    [books],
+  );
   const bibleBooksForAi = useMemo(
     () => books.map(b => ({ name: b.name, total_chapters: b.total_chapters })),
     [books],
@@ -1970,10 +2040,11 @@ export default function BibleApp() {
       const latest = progressItems[0];
       const book = booksByNumber.get(latest.book_number);
       if (book) {
+        const t = normalizeTranslationChoice(latest.translation);
         setCurrentBook(book);
         setChapter(latest.chapter);
-        setTranslation(latest.translation);
-        void loadChapter(book, latest.chapter, latest.translation);
+        setTranslation(t);
+        void loadChapter(book, latest.chapter, t);
       }
     }
     queueMicrotask(() => {
@@ -2974,7 +3045,7 @@ export default function BibleApp() {
           fetch('/api/v1/commentary/sources').then(r => r.json()).catch(() => []) as Promise<CommentarySource[]>,
         ]);
         setBooks(booksData);
-        setTranslations(translationsData);
+        setTranslations(filterTranslationsForPicker(translationsData));
         if (sourcesData.length) {
           setCommentarySources(sourcesData);
           setCommentarySourceNames(prev => {
@@ -2983,7 +3054,7 @@ export default function BibleApp() {
             return next;
           });
         }
-        const initialTranslation = storedLastPosition?.translation ?? 'WEB';
+        const initialTranslation = normalizeTranslationChoice(storedLastPosition?.translation ?? 'WEB');
         const initialBook = booksData.find(b => b.name.toLowerCase() === storedLastPosition?.book?.toLowerCase())
           ?? booksData.find(b => b.book_number === 1)
           ?? booksData[0]
@@ -3185,7 +3256,7 @@ export default function BibleApp() {
           <div className="reader-dashboard-card">
             <div className="reader-dashboard-label">Current context</div>
             <div className="reader-dashboard-metrics">
-              <span className="reader-pill">{translation}</span>
+              <span className="reader-pill">{currentTranslationLabel}</span>
               <span className="reader-pill">{commentarySourceNames[commentarySource] ?? commentarySource}</span>
               <span className="reader-pill">{sidePanelMode === 'none' ? 'Reader focus' : `Open: ${sidePanelMode === 'ai' ? 'AI' : 'Commentary'}`}</span>
             </div>
@@ -3238,7 +3309,7 @@ export default function BibleApp() {
             </div>
           </section>
         )}
-        <div className="reader-book">{chapterData.book}</div>
+        <div className="reader-book">{chapterBookLabel}</div>
         <div className="reader-chapter">{chapterData.chapter}</div>
         {isBookMode ? (
           <div className="reader-book-spread" ref={readerPassagesRef}>
@@ -3307,17 +3378,6 @@ export default function BibleApp() {
           })}
           </div>
         )}
-        <div className="reader-chapter-next-row">
-          <button
-            className="reader-next-chapter-btn"
-            type="button"
-            aria-label="Next chapter"
-            disabled={!currentBook || !!isLastChapter()}
-            onClick={goNext}
-          >
-            Next Chapter
-          </button>
-        </div>
       </div>
       {selectedVerseData && currentBook && versePopupPos && (
         <section
@@ -3512,8 +3572,18 @@ export default function BibleApp() {
     if (sidePanelMode === 'study') return 'My Stuff';
     return 'Bible Companion';
   };
-  const sidePanelContext = currentBook ? `${currentBook.name} ${chapter} • ${translation}` : '';
-  const navLabel = currentBook ? `${currentBook.name} ${chapter}` : 'Select Book';
+  const currentBookLabel = currentBook
+    ? getLocalizedBookName(currentBook, translation, translationsById)
+    : '';
+  const chapterBookLabel = getLocalizedBookNameFromRaw(
+    chapterData?.book,
+    translation,
+    booksByName,
+    translationsById,
+  );
+  const currentTranslationLabel = getTranslationDisplayId(translation);
+  const sidePanelContext = currentBook ? `${currentBookLabel} ${chapter} • ${currentTranslationLabel}` : '';
+  const navLabel = currentBook ? `${currentBookLabel} ${chapter}` : 'Select Book';
 
   const sideOpen = sidePanelMode !== 'none';
   const sidePaneOnRight = readerSettings.sidePanelPosition === 'right';
@@ -3766,8 +3836,8 @@ export default function BibleApp() {
                   className="home-continue-btn"
                   onClick={() => openReaderFromHome('none')}
                 >
-                  <span className="home-continue-ref">{currentBook.name} {chapter}</span>
-                  <span className="home-continue-meta">{translation}</span>
+                  <span className="home-continue-ref">{currentBookLabel} {chapter}</span>
+                  <span className="home-continue-meta">{currentTranslationLabel}</span>
                 </button>
               ) : (
                 <p className="home-continue-empty">Open the reader and pick a book to start.</p>
@@ -3795,7 +3865,7 @@ export default function BibleApp() {
             type="button"
             onClick={e => { e.stopPropagation(); setBookPopupOpen(false); versionPopupOpen ? setVersionPopupOpen(false) : openVersionPopup(); }}
           >
-            <span className="nav-btn-label">{translation}</span>
+            <span className="nav-btn-label">{currentTranslationLabel}</span>
             <span className="chevron" aria-hidden="true" />
           </button>
         </div>
@@ -3865,7 +3935,7 @@ export default function BibleApp() {
                         type="button"
                         onClick={() => setExpandedBook(v => v === book.book_number ? null : book.book_number)}
                       >
-                        <span>{book.name}</span>
+                        <span>{getLocalizedBookName(book, translation, translationsById)}</span>
                         <span className="expand-arrow" aria-hidden="true" />
                       </button>
                       <div className={`chapter-picker${expandedBook === book.book_number ? ' open' : ''}`}>
@@ -3905,8 +3975,8 @@ export default function BibleApp() {
               type="button"
               onClick={() => pickTranslation(t.id)}
             >
-              <span className="v-abbr">{t.id}</span>
-              <span className="v-name">{t.name}</span>
+              <span className="v-abbr">{getTranslationDisplayId(t.id)}</span>
+              <span className="v-name">{getTranslationDisplayName(t.id, t.name)}</span>
               {t.id === translation && <span className="v-check">✓</span>}
             </button>
           ))}
@@ -4273,6 +4343,7 @@ export default function BibleApp() {
           ‹
         </button>
       </div>
+
       <div className={`ch-nav ch-nav-next${chromeVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}${sideOpen && sidePaneOnRight ? ' side-pane-open' : ''}`}>
         <button
           className="ch-nav-btn"
@@ -4281,7 +4352,7 @@ export default function BibleApp() {
           disabled={!currentBook || !!isLastChapter()}
           onClick={goNext}
         >
-          ›
+          &rsaquo;
         </button>
       </div>
 
