@@ -172,6 +172,12 @@ interface ReaderSettings {
   sidePanelPosition: SidePanelPosition;
   graphicsMode: GraphicsMode;
 }
+
+/** API / JSON may use plain `string`; runtime checks narrow to `ReaderSettings` literals. */
+type ReaderSettingsNormalizeInput = {
+  [K in keyof ReaderSettings]?:
+    ReaderSettings[K] extends string ? ReaderSettings[K] | string : ReaderSettings[K];
+};
 type SidePanelMode = 'none' | 'commentary' | 'ai' | 'study';
 type SidePanelPosition = 'left' | 'right';
 
@@ -303,7 +309,7 @@ function chapterStorageKey(book: string, chapter: number, translation: string) {
   return `${book}::${chapter}::${translation}`.toLowerCase();
 }
 
-function normalizeReaderSettings(raw: Partial<ReaderSettings> | null | undefined): ReaderSettings {
+function normalizeReaderSettings(raw: ReaderSettingsNormalizeInput | null | undefined): ReaderSettings {
   const rawFont = raw?.fontScale;
   let fontScale: ReaderFontPx = DEFAULT_READER_SETTINGS.fontScale;
   if (typeof rawFont === 'string') {
@@ -2484,7 +2490,7 @@ export default function BibleApp() {
     setHighlightedVerses(nextHighlights);
     setBookmarkedVerses(nextBookmarks);
     setVerseNotes(nextNotes);
-    setRecentPassages(settings.recent_passages.map(item => ({
+    setRecentPassages((settings.recent_passages ?? []).map(item => ({
       book: item.book,
       chapter: item.chapter,
       translation: item.translation,
@@ -4160,7 +4166,14 @@ export default function BibleApp() {
             isBusy={authBusy}
             error={authError}
             mode={authMode}
-            profile={accountProfile ? { email: accountProfile.email, display_name: accountProfile.display_name } : null}
+            profile={
+              accountProfile
+                ? {
+                    email: accountProfile.email ?? '',
+                    display_name: accountProfile.display_name ?? null,
+                  }
+                : null
+            }
             onModeChange={setAuthMode}
             onSignIn={handleAuthSignIn}
             onSignUp={handleAuthSignUp}
