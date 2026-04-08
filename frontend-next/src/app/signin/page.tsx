@@ -13,6 +13,7 @@ export default function SignInPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
+  const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
@@ -25,7 +26,7 @@ export default function SignInPage() {
         mode === 'signin'
           ? await signIn(email.trim(), password)
           : await signUp(email.trim(), password, displayName.trim() || undefined);
-      persistAuthSession(session);
+      persistAuthSession(session, mode === 'signin' ? rememberMe : true);
       router.replace('/app');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong.');
@@ -45,11 +46,9 @@ export default function SignInPage() {
           <h1 className="si-heading">
             {mode === 'signin' ? 'Welcome back' : 'Create an account'}
           </h1>
-          <p className="si-sub">
-            {mode === 'signin'
-              ? 'Sign in to sync your notes, highlights, and reading progress.'
-              : 'Join to save your study across devices.'}
-          </p>
+          {mode === 'signup' && (
+            <p className="si-sub">Join to save your study across devices.</p>
+          )}
 
           <div className="si-tab-row">
             <button
@@ -111,6 +110,17 @@ export default function SignInPage() {
                 onChange={e => setPassword(e.target.value)}
               />
             </div>
+
+            {mode === 'signin' && (
+              <label className="si-remember">
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={e => setRememberMe(e.target.checked)}
+                />
+                <span>Remember me on this device</span>
+              </label>
+            )}
 
             {error && <div className="si-error">{error}</div>}
 
@@ -242,6 +252,24 @@ export default function SignInPage() {
         }
         .si-input::placeholder { color: #505068; }
         .si-input:focus { border-color: rgba(200,169,126,0.5); }
+
+        .si-remember {
+          display: flex;
+          align-items: center;
+          gap: 0.55rem;
+          cursor: pointer;
+          font-size: 0.85rem;
+          font-weight: 500;
+          color: #9898b8;
+          user-select: none;
+        }
+        .si-remember input {
+          width: 1rem;
+          height: 1rem;
+          flex-shrink: 0;
+          accent-color: #c8a97e;
+          cursor: pointer;
+        }
 
         .si-error {
           background: rgba(220,60,60,0.12);

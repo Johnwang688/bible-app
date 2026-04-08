@@ -68,6 +68,7 @@ export default function LandingPage() {
       </footer>
 
       <style>{`
+        body { overflow: auto !important; height: auto !important; }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         .landing-root {
