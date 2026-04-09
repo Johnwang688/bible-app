@@ -1,6 +1,6 @@
 'use client';
 
-import type { CSSProperties, Dispatch, SetStateAction } from 'react';
+import type { CSSProperties, Dispatch, MutableRefObject, SetStateAction } from 'react';
 import Link from 'next/link';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import AiSidebar, {
@@ -9,7 +9,10 @@ import AiSidebar, {
   restorePersonalityId,
   type AIActionParams,
 } from './AiSidebar';
-import { STORAGE_KEYS } from '@/lib/storageKeys';import AuthPanel from './AuthPanel';
+import { STORAGE_KEYS } from '@/lib/storageKeys';
+import AuthPanel from './AuthPanel';
+import ChapterQuiz, { MasteryStrip } from './ChapterQuiz';
+import MasteryOverviewPanel from './MasteryOverviewPanel';
 import {
   type AccountProfile,
   type AuthSession,
@@ -137,6 +140,37 @@ type ReaderReadingMode = (typeof READING_MODE_IDS)[number];
 
 function isPagedReadingMode(mode: ReaderReadingMode): boolean {
   return mode === 'paged-single' || mode === 'paged-double';
+}
+
+/** Minimum visible time on a chapter before quiz; scales 20s–60s by verse count. */
+const CHAPTER_QUIZ_MIN_DWELL_MS = 20_000;
+const CHAPTER_QUIZ_MAX_DWELL_MS = 60_000;
+const CHAPTER_QUIZ_DWELL_VERSE_FLOOR = 30;
+const CHAPTER_QUIZ_DWELL_VERSE_CEIL = 150;
+
+function computeChapterQuizRequiredDwellMs(verseCount: number): number {
+  if (verseCount <= CHAPTER_QUIZ_DWELL_VERSE_FLOOR) return CHAPTER_QUIZ_MIN_DWELL_MS;
+  if (verseCount >= CHAPTER_QUIZ_DWELL_VERSE_CEIL) return CHAPTER_QUIZ_MAX_DWELL_MS;
+  const t =
+    (verseCount - CHAPTER_QUIZ_DWELL_VERSE_FLOOR) /
+    (CHAPTER_QUIZ_DWELL_VERSE_CEIL - CHAPTER_QUIZ_DWELL_VERSE_FLOOR);
+  return Math.round(CHAPTER_QUIZ_MIN_DWELL_MS + t * (CHAPTER_QUIZ_MAX_DWELL_MS - CHAPTER_QUIZ_MIN_DWELL_MS));
+}
+
+function biblePaneScrollDepthRatio(pane: HTMLElement): number {
+  const sh = pane.scrollHeight;
+  const ch = pane.clientHeight;
+  if (sh <= ch + 2) return 1;
+  return Math.min(1, (pane.scrollTop + ch) / sh);
+}
+
+type ChapterQuizVisitState = { visibleAccumMs: number; visibleStartedAt: number | null };
+
+function getChapterQuizVisibleMs(visitRef: MutableRefObject<ChapterQuizVisitState>): number {
+  const v = visitRef.current;
+  let ms = v.visibleAccumMs;
+  if (v.visibleStartedAt != null) ms += Date.now() - v.visibleStartedAt;
+  return ms;
 }
 
 /** Build paginated slices by filling a measurement div until scrollHeight exceeds pageHeight. */
@@ -1088,6 +1122,22 @@ export default function BibleApp({
   const [authBusy, setAuthBusy]             = useState(false);
   const [authError, setAuthError]           = useState<string | null>(null);
 
+  // ── Quiz ───
+  const [quizOpen, setQuizOpen] = useState(false);
+  const chapterQuizGateKeyRef = useRef('');
+  const chapterQuizVisitRef = useRef<ChapterQuizVisitState>({
+    visibleAccumMs: 0,
+    visibleStartedAt: null,
+  });
+  const chapterQuizScrollDepthMaxRef = useRef(0);
+  const chapterQuizPagedSpreadMaxRef = useRef(0);
+  /** Engaged seconds in AI/commentary panel (same pulses as daily goal); pairs with wall clock via Math.max. */
+  const chapterQuizSideEngagedDwellMsRef = useRef(0);
+  const chapterQuizHasChapterRef = useRef(false);
+  /** Bumps periodically so quiz gate UI (dwell timer) stays fresh. */
+  const [chapterQuizGateTick, setChapterQuizGateTick] = useState(0);
+  const homeScreenActiveRef = useRef(homeScreenActive);
+
   // ── Text-to-Speech ───
   const [ttsPlaying, setTtsPlaying]             = useState(false);
   const [ttsVoices, setTtsVoices]               = useState<SpeechSynthesisVoice[]>([]);
@@ -1214,6 +1264,10 @@ export default function BibleApp({
   useEffect(() => { pagedFlipAnimRef.current = pagedFlipAnim; },               [pagedFlipAnim]);
   useEffect(() => { chromeTopShownRef.current = chromeTopShown; },             [chromeTopShown]);
   useEffect(() => { chromeBottomShownRef.current = chromeBottomShown; },       [chromeBottomShown]);
+  useEffect(() => { homeScreenActiveRef.current = homeScreenActive; },         [homeScreenActive]);
+  useEffect(() => {
+    chapterQuizHasChapterRef.current = Boolean(chapterData?.verses?.length);
+  }, [chapterData?.verses?.length]);
 
   useEffect(() => {
     readerChromeCtxRef.current = {
@@ -1687,6 +1741,17 @@ export default function BibleApp({
       openSidePanel(panel);
     }
   }, [closeSidePanel, openSidePanel]);
+
+  const onMasteryChapterSelect = useCallback(
+    (bookNumber: number, nextChapter: number, nextTranslation: string) => {
+      const name = booksRef.current.find(b => b.book_number === bookNumber)?.name;
+      if (!name) return;
+      navigateToPassage(name, nextChapter, nextTranslation);
+      if (homeScreenActive) openReaderFromHome('none');
+      else closeSidePanel();
+    },
+    [navigateToPassage, homeScreenActive, openReaderFromHome, closeSidePanel],
+  );
 
   const goToHome = useCallback(() => {
     setHomeScreenActive(true);
@@ -2784,6 +2849,10 @@ export default function BibleApp({
       if (document.visibilityState !== 'visible') return;
       if (Date.now() - sidePanelEngagementActivityRef.current > MAX_ENGAGEMENT_GAP_MS) return;
       addSidePanelActiveLearning(1000);
+      if (chapterQuizHasChapterRef.current) {
+        chapterQuizSideEngagedDwellMsRef.current += 1000;
+        setChapterQuizGateTick((t) => t + 1);
+      }
     }, 1000);
     return () => clearInterval(id);
   }, [sidePanelMode, homeScreenActive, addSidePanelActiveLearning]);
@@ -3608,6 +3677,12 @@ export default function BibleApp({
         chapterData.verses.length,
       );
       scheduleCommentarySyncAfterScroll(commentaryEntriesRef.current);
+      const depth = biblePaneScrollDepthRatio(pane);
+      const prevDepthMax = chapterQuizScrollDepthMaxRef.current;
+      chapterQuizScrollDepthMaxRef.current = Math.max(prevDepthMax, depth);
+      if (prevDepthMax < 0.5 && chapterQuizScrollDepthMaxRef.current >= 0.5) {
+        setChapterQuizGateTick((t) => t + 1);
+      }
     };
     pane.addEventListener('scroll', onScroll, { passive: true });
     return () => pane.removeEventListener('scroll', onScroll);
@@ -3621,6 +3696,22 @@ export default function BibleApp({
     translation,
     updateTopVisibleVerse,
   ]);
+
+  useEffect(() => {
+    if (!chapterData || isPagedReadingMode(readerSettings.readingMode)) return;
+    const pane = biblePaneRef.current;
+    if (!pane) return;
+    const updateDepth = () => {
+      const d = biblePaneScrollDepthRatio(pane);
+      const prev = chapterQuizScrollDepthMaxRef.current;
+      chapterQuizScrollDepthMaxRef.current = Math.max(prev, d);
+      if (chapterQuizScrollDepthMaxRef.current > prev) setChapterQuizGateTick((t) => t + 1);
+    };
+    const ro = new ResizeObserver(() => requestAnimationFrame(updateDepth));
+    ro.observe(pane);
+    updateDepth();
+    return () => ro.disconnect();
+  }, [chapterData?.book, chapterData?.chapter, readerSettings.readingMode]);
 
   // ── Touch swipe + trackpad two-finger swipe ───────────────────────────────────
   useEffect(() => {
@@ -4469,6 +4560,136 @@ export default function BibleApp({
     setVersionPopupOpen(true);
   }, []);
 
+  // ── Chapter quiz gate (≥50% through chapter + visible dwell; dwell scales with verse count) ──
+  useEffect(() => {
+    if (!chapterData || !currentBook) return;
+    const key = `${currentBook.book_number}|${chapter}|${translation}|${readerSettings.readingMode}`;
+    if (chapterQuizGateKeyRef.current === key) return;
+    chapterQuizGateKeyRef.current = key;
+    chapterQuizScrollDepthMaxRef.current = 0;
+    chapterQuizPagedSpreadMaxRef.current = 0;
+    chapterQuizSideEngagedDwellMsRef.current = 0;
+    const docVisible = typeof document !== 'undefined' && document.visibilityState === 'visible';
+    chapterQuizVisitRef.current = {
+      visibleAccumMs: 0,
+      visibleStartedAt: docVisible && !homeScreenActiveRef.current ? Date.now() : null,
+    };
+  }, [
+    chapterData?.book,
+    chapterData?.chapter,
+    currentBook?.book_number,
+    chapter,
+    translation,
+    readerSettings.readingMode,
+  ]);
+
+  useEffect(() => {
+    const onVis = () => {
+      const v = chapterQuizVisitRef.current;
+      if (document.visibilityState === 'hidden') {
+        if (v.visibleStartedAt != null) {
+          v.visibleAccumMs += Date.now() - v.visibleStartedAt;
+          v.visibleStartedAt = null;
+        }
+      } else if (!homeScreenActiveRef.current && v.visibleStartedAt == null) {
+        v.visibleStartedAt = Date.now();
+      }
+    };
+    document.addEventListener('visibilitychange', onVis);
+    return () => document.removeEventListener('visibilitychange', onVis);
+  }, []);
+
+  useEffect(() => {
+    const v = chapterQuizVisitRef.current;
+    if (homeScreenActive) {
+      if (v.visibleStartedAt != null) {
+        v.visibleAccumMs += Date.now() - v.visibleStartedAt;
+        v.visibleStartedAt = null;
+      }
+      return;
+    }
+    if (typeof document === 'undefined') return;
+    if (document.visibilityState === 'visible' && v.visibleStartedAt == null) {
+      v.visibleStartedAt = Date.now();
+    }
+  }, [homeScreenActive]);
+
+  useEffect(() => {
+    if (homeScreenActive || !chapterData) return;
+    const id = window.setInterval(() => setChapterQuizGateTick((t) => t + 1), 500);
+    return () => clearInterval(id);
+  }, [homeScreenActive, chapterData?.book, chapterData?.chapter]);
+
+  useEffect(() => {
+    setQuizOpen(false);
+  }, [chapter, chapterData?.book, translation]);
+
+  useLayoutEffect(() => {
+    if (!chapterData || isPagedReadingMode(readerSettings.readingMode)) return;
+    const pane = biblePaneRef.current;
+    if (!pane) return;
+    const d = biblePaneScrollDepthRatio(pane);
+    chapterQuizScrollDepthMaxRef.current = Math.max(chapterQuizScrollDepthMaxRef.current, d);
+  }, [
+    chapterData?.book,
+    chapterData?.chapter,
+    chapterData?.verses,
+    readerSettings.readingMode,
+    pagedPageSlices,
+    chapterLoading,
+  ]);
+
+  useEffect(() => {
+    if (!isPagedReadingMode(readerSettings.readingMode) || !pagedPageSlices?.length) return;
+    const prev = chapterQuizPagedSpreadMaxRef.current;
+    chapterQuizPagedSpreadMaxRef.current = Math.max(prev, chapterSpreadIndex);
+    if (chapterQuizPagedSpreadMaxRef.current > prev) setChapterQuizGateTick((t) => t + 1);
+  }, [chapterSpreadIndex, pagedPageSlices, readerSettings.readingMode]);
+
+  const chapterQuizGate = useMemo(() => {
+    const verseCount = chapterData?.verses.length ?? 0;
+    const requiredMs = computeChapterQuizRequiredDwellMs(verseCount);
+    const wallMs = getChapterQuizVisibleMs(chapterQuizVisitRef);
+    const sideMs = chapterQuizSideEngagedDwellMsRef.current;
+    const visibleMs = Math.max(wallMs, sideMs);
+    const timeOk = visibleMs >= requiredMs;
+    const isPaged = isPagedReadingMode(readerSettings.readingMode);
+    const slicesLen = pagedPageSlices?.length ?? 0;
+    const spreadTotal =
+      isPaged && slicesLen > 0
+        ? readerSettings.readingMode === 'paged-double'
+          ? Math.ceil(slicesLen / 2)
+          : slicesLen
+        : 0;
+    const scrollMax = chapterQuizScrollDepthMaxRef.current;
+    let progressOk = false;
+    if (isPaged && spreadTotal > 0) {
+      progressOk = (chapterQuizPagedSpreadMaxRef.current + 1) / spreadTotal >= 0.5;
+    } else {
+      progressOk = scrollMax >= 0.5;
+    }
+    const met = timeOk && progressOk;
+    const remainingSec = Math.max(0, Math.ceil((requiredMs - visibleMs) / 1000));
+    const secWord = remainingSec === 1 ? 'second' : 'seconds';
+    let hint: string | null = null;
+    if (!met) {
+      if (!progressOk && !timeOk) {
+        hint = `Go through at least half of this chapter and read ${remainingSec} more ${secWord}.`;
+      } else if (!progressOk) {
+        hint = 'Go through at least half of this chapter to unlock the quiz.';
+      } else {
+        hint = `Read ${remainingSec} more ${secWord}.`;
+      }
+    }
+    return { met, hint, timeOk, progressOk, requiredMs, visibleMs };
+  }, [
+    chapterQuizGateTick,
+    chapterData?.verses.length,
+    readerSettings.readingMode,
+    chapterSpreadIndex,
+    pagedPageSlices?.length,
+  ]);
+
   // ── Render helpers ────────────────────────────────────────────────────────────
   const renderChapterContent = () => {
     if (chapterLoading) {
@@ -4540,6 +4761,54 @@ export default function BibleApp({
         </span>
       );
     };
+    const pagedLastSliceIndex =
+      isPaged && pagedPageSlices?.length ? pagedPageSlices.length - 1 : -1;
+    const showMasteryPagedSingle =
+      isPaged &&
+      !isPagedDouble &&
+      pagedLastSliceIndex >= 0 &&
+      chapterSpreadIndex === pagedLastSliceIndex;
+    const showMasteryPagedLeft =
+      isPaged &&
+      isPagedDouble &&
+      pagedLastSliceIndex >= 0 &&
+      chapterSpreadIndex * 2 === pagedLastSliceIndex;
+    const showMasteryPagedRight =
+      isPaged &&
+      isPagedDouble &&
+      pagedLastSliceIndex >= 0 &&
+      chapterSpreadIndex * 2 + 1 === pagedLastSliceIndex;
+    const readerMasteryBlockScroll =
+      authSession && currentBook && !chapterLoading && !chapterError ? (
+        <div className="reader-mastery-anchor reader-mastery-anchor--scroll">
+          <MasteryStrip
+            bookNumber={currentBook.book_number}
+            chapter={chapter}
+            session={authSession}
+            quizGateMet={chapterQuizGate.met}
+            quizGateHint={chapterQuizGate.hint}
+            onTakeQuiz={() => {
+              if (chapterQuizGate.met) setQuizOpen(true);
+            }}
+          />
+          <div className="reader-mastery-scroll-pad" aria-hidden />
+        </div>
+      ) : null;
+    const readerMasteryBlockPaged =
+      authSession && currentBook && !chapterLoading && !chapterError ? (
+        <div className="reader-mastery-anchor reader-mastery-anchor--paged">
+          <MasteryStrip
+            bookNumber={currentBook.book_number}
+            chapter={chapter}
+            session={authSession}
+            quizGateMet={chapterQuizGate.met}
+            quizGateHint={chapterQuizGate.hint}
+            onTakeQuiz={() => {
+              if (chapterQuizGate.met) setQuizOpen(true);
+            }}
+          />
+        </div>
+      ) : null;
     return (
       <>
       <div
@@ -4718,6 +4987,7 @@ export default function BibleApp({
                                   {pagedPageSlices[chapterSpreadIndex * 2].map(renderVerse)}
                                 </div>
                               </div>
+                              {showMasteryPagedLeft ? readerMasteryBlockPaged : null}
                               <div className="reader-paged-tail" aria-hidden />
                               <div className="reader-paged-col-footer">
                                 <span className="reader-paged-col-pagenum">
@@ -4737,6 +5007,7 @@ export default function BibleApp({
                                   {pagedPageSlices[chapterSpreadIndex * 2 + 1].map(renderVerse)}
                                 </div>
                               </div>
+                              {showMasteryPagedRight ? readerMasteryBlockPaged : null}
                               <div className="reader-paged-tail" aria-hidden />
                               <div className="reader-paged-col-footer">
                                 <span className="reader-paged-col-pagenum">
@@ -4757,6 +5028,7 @@ export default function BibleApp({
                               {pagedPageSlices[chapterSpreadIndex]?.map(renderVerse)}
                             </div>
                           </div>
+                          {showMasteryPagedSingle ? readerMasteryBlockPaged : null}
                           <div className="reader-paged-tail" aria-hidden />
                         </div>
                       </div>
@@ -4778,18 +5050,21 @@ export default function BibleApp({
             ) : null}
           </div>
         ) : isBookMode ? (
-          <div className="reader-book-spread" ref={readerPassagesRef}>
-            <section className="reader-book-page reader-book-page--left" aria-label="Left page">
-              <div className="reader-passages reader-passages--book">
-                {leftPageVerses.map(renderVerse)}
-              </div>
-            </section>
-            <section className="reader-book-page reader-book-page--right" aria-label="Right page">
-              <div className="reader-passages reader-passages--book">
-                {rightPageVerses.map(renderVerse)}
-              </div>
-            </section>
-          </div>
+          <>
+            <div className="reader-book-spread" ref={readerPassagesRef}>
+              <section className="reader-book-page reader-book-page--left" aria-label="Left page">
+                <div className="reader-passages reader-passages--book">
+                  {leftPageVerses.map(renderVerse)}
+                </div>
+              </section>
+              <section className="reader-book-page reader-book-page--right" aria-label="Right page">
+                <div className="reader-passages reader-passages--book">
+                  {rightPageVerses.map(renderVerse)}
+                </div>
+              </section>
+            </div>
+            {readerMasteryBlockScroll}
+          </>
         ) : (
           <div className="reader-passages" ref={readerPassagesRef}>
           {chapterData.verses.map(v => {
@@ -4842,6 +5117,7 @@ export default function BibleApp({
               </span>
             );
           })}
+          {readerMasteryBlockScroll}
           </div>
         )}
       </div>
@@ -5364,6 +5640,16 @@ export default function BibleApp({
           </div>
         </section>
 
+        <section className="mystuff-section mystuff-mastery-section">
+          <div className="reader-dashboard-card mastery-overview-card">
+            <MasteryOverviewPanel
+              session={authSession}
+              translation={translation}
+              onChapterSelect={onMasteryChapterSelect}
+            />
+          </div>
+        </section>
+
         {/* Saved (highlights + notes) */}
         <section className="mystuff-section">
           <div className="mystuff-section-label">Saved ({savedEntries.length})</div>
@@ -5513,6 +5799,17 @@ export default function BibleApp({
                     />
                   )}
                 </div>
+              </section>
+              <section
+                className="home-screen-card reader-dashboard-card home-mastery-card"
+                aria-labelledby="home-mastery-heading"
+              >
+                <h2 id="home-mastery-heading" className="reader-dashboard-label">Mastery</h2>
+                <MasteryOverviewPanel
+                  session={authSession}
+                  translation={translation}
+                  onChapterSelect={onMasteryChapterSelect}
+                />
               </section>
               <section className="home-screen-card reader-dashboard-card" aria-labelledby="home-continue-heading">
                 <h2 id="home-continue-heading" className="reader-dashboard-label">Continue where you left off</h2>
@@ -6677,6 +6974,16 @@ export default function BibleApp({
           display: currentTheme === 'galaxy' || currentTheme === 'pink' ? 'block' : 'none',
         }}
       />
+
+      {/* Quiz modal */}
+      {quizOpen && authSession && currentBook && (
+        <ChapterQuiz
+          bookNumber={currentBook.book_number}
+          chapter={chapter}
+          session={authSession}
+          onClose={() => setQuizOpen(false)}
+        />
+      )}
     </>
   );
 }
