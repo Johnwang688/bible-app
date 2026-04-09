@@ -1,14 +1,15 @@
 'use client';
 
 import type { CSSProperties, Dispatch, SetStateAction } from 'react';
+import Link from 'next/link';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import AiSidebar, {
-  AI_PERSONALITY_STORAGE_KEY,
   MAX_MESSAGE_CHARS,
   PERSONALITIES,
   restorePersonalityId,
   type AIActionParams,
 } from './AiSidebar';
+import { STORAGE_KEYS } from '../lib/storageKeys';
 import AuthPanel from './AuthPanel';
 import {
   type AccountProfile,
@@ -55,9 +56,24 @@ function normalizeTranslationChoice(id: string): string {
 }
 interface VerseData   { verse: number; text: string; }
 interface ChapterData { book: string; chapter: number; translation: string; verses: VerseData[]; }
-interface CommentaryEntry { verse_start: number; verse_end: number | null; content: string; }
+interface SummaryEntityTag { slug: string; label: string; }
+interface CommentaryEntry {
+  id?: number;
+  source?: string;
+  verse_start: number;
+  verse_end: number | null;
+  content: string;
+  theme_tags?: SummaryEntityTag[] | null;
+  people_tags?: SummaryEntityTag[] | null;
+}
 interface CommentarySource { id: string; name: string; }
-interface ThemeDef { id: string; name: string; swatches: string[]; }
+interface ThemeDef {
+  id: string;
+  name: string;
+  swatches: string[];
+  /** Matches `--logo-color` in globals.css: white logo file on dark UIs, dark logo file on light UIs. */
+  logoColor: 'white' | 'dark';
+}
 interface SearchResult { verse: { book: string; chapter: number; verse: number; text: string; translation: string; }; relevance: number | null; }
 interface SearchSuggestion {
   id: string;
@@ -236,26 +252,26 @@ type SidePanelPosition = 'left' | 'right';
 
 // ── Constants ──────────────────────────────────────────────────────────────────
 const THEMES: ThemeDef[] = [
-  { id: 'default',   name: 'Default',         swatches: ['#faf7f0', '#efdfcb', '#6d4c31', '#221d16'] },
-  { id: 'dark',      name: 'Dark',            swatches: ['#16130f', '#342618', '#c9956a', '#ede8df'] },
-  { id: 'dynamic',   name: 'Dynamic',         swatches: ['#FBDED8', '#FBF8D8', '#E1F8D8', '#E1F8F2', '#E1DEF2', '#FBDEF2'] },
-  { id: 'pink',      name: 'Pastel Pink',     swatches: ['#ffe4eb', '#ffd4e0', '#c01848', '#14060c'] },
-  { id: 'blue',      name: 'Pastel Blue',     swatches: ['#d9e7f5', '#cddff2', '#185088', '#040a14'] },
-  { id: 'green',     name: 'Pastel Green',    swatches: ['#e1f9e1', '#cbf5cb', '#0c5c0c', '#030c04'] },
-  { id: 'yellow',    name: 'Pastel Yellow',   swatches: ['#faf8e4', '#fff2c4', '#886000', '#181400'] },
-  { id: 'purple',    name: 'Pastel Purple',   swatches: ['#e8e1f1', '#dacfe9', '#5c2888', '#0c0418'] },
-  { id: 'orange',    name: 'Pastel Orange',   swatches: ['#fcefe3', '#ffe1cc', '#a84018', '#140802'] },
-  { id: 'gold',      name: 'Gold & Silver',   swatches: ['#c9a84c', '#b89030', '#5c3e08', '#5a6068'] },
-  { id: 'midnight',  name: 'Midnight Blue',   swatches: ['#003366', '#002b55', '#4d9fe0', '#f5f5f5'] },
-  { id: 'rebecca',   name: 'Indigo',          swatches: ['#3c3c8c', '#2e2e72', '#9fa8ff', '#f5f5f5'] },
-  { id: 'galaxy',    name: 'Galaxy',          swatches: ['#301058', '#9a90b0', '#e8c478', '#f4f0ff'] },
-  { id: 'parchment', name: 'Parchment Gold',  swatches: ['#f5e7a1', '#edd878', '#5a4200', '#3a3a3a'] },
-  { id: 'teal',      name: 'Deep Teal',       swatches: ['#0f4c5c', '#0a3848', '#5ee8f0', '#d9f3f4'] },
-  { id: 'forest',    name: 'Forest Rose',     swatches: ['#283618', '#1e2a12', '#FFB5A7', '#ffd6cc'] },
-  { id: 'magenta',   name: 'Magenta Aqua',    swatches: ['#4A1942', '#5c2254', '#48cae4', '#90E0EF'] },
-  { id: 'emerald',   name: 'Emerald Gold',    swatches: ['#0B3D2E', '#144d3a', '#f0c040', '#F4D35E'] },
-  { id: 'canyon',    name: 'Canyon Mint',     swatches: ['#4C1D06', '#5e2608', '#8ee8cc', '#B8F2E6'] },
-  { id: 'neonrose',  name: 'Pink',            swatches: ['#000000', '#F77FBE', '#FF71CD', '#FF71CD'] },
+  { id: 'default',   name: 'Default',         swatches: ['#faf7f0', '#efdfcb', '#6d4c31', '#221d16'], logoColor: 'dark' },
+  { id: 'dark',      name: 'Dark',            swatches: ['#16130f', '#342618', '#c9956a', '#ede8df'], logoColor: 'white' },
+  { id: 'dynamic',   name: 'Dynamic',         swatches: ['#FBDED8', '#FBF8D8', '#E1F8D8', '#E1F8F2', '#E1DEF2', '#FBDEF2'], logoColor: 'dark' },
+  { id: 'pink',      name: 'Pastel Pink',     swatches: ['#ffe4eb', '#ffd4e0', '#c01848', '#14060c'], logoColor: 'dark' },
+  { id: 'blue',      name: 'Pastel Blue',     swatches: ['#d9e7f5', '#cddff2', '#185088', '#040a14'], logoColor: 'dark' },
+  { id: 'green',     name: 'Pastel Green',    swatches: ['#e1f9e1', '#cbf5cb', '#0c5c0c', '#030c04'], logoColor: 'dark' },
+  { id: 'yellow',    name: 'Pastel Yellow',   swatches: ['#faf8e4', '#fff2c4', '#886000', '#181400'], logoColor: 'dark' },
+  { id: 'purple',    name: 'Pastel Purple',   swatches: ['#e8e1f1', '#dacfe9', '#5c2888', '#0c0418'], logoColor: 'dark' },
+  { id: 'orange',    name: 'Pastel Orange',   swatches: ['#fcefe3', '#ffe1cc', '#a84018', '#140802'], logoColor: 'dark' },
+  { id: 'gold',      name: 'Gold & Silver',   swatches: ['#c9a84c', '#b89030', '#5c3e08', '#5a6068'], logoColor: 'dark' },
+  { id: 'midnight',  name: 'Midnight Blue',   swatches: ['#003366', '#002b55', '#4d9fe0', '#f5f5f5'], logoColor: 'white' },
+  { id: 'rebecca',   name: 'Indigo',          swatches: ['#3c3c8c', '#2e2e72', '#9fa8ff', '#f5f5f5'], logoColor: 'white' },
+  { id: 'galaxy',    name: 'Galaxy',          swatches: ['#301058', '#9a90b0', '#e8c478', '#f4f0ff'], logoColor: 'white' },
+  { id: 'parchment', name: 'Parchment Gold',  swatches: ['#f5e7a1', '#edd878', '#5a4200', '#3a3a3a'], logoColor: 'dark' },
+  { id: 'teal',      name: 'Deep Teal',       swatches: ['#0f4c5c', '#0a3848', '#5ee8f0', '#d9f3f4'], logoColor: 'white' },
+  { id: 'forest',    name: 'Forest Rose',     swatches: ['#283618', '#1e2a12', '#FFB5A7', '#ffd6cc'], logoColor: 'white' },
+  { id: 'magenta',   name: 'Magenta Aqua',    swatches: ['#4A1942', '#5c2254', '#48cae4', '#90E0EF'], logoColor: 'white' },
+  { id: 'emerald',   name: 'Emerald Gold',    swatches: ['#0B3D2E', '#144d3a', '#f0c040', '#F4D35E'], logoColor: 'white' },
+  { id: 'canyon',    name: 'Canyon Mint',     swatches: ['#4C1D06', '#5e2608', '#8ee8cc', '#B8F2E6'], logoColor: 'white' },
+  { id: 'neonrose',  name: 'Pink',            swatches: ['#000000', '#F77FBE', '#FF71CD', '#FF71CD'], logoColor: 'white' },
 ];
 
 const LEGACY_THEME_ID_MAP: Record<string, string> = {
@@ -263,18 +279,18 @@ const LEGACY_THEME_ID_MAP: Record<string, string> = {
   'galaxy metallic': 'galaxy',
 };
 const THEME_GRID_PREVIEW_COUNT = 5;
-const LAST_POSITION_STORAGE_KEY = 'bible-app-last-position';
-const RECENT_PASSAGES_STORAGE_KEY = 'bible-app-recent-passages';
-const HIGHLIGHTS_STORAGE_KEY = 'bible-app-highlights';
-const BOOKMARKS_STORAGE_KEY = 'bible-app-bookmarks';
-const NOTES_STORAGE_KEY = 'bible-app-notes';
-const READING_PROGRESS_STORAGE_KEY = 'bible-app-reading-progress';
-const DAILY_GOAL_MINUTES_STORAGE_KEY = 'bible-app-daily-goal-minutes';
+const LAST_POSITION_STORAGE_KEY = STORAGE_KEYS.LAST_POSITION;
+const RECENT_PASSAGES_STORAGE_KEY = STORAGE_KEYS.RECENT_PASSAGES;
+const HIGHLIGHTS_STORAGE_KEY = STORAGE_KEYS.HIGHLIGHTS;
+const BOOKMARKS_STORAGE_KEY = STORAGE_KEYS.BOOKMARKS;
+const NOTES_STORAGE_KEY = STORAGE_KEYS.NOTES;
+const READING_PROGRESS_STORAGE_KEY = STORAGE_KEYS.READING_PROGRESS;
+const DAILY_GOAL_MINUTES_STORAGE_KEY = STORAGE_KEYS.DAILY_GOAL;
 const DEFAULT_DAILY_GOAL_MINUTES = 10;
 const MIN_DAILY_GOAL_MINUTES = 5;
 const MAX_DAILY_GOAL_MINUTES = 120;
-const READER_SETTINGS_STORAGE_KEY = 'bible-app-reader-settings';
-const ONBOARDING_STORAGE_KEY = 'bible-app-onboarding-complete';
+const READER_SETTINGS_STORAGE_KEY = STORAGE_KEYS.READER_SETTINGS;
+const ONBOARDING_STORAGE_KEY = STORAGE_KEYS.ONBOARDING;
 /** Verse Tools tutorial always uses John 3 and this verse for the spotlight (same passage every time). */
 const TUTORIAL_VERSE_TOOLS_VERSE = 16;
 const MAX_RECENT_PASSAGES = 8;
@@ -637,6 +653,17 @@ function splitVersesForBookMode(verses: VerseData[]) {
 }
 
 const DYNAMIC_BASE_THEME    = 'default';
+
+const THEME_LOGO_SRC: Record<'white' | 'dark', string> = {
+  white: '/logo/openbible-logo-white.png',
+  dark: '/logo/openbible-logo-black.png',
+};
+
+function logoSrcForTheme(themeId: string): string {
+  const id = themeId === 'dynamic' ? DYNAMIC_BASE_THEME : themeId;
+  const def = THEMES.find(t => t.id === id);
+  return THEME_LOGO_SRC[def?.logoColor ?? 'dark'];
+}
 const DYNAMIC_COLORS        = ['#FF0000', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#FF00FF'];
 const DYNAMIC_FADE_MS       = 3000;
 const DYNAMIC_CYCLE_MS      = DYNAMIC_FADE_MS * 2;
@@ -923,7 +950,15 @@ function DailyTasksList({
 }
 
 // ── Main Component ─────────────────────────────────────────────────────────────
-export default function BibleApp() {
+export default function BibleApp({
+  initialReader = null,
+  initialPanel = null,
+  initialCommentarySource = null,
+}: {
+  initialReader?: { book: string; chapter: number } | null;
+  initialPanel?: 'commentary' | 'ai' | 'study' | null;
+  initialCommentarySource?: string | null;
+} = {}) {
   // ── Bible data ───
   const [books, setBooks]             = useState<BookInfo[]>([]);
   const [translations, setTranslations] = useState<Translation[]>([]);
@@ -3085,16 +3120,22 @@ export default function BibleApp() {
       translation: item.translation,
       savedAt: item.saved_at,
     })));
-    setReaderSettings(normalizeReaderSettings({
-      fontScale: settings.font_scale,
-      lineHeight: settings.line_height,
-      readerFont: settings.reader_font,
-      highlightColor: settings.highlight_color,
-      readingMode: settings.reading_mode,
-      specialEffects: !settings.reduced_motion,
-      pageFlipEnabled: settings.page_flip_enabled,
-      defaultPanel: settings.default_panel,
-      sidePanelPosition: settings.side_panel_position,
+    // Merge with current reader prefs so API fields missing from older servers do not reset layout, etc.
+    setReaderSettings(prev => normalizeReaderSettings({
+      fontScale: settings.font_scale ?? prev.fontScale,
+      lineHeight: settings.line_height ?? prev.lineHeight,
+      readerFont: settings.reader_font ?? prev.readerFont,
+      highlightColor: settings.highlight_color ?? prev.highlightColor,
+      readingMode: settings.reading_mode ?? prev.readingMode,
+      specialEffects: typeof settings.reduced_motion === 'boolean'
+        ? !settings.reduced_motion
+        : prev.specialEffects,
+      pageFlipEnabled: typeof settings.page_flip_enabled === 'boolean'
+        ? settings.page_flip_enabled
+        : prev.pageFlipEnabled,
+      defaultPanel: settings.default_panel ?? prev.defaultPanel,
+      sidePanelPosition: settings.side_panel_position ?? prev.sidePanelPosition,
+      graphicsMode: prev.graphicsMode,
     }));
     if (progressItems.length > 0) {
       const latest = progressItems[0];
@@ -3720,6 +3761,14 @@ export default function BibleApp() {
     };
   }, []);
 
+  /** Expose panel width on the root element so fixed chapter nav can inset with the side pane (resize-aware). */
+  useEffect(() => {
+    document.documentElement.style.setProperty('--side-width', sidePaneWidth);
+    return () => {
+      document.documentElement.style.removeProperty('--side-width');
+    };
+  }, [sidePaneWidth]);
+
   // ── Galaxy comet animation ────────────────────────────────────────────────────
   useEffect(() => {
     const canvas = cometCanvasRef.current;
@@ -4240,23 +4289,55 @@ export default function BibleApp() {
           });
         }
         const initialTranslation = normalizeTranslationChoice(storedLastPosition?.translation ?? 'WEB');
-        const initialBook = booksData.find(b => b.name.toLowerCase() === storedLastPosition?.book?.toLowerCase())
-          ?? booksData.find(b => b.book_number === 1)
-          ?? booksData[0]
-          ?? null;
-        const initialChapter = storedLastPosition?.chapter && storedLastPosition.chapter > 0
-          ? storedLastPosition.chapter
-          : 1;
-        setTranslation(initialTranslation);
-        setCurrentBook(initialBook);
-        if (initialBook) {
-          loadChapter(initialBook, Math.min(initialChapter, initialBook.total_chapters), initialTranslation);
-          if (storedReaderSettings.defaultPanel !== 'none') {
-            setSidePanelMode(storedReaderSettings.defaultPanel);
+        const urlBookName = initialReader?.book?.trim();
+        const urlChapter = initialReader?.chapter;
+        const urlChapterNum =
+          urlChapter != null && Number.isFinite(urlChapter) && urlChapter > 0 ? urlChapter : undefined;
+        const bookFromUrl =
+          urlBookName && urlChapterNum != null
+            ? booksData.find(b => b.name.toLowerCase() === urlBookName.toLowerCase())
+            : undefined;
+        if (bookFromUrl && urlChapterNum != null) {
+          setHomeScreenActive(false);
+          setTranslation(initialTranslation);
+          if (initialCommentarySource) {
+            commentarySourceRef.current = initialCommentarySource;
+            setCommentarySource(initialCommentarySource);
           }
+          if (initialPanel) {
+            sidePanelModeRef.current = initialPanel;
+            setSidePanelMode(initialPanel);
+            lastSidePanelModeRef.current = initialPanel;
+          } else if (storedReaderSettings.defaultPanel !== 'none') {
+            const d = storedReaderSettings.defaultPanel;
+            sidePanelModeRef.current = d;
+            setSidePanelMode(d);
+          }
+          setCurrentBook(bookFromUrl);
+          loadChapter(
+            bookFromUrl,
+            Math.min(urlChapterNum, bookFromUrl.total_chapters),
+            initialTranslation,
+          );
         } else {
-          setChapterLoading(false);
-          setChapterError(true);
+          const initialBook = booksData.find(b => b.name.toLowerCase() === storedLastPosition?.book?.toLowerCase())
+            ?? booksData.find(b => b.book_number === 1)
+            ?? booksData[0]
+            ?? null;
+          const initialChapter = storedLastPosition?.chapter && storedLastPosition.chapter > 0
+            ? storedLastPosition.chapter
+            : 1;
+          setTranslation(initialTranslation);
+          setCurrentBook(initialBook);
+          if (initialBook) {
+            loadChapter(initialBook, Math.min(initialChapter, initialBook.total_chapters), initialTranslation);
+            if (storedReaderSettings.defaultPanel !== 'none') {
+              setSidePanelMode(storedReaderSettings.defaultPanel);
+            }
+          } else {
+            setChapterLoading(false);
+            setChapterError(true);
+          }
         }
       } catch {
         setChapterLoading(false);
@@ -4295,7 +4376,7 @@ export default function BibleApp() {
        only so init hydration and token refresh do not cancel this effect mid-flight (fixes sign-in
        from /signin when a stored session is restored on first /app load). */
     // eslint-disable-next-line react-hooks/exhaustive-deps -- see above
-  }, [authSession?.user?.id, books.length]);
+  }, [authSession?.userId, books.length]);
 
   useEffect(() => {
     if (!authSession || !syncReadyRef.current || hydratingAccountRef.current || books.length === 0) return;
@@ -4871,6 +4952,13 @@ export default function BibleApp() {
     if (!commentaryEntries.length) return <div className="state-msg">No commentary for this chapter.</div>;
 
     if (commentarySource === 'summary') {
+      const bookForEntityNav = currentBook?.name ?? chapterData?.book ?? '';
+      const entityNavSuffix =
+        bookForEntityNav !== ''
+          ? `?returnTo=${encodeURIComponent(
+              `/app?book=${encodeURIComponent(bookForEntityNav)}&chapter=${chapter}&panel=commentary&source=${encodeURIComponent(commentarySource)}`,
+            )}`
+          : '';
       return commentaryEntries.map((entry, i) => {
         const start = Number(entry.verse_start);
         const end   = entry.verse_end == null ? start : Number(entry.verse_end);
@@ -4888,13 +4976,41 @@ export default function BibleApp() {
             {p.themes.length > 0 && (
               <div className="summary-section">
                 <div className="summary-section-label">Themes</div>
-                <div className="summary-tags">{p.themes.map((t, j) => <span key={j} className="summary-tag">{t}</span>)}</div>
+                <div className="summary-tags">
+                  {entry.theme_tags && entry.theme_tags.length > 0
+                    ? entry.theme_tags.map((tag, j) => (
+                        <Link
+                          key={j}
+                          href={`/themes/${encodeURIComponent(tag.slug)}${entityNavSuffix}`}
+                          className="summary-tag summary-tag-link"
+                        >
+                          {tag.label}
+                        </Link>
+                      ))
+                    : p.themes.map((t, j) => (
+                        <span key={j} className="summary-tag">{t}</span>
+                      ))}
+                </div>
               </div>
             )}
             {p.people.length > 0 && (
               <div className="summary-section">
                 <div className="summary-section-label">Key People</div>
-                <div className="summary-tags">{p.people.map((t, j) => <span key={j} className="summary-tag">{t}</span>)}</div>
+                <div className="summary-tags">
+                  {entry.people_tags && entry.people_tags.length > 0
+                    ? entry.people_tags.map((tag, j) => (
+                        <Link
+                          key={j}
+                          href={`/people/${encodeURIComponent(tag.slug)}${entityNavSuffix}`}
+                          className="summary-tag summary-tag-link"
+                        >
+                          {tag.label}
+                        </Link>
+                      ))
+                    : p.people.map((t, j) => (
+                        <span key={j} className="summary-tag">{t}</span>
+                      ))}
+                </div>
               </div>
             )}
             {p.points.length > 0 && (
@@ -5234,7 +5350,7 @@ export default function BibleApp() {
               <div className="home-screen-title-row">
                 <img
                   className="home-screen-logo"
-                  src="/logo/openbible-logo.png"
+                  src={logoSrcForTheme(currentTheme)}
                   alt=""
                   width={40}
                   height={40}
@@ -5697,7 +5813,6 @@ export default function BibleApp() {
           <aside
             ref={sidePaneRef}
             className={`side-pane${sideOpen ? ' open' : ''}${isPaneTransitioning ? ' transitioning' : ''}`}
-            style={{ '--side-width': sidePaneWidth } as React.CSSProperties}
           >
             <div className="side-header">
               {sidePanelMode === 'ai' ? (
@@ -5743,7 +5858,7 @@ export default function BibleApp() {
                           onClick={() => {
                             setPersonalityId(p.id);
                             try {
-                              window.localStorage.setItem(AI_PERSONALITY_STORAGE_KEY, p.id);
+                              window.localStorage.setItem(STORAGE_KEYS.AI_PERSONALITY, p.id);
                             } catch {
                               /* ignore */
                             }
@@ -5867,6 +5982,37 @@ export default function BibleApp() {
             >
               {renderChapterContent()}
             </div>
+            <div
+              className={`ch-nav ch-nav-prev${chromeBottomVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}${sideOpen && !sidePaneOnRight ? ' side-pane-open' : ''}`}
+              onMouseEnter={isPagedReadingMode(readerSettings.readingMode) ? undefined : enterBottomChrome}
+              onMouseLeave={isPagedReadingMode(readerSettings.readingMode) ? undefined : leaveBottomChrome}
+            >
+              <button
+                className="ch-nav-btn"
+                type="button"
+                aria-label="Previous page or chapter"
+                disabled={readerNavPrevDisabled}
+                onClick={readerStepBack}
+              >
+                &lsaquo;
+              </button>
+            </div>
+
+            <div
+              className={`ch-nav ch-nav-next${chromeBottomVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}${sideOpen && sidePaneOnRight ? ' side-pane-open' : ''}`}
+              onMouseEnter={isPagedReadingMode(readerSettings.readingMode) ? undefined : enterBottomChrome}
+              onMouseLeave={isPagedReadingMode(readerSettings.readingMode) ? undefined : leaveBottomChrome}
+            >
+              <button
+                className="ch-nav-btn"
+                type="button"
+                aria-label="Next page or chapter"
+                disabled={readerNavNextDisabled}
+                onClick={readerStepForward}
+              >
+                &rsaquo;
+              </button>
+            </div>
           </main>
         </div>
       </div>
@@ -5890,7 +6036,7 @@ export default function BibleApp() {
 
       {/* Chapter nav buttons */}
       <div
-        className={`ch-nav ch-nav-prev${chromeBottomVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}${sideOpen && !sidePaneOnRight ? ' side-pane-open' : ''}`}
+        className={`ch-nav ch-nav-prev ch-nav--legacy${chromeBottomVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}${sideOpen && !sidePaneOnRight ? ' side-pane-open' : ''}`}
         onMouseEnter={isPagedReadingMode(readerSettings.readingMode) ? undefined : enterBottomChrome}
         onMouseLeave={isPagedReadingMode(readerSettings.readingMode) ? undefined : leaveBottomChrome}
       >
@@ -5901,12 +6047,12 @@ export default function BibleApp() {
           disabled={readerNavPrevDisabled}
           onClick={readerStepBack}
         >
-          ‹
+          &lsaquo;
         </button>
       </div>
 
       <div
-        className={`ch-nav ch-nav-next${chromeBottomVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}${sideOpen && sidePaneOnRight ? ' side-pane-open' : ''}`}
+        className={`ch-nav ch-nav-next ch-nav--legacy${chromeBottomVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}${sideOpen && sidePaneOnRight ? ' side-pane-open' : ''}`}
         onMouseEnter={isPagedReadingMode(readerSettings.readingMode) ? undefined : enterBottomChrome}
         onMouseLeave={isPagedReadingMode(readerSettings.readingMode) ? undefined : leaveBottomChrome}
       >
@@ -6046,7 +6192,7 @@ export default function BibleApp() {
           >
             <span className="taskbar-icon" aria-hidden="true">
               <img
-                src="/logo/openbible-logo.png"
+                src={logoSrcForTheme(currentTheme)}
                 alt=""
                 className="taskbar-icon-img"
                 width={22}

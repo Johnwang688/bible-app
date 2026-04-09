@@ -24,7 +24,7 @@ from app.schemas.account import (
 )
 from app.schemas.ai import AIChatRequest, AIChatResponse
 from app.schemas.bible import BookInfo, ChapterOut, SearchRequest, SearchResult, VerseOut
-from app.schemas.commentary import CommentaryEntry
+from app.schemas.commentary import CommentaryEntry, SummaryEntityPageOut
 from app.services.account_service import (
     create_study_item,
     delete_study_item,
@@ -44,6 +44,7 @@ from app.services.account_service import (
 )
 from app.services.ai_service import (
     AIServiceUnavailable,
+    InMemoryRateLimiter,
     RateLimitExceeded,
     chat_with_ai,
     check_rate_limit,
@@ -57,9 +58,14 @@ from app.services.bible_service import (
     search_verses,
 )
 from app.services.commentary_service import get_commentary, list_commentary_sources
+from app.services.summary_entity_service import get_summary_entity_page
 
 
 settings = get_settings()
+
+# Rate limiters for auth endpoints — separate from the AI limiter
+_SIGNUP_RATE_LIMITER = InMemoryRateLimiter(limit=5, window_seconds=600)   # 5 sign-ups per 10 min per IP
+_SIGNIN_RATE_LIMITER = InMemoryRateLimiter(limit=10, window_seconds=300)  # 10 sign-ins per 5 min per IP
 
 app = FastAPI(
     title=settings.app_name,
@@ -102,14 +108,16 @@ async def health_check() -> dict[str, object]:
 
 
 @app.get("/api/v1/translations", tags=["bible"])
-async def get_translations() -> list[dict]:
+async def get_translations(response: Response) -> list[dict]:
+    response.headers["Cache-Control"] = "public, max-age=86400"
     db = get_supabase()
     result = db.table("translations").select("id, name, language, license").order("id").execute()
     return result.data or []
 
 
 @app.get("/api/v1/books", response_model=list[BookInfo], tags=["bible"])
-async def get_books() -> list[BookInfo]:
+async def get_books(response: Response) -> list[BookInfo]:
+    response.headers["Cache-Control"] = "public, max-age=86400"
     return list_books()
 
 
@@ -204,13 +212,43 @@ async def get_commentary_sources() -> list[dict]:
     return await list_commentary_sources()
 
 
+@app.get(
+    "/api/v1/summary-entities/{kind}/{slug}",
+    response_model=SummaryEntityPageOut,
+    tags=["commentary"],
+)
+async def read_summary_entity(kind: str, slug: str) -> SummaryEntityPageOut:
+    if kind not in ("theme", "person"):
+        raise HTTPException(status_code=404, detail="Unknown entity kind")
+    data = get_summary_entity_page(kind, slug)
+    if not data:
+        raise HTTPException(status_code=404, detail="Entity not found")
+    return SummaryEntityPageOut(**data)
+
+
 @app.post("/api/v1/auth/signup", response_model=AccountAuthResponse, tags=["auth"])
-async def auth_sign_up(payload: UserSignUp) -> AccountAuthResponse:
+async def auth_sign_up(request: Request, payload: UserSignUp) -> AccountAuthResponse:
+    try:
+        _SIGNUP_RATE_LIMITER.check(get_request_identity(request))
+    except RateLimitExceeded as exc:
+        raise HTTPException(
+            status_code=429,
+            detail="Too many sign-up attempts. Please wait a few minutes and try again.",
+            headers={"Retry-After": str(exc.retry_after_seconds)},
+        ) from exc
     return sign_up_user(payload.email.strip(), payload.password, payload.display_name)
 
 
 @app.post("/api/v1/auth/signin", response_model=AccountAuthResponse, tags=["auth"])
-async def auth_sign_in(payload: UserSignIn) -> AccountAuthResponse:
+async def auth_sign_in(request: Request, payload: UserSignIn) -> AccountAuthResponse:
+    try:
+        _SIGNIN_RATE_LIMITER.check(get_request_identity(request))
+    except RateLimitExceeded as exc:
+        raise HTTPException(
+            status_code=429,
+            detail="Too many sign-in attempts. Please wait a few minutes and try again.",
+            headers={"Retry-After": str(exc.retry_after_seconds)},
+        ) from exc
     return sign_in_user(payload.email.strip(), payload.password)
 
 

@@ -1,6 +1,7 @@
 from app.core.supabase_client import get_supabase
-from app.schemas.commentary import CommentaryEntry
+from app.schemas.commentary import CommentaryEntry, SummaryEntityTag
 from app.services.bible_service import resolve_book
+from app.services.summary_entity_service import SUMMARY_SOURCE, fetch_tags_for_commentary_ids
 
 
 async def get_commentary(
@@ -44,6 +45,29 @@ async def get_commentary(
             if verse > entry.verse_end:
                 continue
         entries.append(entry)
+
+    summary_ids = [e.id for e in entries if e.source == SUMMARY_SOURCE]
+    if summary_ids:
+        tag_map = fetch_tags_for_commentary_ids(summary_ids)
+        out: list[CommentaryEntry] = []
+        for entry in entries:
+            if entry.source != SUMMARY_SOURCE:
+                out.append(entry)
+                continue
+            tags = tag_map.get(entry.id, {"theme_tags": [], "people_tags": []})
+            out.append(
+                entry.model_copy(
+                    update={
+                        "theme_tags": [
+                            SummaryEntityTag(**t) for t in tags.get("theme_tags") or []
+                        ],
+                        "people_tags": [
+                            SummaryEntityTag(**t) for t in tags.get("people_tags") or []
+                        ],
+                    }
+                )
+            )
+        return out
 
     return entries
 

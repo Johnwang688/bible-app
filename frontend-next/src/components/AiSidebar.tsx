@@ -7,10 +7,11 @@ import {
   segmentTextWithScriptureRefs,
   sortBookNamesForMatching,
 } from '@/lib/scriptureReference';
+import { STORAGE_KEYS } from '@/lib/storageKeys';
 
-const AI_SIDEBAR_STORAGE_KEY = 'bible-app-ai-sidebar';
+const AI_SIDEBAR_STORAGE_KEY = STORAGE_KEYS.AI_SIDEBAR;
 /** Persisted assistant personality id (`jessica` | `john` | `girl2` | `boy2`). */
-export const AI_PERSONALITY_STORAGE_KEY = 'bible-app-ai-personality';
+export const AI_PERSONALITY_STORAGE_KEY = STORAGE_KEYS.AI_PERSONALITY;
 const LEGACY_SIDEBAR_SESSION_KEY = 'logoslight-ai-sidebar-v1';
 const LEGACY_PERSONALITY_KEY = 'logoslight-ai-personality-v1';
 const COMPOSER_MAX_HEIGHT_PX = 168;

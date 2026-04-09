@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Open Bible — Scripture, study, and insight',
+  title: 'Open Bible - Scripture, study, and insight',
   description:
     'Open Bible is a modern Bible reader with AI-powered commentary, cross-references, translations, and study tools.',
 };
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function LandingPage() {
   return (
     <div className="landing-root">
-      {/* Dynamic RGB wash overlay — fixed, sits behind all content */}
+      {/* Dynamic RGB wash overlay - fixed, sits behind all content */}
       <div className="landing-wash" aria-hidden="true" />
 
       {/* Nav */}
@@ -18,7 +18,7 @@ export default function LandingPage() {
         <Link href="/" className="landing-logo" aria-label="Open Bible home">
           <img
             className="landing-logo-img"
-            src="/logo/openbible-logo.png"
+            src="/logo/openbible-logo-black.png"
             alt=""
             width={36}
             height={36}
@@ -28,18 +28,26 @@ export default function LandingPage() {
           <span className="landing-logo-bible"> Bible</span>
         </Link>
         <div className="landing-nav-actions">
-          <Link href="/signin" className="landing-btn landing-btn-ghost">Sign In</Link>
-          <Link href="/app" className="landing-btn landing-btn-primary">Continue as Guest</Link>
+          <Link href="/signin" className="landing-btn landing-btn-ghost">
+            Sign In
+          </Link>
+          <Link href="/app" className="landing-btn landing-btn-primary">
+            Continue as Guest
+          </Link>
         </div>
       </nav>
 
       {/* Hero */}
       <section className="landing-hero">
         <p className="landing-hero-eyebrow">Open Bible</p>
-        <h1 className="landing-hero-title">Read Scripture.<br />Understand it Deeply.</h1>
+        <h1 className="landing-hero-title">
+          Read Scripture.
+          <br />
+          Understand it Deeply.
+        </h1>
         <p className="landing-hero-sub">
-          Open Bible brings AI-powered commentary, cross-references, and study tools together in one
-          place — for anyone who wants to engage more meaningfully with the text.
+          Open Bible brings AI-powered commentary, cross-references, and study tools together in
+          one place for anyone who wants to engage more meaningfully with the text.
         </p>
         <div className="landing-hero-actions">
           <Link href="/app" className="landing-btn landing-btn-primary landing-btn-lg">
@@ -48,31 +56,38 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Feature cards */}
+      {/* Feature highlights */}
       <section className="landing-features">
-        <FeatureCard
-          title="AI Commentary"
-          desc="Ask questions about any passage and get thoughtful, contextual answers powered by AI. Explore historical background, literary context, and theological meaning."
+        <FeatureSection
+          eyebrow="Ask Anything"
+          title="AI chatbot for questions that start in the text"
+          desc="Chat through any passage in plain language and get contextual help on background, meaning, and connections without leaving your reading flow."
+          bullets={[
+            'Ask about a verse, scene, or chapter and keep the conversation grounded in Scripture.',
+            'Move from quick clarification to deeper study without switching tools.',
+            'Use the chatbot as a companion for reflection, not just lookup.',
+          ]}
         />
-        <FeatureCard
-          title="Multiple Translations"
-          desc="Read and compare across dozens of Bible translations side by side. Switch instantly between KJV, NIV, ESV, and more without losing your place."
+        <FeatureSection
+          eyebrow="Read Your Way"
+          title="Fully customizable reader styles and themes"
+          desc="Shape the reading experience around your eyes, your habits, and your pace with adjustable typography, layout, and visual themes."
+          bullets={[
+            'Switch between warm parchment, dark themes, and bolder looks that fit the moment.',
+            'Tune font size, line spacing, and overall presentation for long reading sessions.',
+            'Build a reader that feels personal instead of one-size-fits-all.',
+          ]}
+          align="right"
         />
-        <FeatureCard
-          title="Study Tools"
-          desc="Highlight verses, add personal notes, and build a reading history that syncs across devices. Bookmark passages and return to them anytime."
-        />
-        <FeatureCard
-          title="Reading Plans"
-          desc="Follow structured reading plans to work through the Bible at your own pace. Track progress and pick up right where you left off."
-        />
-        <FeatureCard
-          title="Themes & Customization"
-          desc="Choose from a wide range of themes — from classic parchment to dark mode — and adjust font size and layout to match your reading style."
-        />
-        <FeatureCard
-          title="Works Offline"
-          desc="Once loaded, the app keeps working without an internet connection. Your notes and highlights are saved locally and sync when you're back online."
+        <FeatureSection
+          eyebrow="See The Bigger Picture"
+          title="Summaries with character arcs and theme connections"
+          desc="Get chapter and book summaries that surface the movement of the story, recurring ideas, and the people who shape each passage."
+          bullets={[
+            'Trace how characters develop across scenes instead of reading isolated moments.',
+            'Spot repeated themes and how they connect from one section to the next.',
+            'Turn difficult passages into a clearer map of what is happening and why it matters.',
+          ]}
         />
       </section>
 
@@ -86,16 +101,13 @@ export default function LandingPage() {
       </section>
 
       <footer className="landing-footer">
-        <span>© {new Date().getFullYear()} Open Bible</span>
+        <span>&copy; {new Date().getFullYear()} Open Bible</span>
       </footer>
 
       <style>{`
         body { overflow: auto !important; height: auto !important; }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        /* ── Dynamic RGB wash keyframes ── */
-        /* Mirrors the app's DYNAMIC_COLORS cycle: red→yellow→green→cyan→blue→magenta */
-        /* Each color fades in then out over 6 s (DYNAMIC_CYCLE_MS); 6 colors = 36 s total */
         @keyframes landing-wash {
           0%      { background-color: rgba(255,   0,   0, 0);    }
           8.333%  { background-color: rgba(255,   0,   0, 0.32); }
@@ -117,7 +129,6 @@ export default function LandingPage() {
           100%    { background-color: rgba(255,   0, 255, 0);    }
         }
 
-        /* Root — cream base, same as the app's default theme */
         .landing-root {
           min-height: 100vh;
           font-family: Georgia, "Times New Roman", serif;
@@ -128,7 +139,6 @@ export default function LandingPage() {
           position: relative;
         }
 
-        /* Fixed colour-wash overlay */
         .landing-wash {
           position: fixed;
           inset: 0;
@@ -140,7 +150,6 @@ export default function LandingPage() {
           .landing-wash { animation: none; }
         }
 
-        /* All content sits above the wash */
         .landing-nav,
         .landing-hero,
         .landing-features,
@@ -150,7 +159,6 @@ export default function LandingPage() {
           z-index: 1;
         }
 
-        /* Nav */
         .landing-nav {
           display: flex;
           align-items: center;
@@ -191,7 +199,6 @@ export default function LandingPage() {
           align-items: center;
         }
 
-        /* Buttons */
         .landing-btn {
           display: inline-flex;
           align-items: center;
@@ -223,7 +230,6 @@ export default function LandingPage() {
           border-radius: 10px;
         }
 
-        /* Hero */
         .landing-hero {
           text-align: center;
           padding: 7rem 1.5rem 5rem;
@@ -259,43 +265,109 @@ export default function LandingPage() {
           justify-content: center;
         }
 
-        /* Features */
         .landing-features {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-          gap: 1.25rem;
-          padding: 2rem 2.5rem 5rem;
-          max-width: 1100px;
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+          padding: 2rem 2rem 5rem;
+          max-width: 1280px;
           margin: 0 auto;
           width: 100%;
         }
-        .feature-card {
-          background: rgba(255, 253, 248, 0.78);
+        .feature-section {
+          position: relative;
+          overflow: hidden;
+          min-height: 320px;
+          display: grid;
+          grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+          gap: 2rem;
+          align-items: stretch;
+          background:
+            radial-gradient(circle at top right, rgba(214, 185, 140, 0.22), transparent 34%),
+            linear-gradient(135deg, rgba(255, 253, 248, 0.92), rgba(247, 240, 225, 0.86));
           border: 1px solid rgba(221, 210, 195, 0.9);
-          border-radius: 14px;
-          padding: 1.75rem 1.5rem;
-          transition: border-color 0.2s, background 0.2s;
-          backdrop-filter: blur(6px);
+          border-radius: 28px;
+          padding: 2.5rem;
+          transition: border-color 0.2s, transform 0.2s;
+          backdrop-filter: blur(10px);
+          box-shadow: 0 18px 44px rgba(88, 63, 38, 0.08);
         }
-        .feature-card:hover {
+        .feature-section:hover {
           border-color: rgba(109,76,49,0.35);
-          background: rgba(255, 253, 248, 0.92);
+          transform: translateY(-2px);
         }
-        .feature-card h3 {
-          font-size: 1.05rem;
-          font-weight: 700;
+        .feature-section::after {
+          content: '';
+          position: absolute;
+          inset: auto -4rem -5rem auto;
+          width: 15rem;
+          height: 15rem;
+          border-radius: 999px;
+          background: rgba(109, 76, 49, 0.08);
+          filter: blur(6px);
+          pointer-events: none;
+        }
+        .feature-section[data-align="right"] {
+          grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.2fr);
+        }
+        .feature-section-copy,
+        .feature-section-aside {
+          position: relative;
+          z-index: 1;
+        }
+        .feature-section-copy {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          max-width: 44rem;
+        }
+        .feature-section-eyebrow {
+          font-size: 0.74rem;
+          font-weight: 800;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
           color: #6d4c31;
-          margin-bottom: 0.6rem;
+          margin-bottom: 1rem;
           font-family: system-ui, -apple-system, sans-serif;
         }
-        .feature-card p {
-          font-size: 0.9rem;
-          line-height: 1.65;
+        .feature-section h3 {
+          font-size: clamp(1.8rem, 3vw, 2.6rem);
+          line-height: 1.08;
+          letter-spacing: -0.03em;
+          color: #221d16;
+          margin-bottom: 1rem;
+        }
+        .feature-section p {
+          font-size: 1.02rem;
+          line-height: 1.75;
           color: #8a7a68;
+          max-width: 40rem;
           font-family: system-ui, -apple-system, sans-serif;
+        }
+        .feature-section-aside {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .feature-section-points {
+          list-style: none;
+          width: 100%;
+          max-width: 24rem;
+          display: grid;
+          gap: 0.85rem;
+        }
+        .feature-section-points li {
+          padding: 0.9rem 1rem;
+          border-radius: 16px;
+          border: 1px solid rgba(109, 76, 49, 0.16);
+          background: rgba(255, 250, 241, 0.72);
+          color: #5f4f40;
+          line-height: 1.55;
+          font-size: 0.96rem;
+          font-family: system-ui, -apple-system, sans-serif;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.45);
         }
 
-        /* Footer CTA */
         .landing-cta {
           text-align: center;
           padding: 4rem 1.5rem;
@@ -317,7 +389,6 @@ export default function LandingPage() {
           font-family: system-ui, -apple-system, sans-serif;
         }
 
-        /* Footer */
         .landing-footer {
           text-align: center;
           padding: 1.5rem;
@@ -325,16 +396,60 @@ export default function LandingPage() {
           font-size: 0.8rem;
           font-family: system-ui, -apple-system, sans-serif;
         }
+
+        @media (max-width: 860px) {
+          .landing-nav {
+            padding: 1rem;
+          }
+          .landing-features {
+            padding-left: 1rem;
+            padding-right: 1rem;
+          }
+          .feature-section,
+          .feature-section[data-align="right"] {
+            grid-template-columns: 1fr;
+            min-height: auto;
+            padding: 1.6rem;
+            gap: 1.4rem;
+          }
+          .feature-section-copy,
+          .feature-section-aside,
+          .feature-section-points {
+            max-width: none;
+          }
+        }
       `}</style>
     </div>
   );
 }
 
-function FeatureCard({ title, desc }: { title: string; desc: string }) {
+function FeatureSection({
+  eyebrow,
+  title,
+  desc,
+  bullets,
+  align = 'left',
+}: {
+  eyebrow: string;
+  title: string;
+  desc: string;
+  bullets: string[];
+  align?: 'left' | 'right';
+}) {
   return (
-    <div className="feature-card">
-      <h3>{title}</h3>
-      <p>{desc}</p>
-    </div>
+    <article className="feature-section" data-align={align}>
+      <div className="feature-section-copy">
+        <span className="feature-section-eyebrow">{eyebrow}</span>
+        <h3>{title}</h3>
+        <p>{desc}</p>
+      </div>
+      <div className="feature-section-aside">
+        <ul className="feature-section-points">
+          {bullets.map((bullet) => (
+            <li key={bullet}>{bullet}</li>
+          ))}
+        </ul>
+      </div>
+    </article>
   );
 }

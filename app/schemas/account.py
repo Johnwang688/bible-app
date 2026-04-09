@@ -1,12 +1,24 @@
+import re
 from typing import Literal
 
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr, field_validator
 
 
 class UserSignUp(BaseModel):
-    email: str
+    email: EmailStr
     password: str
     display_name: str | None = None
+
+    @field_validator("password")
+    @classmethod
+    def password_strength(cls, v: str) -> str:
+        if len(v) < 8:
+            raise ValueError("Password must be at least 8 characters.")
+        if not re.search(r"[A-Za-z]", v):
+            raise ValueError("Password must contain at least one letter.")
+        if not re.search(r"[0-9!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>/?]", v):
+            raise ValueError("Password must contain at least one number or special character.")
+        return v
 
 
 class UserSignIn(BaseModel):
@@ -104,6 +116,7 @@ LineHeight = Literal["1.5", "2", "2.5"]
 SidePanelPosition = Literal["left", "right"]
 ReaderFont = Literal["georgia", "charter", "palatino", "garamond", "times", "sans"]
 HighlightColor = Literal["yellow", "amber", "green", "blue", "pink", "lavender", "mint"]
+ReadingMode = Literal["single", "book", "paged-single", "paged-double"]
 
 
 class RecentPassage(BaseModel):
@@ -123,6 +136,7 @@ class UserSettingsIn(BaseModel):
     side_panel_position: SidePanelPosition = "right"
     reader_font: ReaderFont = "georgia"
     highlight_color: HighlightColor = "yellow"
+    reading_mode: ReadingMode = "single"
     recent_passages: list[RecentPassage] = []
 
 
