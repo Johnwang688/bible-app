@@ -906,6 +906,16 @@ function isSkipPlaceLabel(label: string): boolean {
   return ENTITY_SKIP_LABELS.has(l) || PLACE_ABSTRACT_LABELS.has(l);
 }
 
+function slugifyEntityLabel(label: string): string {
+  return label
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .replace(/-{2,}/g, '-');
+}
+
 function parseSummaryContent(content: string) {
   const result = {
     title: '', summary: '',
@@ -5088,7 +5098,13 @@ export default function BibleApp({
                             </Link>
                           ))
                         : filteredPlaces.map((t, j) => (
-                            <span key={j} className="summary-tag summary-tag-place">{t}</span>
+                            <Link
+                              key={j}
+                              href={`/places/${encodeURIComponent(slugifyEntityLabel(t))}${entityNavSuffix}`}
+                              className="summary-tag summary-tag-link summary-tag-place"
+                            >
+                              {t}
+                            </Link>
                           ))
                     ) : (
                       <span className="summary-empty-note">No specific places in this chapter summary.</span>

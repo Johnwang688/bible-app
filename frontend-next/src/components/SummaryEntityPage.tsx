@@ -45,7 +45,7 @@ function buildDescriptionPrompt(kind: string, label: string): string {
     return `In 3–4 sentences, explain the biblical theme of "${label}": what it means in Scripture, how it develops across the Old and New Testaments, and why it matters for understanding the Christian faith. Write in flowing prose — do not list verse citations like "Romans 3:23" in the text. Be specific and substantive.`;
   }
   if (kind === 'person') {
-    return `In 3–4 sentences, describe who ${label} is in the Bible: their background, their role in the narrative, the key events they're involved in, and why they matter to the biblical story. Write in flowing prose without listing verse citations like "Genesis 12:1" in the text.`;
+    return `In 4–6 sentences, describe who ${label} is in the Bible. Include a brief historical timeline in prose: their background, the major events they are involved in in chronological flow, and how their role or significance develops over time. End with why they matter to the biblical story. Write in flowing prose without listing verse citations like "Genesis 12:1" in the text.`;
   }
   return `In 4–6 sentences, describe ${label} as a biblical place. Cover where it is, what key events happened there, and how its role changes across Scripture when relevant (for example, Jerusalem in David's era compared with Jerusalem in the Gospels). Briefly narrate that progression so the reader gets a mini-history of what happened to the place and why it matters in the biblical story. Write in flowing prose without listing verse citations like "Genesis 12:1" in the text.`;
 }
@@ -198,7 +198,7 @@ export default function SummaryEntityPage({
         <>
           {/* Description */}
           <section className="entity-page-section entity-page-desc-section">
-            <div className="entity-page-subheading">Overview</div>
+            <div className="entity-page-subheading">{kind === 'theme' ? 'Overview' : 'Overview & Timeline'}</div>
             {descLoading && !description ? (
               <div className="entity-desc-loading">
                 <span className="spinner" />
