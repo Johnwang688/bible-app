@@ -59,3 +59,12 @@ class AIModelResponse(BaseModel):
 
 class AIChatResponse(AIModelResponse):
     context_label: str
+
+
+class EntityContentRequest(BaseModel):
+    prompt: str
+    max_tokens: int = 3500
+
+
+class EntityContentResponse(BaseModel):
+    content: str

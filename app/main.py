@@ -22,7 +22,7 @@ from app.schemas.account import (
     UserSignIn,
     UserSignUp,
 )
-from app.schemas.ai import AIChatRequest, AIChatResponse
+from app.schemas.ai import AIChatRequest, AIChatResponse, EntityContentRequest, EntityContentResponse
 from app.schemas.bible import BookInfo, ChapterOut, SearchRequest, SearchResult, VerseOut
 from app.schemas.commentary import CommentaryEntry, SummaryEntityListItemOut, SummaryEntityPageOut
 from app.services.account_service import (
@@ -48,6 +48,7 @@ from app.services.ai_service import (
     RateLimitExceeded,
     chat_with_ai,
     check_rate_limit,
+    generate_entity_text,
     get_request_identity,
 )
 from app.services.bible_service import (
@@ -368,6 +369,28 @@ async def ai_chat(request: Request, payload: AIChatRequest) -> AIChatResponse:
     try:
         check_rate_limit(get_request_identity(request))
         return await chat_with_ai(payload)
+    except RateLimitExceeded as exc:
+        raise HTTPException(
+            status_code=429,
+            detail=exc.message,
+            headers={"Retry-After": str(exc.retry_after_seconds)},
+        ) from exc
+    except AIServiceUnavailable as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+
+
+@app.post("/api/v1/ai/entity-content", response_model=EntityContentResponse, tags=["ai"])
+async def ai_entity_content(request: Request, payload: EntityContentRequest) -> EntityContentResponse:
+    """Generate free-form entity page content (descriptions, timelines) without chat schema constraints."""
+    prompt = payload.prompt.strip()
+    if not prompt:
+        raise HTTPException(status_code=400, detail="Prompt is required.")
+    if len(prompt) > 5000:
+        raise HTTPException(status_code=400, detail="Prompt too long.")
+    try:
+        check_rate_limit(get_request_identity(request))
+        content = await generate_entity_text(prompt, max_tokens=payload.max_tokens)
+        return EntityContentResponse(content=content)
     except RateLimitExceeded as exc:
         raise HTTPException(
             status_code=429,

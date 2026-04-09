@@ -30,6 +30,7 @@ PROMPTS_DIR = Path(__file__).resolve().parents[1] / "prompts" / "ai"
 MAX_HISTORY_MESSAGES = 8
 # Room for verse-grounded answers that need a short paragraph (e.g. "what does this mean?").
 MAX_OUTPUT_TOKENS = 550
+MAX_ENTITY_CONTENT_TOKENS = 4000
 RATE_LIMIT_REQUESTS = 20
 RATE_LIMIT_WINDOW_SECONDS = 300
 DEFAULT_COMMENTARY_SOURCE = "matthew_henry"
@@ -762,6 +763,34 @@ def validate_ai_response(
         **normalized.model_dump(),
         context_label=format_context_label(context),
     )
+
+
+async def generate_entity_text(prompt: str, max_tokens: int = MAX_ENTITY_CONTENT_TOKENS) -> str:
+    """Generate free-form text for entity pages (descriptions, timelines).
+
+    Uses no structured output schema so the model can return raw JSON timelines
+    or prose descriptions without being shoehorned into the chat response schema.
+    """
+    client = get_openai_client()
+    settings = get_settings()
+    clamped = min(max(100, max_tokens), MAX_ENTITY_CONTENT_TOKENS)
+    completion = await client.chat.completions.create(
+        model=settings.openai_model,
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    "You are a knowledgeable biblical scholar. "
+                    "Follow the user's instructions exactly, including output format. "
+                    "Be specific, detailed, and grounded in Scripture."
+                ),
+            },
+            {"role": "user", "content": prompt},
+        ],
+        max_completion_tokens=clamped,
+        store=False,
+    )
+    return (completion.choices[0].message.content or "").strip()
 
 
 async def chat_with_ai(payload: AIChatRequest) -> AIChatResponse:
