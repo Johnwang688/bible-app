@@ -4,8 +4,13 @@ import logging
 from datetime import UTC, datetime
 from typing import Any
 
+import httpx
 from fastapi import HTTPException
-from gotrue.errors import AuthApiError
+
+try:
+    from supabase_auth.errors import AuthApiError, AuthError, AuthRetryableError
+except ImportError:
+    from gotrue.errors import AuthApiError, AuthError, AuthRetryableError
 
 from app.core.supabase_client import create_supabase, get_supabase_admin
 
@@ -63,18 +68,49 @@ def sign_up_user(email: str, password: str, display_name: str | None = None) -> 
     return _require_session(response, "Sign-up succeeded but could not create a session.")
 
 
+_INVALID_LOGIN = "Invalid login credentials"
+
+
 def sign_in_user(email: str, password: str) -> AuthResponse:
     client = create_supabase()
     try:
         response = client.auth.sign_in_with_password({"email": email, "password": password})
-    except AuthApiError as exc:
-        raise HTTPException(status_code=401, detail="Invalid email or password.") from exc
-    return _require_session(response, "Invalid email or password.")
+    except AuthRetryableError as exc:
+        if exc.status in (502, 503, 504):
+            logger.warning("Auth unreachable during sign-in: %s", exc)
+            raise HTTPException(
+                status_code=503,
+                detail="Unable to reach authentication service. Check your network and try again.",
+            ) from exc
+        logger.info("Sign-in failed: %s", exc)
+        raise HTTPException(status_code=401, detail=_INVALID_LOGIN) from exc
+    except AuthError as exc:
+        logger.info("Sign-in failed: %s", exc)
+        raise HTTPException(status_code=401, detail=_INVALID_LOGIN) from exc
+    return _require_session(response, _INVALID_LOGIN)
 
 
 def refresh_user_session(refresh_token: str) -> AuthResponse:
     client = create_supabase()
-    response = client.auth.refresh_session(refresh_token)
+    try:
+        response = client.auth.refresh_session(refresh_token)
+    except AuthApiError as exc:
+        raise HTTPException(
+            status_code=401,
+            detail="Session expired or invalid. Please sign in again.",
+        ) from exc
+    except AuthRetryableError as exc:
+        logger.warning("Could not reach auth service to refresh session: %s", exc)
+        raise HTTPException(
+            status_code=503,
+            detail="Unable to reach authentication service. Check your network and try again.",
+        ) from exc
+    except httpx.HTTPError as exc:
+        logger.warning("HTTP error refreshing session: %s", exc)
+        raise HTTPException(
+            status_code=503,
+            detail="Unable to reach authentication service. Check your network and try again.",
+        ) from exc
     return _require_session(response, "Could not refresh the session.")
 
 

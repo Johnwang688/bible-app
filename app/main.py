@@ -59,6 +59,21 @@ from app.services.bible_service import (
 )
 from app.services.commentary_service import get_commentary, list_commentary_sources
 from app.services.summary_entity_service import get_summary_entity_page
+from app.schemas.quiz import (
+    ChapterProgressOut,
+    ChapterQuizOut,
+    MasteryOverviewOut,
+    QuizSubmitIn,
+    QuizSubmitOut,
+    WalletOut,
+)
+from app.services.quiz_service import (
+    get_chapter_quiz,
+    get_chapter_progress,
+    get_mastery_overview,
+    get_wallet,
+    submit_quiz,
+)
 
 
 settings = get_settings()
@@ -363,6 +378,54 @@ async def ai_chat(request: Request, payload: AIChatRequest) -> AIChatResponse:
         ) from exc
     except AIServiceUnavailable as exc:
         raise HTTPException(status_code=503, detail=str(exc)) from exc
+
+
+# ── Quiz & Mastery ────────────────────────────────────────────────────────────
+
+@app.get("/api/v1/quiz/{book_number}/{chapter}", response_model=ChapterQuizOut, tags=["quiz"])
+async def read_chapter_quiz(
+    book_number: int,
+    chapter: int,
+    current_user: dict = Depends(get_current_user),
+) -> ChapterQuizOut:
+    return get_chapter_quiz(current_user["id"], book_number, chapter)
+
+
+@app.post("/api/v1/quiz/submit", response_model=QuizSubmitOut, tags=["quiz"])
+async def post_quiz_submit(
+    payload: QuizSubmitIn,
+    current_user: dict = Depends(get_current_user),
+) -> QuizSubmitOut:
+    return submit_quiz(current_user["id"], payload)
+
+
+@app.get(
+    "/api/v1/quiz/progress/{book_number}/{chapter}",
+    response_model=ChapterProgressOut,
+    tags=["quiz"],
+)
+async def read_chapter_progress(
+    book_number: int,
+    chapter: int,
+    current_user: dict = Depends(get_current_user),
+) -> ChapterProgressOut:
+    return get_chapter_progress(current_user["id"], book_number, chapter)
+
+
+@app.get("/api/v1/wallet", response_model=WalletOut, tags=["quiz"])
+async def read_wallet(current_user: dict = Depends(get_current_user)) -> WalletOut:
+    return get_wallet(current_user["id"])
+
+
+@app.get(
+    "/api/v1/quiz/mastery-overview",
+    response_model=MasteryOverviewOut,
+    tags=["quiz"],
+)
+async def read_mastery_overview(
+    current_user: dict = Depends(get_current_user),
+) -> MasteryOverviewOut:
+    return get_mastery_overview(current_user["id"])
 
 
 # Serve the frontend — must be last so API routes take precedence

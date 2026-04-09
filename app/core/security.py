@@ -2,6 +2,8 @@ import logging
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from gotrue.errors import AuthApiError
+
 from app.core.supabase_client import create_supabase
 
 logger = logging.getLogger(__name__)
@@ -27,8 +29,10 @@ async def get_current_user(
                 "email": user_response.user.email,
                 "user_metadata": user_response.user.user_metadata,
             }
+    except AuthApiError as exc:
+        logger.warning("Token validation failed: %s", exc)
     except Exception:
-        logger.exception("Token validation failed")
+        logger.exception("Unexpected error during token validation")
 
     raise HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
