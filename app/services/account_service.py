@@ -290,6 +290,9 @@ def _coerce_settings_row(row: dict) -> None:
         row["reader_font"] = "georgia"
     if row.get("highlight_color") not in _highlights:
         row["highlight_color"] = "yellow"
+    _modes = {"single", "book", "paged-single", "paged-double"}
+    if row.get("reading_mode") not in _modes:
+        row["reading_mode"] = "single"
 
 
 def upsert_user_settings(user_id: str, payload: UserSettingsIn) -> UserSettingsOut:
@@ -300,7 +303,7 @@ def upsert_user_settings(user_id: str, payload: UserSettingsIn) -> UserSettingsO
         db.table("user_settings").upsert(row, on_conflict="user_id").execute()
     except Exception:
         # DB schema may be behind pending migrations; partial upsert with known columns
-        safe_row = {k: v for k, v in row.items() if k not in ("page_flip_enabled",)}
+        safe_row = {k: v for k, v in row.items() if k not in ("page_flip_enabled", "reading_mode")}
         try:
             db.table("user_settings").upsert(safe_row, on_conflict="user_id").execute()
         except Exception:

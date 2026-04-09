@@ -18,7 +18,7 @@ export default function LandingPage() {
         <Link href="/" className="landing-logo" aria-label="Open Bible home">
           <img
             className="landing-logo-img"
-            src="/logo/openbible-logo.png"
+            src="/logo/openbible-logo-black.png"
             alt=""
             width={36}
             height={36}

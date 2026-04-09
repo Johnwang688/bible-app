@@ -104,6 +104,7 @@ LineHeight = Literal["1.5", "2", "2.5"]
 SidePanelPosition = Literal["left", "right"]
 ReaderFont = Literal["georgia", "charter", "palatino", "garamond", "times", "sans"]
 HighlightColor = Literal["yellow", "amber", "green", "blue", "pink", "lavender", "mint"]
+ReadingMode = Literal["single", "book", "paged-single", "paged-double"]
 
 
 class RecentPassage(BaseModel):
@@ -123,6 +124,7 @@ class UserSettingsIn(BaseModel):
     side_panel_position: SidePanelPosition = "right"
     reader_font: ReaderFont = "georgia"
     highlight_color: HighlightColor = "yellow"
+    reading_mode: ReadingMode = "single"
     recent_passages: list[RecentPassage] = []
 
 

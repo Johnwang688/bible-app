@@ -68,6 +68,8 @@
   --reader-highlight-bg: #ffe066;
   --reader-highlight-bg-dark: #c9a800;
   --reader-highlight-fg-dark: #ffffff;
+  /* Open Bible mark: `white` = openbible-logo-white.png on dark UIs; `dark` = openbible-logo-black.png on light UIs */
+  --logo-color: dark;
 }
 html[data-reader-font="georgia"] {
   --serif: Georgia, "Times New Roman", serif;
@@ -1867,6 +1869,7 @@ select.ai-add-chapter-input optgroup {
   min-height: 0;
   overscroll-behavior: contain;
   background: var(--bg);
+  position: relative;
 }
 .bible-pane.bible-pane--paged {
   overflow: hidden;
@@ -3093,15 +3096,25 @@ select.ai-add-chapter-input optgroup {
 }
 .ch-nav {
   position: fixed;
-  bottom: calc(var(--taskbar) + 12px);
+  bottom: var(--taskbar);
   z-index: var(--z-ch-nav);
-  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+    left 0.28s ease, right 0.28s ease;
+}
+.ch-nav--legacy {
+  display: none;
 }
 .ch-nav-prev {
   left: 16px;
 }
 .ch-nav-next {
   right: 16px;
+}
+.ch-nav-prev.side-pane-open {
+  left: calc(var(--side-width) + 16px);
+}
+.ch-nav-next.side-pane-open {
+  right: calc(var(--side-width) + 16px);
 }
 .ch-nav-btn {
   width: 46px;
@@ -3295,28 +3308,20 @@ select.ai-add-chapter-input optgroup {
   border-color: var(--tb-icon-border);
   background: linear-gradient(180deg, var(--tb-icon-start), var(--tb-icon-end));
 }
-/* Open Bible brand control: fixed cream squircle; does not follow theme chrome tokens */
-.taskbar-btn.taskbar-btn-brand {
-  background: transparent;
-}
+/* Open Bible brand squircle: same chrome tokens as other taskbar icons (--tb-icon-*) */
 .taskbar-btn.taskbar-btn-brand:hover {
-  background: transparent;
+  background: var(--tb-hover);
 }
 .taskbar-btn.taskbar-btn-brand .taskbar-icon,
 .taskbar-btn.taskbar-btn-brand:hover .taskbar-icon,
 .taskbar-btn.taskbar-btn-brand.active .taskbar-icon,
 .taskbar-btn.taskbar-btn-brand.is-primary .taskbar-icon {
-  border: 1px solid #e8d5c4;
-  background: #f2e1cc;
-  background-image: none;
+  border: 1px solid var(--tb-icon-border);
+  background: linear-gradient(180deg, var(--tb-icon-start), var(--tb-icon-end));
   box-shadow: none;
 }
-.taskbar-btn.taskbar-btn-brand:hover .taskbar-icon {
-  border-color: #dcc9b4;
-  background: #f2e1cc;
-}
 .taskbar-btn.taskbar-btn-brand.active .taskbar-icon {
-  border-color: #c9b090;
+  border-color: color-mix(in srgb, var(--accent) 38%, var(--tb-icon-border));
 }
 .taskbar-label {
   font-size: 10px;
@@ -3680,6 +3685,8 @@ select.ai-add-chapter-input optgroup {
   .taskbar { gap: 12px; }
   .ch-nav-prev { left: 10px; }
   .ch-nav-next { right: 10px; }
+  .ch-nav-prev.side-pane-open { left: calc(var(--side-width) + 10px); }
+  .ch-nav-next.side-pane-open { right: calc(var(--side-width) + 10px); }
   .reader-wrap--book {
     padding: 28px 16px 64px;
   }
@@ -3697,6 +3704,7 @@ select.ai-add-chapter-input optgroup {
 
 /* ── THEMES ─────────────────────────────────────────────── */
 [data-theme="dark"] {
+  --logo-color: white;
   --bg: #16130f;
   --panel: #1e1a15;
   --panel-2: #252019;
@@ -3752,6 +3760,7 @@ select.ai-add-chapter-input optgroup {
 }
 
 [data-theme="pink"] {
+  --logo-color: dark;
   --bg: #ff9eb5;
   --panel: #ffd4e0;
   --panel-2: #ffc4d4;
@@ -3826,6 +3835,7 @@ select.ai-add-chapter-input optgroup {
 }
 
 [data-theme="blue"] {
+  --logo-color: dark;
   --bg: #d9e7f5;
   --panel: #cddff2;
   --panel-2: #bdd5ed;
@@ -3867,6 +3877,7 @@ select.ai-add-chapter-input optgroup {
 }
 
 [data-theme="green"] {
+  --logo-color: dark;
   --bg: #e1f9e1;
   --panel: #cbf5cb;
   --panel-2: #b5efb5;
@@ -3908,6 +3919,7 @@ select.ai-add-chapter-input optgroup {
 }
 
 [data-theme="yellow"] {
+  --logo-color: dark;
   --bg: #faf8e4;
   --panel: #fff2c4;
   --panel-2: #ffeaa4;
@@ -3949,6 +3961,7 @@ select.ai-add-chapter-input optgroup {
 }
 
 [data-theme="purple"] {
+  --logo-color: dark;
   --bg: #b19cb9;
   --panel: #dacfe9;
   --panel-2: #cdbde1;
@@ -3990,6 +4003,7 @@ select.ai-add-chapter-input optgroup {
 }
 
 [data-theme="orange"] {
+  --logo-color: dark;
   --bg: #fcefe3;
   --panel: #ffe1cc;
   --panel-2: #ffd1b4;
@@ -4031,6 +4045,7 @@ select.ai-add-chapter-input optgroup {
 }
 
 [data-theme="gold"] {
+  --logo-color: dark;
   --bg: #c9a84c;
   --panel: #d4b455;
   --panel-2: #be9c3a;
@@ -4088,6 +4103,7 @@ select.ai-add-chapter-input optgroup {
 }
 
 [data-theme="midnight"] {
+  --logo-color: white;
   --bg: #003366;
   --panel: #00408a;
   --panel-2: #002b55;
@@ -4143,6 +4159,7 @@ select.ai-add-chapter-input optgroup {
 }
 
 [data-theme="rebecca"] {
+  --logo-color: white;
   --bg: #3c3c8c;
   --panel: #4a4aaa;
   --panel-2: #2e2e72;
@@ -4198,6 +4215,7 @@ select.ai-add-chapter-input optgroup {
 }
 
 [data-theme="galaxy"] {
+  --logo-color: white;
   --bg: #1a0f2e;
   --panel: rgba(38, 22, 58, 0.92);
   --panel-2: #140a22;
@@ -4737,6 +4755,7 @@ html[data-scroll-active="1"][data-theme="pink"] .theme-comet-canvas {
 }
 
 [data-theme="parchment"] {
+  --logo-color: dark;
   --bg: #f5e7a1;
   --panel: #faf0bc;
   --panel-2: #edd878;
@@ -5253,6 +5272,7 @@ html[data-reduced-motion="1"] .pink-hearts {
 }
 
 [data-theme="teal"] {
+  --logo-color: white;
   --bg: #0f4c5c;
   --panel: #1a6070;
   --panel-2: #0a3848;
@@ -5300,6 +5320,7 @@ html[data-reduced-motion="1"] .pink-hearts {
 [data-theme="teal"] .ch-nav-btn { box-shadow: 0 10px 22px rgba(0,0,0,0.35); }
 
 [data-theme="forest"] {
+  --logo-color: white;
   --bg: #283618;
   --panel: #344820;
   --panel-2: #1e2a12;
@@ -5347,6 +5368,7 @@ html[data-reduced-motion="1"] .pink-hearts {
 [data-theme="forest"] .ch-nav-btn { box-shadow: 0 10px 22px rgba(0,0,0,0.38); }
 
 [data-theme="magenta"] {
+  --logo-color: white;
   --bg: #4A1942;
   --panel: #5c2254;
   --panel-2: #3e1234;
@@ -5394,6 +5416,7 @@ html[data-reduced-motion="1"] .pink-hearts {
 [data-theme="magenta"] .ch-nav-btn { box-shadow: 0 10px 22px rgba(0,0,0,0.4); }
 
 [data-theme="emerald"] {
+  --logo-color: white;
   --bg: #0B3D2E;
   --panel: #144d3a;
   --panel-2: #092e22;
@@ -5441,6 +5464,7 @@ html[data-reduced-motion="1"] .pink-hearts {
 [data-theme="emerald"] .ch-nav-btn { box-shadow: 0 10px 22px rgba(0,0,0,0.4); }
 
 [data-theme="canyon"] {
+  --logo-color: white;
   --bg: #4C1D06;
   --panel: #5e2608;
   --panel-2: #3a1404;
@@ -5530,6 +5554,7 @@ html[data-reduced-motion="1"] .pink-hearts {
   to   { transform: translateX(0); }
 }
 [data-theme="neonrose"] {
+  --logo-color: white;
   --bg: #000000;
   --panel: #f77fbe;
   --panel-2: #d95fa5;
@@ -5705,26 +5730,3 @@ html[data-reduced-motion="1"] .pink-hearts {
   display: none;
 }
 
-/* Brand Bible taskbar button: keep fixed squircle on themes that restyle taskbar controls */
-[data-theme="neonrose"] .taskbar-btn.taskbar-btn-brand,
-[data-theme="neonrose"] .taskbar-btn.taskbar-btn-brand:hover,
-[data-theme="neonrose"] .taskbar-btn.taskbar-btn-brand.active,
-[data-theme="neonrose"] .taskbar-btn.taskbar-btn-brand.is-primary {
-  background: transparent;
-}
-[data-theme="neonrose"] .taskbar-btn.taskbar-btn-brand .taskbar-icon,
-[data-theme="neonrose"] .taskbar-btn.taskbar-btn-brand:hover .taskbar-icon,
-[data-theme="neonrose"] .taskbar-btn.taskbar-btn-brand.active .taskbar-icon,
-[data-theme="neonrose"] .taskbar-btn.taskbar-btn-brand.is-primary .taskbar-icon {
-  background: #f2e1cc;
-  border-color: #e8d5c4;
-  color: #000000;
-}
-[data-theme="galaxy"] .taskbar-btn.taskbar-btn-brand .taskbar-icon,
-html[data-scroll-active="1"][data-theme="galaxy"] .taskbar-btn.taskbar-btn-brand .taskbar-icon {
-  background: #f2e1cc;
-  border-color: #e8d5c4;
-  box-shadow: none;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-}
