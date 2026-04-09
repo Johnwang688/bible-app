@@ -6,6 +6,7 @@ import logging
 from collections import defaultdict
 from dataclasses import dataclass
 from typing import Any
+import re
 
 from app.core.book_catalog import BOOK_BY_NUMBER
 from app.core.slugify import slugify_label
@@ -18,10 +19,167 @@ _ID_CHUNK = 500
 _ENTITY_INSERT_BATCH = 250
 _MENTION_INSERT_BATCH = 500
 _ENTITY_PAGE_SIZE = 1000
+_PLACE_ENTITY_INDEXING_ENABLED = False
+_PERSON_GENERIC_LABELS = frozenset(
+    {
+        "light",
+        "darkness",
+        "earth",
+        "heavens",
+        "heaven",
+        "waters",
+        "water",
+        "land",
+        "the land",
+        "firmament",
+        "void",
+        "sky",
+        "deep",
+        "the deep",
+        "fire",
+        "night",
+        "day",
+        "breath",
+        "clay",
+        "chaos",
+        "sea",
+        "clouds",
+        "cloud",
+        "storm",
+        "rain",
+        "wind",
+        "dust",
+        "shadow",
+        "glory",
+        "spirit",
+        "the spirit",
+    }
+)
+_PLACE_GENERIC_LABELS = frozenset(
+    {
+        *_PERSON_GENERIC_LABELS,
+        "wilderness",
+        "the wilderness",
+        "mountain",
+        "mountains",
+        "the mountain",
+        "valley",
+        "the valley",
+        "river",
+        "the river",
+        "desert",
+        "the desert",
+        "field",
+        "fields",
+        "the field",
+        "city",
+        "the city",
+        "town",
+        "the town",
+        "forest",
+        "the forest",
+        "cave",
+        "the cave",
+        "hill",
+        "the hill",
+        "hills",
+        "plain",
+        "the plain",
+        "shore",
+        "coast",
+        "border",
+        "gate",
+        "the gate",
+        "road",
+        "the road",
+        "way",
+        "the way",
+        "path",
+        "the path",
+        "camp",
+        "the camp",
+        "palace",
+        "the palace",
+        "house",
+        "the house",
+        "land of canaan",
+        "the land of canaan",
+    }
+)
+_TITLE_ONLY_PERSONS = frozenset(
+    {
+        "king",
+        "queen",
+        "prophet",
+        "priest",
+        "judge",
+        "pharaoh",
+        "caesar",
+        "governor",
+        "high priest",
+        "scribe",
+        "disciple",
+        "apostle",
+        "servant",
+        "slave",
+        "messenger",
+        "angel",
+    }
+)
+_PERSON_NAME_RE = re.compile(r"^[A-Z][A-Za-z'`\-]*(?:\s+[A-Z][A-Za-z'`\-]*)*$")
 
 
 def _label_fold(label: str) -> str:
     return label.strip().casefold()
+
+
+def _clean_entity_label(label: str) -> str:
+    return " ".join((label or "").strip().split())
+
+
+def _is_valid_person_label(label: str) -> bool:
+    clean = _clean_entity_label(label)
+    if not clean:
+        return False
+    lower = clean.casefold()
+    if lower in _PERSON_GENERIC_LABELS:
+        return False
+    if lower in _TITLE_ONLY_PERSONS:
+        return False
+    if lower.startswith("the "):
+        return False
+    if clean.isupper() and len(clean) > 4:
+        return False
+    return bool(_PERSON_NAME_RE.match(clean))
+
+
+def _is_valid_place_label(label: str) -> bool:
+    clean = _clean_entity_label(label)
+    if not clean:
+        return False
+    lower = clean.casefold()
+    if lower in _PLACE_GENERIC_LABELS:
+        return False
+    if lower.startswith("the ") and " of " not in lower:
+        return False
+    # Keep specific named places like "Garden of Eden", "Promised Land", "Mount Zion".
+    # Drop generic lowercase single-word place nouns like "river", "mountain", "land".
+    return True
+
+
+def _dedupe_keep_order(labels: list[str]) -> list[str]:
+    out: list[str] = []
+    seen: set[str] = set()
+    for raw in labels:
+        clean = _clean_entity_label(raw)
+        if not clean:
+            continue
+        folded = clean.casefold()
+        if folded in seen:
+            continue
+        seen.add(folded)
+        out.append(clean)
+    return out
 
 
 def _fetch_all_summary_entities(admin: Any) -> list[dict[str, Any]]:
@@ -68,6 +226,30 @@ def parse_summary_themes_people(content: str) -> tuple[list[str], list[str]]:
             if rest:
                 people = [s.strip() for s in rest.split(" · ") if s.strip()]
     return themes, people
+
+
+def parse_summary_themes_people_places(content: str) -> tuple[list[str], list[str], list[str]]:
+    """Parse Themes / Key People / Key Places lines from summary content."""
+    themes: list[str] = []
+    people: list[str] = []
+    places: list[str] = []
+    for line in content.splitlines():
+        if line.startswith("Themes:"):
+            rest = line[len("Themes:") :].strip()
+            if rest:
+                themes = [s.strip() for s in rest.split(" · ") if s.strip()]
+        elif line.startswith("Key People:"):
+            rest = line[len("Key People:") :].strip()
+            if rest:
+                people = [s.strip() for s in rest.split(" · ") if s.strip()]
+        elif line.startswith("Key Places:"):
+            rest = line[len("Key Places:") :].strip()
+            if rest:
+                places = [s.strip() for s in rest.split(" · ") if s.strip()]
+    themes = _dedupe_keep_order(themes)
+    people = _dedupe_keep_order([p for p in people if _is_valid_person_label(p)])
+    places = _dedupe_keep_order([p for p in places if _is_valid_place_label(p)])
+    return themes, people, places
 
 
 def rebuild_mentions_for_commentary_ids(commentary_ids: list[int]) -> SummaryRebuildStats:
@@ -132,16 +314,19 @@ def rebuild_mentions_for_commentary_ids(commentary_ids: list[int]) -> SummaryReb
 
     db_folds = frozenset(by_fold.keys())
 
-    parsed: list[tuple[int, list[str], list[str]]] = []
+    parsed: list[tuple[int, list[str], list[str], list[str]]] = []
     needed_labels: set[tuple[str, str]] = set()
     for row in rows:
         cid = int(row["id"])
-        themes, people = parse_summary_themes_people(row.get("content") or "")
-        parsed.append((cid, themes, people))
+        themes, people, places = parse_summary_themes_people_places(row.get("content") or "")
+        parsed.append((cid, themes, people, places))
         for t in themes:
             needed_labels.add(("theme", t))
         for p in people:
             needed_labels.add(("person", p))
+        if _PLACE_ENTITY_INDEXING_ENABLED:
+            for pl in places:
+                needed_labels.add(("place", pl))
 
     variants_by_fold: dict[tuple[str, str], set[str]] = defaultdict(set)
     for kind, label in needed_labels:
@@ -216,7 +401,7 @@ def rebuild_mentions_for_commentary_ids(commentary_ids: list[int]) -> SummaryReb
 
     # PK (commentary_id, entity_id): collapse duplicate labels in the same chapter.
     mention_rows: list[dict[str, int]] = []
-    for cid, themes, people in parsed:
+    for cid, themes, people, places in parsed:
         seen_eid: set[int] = set()
         order = 0
         for label in themes:
@@ -242,6 +427,19 @@ def rebuild_mentions_for_commentary_ids(commentary_ids: list[int]) -> SummaryReb
             seen_eid.add(eid)
             mention_rows.append({"commentary_id": cid, "entity_id": eid, "sort_order": order})
             order += 1
+        if _PLACE_ENTITY_INDEXING_ENABLED:
+            order = 0
+            for label in places:
+                key = ("place", label)
+                if key not in by_label:
+                    logger.error("missing place entity for commentary_id=%s label=%r", cid, label)
+                    raise KeyError(key)
+                eid = by_label[key][0]
+                if eid in seen_eid:
+                    continue
+                seen_eid.add(eid)
+                mention_rows.append({"commentary_id": cid, "entity_id": eid, "sort_order": order})
+                order += 1
 
     for i in range(0, len(mention_rows), _MENTION_INSERT_BATCH):
         batch = mention_rows[i : i + _MENTION_INSERT_BATCH]
@@ -329,16 +527,42 @@ def fetch_tags_for_commentary_ids(commentary_ids: list[int]) -> dict[int, dict[s
         triples = by_cid.get(cid, [])
         themes = sorted([t for t in triples if t[1] == "theme"], key=lambda x: x[0])
         people = sorted([t for t in triples if t[1] == "person"], key=lambda x: x[0])
+        places = sorted([t for t in triples if t[1] == "place"], key=lambda x: x[0])
         out[cid] = {
             "theme_tags": [t[2] for t in themes],
             "people_tags": [t[2] for t in people],
+            "place_tags": [t[2] for t in places],
         }
     return out
 
 
+def list_summary_entities(kind: str) -> list[dict[str, Any]]:
+    """Return all summary entities of the given kind, sorted alphabetically by label."""
+    if kind not in ("theme", "person", "place"):
+        return []
+    if kind == "place" and not _PLACE_ENTITY_INDEXING_ENABLED:
+        return []
+    db = get_supabase()
+    res = (
+        db.table("summary_entities")
+        .select("id, kind, slug, label")
+        .eq("kind", kind)
+        .order("label")
+        .execute()
+    )
+    rows = res.data or []
+    if kind == "person":
+        return [r for r in rows if _is_valid_person_label(str(r.get("label") or ""))]
+    if kind == "place":
+        return [r for r in rows if _is_valid_place_label(str(r.get("label") or ""))]
+    return rows
+
+
 def get_summary_entity_page(kind: str, slug: str) -> dict[str, Any] | None:
-    """kind is 'theme' or 'person'. Returns entity + references (book, chapter, commentary id)."""
-    if kind not in ("theme", "person"):
+    """kind is 'theme', 'person', or 'place'. Returns entity + references (book, chapter, commentary id)."""
+    if kind not in ("theme", "person", "place"):
+        return None
+    if kind == "place" and not _PLACE_ENTITY_INDEXING_ENABLED:
         return None
     db = get_supabase()
     eres = (

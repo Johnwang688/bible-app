@@ -54,7 +54,7 @@ async def get_commentary(
             if entry.source != SUMMARY_SOURCE:
                 out.append(entry)
                 continue
-            tags = tag_map.get(entry.id, {"theme_tags": [], "people_tags": []})
+            tags = tag_map.get(entry.id, {"theme_tags": [], "people_tags": [], "place_tags": []})
             out.append(
                 entry.model_copy(
                     update={
@@ -63,6 +63,9 @@ async def get_commentary(
                         ],
                         "people_tags": [
                             SummaryEntityTag(**t) for t in tags.get("people_tags") or []
+                        ],
+                        "place_tags": [
+                            SummaryEntityTag(**t) for t in tags.get("place_tags") or []
                         ],
                     }
                 )

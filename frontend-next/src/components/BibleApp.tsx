@@ -9,8 +9,7 @@ import AiSidebar, {
   restorePersonalityId,
   type AIActionParams,
 } from './AiSidebar';
-import { STORAGE_KEYS } from '../lib/storageKeys';
-import AuthPanel from './AuthPanel';
+import { STORAGE_KEYS } from '@/lib/storageKeys';import AuthPanel from './AuthPanel';
 import {
   type AccountProfile,
   type AuthSession,
@@ -65,6 +64,7 @@ interface CommentaryEntry {
   content: string;
   theme_tags?: SummaryEntityTag[] | null;
   people_tags?: SummaryEntityTag[] | null;
+  place_tags?: SummaryEntityTag[] | null;
 }
 interface CommentarySource { id: string; name: string; }
 interface ThemeDef {
@@ -872,10 +872,44 @@ function getLocalizedBookNameFromRaw(
   return getLocalizedBookName(book ?? { name: rawBookName }, translationId, translationsById);
 }
 
+/**
+ * Labels that should be silently dropped from people/place tags —
+ * abstract nouns and natural phenomena that crept into AI-generated key_people lists.
+ */
+const ENTITY_SKIP_LABELS = new Set([
+  'light', 'darkness', 'earth', 'heavens', 'heaven', 'waters', 'water', 'land',
+  'the land', 'firmament', 'void', 'sky', 'deep', 'the deep', 'fire', 'night',
+  'day', 'breath', 'clay', 'chaos', 'sea', 'clouds', 'cloud', 'storm', 'rain',
+  'wind', 'dust', 'shadow', 'glory', 'spirit', 'the spirit',
+]);
+
+// Additional abstract/generic geographic words that aren't proper place names.
+// Compound names containing these words (e.g. "Wilderness of Sinai", "Mount Moriah")
+// are kept because they won't match this exact set.
+const PLACE_ABSTRACT_LABELS = new Set([
+  'wilderness', 'the wilderness', 'mountain', 'mountains', 'the mountain',
+  'valley', 'the valley', 'river', 'the river', 'desert', 'the desert',
+  'field', 'fields', 'the field', 'city', 'the city', 'town', 'the town',
+  'forest', 'the forest', 'cave', 'the cave', 'hill', 'the hill', 'hills',
+  'plain', 'the plain', 'shore', 'coast', 'border', 'gate', 'the gate',
+  'road', 'the road', 'way', 'the way', 'path', 'the path',
+  'camp', 'the camp', 'palace', 'the palace', 'house', 'the house',
+  'land of canaan', 'the land of canaan',
+]);
+
+function isSkipLabel(label: string): boolean {
+  return ENTITY_SKIP_LABELS.has(label.toLowerCase().trim());
+}
+
+function isSkipPlaceLabel(label: string): boolean {
+  const l = label.toLowerCase().trim();
+  return ENTITY_SKIP_LABELS.has(l) || PLACE_ABSTRACT_LABELS.has(l);
+}
+
 function parseSummaryContent(content: string) {
   const result = {
     title: '', summary: '',
-    themes: [] as string[], people: [] as string[],
+    themes: [] as string[], people: [] as string[], places: [] as string[],
     points: [] as string[], verses: [] as string[],
   };
   const titleMatch = content.match(/^TITLE::(.+)/m);
@@ -885,13 +919,15 @@ function parseSummaryContent(content: string) {
   if (themesMatch) result.themes = themesMatch[1].split(' · ').map(s => s.trim()).filter(Boolean);
   const peopleMatch = rest.match(/^Key People:\s*(.+)$/m);
   if (peopleMatch) result.people = peopleMatch[1].split(' · ').map(s => s.trim()).filter(Boolean);
+  const placesMatch = rest.match(/^Key Places:\s*(.+)$/m);
+  if (placesMatch) result.places = placesMatch[1].split(' · ').map(s => s.trim()).filter(Boolean);
   const versesMatch = rest.match(/^Supporting Verses:\s*(.+)$/m);
   if (versesMatch) result.verses = versesMatch[1].split(' · ').map(s => s.trim()).filter(Boolean);
   const pointsMatch = rest.match(/^Key Points:\n([\s\S]+?)(?=\n\n[A-Z]|$)/m);
   if (pointsMatch) {
     result.points = pointsMatch[1].split('\n').map(l => l.replace(/^• /, '').trim()).filter(Boolean);
   }
-  const sectionStart = rest.search(/^(Themes:|Key People:|Key Points:|Supporting Verses:)/m);
+  const sectionStart = rest.search(/^(Themes:|Key People:|Key Places:|Key Points:|Supporting Verses:)/m);
   result.summary = (sectionStart > 0 ? rest.slice(0, sectionStart) : rest).trim();
   return result;
 }
@@ -4376,7 +4412,7 @@ export default function BibleApp({
        only so init hydration and token refresh do not cancel this effect mid-flight (fixes sign-in
        from /signin when a stored session is restored on first /app load). */
     // eslint-disable-next-line react-hooks/exhaustive-deps -- see above
-  }, [authSession?.userId, books.length]);
+  }, [authSession?.user?.id, books.length]);
 
   useEffect(() => {
     if (!authSession || !syncReadyRef.current || hydratingAccountRef.current || books.length === 0) return;
@@ -4973,9 +5009,18 @@ export default function BibleApp({
           >
             {p.title  && <div className="summary-chapter-title">{p.title}</div>}
             {p.summary && <div className="summary-text">{p.summary}</div>}
+            {p.points.length > 0 && (
+              <div className="summary-section">
+                <div className="summary-section-label">Key Points</div>
+                <ul className="summary-points">{p.points.map((pt, j) => <li key={j}>{pt}</li>)}</ul>
+              </div>
+            )}
             {p.themes.length > 0 && (
               <div className="summary-section">
-                <div className="summary-section-label">Themes</div>
+                <div className="summary-section-label">
+                  Themes
+                  <Link href={`/themes/bank${entityNavSuffix}`} className="summary-section-bank-link">Browse all</Link>
+                </div>
                 <div className="summary-tags">
                   {entry.theme_tags && entry.theme_tags.length > 0
                     ? entry.theme_tags.map((tag, j) => (
@@ -4993,36 +5038,69 @@ export default function BibleApp({
                 </div>
               </div>
             )}
-            {p.people.length > 0 && (
-              <div className="summary-section">
-                <div className="summary-section-label">Key People</div>
-                <div className="summary-tags">
-                  {entry.people_tags && entry.people_tags.length > 0
-                    ? entry.people_tags.map((tag, j) => (
-                        <Link
-                          key={j}
-                          href={`/people/${encodeURIComponent(tag.slug)}${entityNavSuffix}`}
-                          className="summary-tag summary-tag-link"
-                        >
-                          {tag.label}
-                        </Link>
-                      ))
-                    : p.people.map((t, j) => (
-                        <span key={j} className="summary-tag">{t}</span>
-                      ))}
+            {(() => {
+              const filteredPeopleTags = entry.people_tags?.filter(t => !isSkipLabel(t.label)) ?? [];
+              const filteredPeople = p.people.filter(t => !isSkipLabel(t));
+              return (filteredPeopleTags.length > 0 || filteredPeople.length > 0) && (
+                <div className="summary-section">
+                  <div className="summary-section-label">
+                    People
+                    <Link href={`/people/bank${entityNavSuffix}`} className="summary-section-bank-link">Browse all</Link>
+                  </div>
+                  <div className="summary-tags">
+                    {filteredPeopleTags.length > 0
+                      ? filteredPeopleTags.map((tag, j) => (
+                          <Link
+                            key={j}
+                            href={`/people/${encodeURIComponent(tag.slug)}${entityNavSuffix}`}
+                            className="summary-tag summary-tag-link"
+                          >
+                            {tag.label}
+                          </Link>
+                        ))
+                      : filteredPeople.map((t, j) => (
+                          <span key={j} className="summary-tag">{t}</span>
+                        ))}
+                  </div>
                 </div>
-              </div>
-            )}
-            {p.points.length > 0 && (
-              <div className="summary-section">
-                <div className="summary-section-label">Key Points</div>
-                <ul className="summary-points">{p.points.map((pt, j) => <li key={j}>{pt}</li>)}</ul>
-              </div>
-            )}
+              );
+            })()}
+            {(() => {
+              const filteredPlaceTags = entry.place_tags?.filter(t => !isSkipPlaceLabel(t.label)) ?? [];
+              const filteredPlaces = p.places.filter(t => !isSkipPlaceLabel(t));
+              const hasPlaces = filteredPlaceTags.length > 0 || filteredPlaces.length > 0;
+              return (
+                <div className="summary-section">
+                  <div className="summary-section-label">
+                    Places
+                    <Link href={`/places/bank${entityNavSuffix}`} className="summary-section-bank-link">Browse all</Link>
+                  </div>
+                  <div className="summary-tags">
+                    {hasPlaces ? (
+                      filteredPlaceTags.length > 0
+                        ? filteredPlaceTags.map((tag, j) => (
+                            <Link
+                              key={j}
+                              href={`/places/${encodeURIComponent(tag.slug)}${entityNavSuffix}`}
+                              className="summary-tag summary-tag-link summary-tag-place"
+                            >
+                              {tag.label}
+                            </Link>
+                          ))
+                        : filteredPlaces.map((t, j) => (
+                            <span key={j} className="summary-tag summary-tag-place">{t}</span>
+                          ))
+                    ) : (
+                      <span className="summary-empty-note">No specific places in this chapter summary.</span>
+                    )}
+                  </div>
+                </div>
+              );
+            })()}
             {p.verses.length > 0 && (
-              <div className="summary-section">
-                <div className="summary-section-label">Supporting Verses</div>
-                <div className="summary-tags">{p.verses.map((v, j) => <span key={j} className="summary-tag">{v}</span>)}</div>
+              <div className="summary-section summary-section-refs">
+                <div className="summary-section-label">References</div>
+                <div className="summary-tags">{p.verses.map((v, j) => <span key={j} className="summary-ref-tag">{v}</span>)}</div>
               </div>
             )}
           </section>

@@ -24,7 +24,7 @@ from app.schemas.account import (
 )
 from app.schemas.ai import AIChatRequest, AIChatResponse
 from app.schemas.bible import BookInfo, ChapterOut, SearchRequest, SearchResult, VerseOut
-from app.schemas.commentary import CommentaryEntry, SummaryEntityPageOut
+from app.schemas.commentary import CommentaryEntry, SummaryEntityListItemOut, SummaryEntityPageOut
 from app.services.account_service import (
     create_study_item,
     delete_study_item,
@@ -58,7 +58,7 @@ from app.services.bible_service import (
     search_verses,
 )
 from app.services.commentary_service import get_commentary, list_commentary_sources
-from app.services.summary_entity_service import get_summary_entity_page
+from app.services.summary_entity_service import get_summary_entity_page, list_summary_entities
 
 
 settings = get_settings()
@@ -213,12 +213,25 @@ async def get_commentary_sources() -> list[dict]:
 
 
 @app.get(
+    "/api/v1/summary-entities/list/{kind}",
+    response_model=list[SummaryEntityListItemOut],
+    tags=["commentary"],
+)
+async def list_entities_by_kind(kind: str, response: Response) -> list[SummaryEntityListItemOut]:
+    if kind not in ("theme", "person", "place"):
+        raise HTTPException(status_code=404, detail="Unknown entity kind")
+    response.headers["Cache-Control"] = "public, max-age=300"
+    items = list_summary_entities(kind)
+    return [SummaryEntityListItemOut(**item) for item in items]
+
+
+@app.get(
     "/api/v1/summary-entities/{kind}/{slug}",
     response_model=SummaryEntityPageOut,
     tags=["commentary"],
 )
 async def read_summary_entity(kind: str, slug: str) -> SummaryEntityPageOut:
-    if kind not in ("theme", "person"):
+    if kind not in ("theme", "person", "place"):
         raise HTTPException(status_code=404, detail="Unknown entity kind")
     data = get_summary_entity_page(kind, slug)
     if not data:

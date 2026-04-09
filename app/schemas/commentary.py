@@ -16,6 +16,7 @@ class CommentaryEntry(BaseModel):
     content: str
     theme_tags: list[SummaryEntityTag] | None = Field(default=None)
     people_tags: list[SummaryEntityTag] | None = Field(default=None)
+    place_tags: list[SummaryEntityTag] | None = Field(default=None)
 
 
 class CommentaryRequest(BaseModel):
@@ -37,3 +38,8 @@ class SummaryEntityPageOut(BaseModel):
     slug: str
     label: str
     references: list[SummaryEntityReferenceOut]
+
+
+class SummaryEntityListItemOut(BaseModel):
+    slug: str
+    label: str
