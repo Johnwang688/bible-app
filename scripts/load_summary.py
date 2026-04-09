@@ -157,6 +157,21 @@ def main() -> None:
     print("Replacing summary commentary rows in Supabase...", flush=True)
     replace_commentary_rows(client, rows)
 
+    try:
+        root = Path(__file__).resolve().parent.parent
+        sys.path.insert(0, str(root))
+        from app.services.summary_entity_service import rebuild_all_summary_mentions
+
+        print("Rebuilding summary entity mentions...", flush=True)
+        stats = rebuild_all_summary_mentions()
+        print(
+            f"Indexed {stats.commentary_ids_requested} summary rows "
+            f"({stats.mention_rows_written} mentions, {stats.new_entities_inserted} new entities).",
+            flush=True,
+        )
+    except Exception as exc:
+        print(f"WARNING: Could not rebuild entity mentions ({exc}). Run scripts/backfill_summary_entities.py later.", flush=True)
+
     print("Done.", flush=True)
 
 

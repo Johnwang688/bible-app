@@ -1197,6 +1197,93 @@ html:has(.side-pane.open:hover) .ch-nav {
   font-size: 11px;
   font-weight: 500;
 }
+a.summary-tag.summary-tag-link {
+  text-decoration: none;
+  cursor: pointer;
+  transition: filter 0.12s ease, transform 0.12s ease;
+}
+a.summary-tag.summary-tag-link:hover {
+  filter: brightness(1.06);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+a.summary-tag.summary-tag-link:active {
+  transform: scale(0.98);
+}
+
+.entity-page {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+  font-family: var(--ui);
+  color: var(--text);
+  min-height: 100vh;
+  background: var(--bg);
+}
+.entity-page-header {
+  margin-bottom: 1.75rem;
+}
+.entity-page-back {
+  display: inline-block;
+  font-size: 0.85rem;
+  color: var(--accent);
+  text-decoration: none;
+  margin-bottom: 0.75rem;
+}
+.entity-page-back:hover {
+  text-decoration: underline;
+}
+.entity-page-kind {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+}
+.entity-page-title {
+  font-size: 1.65rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+.entity-page-error {
+  color: #a44;
+  font-size: 0.95rem;
+}
+.entity-page-section {
+  margin-top: 1.5rem;
+}
+.entity-page-subheading {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+.entity-page-muted {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.entity-page-refs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.entity-page-ref-link {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+}
+.entity-page-ref-link:hover {
+  text-decoration: underline;
+}
 button.summary-tag {
   border: none;
   cursor: pointer;
@@ -3505,7 +3592,8 @@ select.ai-add-chapter-input optgroup {
   animation: pageFlipEnterPrev 480ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
   transform-origin: left center;
 }
-/* Paged reader: slower, linear 3D turn without overshoot keyframes (avoids jerky settle). */
+/* Paged single-column: snappy 3D turn; slices are already in memory — keep enter short and
+   bring opacity up early so the next page reads as soon as the swap runs after exit. */
 @keyframes pagedFlipExitNext {
   0% {
     transform: rotateY(0deg);
@@ -3520,6 +3608,10 @@ select.ai-add-chapter-input optgroup {
   0% {
     transform: rotateY(90deg);
     opacity: 0;
+  }
+  /* Next slice is already in the DOM; avoid a long fade after the flip. */
+  8% {
+    opacity: 1;
   }
   100% {
     transform: rotateY(0deg);
@@ -3541,27 +3633,30 @@ select.ai-add-chapter-input optgroup {
     transform: rotateY(-90deg);
     opacity: 0;
   }
+  8% {
+    opacity: 1;
+  }
   100% {
     transform: rotateY(0deg);
     opacity: 1;
   }
 }
 .reader-paged-flip-shell.reader-page-transition.page-flip-exit-next {
-  animation: pagedFlipExitNext 580ms cubic-bezier(0.45, 0, 0.55, 1) forwards;
+  animation: pagedFlipExitNext 130ms cubic-bezier(0.4, 0, 0.9, 0.45) forwards;
   transform-origin: left center;
   pointer-events: none;
 }
 .reader-paged-flip-shell.reader-page-transition.page-flip-enter-next {
-  animation: pagedFlipEnterNext 880ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: pagedFlipEnterNext 165ms cubic-bezier(0.2, 0.85, 0.25, 1) forwards;
   transform-origin: right center;
 }
 .reader-paged-flip-shell.reader-page-transition.page-flip-exit-prev {
-  animation: pagedFlipExitPrev 580ms cubic-bezier(0.45, 0, 0.55, 1) forwards;
+  animation: pagedFlipExitPrev 130ms cubic-bezier(0.4, 0, 0.9, 0.45) forwards;
   transform-origin: right center;
   pointer-events: none;
 }
 .reader-paged-flip-shell.reader-page-transition.page-flip-enter-prev {
-  animation: pagedFlipEnterPrev 880ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: pagedFlipEnterPrev 165ms cubic-bezier(0.2, 0.85, 0.25, 1) forwards;
   transform-origin: left center;
 }
 /* Paged two-page spread: cancel full-shell flip; delegate to per-column animations. */

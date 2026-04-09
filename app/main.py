@@ -24,7 +24,7 @@ from app.schemas.account import (
 )
 from app.schemas.ai import AIChatRequest, AIChatResponse
 from app.schemas.bible import BookInfo, ChapterOut, SearchRequest, SearchResult, VerseOut
-from app.schemas.commentary import CommentaryEntry
+from app.schemas.commentary import CommentaryEntry, SummaryEntityPageOut
 from app.services.account_service import (
     create_study_item,
     delete_study_item,
@@ -58,6 +58,7 @@ from app.services.bible_service import (
     search_verses,
 )
 from app.services.commentary_service import get_commentary, list_commentary_sources
+from app.services.summary_entity_service import get_summary_entity_page
 
 
 settings = get_settings()
@@ -209,6 +210,20 @@ async def read_commentary(
 @app.get("/api/v1/commentary/sources", tags=["commentary"])
 async def get_commentary_sources() -> list[dict]:
     return await list_commentary_sources()
+
+
+@app.get(
+    "/api/v1/summary-entities/{kind}/{slug}",
+    response_model=SummaryEntityPageOut,
+    tags=["commentary"],
+)
+async def read_summary_entity(kind: str, slug: str) -> SummaryEntityPageOut:
+    if kind not in ("theme", "person"):
+        raise HTTPException(status_code=404, detail="Unknown entity kind")
+    data = get_summary_entity_page(kind, slug)
+    if not data:
+        raise HTTPException(status_code=404, detail="Entity not found")
+    return SummaryEntityPageOut(**data)
 
 
 @app.post("/api/v1/auth/signup", response_model=AccountAuthResponse, tags=["auth"])

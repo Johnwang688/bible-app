@@ -1,6 +1,7 @@
 'use client';
 
 import type { CSSProperties, Dispatch, SetStateAction } from 'react';
+import Link from 'next/link';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import AiSidebar, {
   MAX_MESSAGE_CHARS,
@@ -55,7 +56,16 @@ function normalizeTranslationChoice(id: string): string {
 }
 interface VerseData   { verse: number; text: string; }
 interface ChapterData { book: string; chapter: number; translation: string; verses: VerseData[]; }
-interface CommentaryEntry { verse_start: number; verse_end: number | null; content: string; }
+interface SummaryEntityTag { slug: string; label: string; }
+interface CommentaryEntry {
+  id?: number;
+  source?: string;
+  verse_start: number;
+  verse_end: number | null;
+  content: string;
+  theme_tags?: SummaryEntityTag[] | null;
+  people_tags?: SummaryEntityTag[] | null;
+}
 interface CommentarySource { id: string; name: string; }
 interface ThemeDef {
   id: string;
@@ -940,7 +950,15 @@ function DailyTasksList({
 }
 
 // ── Main Component ─────────────────────────────────────────────────────────────
-export default function BibleApp() {
+export default function BibleApp({
+  initialReader = null,
+  initialPanel = null,
+  initialCommentarySource = null,
+}: {
+  initialReader?: { book: string; chapter: number } | null;
+  initialPanel?: 'commentary' | 'ai' | 'study' | null;
+  initialCommentarySource?: string | null;
+} = {}) {
   // ── Bible data ───
   const [books, setBooks]             = useState<BookInfo[]>([]);
   const [translations, setTranslations] = useState<Translation[]>([]);
@@ -4272,23 +4290,55 @@ export default function BibleApp() {
           });
         }
         const initialTranslation = normalizeTranslationChoice(storedLastPosition?.translation ?? 'WEB');
-        const initialBook = booksData.find(b => b.name.toLowerCase() === storedLastPosition?.book?.toLowerCase())
-          ?? booksData.find(b => b.book_number === 1)
-          ?? booksData[0]
-          ?? null;
-        const initialChapter = storedLastPosition?.chapter && storedLastPosition.chapter > 0
-          ? storedLastPosition.chapter
-          : 1;
-        setTranslation(initialTranslation);
-        setCurrentBook(initialBook);
-        if (initialBook) {
-          loadChapter(initialBook, Math.min(initialChapter, initialBook.total_chapters), initialTranslation);
-          if (storedReaderSettings.defaultPanel !== 'none') {
-            setSidePanelMode(storedReaderSettings.defaultPanel);
+        const urlBookName = initialReader?.book?.trim();
+        const urlChapter = initialReader?.chapter;
+        const urlChapterNum =
+          urlChapter != null && Number.isFinite(urlChapter) && urlChapter > 0 ? urlChapter : undefined;
+        const bookFromUrl =
+          urlBookName && urlChapterNum != null
+            ? booksData.find(b => b.name.toLowerCase() === urlBookName.toLowerCase())
+            : undefined;
+        if (bookFromUrl && urlChapterNum != null) {
+          setHomeScreenActive(false);
+          setTranslation(initialTranslation);
+          if (initialCommentarySource) {
+            commentarySourceRef.current = initialCommentarySource;
+            setCommentarySource(initialCommentarySource);
           }
+          if (initialPanel) {
+            sidePanelModeRef.current = initialPanel;
+            setSidePanelMode(initialPanel);
+            lastSidePanelModeRef.current = initialPanel;
+          } else if (storedReaderSettings.defaultPanel !== 'none') {
+            const d = storedReaderSettings.defaultPanel;
+            sidePanelModeRef.current = d;
+            setSidePanelMode(d);
+          }
+          setCurrentBook(bookFromUrl);
+          loadChapter(
+            bookFromUrl,
+            Math.min(urlChapterNum, bookFromUrl.total_chapters),
+            initialTranslation,
+          );
         } else {
-          setChapterLoading(false);
-          setChapterError(true);
+          const initialBook = booksData.find(b => b.name.toLowerCase() === storedLastPosition?.book?.toLowerCase())
+            ?? booksData.find(b => b.book_number === 1)
+            ?? booksData[0]
+            ?? null;
+          const initialChapter = storedLastPosition?.chapter && storedLastPosition.chapter > 0
+            ? storedLastPosition.chapter
+            : 1;
+          setTranslation(initialTranslation);
+          setCurrentBook(initialBook);
+          if (initialBook) {
+            loadChapter(initialBook, Math.min(initialChapter, initialBook.total_chapters), initialTranslation);
+            if (storedReaderSettings.defaultPanel !== 'none') {
+              setSidePanelMode(storedReaderSettings.defaultPanel);
+            }
+          } else {
+            setChapterLoading(false);
+            setChapterError(true);
+          }
         }
       } catch {
         setChapterLoading(false);
@@ -4914,6 +4964,13 @@ export default function BibleApp() {
     if (!commentaryEntries.length) return <div className="state-msg">No commentary for this chapter.</div>;
 
     if (commentarySource === 'summary') {
+      const bookForEntityNav = currentBook?.name ?? chapterData?.book ?? '';
+      const entityNavSuffix =
+        bookForEntityNav !== ''
+          ? `?returnTo=${encodeURIComponent(
+              `/app?book=${encodeURIComponent(bookForEntityNav)}&chapter=${chapter}&panel=commentary&source=${encodeURIComponent(commentarySource)}`,
+            )}`
+          : '';
       return commentaryEntries.map((entry, i) => {
         const start = Number(entry.verse_start);
         const end   = entry.verse_end == null ? start : Number(entry.verse_end);
@@ -4931,13 +4988,41 @@ export default function BibleApp() {
             {p.themes.length > 0 && (
               <div className="summary-section">
                 <div className="summary-section-label">Themes</div>
-                <div className="summary-tags">{p.themes.map((t, j) => <span key={j} className="summary-tag">{t}</span>)}</div>
+                <div className="summary-tags">
+                  {entry.theme_tags && entry.theme_tags.length > 0
+                    ? entry.theme_tags.map((tag, j) => (
+                        <Link
+                          key={j}
+                          href={`/themes/${encodeURIComponent(tag.slug)}${entityNavSuffix}`}
+                          className="summary-tag summary-tag-link"
+                        >
+                          {tag.label}
+                        </Link>
+                      ))
+                    : p.themes.map((t, j) => (
+                        <span key={j} className="summary-tag">{t}</span>
+                      ))}
+                </div>
               </div>
             )}
             {p.people.length > 0 && (
               <div className="summary-section">
                 <div className="summary-section-label">Key People</div>
-                <div className="summary-tags">{p.people.map((t, j) => <span key={j} className="summary-tag">{t}</span>)}</div>
+                <div className="summary-tags">
+                  {entry.people_tags && entry.people_tags.length > 0
+                    ? entry.people_tags.map((tag, j) => (
+                        <Link
+                          key={j}
+                          href={`/people/${encodeURIComponent(tag.slug)}${entityNavSuffix}`}
+                          className="summary-tag summary-tag-link"
+                        >
+                          {tag.label}
+                        </Link>
+                      ))
+                    : p.people.map((t, j) => (
+                        <span key={j} className="summary-tag">{t}</span>
+                      ))}
+                </div>
               </div>
             )}
             {p.points.length > 0 && (
