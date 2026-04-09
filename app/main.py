@@ -44,6 +44,7 @@ from app.services.account_service import (
 )
 from app.services.ai_service import (
     AIServiceUnavailable,
+    InMemoryRateLimiter,
     RateLimitExceeded,
     chat_with_ai,
     check_rate_limit,
@@ -60,6 +61,10 @@ from app.services.commentary_service import get_commentary, list_commentary_sour
 
 
 settings = get_settings()
+
+# Rate limiters for auth endpoints — separate from the AI limiter
+_SIGNUP_RATE_LIMITER = InMemoryRateLimiter(limit=5, window_seconds=600)   # 5 sign-ups per 10 min per IP
+_SIGNIN_RATE_LIMITER = InMemoryRateLimiter(limit=10, window_seconds=300)  # 10 sign-ins per 5 min per IP
 
 app = FastAPI(
     title=settings.app_name,
@@ -102,14 +107,16 @@ async def health_check() -> dict[str, object]:
 
 
 @app.get("/api/v1/translations", tags=["bible"])
-async def get_translations() -> list[dict]:
+async def get_translations(response: Response) -> list[dict]:
+    response.headers["Cache-Control"] = "public, max-age=86400"
     db = get_supabase()
     result = db.table("translations").select("id, name, language, license").order("id").execute()
     return result.data or []
 
 
 @app.get("/api/v1/books", response_model=list[BookInfo], tags=["bible"])
-async def get_books() -> list[BookInfo]:
+async def get_books(response: Response) -> list[BookInfo]:
+    response.headers["Cache-Control"] = "public, max-age=86400"
     return list_books()
 
 
@@ -205,12 +212,28 @@ async def get_commentary_sources() -> list[dict]:
 
 
 @app.post("/api/v1/auth/signup", response_model=AccountAuthResponse, tags=["auth"])
-async def auth_sign_up(payload: UserSignUp) -> AccountAuthResponse:
+async def auth_sign_up(request: Request, payload: UserSignUp) -> AccountAuthResponse:
+    try:
+        _SIGNUP_RATE_LIMITER.check(get_request_identity(request))
+    except RateLimitExceeded as exc:
+        raise HTTPException(
+            status_code=429,
+            detail="Too many sign-up attempts. Please wait a few minutes and try again.",
+            headers={"Retry-After": str(exc.retry_after_seconds)},
+        ) from exc
     return sign_up_user(payload.email.strip(), payload.password, payload.display_name)
 
 
 @app.post("/api/v1/auth/signin", response_model=AccountAuthResponse, tags=["auth"])
-async def auth_sign_in(payload: UserSignIn) -> AccountAuthResponse:
+async def auth_sign_in(request: Request, payload: UserSignIn) -> AccountAuthResponse:
+    try:
+        _SIGNIN_RATE_LIMITER.check(get_request_identity(request))
+    except RateLimitExceeded as exc:
+        raise HTTPException(
+            status_code=429,
+            detail="Too many sign-in attempts. Please wait a few minutes and try again.",
+            headers={"Retry-After": str(exc.retry_after_seconds)},
+        ) from exc
     return sign_in_user(payload.email.strip(), payload.password)
 
 

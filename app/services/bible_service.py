@@ -1,6 +1,10 @@
+import logging
+
 from app.core.book_catalog import BOOK_BY_NUMBER, BOOK_DATA
 from app.core.supabase_client import get_supabase
 from app.schemas.bible import VerseOut, ChapterOut, BookInfo, SearchResult
+
+logger = logging.getLogger(__name__)
 
 # Quick lookup maps
 _BOOK_BY_NAME: dict[str, dict] = {}
@@ -232,7 +236,7 @@ async def search_verses(
     except Exception:
         # Fall back to the original substring-based search if the database RPC
         # is unavailable or the query cannot be parsed into a tsquery.
-        pass
+        logger.exception("search_bible RPC failed for query %r; falling back to substring search", trimmed_query)
 
     q = (
         db.table("verses")

@@ -3,12 +3,12 @@
 import type { CSSProperties, Dispatch, SetStateAction } from 'react';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import AiSidebar, {
-  AI_PERSONALITY_STORAGE_KEY,
   MAX_MESSAGE_CHARS,
   PERSONALITIES,
   restorePersonalityId,
   type AIActionParams,
 } from './AiSidebar';
+import { STORAGE_KEYS } from '../lib/storageKeys';
 import AuthPanel from './AuthPanel';
 import {
   type AccountProfile,
@@ -269,18 +269,18 @@ const LEGACY_THEME_ID_MAP: Record<string, string> = {
   'galaxy metallic': 'galaxy',
 };
 const THEME_GRID_PREVIEW_COUNT = 5;
-const LAST_POSITION_STORAGE_KEY = 'bible-app-last-position';
-const RECENT_PASSAGES_STORAGE_KEY = 'bible-app-recent-passages';
-const HIGHLIGHTS_STORAGE_KEY = 'bible-app-highlights';
-const BOOKMARKS_STORAGE_KEY = 'bible-app-bookmarks';
-const NOTES_STORAGE_KEY = 'bible-app-notes';
-const READING_PROGRESS_STORAGE_KEY = 'bible-app-reading-progress';
-const DAILY_GOAL_MINUTES_STORAGE_KEY = 'bible-app-daily-goal-minutes';
+const LAST_POSITION_STORAGE_KEY = STORAGE_KEYS.LAST_POSITION;
+const RECENT_PASSAGES_STORAGE_KEY = STORAGE_KEYS.RECENT_PASSAGES;
+const HIGHLIGHTS_STORAGE_KEY = STORAGE_KEYS.HIGHLIGHTS;
+const BOOKMARKS_STORAGE_KEY = STORAGE_KEYS.BOOKMARKS;
+const NOTES_STORAGE_KEY = STORAGE_KEYS.NOTES;
+const READING_PROGRESS_STORAGE_KEY = STORAGE_KEYS.READING_PROGRESS;
+const DAILY_GOAL_MINUTES_STORAGE_KEY = STORAGE_KEYS.DAILY_GOAL;
 const DEFAULT_DAILY_GOAL_MINUTES = 10;
 const MIN_DAILY_GOAL_MINUTES = 5;
 const MAX_DAILY_GOAL_MINUTES = 120;
-const READER_SETTINGS_STORAGE_KEY = 'bible-app-reader-settings';
-const ONBOARDING_STORAGE_KEY = 'bible-app-onboarding-complete';
+const READER_SETTINGS_STORAGE_KEY = STORAGE_KEYS.READER_SETTINGS;
+const ONBOARDING_STORAGE_KEY = STORAGE_KEYS.ONBOARDING;
 /** Verse Tools tutorial always uses John 3 and this verse for the spotlight (same passage every time). */
 const TUTORIAL_VERSE_TOOLS_VERSE = 16;
 const MAX_RECENT_PASSAGES = 8;
@@ -5785,7 +5785,7 @@ export default function BibleApp() {
                           onClick={() => {
                             setPersonalityId(p.id);
                             try {
-                              window.localStorage.setItem(AI_PERSONALITY_STORAGE_KEY, p.id);
+                              window.localStorage.setItem(STORAGE_KEYS.AI_PERSONALITY, p.id);
                             } catch {
                               /* ignore */
                             }

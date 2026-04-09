@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from datetime import UTC, datetime
 from typing import Any
 
@@ -7,6 +8,8 @@ from fastapi import HTTPException
 from gotrue.errors import AuthApiError
 
 from app.core.supabase_client import create_supabase, get_supabase_admin
+
+logger = logging.getLogger(__name__)
 from app.schemas.account import (
     AuthResponse,
     ReadingProgressIn,
@@ -132,7 +135,7 @@ def get_or_create_profile(user: dict) -> UserProfile:
         ).execute()
     except Exception:
         # Concurrent request may have inserted the row first.
-        pass
+        logger.debug("Profile insert skipped (likely a race condition for user %s)", user_id)
 
     retry = (
         db.table("profiles")
@@ -262,13 +265,14 @@ def get_user_settings(user_id: str) -> UserSettingsOut:
             db.table("user_settings").upsert(payload, on_conflict="user_id").execute()
         except Exception:
             # DB schema may be behind pending migrations; fall back to in-memory defaults
-            pass
+            logger.exception("Failed to create default user_settings for user %s", user_id)
         return UserSettingsOut(user_id=user_id, **defaults.model_dump())
     # Row exists — coerce legacy string values to current schema
     _coerce_settings_row(row)
     try:
         return UserSettingsOut(**row)
     except Exception:
+        logger.exception("Failed to parse user_settings row for user %s; returning defaults", user_id)
         return UserSettingsOut(user_id=user_id, **UserSettingsIn().model_dump())
 
 
@@ -303,9 +307,10 @@ def upsert_user_settings(user_id: str, payload: UserSettingsIn) -> UserSettingsO
         db.table("user_settings").upsert(row, on_conflict="user_id").execute()
     except Exception:
         # DB schema may be behind pending migrations; partial upsert with known columns
+        logger.warning("Full user_settings upsert failed for user %s; retrying with safe columns", user_id)
         safe_row = {k: v for k, v in row.items() if k not in ("page_flip_enabled", "reading_mode")}
         try:
             db.table("user_settings").upsert(safe_row, on_conflict="user_id").execute()
         except Exception:
-            pass
+            logger.exception("Partial user_settings upsert also failed for user %s", user_id)
     return get_user_settings(user_id)
