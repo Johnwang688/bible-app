@@ -2,8 +2,13 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Bible App',
-  description: 'Bible reader with commentary',
+  title: 'Open Bible',
+  description:
+    'Read Scripture with AI commentary, translations, and study tools — a modern Bible reader built for deep, open study.',
+  icons: {
+    icon: [{ url: '/logo/openbible-logo.png', type: 'image/png' }],
+    apple: [{ url: '/logo/openbible-logo.png', type: 'image/png' }],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

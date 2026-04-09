@@ -66,6 +66,8 @@ interface Personality {
   avatarImageSrc?: string;
 }
 
+const OPENBIBLE_LOGO_AVATAR = '/logo/openbible-logo.png';
+
 export const PERSONALITIES: Personality[] = [
   {
     id: 'jessica',
@@ -73,11 +75,32 @@ export const PERSONALITIES: Personality[] = [
     tagline: 'Warm & casual',
     avatarBg: '#c07858',
     avatarInner: '#e8a880',
-    avatarImageSrc: '/avatars/jessica-avatar.png',
+    avatarImageSrc: OPENBIBLE_LOGO_AVATAR,
   },
-  { id: 'john',    name: 'John',    tagline: 'Direct & grounded', avatarBg: '#4878a0', avatarInner: '#80b0d0' },
-  { id: 'girl2',   name: 'Girl 2',  tagline: 'Heart-focused',     avatarBg: '#8858a8', avatarInner: '#c090d8' },
-  { id: 'boy2',    name: 'Boy 2',   tagline: 'Classic & wise',    avatarBg: '#7a6038', avatarInner: '#b89058' },
+  {
+    id: 'john',
+    name: 'John',
+    tagline: 'Direct & grounded',
+    avatarBg: '#4878a0',
+    avatarInner: '#80b0d0',
+    avatarImageSrc: OPENBIBLE_LOGO_AVATAR,
+  },
+  {
+    id: 'girl2',
+    name: 'Girl 2',
+    tagline: 'Heart-focused',
+    avatarBg: '#8858a8',
+    avatarInner: '#c090d8',
+    avatarImageSrc: OPENBIBLE_LOGO_AVATAR,
+  },
+  {
+    id: 'boy2',
+    name: 'Boy 2',
+    tagline: 'Classic & wise',
+    avatarBg: '#7a6038',
+    avatarInner: '#b89058',
+    avatarImageSrc: OPENBIBLE_LOGO_AVATAR,
+  },
 ];
 
 // ─── Types ───────────────────────────────────────────────────────────────────

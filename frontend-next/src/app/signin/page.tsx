@@ -38,7 +38,10 @@ export default function SignInPage() {
   return (
     <div className="si-root">
       <nav className="si-nav">
-        <Link href="/" className="si-logo">BibleApp</Link>
+        <Link href="/" className="si-logo" aria-label="Open Bible home">
+          <span className="si-logo-open">Open</span>
+          <span className="si-logo-bible"> Bible</span>
+        </Link>
       </nav>
 
       <main className="si-main">
@@ -163,8 +166,15 @@ export default function SignInPage() {
           font-size: 1.2rem;
           font-weight: 700;
           letter-spacing: 0.02em;
-          color: #c8a97e;
           text-decoration: none;
+          display: inline-flex;
+          align-items: baseline;
+        }
+        .si-logo-open {
+          color: #e8e8f0;
+        }
+        .si-logo-bible {
+          color: #c8a97e;
         }
 
         .si-main {

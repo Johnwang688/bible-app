@@ -5075,7 +5075,17 @@ export default function BibleApp() {
         <div className="home-screen" role="region" aria-label="Home">
           <div className="home-screen-inner">
             <header className="home-screen-header">
-              <h1 className="home-screen-title">{homeTimeGreeting || 'Welcome'}</h1>
+              <div className="home-screen-title-row">
+                <img
+                  className="home-screen-logo"
+                  src="/logo/openbible-logo.png"
+                  alt=""
+                  width={40}
+                  height={40}
+                  aria-hidden="true"
+                />
+                <h1 className="home-screen-title">{homeTimeGreeting || 'Welcome'}</h1>
+              </div>
               <span className="topbar-tooltip-wrap" data-tooltip="My stuff">
                 <button
                   className={`nav-btn nav-btn-icon-only${sidePanelMode === 'study' ? ' active' : ''}`}
@@ -5851,17 +5861,20 @@ export default function BibleApp() {
           data-tooltip="Bible"
         >
           <button
-            className={`taskbar-btn is-primary${!homeScreenActive && sidePanelMode === 'none' ? ' active' : ''}`}
+            className={`taskbar-btn taskbar-btn-brand is-primary${!homeScreenActive && sidePanelMode === 'none' ? ' active' : ''}`}
             type="button"
             aria-label="Bible reader"
             onClick={() => (homeScreenActive ? openReaderFromHome('none') : closeSidePanel())}
           >
             <span className="taskbar-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24">
-                <path d="M6.5 5.5h8a3 3 0 0 1 3 3v10h-8a3 3 0 0 0-3 3Z" />
-                <path d="M17.5 18.5h-8a3 3 0 0 0-3 3V8.5a3 3 0 0 1 3-3h8Z" />
-                <path d="M10 8.5v7" /><path d="M8.2 12h3.6" />
-              </svg>
+              <img
+                src="/logo/openbible-logo.png"
+                alt=""
+                className="taskbar-icon-img"
+                width={22}
+                height={22}
+                draggable={false}
+              />
             </span>
           </button>
         </span>

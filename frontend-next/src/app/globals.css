@@ -285,6 +285,20 @@ html:has(.side-pane.open:hover) .ch-nav {
   gap: 12px;
   margin-bottom: 4px;
 }
+.home-screen-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+.home-screen-logo {
+  display: block;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
 .home-screen-title {
   margin: 0;
   flex: 1;
@@ -3172,6 +3186,14 @@ select.ai-add-chapter-input optgroup {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+.taskbar-icon-img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
 .taskbar-icon .icon-solid {
   fill: currentColor;
   stroke: none;
@@ -3180,6 +3202,29 @@ select.ai-add-chapter-input optgroup {
 .taskbar-btn.is-primary .taskbar-icon {
   border-color: var(--tb-icon-border);
   background: linear-gradient(180deg, var(--tb-icon-start), var(--tb-icon-end));
+}
+/* Open Bible brand control: fixed cream squircle; does not follow theme chrome tokens */
+.taskbar-btn.taskbar-btn-brand {
+  background: transparent;
+}
+.taskbar-btn.taskbar-btn-brand:hover {
+  background: transparent;
+}
+.taskbar-btn.taskbar-btn-brand .taskbar-icon,
+.taskbar-btn.taskbar-btn-brand:hover .taskbar-icon,
+.taskbar-btn.taskbar-btn-brand.active .taskbar-icon,
+.taskbar-btn.taskbar-btn-brand.is-primary .taskbar-icon {
+  border: 1px solid #e8d5c4;
+  background: #f2e1cc;
+  background-image: none;
+  box-shadow: none;
+}
+.taskbar-btn.taskbar-btn-brand:hover .taskbar-icon {
+  border-color: #dcc9b4;
+  background: #f2e1cc;
+}
+.taskbar-btn.taskbar-btn-brand.active .taskbar-icon {
+  border-color: #c9b090;
 }
 .taskbar-label {
   font-size: 10px;
@@ -5566,4 +5611,28 @@ html[data-reduced-motion="1"] .pink-hearts {
 [data-theme="neonrose"] .galaxy-sparkles,
 [data-theme="neonrose"] #dynamic-wave {
   display: none;
+}
+
+/* Brand Bible taskbar button: keep fixed squircle on themes that restyle taskbar controls */
+[data-theme="neonrose"] .taskbar-btn.taskbar-btn-brand,
+[data-theme="neonrose"] .taskbar-btn.taskbar-btn-brand:hover,
+[data-theme="neonrose"] .taskbar-btn.taskbar-btn-brand.active,
+[data-theme="neonrose"] .taskbar-btn.taskbar-btn-brand.is-primary {
+  background: transparent;
+}
+[data-theme="neonrose"] .taskbar-btn.taskbar-btn-brand .taskbar-icon,
+[data-theme="neonrose"] .taskbar-btn.taskbar-btn-brand:hover .taskbar-icon,
+[data-theme="neonrose"] .taskbar-btn.taskbar-btn-brand.active .taskbar-icon,
+[data-theme="neonrose"] .taskbar-btn.taskbar-btn-brand.is-primary .taskbar-icon {
+  background: #f2e1cc;
+  border-color: #e8d5c4;
+  color: #000000;
+}
+[data-theme="galaxy"] .taskbar-btn.taskbar-btn-brand .taskbar-icon,
+html[data-scroll-active="1"][data-theme="galaxy"] .taskbar-btn.taskbar-btn-brand .taskbar-icon {
+  background: #f2e1cc;
+  border-color: #e8d5c4;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
