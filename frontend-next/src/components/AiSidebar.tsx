@@ -169,6 +169,8 @@ export interface AiSidebarProps {
   onOpenCommentary: (source?: string) => void;
   /** When `id` changes, replaces the composer draft and focuses the textarea (e.g. “ask from selection”). */
   composerSeed?: { id: number; text: string };
+  /** Fired once when the user sends a message to the assistant (daily task / analytics). */
+  onUserMessageSent?: () => void;
 }
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -516,6 +518,7 @@ export default function AiSidebar({
   onNavigate,
   onOpenCommentary,
   composerSeed,
+  onUserMessageSent,
 }: AiSidebarProps) {
   const [entries, setEntries] = useState<AITranscriptEntry[]>(() => restoreSidebarState().entries);
   const [draft, setDraft] = useState<string>(() => restoreSidebarState().draft);
@@ -649,6 +652,7 @@ export default function AiSidebar({
     setDraft('');
     setError(null);
     setIsLoading(true);
+    onUserMessageSent?.();
 
     try {
       const response = await fetch('/api/v1/ai/chat', {

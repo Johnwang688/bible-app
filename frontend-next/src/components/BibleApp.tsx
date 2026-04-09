@@ -103,6 +103,10 @@ interface ReadingProgress {
   todayIso: string;
   todayChapters: string[];
   todayChapterEvidence: Record<string, ChapterReadEvidence>;
+  /** Cumulative engaged time today while reading Bible, commentary, or AI (ms). */
+  todayActiveLearningMs: number;
+  /** User sent at least one message to the AI assistant today (daily task). */
+  todaySpokeToAi: boolean;
 }
 const READER_FONT_PX_OPTIONS = ['8', '10', '12', '14', '16', '18', '20', '22', '24', '26', '28', '30'] as const;
 type ReaderFontPx = (typeof READER_FONT_PX_OPTIONS)[number];
@@ -265,8 +269,10 @@ const HIGHLIGHTS_STORAGE_KEY = 'bible-app-highlights';
 const BOOKMARKS_STORAGE_KEY = 'bible-app-bookmarks';
 const NOTES_STORAGE_KEY = 'bible-app-notes';
 const READING_PROGRESS_STORAGE_KEY = 'bible-app-reading-progress';
-const DAILY_GOAL_CHAPTERS_STORAGE_KEY = 'bible-app-daily-goal-chapters';
-const DEFAULT_DAILY_GOAL_CHAPTERS = 3;
+const DAILY_GOAL_MINUTES_STORAGE_KEY = 'bible-app-daily-goal-minutes';
+const DEFAULT_DAILY_GOAL_MINUTES = 10;
+const MIN_DAILY_GOAL_MINUTES = 5;
+const MAX_DAILY_GOAL_MINUTES = 120;
 const READER_SETTINGS_STORAGE_KEY = 'bible-app-reader-settings';
 const ONBOARDING_STORAGE_KEY = 'bible-app-onboarding-complete';
 /** Verse Tools tutorial always uses John 3 and this verse for the spotlight (same passage every time). */
@@ -432,10 +438,11 @@ function selectDailyVerse(todayIso: string): DailyVerse {
   return DAILY_VERSE_POOL[seed % DAILY_VERSE_POOL.length];
 }
 
-function normalizeDailyGoalChapters(raw: string | null): number {
+function normalizeDailyGoalMinutes(raw: string | null): number {
   const n = raw ? Number.parseInt(raw, 10) : NaN;
-  if (!Number.isFinite(n)) return DEFAULT_DAILY_GOAL_CHAPTERS;
-  return Math.min(25, Math.max(1, Math.floor(n)));
+  if (!Number.isFinite(n)) return DEFAULT_DAILY_GOAL_MINUTES;
+  const stepped = Math.round(n / 5) * 5;
+  return Math.min(MAX_DAILY_GOAL_MINUTES, Math.max(MIN_DAILY_GOAL_MINUTES, stepped));
 }
 
 function boundsToTutorialRect(b: { top: number; left: number; width: number; height: number }): TutorialRect {
@@ -502,12 +509,21 @@ function normalizeReadingProgress(raw: unknown): ReadingProgress {
           };
         });
       }
+      const rawActive = o.todayActiveLearningMs;
+      const legacyAiMs = o.todayAiEngagedMs;
+      const spoke =
+        typeof o.todaySpokeToAi === 'boolean'
+          ? o.todaySpokeToAi
+          : typeof legacyAiMs === 'number' && Number.isFinite(legacyAiMs) && legacyAiMs > 0;
       return {
         streak: typeof o.streak === 'number' && o.streak >= 0 ? o.streak : 0,
         goalMetDays: o.goalMetDays.filter((d): d is string => typeof d === 'string'),
         todayIso: o.todayIso,
         todayChapters: o.todayChapters.filter((k): k is string => typeof k === 'string'),
         todayChapterEvidence,
+        todayActiveLearningMs:
+          typeof rawActive === 'number' && Number.isFinite(rawActive) ? Math.max(0, Math.floor(rawActive)) : 0,
+        todaySpokeToAi: spoke,
       };
     }
     const legacyDays = Array.isArray(o.days) ? o.days.filter((d): d is string => typeof d === 'string') : [];
@@ -518,18 +534,35 @@ function normalizeReadingProgress(raw: unknown): ReadingProgress {
       todayIso: today,
       todayChapters: [],
       todayChapterEvidence: {},
+      todayActiveLearningMs: 0,
+      todaySpokeToAi: false,
     };
   }
-  return { streak: 0, goalMetDays: [], todayIso: today, todayChapters: [], todayChapterEvidence: {} };
+  return {
+    streak: 0,
+    goalMetDays: [],
+    todayIso: today,
+    todayChapters: [],
+    todayChapterEvidence: {},
+    todayActiveLearningMs: 0,
+    todaySpokeToAi: false,
+  };
 }
 
 function rollReadingProgressToToday(p: ReadingProgress): ReadingProgress {
   const today = computeTodayIso();
   if (p.todayIso === today) return p;
-  return { ...p, todayIso: today, todayChapters: [], todayChapterEvidence: {} };
+  return {
+    ...p,
+    todayIso: today,
+    todayChapters: [],
+    todayChapterEvidence: {},
+    todayActiveLearningMs: 0,
+    todaySpokeToAi: false,
+  };
 }
 
-/** Consecutive days ending today (or yesterday if today not logged yet) where the daily chapter goal was met. */
+/** Consecutive days ending today (or yesterday if today not logged yet) where the daily minute goal was met. */
 function computeGoalStreak(goalMetDays: string[], today: string): number {
   const set = new Set(goalMetDays);
   let streak = 0;
@@ -549,8 +582,10 @@ function computeGoalStreak(goalMetDays: string[], today: string): number {
   return streak;
 }
 
-function syncGoalCompletion(progress: ReadingProgress, dailyGoalChapters: number, today: string): ReadingProgress {
-  const goalMet = progress.todayIso === today && progress.todayChapters.length >= dailyGoalChapters;
+function syncGoalCompletion(progress: ReadingProgress, dailyGoalMinutes: number, today: string): ReadingProgress {
+  const goalMs = dailyGoalMinutes * 60 * 1000;
+  const activeMs = progress.todayIso === today ? (progress.todayActiveLearningMs ?? 0) : 0;
+  const goalMet = progress.todayIso === today && activeMs >= goalMs;
   let goalMetDays = [...progress.goalMetDays];
   if (goalMet) {
     if (!goalMetDays.includes(today)) goalMetDays = [...goalMetDays, today];
@@ -855,6 +890,38 @@ function buildExplainVersePrompt(refLabel: string | undefined, selectedText: str
   return intro + refLine + `“${inner}”`;
 }
 
+function DailyTasksList({
+  taskChapterDone,
+  taskAiDone,
+  taskMinutesDone,
+  dailyGoalMinutes,
+}: {
+  taskChapterDone: boolean;
+  taskAiDone: boolean;
+  taskMinutesDone: boolean;
+  dailyGoalMinutes: number;
+}) {
+  const rows = [
+    { done: taskAiDone, label: 'Talk to the AI assistant once' },
+    { done: taskChapterDone, label: 'Read one chapter of the Bible' },
+    { done: taskMinutesDone, label: `Reach your daily active learning goal (${dailyGoalMinutes} min)` },
+  ];
+  return (
+    <ul className="daily-goals-list" aria-label="Daily tasks">
+      {rows.map((row, i) => (
+        <li key={i} className={`daily-task${row.done ? ' daily-task--done' : ''}`}>
+          <div className="daily-task-row">
+            <span className="daily-task-check" aria-hidden="true">
+              {row.done ? '✓' : ''}
+            </span>
+            <span className="daily-task-label">{row.label}</span>
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 // ── Main Component ─────────────────────────────────────────────────────────────
 export default function BibleApp() {
   // ── Bible data ───
@@ -922,8 +989,9 @@ export default function BibleApp() {
   const [bookmarkedVerses, setBookmarkedVerses] = useState<string[]>([]);
   const [verseNotes, setVerseNotes]         = useState<Record<string, VerseNote>>({});
   const [readingProgress, setReadingProgress] = useState<ReadingProgress>(() => normalizeReadingProgress(null));
-  const [dailyGoalChapters, setDailyGoalChapters] = useState(DEFAULT_DAILY_GOAL_CHAPTERS);
+  const [dailyGoalMinutes, setDailyGoalMinutes] = useState(DEFAULT_DAILY_GOAL_MINUTES);
   const [readingGoalEditing, setReadingGoalEditing] = useState(false);
+  const [dailyGoalsExpanded, setDailyGoalsExpanded] = useState(false);
   const [readerSettings, setReaderSettings] = useState<ReaderSettings>(DEFAULT_READER_SETTINGS);
   /** In-page spreads for paged reading modes (each entry is one printed page of verses). */
   const [pagedPageSlices, setPagedPageSlices] = useState<VerseData[][] | null>(null);
@@ -1029,6 +1097,8 @@ export default function BibleApp() {
     totalVerses: number;
   } | null>(null);
   const lastEngagementCommitAtRef = useRef(0);
+  /** Last activity in side panel while commentary or AI is open (for active-learning ticks). */
+  const sidePanelEngagementActivityRef = useRef(0);
   const commentarySyncTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastCommentarySyncAtRef = useRef(0);
   const scrollActiveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -1197,15 +1267,15 @@ export default function BibleApp() {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    window.localStorage.setItem(DAILY_GOAL_CHAPTERS_STORAGE_KEY, String(dailyGoalChapters));
-  }, [dailyGoalChapters]);
+    window.localStorage.setItem(DAILY_GOAL_MINUTES_STORAGE_KEY, String(dailyGoalMinutes));
+  }, [dailyGoalMinutes]);
 
   useEffect(() => {
     setReadingProgress(prev => {
       const today = computeTodayIso();
-      return syncGoalCompletion(prev, dailyGoalChapters, today);
+      return syncGoalCompletion(prev, dailyGoalMinutes, today);
     });
-  }, [dailyGoalChapters]);
+  }, [dailyGoalMinutes]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -2484,14 +2554,19 @@ export default function BibleApp() {
     : null;
   const selectedVerseNote = selectedVerseKey ? verseNotes[selectedVerseKey] : undefined;
   const todayIso = computeTodayIso();
-  const chaptersToday = readingProgress.todayIso === todayIso ? readingProgress.todayChapters.length : 0;
-  const todayGoalDone = chaptersToday >= dailyGoalChapters;
+  const isProgressToday = readingProgress.todayIso === todayIso;
+  const chaptersToday = isProgressToday ? readingProgress.todayChapters.length : 0;
+  const activeLearningMsToday = isProgressToday ? readingProgress.todayActiveLearningMs : 0;
+  const dailyGoalMs = dailyGoalMinutes * 60 * 1000;
+  const todayGoalDone = activeLearningMsToday >= dailyGoalMs;
   const dailyVerse = selectDailyVerse(todayIso);
+  const minutesTowardGoal = Math.min(dailyGoalMinutes, Math.floor(activeLearningMsToday / 60_000));
   const readingRhythmTitle = todayGoalDone
     ? "Today\u2019s goal is done."
-    : dailyGoalChapters === 1
-      ? 'Read 1 chapter today.'
-      : `Read ${chaptersToday} of ${dailyGoalChapters} chapters today.`;
+    : `Active learning: ${minutesTowardGoal} of ${dailyGoalMinutes} min today.`;
+  const taskChapterDone = chaptersToday >= 1;
+  const taskAiDone = isProgressToday && Boolean(readingProgress.todaySpokeToAi);
+  const taskMinutesDone = activeLearningMsToday >= dailyGoalMs;
   const savedVerseCount = highlightedVerses.length + bookmarkedVerses.length + Object.keys(verseNotes).length;
 
   const persistRecentPassage = useCallback((bookName: string, currentChapter: number, currentTranslation: string) => {
@@ -2525,8 +2600,12 @@ export default function BibleApp() {
           todayIso: today,
           todayChapters: [],
           todayChapterEvidence: {},
+          todayActiveLearningMs: 0,
+          todaySpokeToAi: false,
         };
       }
+      const priorActive = nextProgress.todayActiveLearningMs ?? 0;
+      const nextActiveLearningMs = priorActive + engagedDelta;
       const priorEvidence = nextProgress.todayChapterEvidence[chKey] ?? { furthestVerse: 0, engagedMs: 0 };
       const nextEvidence: ChapterReadEvidence = {
         furthestVerse: Math.max(priorEvidence.furthestVerse, furthestVerse),
@@ -2541,18 +2620,92 @@ export default function BibleApp() {
         priorEvidence.furthestVerse === nextEvidence.furthestVerse &&
         priorEvidence.engagedMs === nextEvidence.engagedMs;
       if (evidenceUnchanged && todayChapters === nextProgress.todayChapters) {
-        return syncGoalCompletion(nextProgress, dailyGoalChapters, today);
+        return syncGoalCompletion(nextProgress, dailyGoalMinutes, today);
       }
       return syncGoalCompletion({
         ...nextProgress,
         todayChapters,
+        todayActiveLearningMs: nextActiveLearningMs,
         todayChapterEvidence: {
           ...nextProgress.todayChapterEvidence,
           [chKey]: nextEvidence,
         },
-      }, dailyGoalChapters, today);
+      }, dailyGoalMinutes, today);
     });
-  }, [dailyGoalChapters]);
+  }, [dailyGoalMinutes]);
+
+  const addSidePanelActiveLearning = useCallback((deltaMs: number) => {
+    if (deltaMs <= 0) return;
+    const today = computeTodayIso();
+    setReadingProgress(prev => {
+      let next = prev;
+      if (next.todayIso !== today) {
+        next = {
+          ...next,
+          todayIso: today,
+          todayChapters: [],
+          todayChapterEvidence: {},
+          todayActiveLearningMs: 0,
+          todaySpokeToAi: false,
+        };
+      }
+      const nextActive = (next.todayActiveLearningMs ?? 0) + deltaMs;
+      return syncGoalCompletion(
+        { ...next, todayActiveLearningMs: nextActive },
+        dailyGoalMinutes,
+        today,
+      );
+    });
+  }, [dailyGoalMinutes]);
+
+  const markSpokeToAi = useCallback(() => {
+    const today = computeTodayIso();
+    setReadingProgress(prev => {
+      let next = prev;
+      if (next.todayIso !== today) {
+        next = {
+          ...next,
+          todayIso: today,
+          todayChapters: [],
+          todayChapterEvidence: {},
+          todayActiveLearningMs: 0,
+          todaySpokeToAi: false,
+        };
+      }
+      if (next.todaySpokeToAi) return syncGoalCompletion(next, dailyGoalMinutes, today);
+      return syncGoalCompletion({ ...next, todaySpokeToAi: true }, dailyGoalMinutes, today);
+    });
+  }, [dailyGoalMinutes]);
+
+  useLayoutEffect(() => {
+    const el = sideScrollRef.current;
+    if (!el || homeScreenActive) return;
+    if (sidePanelMode !== 'commentary' && sidePanelMode !== 'ai') return;
+    const mark = () => {
+      sidePanelEngagementActivityRef.current = Date.now();
+    };
+    mark();
+    el.addEventListener('scroll', mark, { passive: true });
+    el.addEventListener('pointerdown', mark);
+    el.addEventListener('keydown', mark);
+    return () => {
+      el.removeEventListener('scroll', mark);
+      el.removeEventListener('pointerdown', mark);
+      el.removeEventListener('keydown', mark);
+    };
+  }, [sidePanelMode, homeScreenActive]);
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    if (homeScreenActive) return;
+    if (sidePanelMode !== 'commentary' && sidePanelMode !== 'ai') return;
+    const id = window.setInterval(() => {
+      if (document.visibilityState !== 'visible') return;
+      if (Date.now() - sidePanelEngagementActivityRef.current > MAX_ENGAGEMENT_GAP_MS) return;
+      addSidePanelActiveLearning(1000);
+    }, 1000);
+    return () => clearInterval(id);
+  }, [sidePanelMode, homeScreenActive, addSidePanelActiveLearning]);
 
   const computeTopVisibleVerseFromDom = useCallback((): number => {
     const pane = biblePaneRef.current;
@@ -4049,7 +4202,7 @@ export default function BibleApp() {
     const storedProgress = normalizeReadingProgress(
       safelyParseJson<unknown>(localStorage.getItem(READING_PROGRESS_STORAGE_KEY), null),
     );
-    const storedDailyGoal = normalizeDailyGoalChapters(localStorage.getItem(DAILY_GOAL_CHAPTERS_STORAGE_KEY));
+    const storedDailyGoal = normalizeDailyGoalMinutes(localStorage.getItem(DAILY_GOAL_MINUTES_STORAGE_KEY));
     const storedReaderSettings = normalizeReaderSettings(
       safelyParseJson<Partial<ReaderSettings> | null>(localStorage.getItem(READER_SETTINGS_STORAGE_KEY), null),
     );
@@ -4061,7 +4214,7 @@ export default function BibleApp() {
     setVerseNotes(storedNotes);
     setRecentPassages(storedRecent);
     setReadingProgress(rollReadingProgressToToday(storedProgress));
-    setDailyGoalChapters(storedDailyGoal);
+    setDailyGoalMinutes(storedDailyGoal);
     setReaderSettings(storedReaderSettings);
     setShowOnboarding(localStorage.getItem(ONBOARDING_STORAGE_KEY) !== '1');
     if (saved === 'dynamic' && storedReaderSettings.specialEffects) startDynamicTheme();
@@ -4139,11 +4292,11 @@ export default function BibleApp() {
     return () => {
       cancelled = true;
     };
-    /* Intentionally omit authSession object identity and syncAccountState: deps on userId + books
+    /* Intentionally omit authSession object identity and syncAccountState: deps on user id + books
        only so init hydration and token refresh do not cancel this effect mid-flight (fixes sign-in
        from /signin when a stored session is restored on first /app load). */
     // eslint-disable-next-line react-hooks/exhaustive-deps -- see above
-  }, [authSession?.userId, books.length]);
+  }, [authSession?.user?.id, books.length]);
 
   useEffect(() => {
     if (!authSession || !syncReadyRef.current || hydratingAccountRef.current || books.length === 0) return;
@@ -4966,34 +5119,49 @@ export default function BibleApp() {
             </div>
             <div className="reader-dashboard-title">{readingRhythmTitle}</div>
             {readingGoalEditing && (
-              <div className="reader-goal-panel">
-                <span className="reader-goal-panel-label">Chapters per day</span>
-                <div className="reader-goal-stepper">
-                  <button
-                    type="button"
-                    className="reader-goal-step"
-                    aria-label="Decrease daily chapter goal"
-                    onClick={() => setDailyGoalChapters(g => Math.max(1, g - 1))}
-                  >
-                    −
-                  </button>
-                  <span className="reader-goal-stepper-value" aria-live="polite">
-                    {dailyGoalChapters}
+              <div className="reader-goal-panel reader-goal-panel--slider">
+                <span className="reader-goal-panel-label">Active learning minutes per day</span>
+                <div className="reader-goal-slider-wrap">
+                  <input
+                    type="range"
+                    className="reader-goal-range"
+                    min={MIN_DAILY_GOAL_MINUTES}
+                    max={MAX_DAILY_GOAL_MINUTES}
+                    step={5}
+                    value={dailyGoalMinutes}
+                    aria-label="Daily active learning goal in minutes"
+                    onChange={e => setDailyGoalMinutes(normalizeDailyGoalMinutes(e.target.value))}
+                  />
+                  <span className="reader-goal-slider-value" aria-live="polite">
+                    {dailyGoalMinutes} min
                   </span>
-                  <button
-                    type="button"
-                    className="reader-goal-step"
-                    aria-label="Increase daily chapter goal"
-                    onClick={() => setDailyGoalChapters(g => Math.min(25, g + 1))}
-                  >
-                    +
-                  </button>
                 </div>
               </div>
             )}
             <div className="reader-dashboard-metrics">
               <span className="reader-pill">{readingProgress.streak} day streak</span>
               <span className="reader-pill">{recentPassages.length} recent</span>
+            </div>
+            <div className="daily-goals-block">
+              <button
+                type="button"
+                className="daily-goals-toggle"
+                aria-expanded={dailyGoalsExpanded}
+                onClick={() => setDailyGoalsExpanded(v => !v)}
+              >
+                Daily tasks
+                <span className="daily-goals-toggle-chevron" aria-hidden="true">
+                  {dailyGoalsExpanded ? '▼' : '▶'}
+                </span>
+              </button>
+              {dailyGoalsExpanded && (
+                <DailyTasksList
+                  taskChapterDone={taskChapterDone}
+                  taskAiDone={taskAiDone}
+                  taskMinutesDone={taskMinutesDone}
+                  dailyGoalMinutes={dailyGoalMinutes}
+                />
+              )}
             </div>
           </div>
         </section>
@@ -5123,8 +5291,29 @@ export default function BibleApp() {
                 <p className="home-screen-card-caption">{readingRhythmTitle}</p>
                 <div className="reader-dashboard-metrics">
                   <span className="reader-pill">
-                    {chaptersToday} of {dailyGoalChapters} {dailyGoalChapters === 1 ? 'chapter' : 'chapters'} today
+                    {minutesTowardGoal} of {dailyGoalMinutes} min active today
                   </span>
+                </div>
+                <div className="daily-goals-block home-daily-goals">
+                  <button
+                    type="button"
+                    className="daily-goals-toggle"
+                    aria-expanded={dailyGoalsExpanded}
+                    onClick={() => setDailyGoalsExpanded(v => !v)}
+                  >
+                    Daily tasks
+                    <span className="daily-goals-toggle-chevron" aria-hidden="true">
+                      {dailyGoalsExpanded ? '▼' : '▶'}
+                    </span>
+                  </button>
+                  {dailyGoalsExpanded && (
+                    <DailyTasksList
+                      taskChapterDone={taskChapterDone}
+                      taskAiDone={taskAiDone}
+                      taskMinutesDone={taskMinutesDone}
+                      dailyGoalMinutes={dailyGoalMinutes}
+                    />
+                  )}
                 </div>
               </section>
               <section className="home-screen-card reader-dashboard-card" aria-labelledby="home-continue-heading">
@@ -5664,6 +5853,7 @@ export default function BibleApp() {
                   onNavigate={handleAiNavigate}
                   onOpenCommentary={handleAiOpenCommentary}
                   composerSeed={aiComposerSeed}
+                  onUserMessageSent={markSpokeToAi}
                 />
               )}
             </div>

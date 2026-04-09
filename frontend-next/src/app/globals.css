@@ -2228,6 +2228,98 @@ select.ai-add-chapter-input optgroup {
   text-align: center;
   color: var(--text);
 }
+.reader-goal-panel--slider {
+  flex-direction: column;
+  align-items: stretch;
+}
+.reader-goal-slider-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+.reader-goal-range {
+  flex: 1;
+  min-width: 0;
+  height: 6px;
+  accent-color: color-mix(in srgb, var(--text) 55%, var(--accent));
+  cursor: pointer;
+}
+.reader-goal-slider-value {
+  flex-shrink: 0;
+  font-family: var(--ui);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  min-width: 3.5rem;
+  text-align: right;
+}
+.daily-goals-block {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.home-daily-goals {
+  border-top: none;
+  padding-top: 4px;
+  margin-top: 8px;
+}
+.daily-goals-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0;
+  padding: 6px 0;
+  border: none;
+  background: transparent;
+  font-family: var(--ui);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  text-align: left;
+}
+.daily-goals-toggle:hover {
+  color: var(--text);
+}
+.daily-goals-toggle-chevron {
+  font-size: 10px;
+  opacity: 0.75;
+}
+.daily-goals-list {
+  list-style-type: disc;
+  list-style-position: outside;
+  margin: 8px 0 0;
+  padding-left: 1.35rem;
+}
+.daily-task {
+  display: list-item;
+  padding: 6px 0;
+  margin-left: 0.25rem;
+  font-family: var(--ui);
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--text);
+}
+.daily-task-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.daily-task-check {
+  flex-shrink: 0;
+  width: 1.1em;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--muted) 70%, var(--text));
+}
+.daily-task--done {
+  opacity: 0.55;
+  color: var(--muted);
+}
+.daily-task--done .daily-task-label {
+  text-decoration: line-through;
+}
 .reader-dashboard-title,
 .search-panel-title,
 .verse-study-title {
