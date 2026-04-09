@@ -2920,7 +2920,6 @@ export default function BibleApp() {
         ? prev.filter(k => !groupKeys.includes(k))
         : [...new Set([...prev, ...groupKeys])]
     );
-    if (!isCurrentlyHighlighted) setShowVerseNoteEditor(true);
   }, [chapter, currentBook, highlightedVerses, selectedVerseGroup, selectedVerseKey]);
 
   const toggleVerseBookmark = useCallback(() => {
@@ -4745,18 +4744,9 @@ export default function BibleApp() {
               <button
                 className={`verse-action-btn${selectedVerseHighlighted ? ' active' : ''}`}
                 type="button"
-                title={
-                  tutorialVerseToolsNavBlocked
-                    ? 'Add or remove a highlight on this verse using your current highlight color (set in Settings).'
-                    : undefined
-                }
+                title="Add or remove a highlight in your preset color. Hover this row to pick a different highlight color."
                 onClick={toggleVerseHighlight}
               >
-                <span className="verse-action-icon verse-action-icon--fill" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M19 21 12 16.89 5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16Z" />
-                  </svg>
-                </span>
                 Highlight
               </button>
               <div className="verse-color-strip" role="group" aria-label="Highlight color">
@@ -4792,26 +4782,17 @@ export default function BibleApp() {
               Share
             </button>
             <button
-              className="verse-action-btn"
+              className={`verse-action-btn${showVerseNoteEditor || selectedVerseNote ? ' active' : ''}`}
               type="button"
-              aria-disabled={tutorialVerseToolsNavBlocked}
-              title={
-                tutorialVerseToolsNavBlocked
-                  ? 'Opens commentary for this chapter in the side panel, synced to what you read. Disabled during the guided tour so you can focus on highlights and notes here.'
-                  : undefined
-              }
-              onClick={() => {
-                if (tutorialVerseToolsNavBlocked) return;
-                openSidePanel('commentary');
-              }}
+              title="Add or edit a note for this verse. Save when you are done."
+              onClick={() => setShowVerseNoteEditor(true)}
             >
-              <span className="verse-action-icon" aria-hidden="true">
+              <span className="verse-action-icon verse-action-icon--fill" aria-hidden="true">
                 <svg viewBox="0 0 24 24">
-                  <path d="M6 7.5h9" /><path d="M6 11h12" /><path d="M6 14.5h8" />
-                  <path d="M5 4.5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H12l-4.5 3v-3H5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2Z" />
+                  <path d="M19 21 12 16.89 5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16Z" />
                 </svg>
               </span>
-              Commentary
+              Notes
             </button>
             <button
               className="verse-action-btn"
@@ -4845,7 +4826,7 @@ export default function BibleApp() {
               Ask AI
             </button>
           </div>
-          {(showVerseNoteEditor || selectedVerseHighlighted || selectedVerseNote) && (
+          {(showVerseNoteEditor || selectedVerseNote) && (
             <div className="verse-note-editor">
               <textarea
                 className="verse-note-input"
@@ -4855,7 +4836,14 @@ export default function BibleApp() {
                 onChange={event => setCurrentNoteDraft(event.target.value)}
               />
               <div className="verse-note-actions">
-                <button className="verse-action-btn active" type="button" onClick={saveVerseNote}>Save</button>
+                <button className="verse-action-btn active" type="button" onClick={saveVerseNote}>
+                  <span className="verse-action-icon verse-action-icon--fill" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M19 21 12 16.89 5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16Z" />
+                    </svg>
+                  </span>
+                  Save
+                </button>
                 {selectedVerseNote && (
                   <button className="verse-action-btn" type="button" onClick={() => { setCurrentNoteDraft(''); setVerseNotes(prev => { const next = { ...prev }; if (selectedVerseKey) delete next[selectedVerseKey]; return next; }); }}>
                     Remove note
@@ -6338,7 +6326,7 @@ export default function BibleApp() {
             </div>
             <p className="tutorial-description">
               {tutorialStep.id === 'verse-tools' && tutorialVerseToolsStudyOpen
-                ? 'The study card is highlighted. Try Highlight, colors, Share, and notes. Commentary and Ask AI won’t leave this step during the tour—hover them to read what they do.'
+                ? 'The study card is highlighted. Try Highlight (hover for colors), Share, Notes, and Save. Ask AI won’t leave this step during the tour—hover it to read what it does.'
                 : tutorialStep.instruction}
             </p>
             {tutorialStep.id === 'verse-tools' && !tutorialVerseToolsStudyOpen && (
@@ -6372,13 +6360,13 @@ export default function BibleApp() {
                   <button
                     type="button"
                     className="tutorial-verse-tools-preview-btn"
-                    title="Opens commentary for this chapter in the side panel, kept in sync with your reading."
+                    title="Opens the note field for this verse. Save stores your note."
                     onClick={e => {
                       e.preventDefault();
                       e.stopPropagation();
                     }}
                   >
-                    Commentary
+                    Notes
                   </button>
                   <button
                     type="button"

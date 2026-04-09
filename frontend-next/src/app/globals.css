@@ -2550,6 +2550,12 @@ select.ai-add-chapter-input optgroup {
   padding: 0.08em 0.12em;
   margin: -0.08em -0.04em;
 }
+/* Highlight plus saved note: accent stripe so it reads differently from highlight-only */
+.verse-line--highlighted.verse-line--noted {
+  box-shadow:
+    inset 3px 0 0 var(--accent),
+    inset 0 0 0 1px color-mix(in srgb, var(--accent) 24%, transparent);
+}
 [data-theme="dark"] .verse-line--highlighted,
 [data-theme="midnight"] .verse-line--highlighted,
 [data-theme="teal"] .verse-line--highlighted,
@@ -2562,6 +2568,20 @@ select.ai-add-chapter-input optgroup {
 [data-theme="neonrose"] .verse-line--highlighted {
   background: var(--reader-highlight-bg-dark);
   color: var(--reader-highlight-fg-dark);
+}
+[data-theme="dark"] .verse-line--highlighted.verse-line--noted,
+[data-theme="midnight"] .verse-line--highlighted.verse-line--noted,
+[data-theme="teal"] .verse-line--highlighted.verse-line--noted,
+[data-theme="forest"] .verse-line--highlighted.verse-line--noted,
+[data-theme="magenta"] .verse-line--highlighted.verse-line--noted,
+[data-theme="emerald"] .verse-line--highlighted.verse-line--noted,
+[data-theme="canyon"] .verse-line--highlighted.verse-line--noted,
+[data-theme="galaxy"] .verse-line--highlighted.verse-line--noted,
+[data-theme="rebecca"] .verse-line--highlighted.verse-line--noted,
+[data-theme="neonrose"] .verse-line--highlighted.verse-line--noted {
+  box-shadow:
+    inset 3px 0 0 var(--accent),
+    inset 0 0 0 1px color-mix(in srgb, var(--accent) 38%, transparent);
 }
 /* Pink (neonrose): reader is neon text on black; popup used panel + text tokens that were both pink. */
 [data-theme="neonrose"] .verse-line--selected {
