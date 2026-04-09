@@ -20,6 +20,36 @@ _ENTITY_INSERT_BATCH = 250
 _MENTION_INSERT_BATCH = 500
 _ENTITY_PAGE_SIZE = 1000
 _PLACE_ENTITY_INDEXING_ENABLED = False
+_PLACE_LIKE_NAMES = frozenset(
+    {
+        "israel",
+        "judah",
+        "jerusalem",
+        "samaria",
+        "judea",
+        "galilee",
+        "egypt",
+        "babylon",
+        "assyria",
+        "nineveh",
+        "damascus",
+        "canaan",
+        "promised land",
+        "zion",
+        "sinai",
+        "moriah",
+        "bethlehem",
+        "nazareth",
+        "jericho",
+        "bethany",
+        "rome",
+        "antioch",
+        "corinth",
+        "ephesus",
+        "philippi",
+        "thessalonica",
+    }
+)
 _PERSON_GENERIC_LABELS = frozenset(
     {
         "light",
@@ -144,6 +174,8 @@ def _is_valid_person_label(label: str) -> bool:
     lower = clean.casefold()
     if lower in _PERSON_GENERIC_LABELS:
         return False
+    if lower in _PLACE_LIKE_NAMES:
+        return False
     if lower in _TITLE_ONLY_PERSONS:
         return False
     if lower.startswith("the "):
@@ -180,6 +212,70 @@ def _dedupe_keep_order(labels: list[str]) -> list[str]:
         seen.add(folded)
         out.append(clean)
     return out
+
+
+def _build_place_fallback_index() -> tuple[list[dict[str, Any]], dict[str, dict[str, Any]]]:
+    """
+    Build place entities directly from summary commentary text.
+    This is used while DB constraint only allows theme/person in summary_entities.
+    """
+    db = get_supabase()
+    rows: list[dict[str, Any]] = []
+    offset = 0
+    while True:
+        res = (
+            db.table("commentaries")
+            .select("id, book_number, chapter, content, source")
+            .eq("source", SUMMARY_SOURCE)
+            .range(offset, offset + _ENTITY_PAGE_SIZE - 1)
+            .execute()
+        )
+        batch = res.data or []
+        rows.extend(batch)
+        if len(batch) < _ENTITY_PAGE_SIZE:
+            break
+        offset += _ENTITY_PAGE_SIZE
+
+    by_slug: dict[str, dict[str, Any]] = {}
+    for row in rows:
+        cid = int(row["id"])
+        bn = int(row["book_number"])
+        ch = int(row["chapter"])
+        book = BOOK_BY_NUMBER.get(bn)
+        _, _, places = parse_summary_themes_people_places(row.get("content") or "")
+        for label in places:
+            slug = slugify_label(label)
+            rec = by_slug.setdefault(
+                slug,
+                {"kind": "place", "slug": slug, "label": label, "references": []},
+            )
+            # keep first-seen canonical label but dedupe refs
+            ref = {
+                "commentary_id": cid,
+                "book_number": bn,
+                "book_name": book["name"] if book else str(bn),
+                "chapter": ch,
+            }
+            rec["references"].append(ref)
+
+    for rec in by_slug.values():
+        refs = rec["references"]
+        seen = set()
+        deduped = []
+        for r in refs:
+            key = (r["commentary_id"], r["book_number"], r["chapter"])
+            if key in seen:
+                continue
+            seen.add(key)
+            deduped.append(r)
+        deduped.sort(key=lambda x: (x["book_number"], x["chapter"]))
+        rec["references"] = deduped
+
+    items = sorted(
+        [{"slug": v["slug"], "label": v["label"]} for v in by_slug.values()],
+        key=lambda x: x["label"].casefold(),
+    )
+    return items, by_slug
 
 
 def _fetch_all_summary_entities(admin: Any) -> list[dict[str, Any]]:
@@ -541,7 +637,8 @@ def list_summary_entities(kind: str) -> list[dict[str, Any]]:
     if kind not in ("theme", "person", "place"):
         return []
     if kind == "place" and not _PLACE_ENTITY_INDEXING_ENABLED:
-        return []
+        items, _ = _build_place_fallback_index()
+        return items
     db = get_supabase()
     res = (
         db.table("summary_entities")
@@ -563,7 +660,8 @@ def get_summary_entity_page(kind: str, slug: str) -> dict[str, Any] | None:
     if kind not in ("theme", "person", "place"):
         return None
     if kind == "place" and not _PLACE_ENTITY_INDEXING_ENABLED:
-        return None
+        _, index = _build_place_fallback_index()
+        return index.get(slug)
     db = get_supabase()
     eres = (
         db.table("summary_entities")

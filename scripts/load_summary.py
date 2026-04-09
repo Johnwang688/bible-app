@@ -157,6 +157,12 @@ KNOWN_BIBLICAL_PLACES = {
     "Rome",
     "Antioch",
 }
+PLACE_LIKE_PERSON_BLOCKLIST = {
+    p.casefold() for p in KNOWN_BIBLICAL_PLACES
+} | {
+    "promised land",
+    "land of canaan",
+}
 PLACE_PREFIX_RE = re.compile(
     r"\b((?:Mount|Mt\.|Sea|River|Valley|Wilderness|Desert|Garden)\s+of\s+[A-Z][A-Za-z'`\-]*(?:\s+[A-Z][A-Za-z'`\-]*){0,2})\b"
 )
@@ -186,6 +192,20 @@ def _is_skip_label(label: str) -> bool:
 def _is_skip_place_label(label: str) -> bool:
     lower = label.casefold()
     return lower in ENTITY_SKIP_LABELS or lower in PLACE_ABSTRACT_LABELS
+
+
+def _is_valid_person_label(label: str) -> bool:
+    clean = " ".join((label or "").strip().split())
+    if not clean:
+        return False
+    lower = clean.casefold()
+    if lower in ENTITY_SKIP_LABELS:
+        return False
+    if lower in PLACE_LIKE_PERSON_BLOCKLIST:
+        return False
+    if lower.startswith("the "):
+        return False
+    return True
 
 
 def _is_specific_place(label: str) -> bool:
@@ -269,9 +289,7 @@ def format_content(entry: dict) -> str:
         lines.append("")
         lines.append("Themes: " + " · ".join(themes))
 
-    people: list[str] = _dedupe_keep_order(
-        [p for p in entry.get("key_people", []) if not _is_skip_label(" ".join((p or "").strip().split()))]
-    )
+    people: list[str] = _dedupe_keep_order([p for p in entry.get("key_people", []) if _is_valid_person_label(p)])
     if people:
         lines.append("")
         lines.append("Key People: " + " · ".join(people))
