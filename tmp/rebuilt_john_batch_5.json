@@ -1,0 +1,1472 @@
+[
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 1,
+    "prompt": "In John 14, where did Jesus say there are many homes?",
+    "choices_json": [
+      "In my Father's house",
+      "In the temple courts",
+      "In the city of David",
+      "In the wilderness"
+    ],
+    "correct_answer": "In my Father's house",
+    "explanation": "Jesus says, 'In my Father's house are many homes' (John 14:2)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 1,
+    "prompt": "Which disciple asked, 'How can we know the way?' in John 14?",
+    "choices_json": [
+      "Thomas",
+      "Philip",
+      "Judas (not Iscariot)",
+      "Peter"
+    ],
+    "correct_answer": "Thomas",
+    "explanation": "Thomas asks this when Jesus speaks about where he is going (John 14:5)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 1,
+    "prompt": "In John 14:6, which description did Jesus give of himself?",
+    "choices_json": [
+      "The way, the truth, and the life",
+      "The door, the shepherd, and the bread",
+      "The vine, the farmer, and the branches",
+      "The prophet, the king, and the judge"
+    ],
+    "correct_answer": "The way, the truth, and the life",
+    "explanation": "Jesus says, 'I am the way, the truth, and the life' (John 14:6)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 1,
+    "prompt": "Which disciple said, 'Lord, show us the Father' in John 14?",
+    "choices_json": [
+      "Philip",
+      "Thomas",
+      "Judas (not Iscariot)",
+      "Andrew"
+    ],
+    "correct_answer": "Philip",
+    "explanation": "Philip asks Jesus to show them the Father (John 14:8)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 1,
+    "prompt": "If the disciples loved Jesus, what did he tell them to keep?",
+    "choices_json": [
+      "My commandments",
+      "My peace",
+      "My name",
+      "My house"
+    ],
+    "correct_answer": "My commandments",
+    "explanation": "Jesus says, 'If you love me, keep my commandments' (John 14:15)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 1,
+    "prompt": "How long did Jesus say the Counselor would be with the disciples?",
+    "choices_json": [
+      "Forever",
+      "For a little while",
+      "Until morning",
+      "For three days"
+    ],
+    "correct_answer": "Forever",
+    "explanation": "Jesus says the Father will give another Counselor 'that he may be with you forever' (John 14:16)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus say he was leaving with his disciples in John 14:27?",
+    "choices_json": [
+      "Peace",
+      "A sign",
+      "A throne",
+      "A scroll"
+    ],
+    "correct_answer": "Peace",
+    "explanation": "Jesus tells them, 'Peace I leave with you' (John 14:27)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 2,
+    "prompt": "Why did Jesus say he was going ahead in John 14:2?",
+    "choices_json": [
+      "To prepare a place for you",
+      "To gather the crowds",
+      "To cleanse the temple again",
+      "To hide from the rulers"
+    ],
+    "correct_answer": "To prepare a place for you",
+    "explanation": "Jesus says he is going 'to prepare a place for you' (John 14:2)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 2,
+    "prompt": "What did Jesus say he would do after preparing a place for his disciples?",
+    "choices_json": [
+      "Come again and receive you to myself",
+      "Send them back to Galilee",
+      "Build them a temple",
+      "Call angels to escort them"
+    ],
+    "correct_answer": "Come again and receive you to myself",
+    "explanation": "He promises, 'I will come again, and will receive you to myself' (John 14:3)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 2,
+    "prompt": "If the disciples struggled to believe Jesus' words in John 14:11, what did he tell them to consider?",
+    "choices_json": [
+      "The very works themselves",
+      "The opinion of the crowds",
+      "The memory of Moses",
+      "The power of Rome"
+    ],
+    "correct_answer": "The very works themselves",
+    "explanation": "Jesus says to believe 'for the very works' sake' (John 14:11)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 2,
+    "prompt": "Why did Jesus say believers would do greater works than his in John 14:12?",
+    "choices_json": [
+      "Because I am going to my Father",
+      "Because the temple would fall",
+      "Because the crowds would grow",
+      "Because the Law was ending"
+    ],
+    "correct_answer": "Because I am going to my Father",
+    "explanation": "Jesus ties the greater works to his going to the Father (John 14:12)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 2,
+    "prompt": "Why does Jesus say the world cannot receive the Spirit of truth?",
+    "choices_json": [
+      "Because it doesn't see him and doesn't know him",
+      "Because it has no prophets left",
+      "Because it already has the Law",
+      "Because it lives too far away"
+    ],
+    "correct_answer": "Because it doesn't see him and doesn't know him",
+    "explanation": "Jesus says the world cannot receive the Spirit 'for it doesn't see him and doesn't know him' (John 14:17)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 2,
+    "prompt": "In John 14:18, Jesus said, 'I will not leave you as' what?",
+    "choices_json": [
+      "Orphans",
+      "Servants",
+      "Strangers",
+      "Captives"
+    ],
+    "correct_answer": "Orphans",
+    "explanation": "Jesus promises, 'I will not leave you orphans' (John 14:18)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 2,
+    "prompt": "According to John 14:26, what will the Holy Spirit do for the disciples?",
+    "choices_json": [
+      "Teach them all things and remind them of Jesus' words",
+      "Lead them into the wilderness and test them",
+      "Build many homes in the Father's house",
+      "Keep the prince of the world from coming"
+    ],
+    "correct_answer": "Teach them all things and remind them of Jesus' words",
+    "explanation": "Jesus says the Holy Spirit will teach them and remind them of what he said (John 14:26)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 3,
+    "prompt": "When Philip asked to see the Father, what evidence did Jesus point to alongside his words?",
+    "choices_json": [
+      "The Father's works being done in him",
+      "The disciples' future courage",
+      "The city's welcome of him",
+      "The priests' approval of him"
+    ],
+    "correct_answer": "The Father's works being done in him",
+    "explanation": "Jesus says the Father living in him does his works (John 14:10-11)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 3,
+    "prompt": "In John 14, why is asking in Jesus' name tied to answered prayer?",
+    "choices_json": [
+      "So that the Father may be glorified in the Son",
+      "So that the disciples may impress the crowds",
+      "So that the rulers may fear the signs",
+      "So that no one will ever question their authority or message again"
+    ],
+    "correct_answer": "So that the Father may be glorified in the Son",
+    "explanation": "Jesus says he will do what is asked in his name 'that the Father may be glorified in the Son' (John 14:13)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 3,
+    "prompt": "Why does Judas (not Iscariot) sound surprised in John 14:22?",
+    "choices_json": [
+      "Jesus said he would reveal himself to the disciples and not to the world",
+      "Jesus said he would leave without speaking again",
+      "Jesus said the Father would stop loving the world",
+      "Jesus said the temple would become their home"
+    ],
+    "correct_answer": "Jesus said he would reveal himself to the disciples and not to the world",
+    "explanation": "Judas asks why Jesus is about to reveal himself to them and not to the world (John 14:22)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 3,
+    "prompt": "In John 14:19, what is the disciples' future life connected to?",
+    "choices_json": [
+      "Jesus' own continuing life",
+      "Their success in greater works",
+      "Their courage before the world",
+      "Their place among Israel's teachers"
+    ],
+    "correct_answer": "Jesus' own continuing life",
+    "explanation": "Jesus says, 'Because I live, you will live also' (John 14:19)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 3,
+    "prompt": "What repeated pattern in John 14 shows that love for Jesus is more than words?",
+    "choices_json": [
+      "Keeping his commandments and his word",
+      "Traveling wherever he travels",
+      "Defending him before the Pharisees",
+      "Building homes for one another"
+    ],
+    "correct_answer": "Keeping his commandments and his word",
+    "explanation": "Jesus repeatedly links love for him with keeping his commandments and word (John 14:15, 21, 23-24)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 3,
+    "prompt": "Why did Jesus tell the disciples these things before they happened?",
+    "choices_json": [
+      "So that when it happened, they might believe",
+      "So that they could argue with the rulers",
+      "So that they would return to Bethany",
+      "So that they would appoint new leaders"
+    ],
+    "correct_answer": "So that when it happened, they might believe",
+    "explanation": "Jesus says he told them beforehand so that 'when it happens, you may believe' (John 14:29)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 3,
+    "prompt": "What does Jesus imply by saying the prince of the world 'has nothing in me'?",
+    "choices_json": [
+      "He has no claim on Jesus",
+      "He will soon become Jesus' ally",
+      "He controls the disciples for a season",
+      "He is stronger than the Father"
+    ],
+    "correct_answer": "He has no claim on Jesus",
+    "explanation": "Jesus says the prince of the world comes, but 'he has nothing in me' (John 14:30)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 4,
+    "prompt": "In John 14:6, how does Jesus define the disciples' route to the Father?",
+    "choices_json": [
+      "Jesus himself is the only way to the Father",
+      "The Law and the temple together open the way",
+      "The disciples' obedience creates a path on its own",
+      "Many spiritual roads lead to the same Father"
+    ],
+    "correct_answer": "Jesus himself is the only way to the Father",
+    "explanation": "Jesus says, 'No one comes to the Father, except through me' (John 14:6)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 4,
+    "prompt": "When Jesus says, 'He who has seen me has seen the Father,' what claim is he making in John 14?",
+    "choices_json": [
+      "He uniquely reveals the Father in his own person",
+      "He is simply repeating the prophets' message about God to Israel",
+      "He is saying the Father has no distinct will",
+      "He is claiming to replace every earlier sign"
+    ],
+    "correct_answer": "He uniquely reveals the Father in his own person",
+    "explanation": "Jesus tells Philip that seeing him is seeing the Father (John 14:9)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 4,
+    "prompt": "What does the promise of 'another Counselor' suggest in the flow of John 14?",
+    "choices_json": [
+      "Jesus' help will continue through the Spirit after he goes",
+      "The disciples will no longer need Jesus' help or presence at all",
+      "A new earthly ruler will defend the group",
+      "The world will finally begin to understand him"
+    ],
+    "correct_answer": "Jesus' help will continue through the Spirit after he goes",
+    "explanation": "The Father gives 'another Counselor' as Jesus prepares to depart (John 14:16-18)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 4,
+    "prompt": "In John 14, how are love and obedience related?",
+    "choices_json": [
+      "Obedience is the lived expression of love for Jesus",
+      "Obedience replaces any need for love",
+      "Love matters only after the kingdom arrives",
+      "Love and obedience belong to separate stages of faith"
+    ],
+    "correct_answer": "Obedience is the lived expression of love for Jesus",
+    "explanation": "Jesus ties loving him to keeping his commandments and word (John 14:15, 21, 23)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 4,
+    "prompt": "Why is Jesus' peace different from the peace the world gives in John 14?",
+    "choices_json": [
+      "It steadies troubled hearts while he speaks of departure and conflict",
+      "It depends on political stability in Jerusalem",
+      "It comes only after the disciples prove themselves faithful under pressure",
+      "It disappears whenever the prince of the world appears"
+    ],
+    "correct_answer": "It steadies troubled hearts while he speaks of departure and conflict",
+    "explanation": "Jesus gives peace that answers troubled and fearful hearts, unlike the world's kind (John 14:27)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 4,
+    "prompt": "How does 'we will come to him and make our home with him' deepen the chapter's comfort?",
+    "choices_json": [
+      "God's presence comes to obedient believers even before the final dwelling",
+      "Only a few disciples will receive a private house in Jerusalem",
+      "The promise of heaven is postponed until the temple is rebuilt",
+      "The disciples are told to construct a lasting home for God by their own effort"
+    ],
+    "correct_answer": "God's presence comes to obedient believers even before the final dwelling",
+    "explanation": "Jesus says the Father and Son will make their home with the one who loves him (John 14:23)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 4,
+    "prompt": "When Jesus says the disciples should rejoice because he is going to the Father, what perspective is he teaching?",
+    "choices_json": [
+      "His departure should be viewed through the Father's glory rather than only their loss",
+      "Their grief proves they have not followed him at all",
+      "His return to the Father means the mission on earth has failed before the disciples were ready",
+      "The disciples should stop expecting Jesus to come to them again"
+    ],
+    "correct_answer": "His departure should be viewed through the Father's glory rather than only their loss",
+    "explanation": "Jesus says they should rejoice because he is going to the Father (John 14:28)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus' promise to prepare a place and receive the disciples to himself frame their future in John 14?",
+    "choices_json": [
+      "Their hope is being with Jesus where he is",
+      "Their hope is mainly gaining honor before the world",
+      "Their hope is escaping all responsibility in the present",
+      "Their hope is ruling the temple before Jesus returns"
+    ],
+    "correct_answer": "Their hope is being with Jesus where he is",
+    "explanation": "Jesus prepares a place so that 'where I am, you may be there also' (John 14:2-3)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 5,
+    "prompt": "In John 14, why do Jesus' works matter when belief feels difficult?",
+    "choices_json": [
+      "They display the Father's activity in the Son",
+      "They replace the need for Jesus' words entirely",
+      "They prove the crowds already understand him",
+      "They guarantee the world will receive the Spirit"
+    ],
+    "correct_answer": "They display the Father's activity in the Son",
+    "explanation": "Jesus points to the works because the Father dwelling in him does them (John 14:10-11)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 5,
+    "prompt": "What is the theological weight of 'I am in my Father, and you in me, and I in you' in John 14:20?",
+    "choices_json": [
+      "It joins Jesus' union with the Father to the believers' union with Jesus",
+      "It says the disciples become the Father in exactly the same sense as Jesus himself",
+      "It means the disciples no longer need the Holy Spirit",
+      "It limits fellowship with Jesus to the eleven alone"
+    ],
+    "correct_answer": "It joins Jesus' union with the Father to the believers' union with Jesus",
+    "explanation": "Jesus links his relation to the Father with the disciples' life in him (John 14:20)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 5,
+    "prompt": "How does John 14:26 support the trustworthiness of the disciples' later witness?",
+    "choices_json": [
+      "The Holy Spirit will teach them and remind them of Jesus' words",
+      "Their memories alone will be enough once Jesus is gone",
+      "Only Thomas and Philip will understand what happened",
+      "The prince of the world will force the truth into the open for every nation"
+    ],
+    "correct_answer": "The Holy Spirit will teach them and remind them of Jesus' words",
+    "explanation": "Jesus says the Spirit will teach and remind them of all he said (John 14:26)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 5,
+    "prompt": "What does 'the prince of the world comes' followed by 'he has nothing in me' imply about the coming conflict?",
+    "choices_json": [
+      "Jesus faces it without any rightful claim of evil against him",
+      "Jesus expects to compromise with the ruler of this world",
+      "The disciples will defeat the prince before Jesus suffers",
+      "The Father has temporarily surrendered authority to the world"
+    ],
+    "correct_answer": "Jesus faces it without any rightful claim of evil against him",
+    "explanation": "Jesus says the prince of the world has nothing in him as the conflict approaches (John 14:30)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 5,
+    "prompt": "In John 14:31, what will the world learn from Jesus doing exactly what the Father commanded?",
+    "choices_json": [
+      "That Jesus loves the Father",
+      "That Jesus fears the prince of the world",
+      "That Jesus no longer intends to return",
+      "That Jesus must persuade the Father to accept him"
+    ],
+    "correct_answer": "That Jesus loves the Father",
+    "explanation": "Jesus says he acts as the Father commanded 'that the world may know that I love the Father' (John 14:31)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 5,
+    "prompt": "How does John 14 hold together future place and present presence?",
+    "choices_json": [
+      "Jesus prepares a place ahead while the Father and Son make their home with obedient believers now",
+      "The chapter cares only about heaven and not about present fellowship",
+      "The chapter replaces future hope with inward feelings alone",
+      "The chapter teaches that God's presence is limited to the upper room and nowhere else"
+    ],
+    "correct_answer": "Jesus prepares a place ahead while the Father and Son make their home with obedient believers now",
+    "explanation": "The chapter speaks of a prepared place and of the Father and Son making their home with the believer (John 14:2-3, 23)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 1,
+    "prompt": "In John 15, what did Jesus call himself?",
+    "choices_json": [
+      "The true vine",
+      "The open gate",
+      "The bright star",
+      "The living altar"
+    ],
+    "correct_answer": "The true vine",
+    "explanation": "Jesus says, 'I am the true vine' (John 15:1)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 1,
+    "prompt": "Who did Jesus say is the farmer in John 15?",
+    "choices_json": [
+      "The Father",
+      "Moses",
+      "The Counselor",
+      "The beloved disciple"
+    ],
+    "correct_answer": "The Father",
+    "explanation": "Jesus says, 'My Father is the farmer' (John 15:1)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 1,
+    "prompt": "In the vine picture, what did Jesus call the disciples?",
+    "choices_json": [
+      "Branches",
+      "Servants",
+      "Seeds",
+      "Laborers"
+    ],
+    "correct_answer": "Branches",
+    "explanation": "Jesus tells them, 'You are the branches' (John 15:5)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 1,
+    "prompt": "What does the Father do to a branch that bears fruit?",
+    "choices_json": [
+      "He prunes it",
+      "He burns it",
+      "He hides it",
+      "He uproots it"
+    ],
+    "correct_answer": "He prunes it",
+    "explanation": "Jesus says every fruitful branch is pruned so it may bear more fruit (John 15:2)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 1,
+    "prompt": "According to John 15:5, apart from Jesus the disciples can do what?",
+    "choices_json": [
+      "Nothing",
+      "Very little",
+      "Only endure hatred",
+      "Only ask for help"
+    ],
+    "correct_answer": "Nothing",
+    "explanation": "Jesus says, 'Apart from me you can do nothing' (John 15:5)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus call the disciples instead of servants in John 15?",
+    "choices_json": [
+      "Friends",
+      "Guests",
+      "Watchmen",
+      "Sowers"
+    ],
+    "correct_answer": "Friends",
+    "explanation": "Jesus says, 'No longer do I call you servants ... I have called you friends' (John 15:15)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 1,
+    "prompt": "What command did Jesus repeat in John 15:12?",
+    "choices_json": [
+      "Love one another as I have loved you",
+      "Guard the temple as I guarded it",
+      "Wait in Jerusalem until I return",
+      "Judge the crowds with righteous judgment"
+    ],
+    "correct_answer": "Love one another as I have loved you",
+    "explanation": "Jesus says, 'This is my commandment, that you love one another, even as I have loved you' (John 15:12)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 2,
+    "prompt": "Why did Jesus say the disciples were already clean in John 15:3?",
+    "choices_json": [
+      "Because of the word he had spoken to them",
+      "Because they had left their nets",
+      "Because they had washed in the Jordan",
+      "Because they had kept every command perfectly"
+    ],
+    "correct_answer": "Because of the word he had spoken to them",
+    "explanation": "Jesus says, 'You are already pruned clean because of the word which I have spoken to you' (John 15:3)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 2,
+    "prompt": "What happens to a branch that does not remain in the vine, according to John 15:6?",
+    "choices_json": [
+      "It is thrown out, withers, and is burned",
+      "It is replanted beside the vine and watered",
+      "It grows fruit on its own after a delay",
+      "It becomes the farmer's tool for pruning"
+    ],
+    "correct_answer": "It is thrown out, withers, and is burned",
+    "explanation": "Jesus says the branch is thrown out, withers, and is cast into the fire (John 15:6)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 2,
+    "prompt": "If Jesus' words remain in the disciples, what did he say they may do?",
+    "choices_json": [
+      "Ask whatever they desire",
+      "Judge every nation",
+      "Call down fire from heaven",
+      "Hide from the hatred of the world"
+    ],
+    "correct_answer": "Ask whatever they desire",
+    "explanation": "Jesus says, 'You will ask whatever you desire, and it will be done for you' (John 15:7)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 2,
+    "prompt": "According to John 15:8, what glorifies the Father?",
+    "choices_json": [
+      "Bearing much fruit",
+      "Leaving the world quietly",
+      "Keeping sorrow to themselves",
+      "Winning arguments with persecutors"
+    ],
+    "correct_answer": "Bearing much fruit",
+    "explanation": "Jesus says the Father is glorified when the disciples bear much fruit (John 15:8)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 2,
+    "prompt": "What is the greatest love described in John 15:13?",
+    "choices_json": [
+      "That someone lay down his life for his friends",
+      "That someone share his harvest with strangers",
+      "That someone defend his teacher in public",
+      "That someone remain silent under pressure"
+    ],
+    "correct_answer": "That someone lay down his life for his friends",
+    "explanation": "Jesus says, 'Greater love has no one than this, that someone lay down his life for his friends' (John 15:13)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 2,
+    "prompt": "Why did Jesus say he called the disciples friends?",
+    "choices_json": [
+      "Because he made known to them what he heard from the Father",
+      "Because they had already borne more fruit than anyone",
+      "Because the world had begun to admire them",
+      "Because they no longer needed any commands"
+    ],
+    "correct_answer": "Because he made known to them what he heard from the Father",
+    "explanation": "Jesus says he called them friends because he had made known what he heard from the Father (John 15:15)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 2,
+    "prompt": "What saying did Jesus tell the disciples to remember when persecution came?",
+    "choices_json": [
+      "A servant is not greater than his lord",
+      "Whoever seeks finds",
+      "Peace I leave with you",
+      "Destroy this temple, and in three days I will raise it"
+    ],
+    "correct_answer": "A servant is not greater than his lord",
+    "explanation": "Jesus says, 'Remember the word that I said to you: \"A servant is not greater than his lord\"' (John 15:20)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 3,
+    "prompt": "How does remaining in Jesus affect fruit in the vine passage?",
+    "choices_json": [
+      "It is the only way branches bear much fruit",
+      "It guarantees the world will love the disciples",
+      "It replaces any need for prayer",
+      "It keeps every branch from ever being pruned"
+    ],
+    "correct_answer": "It is the only way branches bear much fruit",
+    "explanation": "Jesus says a branch cannot bear fruit by itself unless it remains in the vine (John 15:4-5)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 3,
+    "prompt": "Why is pruning not a sign of abandonment in John 15?",
+    "choices_json": [
+      "It is aimed at producing more fruit",
+      "It proves the branch was never connected",
+      "It shows the farmer has stopped caring",
+      "It means the season of fruit is over"
+    ],
+    "correct_answer": "It is aimed at producing more fruit",
+    "explanation": "Jesus says the Father prunes fruitful branches 'that it may bear more fruit' (John 15:2)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 3,
+    "prompt": "What link does John 15 make between obedience and joy?",
+    "choices_json": [
+      "Keeping Jesus' commandments leads to remaining in his love and to full joy",
+      "Keeping Jesus' commandments leads mainly to duty now, with joy belonging only to the next age",
+      "Joy is found by escaping commands and pruning",
+      "Obedience produces fear rather than love"
+    ],
+    "correct_answer": "Keeping Jesus' commandments leads to remaining in his love and to full joy",
+    "explanation": "Jesus connects keeping his commandments, remaining in his love, and joy being made full (John 15:10-11)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 3,
+    "prompt": "How does Jesus' choice of the disciples shape the way they should view their mission in John 15?",
+    "choices_json": [
+      "He chose and appointed them to go and bear fruit",
+      "They created their own mission by deciding to follow first",
+      "Their task is mainly to avoid the world until he returns",
+      "Only their private devotion matters, not any outward fruit"
+    ],
+    "correct_answer": "He chose and appointed them to go and bear fruit",
+    "explanation": "Jesus says, 'I chose you and appointed you, that you should go and bear fruit' (John 15:16)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus connect loving one another with the world's hatred in the same chapter?",
+    "choices_json": [
+      "Internal love is meant to sustain the disciples amid external opposition",
+      "Love for one another is how they avoid persecution altogether from the hostile world",
+      "The world will hate them only if they fail to love one another",
+      "Hatred from the world is simply another form of pruning"
+    ],
+    "correct_answer": "Internal love is meant to sustain the disciples amid external opposition",
+    "explanation": "Jesus commands mutual love and then prepares them for the world's hatred (John 15:12, 17-19)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 3,
+    "prompt": "In John 15, what does the world's hatred reveal about its relation to Jesus?",
+    "choices_json": [
+      "It hated him first and does not know the one who sent him",
+      "It secretly belongs to him even while resisting",
+      "It only objects to the disciples and not to Jesus himself",
+      "It hates him because his disciples have withdrawn from society"
+    ],
+    "correct_answer": "It hated him first and does not know the one who sent him",
+    "explanation": "Jesus says the world hated him before it hated the disciples and does not know the one who sent him (John 15:18, 21)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 3,
+    "prompt": "Why are the disciples' testimony and the Counselor's testimony paired at the end of John 15?",
+    "choices_json": [
+      "The Spirit testifies about Jesus, and they testify as those who have been with him from the beginning",
+      "The disciples replace the Spirit once Jesus departs",
+      "The Spirit speaks only to the world while the disciples speak only to one another about Jesus",
+      "The testimony belongs only to future believers, not to the eleven"
+    ],
+    "correct_answer": "The Spirit testifies about Jesus, and they testify as those who have been with him from the beginning",
+    "explanation": "Jesus says the Counselor will testify about him, and the disciples will also testify because they have been with him from the beginning (John 15:26-27)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 4,
+    "prompt": "By calling himself the 'true vine' before speaking of branches and fruit, what claim does Jesus make in John 15?",
+    "choices_json": [
+      "He is the genuine source of the fruitfulness God's people need",
+      "He is only one helpful source among many others",
+      "He is abandoning Israel's story in favor of a new religion",
+      "He is teaching mainly about agriculture rather than discipleship"
+    ],
+    "correct_answer": "He is the genuine source of the fruitfulness God's people need",
+    "explanation": "Jesus presents himself as the true vine from whom fruitfulness actually comes (John 15:1-5)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 4,
+    "prompt": "How does 'apart from me you can do nothing' define discipleship in John 15?",
+    "choices_json": [
+      "It is a life of dependence on Jesus rather than self-generated strength",
+      "It means disciples should stop attempting any good work until they feel spiritually stronger",
+      "It limits obedience to moments of visible miracles",
+      "It says only apostles can bear fruit"
+    ],
+    "correct_answer": "It is a life of dependence on Jesus rather than self-generated strength",
+    "explanation": "Jesus says fruit-bearing is impossible apart from remaining in him (John 15:4-5)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 4,
+    "prompt": "Why does Jesus move from servants to friends before speaking of laying down his life?",
+    "choices_json": [
+      "He shows that shared knowledge and personal love shape the community he is about to die for",
+      "He wants the disciples to forget every command he has given them",
+      "He is explaining that friendship removes every difference in authority and command",
+      "He is preparing to hand the mission over to the world"
+    ],
+    "correct_answer": "He shows that shared knowledge and personal love shape the community he is about to die for",
+    "explanation": "Jesus calls them friends because he has made known the Father's words, then speaks of laying down his life for friends (John 15:13-15)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 4,
+    "prompt": "How does John 15:13 prepare the reader for the cross?",
+    "choices_json": [
+      "It frames Jesus' death as the greatest act of love for his friends",
+      "It treats Jesus' death as an unfortunate loss of influence and nothing more",
+      "It says the cross will matter only as an example of courage",
+      "It shifts attention away from Jesus onto the disciples' sacrifice"
+    ],
+    "correct_answer": "It frames Jesus' death as the greatest act of love for his friends",
+    "explanation": "The saying about laying down one's life gives Jesus' coming death the shape of supreme love (John 15:13)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 4,
+    "prompt": "What does 'your fruit should remain' add to the mission Jesus gives in John 15:16?",
+    "choices_json": [
+      "Jesus appoints them for lasting fruit, not momentary results",
+      "Fruit matters only at the final judgment, not in present mission",
+      "The disciples are told to preserve literal vineyard harvests",
+      "Remaining fruit means never facing hatred from the world"
+    ],
+    "correct_answer": "Jesus appoints them for lasting fruit, not momentary results",
+    "explanation": "Jesus says he appointed them to bear fruit 'and that your fruit should remain' (John 15:16)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 4,
+    "prompt": "Why does Jesus say the world hates the disciples in John 15?",
+    "choices_json": [
+      "Because they are not of the world and were chosen out of it",
+      "Because they have stopped speaking about him publicly",
+      "Because they are more powerful than Rome",
+      "Because they no longer need the Father's love"
+    ],
+    "correct_answer": "Because they are not of the world and were chosen out of it",
+    "explanation": "Jesus says the world hates them because he chose them out of the world (John 15:19)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 4,
+    "prompt": "How do Jesus' words and works remove excuses in John 15:22-24?",
+    "choices_json": [
+      "They bring such clear revelation that rejection becomes culpable",
+      "They guarantee everyone who hears will believe immediately and permanently",
+      "They cancel the need for any future testimony",
+      "They prove sin no longer exists after Jesus speaks"
+    ],
+    "correct_answer": "They bring such clear revelation that rejection becomes culpable",
+    "explanation": "Jesus says those who heard his words and saw his works now have 'no excuse for their sin' (John 15:22-24)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 5,
+    "prompt": "How does John 15 connect the Father's pruning and the Son's abiding care?",
+    "choices_json": [
+      "The Father cultivates while life and fruit flow only through remaining in the Son",
+      "The Father and the Son take opposite roles in the disciples' growth",
+      "The Father prunes only after disciples learn to live apart from Jesus",
+      "The Son bears fruit for the disciples so their response and remaining no longer matter at all"
+    ],
+    "correct_answer": "The Father cultivates while life and fruit flow only through remaining in the Son",
+    "explanation": "The Father prunes, but branches bear fruit only by remaining in Jesus (John 15:2, 4-5)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 5,
+    "prompt": "In John 15, what is the significance of remaining in Jesus' love 'even as' he remains in the Father's love?",
+    "choices_json": [
+      "Discipleship mirrors the Son's own obedient relationship with the Father",
+      "Jesus is saying the disciples now replace him in the Father's love and favor",
+      "The Father's love and Jesus' love are unrelated realities",
+      "Only one disciple will be able to remain in that love"
+    ],
+    "correct_answer": "Discipleship mirrors the Son's own obedient relationship with the Father",
+    "explanation": "Jesus compares the disciples' remaining in his love to his own obedience within the Father's love (John 15:9-10)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 5,
+    "prompt": "Why is the command to love one another central rather than optional in the vine discourse?",
+    "choices_json": [
+      "Fruit, friendship, and witness are all shaped by Christlike love",
+      "It is included mainly to soften the hard warning about burned branches",
+      "It matters only when the world begins to like the disciples",
+      "It replaces the need to remain in Jesus himself"
+    ],
+    "correct_answer": "Fruit, friendship, and witness are all shaped by Christlike love",
+    "explanation": "Jesus anchors the chapter's community life in the repeated command to love one another (John 15:12, 17)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 5,
+    "prompt": "What does Jesus' statement 'You didn't choose me, but I chose you' contribute to John 15's view of discipleship?",
+    "choices_json": [
+      "Initiative and mission begin with Jesus' call",
+      "The disciples have no responsibility once they are chosen",
+      "Choice belongs only to the world, not to Jesus",
+      "The chapter denies that the disciples actually followed him"
+    ],
+    "correct_answer": "Initiative and mission begin with Jesus' call",
+    "explanation": "Jesus grounds their mission in his choosing and appointing of them (John 15:16)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 5,
+    "prompt": "How does the quotation 'They hated me without a cause' function in John 15?",
+    "choices_json": [
+      "It shows Jesus' rejection fulfills Scripture rather than disproving his mission",
+      "It proves the disciples will never be hated in the same way",
+      "It means hatred comes only from people outside Israel",
+      "It turns hatred into an excuse for retaliating in kind"
+    ],
+    "correct_answer": "It shows Jesus' rejection fulfills Scripture rather than disproving his mission",
+    "explanation": "Jesus says their hostility fulfills what was written in their law: 'They hated me without a cause' (John 15:25)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 5,
+    "prompt": "What does the Counselor's coming 'from the Father' and testifying 'about me' show at the end of John 15?",
+    "choices_json": [
+      "The Spirit's ministry is both Father-sent and centered on Jesus",
+      "The Spirit will speak independently of both Father and Son",
+      "The Spirit's only task is comforting disciples in private moments of fear",
+      "The Spirit replaces the disciples' witness altogether"
+    ],
+    "correct_answer": "The Spirit's ministry is both Father-sent and centered on Jesus",
+    "explanation": "Jesus says he will send the Counselor from the Father, and that Counselor will testify about him (John 15:26)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 5,
+    "prompt": "How does John 15 hold together suffering and mission?",
+    "choices_json": [
+      "The same disciples who are hated by the world are appointed to bear lasting fruit and testify",
+      "Mission ends whenever suffering begins",
+      "Fruitfulness is promised only in peaceful seasons",
+      "Hatred from the world means the disciples should remain silent"
+    ],
+    "correct_answer": "The same disciples who are hated by the world are appointed to bear lasting fruit and testify",
+    "explanation": "Jesus appoints the disciples to bear fruit and then prepares them for hatred while calling them to testify (John 15:16, 18-19, 27)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 1,
+    "prompt": "In John 16, from what places did Jesus say the disciples would be put out?",
+    "choices_json": [
+      "The synagogues",
+      "The marketplaces",
+      "The temple treasury",
+      "The upper rooms"
+    ],
+    "correct_answer": "The synagogues",
+    "explanation": "Jesus says, 'They will put you out of the synagogues' (John 16:2)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus say had filled the disciples' hearts in John 16:6?",
+    "choices_json": [
+      "Sorrow",
+      "Joy",
+      "Courage",
+      "Anger"
+    ],
+    "correct_answer": "Sorrow",
+    "explanation": "Jesus says, 'Sorrow has filled your heart' (John 16:6)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 1,
+    "prompt": "Who would come to the disciples if Jesus went away?",
+    "choices_json": [
+      "The Counselor",
+      "John the Baptist",
+      "Elijah",
+      "An angel with a sword"
+    ],
+    "correct_answer": "The Counselor",
+    "explanation": "Jesus says if he goes away, he will send the Counselor to them (John 16:7)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 1,
+    "prompt": "What three things will the Counselor convict the world about?",
+    "choices_json": [
+      "Sin, righteousness, and judgment",
+      "Bread, water, and light",
+      "Faith, hope, and love",
+      "Priests, rulers, and crowds"
+    ],
+    "correct_answer": "Sin, righteousness, and judgment",
+    "explanation": "Jesus says the Counselor will convict the world 'about sin, about righteousness, and about judgment' (John 16:8)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 1,
+    "prompt": "What everyday event did Jesus use to picture sorrow turning to joy in John 16?",
+    "choices_json": [
+      "A woman giving birth",
+      "A farmer gathering grapes",
+      "A child learning to walk",
+      "A shepherd finding a lamb"
+    ],
+    "correct_answer": "A woman giving birth",
+    "explanation": "Jesus compares their sorrow and joy to a woman in labor whose child is then born (John 16:21)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 1,
+    "prompt": "From whom did Jesus say he came into the world?",
+    "choices_json": [
+      "The Father",
+      "The synagogue leaders",
+      "The house of David",
+      "The Spirit only"
+    ],
+    "correct_answer": "The Father",
+    "explanation": "Jesus says, 'I came from the Father, and have come into the world' (John 16:28)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus say he had overcome in John 16:33?",
+    "choices_json": [
+      "The world",
+      "The grave",
+      "The empire",
+      "The night"
+    ],
+    "correct_answer": "The world",
+    "explanation": "Jesus says, 'I have overcome the world' (John 16:33)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 2,
+    "prompt": "Why would some people think killing the disciples was service to God, according to John 16?",
+    "choices_json": [
+      "Because they had not known the Father or Jesus",
+      "Because they misunderstood Moses' signs",
+      "Because the disciples would hide in fear",
+      "Because the Spirit would stop speaking to them"
+    ],
+    "correct_answer": "Because they had not known the Father or Jesus",
+    "explanation": "Jesus says such people act this way because they have not known the Father nor him (John 16:2-3)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 2,
+    "prompt": "Why did Jesus say he had not told the disciples these things from the beginning?",
+    "choices_json": [
+      "Because he was with them",
+      "Because they had already understood them",
+      "Because the rulers were listening nearby",
+      "Because the time of sorrow had not yet come"
+    ],
+    "correct_answer": "Because he was with them",
+    "explanation": "Jesus says, 'I didn't tell you these things from the beginning, because I was with you' (John 16:4)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 2,
+    "prompt": "According to John 16:9, why will the Spirit convict the world concerning sin?",
+    "choices_json": [
+      "Because they don't believe in Jesus",
+      "Because they don't keep the feast days",
+      "Because they neglect the poor",
+      "Because they fail to recognize the disciples"
+    ],
+    "correct_answer": "Because they don't believe in Jesus",
+    "explanation": "Jesus says the Spirit convicts 'about sin, because they don't believe in me' (John 16:9)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 2,
+    "prompt": "According to John 16:11, why will the Spirit convict the world concerning judgment?",
+    "choices_json": [
+      "Because the prince of this world has been judged",
+      "Because the disciples will judge the nations",
+      "Because Jerusalem is about to fall",
+      "Because the synagogue rulers have lost their place"
+    ],
+    "correct_answer": "Because the prince of this world has been judged",
+    "explanation": "Jesus says the Spirit convicts 'about judgment, because the prince of this world has been judged' (John 16:11)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 2,
+    "prompt": "What will the Spirit of truth speak, according to John 16:13?",
+    "choices_json": [
+      "Whatever he hears",
+      "Only figures of speech",
+      "Only what the disciples first decide",
+      "Whatever the world wants to hear"
+    ],
+    "correct_answer": "Whatever he hears",
+    "explanation": "Jesus says the Spirit 'will not speak from himself; but whatever he hears, he will speak' (John 16:13)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 2,
+    "prompt": "Until John 16:24, what had the disciples asked nothing in?",
+    "choices_json": [
+      "Jesus' name",
+      "The temple courts",
+      "The Father's house",
+      "The world to come"
+    ],
+    "correct_answer": "Jesus' name",
+    "explanation": "Jesus says, 'Until now, you have asked nothing in my name' (John 16:24)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 2,
+    "prompt": "How did the disciples describe Jesus' words in John 16:29?",
+    "choices_json": [
+      "Speaking plainly and using no figures of speech",
+      "Hard to understand and deeply troubling",
+      "Like Moses speaking from the mountain",
+      "So quiet that no one could answer"
+    ],
+    "correct_answer": "Speaking plainly and using no figures of speech",
+    "explanation": "The disciples say Jesus is now speaking plainly and not using figures of speech (John 16:29)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus say his departure is actually to the disciples' advantage in John 16?",
+    "choices_json": [
+      "Because the Counselor will come to them",
+      "Because the rulers will stop opposing them",
+      "Because they will no longer have any sorrow",
+      "Because the world will finally receive him"
+    ],
+    "correct_answer": "Because the Counselor will come to them",
+    "explanation": "Jesus says it is to their advantage that he goes away, since then the Counselor will come (John 16:7)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 3,
+    "prompt": "When the disciples repeat 'a little while' in John 16, what does their confusion show?",
+    "choices_json": [
+      "They do not yet grasp Jesus' departure and return",
+      "They are eager to leave Jesus behind",
+      "They fully understand the resurrection already",
+      "They are arguing about which synagogue to enter next"
+    ],
+    "correct_answer": "They do not yet grasp Jesus' departure and return",
+    "explanation": "The disciples admit, 'We don't know what he is saying' about 'a little while' (John 16:17-18)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 3,
+    "prompt": "How does the childbirth image interpret the disciples' coming grief in John 16?",
+    "choices_json": [
+      "It will be intense but temporary and will give way to joy",
+      "It will slowly fade into forgetfulness without any clear cause",
+      "It proves sorrow is the final state of discipleship",
+      "It means only women can understand Jesus' departure"
+    ],
+    "correct_answer": "It will be intense but temporary and will give way to joy",
+    "explanation": "Jesus compares their sorrow to labor pain that turns to joy once the child is born (John 16:20-21)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus say the disciples' joy cannot be taken away?",
+    "choices_json": [
+      "Because he will see them again",
+      "Because the world will stop hating them",
+      "Because they will no longer ask the Father anything",
+      "Because they will remain together without scattering"
+    ],
+    "correct_answer": "Because he will see them again",
+    "explanation": "Jesus says, 'I will see you again, and your heart will rejoice, and no one will take your joy away from you' (John 16:22)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 3,
+    "prompt": "What change does Jesus describe from figures of speech to plain speech about the Father?",
+    "choices_json": [
+      "Clearer understanding about the Father will follow",
+      "The disciples must abandon all earlier teaching",
+      "Only private revelations will matter from then on",
+      "The Spirit will stop reminding them of Jesus' words"
+    ],
+    "correct_answer": "Clearer understanding about the Father will follow",
+    "explanation": "Jesus says a time is coming when he will tell them plainly about the Father (John 16:25)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 3,
+    "prompt": "How does the Father's love for the disciples relate to Jesus in John 16:27?",
+    "choices_json": [
+      "They have loved Jesus and believed he came from God",
+      "It depends on how bravely they face the rulers",
+      "It is unrelated to what they believe about Jesus",
+      "It begins only after they ask enough questions"
+    ],
+    "correct_answer": "They have loved Jesus and believed he came from God",
+    "explanation": "Jesus says the Father loves them because they loved him and believed he came from God (John 16:27)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 3,
+    "prompt": "What does Jesus expose by asking, 'Do you now believe?' in John 16:31?",
+    "choices_json": [
+      "Their confession is real but still fragile before the scattering",
+      "Their faith is already perfect and complete",
+      "Their belief never had any truth in it at all",
+      "Their problem is only that they asked too many questions earlier"
+    ],
+    "correct_answer": "Their confession is real but still fragile before the scattering",
+    "explanation": "Jesus challenges their confidence and immediately predicts they will be scattered (John 16:30-32)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 4,
+    "prompt": "How does John 16 portray persecution done 'for God'?",
+    "choices_json": [
+      "As zeal that still fails to know the Father or the Son",
+      "As the highest form of faithful worship",
+      "As a misunderstanding that Jesus leaves uncorrected",
+      "As a sign that the world is close to believing"
+    ],
+    "correct_answer": "As zeal that still fails to know the Father or the Son",
+    "explanation": "Jesus says persecutors will think they offer service to God, yet they do not know the Father or him (John 16:2-3)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 4,
+    "prompt": "Why is the Spirit's convicting work centered on sin, righteousness, and judgment in John 16?",
+    "choices_json": [
+      "Each category is defined by humanity's response to Jesus and his vindication",
+      "They are simply the three favorite themes of the disciples",
+      "The Spirit avoids speaking about Jesus directly",
+      "Those topics matter only until Jesus reaches the Father and then disappear"
+    ],
+    "correct_answer": "Each category is defined by humanity's response to Jesus and his vindication",
+    "explanation": "Jesus explains each category in direct relation to belief in him, his going to the Father, and the ruler's judgment (John 16:9-11)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 4,
+    "prompt": "What does 'He will glorify me' reveal about the Spirit's role in John 16?",
+    "choices_json": [
+      "The Spirit directs attention to Jesus rather than away from him",
+      "The Spirit begins a separate mission that replaces Jesus",
+      "The Spirit's main work is to glorify the disciples before the world",
+      "The Spirit speaks only about future events and not about Christ"
+    ],
+    "correct_answer": "The Spirit directs attention to Jesus rather than away from him",
+    "explanation": "Jesus says the Spirit will glorify him by taking what is his and declaring it (John 16:14)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 4,
+    "prompt": "How does 'All things that the Father has are mine' function in the Spirit discourse of John 16?",
+    "choices_json": [
+      "It grounds the Spirit's message in the shared reality of Father and Son",
+      "It limits the Father's work to what the disciples can understand",
+      "It shows Jesus has stopped depending on the Father",
+      "It means the Spirit speaks only of the Father and never truly of Jesus himself"
+    ],
+    "correct_answer": "It grounds the Spirit's message in the shared reality of Father and Son",
+    "explanation": "Jesus says the Spirit takes from what is his, and then explains that all the Father's things are his (John 16:14-15)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 4,
+    "prompt": "What access does Jesus open up when he says the disciples may ask the Father in his name?",
+    "choices_json": [
+      "Direct, confident access to the Father through Jesus",
+      "Access only through the synagogue leaders",
+      "Access only after Jesus persuades the Father to listen",
+      "Access that depends on the disciples never feeling sorrow again"
+    ],
+    "correct_answer": "Direct, confident access to the Father through Jesus",
+    "explanation": "Jesus says they may ask the Father in his name, and the Father himself loves them (John 16:23, 26-27)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 4,
+    "prompt": "How does John 16 turn sorrow into a theological theme instead of mere emotion?",
+    "choices_json": [
+      "Sorrow becomes the doorway to resurrection joy",
+      "Sorrow is treated as a failure that disqualifies discipleship",
+      "Sorrow matters only for the women in the crowd",
+      "Sorrow is solved by escaping the world altogether"
+    ],
+    "correct_answer": "Sorrow becomes the doorway to resurrection joy",
+    "explanation": "Jesus says their sorrow will be turned into joy, like labor pains ending in birth (John 16:20-22)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 4,
+    "prompt": "Why can Jesus promise peace in the same chapter where he predicts scattering?",
+    "choices_json": [
+      "Peace rests in him and in the Father's presence, not in the disciples' steadiness",
+      "Peace comes because the disciples will not actually scatter",
+      "Peace depends on the world becoming friendly to them",
+      "Peace is limited to the hours before Jesus is arrested"
+    ],
+    "correct_answer": "Peace rests in him and in the Father's presence, not in the disciples' steadiness",
+    "explanation": "Jesus predicts scattering yet says the Father is with him and that in him they may have peace (John 16:32-33)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 5,
+    "prompt": "What does the triad of sin, righteousness, and judgment say about the world's crisis in John 16?",
+    "choices_json": [
+      "The world's deepest problem is unbelief, its verdict on Jesus is overturned, and its ruler already stands condemned",
+      "The world mainly needs better education, stronger rulers, clearer customs, and wiser public leadership",
+      "The Spirit's work is to condemn disciples before addressing anyone else",
+      "The three themes are unrelated topics gathered only for emphasis"
+    ],
+    "correct_answer": "The world's deepest problem is unbelief, its verdict on Jesus is overturned, and its ruler already stands condemned",
+    "explanation": "Jesus defines sin by unbelief, righteousness by his return to the Father, and judgment by the ruler's condemnation (John 16:9-11)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 5,
+    "prompt": "How does John 16:13-15 prevent 'guiding into all truth' from being treated as independent revelation detached from Jesus?",
+    "choices_json": [
+      "The Spirit speaks what he hears, takes what belongs to Jesus, and glorifies him",
+      "The Spirit begins a message that no longer depends on Jesus' words",
+      "The disciples will create the truth for each new situation largely on their own",
+      "The Spirit's truth is limited to predictions about distant events"
+    ],
+    "correct_answer": "The Spirit speaks what he hears, takes what belongs to Jesus, and glorifies him",
+    "explanation": "Jesus says the Spirit will not speak from himself but will declare what he hears and what belongs to Jesus (John 16:13-15)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 5,
+    "prompt": "What mission arc is compressed into Jesus' words, 'I came from the Father ... I leave the world and go to the Father'?",
+    "choices_json": [
+      "Incarnation, earthly mission, departure, and return to the Father",
+      "Birth in Bethlehem, years in Nazareth, and a later move to Jerusalem",
+      "The rise of Israel, the exile, and the rebuilding of the temple",
+      "The disciples' call, failure, and eventual martyrdom"
+    ],
+    "correct_answer": "Incarnation, earthly mission, departure, and return to the Father",
+    "explanation": "Jesus sums up his origin and destination in one line about coming from and returning to the Father (John 16:28)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus' prediction that the disciples will scatter deepen the statement 'I am not alone' in John 16?",
+    "choices_json": [
+      "Human companions fail, but the Father's presence remains",
+      "Jesus means the Counselor has already replaced every disciple",
+      "The scattering is only apparent because they stay spiritually nearby",
+      "Being alone is unimportant once the disciples stop asking questions"
+    ],
+    "correct_answer": "Human companions fail, but the Father's presence remains",
+    "explanation": "Jesus says they will leave him alone, 'yet I am not alone, because the Father is with me' (John 16:32)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 5,
+    "prompt": "What kind of joy does John 16 promise after the disciples' sorrow?",
+    "choices_json": [
+      "Resurrection-grounded joy that no one can take away",
+      "A short burst of relief before deeper fear and confusion return again",
+      "Public honor from the same world that hated Jesus",
+      "Joy only for the disciples who never doubted"
+    ],
+    "correct_answer": "Resurrection-grounded joy that no one can take away",
+    "explanation": "Jesus says he will see them again, their hearts will rejoice, and no one will take that joy away (John 16:22)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 5,
+    "prompt": "Why does Jesus challenge the disciples with 'Do you now believe?' right after their confident confession?",
+    "choices_json": [
+      "To show that their understanding is about to be tested by crisis",
+      "To deny that they have believed anything at all",
+      "To teach that questions are always a sign of unbelief",
+      "To tell them belief matters less than steady courage when suffering arrives"
+    ],
+    "correct_answer": "To show that their understanding is about to be tested by crisis",
+    "explanation": "Jesus questions their confidence and then predicts their immediate scattering (John 16:30-32)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 5,
+    "prompt": "How does the closing line 'I have overcome the world' function before the arrest actually happens?",
+    "choices_json": [
+      "It announces victory in advance, so the coming cross is faced as triumph rather than defeat",
+      "It means the disciples will be spared every form of trouble",
+      "It signals that Jesus no longer expects resistance from the world",
+      "It refers only to a future age and not to the present crisis already beginning around them"
+    ],
+    "correct_answer": "It announces victory in advance, so the coming cross is faced as triumph rather than defeat",
+    "explanation": "Jesus closes the chapter with courage because his victory over the world is already assured (John 16:33)."
+  }
+]

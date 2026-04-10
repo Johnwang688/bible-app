@@ -1,0 +1,2452 @@
+[
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 1,
+    "prompt": "What does John 7 reveal about Jesus's timing?",
+    "choices_json": [
+      "Because his time had not yet come.",
+      "John frames rejection of Jesus as participation in deception and murder.",
+      "Before Abraham came into existence, I AM.",
+      "Jesus claimed existence before Abraham."
+    ],
+    "correct_answer": "Because his time had not yet come.",
+    "explanation": "John 7 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about Jesus's timing?",
+    "choices_json": [
+      "Jesus said Abraham saw it and was glad. (does not match John's wording in context)",
+      "He presents Abraham as pointing ahead to him.",
+      "The chapter links the patriarchal story to Jesus.",
+      "His time had not yet come, while theirs was always ready."
+    ],
+    "correct_answer": "His time had not yet come, while theirs was always ready.",
+    "explanation": "John 7 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 3,
+    "prompt": "What does Jesus's timing suggest in context?",
+    "choices_json": [
+      "John uses the sign to show God's work shining through weakness.",
+      "He told him to wash in the pool of Siloam.",
+      "He acts by the Father's timetable, not public pressure.",
+      "Suffering becomes the stage for God's glory."
+    ],
+    "correct_answer": "He acts by the Father's timetable, not public pressure.",
+    "explanation": "This shows the chapter's point about Jesus's timing."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does Jesus's timing reinforce in John 7?",
+    "choices_json": [
+      "The sign forces a decision about Jesus's identity.",
+      "The chapter contrasts divine timing with human urgency.",
+      "Some Pharisees said Jesus was not from God because he healed on the Sabbath.",
+      "Others argued a sinner could not do such signs."
+    ],
+    "correct_answer": "The chapter contrasts divine timing with human urgency.",
+    "explanation": "This reinforces the chapter's theme around Jesus's timing."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus's timing fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "It fits John's portrait of the sent Son who moves on the Father's schedule.",
+      "Fear keeps witnesses from speaking freely.",
+      "Social pressure competes with truth. (a common guess, but not what John says here)",
+      "John highlights the cost of confessing Jesus in a hostile setting."
+    ],
+    "correct_answer": "It fits John's portrait of the sent Son who moves on the Father's schedule.",
+    "explanation": "This fits John's wider portrait of Jesus in John 7."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 1,
+    "prompt": "What does John 7 reveal about his teaching from the Father?",
+    "choices_json": [
+      "He identifies himself with God's eternal name.",
+      "The chapter moves from ancestry arguments to divine identity.",
+      "This is one of John's clearest claims about Jesus's deity.",
+      "His teaching was not his own, but the Father's who sent him."
+    ],
+    "correct_answer": "His teaching was not his own, but the Father's who sent him.",
+    "explanation": "John 7 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about his teaching from the Father?",
+    "choices_json": [
+      "It happened so the works of God might be revealed in him.",
+      "Neither the man nor his parents sinned to cause it.",
+      "He said the teaching came from the one who sent him.",
+      "John places Jesus at the center of Israel's story."
+    ],
+    "correct_answer": "He said the teaching came from the one who sent him.",
+    "explanation": "John 7 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 3,
+    "prompt": "What does his teaching from the Father suggest in context?",
+    "choices_json": [
+      "The pool becomes a sign of cleansing and sending.",
+      "Jesus speaks as the Father's messenger.",
+      "After washing there, the man came back seeing.",
+      "Obedience to Jesus's word leads to sight."
+    ],
+    "correct_answer": "Jesus speaks as the Father's messenger.",
+    "explanation": "This shows the chapter's point about his teaching from the Father."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does his teaching from the Father reinforce in John 7?",
+    "choices_json": [
+      "The chapter stresses obedience to God's will as the test of teaching.",
+      "Sabbath law can obscure or reveal God's work.",
+      "John places Jesus's mercy above the leaders' narrow reading of the law.",
+      "They feared the Jews because confessors would be put out of the synagogue."
+    ],
+    "correct_answer": "The chapter stresses obedience to God's will as the test of teaching.",
+    "explanation": "This reinforces the chapter's theme around his teaching from the Father."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 5,
+    "prompt": "How does his teaching from the Father fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "I was blind, but now I see. (a common guess, but not what John says here)",
+      "The man says he knows only that Jesus healed him.",
+      "Experience of grace becomes a powerful testimony.",
+      "John uses this to show the Son revealing the Father."
+    ],
+    "correct_answer": "John uses this to show the Son revealing the Father.",
+    "explanation": "This fits John's wider portrait of Jesus in John 7."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 1,
+    "prompt": "What does John 7 reveal about circumcision on the Sabbath?",
+    "choices_json": [
+      "Jesus said Abraham saw it and was glad.",
+      "He presents Abraham as pointing ahead to him.",
+      "They circumcise on the Sabbath, so a man should be made whole on the Sabbath too.",
+      "Abraham rejoiced to see Jesus's day. (a common guess, but not what John says here)"
+    ],
+    "correct_answer": "They circumcise on the Sabbath, so a man should be made whole on the Sabbath too.",
+    "explanation": "John 7 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about circumcision on the Sabbath?",
+    "choices_json": [
+      "John uses the sign to show God's work shining through weakness.",
+      "Jesus argued that they accept circumcision on the Sabbath.",
+      "Jesus redirects blame toward revelation.",
+      "Suffering becomes the stage for God's glory."
+    ],
+    "correct_answer": "Jesus argued that they accept circumcision on the Sabbath.",
+    "explanation": "John 7 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 3,
+    "prompt": "What does circumcision on the Sabbath suggest in context?",
+    "choices_json": [
+      "He exposes their inconsistent use of the law.",
+      "John even notes that Siloam means 'Sent,' fitting Jesus's mission.",
+      "Some Pharisees said Jesus was not from God because he healed on the Sabbath.",
+      "Others argued a sinner could not do such signs."
+    ],
+    "correct_answer": "He exposes their inconsistent use of the law.",
+    "explanation": "This shows the chapter's point about circumcision on the Sabbath."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does circumcision on the Sabbath reinforce in John 7?",
+    "choices_json": [
+      "The parents confirmed he was their son but avoided the healing question.",
+      "Fear keeps witnesses from speaking freely.",
+      "Social pressure competes with truth.",
+      "The chapter values mercy and wholeness over rigid rulekeeping."
+    ],
+    "correct_answer": "The chapter values mercy and wholeness over rigid rulekeeping.",
+    "explanation": "This reinforces the chapter's theme around circumcision on the Sabbath."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 5,
+    "prompt": "How does circumcision on the Sabbath fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "John often lets first-hand encounter carry the case for Jesus.",
+      "Jesus revealed himself as the Son of God.",
+      "It shows Jesus fulfilling the law's true intent.",
+      "Simple witness can outlast learned argument."
+    ],
+    "correct_answer": "It shows Jesus fulfilling the law's true intent.",
+    "explanation": "This fits John's wider portrait of Jesus in John 7."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 1,
+    "prompt": "What does John 7 reveal about living water?",
+    "choices_json": [
+      "It happened so the works of God might be revealed in him.",
+      "He called the thirsty to come to him and drink.",
+      "The chapter links the patriarchal story to Jesus.",
+      "John places Jesus at the center of Israel's story."
+    ],
+    "correct_answer": "He called the thirsty to come to him and drink.",
+    "explanation": "John 7 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about living water?",
+    "choices_json": [
+      "He promised rivers of living water from within the believer.",
+      "He told him to wash in the pool of Siloam.",
+      "After washing there, the man came back seeing.",
+      "Obedience to Jesus's word leads to sight. (does not match John's wording in context)"
+    ],
+    "correct_answer": "He promised rivers of living water from within the believer.",
+    "explanation": "John 7 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 3,
+    "prompt": "What does living water suggest in context?",
+    "choices_json": [
+      "The sign forces a decision about Jesus's identity.",
+      "Sabbath law can obscure or reveal God's work.",
+      "John places Jesus's mercy above the leaders' narrow reading of the law.",
+      "He is the source of the Spirit's life-giving gift."
+    ],
+    "correct_answer": "He is the source of the Spirit's life-giving gift.",
+    "explanation": "This shows the chapter's point about living water."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does living water reinforce in John 7?",
+    "choices_json": [
+      "I was blind, but now I see.",
+      "The man says he knows only that Jesus healed him.",
+      "The feast's water imagery points beyond ritual to God's Spirit.",
+      "John highlights the cost of confessing Jesus in a hostile setting."
+    ],
+    "correct_answer": "The feast's water imagery points beyond ritual to God's Spirit.",
+    "explanation": "This reinforces the chapter's theme around living water."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 5,
+    "prompt": "How does living water fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "The sign leads to worship, not just amazement.",
+      "John uses this to foreshadow the Spirit after Jesus's glorification.",
+      "The healed man believed and worshiped him. (a common guess, but not what John says here)",
+      "Sight becomes faith when Jesus is recognized."
+    ],
+    "correct_answer": "John uses this to foreshadow the Spirit after Jesus's glorification.",
+    "explanation": "This fits John's wider portrait of Jesus in John 7."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 1,
+    "prompt": "What does John 7 reveal about the crowd's division?",
+    "choices_json": [
+      "The crowd was divided over whether he was the Christ.",
+      "Neither the man nor his parents sinned to cause it.",
+      "Jesus redirects blame toward revelation. (a common guess, but not what John says here)",
+      "Suffering becomes the stage for God's glory."
+    ],
+    "correct_answer": "The crowd was divided over whether he was the Christ.",
+    "explanation": "John 7 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about the crowd's division?",
+    "choices_json": [
+      "The pool becomes a sign of cleansing and sending. (does not match John's wording in context)",
+      "John even notes that Siloam means 'Sent,' fitting Jesus's mission.",
+      "Some Pharisees said Jesus was not from God because he healed on the Sabbath.",
+      "Some thought he was the Prophet; others objected because he was from Galilee."
+    ],
+    "correct_answer": "Some thought he was the Prophet; others objected because he was from Galilee.",
+    "explanation": "John 7 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 3,
+    "prompt": "What does the crowd's division suggest in context?",
+    "choices_json": [
+      "The parents confirmed he was their son but avoided the healing question.",
+      "Fear keeps witnesses from speaking freely.",
+      "People judge by earthly origin instead of hearing his words.",
+      "They feared the Jews because confessors would be put out of the synagogue."
+    ],
+    "correct_answer": "People judge by earthly origin instead of hearing his words.",
+    "explanation": "This shows the chapter's point about the crowd's division."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does the crowd's division reinforce in John 7?",
+    "choices_json": [
+      "John often lets first-hand encounter carry the case for Jesus.",
+      "The chapter shows that revelation produces both faith and resistance.",
+      "Experience of grace becomes a powerful testimony.",
+      "Simple witness can outlast learned argument. (does not match John's wording in context)"
+    ],
+    "correct_answer": "The chapter shows that revelation produces both faith and resistance.",
+    "explanation": "This reinforces the chapter's theme around the crowd's division."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 5,
+    "prompt": "How does the crowd's division fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "This division is a recurring Johannine pattern around Jesus.",
+      "John moves from physical sight to true confession.",
+      "Those who say they see remain in sin.",
+      "Jesus says self-assured sight is worse than admitted blindness."
+    ],
+    "correct_answer": "This division is a recurring Johannine pattern around Jesus.",
+    "explanation": "This fits John's wider portrait of Jesus in John 7."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 1,
+    "prompt": "What does John 7 reveal about the officers' report?",
+    "choices_json": [
+      "John uses the sign to show God's work shining through weakness.",
+      "He told him to wash in the pool of Siloam.",
+      "After washing there, the man came back seeing.",
+      "The officers said no man ever spoke like this man."
+    ],
+    "correct_answer": "The officers said no man ever spoke like this man.",
+    "explanation": "John 7 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about the officers' report?",
+    "choices_json": [
+      "The sign forces a decision about Jesus's identity.",
+      "Sabbath law can obscure or reveal God's work.",
+      "They returned without arresting Jesus.",
+      "Others argued a sinner could not do such signs."
+    ],
+    "correct_answer": "They returned without arresting Jesus.",
+    "explanation": "John 7 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 3,
+    "prompt": "What does the officers' report suggest in context?",
+    "choices_json": [
+      "I was blind, but now I see.",
+      "Jesus's words carried authority greater than their orders.",
+      "Social pressure competes with truth.",
+      "John highlights the cost of confessing Jesus in a hostile setting."
+    ],
+    "correct_answer": "Jesus's words carried authority greater than their orders.",
+    "explanation": "This shows the chapter's point about the officers' report."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does the officers' report reinforce in John 7?",
+    "choices_json": [
+      "The chapter portrays his speech as self-authenticating.",
+      "Jesus revealed himself as the Son of God. (does not match John's wording in context)",
+      "The healed man believed and worshiped him.",
+      "Sight becomes faith when Jesus is recognized."
+    ],
+    "correct_answer": "The chapter portrays his speech as self-authenticating.",
+    "explanation": "This reinforces the chapter's theme around the officers' report."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 5,
+    "prompt": "How does the officers' report fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "Spiritual pride is the deepest blindness.",
+      "The chapter judges by response to light, not appearance.",
+      "Refusing Jesus leaves sin in place. (a common guess, but not what John says here)",
+      "John often treats Jesus's word as enough to expose hearts."
+    ],
+    "correct_answer": "John often treats Jesus's word as enough to expose hearts.",
+    "explanation": "This fits John's wider portrait of Jesus in John 7."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 1,
+    "prompt": "What does John 7 reveal about Nicodemus's appeal?",
+    "choices_json": [
+      "The pool becomes a sign of cleansing and sending.",
+      "John even notes that Siloam means 'Sent,' fitting Jesus's mission.",
+      "He asked whether the law judges a man before hearing him.",
+      "Obedience to Jesus's word leads to sight."
+    ],
+    "correct_answer": "He asked whether the law judges a man before hearing him.",
+    "explanation": "John 7 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about Nicodemus's appeal?",
+    "choices_json": [
+      "The parents confirmed he was their son but avoided the healing question.",
+      "Nicodemus said they should hear the accused first.",
+      "John places Jesus's mercy above the leaders' narrow reading of the law.",
+      "They feared the Jews because confessors would be put out of the synagogue."
+    ],
+    "correct_answer": "Nicodemus said they should hear the accused first.",
+    "explanation": "John 7 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 3,
+    "prompt": "What does Nicodemus's appeal suggest in context?",
+    "choices_json": [
+      "He gives a cautious defense instead of open hostility.",
+      "The man says he knows only that Jesus healed him.",
+      "Experience of grace becomes a powerful testimony.",
+      "Simple witness can outlast learned argument. (a common guess, but not what John says here)"
+    ],
+    "correct_answer": "He gives a cautious defense instead of open hostility.",
+    "explanation": "This shows the chapter's point about Nicodemus's appeal."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does Nicodemus's appeal reinforce in John 7?",
+    "choices_json": [
+      "The sign leads to worship, not just amazement.",
+      "John moves from physical sight to true confession.",
+      "Those who say they see remain in sin. (does not match John's wording in context)",
+      "The chapter contrasts mob judgment with lawful hearing."
+    ],
+    "correct_answer": "The chapter contrasts mob judgment with lawful hearing.",
+    "explanation": "This reinforces the chapter's theme around Nicodemus's appeal."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 5,
+    "prompt": "How does Nicodemus's appeal fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "He is the door for the sheep. (a common guess, but not what John says here)",
+      "Relationship, not force, marks true discipleship.",
+      "It is another small sign that not every leader is equally closed.",
+      "The sheep hear his voice and follow him."
+    ],
+    "correct_answer": "It is another small sign that not every leader is equally closed.",
+    "explanation": "This fits John's wider portrait of Jesus in John 7."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 1,
+    "prompt": "What does John 8 reveal about the woman caught in adultery?",
+    "choices_json": [
+      "Neither do I condemn you.",
+      "Unlike the hired hand, he does not flee.",
+      "Love is shown in sacrificial protection.",
+      "The chapter reframes greatness as self-giving care."
+    ],
+    "correct_answer": "Neither do I condemn you.",
+    "explanation": "John 8 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about the woman caught in adultery?",
+    "choices_json": [
+      "The chapter widens the scope of his mission.",
+      "John anticipates a united people under Christ.",
+      "I and the Father are one. (a common guess, but not what John says here)",
+      "He told her to go and sin no more after the accusers left."
+    ],
+    "correct_answer": "He told her to go and sin no more after the accusers left.",
+    "explanation": "John 8 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 3,
+    "prompt": "What does the woman caught in adultery suggest in context?",
+    "choices_json": [
+      "They said his words were blasphemy.",
+      "The claim of unity with the Father provokes violent rejection.",
+      "Jesus exposes hypocrisy without denying sin.",
+      "They tried to stone him because he made himself God."
+    ],
+    "correct_answer": "Jesus exposes hypocrisy without denying sin.",
+    "explanation": "This shows the chapter's point about the woman caught in adultery."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does the woman caught in adultery reinforce in John 8?",
+    "choices_json": [
+      "John shows continuity between the forerunner and Jesus.",
+      "Grace and holiness are held together.",
+      "Earlier witness now bears fruit.",
+      "The chapter ties Jesus's identity to John the Baptist's testimony."
+    ],
+    "correct_answer": "Grace and holiness are held together.",
+    "explanation": "This reinforces the chapter's theme around the woman caught in adultery."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 5,
+    "prompt": "How does the woman caught in adultery fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "John shows Jesus as a merciful judge who restores rather than merely accuses.",
+      "John presents the cross as obedience, not defeat.",
+      "The sickness was for the glory of God. (does not match John's wording in context)",
+      "Jesus stayed two days where he was before going."
+    ],
+    "correct_answer": "John shows Jesus as a merciful judge who restores rather than merely accuses.",
+    "explanation": "This fits John's wider portrait of Jesus in John 8."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 1,
+    "prompt": "What does John 8 reveal about Jesus as the light of the world?",
+    "choices_json": [
+      "This becomes a major Johannine image for the cross.",
+      "He has other sheep not of this fold.",
+      "He will bring them in so there is one flock and one shepherd.",
+      "I am the light of the world."
+    ],
+    "correct_answer": "I am the light of the world.",
+    "explanation": "John 8 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about Jesus as the light of the world?",
+    "choices_json": [
+      "Jesus claims unity of mission and nature with the Father.",
+      "The chapter pushes the reader toward high Christology.",
+      "Following him keeps a person from walking in darkness.",
+      "The Jews heard this as a claim to deity."
+    ],
+    "correct_answer": "Following him keeps a person from walking in darkness.",
+    "explanation": "John 8 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 3,
+    "prompt": "What does Jesus as the light of the world suggest in context?",
+    "choices_json": [
+      "Many believed there because John's words about him were true.",
+      "Jesus claims to guide people out of moral and spiritual darkness.",
+      "The chapter shows that revelation can harden opposition. (does not match John's wording in context)",
+      "John connects Jesus's identity claims to rejected witness."
+    ],
+    "correct_answer": "Jesus claims to guide people out of moral and spiritual darkness.",
+    "explanation": "This shows the chapter's point about Jesus as the light of the world."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does Jesus as the light of the world reinforce in John 8?",
+    "choices_json": [
+      "Light in John signals revelation and life.",
+      "He has authority to lay down his life and take it again.",
+      "This command came from the Father.",
+      "Jesus's death is voluntary, not accidental."
+    ],
+    "correct_answer": "Light in John signals revelation and life.",
+    "explanation": "This reinforces the chapter's theme around Jesus as the light of the world."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus as the light of the world fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "Delay serves revelation, not neglect.",
+      "The chapter turns suffering into a stage for glory.",
+      "John uses delay to show Jesus's signs are ordered by divine purpose.",
+      "It links Jesus to the Gospel's creation and witness themes."
+    ],
+    "correct_answer": "It links Jesus to the Gospel's creation and witness themes.",
+    "explanation": "This fits John's wider portrait of Jesus in John 8."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 1,
+    "prompt": "What does John 8 reveal about truth and freedom?",
+    "choices_json": [
+      "The chapter widens the scope of his mission.",
+      "John anticipates a united people under Christ.",
+      "The truth will make you free.",
+      "Jesus gathers beyond the immediate Jewish audience."
+    ],
+    "correct_answer": "The truth will make you free.",
+    "explanation": "John 8 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about truth and freedom?",
+    "choices_json": [
+      "They said his words were blasphemy.",
+      "The Son makes you free indeed.",
+      "John places Jesus within the divine identity.",
+      "They tried to stone him because he made himself God."
+    ],
+    "correct_answer": "The Son makes you free indeed.",
+    "explanation": "John 8 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 3,
+    "prompt": "What does truth and freedom suggest in context?",
+    "choices_json": [
+      "Freedom comes from abiding in Jesus's word, not ancestry.",
+      "Jesus withdrew to the place where John first baptized.",
+      "Earlier witness now bears fruit.",
+      "The chapter ties Jesus's identity to John the Baptist's testimony."
+    ],
+    "correct_answer": "Freedom comes from abiding in Jesus's word, not ancestry.",
+    "explanation": "This shows the chapter's point about truth and freedom."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does truth and freedom reinforce in John 8?",
+    "choices_json": [
+      "The chapter unites sacrifice and resurrection authority.",
+      "John presents the cross as obedience, not defeat.",
+      "The sickness was for the glory of God. (a common guess, but not what John says here)",
+      "The chapter contrasts spiritual slavery with real freedom."
+    ],
+    "correct_answer": "The chapter contrasts spiritual slavery with real freedom.",
+    "explanation": "This reinforces the chapter's theme around truth and freedom."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 5,
+    "prompt": "How does truth and freedom fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "Martha confessed Jesus as the Christ, the Son of God.",
+      "Belief in Jesus transforms death itself.",
+      "John defines true freedom as deliverance through the Son.",
+      "I am the resurrection and the life. (does not match John's wording in context)"
+    ],
+    "correct_answer": "John defines true freedom as deliverance through the Son.",
+    "explanation": "This fits John's wider portrait of Jesus in John 8."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 1,
+    "prompt": "What does John 8 reveal about Jesus's testimony with the Father?",
+    "choices_json": [
+      "Jesus claims unity of mission and nature with the Father.",
+      "His judgment is true because he is not alone.",
+      "I and the Father are one.",
+      "The Jews heard this as a claim to deity."
+    ],
+    "correct_answer": "His judgment is true because he is not alone.",
+    "explanation": "John 8 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about Jesus's testimony with the Father?",
+    "choices_json": [
+      "The Father who sent him bears witness with him.",
+      "The claim of unity with the Father provokes violent rejection.",
+      "The chapter shows that revelation can harden opposition.",
+      "John connects Jesus's identity claims to rejected witness."
+    ],
+    "correct_answer": "The Father who sent him bears witness with him.",
+    "explanation": "John 8 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 3,
+    "prompt": "What does Jesus's testimony with the Father suggest in context?",
+    "choices_json": [
+      "John shows continuity between the forerunner and Jesus.",
+      "He has authority to lay down his life and take it again.",
+      "This command came from the Father.",
+      "Jesus's authority rests on the Father-Son relationship."
+    ],
+    "correct_answer": "Jesus's authority rests on the Father-Son relationship.",
+    "explanation": "This shows the chapter's point about Jesus's testimony with the Father."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does Jesus's testimony with the Father reinforce in John 8?",
+    "choices_json": [
+      "Delay serves revelation, not neglect. (a common guess, but not what John says here)",
+      "The chapter turns suffering into a stage for glory.",
+      "The chapter says divine testimony outranks self-assertion.",
+      "Jesus stayed two days where he was before going."
+    ],
+    "correct_answer": "The chapter says divine testimony outranks self-assertion.",
+    "explanation": "This reinforces the chapter's theme around Jesus's testimony with the Father."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus's testimony with the Father fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "Jesus wept. (does not match John's wording in context) (does not match John's wording in context)",
+      "This deepens John's claim that Jesus reveals the Father perfectly.",
+      "The chapter centers hope in Jesus's person, not only an event.",
+      "John presents Jesus as the source of future resurrection."
+    ],
+    "correct_answer": "This deepens John's claim that Jesus reveals the Father perfectly.",
+    "explanation": "This fits John's wider portrait of Jesus in John 8."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 1,
+    "prompt": "What does John 8 reveal about their father the devil?",
+    "choices_json": [
+      "They were doing the works of their father, the devil.",
+      "The chapter pushes the reader toward high Christology.",
+      "John places Jesus within the divine identity.",
+      "They tried to stone him because he made himself God."
+    ],
+    "correct_answer": "They were doing the works of their father, the devil.",
+    "explanation": "John 8 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about their father the devil?",
+    "choices_json": [
+      "Many believed there because John's words about him were true.",
+      "Jesus withdrew to the place where John first baptized.",
+      "Earlier witness now bears fruit.",
+      "Their desire to kill and lie showed who they resembled."
+    ],
+    "correct_answer": "Their desire to kill and lie showed who they resembled.",
+    "explanation": "John 8 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 3,
+    "prompt": "What does their father the devil suggest in context?",
+    "choices_json": [
+      "The chapter unites sacrifice and resurrection authority.",
+      "John presents the cross as obedience, not defeat.",
+      "Jesus defines sonship by moral likeness, not ethnicity.",
+      "Jesus's death is voluntary, not accidental."
+    ],
+    "correct_answer": "Jesus defines sonship by moral likeness, not ethnicity.",
+    "explanation": "This shows the chapter's point about their father the devil."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does their father the devil reinforce in John 8?",
+    "choices_json": [
+      "Martha confessed Jesus as the Christ, the Son of God.",
+      "The chapter contrasts true sonship with inherited unbelief.",
+      "John uses delay to show Jesus's signs are ordered by divine purpose.",
+      "I am the resurrection and the life."
+    ],
+    "correct_answer": "The chapter contrasts true sonship with inherited unbelief.",
+    "explanation": "This reinforces the chapter's theme around their father the devil."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 5,
+    "prompt": "How does their father the devil fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "John frames rejection of Jesus as participation in deception and murder.",
+      "He was deeply moved at Lazarus's tomb.",
+      "His grief is real, not staged. (does not match John's wording in context)",
+      "The chapter joins divine power with human compassion."
+    ],
+    "correct_answer": "John frames rejection of Jesus as participation in deception and murder.",
+    "explanation": "This fits John's wider portrait of Jesus in John 8."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 1,
+    "prompt": "What does John 8 reveal about before Abraham, I AM?",
+    "choices_json": [
+      "They said his words were blasphemy.",
+      "The claim of unity with the Father provokes violent rejection.",
+      "The chapter shows that revelation can harden opposition.",
+      "Before Abraham came into existence, I AM."
+    ],
+    "correct_answer": "Before Abraham came into existence, I AM.",
+    "explanation": "John 8 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about before Abraham, I AM?",
+    "choices_json": [
+      "John shows continuity between the forerunner and Jesus.",
+      "He has authority to lay down his life and take it again.",
+      "Jesus claimed existence before Abraham.",
+      "The chapter ties Jesus's identity to John the Baptist's testimony."
+    ],
+    "correct_answer": "Jesus claimed existence before Abraham.",
+    "explanation": "John 8 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 3,
+    "prompt": "What does before Abraham, I AM suggest in context?",
+    "choices_json": [
+      "Delay serves revelation, not neglect.",
+      "He identifies himself with God's eternal name.",
+      "The sickness was for the glory of God.",
+      "Jesus stayed two days where he was before going."
+    ],
+    "correct_answer": "He identifies himself with God's eternal name.",
+    "explanation": "This shows the chapter's point about before Abraham, I AM."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does before Abraham, I AM reinforce in John 8?",
+    "choices_json": [
+      "The chapter moves from ancestry arguments to divine identity.",
+      "Belief in Jesus transforms death itself.",
+      "The chapter centers hope in Jesus's person, not only an event.",
+      "John presents Jesus as the source of future resurrection."
+    ],
+    "correct_answer": "The chapter moves from ancestry arguments to divine identity.",
+    "explanation": "This reinforces the chapter's theme around before Abraham, I AM."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 5,
+    "prompt": "How does before Abraham, I AM fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "John shows the Word made flesh sharing sorrow.",
+      "Lazarus came out.",
+      "He was still bound in grave clothes, and Jesus told them to unbind him.",
+      "This is one of John's clearest claims about Jesus's deity."
+    ],
+    "correct_answer": "This is one of John's clearest claims about Jesus's deity.",
+    "explanation": "This fits John's wider portrait of Jesus in John 8."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 1,
+    "prompt": "What does John 8 reveal about Abraham rejoicing in Jesus's day?",
+    "choices_json": [
+      "Many believed there because John's words about him were true.",
+      "Jesus withdrew to the place where John first baptized.",
+      "Abraham rejoiced to see Jesus's day.",
+      "John connects Jesus's identity claims to rejected witness."
+    ],
+    "correct_answer": "Abraham rejoiced to see Jesus's day.",
+    "explanation": "John 8 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about Abraham rejoicing in Jesus's day?",
+    "choices_json": [
+      "The chapter unites sacrifice and resurrection authority.",
+      "Jesus said Abraham saw it and was glad.",
+      "This command came from the Father.",
+      "Jesus's death is voluntary, not accidental."
+    ],
+    "correct_answer": "Jesus said Abraham saw it and was glad.",
+    "explanation": "John 8 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 3,
+    "prompt": "What does Abraham rejoicing in Jesus's day suggest in context?",
+    "choices_json": [
+      "He presents Abraham as pointing ahead to him.",
+      "The chapter turns suffering into a stage for glory.",
+      "John uses delay to show Jesus's signs are ordered by divine purpose.",
+      "I am the resurrection and the life."
+    ],
+    "correct_answer": "He presents Abraham as pointing ahead to him.",
+    "explanation": "This shows the chapter's point about Abraham rejoicing in Jesus's day."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does Abraham rejoicing in Jesus's day reinforce in John 8?",
+    "choices_json": [
+      "Jesus wept. (a common guess, but not what John says here)",
+      "He was deeply moved at Lazarus's tomb.",
+      "His grief is real, not staged.",
+      "The chapter links the patriarchal story to Jesus."
+    ],
+    "correct_answer": "The chapter links the patriarchal story to Jesus.",
+    "explanation": "This reinforces the chapter's theme around Abraham rejoicing in Jesus's day."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 5,
+    "prompt": "How does Abraham rejoicing in Jesus's day fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "The sign points to authority over death.",
+      "John presents resurrection as both command and release.",
+      "John places Jesus at the center of Israel's story.",
+      "Jesus's word gives life and then frees the living."
+    ],
+    "correct_answer": "John places Jesus at the center of Israel's story.",
+    "explanation": "This fits John's wider portrait of Jesus in John 8."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 1,
+    "prompt": "What does John 9 reveal about the man born blind?",
+    "choices_json": [
+      "It happened so the works of God might be revealed in him.",
+      "The chapter exposes the leaders' blindness to God's purpose.",
+      "John turns their policy into an unwitting prophecy.",
+      "Jesus would die for the nation and gather God's scattered children."
+    ],
+    "correct_answer": "It happened so the works of God might be revealed in him.",
+    "explanation": "John 9 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about the man born blind?",
+    "choices_json": [
+      "They plotted to kill Jesus, and he withdrew to Ephraim.",
+      "He stayed there with the disciples until Passover neared.",
+      "The sign pushes the conflict toward the Passion.",
+      "Neither the man nor his parents sinned to cause it."
+    ],
+    "correct_answer": "Neither the man nor his parents sinned to cause it.",
+    "explanation": "John 9 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 3,
+    "prompt": "What does the man born blind suggest in context?",
+    "choices_json": [
+      "The chapter contrasts divine timing with human urgency.",
+      "It fits John's portrait of the sent Son who moves on the Father's schedule.",
+      "Jesus redirects blame toward revelation.",
+      "He acts by the Father's timetable, not public pressure."
+    ],
+    "correct_answer": "Jesus redirects blame toward revelation.",
+    "explanation": "This shows the chapter's point about the man born blind."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does the man born blind reinforce in John 9?",
+    "choices_json": [
+      "Jesus argued that they accept circumcision on the Sabbath.",
+      "Suffering becomes the stage for God's glory.",
+      "John uses this to show the Son revealing the Father.",
+      "They circumcise on the Sabbath, so a man should be made whole on the Sabbath too."
+    ],
+    "correct_answer": "Suffering becomes the stage for God's glory.",
+    "explanation": "This reinforces the chapter's theme around the man born blind."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 5,
+    "prompt": "How does the man born blind fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "John uses the sign to show God's work shining through weakness.",
+      "He promised rivers of living water from within the believer.",
+      "He is the source of the Spirit's life-giving gift.",
+      "The feast's water imagery points beyond ritual to God's Spirit."
+    ],
+    "correct_answer": "John uses the sign to show God's work shining through weakness.",
+    "explanation": "This fits John's wider portrait of Jesus in John 9."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 1,
+    "prompt": "What does John 9 reveal about the pool of Siloam?",
+    "choices_json": [
+      "Caiaphas's words were interpreted as prophecy about Jesus.",
+      "His death has a wider unifying purpose.",
+      "The chapter links atonement with gathering.",
+      "He told him to wash in the pool of Siloam."
+    ],
+    "correct_answer": "He told him to wash in the pool of Siloam.",
+    "explanation": "John 9 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about the pool of Siloam?",
+    "choices_json": [
+      "John builds suspense as Passover approaches.",
+      "Because his time had not yet come.",
+      "After washing there, the man came back seeing.",
+      "The chapter closes with impending sacrifice and renewed danger."
+    ],
+    "correct_answer": "After washing there, the man came back seeing.",
+    "explanation": "John 9 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 3,
+    "prompt": "What does the pool of Siloam suggest in context?",
+    "choices_json": [
+      "Jesus speaks as the Father's messenger.",
+      "Obedience to Jesus's word leads to sight.",
+      "His teaching was not his own, but the Father's who sent him.",
+      "He said the teaching came from the one who sent him."
+    ],
+    "correct_answer": "Obedience to Jesus's word leads to sight.",
+    "explanation": "This shows the chapter's point about the pool of Siloam."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does the pool of Siloam reinforce in John 9?",
+    "choices_json": [
+      "The pool becomes a sign of cleansing and sending.",
+      "He exposes their inconsistent use of the law.",
+      "The chapter values mercy and wholeness over rigid rulekeeping.",
+      "It shows Jesus fulfilling the law's true intent."
+    ],
+    "correct_answer": "The pool becomes a sign of cleansing and sending.",
+    "explanation": "This reinforces the chapter's theme around the pool of Siloam."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 5,
+    "prompt": "How does the pool of Siloam fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "John uses this to foreshadow the Spirit after Jesus's glorification.",
+      "The crowd was divided over whether he was the Christ.",
+      "Some thought he was the Prophet; others objected because he was from Galilee.",
+      "John even notes that Siloam means 'Sent,' fitting Jesus's mission."
+    ],
+    "correct_answer": "John even notes that Siloam means 'Sent,' fitting Jesus's mission.",
+    "explanation": "This fits John's wider portrait of Jesus in John 9."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 1,
+    "prompt": "What does John 9 reveal about the Sabbath dispute?",
+    "choices_json": [
+      "They plotted to kill Jesus, and he withdrew to Ephraim. (a common guess, but not what John says here)",
+      "He stayed there with the disciples until Passover neared.",
+      "Some Pharisees said Jesus was not from God because he healed on the Sabbath.",
+      "John frames Jesus's death as for more than one local crisis."
+    ],
+    "correct_answer": "Some Pharisees said Jesus was not from God because he healed on the Sabbath.",
+    "explanation": "John 9 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about the Sabbath dispute?",
+    "choices_json": [
+      "The chapter contrasts divine timing with human urgency.",
+      "Others argued a sinner could not do such signs.",
+      "His time had not yet come, while theirs was always ready.",
+      "He acts by the Father's timetable, not public pressure."
+    ],
+    "correct_answer": "Others argued a sinner could not do such signs.",
+    "explanation": "John 9 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 3,
+    "prompt": "What does the Sabbath dispute suggest in context?",
+    "choices_json": [
+      "The sign forces a decision about Jesus's identity.",
+      "The chapter stresses obedience to God's will as the test of teaching.",
+      "John uses this to show the Son revealing the Father.",
+      "They circumcise on the Sabbath, so a man should be made whole on the Sabbath too."
+    ],
+    "correct_answer": "The sign forces a decision about Jesus's identity.",
+    "explanation": "This shows the chapter's point about the Sabbath dispute."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does the Sabbath dispute reinforce in John 9?",
+    "choices_json": [
+      "He called the thirsty to come to him and drink.",
+      "He promised rivers of living water from within the believer.",
+      "He is the source of the Spirit's life-giving gift.",
+      "Sabbath law can obscure or reveal God's work."
+    ],
+    "correct_answer": "Sabbath law can obscure or reveal God's work.",
+    "explanation": "This reinforces the chapter's theme around the Sabbath dispute."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 5,
+    "prompt": "How does the Sabbath dispute fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "The chapter shows that revelation produces both faith and resistance.",
+      "This division is a recurring Johannine pattern around Jesus. (a common guess, but not what John says here)",
+      "John places Jesus's mercy above the leaders' narrow reading of the law.",
+      "People judge by earthly origin instead of hearing his words."
+    ],
+    "correct_answer": "John places Jesus's mercy above the leaders' narrow reading of the law.",
+    "explanation": "This fits John's wider portrait of Jesus in John 9."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 1,
+    "prompt": "What does John 9 reveal about the parents' fear?",
+    "choices_json": [
+      "John builds suspense as Passover approaches. (a common guess, but not what John says here)",
+      "They feared the Jews because confessors would be put out of the synagogue.",
+      "The sign pushes the conflict toward the Passion.",
+      "The chapter closes with impending sacrifice and renewed danger."
+    ],
+    "correct_answer": "They feared the Jews because confessors would be put out of the synagogue.",
+    "explanation": "John 9 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about the parents' fear?",
+    "choices_json": [
+      "The parents confirmed he was their son but avoided the healing question.",
+      "It fits John's portrait of the sent Son who moves on the Father's schedule.",
+      "His teaching was not his own, but the Father's who sent him.",
+      "He said the teaching came from the one who sent him."
+    ],
+    "correct_answer": "The parents confirmed he was their son but avoided the healing question.",
+    "explanation": "John 9 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 3,
+    "prompt": "What does the parents' fear suggest in context?",
+    "choices_json": [
+      "Jesus argued that they accept circumcision on the Sabbath.",
+      "He exposes their inconsistent use of the law.",
+      "The chapter values mercy and wholeness over rigid rulekeeping.",
+      "Fear keeps witnesses from speaking freely."
+    ],
+    "correct_answer": "Fear keeps witnesses from speaking freely.",
+    "explanation": "This shows the chapter's point about the parents' fear."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does the parents' fear reinforce in John 9?",
+    "choices_json": [
+      "John uses this to foreshadow the Spirit after Jesus's glorification.",
+      "The crowd was divided over whether he was the Christ.",
+      "Social pressure competes with truth.",
+      "The feast's water imagery points beyond ritual to God's Spirit."
+    ],
+    "correct_answer": "Social pressure competes with truth.",
+    "explanation": "This reinforces the chapter's theme around the parents' fear."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 5,
+    "prompt": "How does the parents' fear fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "Jesus's words carried authority greater than their orders.",
+      "John highlights the cost of confessing Jesus in a hostile setting.",
+      "The officers said no man ever spoke like this man.",
+      "They returned without arresting Jesus. (a common guess, but not what John says here)"
+    ],
+    "correct_answer": "John highlights the cost of confessing Jesus in a hostile setting.",
+    "explanation": "This fits John's wider portrait of Jesus in John 9."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 1,
+    "prompt": "What does John 9 reveal about the man's testimony?",
+    "choices_json": [
+      "I was blind, but now I see.",
+      "Because his time had not yet come.",
+      "His time had not yet come, while theirs was always ready.",
+      "He acts by the Father's timetable, not public pressure."
+    ],
+    "correct_answer": "I was blind, but now I see.",
+    "explanation": "John 9 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about the man's testimony?",
+    "choices_json": [
+      "Jesus speaks as the Father's messenger.",
+      "The chapter stresses obedience to God's will as the test of teaching.",
+      "John uses this to show the Son revealing the Father.",
+      "The man says he knows only that Jesus healed him."
+    ],
+    "correct_answer": "The man says he knows only that Jesus healed him.",
+    "explanation": "John 9 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 3,
+    "prompt": "What does the man's testimony suggest in context?",
+    "choices_json": [
+      "He called the thirsty to come to him and drink.",
+      "He promised rivers of living water from within the believer.",
+      "Experience of grace becomes a powerful testimony.",
+      "It shows Jesus fulfilling the law's true intent."
+    ],
+    "correct_answer": "Experience of grace becomes a powerful testimony.",
+    "explanation": "This shows the chapter's point about the man's testimony."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does the man's testimony reinforce in John 9?",
+    "choices_json": [
+      "The chapter shows that revelation produces both faith and resistance.",
+      "Simple witness can outlast learned argument.",
+      "Some thought he was the Prophet; others objected because he was from Galilee.",
+      "People judge by earthly origin instead of hearing his words."
+    ],
+    "correct_answer": "Simple witness can outlast learned argument.",
+    "explanation": "This reinforces the chapter's theme around the man's testimony."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 5,
+    "prompt": "How does the man's testimony fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "John often lets first-hand encounter carry the case for Jesus.",
+      "The chapter portrays his speech as self-authenticating. (a common guess, but not what John says here)",
+      "John often treats Jesus's word as enough to expose hearts.",
+      "He asked whether the law judges a man before hearing him."
+    ],
+    "correct_answer": "John often lets first-hand encounter carry the case for Jesus.",
+    "explanation": "This fits John's wider portrait of Jesus in John 9."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 1,
+    "prompt": "What does John 9 reveal about the Son of God confession?",
+    "choices_json": [
+      "The chapter contrasts divine timing with human urgency.",
+      "It fits John's portrait of the sent Son who moves on the Father's schedule.",
+      "His teaching was not his own, but the Father's who sent him.",
+      "Jesus revealed himself as the Son of God."
+    ],
+    "correct_answer": "Jesus revealed himself as the Son of God.",
+    "explanation": "John 9 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about the Son of God confession?",
+    "choices_json": [
+      "Jesus argued that they accept circumcision on the Sabbath.",
+      "He exposes their inconsistent use of the law.",
+      "The healed man believed and worshiped him.",
+      "They circumcise on the Sabbath, so a man should be made whole on the Sabbath too."
+    ],
+    "correct_answer": "The healed man believed and worshiped him.",
+    "explanation": "John 9 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 3,
+    "prompt": "What does the Son of God confession suggest in context?",
+    "choices_json": [
+      "John uses this to foreshadow the Spirit after Jesus's glorification.",
+      "Sight becomes faith when Jesus is recognized.",
+      "He is the source of the Spirit's life-giving gift.",
+      "The feast's water imagery points beyond ritual to God's Spirit."
+    ],
+    "correct_answer": "Sight becomes faith when Jesus is recognized.",
+    "explanation": "This shows the chapter's point about the Son of God confession."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does the Son of God confession reinforce in John 9?",
+    "choices_json": [
+      "The sign leads to worship, not just amazement.",
+      "This division is a recurring Johannine pattern around Jesus.",
+      "The officers said no man ever spoke like this man.",
+      "They returned without arresting Jesus."
+    ],
+    "correct_answer": "The sign leads to worship, not just amazement.",
+    "explanation": "This reinforces the chapter's theme around the Son of God confession."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 5,
+    "prompt": "How does the Son of God confession fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "Nicodemus said they should hear the accused first.",
+      "He gives a cautious defense instead of open hostility.",
+      "The chapter contrasts mob judgment with lawful hearing.",
+      "John moves from physical sight to true confession."
+    ],
+    "correct_answer": "John moves from physical sight to true confession.",
+    "explanation": "This fits John's wider portrait of Jesus in John 9."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 1,
+    "prompt": "What does John 9 reveal about spiritual blindness?",
+    "choices_json": [
+      "Jesus speaks as the Father's messenger.",
+      "The chapter stresses obedience to God's will as the test of teaching.",
+      "Those who say they see remain in sin.",
+      "He said the teaching came from the one who sent him."
+    ],
+    "correct_answer": "Those who say they see remain in sin.",
+    "explanation": "John 9 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about spiritual blindness?",
+    "choices_json": [
+      "He called the thirsty to come to him and drink. (does not match John's wording in context)",
+      "Jesus says self-assured sight is worse than admitted blindness.",
+      "The chapter values mercy and wholeness over rigid rulekeeping.",
+      "It shows Jesus fulfilling the law's true intent."
+    ],
+    "correct_answer": "Jesus says self-assured sight is worse than admitted blindness.",
+    "explanation": "John 9 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 3,
+    "prompt": "What does spiritual blindness suggest in context?",
+    "choices_json": [
+      "Spiritual pride is the deepest blindness.",
+      "The crowd was divided over whether he was the Christ.",
+      "Some thought he was the Prophet; others objected because he was from Galilee.",
+      "People judge by earthly origin instead of hearing his words."
+    ],
+    "correct_answer": "Spiritual pride is the deepest blindness.",
+    "explanation": "This shows the chapter's point about spiritual blindness."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does spiritual blindness reinforce in John 9?",
+    "choices_json": [
+      "Jesus's words carried authority greater than their orders.",
+      "The chapter portrays his speech as self-authenticating.",
+      "John often treats Jesus's word as enough to expose hearts.",
+      "The chapter judges by response to light, not appearance."
+    ],
+    "correct_answer": "The chapter judges by response to light, not appearance.",
+    "explanation": "This reinforces the chapter's theme around spiritual blindness."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 5,
+    "prompt": "How does spiritual blindness fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "Neither do I condemn you.",
+      "He told her to go and sin no more after the accusers left.",
+      "Refusing Jesus leaves sin in place.",
+      "It is another small sign that not every leader is equally closed."
+    ],
+    "correct_answer": "Refusing Jesus leaves sin in place.",
+    "explanation": "This fits John's wider portrait of Jesus in John 9."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 1,
+    "prompt": "What does John 10 reveal about the sheep hearing his voice?",
+    "choices_json": [
+      "The sheep hear his voice and follow him.",
+      "I am the light of the world.",
+      "Following him keeps a person from walking in darkness.",
+      "Jesus claims to guide people out of moral and spiritual darkness."
+    ],
+    "correct_answer": "The sheep hear his voice and follow him.",
+    "explanation": "John 10 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about the sheep hearing his voice?",
+    "choices_json": [
+      "Freedom comes from abiding in Jesus's word, not ancestry.",
+      "The chapter contrasts spiritual slavery with real freedom.",
+      "John defines true freedom as deliverance through the Son.",
+      "He is the door for the sheep."
+    ],
+    "correct_answer": "He is the door for the sheep.",
+    "explanation": "John 10 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 3,
+    "prompt": "What does the sheep hearing his voice suggest in context?",
+    "choices_json": [
+      "They were doing the works of their father, the devil.",
+      "Their desire to kill and lie showed who they resembled.",
+      "Relationship, not force, marks true discipleship.",
+      "This deepens John's claim that Jesus reveals the Father perfectly."
+    ],
+    "correct_answer": "Relationship, not force, marks true discipleship.",
+    "explanation": "This shows the chapter's point about the sheep hearing his voice."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does the sheep hearing his voice reinforce in John 10?",
+    "choices_json": [
+      "The chapter moves from ancestry arguments to divine identity.",
+      "The chapter contrasts a shepherd's voice with strangers and thieves.",
+      "Jesus claimed existence before Abraham. (a common guess, but not what John says here)",
+      "He identifies himself with God's eternal name."
+    ],
+    "correct_answer": "The chapter contrasts a shepherd's voice with strangers and thieves.",
+    "explanation": "This reinforces the chapter's theme around the sheep hearing his voice."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 5,
+    "prompt": "How does the sheep hearing his voice fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "John presents Jesus as the only true access to life.",
+      "The chapter links the patriarchal story to Jesus.",
+      "John places Jesus at the center of Israel's story.",
+      "It happened so the works of God might be revealed in him."
+    ],
+    "correct_answer": "John presents Jesus as the only true access to life.",
+    "explanation": "This fits John's wider portrait of Jesus in John 10."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 1,
+    "prompt": "What does John 10 reveal about the good shepherd?",
+    "choices_json": [
+      "Light in John signals revelation and life.",
+      "It links Jesus to the Gospel's creation and witness themes.",
+      "The truth will make you free.",
+      "The good shepherd lays down his life for the sheep."
+    ],
+    "correct_answer": "The good shepherd lays down his life for the sheep.",
+    "explanation": "John 10 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about the good shepherd?",
+    "choices_json": [
+      "The Father who sent him bears witness with him.",
+      "Jesus's authority rests on the Father-Son relationship.",
+      "Unlike the hired hand, he does not flee.",
+      "His judgment is true because he is not alone."
+    ],
+    "correct_answer": "Unlike the hired hand, he does not flee.",
+    "explanation": "John 10 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 3,
+    "prompt": "What does the good shepherd suggest in context?",
+    "choices_json": [
+      "John frames rejection of Jesus as participation in deception and murder.",
+      "Love is shown in sacrificial protection.",
+      "Jesus defines sonship by moral likeness, not ethnicity.",
+      "The chapter contrasts true sonship with inherited unbelief."
+    ],
+    "correct_answer": "Love is shown in sacrificial protection.",
+    "explanation": "This shows the chapter's point about the good shepherd."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does the good shepherd reinforce in John 10?",
+    "choices_json": [
+      "The chapter reframes greatness as self-giving care.",
+      "This is one of John's clearest claims about Jesus's deity.",
+      "Abraham rejoiced to see Jesus's day.",
+      "Jesus said Abraham saw it and was glad."
+    ],
+    "correct_answer": "The chapter reframes greatness as self-giving care.",
+    "explanation": "This reinforces the chapter's theme around the good shepherd."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 5,
+    "prompt": "How does the good shepherd fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "Neither the man nor his parents sinned to cause it.",
+      "Jesus redirects blame toward revelation.",
+      "Suffering becomes the stage for God's glory.",
+      "This becomes a major Johannine image for the cross."
+    ],
+    "correct_answer": "This becomes a major Johannine image for the cross.",
+    "explanation": "This fits John's wider portrait of Jesus in John 10."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 1,
+    "prompt": "What does John 10 reveal about the other sheep?",
+    "choices_json": [
+      "Freedom comes from abiding in Jesus's word, not ancestry.",
+      "The chapter contrasts spiritual slavery with real freedom.",
+      "He has other sheep not of this fold.",
+      "The Son makes you free indeed."
+    ],
+    "correct_answer": "He has other sheep not of this fold.",
+    "explanation": "John 10 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about the other sheep?",
+    "choices_json": [
+      "They were doing the works of their father, the devil.",
+      "He will bring them in so there is one flock and one shepherd.",
+      "The chapter says divine testimony outranks self-assertion.",
+      "This deepens John's claim that Jesus reveals the Father perfectly."
+    ],
+    "correct_answer": "He will bring them in so there is one flock and one shepherd.",
+    "explanation": "John 10 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 3,
+    "prompt": "What does the other sheep suggest in context?",
+    "choices_json": [
+      "Jesus gathers beyond the immediate Jewish audience.",
+      "Before Abraham came into existence, I AM.",
+      "Jesus claimed existence before Abraham. (does not match John's wording in context)",
+      "He identifies himself with God's eternal name."
+    ],
+    "correct_answer": "Jesus gathers beyond the immediate Jewish audience.",
+    "explanation": "This shows the chapter's point about the other sheep."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does the other sheep reinforce in John 10?",
+    "choices_json": [
+      "He presents Abraham as pointing ahead to him.",
+      "The chapter links the patriarchal story to Jesus.",
+      "John places Jesus at the center of Israel's story.",
+      "The chapter widens the scope of his mission."
+    ],
+    "correct_answer": "The chapter widens the scope of his mission.",
+    "explanation": "This reinforces the chapter's theme around the other sheep."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 5,
+    "prompt": "How does the other sheep fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "He told him to wash in the pool of Siloam.",
+      "After washing there, the man came back seeing.",
+      "John anticipates a united people under Christ.",
+      "John uses the sign to show God's work shining through weakness."
+    ],
+    "correct_answer": "John anticipates a united people under Christ.",
+    "explanation": "This fits John's wider portrait of Jesus in John 10."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 1,
+    "prompt": "What does John 10 reveal about Jesus and the Father as one?",
+    "choices_json": [
+      "The Father who sent him bears witness with him.",
+      "I and the Father are one.",
+      "John defines true freedom as deliverance through the Son.",
+      "His judgment is true because he is not alone."
+    ],
+    "correct_answer": "I and the Father are one.",
+    "explanation": "John 10 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about Jesus and the Father as one?",
+    "choices_json": [
+      "The Jews heard this as a claim to deity.",
+      "Their desire to kill and lie showed who they resembled.",
+      "Jesus defines sonship by moral likeness, not ethnicity.",
+      "The chapter contrasts true sonship with inherited unbelief."
+    ],
+    "correct_answer": "The Jews heard this as a claim to deity.",
+    "explanation": "John 10 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 3,
+    "prompt": "What does Jesus and the Father as one suggest in context?",
+    "choices_json": [
+      "The chapter moves from ancestry arguments to divine identity.",
+      "This is one of John's clearest claims about Jesus's deity.",
+      "Abraham rejoiced to see Jesus's day.",
+      "Jesus claims unity of mission and nature with the Father."
+    ],
+    "correct_answer": "Jesus claims unity of mission and nature with the Father.",
+    "explanation": "This shows the chapter's point about Jesus and the Father as one."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does Jesus and the Father as one reinforce in John 10?",
+    "choices_json": [
+      "Neither the man nor his parents sinned to cause it.",
+      "Jesus redirects blame toward revelation.",
+      "The chapter pushes the reader toward high Christology.",
+      "It happened so the works of God might be revealed in him."
+    ],
+    "correct_answer": "The chapter pushes the reader toward high Christology.",
+    "explanation": "This reinforces the chapter's theme around Jesus and the Father as one."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus and the Father as one fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "John even notes that Siloam means 'Sent,' fitting Jesus's mission.",
+      "John places Jesus within the divine identity.",
+      "Obedience to Jesus's word leads to sight.",
+      "The pool becomes a sign of cleansing and sending."
+    ],
+    "correct_answer": "John places Jesus within the divine identity.",
+    "explanation": "This fits John's wider portrait of Jesus in John 10."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 1,
+    "prompt": "What does John 10 reveal about the blasphemy charge?",
+    "choices_json": [
+      "They tried to stone him because he made himself God.",
+      "Jesus's authority rests on the Father-Son relationship.",
+      "The chapter says divine testimony outranks self-assertion.",
+      "This deepens John's claim that Jesus reveals the Father perfectly."
+    ],
+    "correct_answer": "They tried to stone him because he made himself God.",
+    "explanation": "John 10 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about the blasphemy charge?",
+    "choices_json": [
+      "John frames rejection of Jesus as participation in deception and murder.",
+      "Before Abraham came into existence, I AM.",
+      "Jesus claimed existence before Abraham.",
+      "They said his words were blasphemy."
+    ],
+    "correct_answer": "They said his words were blasphemy.",
+    "explanation": "John 10 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 3,
+    "prompt": "What does the blasphemy charge suggest in context?",
+    "choices_json": [
+      "He presents Abraham as pointing ahead to him.",
+      "The chapter links the patriarchal story to Jesus.",
+      "The claim of unity with the Father provokes violent rejection.",
+      "Jesus said Abraham saw it and was glad. (does not match John's wording in context)"
+    ],
+    "correct_answer": "The claim of unity with the Father provokes violent rejection.",
+    "explanation": "This shows the chapter's point about the blasphemy charge."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does the blasphemy charge reinforce in John 10?",
+    "choices_json": [
+      "He told him to wash in the pool of Siloam.",
+      "The chapter shows that revelation can harden opposition.",
+      "Suffering becomes the stage for God's glory.",
+      "John uses the sign to show God's work shining through weakness."
+    ],
+    "correct_answer": "The chapter shows that revelation can harden opposition.",
+    "explanation": "This reinforces the chapter's theme around the blasphemy charge."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 5,
+    "prompt": "How does the blasphemy charge fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "John connects Jesus's identity claims to rejected witness.",
+      "Some Pharisees said Jesus was not from God because he healed on the Sabbath.",
+      "Others argued a sinner could not do such signs.",
+      "The sign forces a decision about Jesus's identity."
+    ],
+    "correct_answer": "John connects Jesus's identity claims to rejected witness.",
+    "explanation": "This fits John's wider portrait of Jesus in John 10."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 1,
+    "prompt": "What does John 10 reveal about John's witness beyond the Jordan?",
+    "choices_json": [
+      "They were doing the works of their father, the devil. (does not match John's wording in context)",
+      "Their desire to kill and lie showed who they resembled.",
+      "Jesus defines sonship by moral likeness, not ethnicity.",
+      "Many believed there because John's words about him were true."
+    ],
+    "correct_answer": "Many believed there because John's words about him were true.",
+    "explanation": "John 10 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about John's witness beyond the Jordan?",
+    "choices_json": [
+      "The chapter moves from ancestry arguments to divine identity.",
+      "This is one of John's clearest claims about Jesus's deity.",
+      "Jesus withdrew to the place where John first baptized.",
+      "He identifies himself with God's eternal name."
+    ],
+    "correct_answer": "Jesus withdrew to the place where John first baptized.",
+    "explanation": "John 10 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 3,
+    "prompt": "What does John's witness beyond the Jordan suggest in context?",
+    "choices_json": [
+      "Neither the man nor his parents sinned to cause it.",
+      "Earlier witness now bears fruit.",
+      "John places Jesus at the center of Israel's story.",
+      "It happened so the works of God might be revealed in him."
+    ],
+    "correct_answer": "Earlier witness now bears fruit.",
+    "explanation": "This shows the chapter's point about John's witness beyond the Jordan."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does John's witness beyond the Jordan reinforce in John 10?",
+    "choices_json": [
+      "The chapter ties Jesus's identity to John the Baptist's testimony.",
+      "After washing there, the man came back seeing.",
+      "Obedience to Jesus's word leads to sight. (a common guess, but not what John says here)",
+      "The pool becomes a sign of cleansing and sending."
+    ],
+    "correct_answer": "The chapter ties Jesus's identity to John the Baptist's testimony.",
+    "explanation": "This reinforces the chapter's theme around John's witness beyond the Jordan."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 5,
+    "prompt": "How does John's witness beyond the Jordan fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "Sabbath law can obscure or reveal God's work.",
+      "John places Jesus's mercy above the leaders' narrow reading of the law.",
+      "They feared the Jews because confessors would be put out of the synagogue.",
+      "John shows continuity between the forerunner and Jesus."
+    ],
+    "correct_answer": "John shows continuity between the forerunner and Jesus.",
+    "explanation": "This fits John's wider portrait of Jesus in John 10."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 1,
+    "prompt": "What does John 10 reveal about laying down and taking up life?",
+    "choices_json": [
+      "John frames rejection of Jesus as participation in deception and murder.",
+      "Before Abraham came into existence, I AM.",
+      "He has authority to lay down his life and take it again.",
+      "The chapter contrasts true sonship with inherited unbelief."
+    ],
+    "correct_answer": "He has authority to lay down his life and take it again.",
+    "explanation": "John 10 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about laying down and taking up life?",
+    "choices_json": [
+      "He presents Abraham as pointing ahead to him.",
+      "This command came from the Father.",
+      "Abraham rejoiced to see Jesus's day.",
+      "Jesus said Abraham saw it and was glad."
+    ],
+    "correct_answer": "This command came from the Father.",
+    "explanation": "John 10 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 3,
+    "prompt": "What does laying down and taking up life suggest in context?",
+    "choices_json": [
+      "Jesus's death is voluntary, not accidental.",
+      "Jesus redirects blame toward revelation.",
+      "Suffering becomes the stage for God's glory.",
+      "John uses the sign to show God's work shining through weakness."
+    ],
+    "correct_answer": "Jesus's death is voluntary, not accidental.",
+    "explanation": "This shows the chapter's point about laying down and taking up life."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does laying down and taking up life reinforce in John 10?",
+    "choices_json": [
+      "John even notes that Siloam means 'Sent,' fitting Jesus's mission.",
+      "Some Pharisees said Jesus was not from God because he healed on the Sabbath.",
+      "Others argued a sinner could not do such signs.",
+      "The chapter unites sacrifice and resurrection authority."
+    ],
+    "correct_answer": "The chapter unites sacrifice and resurrection authority.",
+    "explanation": "This reinforces the chapter's theme around laying down and taking up life."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 5,
+    "prompt": "How does laying down and taking up life fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "Fear keeps witnesses from speaking freely.",
+      "Social pressure competes with truth.",
+      "John presents the cross as obedience, not defeat.",
+      "The parents confirmed he was their son but avoided the healing question."
+    ],
+    "correct_answer": "John presents the cross as obedience, not defeat.",
+    "explanation": "This fits John's wider portrait of Jesus in John 10."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 1,
+    "prompt": "What does John 11 reveal about Lazarus's sickness and delay?",
+    "choices_json": [
+      "The sickness was for the glory of God.",
+      "Experience of grace becomes a powerful testimony.",
+      "Simple witness can outlast learned argument.",
+      "John often lets first-hand encounter carry the case for Jesus."
+    ],
+    "correct_answer": "The sickness was for the glory of God.",
+    "explanation": "John 11 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about Lazarus's sickness and delay?",
+    "choices_json": [
+      "John moves from physical sight to true confession.",
+      "Those who say they see remain in sin.",
+      "Jesus says self-assured sight is worse than admitted blindness.",
+      "Jesus stayed two days where he was before going."
+    ],
+    "correct_answer": "Jesus stayed two days where he was before going.",
+    "explanation": "John 11 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 3,
+    "prompt": "What does Lazarus's sickness and delay suggest in context?",
+    "choices_json": [
+      "Relationship, not force, marks true discipleship.",
+      "The chapter contrasts a shepherd's voice with strangers and thieves.",
+      "Delay serves revelation, not neglect.",
+      "He is the door for the sheep."
+    ],
+    "correct_answer": "Delay serves revelation, not neglect.",
+    "explanation": "This shows the chapter's point about Lazarus's sickness and delay."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does Lazarus's sickness and delay reinforce in John 11?",
+    "choices_json": [
+      "He has other sheep not of this fold.",
+      "The chapter turns suffering into a stage for glory.",
+      "The chapter reframes greatness as self-giving care.",
+      "This becomes a major Johannine image for the cross."
+    ],
+    "correct_answer": "The chapter turns suffering into a stage for glory.",
+    "explanation": "This reinforces the chapter's theme around Lazarus's sickness and delay."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 5,
+    "prompt": "How does Lazarus's sickness and delay fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "John uses delay to show Jesus's signs are ordered by divine purpose.",
+      "I and the Father are one. (a common guess, but not what John says here)",
+      "The Jews heard this as a claim to deity.",
+      "Jesus claims unity of mission and nature with the Father."
+    ],
+    "correct_answer": "John uses delay to show Jesus's signs are ordered by divine purpose.",
+    "explanation": "This fits John's wider portrait of Jesus in John 11."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 1,
+    "prompt": "What does John 11 reveal about the resurrection and the life?",
+    "choices_json": [
+      "Jesus revealed himself as the Son of God.",
+      "The healed man believed and worshiped him.",
+      "Sight becomes faith when Jesus is recognized.",
+      "I am the resurrection and the life."
+    ],
+    "correct_answer": "I am the resurrection and the life.",
+    "explanation": "John 11 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about the resurrection and the life?",
+    "choices_json": [
+      "The chapter judges by response to light, not appearance.",
+      "Refusing Jesus leaves sin in place.",
+      "Martha confessed Jesus as the Christ, the Son of God.",
+      "Spiritual pride is the deepest blindness."
+    ],
+    "correct_answer": "Martha confessed Jesus as the Christ, the Son of God.",
+    "explanation": "John 11 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 3,
+    "prompt": "What does the resurrection and the life suggest in context?",
+    "choices_json": [
+      "Unlike the hired hand, he does not flee.",
+      "Belief in Jesus transforms death itself.",
+      "John presents Jesus as the only true access to life.",
+      "The good shepherd lays down his life for the sheep."
+    ],
+    "correct_answer": "Belief in Jesus transforms death itself.",
+    "explanation": "This shows the chapter's point about the resurrection and the life."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does the resurrection and the life reinforce in John 11?",
+    "choices_json": [
+      "The chapter centers hope in Jesus's person, not only an event.",
+      "He will bring them in so there is one flock and one shepherd.",
+      "Jesus gathers beyond the immediate Jewish audience.",
+      "The chapter widens the scope of his mission. (does not match John's wording in context)"
+    ],
+    "correct_answer": "The chapter centers hope in Jesus's person, not only an event.",
+    "explanation": "This reinforces the chapter's theme around the resurrection and the life."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 5,
+    "prompt": "How does the resurrection and the life fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "The chapter pushes the reader toward high Christology.",
+      "John places Jesus within the divine identity. (a common guess, but not what John says here)",
+      "They tried to stone him because he made himself God.",
+      "John presents Jesus as the source of future resurrection."
+    ],
+    "correct_answer": "John presents Jesus as the source of future resurrection.",
+    "explanation": "This fits John's wider portrait of Jesus in John 11."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 1,
+    "prompt": "What does John 11 reveal about Jesus weeping?",
+    "choices_json": [
+      "John moves from physical sight to true confession.",
+      "Those who say they see remain in sin.",
+      "Jesus wept.",
+      "The sign leads to worship, not just amazement."
+    ],
+    "correct_answer": "Jesus wept.",
+    "explanation": "John 11 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about Jesus weeping?",
+    "choices_json": [
+      "Relationship, not force, marks true discipleship.",
+      "He was deeply moved at Lazarus's tomb.",
+      "The sheep hear his voice and follow him.",
+      "He is the door for the sheep."
+    ],
+    "correct_answer": "He was deeply moved at Lazarus's tomb.",
+    "explanation": "John 11 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 3,
+    "prompt": "What does Jesus weeping suggest in context?",
+    "choices_json": [
+      "His grief is real, not staged.",
+      "Love is shown in sacrificial protection.",
+      "The chapter reframes greatness as self-giving care.",
+      "This becomes a major Johannine image for the cross."
+    ],
+    "correct_answer": "His grief is real, not staged.",
+    "explanation": "This shows the chapter's point about Jesus weeping."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does Jesus weeping reinforce in John 11?",
+    "choices_json": [
+      "John anticipates a united people under Christ.",
+      "I and the Father are one. (does not match John's wording in context)",
+      "The Jews heard this as a claim to deity.",
+      "The chapter joins divine power with human compassion."
+    ],
+    "correct_answer": "The chapter joins divine power with human compassion.",
+    "explanation": "This reinforces the chapter's theme around Jesus weeping."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus weeping fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "The claim of unity with the Father provokes violent rejection.",
+      "The chapter shows that revelation can harden opposition.",
+      "John shows the Word made flesh sharing sorrow.",
+      "They said his words were blasphemy."
+    ],
+    "correct_answer": "John shows the Word made flesh sharing sorrow.",
+    "explanation": "This fits John's wider portrait of Jesus in John 11."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 1,
+    "prompt": "What does John 11 reveal about Lazarus coming out?",
+    "choices_json": [
+      "The chapter judges by response to light, not appearance.",
+      "Lazarus came out.",
+      "Jesus says self-assured sight is worse than admitted blindness.",
+      "Spiritual pride is the deepest blindness."
+    ],
+    "correct_answer": "Lazarus came out.",
+    "explanation": "John 11 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about Lazarus coming out?",
+    "choices_json": [
+      "He was still bound in grave clothes, and Jesus told them to unbind him.",
+      "The chapter contrasts a shepherd's voice with strangers and thieves.",
+      "John presents Jesus as the only true access to life.",
+      "The good shepherd lays down his life for the sheep. (does not match John's wording in context)"
+    ],
+    "correct_answer": "He was still bound in grave clothes, and Jesus told them to unbind him.",
+    "explanation": "John 11 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 3,
+    "prompt": "What does Lazarus coming out suggest in context?",
+    "choices_json": [
+      "He has other sheep not of this fold.",
+      "He will bring them in so there is one flock and one shepherd.",
+      "Jesus gathers beyond the immediate Jewish audience.",
+      "Jesus's word gives life and then frees the living."
+    ],
+    "correct_answer": "Jesus's word gives life and then frees the living.",
+    "explanation": "This shows the chapter's point about Lazarus coming out."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does Lazarus coming out reinforce in John 11?",
+    "choices_json": [
+      "The chapter pushes the reader toward high Christology.",
+      "John places Jesus within the divine identity.",
+      "The sign points to authority over death.",
+      "Jesus claims unity of mission and nature with the Father."
+    ],
+    "correct_answer": "The sign points to authority over death.",
+    "explanation": "This reinforces the chapter's theme around Lazarus coming out."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 5,
+    "prompt": "How does Lazarus coming out fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "Jesus withdrew to the place where John first baptized.",
+      "John presents resurrection as both command and release.",
+      "John connects Jesus's identity claims to rejected witness.",
+      "Many believed there because John's words about him were true."
+    ],
+    "correct_answer": "John presents resurrection as both command and release.",
+    "explanation": "This fits John's wider portrait of Jesus in John 11."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 1,
+    "prompt": "What does John 11 reveal about the council's fear of Rome?",
+    "choices_json": [
+      "They feared the Romans would destroy their place and nation.",
+      "Refusing Jesus leaves sin in place.",
+      "The sheep hear his voice and follow him.",
+      "He is the door for the sheep. (a common guess, but not what John says here)"
+    ],
+    "correct_answer": "They feared the Romans would destroy their place and nation.",
+    "explanation": "John 11 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about the council's fear of Rome?",
+    "choices_json": [
+      "Unlike the hired hand, he does not flee.",
+      "Love is shown in sacrificial protection.",
+      "The chapter reframes greatness as self-giving care.",
+      "Caiaphas said one man should die for the people."
+    ],
+    "correct_answer": "Caiaphas said one man should die for the people.",
+    "explanation": "John 11 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 3,
+    "prompt": "What does the council's fear of Rome suggest in context?",
+    "choices_json": [
+      "John anticipates a united people under Christ.",
+      "I and the Father are one. (a common guess, but not what John says here)",
+      "Political fear drives a false kind of prudence.",
+      "The chapter widens the scope of his mission."
+    ],
+    "correct_answer": "Political fear drives a false kind of prudence.",
+    "explanation": "This shows the chapter's point about the council's fear of Rome."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does the council's fear of Rome reinforce in John 11?",
+    "choices_json": [
+      "The claim of unity with the Father provokes violent rejection.",
+      "The chapter exposes the leaders' blindness to God's purpose.",
+      "They tried to stone him because he made himself God.",
+      "They said his words were blasphemy."
+    ],
+    "correct_answer": "The chapter exposes the leaders' blindness to God's purpose.",
+    "explanation": "This reinforces the chapter's theme around the council's fear of Rome."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 5,
+    "prompt": "How does the council's fear of Rome fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "John turns their policy into an unwitting prophecy.",
+      "Earlier witness now bears fruit.",
+      "The chapter ties Jesus's identity to John the Baptist's testimony.",
+      "John shows continuity between the forerunner and Jesus."
+    ],
+    "correct_answer": "John turns their policy into an unwitting prophecy.",
+    "explanation": "This fits John's wider portrait of Jesus in John 11."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 1,
+    "prompt": "What does John 11 reveal about Caiaphas's saying?",
+    "choices_json": [
+      "Relationship, not force, marks true discipleship.",
+      "The chapter contrasts a shepherd's voice with strangers and thieves.",
+      "John presents Jesus as the only true access to life.",
+      "Jesus would die for the nation and gather God's scattered children."
+    ],
+    "correct_answer": "Jesus would die for the nation and gather God's scattered children.",
+    "explanation": "John 11 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about Caiaphas's saying?",
+    "choices_json": [
+      "He has other sheep not of this fold.",
+      "He will bring them in so there is one flock and one shepherd.",
+      "Caiaphas's words were interpreted as prophecy about Jesus.",
+      "This becomes a major Johannine image for the cross."
+    ],
+    "correct_answer": "Caiaphas's words were interpreted as prophecy about Jesus.",
+    "explanation": "John 11 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 3,
+    "prompt": "What does Caiaphas's saying suggest in context?",
+    "choices_json": [
+      "The chapter pushes the reader toward high Christology.",
+      "His death has a wider unifying purpose.",
+      "The Jews heard this as a claim to deity.",
+      "Jesus claims unity of mission and nature with the Father."
+    ],
+    "correct_answer": "His death has a wider unifying purpose.",
+    "explanation": "This shows the chapter's point about Caiaphas's saying."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does Caiaphas's saying reinforce in John 11?",
+    "choices_json": [
+      "The chapter links atonement with gathering.",
+      "The chapter shows that revelation can harden opposition.",
+      "John connects Jesus's identity claims to rejected witness.",
+      "Many believed there because John's words about him were true."
+    ],
+    "correct_answer": "The chapter links atonement with gathering.",
+    "explanation": "This reinforces the chapter's theme around Caiaphas's saying."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 5,
+    "prompt": "How does Caiaphas's saying fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "He has authority to lay down his life and take it again.",
+      "This command came from the Father. (a common guess, but not what John says here)",
+      "Jesus's death is voluntary, not accidental.",
+      "John frames Jesus's death as for more than one local crisis."
+    ],
+    "correct_answer": "John frames Jesus's death as for more than one local crisis.",
+    "explanation": "This fits John's wider portrait of Jesus in John 11."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 1,
+    "prompt": "What does John 11 reveal about the plot against Jesus?",
+    "choices_json": [
+      "Unlike the hired hand, he does not flee. (a common guess, but not what John says here)",
+      "Love is shown in sacrificial protection.",
+      "They plotted to kill Jesus, and he withdrew to Ephraim.",
+      "The good shepherd lays down his life for the sheep."
+    ],
+    "correct_answer": "They plotted to kill Jesus, and he withdrew to Ephraim.",
+    "explanation": "John 11 says this directly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 2,
+    "prompt": "What detail does John add about the plot against Jesus?",
+    "choices_json": [
+      "John anticipates a united people under Christ.",
+      "He stayed there with the disciples until Passover neared.",
+      "Jesus gathers beyond the immediate Jewish audience.",
+      "The chapter widens the scope of his mission. (does not match John's wording in context)"
+    ],
+    "correct_answer": "He stayed there with the disciples until Passover neared.",
+    "explanation": "John 11 adds that detail."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 3,
+    "prompt": "What does the plot against Jesus suggest in context?",
+    "choices_json": [
+      "The sign pushes the conflict toward the Passion.",
+      "John places Jesus within the divine identity.",
+      "They tried to stone him because he made himself God.",
+      "They said his words were blasphemy."
+    ],
+    "correct_answer": "The sign pushes the conflict toward the Passion.",
+    "explanation": "This shows the chapter's point about the plot against Jesus."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 4,
+    "prompt": "What theological point does the plot against Jesus reinforce in John 11?",
+    "choices_json": [
+      "Jesus withdrew to the place where John first baptized.",
+      "Earlier witness now bears fruit.",
+      "The chapter ties Jesus's identity to John the Baptist's testimony.",
+      "The chapter closes with impending sacrifice and renewed danger."
+    ],
+    "correct_answer": "The chapter closes with impending sacrifice and renewed danger.",
+    "explanation": "This reinforces the chapter's theme around the plot against Jesus."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 5,
+    "prompt": "How does the plot against Jesus fit John's wider portrait of Jesus?",
+    "choices_json": [
+      "John presents the cross as obedience, not defeat.",
+      "The sickness was for the glory of God.",
+      "John builds suspense as Passover approaches.",
+      "The chapter unites sacrifice and resurrection authority."
+    ],
+    "correct_answer": "John builds suspense as Passover approaches.",
+    "explanation": "This fits John's wider portrait of Jesus in John 11."
+  }
+]

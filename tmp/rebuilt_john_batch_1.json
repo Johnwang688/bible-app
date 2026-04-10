@@ -1,0 +1,814 @@
+[
+  {
+    "book_number": 43,
+    "chapter": 1,
+    "difficulty_stage": 3,
+    "prompt": "When John says, \"Among you stands one whom you do not know,\" what is he saying about the Messiah's arrival in John 1?",
+    "choices_json": [
+      "The promised one is already present, though unrecognized",
+      "The promised one is still far away",
+      "The promised one will appear only after John dies",
+      "The promised one is hidden in the temple treasury"
+    ],
+    "correct_answer": "The promised one is already present, though unrecognized",
+    "explanation": "John says the coming one is already standing among them, but they do not know him (John 1:26)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 1,
+    "difficulty_stage": 3,
+    "prompt": "After Andrew spent the day with Jesus, why did he immediately go find Simon in John 1?",
+    "choices_json": [
+      "He was convinced he had found the Messiah",
+      "He needed Simon to help John baptize",
+      "He wanted Simon to meet the priests from Jerusalem",
+      "He was returning Simon's fishing gear"
+    ],
+    "correct_answer": "He was convinced he had found the Messiah",
+    "explanation": "Andrew's first move was to tell Simon, \"We have found the Messiah\" (John 1:41)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 1,
+    "difficulty_stage": 4,
+    "prompt": "In John 1:17, why does the chapter move from Moses and the law to Jesus Christ and grace and truth?",
+    "choices_json": [
+      "It presents Jesus as the fuller revelation that fulfills what the law pointed toward",
+      "It says Moses was false and should be ignored",
+      "It shifts from Israel's story to Roman politics",
+      "It means grace replaced creation itself"
+    ],
+    "correct_answer": "It presents Jesus as the fuller revelation that fulfills what the law pointed toward",
+    "explanation": "The chapter contrasts the law through Moses with grace and truth realized through Jesus Christ (John 1:17)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 1,
+    "difficulty_stage": 4,
+    "prompt": "Why does John the Baptist call Jesus \"the Lamb of God\" just as his own disciples begin following Jesus in John 1?",
+    "choices_json": [
+      "It directs them to Jesus's sacrificial mission instead of John's ministry",
+      "It tells them Jesus will lead temple animals",
+      "It identifies Jesus as a priest from Jerusalem",
+      "It means Jesus came only to reform wilderness baptisms"
+    ],
+    "correct_answer": "It directs them to Jesus's sacrificial mission instead of John's ministry",
+    "explanation": "John's title points away from himself and toward Jesus, whom his disciples then follow (John 1:29, 35-37)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 1,
+    "difficulty_stage": 5,
+    "prompt": "Why does Jesus answer Nathanael's confession with a promise about heaven opened and angels ascending and descending on the Son of Man in John 1?",
+    "choices_json": [
+      "He expands Nathanael's insight from one private sign to Jesus's larger role as the meeting place between heaven and earth",
+      "He changes the subject away from Nathanael's confession",
+      "He promises Nathanael a vision of the temple curtains",
+      "He corrects Nathanael for calling him King of Israel"
+    ],
+    "correct_answer": "He expands Nathanael's insight from one private sign to Jesus's larger role as the meeting place between heaven and earth",
+    "explanation": "The fig tree sign leads into a bigger claim about the Son of Man and heaven opened (John 1:48-51)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 1,
+    "difficulty_stage": 5,
+    "prompt": "How do John 1:3 and John 1:18 work together in the chapter's opening and closing claims about the Word?",
+    "choices_json": [
+      "The one through whom all things were made is also the one who makes the unseen God known",
+      "The creator remains distant and cannot be known",
+      "Creation belongs to the Father, while revelation belongs to John the Baptist",
+      "The Word creates the world but never enters it"
+    ],
+    "correct_answer": "The one through whom all things were made is also the one who makes the unseen God known",
+    "explanation": "John opens with the Word as creator and closes by saying the Son has declared the unseen God (John 1:3, 18)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 2,
+    "difficulty_stage": 3,
+    "prompt": "Why did the ruler of the feast not know where the wine had come from, even though the servants did in John 2?",
+    "choices_json": [
+      "The servants had drawn the water in obedience to Jesus, but the ruler only tasted the result",
+      "He arrived after the wedding was over",
+      "Mary had hidden the jars from him",
+      "The disciples carried the wine in from Jerusalem"
+    ],
+    "correct_answer": "The servants had drawn the water in obedience to Jesus, but the ruler only tasted the result",
+    "explanation": "The ruler did not know the source, but the servants who drew the water did (John 2:8-9)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 2,
+    "difficulty_stage": 3,
+    "prompt": "Why did the disciples understand Jesus's temple saying more fully only after he was raised from the dead in John 2?",
+    "choices_json": [
+      "The resurrection showed that he had been speaking about his body, not the building",
+      "They had forgotten where the temple stood",
+      "The merchants later explained the saying to them",
+      "Passover customs finally made the language clear"
+    ],
+    "correct_answer": "The resurrection showed that he had been speaking about his body, not the building",
+    "explanation": "John says they remembered his words after he was raised, because he meant the temple of his body (John 2:21-22)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 2,
+    "difficulty_stage": 4,
+    "prompt": "When John calls Cana \"the beginning of his signs,\" what feature of the event does he highlight in John 2?",
+    "choices_json": [
+      "The act revealed Jesus's glory and led his disciples to believe in him",
+      "The act ended all future need for signs",
+      "The act was performed mainly to impress the ruler of the feast",
+      "The act showed that weddings mattered more than Passover"
+    ],
+    "correct_answer": "The act revealed Jesus's glory and led his disciples to believe in him",
+    "explanation": "John ties the first sign directly to revealed glory and resulting belief (John 2:11)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 2,
+    "difficulty_stage": 4,
+    "prompt": "In the temple scene, why does Jesus say \"my Father's house\" instead of simply \"the temple\" in John 2?",
+    "choices_json": [
+      "The wording grounds his authority in unique Sonship while condemning the marketplace abuse",
+      "The wording means the temple belonged to Joseph's family",
+      "The wording shows he wanted to live inside the temple courts",
+      "The wording limits his concern to the dove sellers alone"
+    ],
+    "correct_answer": "The wording grounds his authority in unique Sonship while condemning the marketplace abuse",
+    "explanation": "Jesus defends the temple as his Father's house, which explains his authority to cleanse it (John 2:16)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 2,
+    "difficulty_stage": 4,
+    "prompt": "How do John 2:23-25 qualify the belief of many at Passover?",
+    "choices_json": [
+      "Their belief responded to signs, but Jesus knew their hearts and did not entrust himself to them",
+      "Their belief immediately made them disciples who followed him to Galilee",
+      "Their belief was rejected because signs never lead to faith",
+      "Their belief mattered only because they were in Jerusalem"
+    ],
+    "correct_answer": "Their belief responded to signs, but Jesus knew their hearts and did not entrust himself to them",
+    "explanation": "Many believed after seeing signs, yet Jesus did not entrust himself to them because he knew what was in man (John 2:23-25)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "How do the Cana sign and the temple cleansing together preview Jesus's ministry in John 2?",
+    "choices_json": [
+      "He brings joyful abundance and also confronts corrupted worship, centering both signs on his revealed glory",
+      "He focuses only on village celebrations and avoids Jerusalem",
+      "He replaces the disciples with temple officials",
+      "He shows that private miracles matter more than public holiness"
+    ],
+    "correct_answer": "He brings joyful abundance and also confronts corrupted worship, centering both signs on his revealed glory",
+    "explanation": "The chapter pairs abundant wine at Cana with zealous temple cleansing, both revealing who Jesus is (John 2:11, 16-17)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "Why is \"Destroy this temple, and in three days I will raise it up\" a decisive example of double meaning in John 2?",
+    "choices_json": [
+      "Jesus speaks about his body, while his hearers stay at the level of the Jerusalem building",
+      "Jesus predicts that the stone temple will be rebuilt before Passover ends",
+      "Jesus means the six water jars should replace the temple",
+      "Jesus is quoting the ruler of the feast"
+    ],
+    "correct_answer": "Jesus speaks about his body, while his hearers stay at the level of the Jerusalem building",
+    "explanation": "The Jews think of the structure, but John explains that Jesus meant the temple of his body (John 2:19-21)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "Why is the steward's line \"You have kept the good wine until now\" so fitting within John's presentation of Jesus in John 2?",
+    "choices_json": [
+      "It pictures Jesus as God's climactic provision, arriving after what came before",
+      "It proves the servants had hidden the first supply of wine",
+      "It means Cana had better vineyards than Jerusalem",
+      "It shows the bridegroom understood Jesus's sign perfectly"
+    ],
+    "correct_answer": "It pictures Jesus as God's climactic provision, arriving after what came before",
+    "explanation": "The best wine appearing last fits John's theme that Jesus brings the fuller gift (John 2:10-11)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "What does Jesus's refusal to entrust himself to the crowd reveal immediately after the Passover signs in John 2?",
+    "choices_json": [
+      "He distinguishes public excitement from genuine faith because he knows what is in each person",
+      "He no longer wanted anyone to believe his signs in Jerusalem",
+      "He planned to leave Judea because the feast had ended",
+      "He was waiting for the ruler of the feast to speak for him"
+    ],
+    "correct_answer": "He distinguishes public excitement from genuine faith because he knows what is in each person",
+    "explanation": "Jesus did not entrust himself to them because he knew everyone and knew what was in man (John 2:24-25)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 3,
+    "difficulty_stage": 3,
+    "prompt": "When Nicodemus asks about entering a mother's womb again, what misunderstanding does John 3 expose?",
+    "choices_json": [
+      "He hears Jesus in merely physical terms instead of the Spirit-given new birth",
+      "He thinks Jesus is speaking about John the Baptist's baptism",
+      "He assumes Jesus is describing resurrection at the last day",
+      "He believes only children may enter God's Kingdom"
+    ],
+    "correct_answer": "He hears Jesus in merely physical terms instead of the Spirit-given new birth",
+    "explanation": "Nicodemus takes Jesus literally, while Jesus is speaking about being born from above by the Spirit (John 3:4-8)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 3,
+    "difficulty_stage": 3,
+    "prompt": "When John's disciples worry that everyone is going to Jesus, what principle shapes John's answer in John 3?",
+    "choices_json": [
+      "Any ministry a person receives is given from heaven, so rivalry is misplaced",
+      "John must gather a larger crowd before Jesus does",
+      "Purification debates are more important than baptizing",
+      "Only priests should decide who may baptize in Judea"
+    ],
+    "correct_answer": "Any ministry a person receives is given from heaven, so rivalry is misplaced",
+    "explanation": "John answers their jealousy by saying a man can receive nothing unless it is given from heaven (John 3:26-27)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 3,
+    "difficulty_stage": 4,
+    "prompt": "Why does Jesus compare the Son of Man to the serpent Moses lifted up in the wilderness in John 3?",
+    "choices_json": [
+      "Both involve a God-given means by which people look in faith and live",
+      "Both show that miracles matter more than belief",
+      "Both are mainly about Israel traveling through Samaria",
+      "Both predict that Nicodemus will become a public leader of the disciples"
+    ],
+    "correct_answer": "Both involve a God-given means by which people look in faith and live",
+    "explanation": "Jesus uses the wilderness serpent to explain that the lifted-up Son brings life to those who believe (John 3:14-15)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 3,
+    "difficulty_stage": 4,
+    "prompt": "In John 3:19-21, why do some people stay away from the light?",
+    "choices_json": [
+      "They do not want their evil works exposed",
+      "They are waiting for John to finish baptizing first",
+      "They believe the light belongs only to Nicodemus",
+      "They cannot see the light because it shines only at night"
+    ],
+    "correct_answer": "They do not want their evil works exposed",
+    "explanation": "John says people loved darkness rather than light because their works were evil (John 3:19-20)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 3,
+    "difficulty_stage": 4,
+    "prompt": "What does John the Baptist communicate by calling himself the friend of the bridegroom in John 3?",
+    "choices_json": [
+      "His joy is to hear the bridegroom's voice and yield the central place to him",
+      "He expects to become the bridegroom if Jesus leaves Judea",
+      "He is comparing baptizing to the wedding at Cana",
+      "He means the bride belongs to John's disciples"
+    ],
+    "correct_answer": "His joy is to hear the bridegroom's voice and yield the central place to him",
+    "explanation": "John uses the bridegroom image to explain why Jesus must increase and he must decrease (John 3:29-30)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 3,
+    "difficulty_stage": 5,
+    "prompt": "How do John 3:31-35 strengthen Jesus's authority to speak of heavenly things in this chapter?",
+    "choices_json": [
+      "He comes from above, speaks what he has seen, receives the Spirit without measure, and has all things in his hand",
+      "He has more disciples than John and therefore greater authority",
+      "He has learned heavenly secrets from Nicodemus",
+      "He proves his authority mainly by debating purification"
+    ],
+    "correct_answer": "He comes from above, speaks what he has seen, receives the Spirit without measure, and has all things in his hand",
+    "explanation": "The chapter grounds Jesus's authority in his heavenly origin, divine testimony, and the Father's gift of all things (John 3:31-35)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 3,
+    "difficulty_stage": 5,
+    "prompt": "Why is \"God so loved the world\" especially striking in a nighttime conversation with Nicodemus, a ruler of the Jews, in John 3?",
+    "choices_json": [
+      "The promise stretches beyond one teacher in Israel to God's saving love for the world",
+      "The promise limits salvation to rulers who come privately by night",
+      "The promise replaces belief with descent from Abraham",
+      "The promise means Nicodemus no longer needs to be born anew"
+    ],
+    "correct_answer": "The promise stretches beyond one teacher in Israel to God's saving love for the world",
+    "explanation": "Jesus speaks to a Jewish ruler, yet the scope of God's love in the chapter is the world (John 3:16-17)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 3,
+    "difficulty_stage": 5,
+    "prompt": "How do John 3:17 and John 3:19 fit together in the chapter's view of judgment?",
+    "choices_json": [
+      "The Son is sent to save, yet people's response to the light reveals the judgment already at work",
+      "The verses contradict each other and cannot both be true",
+      "The Son judges only after John the Baptist finishes his work",
+      "Judgment falls only on those who debate purification"
+    ],
+    "correct_answer": "The Son is sent to save, yet people's response to the light reveals the judgment already at work",
+    "explanation": "Jesus is sent for salvation, but rejection of the light exposes present judgment (John 3:17-19)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "In what Samaritan town did Jesus arrive near Jacob's well in John 4?",
+    "choices_json": [
+      "Sychar",
+      "Cana",
+      "Jerusalem",
+      "Capernaum"
+    ],
+    "correct_answer": "Sychar",
+    "explanation": "Jesus came to a city of Samaria called Sychar (John 4:5)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "About what hour was Jesus sitting by the well in John 4?",
+    "choices_json": [
+      "the sixth hour",
+      "the seventh hour",
+      "the ninth hour",
+      "the tenth hour"
+    ],
+    "correct_answer": "the sixth hour",
+    "explanation": "John notes that Jesus sat by the well about the sixth hour (John 4:6)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "What had the disciples gone into the city to buy in John 4?",
+    "choices_json": [
+      "food",
+      "water",
+      "wine",
+      "oil"
+    ],
+    "correct_answer": "food",
+    "explanation": "The disciples had gone into the city to buy food (John 4:8)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "How many husbands had the Samaritan woman had in John 4?",
+    "choices_json": [
+      "five",
+      "two",
+      "seven",
+      "twelve"
+    ],
+    "correct_answer": "five",
+    "explanation": "Jesus says she had had five husbands (John 4:18)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "What did the Samaritan woman leave behind when she went back into the city in John 4?",
+    "choices_json": [
+      "her water pot",
+      "her sandals",
+      "her bread",
+      "her cloak"
+    ],
+    "correct_answer": "her water pot",
+    "explanation": "She left her water pot and went into the city (John 4:28)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "How long did Jesus stay with the Samaritans who asked him to remain in John 4?",
+    "choices_json": [
+      "two days",
+      "one day",
+      "three days",
+      "seven days"
+    ],
+    "correct_answer": "two days",
+    "explanation": "Jesus stayed there two days (John 4:40)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus say to the nobleman before he left for home in John 4?",
+    "choices_json": [
+      "Go your way. Your son lives.",
+      "Come, see a man who told me everything I did.",
+      "Give me a drink.",
+      "Rabbi, eat."
+    ],
+    "correct_answer": "Go your way. Your son lives.",
+    "explanation": "Jesus sent the nobleman away with the words, \"Your son lives\" (John 4:50)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "Why did the Samaritan woman say Jesus's request for a drink was surprising in John 4?",
+    "choices_json": [
+      "Because he was a Jew asking a Samaritan woman for a drink",
+      "Because he arrived after the well had gone dry",
+      "Because his disciples had already bought him food",
+      "Because he asked her beside Jacob's well instead of on the mountain"
+    ],
+    "correct_answer": "Because he was a Jew asking a Samaritan woman for a drink",
+    "explanation": "She is surprised because Jesus is a Jew and she is a Samaritan woman (John 4:9)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "Whose son had received the parcel of ground near Sychar in John 4?",
+    "choices_json": [
+      "Joseph",
+      "Isaac",
+      "Esau",
+      "Benjamin"
+    ],
+    "correct_answer": "Joseph",
+    "explanation": "The land near Sychar is described as the parcel Jacob gave to his son Joseph (John 4:5)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "Which two places did the Samaritan woman contrast in her question about worship in John 4?",
+    "choices_json": [
+      "this mountain and Jerusalem",
+      "Sychar and Cana",
+      "Capernaum and Cana",
+      "Judea and Galilee"
+    ],
+    "correct_answer": "this mountain and Jerusalem",
+    "explanation": "She contrasts worship on the mountain with worship in Jerusalem (John 4:20)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "What did the disciples say to Jesus when they returned from the city in John 4?",
+    "choices_json": [
+      "Rabbi, eat.",
+      "Sir, give me this water.",
+      "Come down before my child dies.",
+      "Stay with us."
+    ],
+    "correct_answer": "Rabbi, eat.",
+    "explanation": "The disciples urged him, saying, \"Rabbi, eat\" (John 4:31)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "How many months did Jesus mention in the saying about the harvest in John 4?",
+    "choices_json": [
+      "four",
+      "two",
+      "six",
+      "seven"
+    ],
+    "correct_answer": "four",
+    "explanation": "Jesus refers to the saying, \"There are yet four months until the harvest\" (John 4:35)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "At what hour did the nobleman's servants say the fever left his son in John 4?",
+    "choices_json": [
+      "the seventh hour",
+      "the sixth hour",
+      "the ninth hour",
+      "the tenth hour"
+    ],
+    "correct_answer": "the seventh hour",
+    "explanation": "They reported that the fever left at the seventh hour (John 4:52)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "In what town was the nobleman's sick son in John 4?",
+    "choices_json": [
+      "Capernaum",
+      "Sychar",
+      "Cana",
+      "Jerusalem"
+    ],
+    "correct_answer": "Capernaum",
+    "explanation": "The nobleman's son was sick at Capernaum (John 4:46)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "When the woman asks, \"Are you greater than our father Jacob?\" what has prompted that question in John 4?",
+    "choices_json": [
+      "Jesus had offered water better than the well Jacob gave",
+      "Jesus had claimed to own Jacob's land",
+      "Jesus had refused to speak about worship",
+      "Jesus had asked to meet the town elders first"
+    ],
+    "correct_answer": "Jesus had offered water better than the well Jacob gave",
+    "explanation": "Her question follows Jesus's promise of living water that surpasses the well's ordinary water (John 4:10-14)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "What does the woman leaving her water pot most likely show in the flow of John 4?",
+    "choices_json": [
+      "Jesus's words had become more urgent to her than the reason she came to the well",
+      "She had forgotten where the well was located",
+      "She planned to stop drawing water forever that day",
+      "She wanted the disciples to carry it back for her"
+    ],
+    "correct_answer": "Jesus's words had become more urgent to her than the reason she came to the well",
+    "explanation": "She leaves the jar and hurries to tell the city about Jesus, showing a changed focus (John 4:28-29)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "Why were the disciples amazed to find Jesus talking with the Samaritan woman in John 4?",
+    "choices_json": [
+      "He was crossing normal social and ethnic boundaries that others expected him to keep",
+      "He had promised never to speak beside a well again",
+      "He was supposed to be in Jerusalem for the feast that hour",
+      "He was asking her to baptize him instead of John"
+    ],
+    "correct_answer": "He was crossing normal social and ethnic boundaries that others expected him to keep",
+    "explanation": "The chapter stresses both her Samaritan identity and the disciples' surprise at the conversation (John 4:9, 27)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "Why do the Samaritans in Sychar move from the woman's report to their own confession in John 4?",
+    "choices_json": [
+      "Her testimony brings them to Jesus, but hearing him themselves creates direct conviction",
+      "They stop believing the woman and return to Jacob's well",
+      "The disciples persuade them to leave before Jesus speaks",
+      "They decide miracles matter more than Jesus's words"
+    ],
+    "correct_answer": "Her testimony brings them to Jesus, but hearing him themselves creates direct conviction",
+    "explanation": "They first come because of her word and then say they believe because they have heard for themselves (John 4:39-42)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "In the immediate setting of John 4, what are the \"fields... white for harvest\" most likely pointing to?",
+    "choices_json": [
+      "The people coming out from the Samaritan town ready to hear Jesus",
+      "The nobleman's household preparing a feast in Capernaum",
+      "The disciples coming back from the city with food",
+      "The woman returning alone to Jacob's well"
+    ],
+    "correct_answer": "The people coming out from the Samaritan town ready to hear Jesus",
+    "explanation": "Jesus says this as the Samaritans are coming toward him, making the mission image immediate (John 4:30, 35)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "Before the healing was confirmed, what does the nobleman's trip from Capernaum to Cana suggest about him in John 4?",
+    "choices_json": [
+      "He was desperate enough to seek Jesus and trust his word on the journey home",
+      "He cared more about travel than about his son",
+      "He expected the disciples rather than Jesus to heal the child",
+      "He wanted to challenge Jesus in front of the Galileans"
+    ],
+    "correct_answer": "He was desperate enough to seek Jesus and trust his word on the journey home",
+    "explanation": "The nobleman begs Jesus to come, then goes home believing the word Jesus spoke (John 4:47-50)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "Why did the father ask his servants the exact hour the fever left in John 4?",
+    "choices_json": [
+      "He wanted to see whether the recovery matched the moment Jesus spoke",
+      "He hoped the fever had lasted only a few minutes",
+      "He was preparing to report the case to the Pharisees",
+      "He needed the time for the wedding schedule in Cana"
+    ],
+    "correct_answer": "He wanted to see whether the recovery matched the moment Jesus spoke",
+    "explanation": "He asks the hour so he can connect the healing with Jesus's words, \"Your son lives\" (John 4:50-53)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "Why does Jesus begin the conversation by asking the woman for a drink before speaking of living water in John 4?",
+    "choices_json": [
+      "His ordinary human thirst opens the way to reveal the deeper gift he gives",
+      "He needs her permission before entering Sychar",
+      "He is testing whether she knows the harvest schedule",
+      "He wants to avoid speaking about worship altogether"
+    ],
+    "correct_answer": "His ordinary human thirst opens the way to reveal the deeper gift he gives",
+    "explanation": "The chapter starts with Jesus's real thirst and moves into his offer of living water (John 4:6-10)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "Why does Jesus describe his gift as a spring inside the person rather than water drawn again from Jacob's well in John 4?",
+    "choices_json": [
+      "He contrasts his lasting, internal gift with the repeated need for ordinary well water",
+      "He is teaching the woman how to dig a second well in Sychar",
+      "He means worship should never include physical water",
+      "He is promising that the well itself will overflow into the city"
+    ],
+    "correct_answer": "He contrasts his lasting, internal gift with the repeated need for ordinary well water",
+    "explanation": "Jesus contrasts water that leaves people thirsty again with a spring welling up to eternal life (John 4:13-14)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "When Jesus shifts the worship discussion from \"this mountain\" and \"Jerusalem\" to \"spirit and truth,\" what point is he making in John 4?",
+    "choices_json": [
+      "Acceptable worship will no longer be tied to a sacred location but to the Father's reality",
+      "Jerusalem no longer matters because Samaria will replace it as the only holy site",
+      "Worship should happen only in private homes after sunset",
+      "The woman must choose Sychar over both mountain and city worship"
+    ],
+    "correct_answer": "Acceptable worship will no longer be tied to a sacred location but to the Father's reality",
+    "explanation": "Jesus says the hour is coming when worship is not confined to either mountain or Jerusalem, but is in spirit and truth (John 4:21-24)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "Why is Jesus's line \"salvation is from the Jews\" important in this Samaritan setting in John 4?",
+    "choices_json": [
+      "It roots God's saving work in Israel's history even while Samaritans are being invited in",
+      "It means Samaritans can never become true worshipers",
+      "It rejects the woman's belief that Messiah will come",
+      "It shows Jesus plans to leave Samaria before speaking any further"
+    ],
+    "correct_answer": "It roots God's saving work in Israel's history even while Samaritans are being invited in",
+    "explanation": "Jesus affirms Israel's role in salvation history even as he reveals himself to Samaritans (John 4:22, 25-26)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "What is striking about Jesus telling the Samaritan woman, \"I am he, the one who speaks to you,\" in John 4?",
+    "choices_json": [
+      "An outsider at a well receives a direct messianic disclosure early in the chapter",
+      "The disciples are the first ones in the chapter to hear him say it",
+      "The nobleman hears the statement after his son is healed",
+      "The statement is made to the crowds after two days in Sychar"
+    ],
+    "correct_answer": "An outsider at a well receives a direct messianic disclosure early in the chapter",
+    "explanation": "Jesus directly identifies himself to the Samaritan woman after her mention of Messiah (John 4:25-26)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "How does \"My food is to do the will of him who sent me\" interpret Jesus's refusal to eat right away in John 4?",
+    "choices_json": [
+      "The mission unfolding in Samaria matters more to him at that moment than the meal",
+      "He no longer needs physical food after speaking at the well",
+      "He is waiting for the nobleman to bring him bread from Capernaum",
+      "He is correcting the disciples for buying food in Sychar"
+    ],
+    "correct_answer": "The mission unfolding in Samaria matters more to him at that moment than the meal",
+    "explanation": "Jesus explains his refusal to eat by pointing to the Father's will and work (John 4:31-34)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "What does the healing of the nobleman's son from a distance emphasize about Jesus in John 4?",
+    "choices_json": [
+      "His life-giving word is effective even without his physical presence",
+      "His power depends on arriving before the fever peaks",
+      "His signs work only for noble families in Galilee",
+      "His authority comes from the servants who confirm the miracle"
+    ],
+    "correct_answer": "His life-giving word is effective even without his physical presence",
+    "explanation": "The boy recovers at the hour Jesus spoke, even though Jesus never goes down to Capernaum (John 4:50-53)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "How does John 4 use Jacob's well and Jesus's living water to set up a larger contrast?",
+    "choices_json": [
+      "The inherited well gives temporary relief, but Jesus gives the enduring life that the old source could never supply",
+      "Jacob's well is false, but Jesus offers only literal spring water",
+      "The woman must choose between Jacob and Moses before she can believe",
+      "The well matters only because it leads to the nobleman's house"
+    ],
+    "correct_answer": "The inherited well gives temporary relief, but Jesus gives the enduring life that the old source could never supply",
+    "explanation": "Jacob's well meets ordinary thirst, but Jesus offers water springing up to eternal life (John 4:12-14)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "Why is Jesus's exposure of the woman's marriages central to John 4 rather than a side detail?",
+    "choices_json": [
+      "It brings her life into the open so that the offer of living water meets her truthfully",
+      "It proves she is the most respected teacher in Sychar",
+      "It explains why the disciples had gone away to buy food",
+      "It shows that worship in Jerusalem depends on marriage status"
+    ],
+    "correct_answer": "It brings her life into the open so that the offer of living water meets her truthfully",
+    "explanation": "Jesus's knowledge of her life moves the conversation from surface need to truthful exposure before faith and witness (John 4:16-19, 29)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "How do John 4:39-42 trace the way faith spreads in Sychar?",
+    "choices_json": [
+      "The woman's witness starts the movement, but Jesus's own word brings many to settled belief",
+      "The disciples organize the city before anyone hears Jesus",
+      "The nobleman persuades the Samaritans after his son recovers",
+      "The Samaritans believe only after seeing water turned to wine"
+    ],
+    "correct_answer": "The woman's witness starts the movement, but Jesus's own word brings many to settled belief",
+    "explanation": "Many first believe because of her testimony, and many more believe because of Jesus's word (John 4:39-41)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "Why is the title \"Savior of the world\" such a climactic confession at the end of the Samaritan episode in John 4?",
+    "choices_json": [
+      "People outside the Jewish mainstream recognize a salvation that reaches beyond their town and ethnicity",
+      "It means Jesus will remain in Sychar instead of returning to Galilee",
+      "It replaces the earlier title Messiah with a smaller local claim",
+      "It shows the Samaritans believed only because of the woman's wording"
+    ],
+    "correct_answer": "People outside the Jewish mainstream recognize a salvation that reaches beyond their town and ethnicity",
+    "explanation": "The Samaritans confess Jesus as the Savior of the world after hearing him for themselves (John 4:42)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "In Jesus's harvest saying, what is the significance of \"one sows, and another reaps\" in John 4?",
+    "choices_json": [
+      "God's work includes different laborers, and the disciples are entering a field already prepared by others",
+      "Only the disciples may reap, because no one else has labored in Samaria",
+      "The saying is about farming wages rather than people coming to faith",
+      "Jesus is correcting the woman's misunderstanding about Jacob's livestock"
+    ],
+    "correct_answer": "God's work includes different laborers, and the disciples are entering a field already prepared by others",
+    "explanation": "Jesus says others have labored, and the disciples are entering into that labor as the harvest arrives (John 4:35-38)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "Why does John mention that the nobleman believed Jesus's word in verse 50 and then says he believed with his whole house in verse 53?",
+    "choices_json": [
+      "The story distinguishes an initial trust in Jesus's promise from a fuller faith after the sign is confirmed",
+      "The second statement cancels the first because the man doubted on the road",
+      "The later belief refers only to the servants and not to the father",
+      "The earlier belief belonged to the son, while the later belief belonged to the father"
+    ],
+    "correct_answer": "The story distinguishes an initial trust in Jesus's promise from a fuller faith after the sign is confirmed",
+    "explanation": "The father first believes Jesus's word and later comes to fuller household faith when the timing is confirmed (John 4:50, 53)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "Why does John close the chapter by calling the healing \"the second sign\" after the Cana miracle in John 4?",
+    "choices_json": [
+      "He links the Galilee signs together to show that Jesus's revealed glory keeps producing faith",
+      "He is counting only miracles that happen at weddings",
+      "He wants readers to ignore everything that happened in Samaria",
+      "He means Jesus performed no signs at all in Jerusalem"
+    ],
+    "correct_answer": "He links the Galilee signs together to show that Jesus's revealed glory keeps producing faith",
+    "explanation": "John labels the healing as the second sign after Cana, tying the signs together in Galilee (John 4:46, 54)."
+  }
+]

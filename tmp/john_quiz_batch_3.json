@@ -1,0 +1,2452 @@
+[
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 1,
+    "prompt": "What object is mentioned in Jesus's entry into Jerusalem on a donkey's colt?",
+    "choices_json": [
+      "a jar of costly perfume",
+      "wine",
+      "a towel",
+      "a donkey's colt"
+    ],
+    "correct_answer": "a donkey's colt",
+    "explanation": "John 12 gives this detail in jesus's entry into jerusalem on a donkey's colt."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 1,
+    "prompt": "What sign appears in the Father's voice from heaven?",
+    "choices_json": [
+      "a voice from heaven",
+      "an audible witness from above",
+      "the Spirit descending",
+      "a loud cry"
+    ],
+    "correct_answer": "a voice from heaven",
+    "explanation": "John 12 gives this detail in the father's voice from heaven."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 1,
+    "prompt": "Where does Mary's anointing of Jesus in Bethany happen?",
+    "choices_json": [
+      "the courtyard of the Praetorium",
+      "the wilderness",
+      "Sychar",
+      "Bethany"
+    ],
+    "correct_answer": "Bethany",
+    "explanation": "John 12 gives this detail in mary's anointing of jesus in bethany."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 1,
+    "prompt": "Who is central to John's closing note on unbelief?",
+    "choices_json": [
+      "Isaiah",
+      "Philip",
+      "Thomas",
+      "Annas"
+    ],
+    "correct_answer": "Isaiah",
+    "explanation": "John 12 gives this detail in john's closing note on unbelief."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 1,
+    "prompt": "Who is central to Judas's complaint about the ointment?",
+    "choices_json": [
+      "Lazarus",
+      "the Greek visitors through Philip",
+      "Judas Iscariot",
+      "Philip"
+    ],
+    "correct_answer": "Judas Iscariot",
+    "explanation": "John 12 gives this detail in judas's complaint about the ointment."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 1,
+    "prompt": "Who is central to the Greeks' request to see Jesus?",
+    "choices_json": [
+      "the Greeks",
+      "Moses",
+      "chief priests",
+      "the people gathered for the feast"
+    ],
+    "correct_answer": "the Greeks",
+    "explanation": "John 12 gives this detail in the greeks' request to see jesus."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 1,
+    "prompt": "Who is central to the chief priests' plot against Lazarus?",
+    "choices_json": [
+      "Martha",
+      "disciples",
+      "the Father",
+      "Lazarus"
+    ],
+    "correct_answer": "Lazarus",
+    "explanation": "John 12 gives this detail in the chief priests' plot against lazarus."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 2,
+    "prompt": "What detail in John's closing note on unbelief is important?",
+    "choices_json": [
+      "blinded hearts",
+      "Spirit-guided testimony in the church",
+      "humility",
+      "the cross as judgment and salvation together"
+    ],
+    "correct_answer": "blinded hearts",
+    "explanation": "The chapter names blinded hearts in john's closing note on unbelief."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 2,
+    "prompt": "What detail in the Father's voice from heaven is important?",
+    "choices_json": [
+      "self-giving love that lays down life for friends",
+      "quiet faith",
+      "the Father's name",
+      "the Father's glory revealed through the Son"
+    ],
+    "correct_answer": "the Father's name",
+    "explanation": "The chapter names the Father's name in the father's voice from heaven."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 2,
+    "prompt": "What detail in the chief priests' plot against Lazarus is important?",
+    "choices_json": [
+      "Spirit-led witness",
+      "many Jews believed through him",
+      "self-giving love that lays down life for friends",
+      "the cross as judgment and salvation together"
+    ],
+    "correct_answer": "many Jews believed through him",
+    "explanation": "The chapter names many Jews believed through him in the chief priests' plot against lazarus."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 2,
+    "prompt": "What specific object is mentioned in Jesus's entry into Jerusalem on a donkey's colt?",
+    "choices_json": [
+      "a branch cut from the vine",
+      "a horse",
+      "a cup",
+      "palm branches"
+    ],
+    "correct_answer": "palm branches",
+    "explanation": "The chapter names palm branches in jesus's entry into jerusalem on a donkey's colt."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 2,
+    "prompt": "What specific object is mentioned in Judas's complaint about the ointment?",
+    "choices_json": [
+      "living water",
+      "money box",
+      "a grain of wheat",
+      "the vine"
+    ],
+    "correct_answer": "money box",
+    "explanation": "The chapter names money box in judas's complaint about the ointment."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 2,
+    "prompt": "What specific object is mentioned in Mary's anointing of Jesus in Bethany?",
+    "choices_json": [
+      "a donkey's colt",
+      "a scroll",
+      "a charcoal fire on the shore",
+      "nard"
+    ],
+    "correct_answer": "nard",
+    "explanation": "The chapter names nard in mary's anointing of jesus in bethany."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 2,
+    "prompt": "Which person is named in the Greeks' request to see Jesus?",
+    "choices_json": [
+      "Annas",
+      "the Greek visitors through Philip",
+      "Philip and Andrew",
+      "Pharisees"
+    ],
+    "correct_answer": "Philip and Andrew",
+    "explanation": "The chapter names Philip and Andrew in the greeks' request to see jesus."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus's entry into Jerusalem on a donkey's colt matter?",
+    "choices_json": [
+      "the true vine from whom fruit really comes",
+      "King of Israel",
+      "the bread of life given for the world",
+      "the bread of life"
+    ],
+    "correct_answer": "King of Israel",
+    "explanation": "Jesus's entry into Jerusalem on a donkey's colt points toward King of Israel."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 3,
+    "prompt": "Why does John's closing note on unbelief matter?",
+    "choices_json": [
+      "were scattered to their own places",
+      "secret belief",
+      "drew back and fell",
+      "passed from death to life through belief"
+    ],
+    "correct_answer": "secret belief",
+    "explanation": "John's closing note on unbelief points toward secret belief."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 3,
+    "prompt": "Why does Judas's complaint about the ointment matter?",
+    "choices_json": [
+      "true discipleship",
+      "he was a thief",
+      "humble kingship that avoids force",
+      "Spirit-guided testimony in the church"
+    ],
+    "correct_answer": "he was a thief",
+    "explanation": "Judas's complaint about the ointment points toward he was a thief."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 3,
+    "prompt": "Why does Mary's anointing of Jesus in Bethany matter?",
+    "choices_json": [
+      "messianic hope",
+      "sacrificial death",
+      "resurrection",
+      "for burial"
+    ],
+    "correct_answer": "for burial",
+    "explanation": "Mary's anointing of Jesus in Bethany points toward for burial."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 3,
+    "prompt": "Why does the Father's voice from heaven matter?",
+    "choices_json": [
+      "You also should wash one another's feet",
+      "Whoever has seen me has seen the Father",
+      "I have overcome the world",
+      "I have glorified it"
+    ],
+    "correct_answer": "I have glorified it",
+    "explanation": "the Father's voice from heaven points toward I have glorified it."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 3,
+    "prompt": "Why does the Greeks' request to see Jesus matter?",
+    "choices_json": [
+      "Spirit-guided testimony in the church",
+      "abiding",
+      "humble kingship that avoids force",
+      "the hour had come"
+    ],
+    "correct_answer": "the hour had come",
+    "explanation": "the Greeks' request to see Jesus points toward the hour had come."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 3,
+    "prompt": "Why does the chief priests' plot against Lazarus matter?",
+    "choices_json": [
+      "humble kingship that avoids force",
+      "Spirit-guided testimony in the church",
+      "hostility toward a living sign",
+      "sending"
+    ],
+    "correct_answer": "hostility toward a living sign",
+    "explanation": "the chief priests' plot against Lazarus points toward hostility toward a living sign."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 4,
+    "prompt": "What theme does Jesus's entry into Jerusalem on a donkey's colt highlight?",
+    "choices_json": [
+      "truth",
+      "abiding",
+      "humble kingship",
+      "the Son"
+    ],
+    "correct_answer": "humble kingship",
+    "explanation": "Jesus's entry into Jerusalem on a donkey's colt highlights humble kingship."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 4,
+    "prompt": "What theme does John's closing note on unbelief highlight?",
+    "choices_json": [
+      "true discipleship",
+      "the world's hostility toward Jesus' witness",
+      "self-giving love that lays down life for friends",
+      "unbelief after signs"
+    ],
+    "correct_answer": "unbelief after signs",
+    "explanation": "John's closing note on unbelief highlights unbelief after signs."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 4,
+    "prompt": "What theme does Judas's complaint about the ointment highlight?",
+    "choices_json": [
+      "false concern for the poor",
+      "unbelief",
+      "self-giving love that lays down life for friends",
+      "the world's hostility toward Jesus' witness"
+    ],
+    "correct_answer": "false concern for the poor",
+    "explanation": "Judas's complaint about the ointment highlights false concern for the poor."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 4,
+    "prompt": "What theme does Mary's anointing of Jesus in Bethany highlight?",
+    "choices_json": [
+      "devotion before burial",
+      "fear",
+      "relational peace",
+      "judgment"
+    ],
+    "correct_answer": "devotion before burial",
+    "explanation": "Mary's anointing of Jesus in Bethany highlights devotion before burial."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 4,
+    "prompt": "What theme does the Father's voice from heaven highlight?",
+    "choices_json": [
+      "sacrificial death",
+      "self-giving love",
+      "quiet faith",
+      "divine affirmation"
+    ],
+    "correct_answer": "divine affirmation",
+    "explanation": "the Father's voice from heaven highlights divine affirmation."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 4,
+    "prompt": "What theme does the Greeks' request to see Jesus highlight?",
+    "choices_json": [
+      "Gentile interest in the Messiah",
+      "the Father",
+      "Spirit-guided testimony in the church",
+      "self-giving love that lays down life for friends"
+    ],
+    "correct_answer": "Gentile interest in the Messiah",
+    "explanation": "the Greeks' request to see Jesus highlights Gentile interest in the Messiah."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 4,
+    "prompt": "What theme does the chief priests' plot against Lazarus highlight?",
+    "choices_json": [
+      "the Father's glory revealed through the Son",
+      "signs can provoke murder",
+      "self-giving love that lays down life for friends",
+      "public confession"
+    ],
+    "correct_answer": "signs can provoke murder",
+    "explanation": "the chief priests' plot against Lazarus highlights signs can provoke murder."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus's entry into Jerusalem on a donkey's colt connect to John's Gospel?",
+    "choices_json": [
+      "Spirit-guided testimony in the church",
+      "humble kingship that avoids force",
+      "Zechariah's messianic king",
+      "unbelief"
+    ],
+    "correct_answer": "Zechariah's messianic king",
+    "explanation": "John uses jesus's entry into jerusalem on a donkey's colt to show Zechariah's messianic king."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 5,
+    "prompt": "How does John's closing note on unbelief connect to John's Gospel?",
+    "choices_json": [
+      "the cross as judgment and salvation together",
+      "the Father's glory revealed through the Son",
+      "true discipleship",
+      "fulfilled hardening and hidden confession"
+    ],
+    "correct_answer": "fulfilled hardening and hidden confession",
+    "explanation": "John uses john's closing note on unbelief to show fulfilled hardening and hidden confession."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 5,
+    "prompt": "How does Judas's complaint about the ointment connect to John's Gospel?",
+    "choices_json": [
+      "greed masquerading as mercy",
+      "Spirit-led witness",
+      "resurrection",
+      "light"
+    ],
+    "correct_answer": "greed masquerading as mercy",
+    "explanation": "John uses judas's complaint about the ointment to show greed masquerading as mercy."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 5,
+    "prompt": "How does Mary's anointing of Jesus in Bethany connect to John's Gospel?",
+    "choices_json": [
+      "new commandment",
+      "Spirit-guided testimony in the church",
+      "the Father's glory revealed through the Son",
+      "foreshadowing Jesus' burial and death"
+    ],
+    "correct_answer": "foreshadowing Jesus' burial and death",
+    "explanation": "John uses mary's anointing of jesus in bethany to show foreshadowing Jesus' burial and death."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 5,
+    "prompt": "How does the Father's voice from heaven connect to John's Gospel?",
+    "choices_json": [
+      "the cross as judgment and salvation together",
+      "heavenly witness to the Son",
+      "the Father's glory revealed through the Son",
+      "pruning"
+    ],
+    "correct_answer": "heavenly witness to the Son",
+    "explanation": "John uses the father's voice from heaven to show heavenly witness to the Son."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 5,
+    "prompt": "How does the Greeks' request to see Jesus connect to John's Gospel?",
+    "choices_json": [
+      "the nations being drawn toward Jesus",
+      "the cross as judgment and salvation together",
+      "abiding",
+      "the Father's glory revealed through the Son"
+    ],
+    "correct_answer": "the nations being drawn toward Jesus",
+    "explanation": "John uses the greeks' request to see jesus to show the nations being drawn toward Jesus."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 5,
+    "prompt": "How does the chief priests' plot against Lazarus connect to John's Gospel?",
+    "choices_json": [
+      "hardening",
+      "messianic hope",
+      "service",
+      "witness and rejection together"
+    ],
+    "correct_answer": "witness and rejection together",
+    "explanation": "John uses the chief priests' plot against lazarus to show witness and rejection together."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 1,
+    "prompt": "What action is described in Jesus giving the new commandment?",
+    "choices_json": [
+      "sent the Counselor",
+      "love one another",
+      "prepare a place",
+      "cast out the ruler of this world"
+    ],
+    "correct_answer": "love one another",
+    "explanation": "John 13 gives this detail in jesus giving the new commandment."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 1,
+    "prompt": "What detail is emphasized in Jesus saying not everyone is clean?",
+    "choices_json": [
+      "not all of you",
+      "the cross as judgment and salvation together",
+      "witness",
+      "the world's hostility toward Jesus' witness"
+    ],
+    "correct_answer": "not all of you",
+    "explanation": "John 13 gives this detail in jesus saying not everyone is clean."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 1,
+    "prompt": "What object is mentioned in Jesus washing the disciples' feet?",
+    "choices_json": [
+      "the temple curtain",
+      "water pots",
+      "the disciples' feet",
+      "a charcoal fire on the shore"
+    ],
+    "correct_answer": "the disciples' feet",
+    "explanation": "John 13 gives this detail in jesus washing the disciples' feet."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 1,
+    "prompt": "What words are quoted in Jesus explaining foot washing and betrayal?",
+    "choices_json": [
+      "If I don't wash you",
+      "If I don't wash you, you have no part with me",
+      "The time has come for the Son of Man to be glorified",
+      "My Father is still working"
+    ],
+    "correct_answer": "If I don't wash you",
+    "explanation": "John 13 gives this detail in jesus explaining foot washing and betrayal."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 1,
+    "prompt": "When does Jesus predicting Peter's denial happen?",
+    "choices_json": [
+      "after this",
+      "three times",
+      "eight days later",
+      "six days before Passover"
+    ],
+    "correct_answer": "three times",
+    "explanation": "John 13 gives this detail in jesus predicting peter's denial."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 1,
+    "prompt": "When does Judas going out into the night happen?",
+    "choices_json": [
+      "during the feast",
+      "at night",
+      "six days before the Passover feast",
+      "after this"
+    ],
+    "correct_answer": "at night",
+    "explanation": "John 13 gives this detail in judas going out into the night."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 1,
+    "prompt": "Who is central to Judas receiving the dipped bread?",
+    "choices_json": [
+      "Satan",
+      "Lazarus",
+      "the people gathered for the feast",
+      "Judas Iscariot"
+    ],
+    "correct_answer": "Judas Iscariot",
+    "explanation": "John 13 gives this detail in judas receiving the dipped bread."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 2,
+    "prompt": "What detail in Jesus saying not everyone is clean is important?",
+    "choices_json": [
+      "self-giving love that lays down life for friends",
+      "the cross as judgment and salvation together",
+      "the one who has bathed",
+      "truth"
+    ],
+    "correct_answer": "the one who has bathed",
+    "explanation": "The chapter names the one who has bathed in jesus saying not everyone is clean."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 2,
+    "prompt": "What detail in Judas going out into the night is important?",
+    "choices_json": [
+      "the night",
+      "belief",
+      "light",
+      "the world's hostility"
+    ],
+    "correct_answer": "the night",
+    "explanation": "The chapter names the night in judas going out into the night."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 2,
+    "prompt": "What line is quoted in Jesus explaining foot washing and betrayal?",
+    "choices_json": [
+      "You did not choose me, but I chose you",
+      "It is to your advantage that I go away",
+      "Greater love has no one than this",
+      "you have no part with me"
+    ],
+    "correct_answer": "you have no part with me",
+    "explanation": "The chapter names you have no part with me in jesus explaining foot washing and betrayal."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 2,
+    "prompt": "What line is quoted in Jesus giving the new commandment?",
+    "choices_json": [
+      "You also should wash one another's feet",
+      "If I don't wash you, you have no part with me",
+      "He who believes in me, as the scripture has said",
+      "as I have loved you"
+    ],
+    "correct_answer": "as I have loved you",
+    "explanation": "The chapter names as I have loved you in jesus giving the new commandment."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 2,
+    "prompt": "What specific object is mentioned in Jesus washing the disciples' feet?",
+    "choices_json": [
+      "a basin of water",
+      "a net",
+      "a lamp",
+      "fish"
+    ],
+    "correct_answer": "a basin of water",
+    "explanation": "The chapter names a basin of water in jesus washing the disciples' feet."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 2,
+    "prompt": "What specific object is mentioned in Judas receiving the dipped bread?",
+    "choices_json": [
+      "perfume",
+      "a sword",
+      "a dipped piece of bread",
+      "a jar"
+    ],
+    "correct_answer": "a dipped piece of bread",
+    "explanation": "The chapter names a dipped piece of bread in judas receiving the dipped bread."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 2,
+    "prompt": "What visible or audible sign appears in Jesus predicting Peter's denial?",
+    "choices_json": [
+      "the rooster crowing",
+      "the Spirit descending",
+      "an angel",
+      "an audible witness from above"
+    ],
+    "correct_answer": "the rooster crowing",
+    "explanation": "The chapter names the rooster crowing in jesus predicting peter's denial."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus explaining foot washing and betrayal matter?",
+    "choices_json": [
+      "divine mission",
+      "new commandment",
+      "Spirit-led witness",
+      "Scripture's betrayal pattern"
+    ],
+    "correct_answer": "Scripture's betrayal pattern",
+    "explanation": "Jesus explaining foot washing and betrayal points toward Scripture's betrayal pattern."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus giving the new commandment matter?",
+    "choices_json": [
+      "the Father's glory revealed through the Son",
+      "humble kingship that avoids force",
+      "the mark of discipleship",
+      "new commandment"
+    ],
+    "correct_answer": "the mark of discipleship",
+    "explanation": "Jesus giving the new commandment points toward the mark of discipleship."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus predicting Peter's denial matter?",
+    "choices_json": [
+      "Peter's courage failing",
+      "the Father's glory revealed through the Son",
+      "the cross as judgment and salvation together",
+      "overcoming"
+    ],
+    "correct_answer": "Peter's courage failing",
+    "explanation": "Jesus predicting Peter's denial points toward Peter's courage failing."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus saying not everyone is clean matter?",
+    "choices_json": [
+      "self-giving love that lays down life for friends",
+      "inner cleansing",
+      "Spirit-guided testimony in the church",
+      "judgment"
+    ],
+    "correct_answer": "inner cleansing",
+    "explanation": "Jesus saying not everyone is clean points toward inner cleansing."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus washing the disciples' feet matter?",
+    "choices_json": [
+      "humble kingship",
+      "wrath",
+      "humble service",
+      "conviction"
+    ],
+    "correct_answer": "humble service",
+    "explanation": "Jesus washing the disciples' feet points toward humble service."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 3,
+    "prompt": "Why does Judas going out into the night matter?",
+    "choices_json": [
+      "glory",
+      "Spirit-guided testimony in the church",
+      "darkness and rejection",
+      "humble kingship that avoids force"
+    ],
+    "correct_answer": "darkness and rejection",
+    "explanation": "Judas going out into the night points toward darkness and rejection."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 3,
+    "prompt": "Why does Judas receiving the dipped bread matter?",
+    "choices_json": [
+      "were scattered to their own places",
+      "went out into the night",
+      "Satan entered into him",
+      "believed secretly but would not confess"
+    ],
+    "correct_answer": "Satan entered into him",
+    "explanation": "Judas receiving the dipped bread points toward Satan entered into him."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 4,
+    "prompt": "What theme does Jesus explaining foot washing and betrayal highlight?",
+    "choices_json": [
+      "obedience",
+      "love must be shown in service",
+      "the Father's glory revealed through the Son",
+      "self-giving love that lays down life for friends"
+    ],
+    "correct_answer": "love must be shown in service",
+    "explanation": "Jesus explaining foot washing and betrayal highlights love must be shown in service."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 4,
+    "prompt": "What theme does Jesus giving the new commandment highlight?",
+    "choices_json": [
+      "glory",
+      "self-giving love that lays down life for friends",
+      "self-giving love",
+      "the cross as judgment and salvation together"
+    ],
+    "correct_answer": "self-giving love",
+    "explanation": "Jesus giving the new commandment highlights self-giving love."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 4,
+    "prompt": "What theme does Jesus predicting Peter's denial highlight?",
+    "choices_json": [
+      "the world's hostility toward Jesus' witness",
+      "judgment",
+      "Spirit-guided testimony in the church",
+      "even the bold disciple needs grace"
+    ],
+    "correct_answer": "even the bold disciple needs grace",
+    "explanation": "Jesus predicting Peter's denial highlights even the bold disciple needs grace."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 4,
+    "prompt": "What theme does Jesus saying not everyone is clean highlight?",
+    "choices_json": [
+      "outward closeness is not enough",
+      "service",
+      "humble kingship that avoids force",
+      "the Father's glory revealed through the Son"
+    ],
+    "correct_answer": "outward closeness is not enough",
+    "explanation": "Jesus saying not everyone is clean highlights outward closeness is not enough."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 4,
+    "prompt": "What theme does Jesus washing the disciples' feet highlight?",
+    "choices_json": [
+      "servant love",
+      "humble kingship that avoids force",
+      "the Father's glory revealed through the Son",
+      "service"
+    ],
+    "correct_answer": "servant love",
+    "explanation": "Jesus washing the disciples' feet highlights servant love."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 4,
+    "prompt": "What theme does Judas going out into the night highlight?",
+    "choices_json": [
+      "Spirit-guided testimony in the church",
+      "the chapter's moral darkness",
+      "the cross as judgment and salvation together",
+      "overcoming"
+    ],
+    "correct_answer": "the chapter's moral darkness",
+    "explanation": "Judas going out into the night highlights the chapter's moral darkness."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 4,
+    "prompt": "What theme does Judas receiving the dipped bread highlight?",
+    "choices_json": [
+      "fulfillment",
+      "betrayal in the darkness",
+      "overcoming",
+      "sacrificial death"
+    ],
+    "correct_answer": "betrayal in the darkness",
+    "explanation": "Judas receiving the dipped bread highlights betrayal in the darkness."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus explaining foot washing and betrayal connect to John's Gospel?",
+    "choices_json": [
+      "love",
+      "humble kingship",
+      "the world",
+      "John's portrait of the cross-shaped Lord"
+    ],
+    "correct_answer": "John's portrait of the cross-shaped Lord",
+    "explanation": "John uses jesus explaining foot washing and betrayal to show John's portrait of the cross-shaped Lord."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus giving the new commandment connect to John's Gospel?",
+    "choices_json": [
+      "a community shaped by the cross",
+      "self-giving love that lays down life for friends",
+      "the world",
+      "the Father's glory revealed through the Son"
+    ],
+    "correct_answer": "a community shaped by the cross",
+    "explanation": "John uses jesus giving the new commandment to show a community shaped by the cross."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus predicting Peter's denial connect to John's Gospel?",
+    "choices_json": [
+      "fulfillment",
+      "discipleship depends on mercy",
+      "sending",
+      "sacrificial death"
+    ],
+    "correct_answer": "discipleship depends on mercy",
+    "explanation": "John uses jesus predicting peter's denial to show discipleship depends on mercy."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus saying not everyone is clean connect to John's Gospel?",
+    "choices_json": [
+      "cross-shaped glory",
+      "fruit through death",
+      "the world",
+      "true purity comes from Jesus"
+    ],
+    "correct_answer": "true purity comes from Jesus",
+    "explanation": "John uses jesus saying not everyone is clean to show true purity comes from Jesus."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus washing the disciples' feet connect to John's Gospel?",
+    "choices_json": [
+      "Spirit-guided testimony in the church",
+      "the Lord serving before the cross",
+      "wrath",
+      "the world's hostility toward Jesus' witness"
+    ],
+    "correct_answer": "the Lord serving before the cross",
+    "explanation": "John uses jesus washing the disciples' feet to show the Lord serving before the cross."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 5,
+    "prompt": "How does Judas going out into the night connect to John's Gospel?",
+    "choices_json": [
+      "glory",
+      "the cross as judgment and salvation together",
+      "self-giving love that lays down life for friends",
+      "the betrayer leaving the light"
+    ],
+    "correct_answer": "the betrayer leaving the light",
+    "explanation": "John uses judas going out into the night to show the betrayer leaving the light."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 5,
+    "prompt": "How does Judas receiving the dipped bread connect to John's Gospel?",
+    "choices_json": [
+      "treachery after shared bread",
+      "the world's hostility toward Jesus' witness",
+      "the cross as judgment and salvation together",
+      "belief"
+    ],
+    "correct_answer": "treachery after shared bread",
+    "explanation": "John uses judas receiving the dipped bread to show treachery after shared bread."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 1,
+    "prompt": "What detail is emphasized in Jesus giving peace before departure?",
+    "choices_json": [
+      "the Son",
+      "cross-shaped glory",
+      "my peace",
+      "peace"
+    ],
+    "correct_answer": "my peace",
+    "explanation": "John 14 gives this detail in jesus giving peace before departure."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 1,
+    "prompt": "What detail is emphasized in Jesus promising greater works and prayer?",
+    "choices_json": [
+      "greater works",
+      "self-giving love that lays down life for friends",
+      "Spirit-guided testimony in the church",
+      "conviction"
+    ],
+    "correct_answer": "greater works",
+    "explanation": "John 14 gives this detail in jesus promising greater works and prayer."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 1,
+    "prompt": "What detail is emphasized in Jesus promising rooms in the Father's house?",
+    "choices_json": [
+      "many dwelling places",
+      "resurrection",
+      "the cross as judgment and salvation together",
+      "the Father's glory revealed through the Son"
+    ],
+    "correct_answer": "many dwelling places",
+    "explanation": "John 14 gives this detail in jesus promising rooms in the father's house."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 1,
+    "prompt": "What title appears in the Counselor being promised?",
+    "choices_json": [
+      "another Counselor",
+      "light of the world",
+      "Holy Spirit",
+      "Lamb of God"
+    ],
+    "correct_answer": "another Counselor",
+    "explanation": "John 14 gives this detail in the counselor being promised."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 1,
+    "prompt": "What words are quoted in Jesus tying love to obedience?",
+    "choices_json": [
+      "If anyone is thirsty, let him come to me and drink",
+      "Receive the Holy Spirit",
+      "My Father is still working",
+      "love me by keeping my commandments"
+    ],
+    "correct_answer": "love me by keeping my commandments",
+    "explanation": "John 14 gives this detail in jesus tying love to obedience."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 1,
+    "prompt": "Who is central to Philip asking to see the Father?",
+    "choices_json": [
+      "Andrew",
+      "the Samaritan woman",
+      "the Jews",
+      "Philip"
+    ],
+    "correct_answer": "Philip",
+    "explanation": "John 14 gives this detail in philip asking to see the father."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 1,
+    "prompt": "Who is central to Thomas asking about the way?",
+    "choices_json": [
+      "Thomas",
+      "John the Baptist",
+      "chief priests",
+      "the unbelieving crowd in Jerusalem"
+    ],
+    "correct_answer": "Thomas",
+    "explanation": "John 14 gives this detail in thomas asking about the way."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 2,
+    "prompt": "What action is the focus of Jesus promising rooms in the Father's house?",
+    "choices_json": [
+      "keep his commandments and love one another",
+      "go out into the night",
+      "prepare a place",
+      "draw all people to himself when lifted up"
+    ],
+    "correct_answer": "prepare a place",
+    "explanation": "The chapter names prepare a place in jesus promising rooms in the father's house."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 2,
+    "prompt": "What detail in Jesus tying love to obedience is important?",
+    "choices_json": [
+      "the cross as judgment and salvation together",
+      "the Father will make his home",
+      "self-giving love that lays down life for friends",
+      "revelation"
+    ],
+    "correct_answer": "the Father will make his home",
+    "explanation": "The chapter names the Father will make his home in jesus tying love to obedience."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 2,
+    "prompt": "What line is quoted in Jesus giving peace before departure?",
+    "choices_json": [
+      "not as the world gives",
+      "She has kept this for the day of my burial",
+      "If anyone is thirsty, let him come to me and drink",
+      "It is to your advantage that I go away"
+    ],
+    "correct_answer": "not as the world gives",
+    "explanation": "The chapter names not as the world gives in jesus giving peace before departure."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 2,
+    "prompt": "What line is quoted in Jesus promising greater works and prayer?",
+    "choices_json": [
+      "You did not choose me, but I chose you",
+      "Whoever has seen me has seen the Father",
+      "Hosanna! Blessed is he who comes in the name of the Lord",
+      "ask in my name"
+    ],
+    "correct_answer": "ask in my name",
+    "explanation": "The chapter names ask in my name in jesus promising greater works and prayer."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 2,
+    "prompt": "What line is quoted in Philip asking to see the Father?",
+    "choices_json": [
+      "If anyone is thirsty, let him come to me and drink",
+      "Whoever has seen me has seen the Father",
+      "I have overcome the world",
+      "Apart from me you can do nothing"
+    ],
+    "correct_answer": "Whoever has seen me has seen the Father",
+    "explanation": "The chapter names Whoever has seen me has seen the Father in philip asking to see the father."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 2,
+    "prompt": "What title is used in Thomas asking about the way?",
+    "choices_json": [
+      "Lamb of God",
+      "Lord and God",
+      "Son of God",
+      "the way, the truth, and the life"
+    ],
+    "correct_answer": "the way, the truth, and the life",
+    "explanation": "The chapter names the way, the truth, and the life in thomas asking about the way."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 2,
+    "prompt": "What title is used in the Counselor being promised?",
+    "choices_json": [
+      "Lamb of God",
+      "Son of Man",
+      "the bread of life",
+      "the Spirit of truth"
+    ],
+    "correct_answer": "the Spirit of truth",
+    "explanation": "The chapter names the Spirit of truth in the counselor being promised."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus giving peace before departure matter?",
+    "choices_json": [
+      "the prince of the world has nothing in me",
+      "Greater love has no one than this",
+      "The time has come for the Son of Man to be glorified",
+      "I have overcome the world"
+    ],
+    "correct_answer": "the prince of the world has nothing in me",
+    "explanation": "Jesus giving peace before departure points toward the prince of the world has nothing in me."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus promising greater works and prayer matter?",
+    "choices_json": [
+      "quiet faith",
+      "unbelief",
+      "shared life with the Father",
+      "the Father's glory"
+    ],
+    "correct_answer": "the Father's glory",
+    "explanation": "Jesus promising greater works and prayer points toward the Father's glory."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus promising rooms in the Father's house matter?",
+    "choices_json": [
+      "return for his own",
+      "remain in me",
+      "love one another",
+      "sent the Counselor"
+    ],
+    "correct_answer": "return for his own",
+    "explanation": "Jesus promising rooms in the Father's house points toward return for his own."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus tying love to obedience matter?",
+    "choices_json": [
+      "resurrection",
+      "Spirit-led witness",
+      "obedience",
+      "relational obedience"
+    ],
+    "correct_answer": "relational obedience",
+    "explanation": "Jesus tying love to obedience points toward relational obedience."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 3,
+    "prompt": "Why does Philip asking to see the Father matter?",
+    "choices_json": [
+      "the Father is revealed in the Son",
+      "the Father",
+      "Spirit-guided testimony in the church",
+      "humble kingship that avoids force"
+    ],
+    "correct_answer": "the Father is revealed in the Son",
+    "explanation": "Philip asking to see the Father points toward the Father is revealed in the Son."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 3,
+    "prompt": "Why does Thomas asking about the way matter?",
+    "choices_json": [
+      "love",
+      "hardening",
+      "peace",
+      "access to the Father through the Son"
+    ],
+    "correct_answer": "access to the Father through the Son",
+    "explanation": "Thomas asking about the way points toward access to the Father through the Son."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 3,
+    "prompt": "Why does the Counselor being promised matter?",
+    "choices_json": [
+      "go out into the night",
+      "teach and remind them",
+      "remove a branch",
+      "draw all people"
+    ],
+    "correct_answer": "teach and remind them",
+    "explanation": "the Counselor being promised points toward teach and remind them."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 4,
+    "prompt": "What theme does Jesus giving peace before departure highlight?",
+    "choices_json": [
+      "Spirit-guided testimony in the church",
+      "courage in trouble",
+      "revelation",
+      "the Father's glory revealed through the Son"
+    ],
+    "correct_answer": "courage in trouble",
+    "explanation": "Jesus giving peace before departure highlights courage in trouble."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 4,
+    "prompt": "What theme does Jesus promising greater works and prayer highlight?",
+    "choices_json": [
+      "the mission continues after Jesus goes",
+      "judgment",
+      "freedom",
+      "divine mission"
+    ],
+    "correct_answer": "the mission continues after Jesus goes",
+    "explanation": "Jesus promising greater works and prayer highlights the mission continues after Jesus goes."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 4,
+    "prompt": "What theme does Jesus promising rooms in the Father's house highlight?",
+    "choices_json": [
+      "shared life with the Father",
+      "relational peace",
+      "the world's hostility",
+      "glory"
+    ],
+    "correct_answer": "shared life with the Father",
+    "explanation": "Jesus promising rooms in the Father's house highlights shared life with the Father."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 4,
+    "prompt": "What theme does Jesus tying love to obedience highlight?",
+    "choices_json": [
+      "the Father",
+      "truth",
+      "service",
+      "indwelling love"
+    ],
+    "correct_answer": "indwelling love",
+    "explanation": "Jesus tying love to obedience highlights indwelling love."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 4,
+    "prompt": "What theme does Philip asking to see the Father highlight?",
+    "choices_json": [
+      "visible Jesus reveals invisible God",
+      "Spirit-guided testimony in the church",
+      "obedience",
+      "self-giving love that lays down life for friends"
+    ],
+    "correct_answer": "visible Jesus reveals invisible God",
+    "explanation": "Philip asking to see the Father highlights visible Jesus reveals invisible God."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 4,
+    "prompt": "What theme does Thomas asking about the way highlight?",
+    "choices_json": [
+      "cross-shaped glory",
+      "Spirit-guided testimony in the church",
+      "the Father's glory revealed through the Son",
+      "the exclusive path to God"
+    ],
+    "correct_answer": "the exclusive path to God",
+    "explanation": "Thomas asking about the way highlights the exclusive path to God."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 4,
+    "prompt": "What theme does the Counselor being promised highlight?",
+    "choices_json": [
+      "Jesus will not leave them alone",
+      "divine mission",
+      "the cross as judgment and salvation together",
+      "Spirit-guided testimony in the church"
+    ],
+    "correct_answer": "Jesus will not leave them alone",
+    "explanation": "the Counselor being promised highlights Jesus will not leave them alone."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus giving peace before departure connect to John's Gospel?",
+    "choices_json": [
+      "self-giving love that lays down life for friends",
+      "peace grounded in victory",
+      "freedom",
+      "the Father's glory revealed through the Son"
+    ],
+    "correct_answer": "peace grounded in victory",
+    "explanation": "John uses jesus giving peace before departure to show peace grounded in victory."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus promising greater works and prayer connect to John's Gospel?",
+    "choices_json": [
+      "fruit through death",
+      "the Father's glory revealed through the Son",
+      "the world's hostility toward Jesus' witness",
+      "the disciples' work expanding by the Spirit"
+    ],
+    "correct_answer": "the disciples' work expanding by the Spirit",
+    "explanation": "John uses jesus promising greater works and prayer to show the disciples' work expanding by the Spirit."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus promising rooms in the Father's house connect to John's Gospel?",
+    "choices_json": [
+      "humble kingship that avoids force",
+      "hope of being with Jesus",
+      "belief",
+      "Spirit-guided testimony in the church"
+    ],
+    "correct_answer": "hope of being with Jesus",
+    "explanation": "John uses jesus promising rooms in the father's house to show hope of being with Jesus."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus tying love to obedience connect to John's Gospel?",
+    "choices_json": [
+      "a shared life of love and obedience",
+      "fear",
+      "pruning",
+      "joy"
+    ],
+    "correct_answer": "a shared life of love and obedience",
+    "explanation": "John uses jesus tying love to obedience to show a shared life of love and obedience."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 5,
+    "prompt": "How does Philip asking to see the Father connect to John's Gospel?",
+    "choices_json": [
+      "the Son as the Father's image",
+      "belief",
+      "fear",
+      "judgment"
+    ],
+    "correct_answer": "the Son as the Father's image",
+    "explanation": "John uses philip asking to see the father to show the Son as the Father's image."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 5,
+    "prompt": "How does Thomas asking about the way connect to John's Gospel?",
+    "choices_json": [
+      "Jesus as revelation and life",
+      "humble kingship that avoids force",
+      "glory",
+      "the cross as judgment and salvation together"
+    ],
+    "correct_answer": "Jesus as revelation and life",
+    "explanation": "John uses thomas asking about the way to show Jesus as revelation and life."
+  },
+  {
+    "book_number": 43,
+    "chapter": 14,
+    "difficulty_stage": 5,
+    "prompt": "How does the Counselor being promised connect to John's Gospel?",
+    "choices_json": [
+      "unity",
+      "glory",
+      "public confession",
+      "the Spirit continuing Jesus' presence"
+    ],
+    "correct_answer": "the Spirit continuing Jesus' presence",
+    "explanation": "John uses the counselor being promised to show the Spirit continuing Jesus' presence."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 1,
+    "prompt": "What action is described in Jesus commanding love one another?",
+    "choices_json": [
+      "love one another",
+      "cast out the ruler of this world",
+      "draw all people",
+      "overcome the world"
+    ],
+    "correct_answer": "love one another",
+    "explanation": "John 15 gives this detail in jesus commanding love one another."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 1,
+    "prompt": "What action is described in the Father pruning the branches?",
+    "choices_json": [
+      "take up your cross",
+      "go out into the night",
+      "believe secretly",
+      "prunes them"
+    ],
+    "correct_answer": "prunes them",
+    "explanation": "John 15 gives this detail in the father pruning the branches."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 1,
+    "prompt": "What detail is emphasized in the world having no excuse after Jesus' works?",
+    "choices_json": [
+      "hardening",
+      "the Son",
+      "unity",
+      "no excuse for sin"
+    ],
+    "correct_answer": "no excuse for sin",
+    "explanation": "John 15 gives this detail in the world having no excuse after jesus' works."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 1,
+    "prompt": "What title appears in Jesus as the true vine?",
+    "choices_json": [
+      "the bread of life given for the world",
+      "Holy Spirit",
+      "the Counselor promised by the Father",
+      "the true vine"
+    ],
+    "correct_answer": "the true vine",
+    "explanation": "John 15 gives this detail in jesus as the true vine."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 1,
+    "prompt": "Who is central to Jesus calling them friends?",
+    "choices_json": [
+      "Jesus",
+      "Pilate",
+      "Martha",
+      "friends"
+    ],
+    "correct_answer": "friends",
+    "explanation": "John 15 gives this detail in jesus calling them friends."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 1,
+    "prompt": "Who is central to the Counselor and the disciples testifying?",
+    "choices_json": [
+      "Jesus",
+      "the Counselor",
+      "the Greek visitors through Philip",
+      "Pharisees"
+    ],
+    "correct_answer": "the Counselor",
+    "explanation": "John 15 gives this detail in the counselor and the disciples testifying."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 1,
+    "prompt": "Who is central to the world hating the disciples?",
+    "choices_json": [
+      "Jesus",
+      "the prince of this world",
+      "chief priests",
+      "the world"
+    ],
+    "correct_answer": "the world",
+    "explanation": "John 15 gives this detail in the world hating the disciples."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 2,
+    "prompt": "What action is the focus of Jesus as the true vine?",
+    "choices_json": [
+      "remain in Jesus and bear lasting fruit",
+      "wash one another's feet in humility",
+      "remain in me",
+      "believe secretly"
+    ],
+    "correct_answer": "remain in me",
+    "explanation": "The chapter names remain in me in jesus as the true vine."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 2,
+    "prompt": "What detail in Jesus calling them friends is important?",
+    "choices_json": [
+      "humble kingship that avoids force",
+      "sending",
+      "what he heard from the Father",
+      "the Father's glory revealed through the Son"
+    ],
+    "correct_answer": "what he heard from the Father",
+    "explanation": "The chapter names what he heard from the Father in jesus calling them friends."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 2,
+    "prompt": "What detail in Jesus commanding love one another is important?",
+    "choices_json": [
+      "self-giving love that lays down life for friends",
+      "greater love lays down life",
+      "the Father's glory revealed through the Son",
+      "relational peace"
+    ],
+    "correct_answer": "greater love lays down life",
+    "explanation": "The chapter names greater love lays down life in jesus commanding love one another."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 2,
+    "prompt": "What detail in the world hating the disciples is important?",
+    "choices_json": [
+      "cross-shaped glory",
+      "fear",
+      "sacrificial death",
+      "hates them without cause"
+    ],
+    "correct_answer": "hates them without cause",
+    "explanation": "The chapter names hates them without cause in the world hating the disciples."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 2,
+    "prompt": "What line is quoted in the world having no excuse after Jesus' works?",
+    "choices_json": [
+      "She has kept this for the day of my burial",
+      "Hosanna! Blessed is he who comes in the name of the Lord",
+      "they hated me without cause",
+      "My Father is still working"
+    ],
+    "correct_answer": "they hated me without cause",
+    "explanation": "The chapter names they hated me without cause in the world having no excuse after jesus' works."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 2,
+    "prompt": "What result is described in the Father pruning the branches?",
+    "choices_json": [
+      "were put out of the synagogue",
+      "branches not remaining are burned",
+      "were scattered to their own places",
+      "had no excuse for their sin anymore"
+    ],
+    "correct_answer": "branches not remaining are burned",
+    "explanation": "The chapter names branches not remaining are burned in the father pruning the branches."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 2,
+    "prompt": "What title is used in the Counselor and the disciples testifying?",
+    "choices_json": [
+      "the Son of Man lifted up in glory",
+      "the Spirit of truth",
+      "the way, the truth, and the life for all believers",
+      "Son of God"
+    ],
+    "correct_answer": "the Spirit of truth",
+    "explanation": "The chapter names the Spirit of truth in the counselor and the disciples testifying."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus as the true vine matter?",
+    "choices_json": [
+      "draw all people",
+      "sent the Counselor",
+      "bear much fruit",
+      "take up your cross"
+    ],
+    "correct_answer": "bear much fruit",
+    "explanation": "Jesus as the true vine points toward bear much fruit."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus calling them friends matter?",
+    "choices_json": [
+      "intimacy through obedience",
+      "self-giving love that lays down life for friends",
+      "humble kingship that avoids force",
+      "obedience"
+    ],
+    "correct_answer": "intimacy through obedience",
+    "explanation": "Jesus calling them friends points toward intimacy through obedience."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus commanding love one another matter?",
+    "choices_json": [
+      "joy made full",
+      "the world's hostility",
+      "the world's hostility toward Jesus' witness",
+      "Spirit-guided testimony in the church"
+    ],
+    "correct_answer": "joy made full",
+    "explanation": "Jesus commanding love one another points toward joy made full."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 3,
+    "prompt": "Why does the Counselor and the disciples testifying matter?",
+    "choices_json": [
+      "wash feet",
+      "go out into the night",
+      "remain in me",
+      "testify about Jesus"
+    ],
+    "correct_answer": "testify about Jesus",
+    "explanation": "the Counselor and the disciples testifying points toward testify about Jesus."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 3,
+    "prompt": "Why does the Father pruning the branches matter?",
+    "choices_json": [
+      "pruning",
+      "fruitfulness through pruning",
+      "humility",
+      "belief"
+    ],
+    "correct_answer": "fruitfulness through pruning",
+    "explanation": "the Father pruning the branches points toward fruitfulness through pruning."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 3,
+    "prompt": "Why does the world hating the disciples matter?",
+    "choices_json": [
+      "the cross as judgment and salvation together",
+      "conviction",
+      "self-giving love that lays down life for friends",
+      "chosen out of the world"
+    ],
+    "correct_answer": "chosen out of the world",
+    "explanation": "the world hating the disciples points toward chosen out of the world."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 3,
+    "prompt": "Why does the world having no excuse after Jesus' works matter?",
+    "choices_json": [
+      "darkness",
+      "the evidence is already clear",
+      "joy",
+      "ascension"
+    ],
+    "correct_answer": "the evidence is already clear",
+    "explanation": "the world having no excuse after Jesus' works points toward the evidence is already clear."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 4,
+    "prompt": "What theme does Jesus as the true vine highlight?",
+    "choices_json": [
+      "dependence on Jesus",
+      "humility",
+      "cleansing",
+      "public confession"
+    ],
+    "correct_answer": "dependence on Jesus",
+    "explanation": "Jesus as the true vine highlights dependence on Jesus."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 4,
+    "prompt": "What theme does Jesus calling them friends highlight?",
+    "choices_json": [
+      "pruning",
+      "shared knowledge",
+      "prayer",
+      "light"
+    ],
+    "correct_answer": "shared knowledge",
+    "explanation": "Jesus calling them friends highlights shared knowledge."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 4,
+    "prompt": "What theme does Jesus commanding love one another highlight?",
+    "choices_json": [
+      "belief",
+      "self-giving love",
+      "Spirit-guided testimony in the church",
+      "self-giving love that lays down life for friends"
+    ],
+    "correct_answer": "self-giving love",
+    "explanation": "Jesus commanding love one another highlights self-giving love."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 4,
+    "prompt": "What theme does the Counselor and the disciples testifying highlight?",
+    "choices_json": [
+      "the Father's glory revealed through the Son",
+      "shared witness",
+      "joy",
+      "the world's hostility toward Jesus' witness"
+    ],
+    "correct_answer": "shared witness",
+    "explanation": "the Counselor and the disciples testifying highlights shared witness."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 4,
+    "prompt": "What theme does the Father pruning the branches highlight?",
+    "choices_json": [
+      "discipline that increases fruit",
+      "humble kingship that avoids force",
+      "the cross as judgment and salvation together",
+      "eternal life"
+    ],
+    "correct_answer": "discipline that increases fruit",
+    "explanation": "the Father pruning the branches highlights discipline that increases fruit."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 4,
+    "prompt": "What theme does the world hating the disciples highlight?",
+    "choices_json": [
+      "the Father's glory revealed through the Son",
+      "hardening",
+      "hostility to witness",
+      "the world's hostility toward Jesus' witness"
+    ],
+    "correct_answer": "hostility to witness",
+    "explanation": "the world hating the disciples highlights hostility to witness."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 4,
+    "prompt": "What theme does the world having no excuse after Jesus' works highlight?",
+    "choices_json": [
+      "shared life with the Father",
+      "cross-shaped glory",
+      "light rejected by darkness",
+      "fruitfulness"
+    ],
+    "correct_answer": "light rejected by darkness",
+    "explanation": "the world having no excuse after Jesus' works highlights light rejected by darkness."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus as the true vine connect to John's Gospel?",
+    "choices_json": [
+      "pruning",
+      "relational peace",
+      "the Father",
+      "fruit through abiding"
+    ],
+    "correct_answer": "fruit through abiding",
+    "explanation": "John uses jesus as the true vine to show fruit through abiding."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus calling them friends connect to John's Gospel?",
+    "choices_json": [
+      "fulfillment",
+      "true discipleship",
+      "the Spirit",
+      "not mere servants"
+    ],
+    "correct_answer": "not mere servants",
+    "explanation": "John uses jesus calling them friends to show not mere servants."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus commanding love one another connect to John's Gospel?",
+    "choices_json": [
+      "the cross as judgment and salvation together",
+      "cross-shaped glory",
+      "the new shape of discipleship",
+      "the Father's glory revealed through the Son"
+    ],
+    "correct_answer": "the new shape of discipleship",
+    "explanation": "John uses jesus commanding love one another to show the new shape of discipleship."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 5,
+    "prompt": "How does the Counselor and the disciples testifying connect to John's Gospel?",
+    "choices_json": [
+      "Spirit-empowered testimony",
+      "cleansing",
+      "humble kingship that avoids force",
+      "the Father's glory revealed through the Son"
+    ],
+    "correct_answer": "Spirit-empowered testimony",
+    "explanation": "John uses the counselor and the disciples testifying to show Spirit-empowered testimony."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 5,
+    "prompt": "How does the Father pruning the branches connect to John's Gospel?",
+    "choices_json": [
+      "the Father's glory revealed through the Son",
+      "the Father's care for the vine",
+      "Spirit-guided testimony in the church",
+      "sacrificial death"
+    ],
+    "correct_answer": "the Father's care for the vine",
+    "explanation": "John uses the father pruning the branches to show the Father's care for the vine."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 5,
+    "prompt": "How does the world hating the disciples connect to John's Gospel?",
+    "choices_json": [
+      "humble kingship that avoids force",
+      "election sets them apart",
+      "the world's hostility toward Jesus' witness",
+      "the world"
+    ],
+    "correct_answer": "election sets them apart",
+    "explanation": "John uses the world hating the disciples to show election sets them apart."
+  },
+  {
+    "book_number": 43,
+    "chapter": 15,
+    "difficulty_stage": 5,
+    "prompt": "How does the world having no excuse after Jesus' works connect to John's Gospel?",
+    "choices_json": [
+      "the world's hostility toward Jesus' witness",
+      "the Father",
+      "responsibility after revelation",
+      "self-giving love that lays down life for friends"
+    ],
+    "correct_answer": "responsibility after revelation",
+    "explanation": "John uses the world having no excuse after jesus' works to show responsibility after revelation."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 1,
+    "prompt": "What detail is emphasized in Jesus promising peace in trouble?",
+    "choices_json": [
+      "relational peace",
+      "unbelief",
+      "darkness",
+      "my peace"
+    ],
+    "correct_answer": "my peace",
+    "explanation": "John 16 gives this detail in jesus promising peace in trouble."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 1,
+    "prompt": "What detail is emphasized in the Counselor convicting the world?",
+    "choices_json": [
+      "belief",
+      "sin, righteousness, and judgment",
+      "humble kingship that avoids force",
+      "the cross as judgment and salvation together"
+    ],
+    "correct_answer": "sin, righteousness, and judgment",
+    "explanation": "John 16 gives this detail in the counselor convicting the world."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 1,
+    "prompt": "What detail is emphasized in the Father answering prayer in Jesus' name?",
+    "choices_json": [
+      "the world's hostility",
+      "love",
+      "whatever you ask",
+      "overcoming"
+    ],
+    "correct_answer": "whatever you ask",
+    "explanation": "John 16 gives this detail in the father answering prayer in jesus' name."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 1,
+    "prompt": "What happens in disciples facing expulsion and hostility?",
+    "choices_json": [
+      "believed secretly but would not confess",
+      "were not condemned",
+      "were scattered to their own places",
+      "put out of the synagogues"
+    ],
+    "correct_answer": "put out of the synagogues",
+    "explanation": "John 16 gives this detail in disciples facing expulsion and hostility."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 1,
+    "prompt": "What happens in the disciples scattering?",
+    "choices_json": [
+      "followed him at a distance",
+      "were put out of the synagogue",
+      "you will be scattered",
+      "were not condemned"
+    ],
+    "correct_answer": "you will be scattered",
+    "explanation": "John 16 gives this detail in the disciples scattering."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 1,
+    "prompt": "What object is mentioned in sorrow turning to joy?",
+    "choices_json": [
+      "a donkey's colt",
+      "a basin of water",
+      "spices",
+      "a woman in labor"
+    ],
+    "correct_answer": "a woman in labor",
+    "explanation": "John 16 gives this detail in sorrow turning to joy."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 1,
+    "prompt": "What words are quoted in Jesus saying he came from and returns to the Father?",
+    "choices_json": [
+      "You also should wash one another's feet",
+      "Apart from me you can do nothing",
+      "Receive the Holy Spirit",
+      "I go to the Father"
+    ],
+    "correct_answer": "I go to the Father",
+    "explanation": "John 16 gives this detail in jesus saying he came from and returns to the father."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 2,
+    "prompt": "What detail in disciples facing expulsion and hostility is important?",
+    "choices_json": [
+      "shared life with the Father",
+      "Spirit-guided testimony in the church",
+      "the cross as judgment and salvation together",
+      "killing while thinking they serve God"
+    ],
+    "correct_answer": "killing while thinking they serve God",
+    "explanation": "The chapter names killing while thinking they serve God in disciples facing expulsion and hostility."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 2,
+    "prompt": "What detail in sorrow turning to joy is important?",
+    "choices_json": [
+      "darkness",
+      "the world's hostility toward Jesus' witness",
+      "self-giving love that lays down life for friends",
+      "joy after the child is born"
+    ],
+    "correct_answer": "joy after the child is born",
+    "explanation": "The chapter names joy after the child is born in sorrow turning to joy."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 2,
+    "prompt": "What detail in the Counselor convicting the world is important?",
+    "choices_json": [
+      "conviction",
+      "unbelief in Jesus",
+      "glory",
+      "abiding"
+    ],
+    "correct_answer": "unbelief in Jesus",
+    "explanation": "The chapter names unbelief in Jesus in the counselor convicting the world."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 2,
+    "prompt": "What line is quoted in Jesus promising peace in trouble?",
+    "choices_json": [
+      "I am the way, the truth, and the life",
+      "My Father is still working",
+      "I have overcome the world",
+      "Receive the Holy Spirit"
+    ],
+    "correct_answer": "I have overcome the world",
+    "explanation": "The chapter names I have overcome the world in jesus promising peace in trouble."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 2,
+    "prompt": "What line is quoted in the Father answering prayer in Jesus' name?",
+    "choices_json": [
+      "My Father is still working",
+      "The time has come for the Son of Man to be glorified",
+      "It is to your advantage that I go away",
+      "in my name"
+    ],
+    "correct_answer": "in my name",
+    "explanation": "The chapter names in my name in the father answering prayer in jesus' name."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 2,
+    "prompt": "What location detail is named in the disciples scattering?",
+    "choices_json": [
+      "each to his own place",
+      "Bethlehem",
+      "Cana",
+      "the Sea of Tiberias"
+    ],
+    "correct_answer": "each to his own place",
+    "explanation": "The chapter names each to his own place in the disciples scattering."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 2,
+    "prompt": "What result is described in Jesus saying he came from and returns to the Father?",
+    "choices_json": [
+      "believed secretly but would not confess",
+      "were scattered to their own places",
+      "could not arrest him",
+      "you will scatter"
+    ],
+    "correct_answer": "you will scatter",
+    "explanation": "The chapter names you will scatter in jesus saying he came from and returns to the father."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus promising peace in trouble matter?",
+    "choices_json": [
+      "burial",
+      "the Father's glory revealed through the Son",
+      "humble kingship that avoids force",
+      "courage in tribulation"
+    ],
+    "correct_answer": "courage in tribulation",
+    "explanation": "Jesus promising peace in trouble points toward courage in tribulation."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus saying he came from and returns to the Father matter?",
+    "choices_json": [
+      "the cross as judgment and salvation together",
+      "the Father is with me",
+      "judgment",
+      "the world's hostility toward Jesus' witness"
+    ],
+    "correct_answer": "the Father is with me",
+    "explanation": "Jesus saying he came from and returns to the Father points toward the Father is with me."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 3,
+    "prompt": "Why does disciples facing expulsion and hostility matter?",
+    "choices_json": [
+      "Spirit-guided testimony in the church",
+      "the Father's glory revealed through the Son",
+      "fearful persecution",
+      "the Son"
+    ],
+    "correct_answer": "fearful persecution",
+    "explanation": "disciples facing expulsion and hostility points toward fearful persecution."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 3,
+    "prompt": "Why does sorrow turning to joy matter?",
+    "choices_json": [
+      "sending",
+      "pain giving way to joy",
+      "the Father's glory revealed through the Son",
+      "Spirit-guided testimony in the church"
+    ],
+    "correct_answer": "pain giving way to joy",
+    "explanation": "sorrow turning to joy points toward pain giving way to joy."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 3,
+    "prompt": "Why does the Counselor convicting the world matter?",
+    "choices_json": [
+      "the cross as judgment and salvation together",
+      "self-giving love that lays down life for friends",
+      "the Spirit's rebuke",
+      "fear"
+    ],
+    "correct_answer": "the Spirit's rebuke",
+    "explanation": "the Counselor convicting the world points toward the Spirit's rebuke."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 3,
+    "prompt": "Why does the Father answering prayer in Jesus' name matter?",
+    "choices_json": [
+      "Spirit-guided testimony in the church",
+      "divine mission",
+      "the Father's love",
+      "the cross as judgment and salvation together"
+    ],
+    "correct_answer": "the Father's love",
+    "explanation": "the Father answering prayer in Jesus' name points toward the Father's love."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 3,
+    "prompt": "Why does the disciples scattering matter?",
+    "choices_json": [
+      "humble kingship",
+      "fruitfulness",
+      "leaving Jesus alone",
+      "Spirit-led witness"
+    ],
+    "correct_answer": "leaving Jesus alone",
+    "explanation": "the disciples scattering points toward leaving Jesus alone."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 4,
+    "prompt": "What theme does Jesus promising peace in trouble highlight?",
+    "choices_json": [
+      "victory over the world",
+      "humble kingship that avoids force",
+      "self-giving love that lays down life for friends",
+      "hardening"
+    ],
+    "correct_answer": "victory over the world",
+    "explanation": "Jesus promising peace in trouble highlights victory over the world."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 4,
+    "prompt": "What theme does Jesus saying he came from and returns to the Father highlight?",
+    "choices_json": [
+      "the world's hostility toward Jesus' witness",
+      "the return of the Son",
+      "Spirit-guided testimony in the church",
+      "service"
+    ],
+    "correct_answer": "the return of the Son",
+    "explanation": "Jesus saying he came from and returns to the Father highlights the return of the Son."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 4,
+    "prompt": "What theme does disciples facing expulsion and hostility highlight?",
+    "choices_json": [
+      "religious violence in God's name",
+      "the world's hostility toward Jesus' witness",
+      "self-giving love that lays down life for friends",
+      "revelation"
+    ],
+    "correct_answer": "religious violence in God's name",
+    "explanation": "disciples facing expulsion and hostility highlights religious violence in God's name."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 4,
+    "prompt": "What theme does sorrow turning to joy highlight?",
+    "choices_json": [
+      "resurrection-shaped sorrow",
+      "the cross as judgment and salvation together",
+      "ascension",
+      "humble kingship that avoids force"
+    ],
+    "correct_answer": "resurrection-shaped sorrow",
+    "explanation": "sorrow turning to joy highlights resurrection-shaped sorrow."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 4,
+    "prompt": "What theme does the Counselor convicting the world highlight?",
+    "choices_json": [
+      "unbelief",
+      "pruning",
+      "Jesus going to the Father",
+      "glory"
+    ],
+    "correct_answer": "Jesus going to the Father",
+    "explanation": "the Counselor convicting the world highlights Jesus going to the Father."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 4,
+    "prompt": "What theme does the Father answering prayer in Jesus' name highlight?",
+    "choices_json": [
+      "sending",
+      "humility",
+      "bold asking after Jesus' departure",
+      "glory"
+    ],
+    "correct_answer": "bold asking after Jesus' departure",
+    "explanation": "the Father answering prayer in Jesus' name highlights bold asking after Jesus' departure."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 4,
+    "prompt": "What theme does the disciples scattering highlight?",
+    "choices_json": [
+      "the cross as judgment and salvation together",
+      "self-giving love that lays down life for friends",
+      "human weakness under pressure",
+      "humble kingship"
+    ],
+    "correct_answer": "human weakness under pressure",
+    "explanation": "the disciples scattering highlights human weakness under pressure."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus promising peace in trouble connect to John's Gospel?",
+    "choices_json": [
+      "love",
+      "cleansing",
+      "peace that outlasts trouble",
+      "messianic hope"
+    ],
+    "correct_answer": "peace that outlasts trouble",
+    "explanation": "John uses jesus promising peace in trouble to show peace that outlasts trouble."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus saying he came from and returns to the Father connect to John's Gospel?",
+    "choices_json": [
+      "revelation",
+      "the Spirit",
+      "departure that leads to victory",
+      "hardening"
+    ],
+    "correct_answer": "departure that leads to victory",
+    "explanation": "John uses jesus saying he came from and returns to the father to show departure that leads to victory."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 5,
+    "prompt": "How does disciples facing expulsion and hostility connect to John's Gospel?",
+    "choices_json": [
+      "humble kingship that avoids force",
+      "the Father",
+      "hardness without knowledge of the Father",
+      "the world's hostility toward Jesus' witness"
+    ],
+    "correct_answer": "hardness without knowledge of the Father",
+    "explanation": "John uses disciples facing expulsion and hostility to show hardness without knowledge of the Father."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 5,
+    "prompt": "How does sorrow turning to joy connect to John's Gospel?",
+    "choices_json": [
+      "prayer",
+      "belief",
+      "cleansing",
+      "grief transformed by seeing Jesus again"
+    ],
+    "correct_answer": "grief transformed by seeing Jesus again",
+    "explanation": "John uses sorrow turning to joy to show grief transformed by seeing Jesus again."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 5,
+    "prompt": "How does the Counselor convicting the world connect to John's Gospel?",
+    "choices_json": [
+      "the prince of this world judged",
+      "self-giving love that lays down life for friends",
+      "the Father's glory revealed through the Son",
+      "cleansing"
+    ],
+    "correct_answer": "the prince of this world judged",
+    "explanation": "John uses the counselor convicting the world to show the prince of this world judged."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 5,
+    "prompt": "How does the Father answering prayer in Jesus' name connect to John's Gospel?",
+    "choices_json": [
+      "humility",
+      "the Spirit",
+      "prayer joined to mission",
+      "sending"
+    ],
+    "correct_answer": "prayer joined to mission",
+    "explanation": "John uses the father answering prayer in jesus' name to show prayer joined to mission."
+  },
+  {
+    "book_number": 43,
+    "chapter": 16,
+    "difficulty_stage": 5,
+    "prompt": "How does the disciples scattering connect to John's Gospel?",
+    "choices_json": [
+      "abiding",
+      "the Father's presence with the Son",
+      "darkness",
+      "divine mission"
+    ],
+    "correct_answer": "the Father's presence with the Son",
+    "explanation": "John uses the disciples scattering to show the Father's presence with the Son."
+  }
+]

@@ -1,0 +1,1472 @@
+[
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 1,
+    "prompt": "In John 11, what village is Lazarus from?",
+    "choices_json": [
+      "Bethany",
+      "Jerusalem",
+      "Ephraim",
+      "Judea"
+    ],
+    "correct_answer": "Bethany",
+    "explanation": "Lazarus is introduced as being from Bethany (John 11:1)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 1,
+    "prompt": "After hearing that Lazarus was sick, how long did Jesus stay where he was?",
+    "choices_json": [
+      "Two days",
+      "Four days",
+      "One day",
+      "No delay at all"
+    ],
+    "correct_answer": "Two days",
+    "explanation": "Jesus stayed two days in the place where he was (John 11:6)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 1,
+    "prompt": "Who said, 'Let's go also, that we may die with him'?",
+    "choices_json": [
+      "Thomas",
+      "Peter",
+      "Judas Iscariot",
+      "Philip"
+    ],
+    "correct_answer": "Thomas",
+    "explanation": "Thomas, called Didymus, says this to the other disciples (John 11:16)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 1,
+    "prompt": "When Jesus arrived in Bethany, how long had Lazarus already been in the tomb?",
+    "choices_json": [
+      "Four days",
+      "Three days",
+      "One day",
+      "Seven days"
+    ],
+    "correct_answer": "Four days",
+    "explanation": "Jesus found that Lazarus had been in the tomb four days already (John 11:17)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 1,
+    "prompt": "Which sister went out to meet Jesus while the other stayed in the house?",
+    "choices_json": [
+      "Martha",
+      "Mary",
+      "Mary Magdalene",
+      "Salome"
+    ],
+    "correct_answer": "Martha",
+    "explanation": "Martha went to meet Jesus, while Mary stayed in the house (John 11:20)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 1,
+    "prompt": "At Lazarus's tomb, what did Jesus tell the people to do first?",
+    "choices_json": [
+      "Take away the stone",
+      "Call the Pharisees",
+      "Light a lamp in the cave",
+      "Bring Lazarus to Jerusalem"
+    ],
+    "correct_answer": "Take away the stone",
+    "explanation": "Jesus said, 'Take away the stone' before calling Lazarus out (John 11:39)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 1,
+    "prompt": "Whose name did Jesus call with a loud voice at the tomb?",
+    "choices_json": [
+      "Lazarus",
+      "Martha",
+      "Mary",
+      "Caiaphas"
+    ],
+    "correct_answer": "Lazarus",
+    "explanation": "Jesus cried out, 'Lazarus, come out!' (John 11:43)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 2,
+    "prompt": "What message did the sisters send to Jesus about Lazarus?",
+    "choices_json": [
+      "Lord, behold, he for whom you have great affection is sick.",
+      "Lord, if you had been here, my brother would not have died.",
+      "Teacher, the one you love has already been buried in the cave.",
+      "Rabbi, Lazarus has fallen asleep and will recover soon."
+    ],
+    "correct_answer": "Lord, behold, he for whom you have great affection is sick.",
+    "explanation": "That is the exact message the sisters send to Jesus (John 11:3)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 2,
+    "prompt": "What concern did the disciples raise when Jesus said, 'Let's go into Judea again'?",
+    "choices_json": [
+      "The Jews were just trying to stone you.",
+      "Bethany is too close to Jerusalem.",
+      "Lazarus has already been buried.",
+      "Passover crowds are already gathering."
+    ],
+    "correct_answer": "The Jews were just trying to stone you.",
+    "explanation": "The disciples remind Jesus that the Jews had just tried to stone him (John 11:8)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 2,
+    "prompt": "When Jesus said Lazarus had fallen asleep, what did the disciples think he meant?",
+    "choices_json": [
+      "That Lazarus was getting normal rest and would recover.",
+      "That Lazarus had entered the last resurrection already.",
+      "That Jesus planned to wake him at dawn.",
+      "That Mary had gone to sleep from grief."
+    ],
+    "correct_answer": "That Lazarus was getting normal rest and would recover.",
+    "explanation": "They thought Jesus meant ordinary sleep, not death (John 11:12-13)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 2,
+    "prompt": "How far from Jerusalem does John say Bethany was?",
+    "choices_json": [
+      "About fifteen stadia",
+      "About five stadia",
+      "About thirty stadia",
+      "About a day's journey"
+    ],
+    "correct_answer": "About fifteen stadia",
+    "explanation": "John notes that Bethany was near Jerusalem, about fifteen stadia away (John 11:18)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 2,
+    "prompt": "When Martha said Lazarus would rise again, when did she expect that resurrection?",
+    "choices_json": [
+      "At the resurrection on the last day",
+      "Before sunset that same day",
+      "When Jesus entered the village",
+      "After Passover ended in Jerusalem"
+    ],
+    "correct_answer": "At the resurrection on the last day",
+    "explanation": "Martha says she knows he will rise in the resurrection at the last day (John 11:24)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 2,
+    "prompt": "What did Mary do when she came to where Jesus was?",
+    "choices_json": [
+      "She fell at his feet",
+      "She asked the crowd to leave",
+      "She took away the stone",
+      "She went straight to the tomb"
+    ],
+    "correct_answer": "She fell at his feet",
+    "explanation": "Mary fell down at Jesus' feet when she saw him (John 11:32)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 2,
+    "prompt": "What was wrapped around Lazarus's face when he came out of the tomb?",
+    "choices_json": [
+      "A cloth",
+      "A crown",
+      "A belt",
+      "A lamp"
+    ],
+    "correct_answer": "A cloth",
+    "explanation": "John says Lazarus's face was wrapped around with a cloth (John 11:44)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus say he is glad he was not there before Lazarus died?",
+    "choices_json": [
+      "So the disciples might believe through what they were about to see",
+      "So the mourners could finish the burial customs before he arrived from across Judea",
+      "So the Romans would not notice him entering Judea again",
+      "So Martha and Mary would learn to manage without him"
+    ],
+    "correct_answer": "So the disciples might believe through what they were about to see",
+    "explanation": "Jesus says he is glad for their sake so that they may believe (John 11:15)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 3,
+    "prompt": "What does Martha's confession after Jesus says, 'I am the resurrection and the life,' reveal?",
+    "choices_json": [
+      "She recognized Jesus as the Christ and Son of God before Lazarus came out",
+      "She thought Jesus was only a prophet sent to explain the timing of the resurrection",
+      "She expected Caiaphas to defend Jesus before the council gathered",
+      "She believed the miracle mattered more than Jesus' identity"
+    ],
+    "correct_answer": "She recognized Jesus as the Christ and Son of God before Lazarus came out",
+    "explanation": "Martha confesses Jesus as the Christ, God's Son, before the miracle at the tomb (John 11:25-27)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus pray aloud to the Father before calling Lazarus out?",
+    "choices_json": [
+      "So the crowd would believe the Father had sent him",
+      "So Lazarus could hear his voice from inside the tomb",
+      "So Martha would stop objecting to the opened tomb",
+      "So the Pharisees could report his words to Caiaphas"
+    ],
+    "correct_answer": "So the crowd would believe the Father had sent him",
+    "explanation": "Jesus says he prays aloud because of the crowd, so they may believe the Father sent him (John 11:41-42)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 3,
+    "prompt": "Why do some of the mourners mention the man whose eyes Jesus opened?",
+    "choices_json": [
+      "They are asking why the one who opened a blind man's eyes had not prevented this death",
+      "They are confusing Lazarus with the blind beggar from Jerusalem",
+      "They are asking whether Bethany had seen a sign like Cana's wine",
+      "They are wondering if Jesus had come from the pool of Siloam that day"
+    ],
+    "correct_answer": "They are asking why the one who opened a blind man's eyes had not prevented this death",
+    "explanation": "Some mourners ask whether the healer of the blind man could have kept Lazarus from dying (John 11:37)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 3,
+    "prompt": "What did the council fear would happen if Jesus continued doing signs like this one?",
+    "choices_json": [
+      "The Romans would take away both their place and their nation",
+      "The disciples would crown Jesus king in Ephraim",
+      "The people would stop coming to the temple for Passover",
+      "Lazarus would begin teaching publicly in Jerusalem"
+    ],
+    "correct_answer": "The Romans would take away both their place and their nation",
+    "explanation": "The chief priests and Pharisees say the Romans will come and take away both their place and nation (John 11:47-48)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus withdraw to Ephraim near the end of John 11?",
+    "choices_json": [
+      "Because the leaders had begun plotting to kill him",
+      "Because Lazarus asked him to stay away from Bethany",
+      "Because the disciples wanted to avoid the crowds at the feast",
+      "Because Mary and Martha returned to Galilee with him"
+    ],
+    "correct_answer": "Because the leaders had begun plotting to kill him",
+    "explanation": "After the council resolves to put Jesus to death, he no longer walks openly and departs to Ephraim (John 11:53-54)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 3,
+    "prompt": "When people in the temple ask whether Jesus will come to the feast at all, what does that question reveal about the moment?",
+    "choices_json": [
+      "Public tension had grown so much that people were openly wondering whether danger would keep him away",
+      "Everyone had forgotten the raising of Lazarus by Passover time",
+      "The pilgrims had already decided to follow Caiaphas instead of Jesus",
+      "The crowd expected Jesus to purify himself in Ephraim rather than Jerusalem as the chapter continues to unfold"
+    ],
+    "correct_answer": "Public tension had grown so much that people were openly wondering whether danger would keep him away",
+    "explanation": "The search for Jesus at Passover comes after the leaders have ordered people to report his location (John 11:55-57)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 4,
+    "prompt": "In John 11, how does Jesus' delay before going to Bethany function in the chapter?",
+    "choices_json": [
+      "It turns a painful illness into a setting for God's glory and the Son's glorification",
+      "It proves Jesus did not care enough to travel quickly",
+      "It shows miracles only happen after funerals have ended as the chapter continues to unfold",
+      "It lets the disciples avoid danger in Judea forever"
+    ],
+    "correct_answer": "It turns a painful illness into a setting for God's glory and the Son's glorification",
+    "explanation": "Jesus frames the sickness in terms of God's glory and later tells Martha she will see God's glory if she believes (John 11:4, 40)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 4,
+    "prompt": "When Jesus says, 'I am the resurrection and the life,' what is he claiming in the Lazarus scene?",
+    "choices_json": [
+      "Jesus presents himself as the personal source of resurrection life, not just a teacher about it",
+      "Jesus says resurrection will matter only at the end of history, not in the present as the chapter continues to unfold",
+      "Jesus separates eternal life from faith in his own person",
+      "Jesus tells Martha to look away from him and only toward the last day"
+    ],
+    "correct_answer": "Jesus presents himself as the personal source of resurrection life, not just a teacher about it",
+    "explanation": "The saying places resurrection life in Jesus himself and is followed by Martha's call to believe in him (John 11:25-26)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 4,
+    "prompt": "Why does John include the line 'Jesus wept' in the middle of the Lazarus account?",
+    "choices_json": [
+      "It shows Jesus entering real grief even while he moves toward raising Lazarus",
+      "It shows Jesus regretting that he had come to Bethany at all",
+      "It proves the mourners were correct to distrust his earlier delay as the chapter continues to unfold",
+      "It marks the moment when Caiaphas arrived at the tomb"
+    ],
+    "correct_answer": "It shows Jesus entering real grief even while he moves toward raising Lazarus",
+    "explanation": "John places Jesus' tears between the family's grief and the raising itself (John 11:33-35, 43-44)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 4,
+    "prompt": "How does the raising of Lazarus move the story of John's Gospel forward?",
+    "choices_json": [
+      "The sign draws believers, but it also hardens the council into a death plot against Jesus",
+      "The miracle settles the conflict with the Pharisees and ends the danger around Jesus as the chapter continues to unfold",
+      "The crowd's joy persuades Caiaphas to protect Jesus for the feast",
+      "The event stays private, so Jerusalem never hears about it"
+    ],
+    "correct_answer": "The sign draws believers, but it also hardens the council into a death plot against Jesus",
+    "explanation": "Many believe after the sign, but the council then takes counsel to put Jesus to death (John 11:45, 53)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 4,
+    "prompt": "How does John treat Caiaphas's statement that one man should die for the people?",
+    "choices_json": [
+      "John treats it as an unwitting prophecy that Jesus would die for the nation",
+      "John dismisses it as political nonsense with no larger meaning as the chapter continues to unfold",
+      "John says Caiaphas learned it directly from Lazarus in Bethany",
+      "John presents it as a private prayer whispered at the tomb"
+    ],
+    "correct_answer": "John treats it as an unwitting prophecy that Jesus would die for the nation",
+    "explanation": "John explicitly says Caiaphas prophesied that Jesus would die for the nation (John 11:49-51)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 4,
+    "prompt": "What broader purpose does John add when he explains Caiaphas's words in John 11:52?",
+    "choices_json": [
+      "Jesus' death would gather into one the scattered children of God",
+      "Jesus' death would restore Bethany as Israel's main worship center",
+      "Jesus' death would keep Rome from entering Jerusalem that year",
+      "Jesus' death would cancel the need for any future resurrection"
+    ],
+    "correct_answer": "Jesus' death would gather into one the scattered children of God",
+    "explanation": "John says Jesus would die not for the nation only, but to gather God's scattered children into one (John 11:52)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 4,
+    "prompt": "Why does John 11 close by mentioning purification before Passover and people searching for Jesus?",
+    "choices_json": [
+      "It connects the Lazarus sign to Passover expectation and the public question of whether Jesus will appear",
+      "It shifts attention away from Jesus and back to Lazarus as the main figure as the chapter continues to unfold",
+      "It shows the council had already arrested Jesus before the feast began",
+      "It explains why Mary returned home before Lazarus was unbound"
+    ],
+    "correct_answer": "It connects the Lazarus sign to Passover expectation and the public question of whether Jesus will appear",
+    "explanation": "The chapter ends with pilgrims seeking Jesus and wondering if he will come to the feast at all (John 11:55-56)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 5,
+    "prompt": "How does John 11 place Jesus' life-giving sign beside the decision to kill him?",
+    "choices_json": [
+      "John sets Jesus' gift of life to Lazarus beside the council's resolve to kill Jesus, linking glory and sacrifice",
+      "John shows Lazarus replacing Jesus as the central target of the leaders",
+      "John uses the miracle mainly to explain Jewish burial customs in Bethany",
+      "John separates the sign from the plot so readers will not connect the two as the chapter continues to unfold"
+    ],
+    "correct_answer": "John sets Jesus' gift of life to Lazarus beside the council's resolve to kill Jesus, linking glory and sacrifice",
+    "explanation": "The chapter moves directly from Lazarus's release from death to the council's plan against Jesus (John 11:43-44, 53)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 5,
+    "prompt": "What is the literary effect of Martha and Mary both saying, 'Lord, if you had been here, my brother would not have died'?",
+    "choices_json": [
+      "The repeated line deepens the family's grief while showing Jesus meet Martha and Mary in different ways",
+      "The repeated line proves one sister copied the other before speaking",
+      "The repeated line shows both sisters doubted Lazarus had really died",
+      "The repeated line is only there to identify Bethany as near Jerusalem as the chapter continues to unfold"
+    ],
+    "correct_answer": "The repeated line deepens the family's grief while showing Jesus meet Martha and Mary in different ways",
+    "explanation": "Both sisters speak the same grief, but Jesus responds to Martha with teaching and to Mary amid shared mourning (John 11:21-27, 32-35)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 5,
+    "prompt": "What literary contrast is created when the mourners say, 'Lord, come and see,' and Jesus answers with, 'Lazarus, come out'?",
+    "choices_json": [
+      "Human grief invites Jesus to the tomb, and Jesus answers death with an authoritative command",
+      "Both lines show that Jesus needs the crowd's guidance before he can act",
+      "Both lines prove the mourners already expected Lazarus to rise immediately as the chapter continues to unfold",
+      "The second line corrects the first by rebuking Mary and Martha for weeping"
+    ],
+    "correct_answer": "Human grief invites Jesus to the tomb, and Jesus answers death with an authoritative command",
+    "explanation": "The chapter moves from the mourners' invitation to Jesus' command over the dead man himself (John 11:34, 43)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 5,
+    "prompt": "Why do the cave, stone, wrappings, and face cloth matter so much in John's telling of Lazarus's raising?",
+    "choices_json": [
+      "The cave, stone, and wrappings underline that Lazarus was truly dead, making the sign unmistakably concrete",
+      "The cave and cloth show Lazarus was only hiding from the Judean authorities",
+      "The burial details mainly prepare readers for a trip from Bethany to Ephraim",
+      "The stone imagery is included to show the tomb was in Jerusalem's temple courts as the chapter continues to unfold"
+    ],
+    "correct_answer": "The cave, stone, and wrappings underline that Lazarus was truly dead, making the sign unmistakably concrete",
+    "explanation": "John lingers on the burial details before and after the command to come out (John 11:38-39, 44)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 5,
+    "prompt": "What irony shapes the council's fear that Rome will take away 'our place and our nation'?",
+    "choices_json": [
+      "Trying to save their place and nation, the council chooses the death that John says will gather God's scattered children",
+      "The council wisely recognizes Jesus' plan and joins it without resistance as the chapter continues to unfold",
+      "The leaders fear Rome because Lazarus is forming an army near Ephraim",
+      "Their concern is only Martha's testimony, not Jesus' signs"
+    ],
+    "correct_answer": "Trying to save their place and nation, the council chooses the death that John says will gather God's scattered children",
+    "explanation": "Their political fear leads to Caiaphas's prophecy, which John expands into Jesus' wider saving death (John 11:48, 50-52)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 5,
+    "prompt": "How does John's explanation of Caiaphas's prophecy enlarge the meaning of the cross in John 11?",
+    "choices_json": [
+      "Caiaphas speaks of one man dying for the people, but John expands it to the uniting of God's scattered children",
+      "Caiaphas predicts only Lazarus's death, and John narrows the point to Bethany as the chapter continues to unfold",
+      "Caiaphas describes a Roman execution, but John removes any national meaning",
+      "Caiaphas denies substitution, and John keeps the same denial intact"
+    ],
+    "correct_answer": "Caiaphas speaks of one man dying for the people, but John expands it to the uniting of God's scattered children",
+    "explanation": "John moves from national language to the gathering of God's children abroad (John 11:50-52)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 11,
+    "difficulty_stage": 5,
+    "prompt": "What does the command to report Jesus' location show about the opposition at the end of John 11?",
+    "choices_json": [
+      "The order to report Jesus' location shows opposition has become organized, public, and ready for the Passover setting",
+      "The order to report Jesus' location reveals that the council has stopped fearing the crowds as the chapter continues to unfold",
+      "The command proves Jesus never actually withdrew to Ephraim with the disciples",
+      "The command exists only to explain how pilgrims found Bethany from Jerusalem"
+    ],
+    "correct_answer": "The order to report Jesus' location shows opposition has become organized, public, and ready for the Passover setting",
+    "explanation": "The leaders command people to report Jesus so they can seize him as Passover approaches (John 11:57)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 1,
+    "prompt": "How long before the Passover did Jesus come to Bethany in John 12?",
+    "choices_json": [
+      "Six days before the Passover",
+      "Three days before the Passover",
+      "On the day of Passover itself",
+      "Forty days before the feast"
+    ],
+    "correct_answer": "Six days before the Passover",
+    "explanation": "John says Jesus came to Bethany six days before the Passover (John 12:1)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 1,
+    "prompt": "At the supper in Bethany, who served?",
+    "choices_json": [
+      "Martha",
+      "Mary",
+      "Lazarus",
+      "Judas Iscariot"
+    ],
+    "correct_answer": "Martha",
+    "explanation": "John notes that Martha served at the supper (John 12:2)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 1,
+    "prompt": "After Mary anointed Jesus' feet, what filled the house?",
+    "choices_json": [
+      "The fragrance of the ointment",
+      "The sound of weeping",
+      "The smoke of lamps",
+      "The dust of the road"
+    ],
+    "correct_answer": "The fragrance of the ointment",
+    "explanation": "The house was filled with the fragrance of the ointment (John 12:3)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 1,
+    "prompt": "What kind of branches did the crowd take when Jesus came toward Jerusalem?",
+    "choices_json": [
+      "Palm branches",
+      "Olive branches",
+      "Fig branches",
+      "Myrtle branches"
+    ],
+    "correct_answer": "Palm branches",
+    "explanation": "The crowd took branches of palm trees to meet him (John 12:13)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 1,
+    "prompt": "What animal did Jesus sit on during his entry into Jerusalem?",
+    "choices_json": [
+      "A young donkey",
+      "A war horse",
+      "A camel",
+      "A chariot"
+    ],
+    "correct_answer": "A young donkey",
+    "explanation": "Jesus found a young donkey and sat on it (John 12:14)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 1,
+    "prompt": "Which disciple did the Greeks approach first when they wanted to see Jesus?",
+    "choices_json": [
+      "Philip",
+      "Andrew",
+      "Peter",
+      "Thomas"
+    ],
+    "correct_answer": "Philip",
+    "explanation": "The Greeks came first to Philip and asked to see Jesus (John 12:21)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 1,
+    "prompt": "Who conspired to put Lazarus to death as well?",
+    "choices_json": [
+      "The chief priests",
+      "The Samaritans",
+      "The disciples",
+      "The Greeks"
+    ],
+    "correct_answer": "The chief priests",
+    "explanation": "John says the chief priests conspired to put Lazarus to death also (John 12:10)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 2,
+    "prompt": "How much did Judas say Mary's ointment could have been sold for?",
+    "choices_json": [
+      "Three hundred denarii",
+      "Thirty denarii",
+      "Fifty shekels",
+      "Twelve silver coins"
+    ],
+    "correct_answer": "Three hundred denarii",
+    "explanation": "Judas says the ointment could have been sold for three hundred denarii (John 12:5)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 2,
+    "prompt": "What did Judas say should have been done with the ointment?",
+    "choices_json": [
+      "It should have been sold and given to the poor",
+      "It should have been kept for the feast table",
+      "It should have been poured on Lazarus as well",
+      "It should have been taken to the temple treasury"
+    ],
+    "correct_answer": "It should have been sold and given to the poor",
+    "explanation": "Judas asks why it was not sold and given to the poor (John 12:5)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 2,
+    "prompt": "Which title appears in the crowd's shout after 'Hosanna'?",
+    "choices_json": [
+      "King of Israel",
+      "Bread of life",
+      "Good Shepherd",
+      "Light of the world"
+    ],
+    "correct_answer": "King of Israel",
+    "explanation": "The crowd calls Jesus 'the King of Israel' (John 12:13)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 2,
+    "prompt": "From what place does John say Philip was?",
+    "choices_json": [
+      "Bethsaida of Galilee",
+      "Cana of Galilee",
+      "Bethany near Jerusalem",
+      "Ephraim near the wilderness"
+    ],
+    "correct_answer": "Bethsaida of Galilee",
+    "explanation": "Philip is identified as being from Bethsaida of Galilee (John 12:21)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 2,
+    "prompt": "What picture does Jesus use to describe the kind of death that bears fruit?",
+    "choices_json": [
+      "A grain of wheat falling into the earth and dying",
+      "A vine branch being pruned in the spring",
+      "A fishing net cast onto deep water",
+      "A seed lamp burning through the night"
+    ],
+    "correct_answer": "A grain of wheat falling into the earth and dying",
+    "explanation": "Jesus says a grain of wheat must fall into the earth and die to bear much fruit (John 12:24)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 2,
+    "prompt": "What did the voice from the sky say after Jesus prayed, 'Father, glorify your name'?",
+    "choices_json": [
+      "I have both glorified it, and will glorify it again.",
+      "This is my beloved Son; listen to him.",
+      "Take away the stone and see my glory.",
+      "The hour has not yet come for this sign."
+    ],
+    "correct_answer": "I have both glorified it, and will glorify it again.",
+    "explanation": "That is the voice from heaven in John 12:28."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 2,
+    "prompt": "Why did Jesus say the voice from heaven had come?",
+    "choices_json": [
+      "For your sakes",
+      "For my sake only",
+      "For Lazarus's sake",
+      "For the Greeks' sake alone"
+    ],
+    "correct_answer": "For your sakes",
+    "explanation": "Jesus says, 'This voice hasn't come for my sake, but for your sakes' (John 12:30)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 3,
+    "prompt": "Why does John explain Judas's complaint about the ointment instead of letting the protest stand on its own?",
+    "choices_json": [
+      "His protest sounded charitable, but John says it came from theft, not love for the poor",
+      "He had been chosen to distribute alms in Bethany that evening as the chapter continues to unfold",
+      "He feared the priests would arrest Mary for using perfume",
+      "He wanted Lazarus to keep the ointment for his own burial"
+    ],
+    "correct_answer": "His protest sounded charitable, but John says it came from theft, not love for the poor",
+    "explanation": "John says Judas did not care for the poor but was a thief who stole from the money box (John 12:6)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 3,
+    "prompt": "Why did the chief priests want Lazarus dead too?",
+    "choices_json": [
+      "Because many Jews were believing in Jesus on account of Lazarus",
+      "Because Lazarus had publicly rebuked the Pharisees at the feast",
+      "Because Lazarus was helping the Greeks find Jesus in Jerusalem",
+      "Because Martha had hidden Jesus from the chief priests"
+    ],
+    "correct_answer": "Because many Jews were believing in Jesus on account of Lazarus",
+    "explanation": "The leaders target Lazarus because many were going away and believing in Jesus because of him (John 12:10-11)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 3,
+    "prompt": "Why does John say the disciples did not understand the donkey scene at first?",
+    "choices_json": [
+      "Only after Jesus was glorified did they remember the Scripture and what had been done",
+      "They were too far away to see what animal Jesus found",
+      "The crowd's shouts drowned out the prophecy while he entered the city as the chapter continues to unfold",
+      "Andrew did not tell the others what the Greeks had asked"
+    ],
+    "correct_answer": "Only after Jesus was glorified did they remember the Scripture and what had been done",
+    "explanation": "John says their understanding came later, when Jesus was glorified (John 12:16)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 3,
+    "prompt": "What does the arrival of the Greeks help signal in the flow of John 12?",
+    "choices_json": [
+      "Their request broadens the moment beyond Jerusalem and helps introduce Jesus' talk about his hour",
+      "Their request interrupts the feast, so Jesus postpones his public teaching as the chapter continues to unfold",
+      "Their request convinces Jesus to avoid the cross and return to Bethany",
+      "Their request proves the Pharisees have begun to believe openly in him"
+    ],
+    "correct_answer": "Their request broadens the moment beyond Jerusalem and helps introduce Jesus' talk about his hour",
+    "explanation": "After the Greeks ask to see Jesus, he answers that the hour has come for the Son of Man to be glorified (John 12:20-23)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus reject the idea of praying, 'Father, save me from this time'?",
+    "choices_json": [
+      "Because he says this hour is the very reason he came",
+      "Because the crowd would think such a prayer was unclean at Passover",
+      "Because the Greeks had already promised to protect him from danger",
+      "Because Lazarus had warned him not to speak publicly again"
+    ],
+    "correct_answer": "Because he says this hour is the very reason he came",
+    "explanation": "Jesus says, 'I came to this time for this cause' (John 12:27)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 3,
+    "prompt": "Why is the crowd puzzled when Jesus says the Son of Man must be lifted up?",
+    "choices_json": [
+      "They expect the Christ to remain forever, so talk of being lifted up seems contradictory",
+      "They think Jesus is speaking about raising Lazarus a second time",
+      "They assume the Son of Man is a title for Caiaphas rather than Jesus as the chapter continues to unfold",
+      "They believe the law says the Messiah must enter on a horse instead"
+    ],
+    "correct_answer": "They expect the Christ to remain forever, so talk of being lifted up seems contradictory",
+    "explanation": "The crowd answers that they have heard the Christ remains forever and asks how the Son of Man can be lifted up (John 12:32-34)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 3,
+    "prompt": "Why did many rulers who believed in Jesus stay silent about it?",
+    "choices_json": [
+      "They fear the Pharisees and the cost of being put out of the synagogue",
+      "They are waiting for Philip to introduce them to Jesus privately",
+      "They want Lazarus to speak first so they can copy his testimony",
+      "They think confessing Jesus is forbidden until after the feast sacrifices"
+    ],
+    "correct_answer": "They fear the Pharisees and the cost of being put out of the synagogue",
+    "explanation": "John says they did not confess him because of the Pharisees and fear of exclusion from the synagogue (John 12:42)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 4,
+    "prompt": "What does Mary's anointing mean within the argument of John 12?",
+    "choices_json": [
+      "Her act anticipates Jesus' burial and reveals devoted insight where Judas shows false concern",
+      "Her act replaces the coming Passover meal and cancels the feast entirely as the chapter continues to unfold",
+      "Her act persuades the chief priests to spare Lazarus for the moment",
+      "Her act shows that Bethany has become the new temple in John 12"
+    ],
+    "correct_answer": "Her act anticipates Jesus' burial and reveals devoted insight where Judas shows false concern",
+    "explanation": "Jesus says Mary has kept the ointment for the day of his burial, and John exposes Judas's hypocrisy (John 12:7-8)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 4,
+    "prompt": "Why is Jesus' entry on a donkey so significant in John's telling?",
+    "choices_json": [
+      "John frames the entry as scriptural kingship marked by humility rather than military display",
+      "John presents the donkey mainly as a practical way to move quickly through crowds as the chapter continues to unfold",
+      "John uses the colt to show Jesus is returning secretly instead of publicly",
+      "John includes the animal only to identify Philip's hometown in Galilee"
+    ],
+    "correct_answer": "John frames the entry as scriptural kingship marked by humility rather than military display",
+    "explanation": "John quotes the Scripture about Zion's king coming on a donkey's colt (John 12:14-15)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 4,
+    "prompt": "How does the grain of wheat saying interpret Jesus' coming death?",
+    "choices_json": [
+      "Jesus explains that his death is the necessary path to fruitful life for many",
+      "Jesus says dying ends his mission before it can reach beyond Judea",
+      "Jesus warns the disciples not to bury seed during feast season",
+      "Jesus compares himself to Lazarus only to separate their stories completely as the chapter continues to unfold"
+    ],
+    "correct_answer": "Jesus explains that his death is the necessary path to fruitful life for many",
+    "explanation": "The image of the grain of wheat links death with much fruit (John 12:24)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 4,
+    "prompt": "Why does the Father's voice from heaven matter so much in John 12?",
+    "choices_json": [
+      "It publicly confirms the Father's glorifying purpose and is given for the crowd's sake",
+      "It corrects Jesus after he speaks too strongly about his coming death as the chapter continues to unfold",
+      "It replaces the need for any further signs before the people",
+      "It tells Philip to bring the Greeks into the inner room at once"
+    ],
+    "correct_answer": "It publicly confirms the Father's glorifying purpose and is given for the crowd's sake",
+    "explanation": "The voice answers Jesus' prayer and Jesus says it came for the crowd's sake (John 12:28-30)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 4,
+    "prompt": "What does Jesus mean in context when he says the prince of this world will be cast out?",
+    "choices_json": [
+      "John presents the lifting up of Jesus as the moment when the world's ruler is judged",
+      "John says the prince of this world will rule longer once Jesus leaves as the chapter continues to unfold",
+      "John limits the judgment to the Bethany dinner and not the cross",
+      "John connects the ruler's downfall to Lazarus returning to the tomb"
+    ],
+    "correct_answer": "John presents the lifting up of Jesus as the moment when the world's ruler is judged",
+    "explanation": "Jesus joins the judgment of this world and the casting out of its ruler to his being lifted up (John 12:31-33)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 4,
+    "prompt": "How do the Isaiah quotations shape the meaning of unbelief at the end of Jesus' public ministry?",
+    "choices_json": [
+      "They show that persistent unbelief after many signs fits the scriptural pattern John names",
+      "They prove the signs were too small to justify faith in Jesus",
+      "They mean Jesus spoke only for Isaiah's generation and not his own",
+      "They transfer blame from unbelief to the Greeks who wanted to see Jesus as the chapter continues to unfold"
+    ],
+    "correct_answer": "They show that persistent unbelief after many signs fits the scriptural pattern John names",
+    "explanation": "John says the people's unbelief fulfills Isaiah's words about blinded eyes and hardened hearts (John 12:37-41)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 4,
+    "prompt": "What tension does John expose by mentioning rulers who believed but would not confess Jesus openly?",
+    "choices_json": [
+      "The rulers' silence exposes how love of human praise can choke public confession",
+      "The rulers' silence shows they have become the chapter's most faithful witnesses",
+      "The rulers stay hidden because Jesus asked them not to believe yet",
+      "The rulers stay hidden so they can help Judas guard the money box"
+    ],
+    "correct_answer": "The rulers' silence exposes how love of human praise can choke public confession",
+    "explanation": "John says they loved the praise of men more than the praise of God (John 12:42-43)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 5,
+    "prompt": "How does John 12 bind glory and death together in Jesus' public teaching?",
+    "choices_json": [
+      "In John 12, glory is not delayed until after death; the hour of glorification arrives through the death Jesus is about to face",
+      "In John 12, glory belongs only to the crowd's praise while death belongs to Judas alone as the chapter continues to unfold",
+      "In John 12, glory replaces the cross because the Greeks have come to believe",
+      "In John 12, glory means Jesus can avoid suffering if the rulers stay silent"
+    ],
+    "correct_answer": "In John 12, glory is not delayed until after death; the hour of glorification arrives through the death Jesus is about to face",
+    "explanation": "Jesus announces his hour of glorification and immediately explains it through death, fruit, and being lifted up (John 12:23-24, 32-33)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 5,
+    "prompt": "How does the supper at Bethany help set up both the triumphal entry and the hostility that follows in John 12?",
+    "choices_json": [
+      "The witness around raised Lazarus helps explain both the crowd's welcome and the leaders' intensified hostility",
+      "The Bethany supper separates Lazarus from the Jerusalem story so the two scenes do not interact as the chapter continues to unfold",
+      "The Bethany supper proves the crowd gathered only because of the feast calendar",
+      "The Bethany supper matters mainly because it provides food for pilgrims coming from Galilee"
+    ],
+    "correct_answer": "The witness around raised Lazarus helps explain both the crowd's welcome and the leaders' intensified hostility",
+    "explanation": "People come to see Jesus and Lazarus, the crowd testifies about the sign, and the priests react against Lazarus as well (John 12:9-11, 17-19)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 5,
+    "prompt": "What is the force of the contrast between Mary's costly act and Judas's objection in John 12?",
+    "choices_json": [
+      "Mary's costly act discerns Jesus' burial, while Judas hides greed behind a pious-sounding objection",
+      "Mary and Judas both understand the burial symbolism, but Mary speaks first",
+      "Mary acts emotionally, while Judas offers the chapter's clearest model of discipleship as the chapter continues to unfold",
+      "Mary and Judas are contrasted mainly to show different hometowns in Judea"
+    ],
+    "correct_answer": "Mary's costly act discerns Jesus' burial, while Judas hides greed behind a pious-sounding objection",
+    "explanation": "Jesus interprets Mary's act in light of burial, and John interprets Judas's words in light of theft (John 12:3-8)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 5,
+    "prompt": "How do the 'light' sayings near the end of John 12 reshape the meaning of the crowd's earlier excitement?",
+    "choices_json": [
+      "The chapter moves from public enthusiasm to an urgent demand for belief while the light is still present",
+      "The light sayings explain why the crowd should keep waving branches after dark as the chapter continues to unfold",
+      "The light sayings shift attention away from Jesus and back to John the Baptist",
+      "The light sayings teach that secrecy is the best form of faith in Jerusalem"
+    ],
+    "correct_answer": "The chapter moves from public enthusiasm to an urgent demand for belief while the light is still present",
+    "explanation": "After the public welcome, Jesus presses the crowd to walk and believe while the light is with them (John 12:35-36)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 5,
+    "prompt": "When Jesus says, 'He who sees me sees him who sent me,' what christological claim is John 12 making?",
+    "choices_json": [
+      "Jesus claims that seeing him is a true encounter with the Father who sent him",
+      "Jesus means the crowd should imagine the Father instead of listening to his words",
+      "Jesus limits the Father's revelation to the rulers who already believe secretly",
+      "Jesus says the Father can be seen only after Lazarus appears beside him again"
+    ],
+    "correct_answer": "Jesus claims that seeing him is a true encounter with the Father who sent him",
+    "explanation": "Jesus ties belief in himself to belief in the One who sent him and says seeing him means seeing the Sender (John 12:44-45)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 5,
+    "prompt": "Why does John's note that Jesus 'departed and hid himself from them' matter at this point in the chapter?",
+    "choices_json": [
+      "His withdrawal gives John 12 the feel of a closing public appeal rejected by many",
+      "His withdrawal shows he no longer intends to return to Jerusalem for Passover as the chapter continues to unfold",
+      "His withdrawal proves the Greeks never actually reached Philip in the crowd",
+      "His withdrawal is simply a practical pause so Judas can buy food"
+    ],
+    "correct_answer": "His withdrawal gives John 12 the feel of a closing public appeal rejected by many",
+    "explanation": "Jesus gives a final light appeal, departs, and John then reflects on the unbelief that followed many signs (John 12:35-37)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 12,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus' statement that the Father's commandment is eternal life summarize the close of John 12?",
+    "choices_json": [
+      "The chapter ends by grounding Jesus' final public words in the Father's life-giving command rather than in his own initiative",
+      "The chapter ends by saying eternal life comes through crowd acclaim and public enthusiasm as the chapter continues to unfold",
+      "The chapter ends by reducing Jesus' words to echoes of Isaiah alone",
+      "The chapter ends by separating the Father's command from the offer of salvation"
+    ],
+    "correct_answer": "The chapter ends by grounding Jesus' final public words in the Father's life-giving command rather than in his own initiative",
+    "explanation": "Jesus says the Father gave him what to say and that the Father's commandment is eternal life (John 12:49-50)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 1,
+    "prompt": "In John 13:1, how does John say Jesus loved his own who were in the world?",
+    "choices_json": [
+      "To the end",
+      "For a little while",
+      "Until supper ended",
+      "Until Judas left the room"
+    ],
+    "correct_answer": "To the end",
+    "explanation": "John says Jesus loved his own 'to the end' (John 13:1)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus wrap around his waist before washing the disciples' feet?",
+    "choices_json": [
+      "A towel",
+      "A belt",
+      "A cloak",
+      "A rope"
+    ],
+    "correct_answer": "A towel",
+    "explanation": "Jesus took a towel and wrapped it around his waist (John 13:4)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 1,
+    "prompt": "Into what did Jesus pour water before he began washing feet?",
+    "choices_json": [
+      "A basin",
+      "A wine jar",
+      "A stone cup",
+      "A money box"
+    ],
+    "correct_answer": "A basin",
+    "explanation": "He poured water into the basin before washing the disciples' feet (John 13:5)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 1,
+    "prompt": "Which disciple first objected when Jesus came to wash his feet?",
+    "choices_json": [
+      "Simon Peter",
+      "Andrew",
+      "Philip",
+      "Thomas"
+    ],
+    "correct_answer": "Simon Peter",
+    "explanation": "Jesus came to Simon Peter, who objected to having his feet washed (John 13:6-8)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 1,
+    "prompt": "To whom did Jesus give the dipped piece of bread?",
+    "choices_json": [
+      "Judas Iscariot",
+      "Simon Peter",
+      "The disciple whom Jesus loved",
+      "Andrew"
+    ],
+    "correct_answer": "Judas Iscariot",
+    "explanation": "Jesus gives the dipped morsel to Judas, the son of Simon Iscariot (John 13:26)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 1,
+    "prompt": "What time note does John add after Judas went out?",
+    "choices_json": [
+      "It was night",
+      "It was dawn",
+      "It was the sixth hour",
+      "It was almost Passover noon"
+    ],
+    "correct_answer": "It was night",
+    "explanation": "John adds the brief line, 'It was night' (John 13:30)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 1,
+    "prompt": "According to Jesus, what will let everyone know that the disciples belong to him?",
+    "choices_json": [
+      "Love for one another",
+      "Skill in teaching",
+      "Many signs",
+      "Keeping the money box"
+    ],
+    "correct_answer": "Love for one another",
+    "explanation": "Jesus says everyone will know they are his disciples if they have love for one another (John 13:35)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 2,
+    "prompt": "What did Jesus lay aside before he took the towel?",
+    "choices_json": [
+      "His outer garments",
+      "His sandals",
+      "The bread",
+      "The money box"
+    ],
+    "correct_answer": "His outer garments",
+    "explanation": "John says Jesus laid aside his outer garments before taking the towel (John 13:4)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 2,
+    "prompt": "After Jesus said, 'If I don't wash you, you have no part with me,' how did Peter respond?",
+    "choices_json": [
+      "Lord, not my feet only, but also my hands and my head!",
+      "Lord, show us the Father, and that will be enough.",
+      "Lord, to whom would we go? You have the words of eternal life.",
+      "Lord, why can't I follow you now? I will lay down my life for you."
+    ],
+    "correct_answer": "Lord, not my feet only, but also my hands and my head!",
+    "explanation": "Peter asks for more than his feet to be washed after hearing Jesus' warning (John 13:8-9)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 2,
+    "prompt": "Which two titles did Jesus say the disciples used correctly for him?",
+    "choices_json": [
+      "Teacher and Lord",
+      "Prophet and King",
+      "Rabbi and Messiah",
+      "Master and Witness"
+    ],
+    "correct_answer": "Teacher and Lord",
+    "explanation": "Jesus says, 'You call me, Teacher and Lord. You say so correctly' (John 13:13)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 2,
+    "prompt": "What Scripture line does Jesus quote about the betrayer?",
+    "choices_json": [
+      "He who eats bread with me has lifted up his heel against me",
+      "Zeal for your house will eat me up",
+      "I have both glorified it, and will glorify it again",
+      "They shall all be taught by God"
+    ],
+    "correct_answer": "He who eats bread with me has lifted up his heel against me",
+    "explanation": "Jesus quotes this line as the Scripture fulfilled in the betrayal (John 13:18)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 2,
+    "prompt": "Who signaled to the disciple leaning against Jesus to ask who the betrayer was?",
+    "choices_json": [
+      "Simon Peter",
+      "Philip",
+      "Thomas",
+      "Judas Iscariot"
+    ],
+    "correct_answer": "Simon Peter",
+    "explanation": "Simon Peter beckons to the beloved disciple to ask Jesus whom he means (John 13:23-24)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 2,
+    "prompt": "What did some at the table think Jesus meant when he told Judas, 'What you do, do quickly'?",
+    "choices_json": [
+      "Buy what things we need for the feast, or give something to the poor",
+      "Go wake Lazarus and bring him into the city before morning",
+      "Tell Caiaphas that the supper has begun and the table is ready",
+      "Take the basin and begin washing the disciples' feet in turn"
+    ],
+    "correct_answer": "Buy what things we need for the feast, or give something to the poor",
+    "explanation": "Because Judas had the money box, some thought Jesus was sending him on a practical errand (John 13:28-29)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 2,
+    "prompt": "How many times did Jesus say Peter would deny him before the rooster crowed?",
+    "choices_json": [
+      "Three times",
+      "Two times",
+      "Seven times",
+      "Once before dawn"
+    ],
+    "correct_answer": "Three times",
+    "explanation": "Jesus says the rooster will not crow until Peter has denied him three times (John 13:38)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus tell Peter, 'You don't know what I am doing now, but you will understand later'?",
+    "choices_json": [
+      "The meaning of the foot washing would become clear after Jesus' larger work unfolded",
+      "Peter needed time to fetch more water before the lesson could continue",
+      "Jesus meant Peter would understand as soon as Judas returned from the market",
+      "The other disciples already understood, but Peter alone had missed the instructions as the chapter continues to unfold"
+    ],
+    "correct_answer": "The meaning of the foot washing would become clear after Jesus' larger work unfolded",
+    "explanation": "Jesus points Peter beyond the immediate act toward later understanding (John 13:7)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 3,
+    "prompt": "What does Jesus mean when he says, 'You are clean, but not all of you'?",
+    "choices_json": [
+      "The outward washing did not erase the inner disloyalty of the betrayer in their midst",
+      "Only Peter and John had bathed before supper that evening",
+      "Jesus thought the road from Bethany had made every disciple unclean again as the chapter continues to unfold",
+      "The statement referred to the poor people Judas was supposed to help"
+    ],
+    "correct_answer": "The outward washing did not erase the inner disloyalty of the betrayer in their midst",
+    "explanation": "John explains that Jesus knew who would betray him and therefore said not all were clean (John 13:10-11)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 3,
+    "prompt": "How does Jesus' saying about the servant not being greater than his lord apply to the foot washing scene?",
+    "choices_json": [
+      "If their Lord stooped to wash feet, his followers cannot treat humble service as beneath them",
+      "Because servants are lower, only Judas should have washed the others' feet as the chapter continues to unfold",
+      "The saying means disciples must never question anything said at supper",
+      "The saying excuses Peter from loving others once Jesus departs"
+    ],
+    "correct_answer": "If their Lord stooped to wash feet, his followers cannot treat humble service as beneath them",
+    "explanation": "Jesus connects his example of washing their feet with what they ought to do for one another (John 13:14-16)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus say he is telling the disciples about the betrayal before it happens?",
+    "choices_json": [
+      "So when it happened, the disciples could recognize that Jesus knew it in advance",
+      "So the crowd outside would hear and arrest Judas before he left",
+      "So Peter could challenge the betrayer before the bread was dipped as the chapter continues to unfold",
+      "So the meal would end before any teaching about love began"
+    ],
+    "correct_answer": "So when it happened, the disciples could recognize that Jesus knew it in advance",
+    "explanation": "Jesus says he is telling them beforehand so that when it happens they may believe that he is he (John 13:19)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 3,
+    "prompt": "Why did nobody at the table understand what Jesus really meant when he spoke to Judas?",
+    "choices_json": [
+      "They assumed ordinary money-box errands, not betrayal, because Judas handled the funds",
+      "They thought Jesus was speaking in Greek so only Philip could understand him as the chapter continues to unfold",
+      "They assumed Jesus was telling Judas to wash his feet privately",
+      "They knew the betrayal plan already and pretended to be confused"
+    ],
+    "correct_answer": "They assumed ordinary money-box errands, not betrayal, because Judas handled the funds",
+    "explanation": "John says some thought Judas was being sent to buy what they needed for the feast or to give to the poor (John 13:28-29)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 3,
+    "prompt": "What effect does John's note 'It was night' have after Judas goes out?",
+    "choices_json": [
+      "The time note matches Judas's departure with the chapter's movement into darkness",
+      "The time note proves the supper happened after the rooster had crowed as the chapter continues to unfold",
+      "The time note explains why the disciples lit lamps around the basin",
+      "The time note shows Jerusalem's gates had already been closed by Rome"
+    ],
+    "correct_answer": "The time note matches Judas's departure with the chapter's movement into darkness",
+    "explanation": "John's short time note follows Judas's exit and deepens the scene's sense of darkness (John 13:30)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 3,
+    "prompt": "How does Peter's promise, 'I will lay down my life for you,' set up Jesus' next words?",
+    "choices_json": [
+      "His bold promise shows sincere devotion, but also how little he grasps his coming weakness",
+      "His bold promise convinces Jesus that the betrayal warning no longer matters",
+      "His bold promise leads the other disciples to follow Judas out into the night as the chapter continues to unfold",
+      "His bold promise fulfills the Scripture about the lifted heel"
+    ],
+    "correct_answer": "His bold promise shows sincere devotion, but also how little he grasps his coming weakness",
+    "explanation": "Peter's confident pledge is immediately answered by Jesus' prediction of three denials (John 13:37-38)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 4,
+    "prompt": "What does the foot washing reveal when John first says Jesus knew he came from God and was going to God?",
+    "choices_json": [
+      "The one who knows he came from God and is going to God chooses the servant's task of washing feet",
+      "Jesus washes feet because he doubts the Father's authority over what is coming as the chapter continues to unfold",
+      "Jesus serves only because the disciples refuse to call him Teacher and Lord",
+      "Jesus uses the basin to show the meal has replaced every other sign in John"
+    ],
+    "correct_answer": "The one who knows he came from God and is going to God chooses the servant's task of washing feet",
+    "explanation": "John places Jesus' full awareness of his origin and destiny right before the act of humble service (John 13:3-5)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 4,
+    "prompt": "How does the exchange with Peter give the washing a deeper meaning than simple hospitality?",
+    "choices_json": [
+      "The exchange shows that sharing in Jesus requires the cleansing he gives, not self-directed worthiness",
+      "The exchange shows Peter can secure fellowship by demanding extra washing",
+      "The exchange reduces cleansing to a lesson about table manners before Passover as the chapter continues to unfold",
+      "The exchange means Judas will later be restored simply by touching the basin"
+    ],
+    "correct_answer": "The exchange shows that sharing in Jesus requires the cleansing he gives, not self-directed worthiness",
+    "explanation": "Jesus says Peter has no part with him unless Jesus washes him (John 13:8)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 4,
+    "prompt": "Why is the shared bread so important in the betrayal scene of John 13?",
+    "choices_json": [
+      "The shared morsel turns betrayal into a violation of intimate fellowship as well as a fulfillment of Scripture",
+      "The bread is mentioned only to explain why the disciples were physically hungry",
+      "The dipped bread cancels Judas's betrayal by offering him a final place of honor as the chapter continues to unfold",
+      "The bread scene matters because it identifies which disciple brought the meal"
+    ],
+    "correct_answer": "The shared morsel turns betrayal into a violation of intimate fellowship as well as a fulfillment of Scripture",
+    "explanation": "Jesus joins the Scripture about shared bread with the dipped morsel he gives to Judas (John 13:18, 26)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 4,
+    "prompt": "Why does Jesus say, 'Now the Son of Man has been glorified,' right after Judas leaves?",
+    "choices_json": [
+      "Once Judas goes out, the chain of events leading to the cross is fully in motion",
+      "Judas's departure ends the danger, so Jesus can speak only of success now as the chapter continues to unfold",
+      "The glorification begins because Peter has agreed to follow immediately",
+      "Jesus says this because the supper room has finally grown quiet"
+    ],
+    "correct_answer": "Once Judas goes out, the chain of events leading to the cross is fully in motion",
+    "explanation": "Judas's departure is followed immediately by Jesus' words about glorification (John 13:30-32)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 4,
+    "prompt": "Why is the command to love one another called 'new' in this chapter?",
+    "choices_json": [
+      "It is measured by Jesus' own enacted love, not merely by the older command to love in general",
+      "It is new because love had never been mentioned anywhere in Scripture before that night as the chapter continues to unfold",
+      "It is new because only the beloved disciple is expected to obey it fully",
+      "It is new because Jesus replaces service with affection alone"
+    ],
+    "correct_answer": "It is measured by Jesus' own enacted love, not merely by the older command to love in general",
+    "explanation": "Jesus says, 'Just as I have loved you, you also love one another' (John 13:34)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 4,
+    "prompt": "How does love function in John 13:35?",
+    "choices_json": [
+      "Their mutual love will function as the visible sign by which the world recognizes Jesus' disciples",
+      "Their mutual love will keep them from ever facing suffering or opposition as the chapter continues to unfold",
+      "Their mutual love will excuse Peter from the denial Jesus predicts",
+      "Their mutual love will remain hidden so only the inner circle can see it"
+    ],
+    "correct_answer": "Their mutual love will function as the visible sign by which the world recognizes Jesus' disciples",
+    "explanation": "Jesus says everyone will know they are his disciples if they have love for one another (John 13:35)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 4,
+    "prompt": "What does Peter's coming denial contribute to the theology of John 13?",
+    "choices_json": [
+      "Peter's coming failure shows that even fervent disciples need Jesus' mercy more than their own resolve",
+      "Peter's coming failure shows the foot washing had no meaning at all",
+      "Peter's coming failure shows Judas was actually the more faithful disciple",
+      "Peter's coming failure shows love for one another cannot survive after supper as the chapter continues to unfold"
+    ],
+    "correct_answer": "Peter's coming failure shows that even fervent disciples need Jesus' mercy more than their own resolve",
+    "explanation": "The chapter moves from Jesus' service and command to Peter's confident promise and predicted failure (John 13:34-38)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 5,
+    "prompt": "How does John 13 join Jesus' majesty and humility in the foot washing scene?",
+    "choices_json": [
+      "John 13 joins supreme status and deep humility by showing the one from God stoop to wash feet",
+      "John 13 separates majesty from humility by reserving service for lesser disciples as the chapter continues to unfold",
+      "John 13 treats humility as a temporary disguise that hides Jesus' true identity",
+      "John 13 suggests Jesus lays aside authority when he lays aside his garments"
+    ],
+    "correct_answer": "John 13 joins supreme status and deep humility by showing the one from God stoop to wash feet",
+    "explanation": "John emphasizes Jesus' origin and destiny and then narrates his act of washing their feet (John 13:3-5)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 5,
+    "prompt": "What is the literary force of the chapter moving from basin to bread to rooster?",
+    "choices_json": [
+      "The chapter moves from enacted service to exposed betrayal to foretold failure, compressing the whole crisis around Jesus",
+      "The chapter moves from meal preparation to travel plans to Peter's triumphant faithfulness",
+      "The chapter moves from a cleansing ritual to a public sign outside the house to Caiaphas's speech as the chapter continues to unfold",
+      "The chapter moves from Judas's repentance to Peter's leadership to the crowd's confession"
+    ],
+    "correct_answer": "The chapter moves from enacted service to exposed betrayal to foretold failure, compressing the whole crisis around Jesus",
+    "explanation": "The basin scene, Judas's morsel, and the rooster prediction structure the chapter's tightening drama (John 13:5, 26-30, 38)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus' saying, 'He who receives whomever I send, receives me,' expand the foot washing teaching?",
+    "choices_json": [
+      "Jesus ties the servant-shaped mission of the disciples to receiving him and the Father who sent him",
+      "Jesus narrows the sending theme so that only Judas remains responsible for it",
+      "Jesus means the disciples should receive only those who can explain the betrayal as the chapter continues to unfold",
+      "Jesus breaks the link between his own mission and the Father's mission"
+    ],
+    "correct_answer": "Jesus ties the servant-shaped mission of the disciples to receiving him and the Father who sent him",
+    "explanation": "After teaching by example, Jesus links those he sends to himself and to the One who sent him (John 13:16, 20)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 5,
+    "prompt": "Why does John's brief note that Judas went out into the night matter so much theologically?",
+    "choices_json": [
+      "John uses the night note as a moral and theological shadow over the betrayal now underway",
+      "John uses the night note only because moonlight mattered for buying feast supplies as the chapter continues to unfold",
+      "John uses the night note to prove the beloved disciple misheard Jesus at supper",
+      "John uses the night note to explain why Peter could not follow Jesus yet"
+    ],
+    "correct_answer": "John uses the night note as a moral and theological shadow over the betrayal now underway",
+    "explanation": "The terse line 'It was night' deepens Judas's departure beyond clock time alone (John 13:30)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 5,
+    "prompt": "How does the new commandment interpret the earlier foot washing in John 13?",
+    "choices_json": [
+      "The command turns the foot washing into a pattern of self-giving love, not a one-time dramatic gesture",
+      "The command limits the foot washing to formal worship services after Passover",
+      "The command replaces the foot washing with a stricter rule about silence at meals as the chapter continues to unfold",
+      "The command means only leaders should serve while others watch"
+    ],
+    "correct_answer": "The command turns the foot washing into a pattern of self-giving love, not a one-time dramatic gesture",
+    "explanation": "Jesus first says he has given them an example, then commands them to love as he has loved them (John 13:15, 34)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 5,
+    "prompt": "What does Jesus' prediction of Peter's denial show about his knowledge and mercy in this chapter?",
+    "choices_json": [
+      "Jesus fully knows Peter's coming denial and still continues speaking to him as his own",
+      "Jesus learns about Peter's weakness only after Judas leaves the room",
+      "Jesus predicts Peter's denial in order to dismiss him from discipleship immediately as the chapter continues to unfold",
+      "Jesus turns from Peter because only the beloved disciple can follow faithfully"
+    ],
+    "correct_answer": "Jesus fully knows Peter's coming denial and still continues speaking to him as his own",
+    "explanation": "Jesus answers Peter directly and foretells the denial without casting him off in the moment (John 13:36-38)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 13,
+    "difficulty_stage": 5,
+    "prompt": "How does John 13 prepare the reader for the farewell teaching that follows?",
+    "choices_json": [
+      "By naming departure, betrayal, love, and denial, John 13 builds the emotional and theological setting for the teaching that follows",
+      "By naming departure, betrayal, love, and denial, John 13 concludes the story so no further teaching is needed as the chapter continues to unfold",
+      "By naming departure, betrayal, love, and denial, John 13 returns the Gospel to the public signs in Galilee",
+      "By naming departure, betrayal, love, and denial, John 13 shifts the focus entirely back to Lazarus"
+    ],
+    "correct_answer": "By naming departure, betrayal, love, and denial, John 13 builds the emotional and theological setting for the teaching that follows",
+    "explanation": "The chapter ends with Jesus speaking of departure and Peter's denial, immediately before the longer farewell discourse begins (John 13:33-38)."
+  }
+]

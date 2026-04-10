@@ -19,7 +19,7 @@ _ID_CHUNK = 500
 _ENTITY_INSERT_BATCH = 250
 _MENTION_INSERT_BATCH = 500
 _ENTITY_PAGE_SIZE = 1000
-_PLACE_ENTITY_INDEXING_ENABLED = False
+_PLACE_ENTITY_INDEXING_ENABLED = True
 _PLACE_LIKE_NAMES = frozenset(
     {
         "israel",
@@ -199,6 +199,21 @@ def _is_valid_place_label(label: str) -> bool:
     return True
 
 
+def _profile_api_fields(ent: dict[str, Any]) -> dict[str, Any]:
+    """Map summary_entities.profile JSONB to optional overview / timeline for the API."""
+    prof = ent.get("profile")
+    if not isinstance(prof, dict):
+        return {}
+    out: dict[str, Any] = {}
+    ov = prof.get("overview")
+    if isinstance(ov, str) and ov.strip():
+        out["overview"] = ov
+    tl = prof.get("timeline")
+    if isinstance(tl, dict):
+        out["timeline"] = tl
+    return out
+
+
 def _dedupe_keep_order(labels: list[str]) -> list[str]:
     out: list[str] = []
     seen: set[str] = set()
@@ -217,7 +232,7 @@ def _dedupe_keep_order(labels: list[str]) -> list[str]:
 def _build_place_fallback_index() -> tuple[list[dict[str, Any]], dict[str, dict[str, Any]]]:
     """
     Build place entities directly from summary commentary text.
-    This is used while DB constraint only allows theme/person in summary_entities.
+    Used when _PLACE_ENTITY_INDEXING_ENABLED is False (no place rows in summary_entities).
     """
     db = get_supabase()
     rows: list[dict[str, Any]] = []
@@ -663,9 +678,13 @@ def get_summary_entity_page(kind: str, slug: str) -> dict[str, Any] | None:
         _, index = _build_place_fallback_index()
         return index.get(slug)
     db = get_supabase()
+    # One round trip: entity row + mentions + joined commentaries (filter summary source in Python).
     eres = (
         db.table("summary_entities")
-        .select("id, kind, slug, label")
+        .select(
+            "id, kind, slug, label, profile, "
+            "commentary_entity_mentions(commentary_id, commentaries(id, book_number, chapter, source))"
+        )
         .eq("kind", kind)
         .eq("slug", slug)
         .limit(1)
@@ -675,38 +694,25 @@ def get_summary_entity_page(kind: str, slug: str) -> dict[str, Any] | None:
     if not ents:
         return None
     ent = ents[0]
-    eid = int(ent["id"])
 
-    mres = (
-        db.table("commentary_entity_mentions")
-        .select("commentary_id")
-        .eq("entity_id", eid)
-        .execute()
-    )
-    cids = [int(r["commentary_id"]) for r in (mres.data or [])]
-    if not cids:
-        return {
-            "kind": ent["kind"],
-            "slug": ent["slug"],
-            "label": ent["label"],
-            "references": [],
-        }
-
-    cres = (
-        db.table("commentaries")
-        .select("id, book_number, chapter, source")
-        .in_("id", cids)
-        .eq("source", SUMMARY_SOURCE)
-        .execute()
-    )
     references: list[dict[str, Any]] = []
-    for c in cres.data or []:
-        bn = int(c["book_number"])
-        ch = int(c["chapter"])
+    seen_cid: set[int] = set()
+    for mrow in ent.get("commentary_entity_mentions") or []:
+        comm = mrow.get("commentaries")
+        if not isinstance(comm, dict):
+            continue
+        if str(comm.get("source") or "") != SUMMARY_SOURCE:
+            continue
+        cid = int(comm["id"])
+        if cid in seen_cid:
+            continue
+        seen_cid.add(cid)
+        bn = int(comm["book_number"])
+        ch = int(comm["chapter"])
         book = BOOK_BY_NUMBER.get(bn)
         references.append(
             {
-                "commentary_id": int(c["id"]),
+                "commentary_id": cid,
                 "book_number": bn,
                 "book_name": book["name"] if book else str(bn),
                 "chapter": ch,
@@ -719,4 +725,5 @@ def get_summary_entity_page(kind: str, slug: str) -> dict[str, Any] | None:
         "slug": ent["slug"],
         "label": ent["label"],
         "references": references,
+        **_profile_api_fields(ent),
     }

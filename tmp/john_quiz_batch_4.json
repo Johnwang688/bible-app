@@ -1,0 +1,2452 @@
+[
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 1,
+    "prompt": "What is eternal life in John 17?",
+    "correct_answer": "Knowing the only true God and Jesus Christ whom he sent",
+    "explanation": "Jesus defines eternal life as knowing the only true God and Jesus Christ whom he sent.",
+    "choices_json": [
+      "glory",
+      "life (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "Political victory through force",
+      "sacrifice"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 1,
+    "prompt": "Who did Jesus say he was praying for?",
+    "correct_answer": "Those the Father had given him",
+    "explanation": "Jesus says he is praying for those the Father gave him.",
+    "choices_json": [
+      "Thomas",
+      "the crowd",
+      "the world",
+      "the Jews (a common guess, but not what John says here)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus ask the Father to do for the Son?",
+    "correct_answer": "Glorify him",
+    "explanation": "Jesus asks the Father to glorify the Son so the Son can glorify the Father.",
+    "choices_json": [
+      "Do you love me?",
+      "The Father's word",
+      "I am ascending to my Father and your Father",
+      "A request for more signs before believing"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 1,
+    "prompt": "What had Jesus given the disciples from the Father?",
+    "correct_answer": "The Father's word",
+    "explanation": "Jesus says he gave them the Father's word.",
+    "choices_json": [
+      "The evil one",
+      "The son of destruction",
+      "The Father's love",
+      "Private comfort apart from witness"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus say the disciples are not of?",
+    "correct_answer": "The world",
+    "explanation": "Jesus says his disciples are not of the world.",
+    "choices_json": [
+      "the apostles",
+      "the soldiers",
+      "Malchus",
+      "A public claim of victory over Rome"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus ask the Father to keep them from?",
+    "correct_answer": "The evil one",
+    "explanation": "Jesus asks the Father to keep them from the evil one.",
+    "choices_json": [
+      "Pilate (a common guess, but not what John says here)",
+      "the maid",
+      "A warning to stay away from the cross",
+      "the soldiers"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus pray believers would be?",
+    "correct_answer": "One",
+    "explanation": "Jesus prays that believers would be one.",
+    "choices_json": [
+      "mission",
+      "new creation",
+      "A warning to stay away from the cross",
+      "glory"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 2,
+    "prompt": "What did Jesus say he had finished on earth?",
+    "correct_answer": "The work the Father gave him",
+    "explanation": "Jesus says he finished the work the Father gave him to do.",
+    "choices_json": [
+      "The evil one",
+      "His glory (a common guess, but not what John says here)",
+      "A command to defend Jesus with force",
+      "Do not cling to me"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 2,
+    "prompt": "What did Jesus say none of the disciples had been lost except?",
+    "correct_answer": "The son of destruction",
+    "explanation": "Jesus names Judas as the one lost in fulfillment of Scripture.",
+    "choices_json": [
+      "those the Father had given him",
+      "A promise to keep the disciples hidden",
+      "the crowd",
+      "the evil one"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 2,
+    "prompt": "What did Jesus ask the Father to keep the disciples in?",
+    "correct_answer": "His name",
+    "explanation": "Jesus asks the Father to keep them in his name.",
+    "choices_json": [
+      "A confession of unbelief",
+      "The world",
+      "They drew back and fell to the ground",
+      "Glorify him"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 2,
+    "prompt": "What did Jesus say the Father's word is?",
+    "correct_answer": "Truth",
+    "explanation": "Jesus says the Father's word is truth.",
+    "choices_json": [
+      "fruitfulness",
+      "A promise to keep the disciples hidden",
+      "mission",
+      "resurrection faith"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 2,
+    "prompt": "What did Jesus sanctify himself for?",
+    "correct_answer": "Their sake",
+    "explanation": "Jesus sanctifies himself for the disciples' sake.",
+    "choices_json": [
+      "Feed and tend them",
+      "Not this man, but Barabbas",
+      "Peace be with you",
+      "A confession of unbelief"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 2,
+    "prompt": "What did Jesus want believers to see?",
+    "correct_answer": "His glory",
+    "explanation": "Jesus wants believers to see his glory.",
+    "choices_json": [
+      "A command to defend Jesus with force",
+      "It is the Lord",
+      "Feed and tend them",
+      "Glorify him"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 2,
+    "prompt": "What did Jesus ask would be in them?",
+    "correct_answer": "The Father's love",
+    "explanation": "Jesus wants the Father's love to be in them.",
+    "choices_json": [
+      "The evil one",
+      "Put it into its sheath",
+      "Receive the Holy Spirit",
+      "A confession of unbelief"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus pray for the disciples rather than the world in this section?",
+    "correct_answer": "Because he is setting apart those given to him for mission",
+    "explanation": "Jesus is interceding for the people the Father has given him.",
+    "choices_json": [
+      "eternal life",
+      "unity (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "Private comfort apart from witness",
+      "sanctification"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus say they are not of the world?",
+    "correct_answer": "Their allegiance now belongs to God, not to the world's order",
+    "explanation": "Jesus marks them out as belonging to God.",
+    "choices_json": [
+      "substitution",
+      "life (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "unity",
+      "A visible sign without faith"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus ask to be glorified after finishing the work?",
+    "correct_answer": "Because the cross and return to the Father complete his mission",
+    "explanation": "The glory he seeks is tied to completing the Father's work.",
+    "choices_json": [
+      "restoration",
+      "truth (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "Knowing God through the Son in relationship",
+      "substitution"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 3,
+    "prompt": "Why does unity matter in this prayer?",
+    "correct_answer": "So the world may believe the Father sent Jesus",
+    "explanation": "Jesus connects unity with public witness.",
+    "choices_json": [
+      "peace (a common guess, but not what John says here)",
+      "testimony",
+      "restoration",
+      "A visible sign without faith"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 3,
+    "prompt": "Why is Judas called the son of destruction?",
+    "correct_answer": "His betrayal fulfills Scripture and ends in judgment",
+    "explanation": "Jesus points to Scripture even in betrayal.",
+    "choices_json": [
+      "restoration (a common guess, but not what John says here)",
+      "resurrection faith",
+      "A visible sign without faith",
+      "substitution"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus ask the Father to keep them from the evil one?",
+    "correct_answer": "Because the disciples will face spiritual opposition after Jesus leaves",
+    "explanation": "The prayer asks for protection in a hostile world.",
+    "choices_json": [
+      "life (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "Private comfort apart from witness",
+      "fruitfulness",
+      "testimony"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus pray for future believers too?",
+    "correct_answer": "The apostles' witness will extend faith beyond the first disciples",
+    "explanation": "Jesus includes later believers in his prayer.",
+    "choices_json": [
+      "resurrection faith",
+      "Private comfort apart from witness",
+      "sacrifice",
+      "kingdom (a common guess, but not what John says here) (does not match John's wording in this verse)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 4,
+    "prompt": "What theme ties the whole chapter together?",
+    "correct_answer": "Glory, truth, and unity in God's mission",
+    "explanation": "John 17 gathers these themes into one prayer.",
+    "choices_json": [
+      "kingdom",
+      "restoration",
+      "glory (a common guess, but not what John says here)",
+      "External religion without inner change"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 4,
+    "prompt": "What does Jesus say eternal life fundamentally is?",
+    "correct_answer": "Knowing God in relationship, not merely living forever",
+    "explanation": "John defines eternal life relationally.",
+    "choices_json": [
+      "Political victory through force",
+      "eternal life",
+      "adoption",
+      "unity (a common guess, but not what John says here) (does not match John's wording in this verse)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 4,
+    "prompt": "Why is sanctification in truth central here?",
+    "correct_answer": "The disciples must be set apart by God's word for the mission",
+    "explanation": "Jesus links holiness to truth.",
+    "choices_json": [
+      "sanctification",
+      "innocence",
+      "kingdom (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "Political victory through force"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 4,
+    "prompt": "What does the prayer reveal about Jesus's role?",
+    "correct_answer": "He intercedes as the faithful Son and mediator",
+    "explanation": "Jesus prays with priestly authority.",
+    "choices_json": [
+      "unity (a common guess, but not what John says here)",
+      "Political victory through force",
+      "kingdom",
+      "eternal life"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 4,
+    "prompt": "Why is unity such a strong theological sign in the chapter?",
+    "correct_answer": "It reflects the Father-Son unity and witnesses to the world",
+    "explanation": "The church's unity bears witness to God.",
+    "choices_json": [
+      "restoration",
+      "shepherding",
+      "Private comfort apart from witness",
+      "testimony (a common guess, but not what John says here) (does not match John's wording in this verse)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 4,
+    "prompt": "What does Jesus's desire for believers to see his glory show?",
+    "correct_answer": "His shared divine glory and his goal of fellowship with them",
+    "explanation": "Jesus wants believers with him in glory.",
+    "choices_json": [
+      "External religion without inner change",
+      "restoration",
+      "unity (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "substitution"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 4,
+    "prompt": "What does the chapter imply about the church's holiness?",
+    "correct_answer": "It comes from God's truth and love, not withdrawal from mission",
+    "explanation": "Believers are consecrated for witness.",
+    "choices_json": [
+      "Political victory through force",
+      "sanctification",
+      "adoption (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "new creation"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 5,
+    "prompt": "Why is John 17 often called the High Priestly Prayer?",
+    "correct_answer": "Jesus intercedes for his people and consecrates them before the passion",
+    "explanation": "The chapter functions like priestly intercession.",
+    "choices_json": [
+      "glory (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "truth",
+      "innocence",
+      "External religion without inner change"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 5,
+    "prompt": "How does this chapter connect mission and revelation?",
+    "correct_answer": "The Son reveals the Father, and the apostles extend that revelation through witness",
+    "explanation": "The prayer sends the church into the world.",
+    "choices_json": [
+      "A visible sign without faith",
+      "truth",
+      "love (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "witness"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 5,
+    "prompt": "What does the pre-world glory language teach about Jesus?",
+    "correct_answer": "He existed with the Father before creation and shares divine glory",
+    "explanation": "John presents Jesus as preexistent and divine.",
+    "choices_json": [
+      "fruitfulness",
+      "kingdom (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "Private comfort apart from witness",
+      "eternal life"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 5,
+    "prompt": "How does the chapter frame Christian identity?",
+    "correct_answer": "Believers belong to God while living in the world as protected witnesses",
+    "explanation": "The church is distinct yet sent.",
+    "choices_json": [
+      "sacrifice",
+      "peace (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "new creation",
+      "External religion without inner change"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 5,
+    "prompt": "What canonical theme does \"they may all be one\" reinforce?",
+    "correct_answer": "The unity of God's people as a sign of divine sending",
+    "explanation": "Unity becomes a mark of true discipleship.",
+    "choices_json": [
+      "obedience (a common guess, but not what John says here)",
+      "sacrifice",
+      "fruitfulness",
+      "Private comfort apart from witness"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 5,
+    "prompt": "How does the definition of eternal life shape John's whole Gospel?",
+    "correct_answer": "It makes faith relational, centered on knowing the Father through the Son",
+    "explanation": "John's Gospel is about knowing God through Jesus.",
+    "choices_json": [
+      "shepherding (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "forgiveness",
+      "A visible sign without faith",
+      "fruitfulness"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 17,
+    "difficulty_stage": 5,
+    "prompt": "Why is the son-of-destruction note important?",
+    "correct_answer": "It shows Scripture's fulfillment even in betrayal and loss",
+    "explanation": "John frames Judas's role as fulfillment.",
+    "choices_json": [
+      "fruitfulness",
+      "A visible sign without faith",
+      "eternal life",
+      "fulfillment (a common guess, but not what John says here) (does not match John's wording in this verse)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 1,
+    "prompt": "Where did Jesus go after praying?",
+    "correct_answer": "Across the Kidron to a garden",
+    "explanation": "Jesus crosses the Kidron to the garden where he is arrested.",
+    "choices_json": [
+      "the Sea of Tiberias",
+      "the Praetorium",
+      "the courtyard fire",
+      "the cross (a common guess, but not what John says here)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 1,
+    "prompt": "Who led the arresting party to Jesus?",
+    "correct_answer": "Judas",
+    "explanation": "Judas brings the soldiers and officers to Jesus.",
+    "choices_json": [
+      "Barabbas",
+      "the soldiers",
+      "Annas",
+      "the Jews"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus answer when they asked whom he sought?",
+    "correct_answer": "I am he",
+    "explanation": "Jesus identifies himself to the arresting party.",
+    "choices_json": [
+      "His glory",
+      "Follow me",
+      "Rabboni",
+      "A request for more signs before believing"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 1,
+    "prompt": "Who cut off the servant's ear?",
+    "correct_answer": "Simon Peter",
+    "explanation": "Peter strikes the servant with a sword.",
+    "choices_json": [
+      "the soldiers",
+      "Caiaphas",
+      "Malchus",
+      "Judas"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 1,
+    "prompt": "Before whom was Jesus first taken?",
+    "correct_answer": "Annas",
+    "explanation": "Jesus is brought first to Annas.",
+    "choices_json": [
+      "Nicodemus",
+      "Judas",
+      "the apostles",
+      "Political victory through force"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 1,
+    "prompt": "How many times did Peter deny Jesus?",
+    "correct_answer": "Three times",
+    "explanation": "Peter denies Jesus three times.",
+    "choices_json": [
+      "Two others",
+      "Once",
+      "153",
+      "Eight days later"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 1,
+    "prompt": "Whom did the crowd choose instead of Jesus?",
+    "correct_answer": "Barabbas",
+    "explanation": "The crowd asks for Barabbas rather than Jesus.",
+    "choices_json": [
+      "Mary Magdalene",
+      "Nicodemus",
+      "Malchus",
+      "the crowd"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 2,
+    "prompt": "What happened when Jesus said \"I am he\"?",
+    "correct_answer": "They drew back and fell to the ground",
+    "explanation": "Jesus's self-identification makes the arresting party recoil.",
+    "choices_json": [
+      "A command to defend Jesus with force",
+      "Receive the Holy Spirit",
+      "His name (a common guess, but not what John says here)",
+      "I found no basis for a charge"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 2,
+    "prompt": "What did Jesus tell Peter to do with the sword?",
+    "correct_answer": "Put it into its sheath",
+    "explanation": "Jesus stops Peter's violent defense.",
+    "choices_json": [
+      "The son of destruction",
+      "A request for more signs before believing",
+      "I found no basis for a charge",
+      "It is not of this world"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 2,
+    "prompt": "Which servant had his ear cut off?",
+    "correct_answer": "Malchus",
+    "explanation": "John names the servant whose ear Peter cut off.",
+    "choices_json": [
+      "Pilate",
+      "Annas",
+      "Barabbas",
+      "the chief priests"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 2,
+    "prompt": "Where was Peter warming himself while denying Jesus?",
+    "correct_answer": "By a charcoal fire in the courtyard",
+    "explanation": "Peter denies Jesus while warming himself by the fire.",
+    "choices_json": [
+      "the courtyard",
+      "the Kidron (a common guess, but not what John says here)",
+      "Golgotha",
+      "the Sea of Tiberias"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 2,
+    "prompt": "What did Pilate say about Jesus's case?",
+    "correct_answer": "He found no basis for a charge",
+    "explanation": "Pilate cannot find a valid accusation against Jesus.",
+    "choices_json": [
+      "A public claim of victory over Rome",
+      "Come and eat breakfast",
+      "The world (a common guess, but not what John says here)",
+      "Glorify him"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 2,
+    "prompt": "What did Jesus say about his kingdom?",
+    "correct_answer": "It is not of this world",
+    "explanation": "Jesus defines his kingdom as not coming from this world.",
+    "choices_json": [
+      "A public claim of victory over Rome",
+      "Not this man, but Barabbas",
+      "Glorify him",
+      "Rabboni"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 2,
+    "prompt": "What did Pilate ask Jesus near the end of the chapter?",
+    "correct_answer": "What is truth?",
+    "explanation": "Pilate's question follows Jesus's testimony to truth.",
+    "choices_json": [
+      "The Father's love",
+      "A command to defend Jesus with force",
+      "Peace be with you",
+      "Not this man, but Barabbas"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 3,
+    "prompt": "Why do the soldiers fall back when Jesus identifies himself?",
+    "correct_answer": "His self-identification shows authority, not weakness",
+    "explanation": "Jesus remains in control even in arrest.",
+    "choices_json": [
+      "truth",
+      "obedience",
+      "life (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "A visible sign without faith"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus let the disciples go?",
+    "correct_answer": "He protects them and keeps his earlier words",
+    "explanation": "Jesus shields his followers from arrest.",
+    "choices_json": [
+      "A visible sign without faith",
+      "eternal life",
+      "resurrection faith",
+      "mission (a common guess, but not what John says here)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus refuse the sword defense?",
+    "correct_answer": "His arrest is part of the cup the Father has given him",
+    "explanation": "Jesus submits to the Father's will.",
+    "choices_json": [
+      "truth (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "Political victory through force",
+      "glory",
+      "adoption"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 3,
+    "prompt": "Why does John note the charcoal fire?",
+    "correct_answer": "It intensifies the scene of Peter's repeated denial",
+    "explanation": "The fire quietly frames Peter's failure.",
+    "choices_json": [
+      "A visible sign without faith",
+      "the net (a common guess, but not what John says here)",
+      "the face cloth",
+      "water jars"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 3,
+    "prompt": "Why do the Jews avoid entering Pilate's headquarters?",
+    "correct_answer": "They do not want to become ceremonially unclean before Passover",
+    "explanation": "John highlights the irony of ritual concern and injustice.",
+    "choices_json": [
+      "eternal life",
+      "love (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "A hidden moral code",
+      "glory"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 3,
+    "prompt": "Why does Pilate move between accusation and uncertainty?",
+    "correct_answer": "He cannot find a charge, yet he yields to pressure",
+    "explanation": "Pilate is trapped between truth and politics.",
+    "choices_json": [
+      "kingdom (a common guess, but not what John says here)",
+      "A hidden moral code",
+      "fulfillment",
+      "testimony"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 3,
+    "prompt": "Why does Barabbas replace Jesus?",
+    "correct_answer": "The crowd chooses a rebel over the innocent Messiah",
+    "explanation": "The substitution reveals the crowd's blindness.",
+    "choices_json": [
+      "sacrifice",
+      "A hidden moral code",
+      "eternal life",
+      "unity (a common guess, but not what John says here) (does not match John's wording in this verse)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 4,
+    "prompt": "What theme is strongest in chapter 18?",
+    "correct_answer": "Jesus's voluntary surrender, not defeat",
+    "explanation": "The arrest is shown as willing obedience.",
+    "choices_json": [
+      "fulfillment",
+      "Political victory through force",
+      "innocence (a common guess, but not what John says here)",
+      "restoration"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 4,
+    "prompt": "How does the chapter contrast earthly and heavenly power?",
+    "correct_answer": "Roman force and priestly politics stand against Jesus's true kingship",
+    "explanation": "John contrasts worldly power with Jesus's authority.",
+    "choices_json": [
+      "witness (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "new creation",
+      "shepherding",
+      "Political victory through force"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 4,
+    "prompt": "What does Peter's denial show about discipleship?",
+    "correct_answer": "Human loyalty fails without courage and grace",
+    "explanation": "Peter's failure exposes human weakness.",
+    "choices_json": [
+      "obedience (a common guess, but not what John says here)",
+      "new creation",
+      "A visible sign without faith",
+      "resurrection faith"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 4,
+    "prompt": "What does Jesus mean by saying his kingdom is not of this world?",
+    "correct_answer": "His rule does not arise from worldly power structures",
+    "explanation": "Jesus's kingship is real but not political in the usual sense.",
+    "choices_json": [
+      "eternal life",
+      "love (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "Private comfort apart from witness",
+      "witness"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 4,
+    "prompt": "What irony runs through the chapter?",
+    "correct_answer": "The true king is arrested while the guilty man goes free",
+    "explanation": "John uses substitution and irony together.",
+    "choices_json": [
+      "unity (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "A hidden moral code",
+      "mission",
+      "new creation"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 4,
+    "prompt": "How does Pilate's question about truth function thematically?",
+    "correct_answer": "It exposes the world's inability to recognize the truth standing before it",
+    "explanation": "Truth is present, but ignored.",
+    "choices_json": [
+      "obedience",
+      "unity (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "A hidden moral code",
+      "eternal life"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 4,
+    "prompt": "Why is Jesus's answer to the soldiers important theologically?",
+    "correct_answer": "It reveals the divine \"I am\" identity under arrest",
+    "explanation": "Jesus's identity shines through the arrest scene.",
+    "choices_json": [
+      "kingdom (a common guess, but not what John says here)",
+      "eternal life",
+      "Knowing God through the Son in relationship",
+      "witness"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 5,
+    "prompt": "How does this chapter prepare for the cross in John?",
+    "correct_answer": "It shows that Jesus goes willingly to the hour set by the Father",
+    "explanation": "The arrest is the path to the cross.",
+    "choices_json": [
+      "Knowing God through the Son in relationship",
+      "truth (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "unity",
+      "restoration"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 5,
+    "prompt": "Why is the Barabbas exchange so important in John's theology?",
+    "correct_answer": "It dramatizes substitution: the guilty are freed while the innocent is condemned",
+    "explanation": "John frames the passion as substitutionary irony.",
+    "choices_json": [
+      "unity",
+      "A visible sign without faith",
+      "shepherding",
+      "love (a common guess, but not what John says here) (does not match John's wording in this verse)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 5,
+    "prompt": "How does the trial scene develop John's truth theme?",
+    "correct_answer": "Truth is present in Jesus, but human power refuses to receive it",
+    "explanation": "The chapter becomes a test of truth.",
+    "choices_json": [
+      "A hidden moral code",
+      "fruitfulness",
+      "peace (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "testimony"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 5,
+    "prompt": "What does the repeated \"I am he\" echo?",
+    "correct_answer": "It echoes God's self-revelation and Jesus's divine identity",
+    "explanation": "The arrest scene carries divine overtones.",
+    "choices_json": [
+      "forgiveness (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "A hidden moral code",
+      "eternal life",
+      "resurrection faith"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 5,
+    "prompt": "Why is Peter's failure included so fully?",
+    "correct_answer": "It shows the weakness of the disciples and the need for restoration later",
+    "explanation": "Peter's denial sets up later grace.",
+    "choices_json": [
+      "adoption",
+      "Private comfort apart from witness",
+      "shepherding",
+      "peace (a common guess, but not what John says here) (does not match John's wording in this verse)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus's kingship in this chapter differ from ordinary kingship?",
+    "correct_answer": "It is rooted in truth and witness, not coercion",
+    "explanation": "John redefines what a king is.",
+    "choices_json": [
+      "External religion without inner change",
+      "glory (a common guess, but not what John says here)",
+      "fulfillment",
+      "eternal life"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 18,
+    "difficulty_stage": 5,
+    "prompt": "What literary effect does the courtyard scene have?",
+    "correct_answer": "It places denial and interrogation side by side to heighten the irony of Jesus's innocence",
+    "explanation": "The narrative juxtaposes fear and truth.",
+    "choices_json": [
+      "External religion without inner change",
+      "sacrifice",
+      "adoption (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "innocence"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 1,
+    "prompt": "What did the soldiers place on Jesus's head?",
+    "correct_answer": "A crown of thorns",
+    "explanation": "The soldiers mock Jesus with a crown of thorns.",
+    "choices_json": [
+      "vinegar (a common guess, but not what John says here)",
+      "a purple robe",
+      "A command to defend Jesus with force",
+      "A promise to keep the disciples hidden"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 1,
+    "prompt": "What robe did they put on him?",
+    "correct_answer": "A purple robe",
+    "explanation": "The soldiers dress Jesus in a purple robe.",
+    "choices_json": [
+      "Political victory through force",
+      "A hidden moral code",
+      "the net",
+      "spices (a common guess, but not what John says here)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 1,
+    "prompt": "What title did Pilate write on the cross?",
+    "correct_answer": "Jesus of Nazareth, the King of the Jews",
+    "explanation": "Pilate puts this title on the cross.",
+    "choices_json": [
+      "The evil one (a common guess, but not what John says here)",
+      "Cast the net on the right side",
+      "Knowing God through the Son in relationship",
+      "My Lord and my God"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 1,
+    "prompt": "Where was Jesus crucified?",
+    "correct_answer": "Golgotha",
+    "explanation": "Jesus is crucified at Golgotha.",
+    "choices_json": [
+      "the Kidron",
+      "the tomb",
+      "the Praetorium",
+      "the locked room"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus say to his mother?",
+    "correct_answer": "Woman, behold your son",
+    "explanation": "Jesus entrusts his mother to the beloved disciple.",
+    "choices_json": [
+      "It is the Lord",
+      "Glorify him",
+      "I am ascending to my Father and your Father",
+      "A warning to stay away from the cross"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus say just before dying?",
+    "correct_answer": "It is finished",
+    "explanation": "Jesus declares the work complete.",
+    "choices_json": [
+      "What is truth?",
+      "Do not cling to me",
+      "I thirst",
+      "A request for more signs before believing"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 1,
+    "prompt": "Who asked Pilate for Jesus's body?",
+    "correct_answer": "Joseph of Arimathaea",
+    "explanation": "Joseph asks for the body after the crucifixion.",
+    "choices_json": [
+      "the crowd",
+      "Mary Magdalene",
+      "Barabbas",
+      "Judas (a common guess, but not what John says here)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 2,
+    "prompt": "What did Pilate say after bringing Jesus out?",
+    "correct_answer": "Behold, the man!",
+    "explanation": "Pilate presents Jesus to the crowd.",
+    "choices_json": [
+      "I thirst",
+      "Come and eat breakfast",
+      "Not this man, but Barabbas",
+      "A confession of unbelief"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 2,
+    "prompt": "In how many languages was the cross title written?",
+    "correct_answer": "Three",
+    "explanation": "The title was written in Hebrew, Latin, and Greek.",
+    "choices_json": [
+      "One",
+      "Once",
+      "Three languages",
+      "Twice"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 2,
+    "prompt": "What did Jesus say when he knew all was now completed?",
+    "correct_answer": "I thirst",
+    "explanation": "Jesus speaks the words of thirst before receiving vinegar.",
+    "choices_json": [
+      "The world",
+      "My Lord and my God",
+      "Woman, behold your son",
+      "A confession of unbelief"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 2,
+    "prompt": "Who stood near the cross with Jesus's mother?",
+    "correct_answer": "The beloved disciple",
+    "explanation": "The beloved disciple is present with the women.",
+    "choices_json": [
+      "the Jews",
+      "Pilate (a common guess, but not what John says here)",
+      "the crowd",
+      "Caiaphas"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 2,
+    "prompt": "What did the soldiers do to the other men crucified with Jesus?",
+    "correct_answer": "Broke their legs",
+    "explanation": "The soldiers break the legs of the other two.",
+    "choices_json": [
+      "They drew back and fell to the ground",
+      "Jesus of Nazareth, the King of the Jews",
+      "A command to defend Jesus with force",
+      "His name"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 2,
+    "prompt": "What happened when Jesus's side was pierced?",
+    "correct_answer": "Blood and water came out",
+    "explanation": "The pierced side yields blood and water.",
+    "choices_json": [
+      "A public claim of victory over Rome",
+      "the face cloth",
+      "fish (a common guess, but not what John says here)",
+      "water jars"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 2,
+    "prompt": "Who helped bury Jesus with spices?",
+    "correct_answer": "Nicodemus",
+    "explanation": "Nicodemus joins Joseph in burial.",
+    "choices_json": [
+      "the beloved disciple",
+      "Jesus (a common guess, but not what John says here)",
+      "Caiaphas",
+      "the Jews"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 3,
+    "prompt": "Why does Pilate keep showing Jesus to the crowd?",
+    "correct_answer": "He hopes the spectacle will release him, but the crowd keeps demanding death",
+    "explanation": "Pilate tries, and fails, to release Jesus.",
+    "choices_json": [
+      "new creation",
+      "obedience",
+      "A hidden moral code",
+      "mission (a common guess, but not what John says here) (does not match John's wording in this verse)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus entrust his mother to the beloved disciple?",
+    "correct_answer": "He is forming a new family around himself even in death",
+    "explanation": "The cross creates a new household of faith.",
+    "choices_json": [
+      "restoration",
+      "Knowing God through the Son in relationship",
+      "adoption (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "sacrifice"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 3,
+    "prompt": "Why is Jesus's thirst significant?",
+    "correct_answer": "It fulfills Scripture and emphasizes his real suffering",
+    "explanation": "John connects the word with fulfillment.",
+    "choices_json": [
+      "truth (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "resurrection faith",
+      "fulfillment",
+      "A hidden moral code"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 3,
+    "prompt": "Why were Jesus's legs not broken?",
+    "correct_answer": "Scripture and Passover imagery identify him as the preserved sacrifice",
+    "explanation": "John sees the unbroken bones as fulfillment.",
+    "choices_json": [
+      "peace (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "witness",
+      "Private comfort apart from witness",
+      "truth"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 3,
+    "prompt": "Why is the pierced side important?",
+    "correct_answer": "It marks the death as real and becomes a sign of witness",
+    "explanation": "The wound confirms death and testimony.",
+    "choices_json": [
+      "sanctification",
+      "Political victory through force",
+      "witness (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "shepherding"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 3,
+    "prompt": "Why do Joseph and Nicodemus come forward now?",
+    "correct_answer": "Jesus's death moves them from secrecy to public honor",
+    "explanation": "Their devotion becomes public at the burial.",
+    "choices_json": [
+      "glory (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "restoration",
+      "sanctification",
+      "Private comfort apart from witness"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 3,
+    "prompt": "Why was the tomb nearby important?",
+    "correct_answer": "The burial had to happen quickly before the Preparation Day ended",
+    "explanation": "The close tomb fits the urgency of the day.",
+    "choices_json": [
+      "life (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "new creation",
+      "Private comfort apart from witness",
+      "substitution"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 4,
+    "prompt": "What theme dominates chapter 19?",
+    "correct_answer": "Glory through crucifixion",
+    "explanation": "John shows glory in Jesus's suffering.",
+    "choices_json": [
+      "A visible sign without faith",
+      "love (a common guess, but not what John says here)",
+      "substitution",
+      "mission"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 4,
+    "prompt": "How does the title on the cross function ironically?",
+    "correct_answer": "It names Jesus as king while he is being executed as one",
+    "explanation": "The sign declares what the world rejects.",
+    "choices_json": [
+      "life (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "eternal life",
+      "love",
+      "Political victory through force"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 4,
+    "prompt": "What does \"It is finished\" signal theologically?",
+    "correct_answer": "The saving work Jesus came to do is complete",
+    "explanation": "The mission reaches its goal at the cross.",
+    "choices_json": [
+      "forgiveness",
+      "kingdom (a common guess, but not what John says here)",
+      "Knowing God through the Son in relationship",
+      "mission"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 4,
+    "prompt": "How does this chapter treat Jesus's body?",
+    "correct_answer": "His body is the new temple and the place where God's work is fulfilled",
+    "explanation": "John links the body to earlier temple language.",
+    "choices_json": [
+      "love (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "substitution",
+      "External religion without inner change",
+      "kingdom"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 4,
+    "prompt": "What does the burial scene emphasize?",
+    "correct_answer": "Honor, reverence, and the certainty of Jesus's death",
+    "explanation": "The burial is careful and respectful.",
+    "choices_json": [
+      "A hidden moral code",
+      "truth (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "witness",
+      "sacrifice"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 4,
+    "prompt": "Why are the scripture fulfillments so important here?",
+    "correct_answer": "They show that the passion is not accidental but divinely ordered",
+    "explanation": "John presents the cross as fulfillment.",
+    "choices_json": [
+      "substitution",
+      "unity",
+      "life (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "Political victory through force"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 4,
+    "prompt": "How does the chapter link kingship and sacrifice?",
+    "correct_answer": "Jesus reigns by giving himself for others",
+    "explanation": "The king is revealed through self-giving.",
+    "choices_json": [
+      "A hidden moral code",
+      "substitution",
+      "sacrifice (a common guess, but not what John says here)",
+      "testimony"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 5,
+    "prompt": "How does John 19 reinterpret the cross?",
+    "correct_answer": "The cross is the place of enthronement, not defeat",
+    "explanation": "John presents crucifixion as exaltation.",
+    "choices_json": [
+      "glory (a common guess, but not what John says here)",
+      "A hidden moral code",
+      "new creation",
+      "fruitfulness"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 5,
+    "prompt": "Why is the \"King of the Jews\" inscription central to John's theology?",
+    "correct_answer": "It publicly declares the identity the world rejects",
+    "explanation": "The title makes the irony visible.",
+    "choices_json": [
+      "External religion without inner change",
+      "witness",
+      "unity (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "restoration"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 5,
+    "prompt": "How does the chapter connect Jesus to Passover?",
+    "correct_answer": "He is presented as the true Passover lamb whose bones are not broken",
+    "explanation": "John links Jesus's death to Passover fulfillment.",
+    "choices_json": [
+      "fruitfulness",
+      "glory",
+      "life (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "A visible sign without faith"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 5,
+    "prompt": "What canonical significance do Joseph and Nicodemus have here?",
+    "correct_answer": "They show that hidden disciples can become courageous witnesses",
+    "explanation": "Their burial service reveals costly loyalty.",
+    "choices_json": [
+      "Knowing God through the Son in relationship",
+      "kingdom",
+      "forgiveness",
+      "unity (a common guess, but not what John says here) (does not match John's wording in this verse)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 5,
+    "prompt": "How does the pierced side contribute to the Gospel's testimony?",
+    "correct_answer": "It gives eyewitness evidence and symbolically points to life flowing from Jesus's death",
+    "explanation": "John turns the wound into witness.",
+    "choices_json": [
+      "unity (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "kingdom",
+      "substitution",
+      "Political victory through force"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 5,
+    "prompt": "Why is the \"finished\" statement so decisive?",
+    "correct_answer": "It closes the mission Jesus received from the Father",
+    "explanation": "Jesus completes the work he was sent to do.",
+    "choices_json": [
+      "adoption",
+      "peace",
+      "A hidden moral code",
+      "love (a common guess, but not what John says here) (does not match John's wording in this verse)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 19,
+    "difficulty_stage": 5,
+    "prompt": "What literary pattern does the chapter create with the cross and the tomb?",
+    "correct_answer": "It moves from public shame to quiet burial, preparing for resurrection vindication",
+    "explanation": "The narrative shifts toward the empty tomb.",
+    "choices_json": [
+      "truth (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "sacrifice",
+      "A visible sign without faith",
+      "shepherding"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 1,
+    "prompt": "Who first found the tomb empty?",
+    "correct_answer": "Mary Magdalene",
+    "explanation": "Mary Magdalene finds the stone rolled away.",
+    "choices_json": [
+      "the maid (a common guess, but not what John says here)",
+      "the disciples",
+      "Judas",
+      "the soldiers"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 1,
+    "prompt": "What did Peter and the beloved disciple see in the tomb?",
+    "correct_answer": "Linen cloths",
+    "explanation": "The empty tomb still contains the cloths.",
+    "choices_json": [
+      "the face cloth",
+      "a basin",
+      "a charcoal fire",
+      "A promise to keep the disciples hidden"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 1,
+    "prompt": "Who called Mary by name?",
+    "correct_answer": "Jesus",
+    "explanation": "Jesus speaks Mary's name in the garden.",
+    "choices_json": [
+      "the crowd",
+      "the beloved disciple",
+      "future believers",
+      "the son of destruction"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 1,
+    "prompt": "What word did Mary say when she recognized Jesus?",
+    "correct_answer": "Rabboni",
+    "explanation": "Mary responds when she recognizes the risen Lord.",
+    "choices_json": [
+      "Political victory through force",
+      "Woman, behold your son",
+      "Behold, the man!",
+      "The Father's word"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus breathe on the disciples?",
+    "correct_answer": "The Holy Spirit",
+    "explanation": "Jesus gives the Spirit to the disciples.",
+    "choices_json": [
+      "mission (a common guess, but not what John says here)",
+      "restoration",
+      "substitution",
+      "A request for more signs before believing"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 1,
+    "prompt": "What confession did Thomas finally make?",
+    "correct_answer": "My Lord and my God",
+    "explanation": "Thomas confesses Jesus as Lord and God.",
+    "choices_json": [
+      "His name",
+      "Rabboni (a common guess, but not what John says here)",
+      "The evil one",
+      "Political victory through force"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 1,
+    "prompt": "What is the stated purpose of the book?",
+    "correct_answer": "That readers may believe Jesus is the Christ, the Son of God",
+    "explanation": "John states his purpose at the end of the chapter.",
+    "choices_json": [
+      "shepherding",
+      "eternal life",
+      "Political victory through force",
+      "life (a common guess, but not what John says here) (does not match John's wording in this verse)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 2,
+    "prompt": "What did Mary think Jesus was at first?",
+    "correct_answer": "The gardener",
+    "explanation": "Mary mistakes Jesus for the gardener.",
+    "choices_json": [
+      "A command to defend Jesus with force",
+      "Simon Peter",
+      "Pilate",
+      "those the Father had given him"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 2,
+    "prompt": "What did Jesus tell Mary not to do?",
+    "correct_answer": "Do not cling to me",
+    "explanation": "Jesus tells Mary not to hold on to him.",
+    "choices_json": [
+      "Come and eat breakfast",
+      "A request for more signs before believing",
+      "Do you love me?",
+      "Glorify him"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 2,
+    "prompt": "What message did Jesus tell Mary to bring?",
+    "correct_answer": "He is ascending to his Father and their Father",
+    "explanation": "Mary is sent to tell the brothers.",
+    "choices_json": [
+      "Feed and tend them (a common guess, but not what John says here)",
+      "The son of destruction",
+      "Woman, behold your son",
+      "A hidden moral code"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 2,
+    "prompt": "What did Jesus say to the disciples when he appeared to them?",
+    "correct_answer": "Peace be with you",
+    "explanation": "Jesus greets the disciples with peace.",
+    "choices_json": [
+      "I am ascending to my Father and your Father",
+      "The Father's word",
+      "A command to defend Jesus with force",
+      "Put it into its sheath"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 2,
+    "prompt": "What did Jesus show the disciples?",
+    "correct_answer": "His hands and his side",
+    "explanation": "Jesus shows his wounds as evidence.",
+    "choices_json": [
+      "linen cloths",
+      "A public claim of victory over Rome",
+      "spices (a common guess, but not what John says here)",
+      "the face cloth"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 2,
+    "prompt": "What did Thomas say he needed before believing?",
+    "correct_answer": "To see the nail marks and put his hand in Jesus's side",
+    "explanation": "Thomas asks for direct proof.",
+    "choices_json": [
+      "Jesus of Nazareth, the King of the Jews",
+      "A command to defend Jesus with force",
+      "Come and eat breakfast (a common guess, but not what John says here)",
+      "Woman, behold your son"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 2,
+    "prompt": "When did Jesus appear to Thomas?",
+    "correct_answer": "Eight days later",
+    "explanation": "Jesus appears again a week later.",
+    "choices_json": [
+      "One (a common guess, but not what John says here)",
+      "Three languages",
+      "The third time",
+      "Twice"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 3,
+    "prompt": "Why does Mary mistake Jesus for the gardener?",
+    "correct_answer": "She is grieving and does not yet recognize the risen Lord",
+    "explanation": "Mary's sorrow delays recognition.",
+    "choices_json": [
+      "truth (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "mission",
+      "Private comfort apart from witness",
+      "sacrifice"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 3,
+    "prompt": "Why are the disciples behind locked doors?",
+    "correct_answer": "They fear the Jews",
+    "explanation": "Fear keeps the disciples shut in.",
+    "choices_json": [
+      "eternal life",
+      "sacrifice (a common guess, but not what John says here)",
+      "forgiveness",
+      "Knowing God through the Son in relationship"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus appear through locked doors?",
+    "correct_answer": "His risen body is real but not limited by ordinary barriers",
+    "explanation": "The resurrection body is bodily and transformed.",
+    "choices_json": [
+      "unity (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "A hidden moral code",
+      "truth",
+      "resurrection faith"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus send the disciples as the Father sent him?",
+    "correct_answer": "Their mission continues his own witness to the world",
+    "explanation": "The disciples are commissioned as sent ones.",
+    "choices_json": [
+      "new creation",
+      "life (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "Private comfort apart from witness",
+      "kingdom"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus breathe the Spirit on them?",
+    "correct_answer": "He is empowering them for life and ministry",
+    "explanation": "The Spirit equips the new community.",
+    "choices_json": [
+      "innocence",
+      "fruitfulness",
+      "peace (a common guess, but not what John says here)",
+      "Knowing God through the Son in relationship"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 3,
+    "prompt": "Why does Thomas insist on touching the wounds?",
+    "correct_answer": "He wants concrete evidence after missing the first appearance",
+    "explanation": "Thomas's doubt is tied to his absence.",
+    "choices_json": [
+      "substitution",
+      "testimony",
+      "unity (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "Private comfort apart from witness"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 3,
+    "prompt": "Why does the purpose statement matter at the end?",
+    "correct_answer": "It explains how the whole Gospel is meant to produce faith and life",
+    "explanation": "John tells readers why the book exists.",
+    "choices_json": [
+      "innocence",
+      "Political victory through force",
+      "glory (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "substitution"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 4,
+    "prompt": "What theme dominates chapter 20?",
+    "correct_answer": "Belief grounded in resurrection witness",
+    "explanation": "The chapter links evidence and faith.",
+    "choices_json": [
+      "kingdom (a common guess, but not what John says here)",
+      "fulfillment",
+      "A hidden moral code",
+      "substitution"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 4,
+    "prompt": "What does Jesus's greeting of peace signal?",
+    "correct_answer": "Reconciliation and a commissioned community",
+    "explanation": "Peace frames the resurrected mission.",
+    "choices_json": [
+      "life (a common guess, but not what John says here)",
+      "fruitfulness",
+      "restoration",
+      "Political victory through force"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 4,
+    "prompt": "Why is the Spirit gift important here?",
+    "correct_answer": "It marks the disciples as the beginning of the new-creation mission",
+    "explanation": "The breathing scene echoes creation.",
+    "choices_json": [
+      "innocence (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "Political victory through force",
+      "shepherding",
+      "obedience"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 4,
+    "prompt": "What does Thomas's confession show about Jesus?",
+    "correct_answer": "He is confessed not just as Messiah but as Lord and God",
+    "explanation": "Thomas's words reach a high Christological point.",
+    "choices_json": [
+      "obedience",
+      "A hidden moral code",
+      "glory (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "shepherding"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 4,
+    "prompt": "How does Mary's encounter with Jesus model faith?",
+    "correct_answer": "Faith comes by hearing his voice and receiving his commission",
+    "explanation": "Recognition leads to witness.",
+    "choices_json": [
+      "restoration",
+      "External religion without inner change",
+      "unity (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "shepherding"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 4,
+    "prompt": "What does Jesus mean by blessed are those who have not seen?",
+    "correct_answer": "Later believers can trust apostolic testimony without physical sight",
+    "explanation": "John blesses future readers.",
+    "choices_json": [
+      "testimony",
+      "mission (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "A hidden moral code",
+      "restoration"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 4,
+    "prompt": "Why does John emphasize the signs and written testimony?",
+    "correct_answer": "The Gospel is written testimony meant to lead to believing faith",
+    "explanation": "Signs become Scripture for belief.",
+    "choices_json": [
+      "restoration",
+      "Private comfort apart from witness",
+      "fruitfulness",
+      "unity (a common guess, but not what John says here) (does not match John's wording in this verse)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 5,
+    "prompt": "How does John 20 function as the Gospel's climax?",
+    "correct_answer": "It presents resurrection, commission, confession, and the purpose for belief",
+    "explanation": "The chapter gathers the Gospel's major aims.",
+    "choices_json": [
+      "External religion without inner change",
+      "obedience (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "resurrection faith",
+      "fruitfulness"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 5,
+    "prompt": "Why is Thomas's confession theologically weighty?",
+    "correct_answer": "It is one of the clearest direct confessions of Jesus's deity in the New Testament",
+    "explanation": "Thomas names Jesus as Lord and God.",
+    "choices_json": [
+      "restoration",
+      "unity (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "A hidden moral code",
+      "sacrifice"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 5,
+    "prompt": "How does the chapter connect resurrection and mission?",
+    "correct_answer": "Jesus rises and immediately sends his people to continue his work",
+    "explanation": "Resurrection leads straight to commission.",
+    "choices_json": [
+      "restoration",
+      "A visible sign without faith",
+      "kingdom (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "resurrection faith"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 5,
+    "prompt": "Why is \"my Father and your Father\" significant?",
+    "correct_answer": "It joins the Son's relationship to the Father with the believers' adopted relationship",
+    "explanation": "Believers are drawn into sonship by grace.",
+    "choices_json": [
+      "obedience",
+      "kingdom",
+      "Private comfort apart from witness",
+      "love (a common guess, but not what John says here) (does not match John's wording in this verse)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 5,
+    "prompt": "How does the empty tomb evidence balance with faith?",
+    "correct_answer": "The cloths and eyewitnesses support belief, but the story still calls for trust",
+    "explanation": "John combines testimony and faith.",
+    "choices_json": [
+      "unity (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "Knowing God through the Son in relationship",
+      "witness",
+      "eternal life"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 5,
+    "prompt": "What literary role does Mary play here?",
+    "correct_answer": "She becomes the first resurrection witness and messenger",
+    "explanation": "Mary is the first sent witness.",
+    "choices_json": [
+      "A visible sign without faith",
+      "obedience",
+      "adoption (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "substitution"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 20,
+    "difficulty_stage": 5,
+    "prompt": "Why does John place the purpose statement at the end of this chapter?",
+    "correct_answer": "It turns the resurrection appearances into an explicit invitation to believe",
+    "explanation": "The Gospel's aim is stated plainly.",
+    "choices_json": [
+      "A visible sign without faith",
+      "sacrifice",
+      "life (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "forgiveness"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 1,
+    "prompt": "By what sea did Jesus appear to the disciples?",
+    "correct_answer": "Sea of Tiberias",
+    "explanation": "Jesus appears by the Sea of Tiberias.",
+    "choices_json": [
+      "the locked room",
+      "the shore",
+      "Golgotha (a common guess, but not what John says here)",
+      "the right side"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 1,
+    "prompt": "How many fish were caught in the net?",
+    "correct_answer": "153",
+    "explanation": "The catch is specifically counted.",
+    "choices_json": [
+      "Once",
+      "Two others",
+      "Twice",
+      "The third time"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 1,
+    "prompt": "What meal did Jesus prepare for them?",
+    "correct_answer": "Breakfast",
+    "explanation": "Jesus invites them to breakfast on the shore.",
+    "choices_json": [
+      "vinegar",
+      "a crown of thorns",
+      "the face cloth",
+      "Private comfort apart from witness"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 1,
+    "prompt": "How many times did Jesus ask Peter if he loved him?",
+    "correct_answer": "Three times",
+    "explanation": "Jesus asks Peter three times.",
+    "choices_json": [
+      "Three languages",
+      "153",
+      "The third time",
+      "Once"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus tell Peter to do with the sheep?",
+    "correct_answer": "Feed and tend them",
+    "explanation": "Jesus gives Peter pastoral responsibility.",
+    "choices_json": [
+      "Do not cling to me",
+      "It is the Lord",
+      "The work the Father gave him",
+      "A command to defend Jesus with force"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 1,
+    "prompt": "Which disciple's future did Peter ask about?",
+    "correct_answer": "The beloved disciple",
+    "explanation": "Peter asks about the beloved disciple.",
+    "choices_json": [
+      "the evil one (a common guess, but not what John says here)",
+      "Joseph of Arimathaea",
+      "Nicodemus",
+      "the officers"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus tell Peter to do at the end?",
+    "correct_answer": "Follow me",
+    "explanation": "Jesus ends the exchange with a call to follow.",
+    "choices_json": [
+      "Peace be with you",
+      "They drew back and fell to the ground",
+      "A confession of unbelief",
+      "Jesus of Nazareth, the King of the Jews"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 2,
+    "prompt": "On which side of the boat did Jesus tell them to cast the net?",
+    "correct_answer": "The right side",
+    "explanation": "The disciples obey Jesus's instruction.",
+    "choices_json": [
+      "the courtyard",
+      "the Praetorium",
+      "the Kidron",
+      "the locked room"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 2,
+    "prompt": "What kind of fire was on the shore?",
+    "correct_answer": "A charcoal fire",
+    "explanation": "Jesus has a charcoal fire ready on the shore.",
+    "choices_json": [
+      "linen cloths",
+      "a crown of thorns",
+      "External religion without inner change",
+      "water jars"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 2,
+    "prompt": "What did Jesus ask Peter each time before commissioning him?",
+    "correct_answer": "Do you love me?",
+    "explanation": "The love question precedes the commission.",
+    "choices_json": [
+      "Put it into its sheath",
+      "Receive the Holy Spirit",
+      "A warning to stay away from the cross",
+      "Cast the net on the right side"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 2,
+    "prompt": "What did Jesus say would happen to Peter in old age?",
+    "correct_answer": "He would be led where he did not wish to go",
+    "explanation": "Jesus predicts Peter's future death.",
+    "choices_json": [
+      "Feed and tend them",
+      "The world (a common guess, but not what John says here)",
+      "A warning to stay away from the cross",
+      "Glorify him"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 2,
+    "prompt": "What did the beloved disciple say when he first recognized Jesus?",
+    "correct_answer": "It is the Lord",
+    "explanation": "The beloved disciple identifies Jesus after the catch.",
+    "choices_json": [
+      "A command to defend Jesus with force",
+      "They drew back and fell to the ground",
+      "Glorify him",
+      "It is not of this world"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 2,
+    "prompt": "What did the net not do despite the huge catch?",
+    "correct_answer": "It did not tear",
+    "explanation": "The net holds the fish without breaking.",
+    "choices_json": [
+      "A warning to stay away from the cross",
+      "a charcoal fire",
+      "lanterns",
+      "bread (a common guess, but not what John says here)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 2,
+    "prompt": "What rumor did Jesus correct about the beloved disciple?",
+    "correct_answer": "That he would not die",
+    "explanation": "Jesus refuses comparison and rumor.",
+    "choices_json": [
+      "fulfillment",
+      "forgiveness",
+      "truth (a common guess, but not what John says here)",
+      "External religion without inner change"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 3,
+    "prompt": "Why do the disciples catch nothing until Jesus directs them?",
+    "correct_answer": "Fruitfulness comes from obeying Jesus, not from their own effort",
+    "explanation": "The catch depends on Jesus's word.",
+    "choices_json": [
+      "new creation",
+      "unity (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "eternal life",
+      "Knowing God through the Son in relationship"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus begin with food on the shore?",
+    "correct_answer": "The risen Lord is providing for his friends, not just appearing to them",
+    "explanation": "The breakfast scene shows care and abundance.",
+    "choices_json": [
+      "forgiveness",
+      "External religion without inner change",
+      "truth (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "new creation"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus ask Peter about love before giving him responsibility?",
+    "correct_answer": "Love for Jesus must underlie shepherding his people",
+    "explanation": "Peter's ministry rests on devotion.",
+    "choices_json": [
+      "unity (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "kingdom",
+      "Knowing God through the Son in relationship",
+      "fulfillment"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus use lambs and sheep language?",
+    "correct_answer": "He is commissioning Peter to care for the whole flock",
+    "explanation": "The shepherding imagery is deliberate.",
+    "choices_json": [
+      "mission",
+      "sacrifice",
+      "External religion without inner change",
+      "glory (a common guess, but not what John says here) (does not match John's wording in this verse)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 3,
+    "prompt": "Why does Peter's death prediction matter?",
+    "correct_answer": "Following Jesus may mean costly witness and martyrdom",
+    "explanation": "Discipleship includes suffering.",
+    "choices_json": [
+      "testimony",
+      "External religion without inner change",
+      "shepherding",
+      "truth (a common guess, but not what John says here) (does not match John's wording in this verse)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus rebuke Peter's comparison with the beloved disciple?",
+    "correct_answer": "Each disciple has a distinct call, and Peter must focus on his own obedience",
+    "explanation": "Jesus redirects Peter away from comparison.",
+    "choices_json": [
+      "adoption",
+      "mission",
+      "Private comfort apart from witness",
+      "love (a common guess, but not what John says here) (does not match John's wording in this verse)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 3,
+    "prompt": "Why does John say this is the third time Jesus showed himself?",
+    "correct_answer": "It underscores repeated, reliable resurrection witness",
+    "explanation": "The appearances confirm the resurrection.",
+    "choices_json": [
+      "resurrection faith",
+      "unity (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "innocence",
+      "Private comfort apart from witness"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 4,
+    "prompt": "What theme dominates chapter 21?",
+    "correct_answer": "Restoration, shepherding, and obedient discipleship",
+    "explanation": "The chapter closes the Gospel with renewal.",
+    "choices_json": [
+      "restoration",
+      "innocence",
+      "love (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "External religion without inner change"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 4,
+    "prompt": "What does the breakfast scene show about the risen Jesus?",
+    "correct_answer": "He remains bodily real and provides for his people",
+    "explanation": "The risen Lord still eats and serves.",
+    "choices_json": [
+      "unity (a common guess, but not what John says here)",
+      "sacrifice",
+      "Political victory through force",
+      "innocence"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 4,
+    "prompt": "What does the great catch of fish suggest?",
+    "correct_answer": "Jesus can give abundance and fruitfulness where human effort had failed",
+    "explanation": "Obedience to Jesus brings harvest.",
+    "choices_json": [
+      "resurrection faith",
+      "unity (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "glory",
+      "Private comfort apart from witness"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 4,
+    "prompt": "How is Peter restored in this chapter?",
+    "correct_answer": "Through repeated love questions and a renewed commission",
+    "explanation": "Peter is reinstated after denial.",
+    "choices_json": [
+      "A visible sign without faith",
+      "obedience",
+      "new creation",
+      "glory (a common guess, but not what John says here) (does not match John's wording in this verse)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 4,
+    "prompt": "What does \"follow me\" mean after the restoration?",
+    "correct_answer": "Continued discipleship even toward suffering and death",
+    "explanation": "Following Jesus remains costly.",
+    "choices_json": [
+      "Political victory through force",
+      "glory (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "resurrection faith",
+      "substitution"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 4,
+    "prompt": "How does the chapter contrast Peter and the beloved disciple?",
+    "correct_answer": "Peter is restored to shepherding while the beloved disciple remains a witness",
+    "explanation": "Different callings remain distinct.",
+    "choices_json": [
+      "Political victory through force",
+      "sacrifice",
+      "forgiveness",
+      "mission (a common guess, but not what John says here) (does not match John's wording in this verse)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 4,
+    "prompt": "Why is the written witness at the end important?",
+    "correct_answer": "It closes the Gospel by affirming trustworthy testimony",
+    "explanation": "The ending stresses the truth of the record.",
+    "choices_json": [
+      "sacrifice",
+      "new creation",
+      "Political victory through force",
+      "peace (a common guess, but not what John says here) (does not match John's wording in this verse)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 5,
+    "prompt": "How does John 21 function as an epilogue?",
+    "correct_answer": "It restores Peter, confirms witness, and gently closes the resurrection story",
+    "explanation": "The chapter acts like a final pastoral scene.",
+    "choices_json": [
+      "Political victory through force",
+      "eternal life",
+      "new creation",
+      "shepherding (a common guess, but not what John says here) (does not match John's wording in this verse)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 5,
+    "prompt": "Why is the charcoal fire detail literarily significant?",
+    "correct_answer": "It quietly links Peter's denial scene to his restoration",
+    "explanation": "The setting echoes the earlier failure.",
+    "choices_json": [
+      "a purple robe",
+      "the face cloth",
+      "A visible sign without faith",
+      "a basin (a common guess, but not what John says here) (does not match John's wording in this verse)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 5,
+    "prompt": "How does the chapter expand resurrection theology?",
+    "correct_answer": "The risen Jesus appears in ordinary life, eats, commands, and commissions",
+    "explanation": "Resurrection touches daily fellowship.",
+    "choices_json": [
+      "adoption",
+      "glory",
+      "A visible sign without faith",
+      "life (a common guess, but not what John says here) (does not match John's wording in this verse)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 5,
+    "prompt": "What canonical significance does Peter's restoration have?",
+    "correct_answer": "It reopens Peter's leadership after his denial",
+    "explanation": "Peter is reinstated for service.",
+    "choices_json": [
+      "testimony",
+      "A visible sign without faith",
+      "shepherding",
+      "witness (a common guess, but not what John says here)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 5,
+    "prompt": "Why does John preserve the rumor about the beloved disciple?",
+    "correct_answer": "To correct speculation and emphasize Jesus's sovereign freedom over each disciple's path",
+    "explanation": "The Gospel rejects rumors.",
+    "choices_json": [
+      "truth (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "A visible sign without faith",
+      "innocence",
+      "substitution"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 5,
+    "prompt": "How does the ending reinforce the authority of the Gospel?",
+    "correct_answer": "The beloved disciple's testimony is presented as true and written for readers",
+    "explanation": "John closes with witness and credibility.",
+    "choices_json": [
+      "forgiveness",
+      "innocence",
+      "A visible sign without faith",
+      "glory (a common guess, but not what John says here) (does not match John's wording in this verse)"
+    ]
+  },
+  {
+    "book_number": 43,
+    "chapter": 21,
+    "difficulty_stage": 5,
+    "prompt": "What does the chapter say about Christian vocation?",
+    "correct_answer": "Different followers have different assignments, but all are called to faithful obedience",
+    "explanation": "Discipleship is personal and obedient.",
+    "choices_json": [
+      "sacrifice",
+      "Political victory through force",
+      "truth (a common guess, but not what John says here) (does not match John's wording in this verse)",
+      "shepherding"
+    ]
+  }
+]

@@ -1,0 +1,1472 @@
+[
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 1,
+    "prompt": "In John 8, where did Jesus go before returning early to teach in the temple?",
+    "choices_json": [
+      "The Mount of Olives",
+      "the treasury",
+      "the middle of the court",
+      "the temple steps"
+    ],
+    "correct_answer": "The Mount of Olives",
+    "explanation": "John says Jesus went to the Mount of Olives before coming back to the temple early in the morning (John 8:1-2)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 1,
+    "prompt": "Who brought the woman caught in adultery to Jesus in John 8?",
+    "choices_json": [
+      "the temple guards",
+      "The scribes and the Pharisees",
+      "the Jews who had believed him",
+      "the disciples"
+    ],
+    "correct_answer": "The scribes and the Pharisees",
+    "explanation": "The scribes and Pharisees brought the woman and set her in the middle (John 8:3)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 1,
+    "prompt": "According to her accusers, what had the woman in John 8 been caught doing?",
+    "choices_json": [
+      "seeking to kill Jesus",
+      "walking in darkness",
+      "committing adultery",
+      "bearing false testimony in the treasury"
+    ],
+    "correct_answer": "committing adultery",
+    "explanation": "They said they found her in adultery, in the very act (John 8:4)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus do after they kept questioning him about the woman in John 8?",
+    "choices_json": [
+      "He left the temple court immediately.",
+      "He called for witnesses from the crowd.",
+      "He asked them to bring Abraham as proof.",
+      "He stooped down and wrote on the ground."
+    ],
+    "correct_answer": "He stooped down and wrote on the ground.",
+    "explanation": "When they tested him, Jesus stooped down and wrote on the ground with his finger (John 8:6, 8)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 1,
+    "prompt": "Which question did Jesus ask the woman after her accusers were gone?",
+    "choices_json": [
+      "Where are your accusers?",
+      "Who touched me?",
+      "Do you believe in the Son of God?",
+      "Will you also go away?"
+    ],
+    "correct_answer": "Where are your accusers?",
+    "explanation": "After the accusers left, Jesus asked, 'Where are your accusers? Did no one condemn you?' (John 8:10)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 1,
+    "prompt": "What title does Jesus use for himself when he speaks in John 8:12?",
+    "choices_json": [
+      "the shepherd of the sheep",
+      "the light of the world",
+      "the bread from heaven",
+      "the true vine"
+    ],
+    "correct_answer": "the light of the world",
+    "explanation": "Jesus says, 'I am the light of the world' (John 8:12)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 1,
+    "prompt": "Where in the temple was Jesus speaking when John says no one arrested him?",
+    "choices_json": [
+      "the Mount of Olives",
+      "Solomon's porch",
+      "the treasury",
+      "the pool of Siloam"
+    ],
+    "correct_answer": "the treasury",
+    "explanation": "John says Jesus spoke these words in the treasury as he taught in the temple (John 8:20)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 2,
+    "prompt": "What challenge did Jesus give the accusers before they left the woman in John 8?",
+    "choices_json": [
+      "If a person keeps my word, he will never see death.",
+      "If you remain in my word, the truth will make you free indeed forever.",
+      "Neither do I condemn you. Go your way.",
+      "He who is without sin among you, let him throw the first stone at her."
+    ],
+    "correct_answer": "He who is without sin among you, let him throw the first stone at her.",
+    "explanation": "Jesus answered their trap with the challenge about the sinless person casting the first stone (John 8:7)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 2,
+    "prompt": "In what order did the accusers leave after hearing Jesus in John 8?",
+    "choices_json": [
+      "one by one, beginning from the oldest",
+      "all at once after the guards arrived",
+      "youngest first, then the oldest",
+      "in groups after questioning the woman again"
+    ],
+    "correct_answer": "one by one, beginning from the oldest",
+    "explanation": "John says they went out one by one, beginning from the oldest (John 8:9)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 2,
+    "prompt": "What instruction did Jesus give the woman after saying he did not condemn her?",
+    "choices_json": [
+      "Return tomorrow with two witnesses.",
+      "Go your way. From now on, sin no more.",
+      "Offer the required sacrifice in the treasury.",
+      "Remain here until your accusers come back."
+    ],
+    "correct_answer": "Go your way. From now on, sin no more.",
+    "explanation": "Jesus told her to go and sin no more (John 8:11)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 2,
+    "prompt": "According to the law Jesus cites in John 8, the testimony of how many people is valid?",
+    "choices_json": [
+      "one righteous judge",
+      "three temple officers",
+      "two people",
+      "seven elders"
+    ],
+    "correct_answer": "two people",
+    "explanation": "Jesus says their law counts the testimony of two people as valid (John 8:17)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 2,
+    "prompt": "What did Jesus say would happen unless they believed that 'I am he'?",
+    "choices_json": [
+      "They would lose their place in the synagogue.",
+      "They would never enter the treasury again.",
+      "They would be sent back to Galilee.",
+      "They would die in their sins."
+    ],
+    "correct_answer": "They would die in their sins.",
+    "explanation": "Jesus warns that without believing, they would die in their sins (John 8:24)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 2,
+    "prompt": "What did Jesus say would mark those Jews as truly his disciples in John 8?",
+    "choices_json": [
+      "remaining in his word",
+      "guarding the treasury",
+      "tracing their line to Abraham",
+      "refusing to speak in public"
+    ],
+    "correct_answer": "remaining in his word",
+    "explanation": "Jesus says, 'If you remain in my word, then you are truly my disciples' (John 8:31)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 2,
+    "prompt": "What did Jesus say the truth would do in John 8?",
+    "choices_json": [
+      "raise the temple in three days",
+      "make you free",
+      "drive out every Roman ruler",
+      "keep you from ever suffering"
+    ],
+    "correct_answer": "make you free",
+    "explanation": "Jesus says, 'You will know the truth, and the truth will make you free' (John 8:32)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 3,
+    "prompt": "Why does John say the scribes and Pharisees brought the adultery case to Jesus?",
+    "choices_json": [
+      "They wanted him to replace Moses's command.",
+      "They were asking him to appoint new temple guards.",
+      "They were testing him so they could accuse him.",
+      "They hoped he would leave the treasury at once."
+    ],
+    "correct_answer": "They were testing him so they could accuse him.",
+    "explanation": "John explains that they said this testing him, so they might have something to accuse him of (John 8:6)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 3,
+    "prompt": "What does the accusers' departure in John 8 suggest about Jesus's challenge?",
+    "choices_json": [
+      "It proved the woman had not sinned.",
+      "It showed the law no longer mattered.",
+      "It convinced them Jesus was not from Galilee.",
+      "It exposed their own guilt."
+    ],
+    "correct_answer": "It exposed their own guilt.",
+    "explanation": "They were convicted by their conscience and left one by one (John 8:9)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus say his testimony is true even if he testifies about himself?",
+    "choices_json": [
+      "He knows where he came from and where he is going.",
+      "The people in the temple had already agreed that his testimony was valid.",
+      "He learned the ruling from the scribes.",
+      "The Romans had already certified his claims."
+    ],
+    "correct_answer": "He knows where he came from and where he is going.",
+    "explanation": "Jesus says his testimony is true because he knows where he came from and where he is going (John 8:14)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 3,
+    "prompt": "What misunderstanding appears when Jesus says, 'Where I go, you can't come'?",
+    "choices_json": [
+      "They think he plans to return to Nazareth.",
+      "They think he may kill himself.",
+      "They think he is going to the pool of Siloam.",
+      "They think he wants to join the temple guard."
+    ],
+    "correct_answer": "They think he may kill himself.",
+    "explanation": "The Jews respond by asking whether he will kill himself (John 8:21-22)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 3,
+    "prompt": "In John 8, what kind of freedom is Jesus mainly talking about when he answers Abraham's offspring?",
+    "choices_json": [
+      "freedom from Roman taxation",
+      "freedom to leave Judea for Galilee",
+      "freedom from slavery to sin",
+      "freedom from appearing in the treasury"
+    ],
+    "correct_answer": "freedom from slavery to sin",
+    "explanation": "Jesus explains that everyone who commits sin is the bondservant of sin (John 8:33-36)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus say his hearers are not acting like Abraham's true children?",
+    "choices_json": [
+      "They forgot the route to the Mount of Olives.",
+      "They never show any public proof that Abraham belongs to their family line.",
+      "They have never heard of the patriarchs.",
+      "They are seeking to kill the one who told them truth from God."
+    ],
+    "correct_answer": "They are seeking to kill the one who told them truth from God.",
+    "explanation": "Jesus says Abraham did not do what they are doing, since they seek to kill him after hearing truth from God (John 8:39-40)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 3,
+    "prompt": "What does Jesus say keeps some of his hearers from understanding his speech in John 8?",
+    "choices_json": [
+      "They cannot hear his word.",
+      "They arrived too late to hear the first half.",
+      "They are speaking the wrong language in the temple.",
+      "They are distracted by the woman in the crowd."
+    ],
+    "correct_answer": "They cannot hear his word.",
+    "explanation": "Jesus says they do not understand because they cannot hear his word (John 8:43)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 4,
+    "prompt": "In the flow of John 8, what does Jesus's claim to be 'the light of the world' stand against?",
+    "choices_json": [
+      "the shortage of wine at a wedding feast",
+      "walking in darkness and lacking the light of life",
+      "the storm on the Sea of Galilee",
+      "the rebuilding of the temple treasury"
+    ],
+    "correct_answer": "walking in darkness and lacking the light of life",
+    "explanation": "Jesus says the one who follows him will not walk in darkness but will have the light of life (John 8:12)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 4,
+    "prompt": "Why does Jesus pair his own witness with the Father's witness in the dispute over testimony?",
+    "choices_json": [
+      "to argue that every human witness in Israel has become permanently irrelevant",
+      "to replace Scripture with a new temple rule",
+      "to show his identity is confirmed within the Father-Son relationship",
+      "to deny that the law ever required witnesses"
+    ],
+    "correct_answer": "to show his identity is confirmed within the Father-Son relationship",
+    "explanation": "Jesus says both he and the Father who sent him testify about him (John 8:17-18)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 4,
+    "prompt": "How does John 8 use the language of slavery and sonship?",
+    "choices_json": [
+      "Roman rule enslaves, but the temple tax can release people.",
+      "Only physical descent from Abraham makes someone a son forever.",
+      "The chapter is mainly explaining household law in Jerusalem.",
+      "Sin enslaves, but the Son can grant lasting freedom."
+    ],
+    "correct_answer": "Sin enslaves, but the Son can grant lasting freedom.",
+    "explanation": "Jesus contrasts the bondservant with the son and says the Son makes people free indeed (John 8:34-36)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 4,
+    "prompt": "What does Jesus's argument about Abraham mainly expose in John 8?",
+    "choices_json": [
+      "Physical descent is not the same as doing Abraham's works.",
+      "Abraham never received any promise from God.",
+      "Lineage can be purchased with the right offering.",
+      "The treasury replaced the patriarchs as the center of Israel's entire story."
+    ],
+    "correct_answer": "Physical descent is not the same as doing Abraham's works.",
+    "explanation": "Jesus says if they were Abraham's children, they would do Abraham's works (John 8:39)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 4,
+    "prompt": "Why does Jesus call the devil 'a murderer from the beginning' and 'the father of lies' in this chapter?",
+    "choices_json": [
+      "He is explaining Roman military policy in Judea.",
+      "He is exposing a murderous unbelief that reflects a false spiritual father.",
+      "He is identifying Abraham as the source of every lie.",
+      "He is saying that every false statement is worse than murder by itself."
+    ],
+    "correct_answer": "He is exposing a murderous unbelief that reflects a false spiritual father.",
+    "explanation": "Jesus connects their desire to kill him and reject truth with the devil's character (John 8:44-45)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 4,
+    "prompt": "What does 'before Abraham came into existence, I AM' communicate inside John 8?",
+    "choices_json": [
+      "Jesus is only saying he is almost fifty years old.",
+      "Jesus is retracting his words about the Father.",
+      "Jesus claims existence and identity beyond Abraham's timeframe.",
+      "Jesus is claiming Abraham wrote the whole temple law by himself long ago."
+    ],
+    "correct_answer": "Jesus claims existence and identity beyond Abraham's timeframe.",
+    "explanation": "The statement places Jesus before Abraham rather than after him (John 8:57-58)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 4,
+    "prompt": "Why do the hearers pick up stones at the end of John 8?",
+    "choices_json": [
+      "They want to rebuild the treasury wall.",
+      "They are preparing to carry out the woman's sentence after the debate.",
+      "They need stones for a memorial to Abraham.",
+      "They hear Jesus's claim as a grave offense against God."
+    ],
+    "correct_answer": "They hear Jesus's claim as a grave offense against God.",
+    "explanation": "After Jesus says, 'I AM,' they take up stones to throw at him (John 8:58-59)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 5,
+    "prompt": "How do Jesus's words to the woman in John 8 hold mercy and holiness together?",
+    "choices_json": [
+      "He refuses to condemn her while still telling her to leave her sin.",
+      "He excuses adultery as a small matter.",
+      "He hands judgment back to the crowd.",
+      "He ignores her and rebukes only the scribes."
+    ],
+    "correct_answer": "He refuses to condemn her while still telling her to leave her sin.",
+    "explanation": "Jesus says, 'Neither do I condemn you,' and then, 'From now on, sin no more' (John 8:11)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 5,
+    "prompt": "What does John 8 suggest really defines a person's spiritual father?",
+    "choices_json": [
+      "the town listed on a family register",
+      "whose desires and works that person follows",
+      "the size of the household inheritance",
+      "the place where someone first learned the law"
+    ],
+    "correct_answer": "whose desires and works that person follows",
+    "explanation": "Jesus reasons from actions and desires when he contrasts Abraham, God, and the devil (John 8:39-44)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 5,
+    "prompt": "Why is 'If the Son makes you free, you will be free indeed' more than a political promise in John 8?",
+    "choices_json": [
+      "The crowd is only asking about Roman taxes.",
+      "Jesus is planning an armed revolt in the temple.",
+      "The chapter has already defined bondage as slavery to sin.",
+      "The dispute is really about gaining travel rights and public status in Galilee."
+    ],
+    "correct_answer": "The chapter has already defined bondage as slavery to sin.",
+    "explanation": "Jesus defines the deeper slavery as bondage to sin before speaking of true freedom (John 8:34-36)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 5,
+    "prompt": "How does truth function in Jesus's discourse with those who had believed him?",
+    "choices_json": [
+      "Truth is a secret reserved for the temple officers.",
+      "Truth arrives only after Abraham returns to Jerusalem.",
+      "Truth means avoiding every judgment and accusation.",
+      "Abiding in his word leads to truth that liberates."
+    ],
+    "correct_answer": "Abiding in his word leads to truth that liberates.",
+    "explanation": "Jesus connects remaining in his word, knowing the truth, and being made free (John 8:31-32)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 5,
+    "prompt": "What role does Abraham play in the chapter's final dispute?",
+    "choices_json": [
+      "He becomes a witness against hostile claims of covenant privilege.",
+      "He appears physically in the temple crowd to defend Jesus before the stones are raised.",
+      "He replaces Moses as a new lawgiver in Jerusalem.",
+      "He is blamed for bringing the woman to Jesus."
+    ],
+    "correct_answer": "He becomes a witness against hostile claims of covenant privilege.",
+    "explanation": "Jesus uses Abraham to expose the gap between claimed ancestry and actual response to God (John 8:39-40, 56)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 5,
+    "prompt": "How does the chapter connect Jesus's words and the Father's presence?",
+    "choices_json": [
+      "Jesus says the Father withdrew from him in the temple.",
+      "Jesus speaks what the Father taught him and does what pleases him.",
+      "Jesus claims the Father's witness depends on how positively the crowd responds.",
+      "Jesus separates his mission from the Father's will."
+    ],
+    "correct_answer": "Jesus speaks what the Father taught him and does what pleases him.",
+    "explanation": "Jesus says he speaks as the Father taught him and that the One who sent him is with him (John 8:28-29)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 8,
+    "difficulty_stage": 5,
+    "prompt": "What does Jesus passing through the crowd after they take up stones underscore in John 8?",
+    "choices_json": [
+      "The crowd immediately becomes his disciples.",
+      "The accusers of the woman return to defend him.",
+      "His departure still unfolds on his terms, not theirs.",
+      "The treasury officials reverse the whole dispute."
+    ],
+    "correct_answer": "His departure still unfolds on his terms, not theirs.",
+    "explanation": "John ends the chapter with Jesus hidden and going out of the temple after they take up stones (John 8:59)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 1,
+    "prompt": "In John 9, whom did Jesus see as he passed by?",
+    "choices_json": [
+      "a lame man by a pool",
+      "a Samaritan woman by a well",
+      "a ruler's son near death",
+      "a man blind from birth"
+    ],
+    "correct_answer": "a man blind from birth",
+    "explanation": "John 9 opens with Jesus seeing a man blind from birth (John 9:1)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 1,
+    "prompt": "What question did the disciples ask Jesus about the blind man in John 9?",
+    "choices_json": [
+      "Who sinned, this man or his parents?",
+      "Why was he begging at the temple gate?",
+      "Should he be taken first to the Pharisees?",
+      "Will he wash in the Jordan or in Siloam?"
+    ],
+    "correct_answer": "Who sinned, this man or his parents?",
+    "explanation": "The disciples ask whether the man or his parents sinned so that he was born blind (John 9:2)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus make before putting it on the blind man's eyes?",
+    "choices_json": [
+      "oil from the temple lamps",
+      "mud with his saliva",
+      "water from the pool of Siloam",
+      "dust mixed with wine"
+    ],
+    "correct_answer": "mud with his saliva",
+    "explanation": "Jesus spat on the ground, made mud with the saliva, and put it on the man's eyes (John 9:6)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 1,
+    "prompt": "Where did Jesus send the blind man to wash?",
+    "choices_json": [
+      "the treasury fountain",
+      "the Jordan beyond the city",
+      "the pool of Siloam",
+      "Bethany near the Mount of Olives"
+    ],
+    "correct_answer": "the pool of Siloam",
+    "explanation": "Jesus told him to wash in the pool of Siloam (John 9:7)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 1,
+    "prompt": "On what day did Jesus make the mud and open the man's eyes?",
+    "choices_json": [
+      "the Feast of Dedication",
+      "Passover morning",
+      "the day after a wedding feast",
+      "the Sabbath"
+    ],
+    "correct_answer": "the Sabbath",
+    "explanation": "John notes that it was a Sabbath when Jesus made the mud and opened his eyes (John 9:14)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 1,
+    "prompt": "To whom was the healed man first brought for questioning in John 9?",
+    "choices_json": [
+      "the Pharisees",
+      "the Sadducees",
+      "the Roman governor",
+      "the chief tax collectors"
+    ],
+    "correct_answer": "the Pharisees",
+    "explanation": "After the healing, people brought the man who had been blind to the Pharisees (John 9:13)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 1,
+    "prompt": "How did the healed man first describe Jesus to the neighbors in John 9?",
+    "choices_json": [
+      "the ruler of the synagogue",
+      "a man called Jesus",
+      "the Son of David king",
+      "a priest from Jerusalem"
+    ],
+    "correct_answer": "a man called Jesus",
+    "explanation": "He tells the neighbors, 'A man called Jesus made mud' (John 9:11)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 2,
+    "prompt": "Why did Jesus say the man in John 9 had been born blind?",
+    "choices_json": [
+      "that his parents might repent in public",
+      "that he would become a public warning to every beggar in Jerusalem",
+      "that the works of God might be revealed in him",
+      "that the Pharisees could test the Sabbath"
+    ],
+    "correct_answer": "that the works of God might be revealed in him",
+    "explanation": "Jesus says the blindness was an occasion for the works of God to be revealed in him (John 9:3)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 2,
+    "prompt": "What does John say the name Siloam means?",
+    "choices_json": [
+      "Peace",
+      "Harvest",
+      "Mercy",
+      "Sent"
+    ],
+    "correct_answer": "Sent",
+    "explanation": "John adds that Siloam means 'Sent' (John 9:7)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 2,
+    "prompt": "What were the neighbors debating about the healed man in John 9?",
+    "choices_json": [
+      "whether he was the same man who used to sit and beg",
+      "whether he should become a Pharisee",
+      "whether his parents lived near the temple",
+      "whether he had learned his story from John the Baptist's followers"
+    ],
+    "correct_answer": "whether he was the same man who used to sit and beg",
+    "explanation": "The neighbors argue over whether he is the same man who had sat and begged (John 9:8-9)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 2,
+    "prompt": "What short testimony did the healed man give when the Pharisees asked how he received sight?",
+    "choices_json": [
+      "He touched my cloak, and I rose up.",
+      "He put mud on my eyes, I washed, and I see.",
+      "He spoke a word in Cana, and I was healed there.",
+      "He told me to fast, and then my sight returned."
+    ],
+    "correct_answer": "He put mud on my eyes, I washed, and I see.",
+    "explanation": "The man summarizes the healing this way when speaking to the Pharisees (John 9:15)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 2,
+    "prompt": "What did the healed man's parents confirm to the Pharisees in John 9?",
+    "choices_json": [
+      "Jesus healed him before all the rulers.",
+      "He had never truly been blind at all.",
+      "This is our son, and he was born blind.",
+      "The neighbors made up the whole story."
+    ],
+    "correct_answer": "This is our son, and he was born blind.",
+    "explanation": "His parents confirm both his identity and that he was born blind (John 9:20)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 2,
+    "prompt": "Why were the man's parents careful not to say who healed him?",
+    "choices_json": [
+      "They were traveling beyond the Jordan that night.",
+      "They had not recognized their own son.",
+      "They wanted the Pharisees to reward them first.",
+      "They feared being put out of the synagogue."
+    ],
+    "correct_answer": "They feared being put out of the synagogue.",
+    "explanation": "John explains that they feared the Jews because confessing Jesus as Christ could bring expulsion from the synagogue (John 9:22-23)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 2,
+    "prompt": "When asked what he thought about Jesus, what title did the healed man use?",
+    "choices_json": [
+      "He is a prophet.",
+      "He is a Sabbath breaker only.",
+      "He is the gatekeeper of the sheep.",
+      "He is a Roman messenger."
+    ],
+    "correct_answer": "He is a prophet.",
+    "explanation": "When pressed, the man says of Jesus, 'He is a prophet' (John 9:17)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 3,
+    "prompt": "What does the blind man's trip to Siloam show about his response to Jesus?",
+    "choices_json": [
+      "He delayed until the Pharisees approved.",
+      "He obeyed Jesus's command and received sight.",
+      "He refused until his parents forced him.",
+      "He waited until nightfall before responding to Jesus's command at all."
+    ],
+    "correct_answer": "He obeyed Jesus's command and received sight.",
+    "explanation": "Jesus told him to go and wash, and he went, washed, and came back seeing (John 9:7)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 3,
+    "prompt": "Why were some Pharisees divided over Jesus in John 9?",
+    "choices_json": [
+      "They were arguing over who owned the pool of Siloam.",
+      "They disagreed about whether the parents lived in Jerusalem.",
+      "The Sabbath objection clashed with a sign they could not explain away.",
+      "They had not heard that the man used to beg."
+    ],
+    "correct_answer": "The Sabbath objection clashed with a sign they could not explain away.",
+    "explanation": "Some object to Jesus not keeping the Sabbath, while others ask how a sinner could do such signs (John 9:16)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 3,
+    "prompt": "What does the parents' answer reveal about the pressure surrounding Jesus in John 9?",
+    "choices_json": [
+      "Everyone in Jerusalem was already following Jesus.",
+      "The synagogue leaders had approved the miracle.",
+      "Roman officials were rewarding anyone who testified.",
+      "Fear of expulsion made open confession costly."
+    ],
+    "correct_answer": "Fear of expulsion made open confession costly.",
+    "explanation": "Their guarded answer is explained by fear of being put out of the synagogue (John 9:22-23)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 3,
+    "prompt": "How does the healed man's witness develop across John 9?",
+    "choices_json": [
+      "He moves from calling Jesus a man to calling him a prophet and then worshiping him.",
+      "He gradually backs away from his first story until he denies that anything happened.",
+      "He blames his parents and avoids Jesus entirely.",
+      "He starts by worshiping Jesus and ends by denying him."
+    ],
+    "correct_answer": "He moves from calling Jesus a man to calling him a prophet and then worshiping him.",
+    "explanation": "The chapter traces the man's growing recognition of Jesus from verse 11 to verse 38 (John 9:11, 17, 33, 38)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 3,
+    "prompt": "Why is the statement 'Though I was blind, now I see' so forceful in the hearing?",
+    "choices_json": [
+      "It proves he has mastered every prophecy in Scripture from beginning to end.",
+      "It anchors the debate in undeniable personal experience.",
+      "It settles every Sabbath dispute by itself.",
+      "It tells the Pharisees exactly where Jesus is from."
+    ],
+    "correct_answer": "It anchors the debate in undeniable personal experience.",
+    "explanation": "The man's testimony keeps the debate fixed on what actually happened to him (John 9:25)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 3,
+    "prompt": "What irony appears when the authorities say they do not know where Jesus comes from?",
+    "choices_json": [
+      "They have forgotten which street leads to Siloam.",
+      "They mistake Jesus for John the Baptist.",
+      "They claim ignorance while facing a work that points to God.",
+      "They are really asking for travel directions out of the city."
+    ],
+    "correct_answer": "They claim ignorance while facing a work that points to God.",
+    "explanation": "The healed man marvels that they do not know where Jesus comes from even though he opened his eyes (John 9:30-33)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus seek out the man after he has been thrown out?",
+    "choices_json": [
+      "to send him back for a third hearing",
+      "to appoint him as a temple guard",
+      "to return him to begging outside the synagogue as before, without further discussion",
+      "to lead him from physical healing into explicit faith in the Son of God"
+    ],
+    "correct_answer": "to lead him from physical healing into explicit faith in the Son of God",
+    "explanation": "After hearing he had been cast out, Jesus finds him and reveals himself so the man may believe (John 9:35-38)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 4,
+    "prompt": "How does the healing in John 9 embody Jesus's claim, 'I am the light of the world'?",
+    "choices_json": [
+      "The sign gives physical sight while pointing to spiritual illumination.",
+      "The sign replaces every temple lamp in Jerusalem.",
+      "The sign mainly explains how to use Siloam water.",
+      "The sign teaches that blindness is always caused by sin."
+    ],
+    "correct_answer": "The sign gives physical sight while pointing to spiritual illumination.",
+    "explanation": "Jesus speaks of being the light of the world and then gives sight to the man born blind (John 9:5-7)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 4,
+    "prompt": "What kind of judgment does Jesus describe at the end of John 9?",
+    "choices_json": [
+      "Every sinner is struck with physical blindness whenever the Sabbath is broken.",
+      "Those who admit blindness may see, while those who claim sight become blind.",
+      "Only the parents are judged for the man's condition.",
+      "Judgment is postponed because no one can respond yet."
+    ],
+    "correct_answer": "Those who admit blindness may see, while those who claim sight become blind.",
+    "explanation": "Jesus says he came so that those who do not see may see and those who see may become blind (John 9:39-41)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 4,
+    "prompt": "What does John 9 suggest about true knowledge of Jesus?",
+    "choices_json": [
+      "It depends mainly on family status within the synagogue.",
+      "It comes only through approval from the Pharisees.",
+      "It grows through obedient response and honest testimony.",
+      "It can be gained without any encounter with Jesus."
+    ],
+    "correct_answer": "It grows through obedient response and honest testimony.",
+    "explanation": "The man's understanding deepens as he obeys, speaks honestly, and finally meets Jesus again (John 9:7, 17, 25, 35-38)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 4,
+    "prompt": "Why is the healed man's worship important after Jesus reveals himself?",
+    "choices_json": [
+      "It proves he has become the new synagogue ruler over the people who questioned him.",
+      "It shows he has forgotten the healing itself.",
+      "It means the Pharisees finally agreed with him.",
+      "It shows the sign leads to faith and reverence for Jesus."
+    ],
+    "correct_answer": "It shows the sign leads to faith and reverence for Jesus.",
+    "explanation": "When Jesus reveals himself, the man says, 'Lord, I believe,' and worships him (John 9:35-38)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 4,
+    "prompt": "What role does synagogue expulsion play in John 9?",
+    "choices_json": [
+      "It shows that confessing Jesus can carry social and religious cost.",
+      "It explains why the man loses the healing later and must return for another sign.",
+      "It fulfills a Roman law about public begging.",
+      "It proves the parents were from a different tribe."
+    ],
+    "correct_answer": "It shows that confessing Jesus can carry social and religious cost.",
+    "explanation": "Fear of expulsion shapes the parents' response, and the healed man is later thrown out (John 9:22, 34)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 4,
+    "prompt": "How does John 9 contrast evidence and unbelief?",
+    "choices_json": [
+      "The miracle stays hidden so no one can know what happened.",
+      "A public healing is plain, yet leaders still resist its meaning.",
+      "The parents deny the healing ever took place.",
+      "Jesus refuses to discuss the sign with anyone."
+    ],
+    "correct_answer": "A public healing is plain, yet leaders still resist its meaning.",
+    "explanation": "The chapter presents repeated testimony to the healing alongside persistent resistance from the authorities (John 9:13-34)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 4,
+    "prompt": "Why does the chapter keep returning to testimony from neighbors, parents, and the healed man?",
+    "choices_json": [
+      "John wants to avoid mentioning Jesus directly.",
+      "The law required a fixed sequence of three Sabbath hearings for every healing case.",
+      "The repeated witnesses intensify the case while exposing stubborn unbelief.",
+      "The healed man could not remember what happened."
+    ],
+    "correct_answer": "The repeated witnesses intensify the case while exposing stubborn unbelief.",
+    "explanation": "The repeated questioning piles up evidence even as resistance hardens (John 9:8-34)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus's answer about the blind man's condition reshape the usual link between suffering and sin?",
+    "choices_json": [
+      "He says every disability comes from parental sin.",
+      "He teaches that suffering has no meaning at all.",
+      "He blames the Pharisees for the man's birth condition.",
+      "He rejects a simple blame formula and frames the situation as a setting for God's works."
+    ],
+    "correct_answer": "He rejects a simple blame formula and frames the situation as a setting for God's works.",
+    "explanation": "Jesus says neither the man nor his parents sinned in the way the disciples assumed, but that God's works might be revealed (John 9:2-3)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 5,
+    "prompt": "What literary irony dominates John 9 from start to finish?",
+    "choices_json": [
+      "The man without sight comes to see truly, while the self-assured authorities remain blind.",
+      "The neighbors become blind and then recover their sight.",
+      "Jesus loses track of the healed man and must depend on the neighbors to find him.",
+      "The parents understand everything better than anyone else."
+    ],
+    "correct_answer": "The man without sight comes to see truly, while the self-assured authorities remain blind.",
+    "explanation": "The chapter contrasts growing sight in the healed man with persistent blindness in those who claim to see (John 9:39-41)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 5,
+    "prompt": "How does John 9 move the healed man toward discipleship?",
+    "choices_json": [
+      "Healing leads him to wealth, office, and honor in the synagogue.",
+      "Healing leads to testimony, rejection, revelation, and worship.",
+      "Healing leads him back to begging as before.",
+      "Healing leads him to deny Jesus in order to stay safe."
+    ],
+    "correct_answer": "Healing leads to testimony, rejection, revelation, and worship.",
+    "explanation": "The narrative moves from restored sight to public witness, being cast out, and then worshiping Jesus (John 9:11-38)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 5,
+    "prompt": "What does Jesus mean when he says, 'If you were blind, you would have no sin; but now you say, We see'?",
+    "choices_json": [
+      "Knowing the law automatically removes all guilt.",
+      "Physical sight itself makes every person sinful.",
+      "Their guilt remains because they claim spiritual sight while rejecting the light before them.",
+      "He is excusing the Pharisees because they are sincere."
+    ],
+    "correct_answer": "Their guilt remains because they claim spiritual sight while rejecting the light before them.",
+    "explanation": "Jesus's point is about claimed spiritual sight, not eyesight alone, and he says their sin remains (John 9:41)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 5,
+    "prompt": "How does the pool of Siloam contribute to the message of John 9?",
+    "choices_json": [
+      "The pool itself is presented as holier and more powerful than the temple courts.",
+      "The pool cures everyone who enters it on the Sabbath.",
+      "The pool replaces Jesus as the source of healing.",
+      "The man's obedient washing becomes part of the sign that reveals Jesus's mission."
+    ],
+    "correct_answer": "The man's obedient washing becomes part of the sign that reveals Jesus's mission.",
+    "explanation": "Jesus sends the man to Siloam, and the healing comes as he obeys that word (John 9:7)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 5,
+    "prompt": "What kind of discipleship does the healed man's example model in John 9?",
+    "choices_json": [
+      "speaking truth about Jesus even when authorities threaten exclusion",
+      "keeping silent until the crowd approves",
+      "following Jesus only after receiving official status",
+      "trusting signs but never confessing Christ"
+    ],
+    "correct_answer": "speaking truth about Jesus even when authorities threaten exclusion",
+    "explanation": "The healed man keeps speaking truthfully about Jesus even after hostile questioning and expulsion (John 9:25-34)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 9,
+    "difficulty_stage": 5,
+    "prompt": "How do 'the works of God' frame the whole chapter?",
+    "choices_json": [
+      "They refer only to the mud itself and not to anything that follows afterward.",
+      "They begin in the healing and continue in the exposure of spiritual blindness.",
+      "They describe the Pharisees' investigation process.",
+      "They end before the man speaks to anyone."
+    ],
+    "correct_answer": "They begin in the healing and continue in the exposure of spiritual blindness.",
+    "explanation": "Jesus introduces the chapter by speaking of God's works, and the chapter closes with those works revealing who truly sees (John 9:3-5, 39-41)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 1,
+    "prompt": "In John 10, who does Jesus say climbs into the sheepfold some other way?",
+    "choices_json": [
+      "the shepherd of the sheep",
+      "the gatekeeper",
+      "a thief and a robber",
+      "one of the sheep by name"
+    ],
+    "correct_answer": "a thief and a robber",
+    "explanation": "Jesus says the one who climbs in some other way is a thief and a robber (John 10:1)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 1,
+    "prompt": "Who enters the sheepfold by the door in Jesus's picture?",
+    "choices_json": [
+      "the hired hand",
+      "the wolf",
+      "the stranger",
+      "the shepherd of the sheep"
+    ],
+    "correct_answer": "the shepherd of the sheep",
+    "explanation": "Jesus says the one who enters by the door is the shepherd of the sheep (John 10:2)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 1,
+    "prompt": "What do the sheep recognize in order to follow the shepherd?",
+    "choices_json": [
+      "his voice",
+      "his clothing",
+      "his hometown",
+      "his staff's height"
+    ],
+    "correct_answer": "his voice",
+    "explanation": "The sheep follow the shepherd because they know his voice (John 10:3-4)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 1,
+    "prompt": "What image does Jesus use for himself in John 10:9?",
+    "choices_json": [
+      "the lampstand",
+      "the door",
+      "the cornerstone",
+      "the vine"
+    ],
+    "correct_answer": "the door",
+    "explanation": "Jesus says plainly, 'I am the door' (John 10:9)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 1,
+    "prompt": "What does the good shepherd do for the sheep in John 10?",
+    "choices_json": [
+      "He sells them for silver.",
+      "He hides from every wolf.",
+      "He lays down his life for them.",
+      "He leaves them to the hired hand."
+    ],
+    "correct_answer": "He lays down his life for them.",
+    "explanation": "Jesus says the good shepherd lays down his life for the sheep (John 10:11)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 1,
+    "prompt": "At what feast does the later temple scene in John 10 take place?",
+    "choices_json": [
+      "the Feast of Booths",
+      "Passover",
+      "the Feast of Firstfruits celebrated later in the temple courts",
+      "the Feast of the Dedication"
+    ],
+    "correct_answer": "the Feast of the Dedication",
+    "explanation": "John says it was the Feast of the Dedication at Jerusalem (John 10:22)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 1,
+    "prompt": "Where did Jesus go after escaping those who tried to seize him in John 10?",
+    "choices_json": [
+      "beyond the Jordan where John had first been baptizing",
+      "to the pool of Siloam",
+      "back to Cana for another sign",
+      "into the treasury to teach again"
+    ],
+    "correct_answer": "beyond the Jordan where John had first been baptizing",
+    "explanation": "Jesus went away beyond the Jordan to the place where John had been baptizing at first (John 10:40)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 2,
+    "prompt": "What do the sheep do when a stranger speaks in John 10?",
+    "choices_json": [
+      "They gather around him.",
+      "They flee from him.",
+      "They crown him shepherd.",
+      "They lead him to the gatekeeper."
+    ],
+    "correct_answer": "They flee from him.",
+    "explanation": "Jesus says the sheep will by no means follow a stranger, but will flee from him (John 10:5)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 2,
+    "prompt": "According to Jesus, what will a person find if he enters by the door?",
+    "choices_json": [
+      "hidden treasure",
+      "a judge's seat",
+      "pasture",
+      "new stone tablets"
+    ],
+    "correct_answer": "pasture",
+    "explanation": "Jesus says the one who enters by him will find pasture (John 10:9)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 2,
+    "prompt": "What three actions does the thief come to do in John 10?",
+    "choices_json": [
+      "teach, heal, and restore",
+      "gather, guard, and feed",
+      "call, send, and bless",
+      "steal, kill, and destroy"
+    ],
+    "correct_answer": "steal, kill, and destroy",
+    "explanation": "Jesus contrasts the thief's destructive purpose with his own life-giving mission (John 10:10)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 2,
+    "prompt": "Why does the hired hand run away when he sees the wolf coming?",
+    "choices_json": [
+      "He does not own the sheep and does not care for them.",
+      "He is guarding the treasury that day.",
+      "He has been sent away to prepare for the feast in Jerusalem.",
+      "He wants the shepherd to praise his speed."
+    ],
+    "correct_answer": "He does not own the sheep and does not care for them.",
+    "explanation": "Jesus says the hired hand flees because he is a hired hand and does not care for the sheep (John 10:12-13)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 2,
+    "prompt": "What will happen to the other sheep Jesus says are not of this fold?",
+    "choices_json": [
+      "They will remain in a separate fold forever.",
+      "They will become one flock with one shepherd.",
+      "They will be scattered by the next wolf.",
+      "They will follow John instead of Jesus."
+    ],
+    "correct_answer": "They will become one flock with one shepherd.",
+    "explanation": "Jesus says he must bring them also, and they will become one flock with one shepherd (John 10:16)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 2,
+    "prompt": "What authority does Jesus say he has regarding his life in John 10?",
+    "choices_json": [
+      "to hide it permanently from his enemies",
+      "to hand it to the hired hand for safekeeping",
+      "to lay it down and to take it again",
+      "to postpone it until the feast is over"
+    ],
+    "correct_answer": "to lay it down and to take it again",
+    "explanation": "Jesus says he has authority both to lay down his life and to take it again (John 10:18)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 2,
+    "prompt": "What charge do the Jews make after Jesus says, 'I and the Father are one'?",
+    "choices_json": [
+      "that he broke the gate of the sheepfold",
+      "that he deserted Moses at the feast",
+      "that he refused to answer them about John",
+      "that he, being a man, makes himself God"
+    ],
+    "correct_answer": "that he, being a man, makes himself God",
+    "explanation": "They accuse Jesus of blasphemy because, as they say, he makes himself God (John 10:30-33)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 3,
+    "prompt": "Why do the sheep follow the shepherd in Jesus's comparison?",
+    "choices_json": [
+      "They know his voice.",
+      "They fear the winter weather.",
+      "They can see the wolf from far away.",
+      "They are forced along by the gatekeeper."
+    ],
+    "correct_answer": "They know his voice.",
+    "explanation": "Jesus says the sheep follow him because they know his voice (John 10:4)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 3,
+    "prompt": "What does the contrast between the good shepherd and the hired hand highlight?",
+    "choices_json": [
+      "the need for bigger shelters once winter weather reaches Jerusalem",
+      "Jesus's self-giving care versus self-protective leadership",
+      "the difference between Judea and Galilee",
+      "the value of the gatekeeper's wages"
+    ],
+    "correct_answer": "Jesus's self-giving care versus self-protective leadership",
+    "explanation": "The good shepherd lays down his life, but the hired hand flees when danger comes (John 10:11-13)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 3,
+    "prompt": "Why does John say a division arose again among the Jews in John 10?",
+    "choices_json": [
+      "The feast schedule had changed without warning.",
+      "The healed blind man returned to accuse them again.",
+      "Jesus's words about himself forced sharply different verdicts.",
+      "Roman soldiers interrupted the temple debate."
+    ],
+    "correct_answer": "Jesus's words about himself forced sharply different verdicts.",
+    "explanation": "John says a division arose because of these words, with some condemning him and others defending him (John 10:19-21)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 3,
+    "prompt": "How does the mention of opening the eyes of the blind affect the debate in John 10?",
+    "choices_json": [
+      "It proves the earlier healing never actually happened in the first place.",
+      "It shifts the crowd to debating Moses alone.",
+      "It explains where the wolf came from.",
+      "It points back to a sign that challenges the claim that Jesus has a demon."
+    ],
+    "correct_answer": "It points back to a sign that challenges the claim that Jesus has a demon.",
+    "explanation": "Some answer that a demon cannot open the eyes of the blind (John 10:20-21)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 3,
+    "prompt": "According to Jesus, why do some people still not believe in John 10?",
+    "choices_json": [
+      "They are not of his sheep.",
+      "They have not reached the right age yet.",
+      "They missed the Feast of Dedication.",
+      "They never met John in the wilderness."
+    ],
+    "correct_answer": "They are not of his sheep.",
+    "explanation": "Jesus tells them they do not believe because they are not of his sheep (John 10:26)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 3,
+    "prompt": "What function do Jesus's works serve when he speaks in Solomon's porch?",
+    "choices_json": [
+      "They replace every word he has spoken.",
+      "They testify about him in his Father's name.",
+      "They remove the need for faith entirely.",
+      "They prove he is only a prophet and no more."
+    ],
+    "correct_answer": "They testify about him in his Father's name.",
+    "explanation": "Jesus says the works he does in his Father's name testify about him (John 10:25)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 3,
+    "prompt": "Why do many believe in Jesus beyond the Jordan at the end of John 10?",
+    "choices_json": [
+      "Jesus feeds them in the wilderness there.",
+      "The temple leaders publicly endorse him at last.",
+      "John's earlier testimony matches what they now see in Jesus.",
+      "The gatekeeper from the parable explains everything."
+    ],
+    "correct_answer": "John's earlier testimony matches what they now see in Jesus.",
+    "explanation": "The people say John did no sign, but everything John said about this man was true, and many believed (John 10:41-42)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 4,
+    "prompt": "How do the images of the door and the shepherd work together in John 10?",
+    "choices_json": [
+      "Jesus denies being a shepherd before changing his mind.",
+      "The door points to Roman authority, while the shepherd points only to the temple.",
+      "The two images cancel each other out and leave the meaning unclear.",
+      "Jesus is both the way into safety and the one who personally leads the flock."
+    ],
+    "correct_answer": "Jesus is both the way into safety and the one who personally leads the flock.",
+    "explanation": "Jesus says he is the door and also the good shepherd, joining access, rescue, and guidance in himself (John 10:7-11)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 4,
+    "prompt": "Within John 10, what does abundant life stand over against?",
+    "choices_json": [
+      "the thief's work of stealing, killing, and destroying",
+      "the winter weather at Dedication",
+      "the long walk beyond the Jordan",
+      "the memories of John's baptism"
+    ],
+    "correct_answer": "the thief's work of stealing, killing, and destroying",
+    "explanation": "Jesus contrasts his gift of abundant life with the thief's destructive intent (John 10:10)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 4,
+    "prompt": "What does Jesus's claim to lay down his life and take it again reveal in John 10?",
+    "choices_json": [
+      "His enemies will decide both the meaning and the timing of his death.",
+      "His death will be voluntary and under the Father's command.",
+      "He can avoid death forever by leaving Jerusalem.",
+      "Resurrection belongs only to others, never to him."
+    ],
+    "correct_answer": "His death will be voluntary and under the Father's command.",
+    "explanation": "Jesus says no one takes his life from him; he lays it down himself and will take it again, according to the Father's commandment (John 10:17-18)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 4,
+    "prompt": "What is the significance of the 'other sheep' in John 10:16?",
+    "choices_json": [
+      "Israel will be replaced by wolves from outside.",
+      "The disciples must build many rival flocks.",
+      "Jesus's flock will extend beyond the present fold into one united people.",
+      "The shepherd will divide the sheep permanently by birthplace."
+    ],
+    "correct_answer": "Jesus's flock will extend beyond the present fold into one united people.",
+    "explanation": "Jesus says he must bring other sheep so there will be one flock with one shepherd (John 10:16)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 4,
+    "prompt": "In the context of protecting the sheep, what does 'I and the Father are one' emphasize?",
+    "choices_json": [
+      "that Jesus and the Father are simply one person speaking with one voice",
+      "that the sheep no longer need to hear Jesus's voice",
+      "that Moses and the Father now speak as one",
+      "the shared power and unity of Father and Son in guarding the flock"
+    ],
+    "correct_answer": "the shared power and unity of Father and Son in guarding the flock",
+    "explanation": "Jesus links the Father's hand and his own hand before declaring, 'I and the Father are one' (John 10:28-30)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 4,
+    "prompt": "Why does Jesus appeal to 'I said, you are gods' when accused of blasphemy?",
+    "choices_json": [
+      "He answers from their own Scripture while pressing the claim of the sanctified and sent Son.",
+      "He admits that his words in the temple were mistaken.",
+      "He denies having any special relation to the Father.",
+      "He changes the subject away from the accusation entirely."
+    ],
+    "correct_answer": "He answers from their own Scripture while pressing the claim of the sanctified and sent Son.",
+    "explanation": "Jesus cites their law and then asks why they accuse the one the Father sanctified and sent (John 10:34-36)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 4,
+    "prompt": "How does the ending beyond the Jordan function in John 10?",
+    "choices_json": [
+      "It shows Jesus abandoning Judea forever in fear.",
+      "It confirms John the Baptist's witness as many people believe.",
+      "It reveals where the wolf from the parable lived.",
+      "It introduces a replacement feast that takes over the meaning of Dedication."
+    ],
+    "correct_answer": "It confirms John the Baptist's witness as many people believe.",
+    "explanation": "The chapter closes with people recalling John's true witness about Jesus and believing in him there (John 10:40-42)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 5,
+    "prompt": "How does John 10 use shepherd imagery to critique leadership?",
+    "choices_json": [
+      "True leaders stay near the treasury and avoid danger.",
+      "False leaders are only foreigners from beyond the Jordan.",
+      "True leaders enter rightly, know the sheep, and give life, while false ones exploit and abandon.",
+      "Real shepherds never speak in comparisons or images."
+    ],
+    "correct_answer": "True leaders enter rightly, know the sheep, and give life, while false ones exploit and abandon.",
+    "explanation": "Jesus contrasts the shepherd who lays down his life with thieves and hired hands who harm or desert the flock (John 10:1, 11-13)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 5,
+    "prompt": "What grounds the assurance that no one will snatch Jesus's sheep away?",
+    "choices_json": [
+      "The sheep stay safe mainly by avoiding every feast.",
+      "The gatekeeper by himself guarantees the flock's safety from every threat.",
+      "The flock can never wander or struggle at all.",
+      "Both Jesus and the Father hold the sheep with unmatched power."
+    ],
+    "correct_answer": "Both Jesus and the Father hold the sheep with unmatched power.",
+    "explanation": "Jesus says no one can snatch his sheep from his hand or from his Father's hand (John 10:28-29)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 5,
+    "prompt": "How does the repeated focus on the shepherd's voice shape discipleship in John 10?",
+    "choices_json": [
+      "Belonging is shown by hearing Jesus and following him.",
+      "Belonging is proved by ancestry alone.",
+      "Belonging depends on winning public debates in the temple.",
+      "Belonging means never asking any question."
+    ],
+    "correct_answer": "Belonging is shown by hearing Jesus and following him.",
+    "explanation": "Jesus says, 'My sheep hear my voice ... and they follow me' (John 10:27)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 5,
+    "prompt": "What does 'one flock, one shepherd' contribute to the theology of John 10?",
+    "choices_json": [
+      "Jesus promises many rival shepherds under one gatekeeper.",
+      "Jesus gathers a unified people from beyond the present fold.",
+      "Jesus limits salvation to one village near Jerusalem.",
+      "Jesus turns the sheepfold into a political kingdom."
+    ],
+    "correct_answer": "Jesus gathers a unified people from beyond the present fold.",
+    "explanation": "The saying about other sheep culminates in one flock under one shepherd (John 10:16)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 5,
+    "prompt": "How do Jesus's words and works function together in John 10?",
+    "choices_json": [
+      "The works matter, but his words do not.",
+      "The words cancel any need for works.",
+      "The works confirm the claims, and the claims interpret the works.",
+      "The chapter separates what Jesus says from what Jesus does as unrelated evidence."
+    ],
+    "correct_answer": "The works confirm the claims, and the claims interpret the works.",
+    "explanation": "Jesus points to his works as testimony and then uses them to interpret his claims about the Father (John 10:25, 37-38)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 5,
+    "prompt": "Why does John 10 move from metaphor to attempted stoning?",
+    "choices_json": [
+      "The crowd becomes confused about literal sheep prices.",
+      "The feast rules require a stoning after every parable.",
+      "Jesus asks them to stone the hired hand first.",
+      "Jesus's figurative teaching culminates in claims his opponents hear as blasphemous."
+    ],
+    "correct_answer": "Jesus's figurative teaching culminates in claims his opponents hear as blasphemous.",
+    "explanation": "The shepherd discourse gives way to explicit claims about Jesus and the Father, which provoke the charge of blasphemy (John 10:30-33)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 10,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus's relationship with the Father shape the chapter's view of his death?",
+    "choices_json": [
+      "He lays down his life freely in obedience to the Father's command and will take it again.",
+      "He dies only after the Father leaves him, and he has no say in what follows.",
+      "He has no authority over his death at all.",
+      "He asks John the Baptist to take his place."
+    ],
+    "correct_answer": "He lays down his life freely in obedience to the Father's command and will take it again.",
+    "explanation": "Jesus presents his death as both voluntary and obedient to the Father's commandment (John 10:17-18)."
+  }
+]

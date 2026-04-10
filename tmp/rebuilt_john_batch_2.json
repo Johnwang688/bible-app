@@ -1,0 +1,1472 @@
+[
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 1,
+    "prompt": "In John 5, what was the Hebrew name of the pool by the sheep gate?",
+    "choices_json": [
+      "Bethesda",
+      "Siloam",
+      "Gabbatha",
+      "Bethany"
+    ],
+    "correct_answer": "Bethesda",
+    "explanation": "The pool by the sheep gate was called Bethesda in Hebrew (John 5:2)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 1,
+    "prompt": "How long had the sick man at the pool been ill in John 5?",
+    "choices_json": [
+      "Thirty-eight years",
+      "Twelve years",
+      "Forty years without relief",
+      "Seven years"
+    ],
+    "correct_answer": "Thirty-eight years",
+    "explanation": "John says the man had been sick for thirty-eight years (John 5:5)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus tell the sick man to take up in John 5?",
+    "choices_json": [
+      "His mat",
+      "His cloak",
+      "A water jar",
+      "His staff"
+    ],
+    "correct_answer": "His mat",
+    "explanation": "Jesus told him, \"Arise, take up your mat, and walk\" (John 5:8)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 1,
+    "prompt": "On what day did the healing in John 5 take place?",
+    "choices_json": [
+      "The Sabbath",
+      "The Passover",
+      "The Day of Preparation",
+      "The Feast of Booths"
+    ],
+    "correct_answer": "The Sabbath",
+    "explanation": "John notes that the healing happened on the Sabbath (John 5:9)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 1,
+    "prompt": "Where did Jesus find the healed man afterward in John 5?",
+    "choices_json": [
+      "In the temple",
+      "At the pool",
+      "In Capernaum",
+      "By the sheep gate"
+    ],
+    "correct_answer": "In the temple",
+    "explanation": "Jesus later found the healed man in the temple (John 5:14)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 1,
+    "prompt": "Whom did the healed man tell the Jews had made him well?",
+    "choices_json": [
+      "Jesus",
+      "John the Baptist",
+      "An angel",
+      "Moses"
+    ],
+    "correct_answer": "Jesus",
+    "explanation": "The man went away and told the Jews that Jesus had made him well (John 5:15)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 1,
+    "prompt": "What object did the Jews say it was unlawful to carry on that day?",
+    "choices_json": [
+      "A mat",
+      "A basket",
+      "A lamp",
+      "A loaf"
+    ],
+    "correct_answer": "A mat",
+    "explanation": "They objected that it was not lawful to carry the mat on the Sabbath (John 5:10)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 2,
+    "prompt": "How many porches did the pool called Bethesda have in John 5?",
+    "choices_json": [
+      "Five",
+      "Four",
+      "Six",
+      "Twelve"
+    ],
+    "correct_answer": "Five",
+    "explanation": "Bethesda is described as having five porches (John 5:2)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 2,
+    "prompt": "Why did the sick man say he had not gotten into the pool in time?",
+    "choices_json": [
+      "He had no one to put him in when the water was stirred",
+      "He was waiting for the priests to arrive",
+      "He was too weak to beat the others into the water",
+      "He was afraid to step in first"
+    ],
+    "correct_answer": "He had no one to put him in when the water was stirred",
+    "explanation": "He said no one would put him into the pool when the water was stirred up (John 5:7)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 2,
+    "prompt": "What exact question did Jesus ask the man before healing him in John 5?",
+    "choices_json": [
+      "Do you want to be made well?",
+      "Do you believe in the Son of God?",
+      "Why are you angry with me?",
+      "Do you seek the glory of God?"
+    ],
+    "correct_answer": "Do you want to be made well?",
+    "explanation": "Jesus asked him, \"Do you want to be made well?\" (John 5:6)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 2,
+    "prompt": "What warning did Jesus give the healed man in the temple?",
+    "choices_json": [
+      "Sin no more, so that nothing worse happens to you.",
+      "Do not carry your mat again before the temple rulers.",
+      "Tell no one who healed you in this place.",
+      "Return tomorrow and wash again in the pool."
+    ],
+    "correct_answer": "Sin no more, so that nothing worse happens to you.",
+    "explanation": "Jesus warned him, \"Sin no more, so that nothing worse happens to you\" (John 5:14)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 2,
+    "prompt": "According to John 5:18, what claim made the Jews seek all the more to kill Jesus?",
+    "choices_json": [
+      "He called God his own Father",
+      "He denied the authority of Moses",
+      "He said the temple had failed",
+      "He refused to answer the priests"
+    ],
+    "correct_answer": "He called God his own Father",
+    "explanation": "John says they reacted because Jesus called God his own Father, making himself equal with God (John 5:18)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 2,
+    "prompt": "To whom did Jesus say the Father had given all judgment in John 5?",
+    "choices_json": [
+      "The Son",
+      "The Father who sent him",
+      "John",
+      "Israel"
+    ],
+    "correct_answer": "The Son",
+    "explanation": "Jesus said the Father has given all judgment to the Son (John 5:22)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 2,
+    "prompt": "Which witness did Jesus say the Jewish leaders had sent to in John 5?",
+    "choices_json": [
+      "John",
+      "Elijah",
+      "Nicodemus",
+      "The healed man"
+    ],
+    "correct_answer": "John",
+    "explanation": "Jesus said, \"You have sent to John, and he has testified to the truth\" (John 5:33)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 3,
+    "prompt": "Why did carrying the mat become such a public flashpoint in John 5?",
+    "choices_json": [
+      "It made the Sabbath healing impossible for the authorities to ignore",
+      "It proved the pool had stirred at the right moment",
+      "It showed the man had paid his temple offering",
+      "It invited the crowd to follow Jesus into the temple courts"
+    ],
+    "correct_answer": "It made the Sabbath healing impossible for the authorities to ignore",
+    "explanation": "The carried mat made the Sabbath dispute visible and pushed the healing into public controversy (John 5:9-10)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 3,
+    "prompt": "What does Jesus' reply, \"My Father is still working, so I am working, too,\" imply in John 5?",
+    "choices_json": [
+      "His work shares in the Father's ongoing work",
+      "He plans to stop healing after the feast",
+      "He is only copying what Moses once did in the wilderness",
+      "His task is limited to the pool at Bethesda"
+    ],
+    "correct_answer": "His work shares in the Father's ongoing work",
+    "explanation": "Jesus links his action with the Father's continuing work, which is why the claim sounds so serious in context (John 5:17-18)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 3,
+    "prompt": "Why is it significant that the healed man did not know Jesus' name at first in John 5?",
+    "choices_json": [
+      "The sign reached him before he understood who Jesus was",
+      "The crowd had confused Jesus with one of the officers",
+      "The man had refused to answer Jesus directly",
+      "The temple leaders had already hidden Jesus' identity from everyone there"
+    ],
+    "correct_answer": "The sign reached him before he understood who Jesus was",
+    "explanation": "John notes that the man was healed before he recognized Jesus personally (John 5:13)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 3,
+    "prompt": "What contrast does Jesus draw when he says the Scriptures testify about him, yet people refuse to come to him?",
+    "choices_json": [
+      "Bible searching can miss its goal if it does not lead to Jesus",
+      "The writings of Moses are less important than the pool",
+      "Only the healed man understood the Scriptures correctly",
+      "John's testimony matters more than every written witness in Israel"
+    ],
+    "correct_answer": "Bible searching can miss its goal if it does not lead to Jesus",
+    "explanation": "Jesus says they search the Scriptures but still refuse to come to him for life (John 5:39-40)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus appeal to John, his works, the Father, and the Scriptures as witnesses in John 5?",
+    "choices_json": [
+      "He answers the charge that his testimony stands alone",
+      "He wants to rank the best source of evidence for the crowd",
+      "He is preparing the healed man to speak before the rulers",
+      "He is comparing four different feasts in Jerusalem"
+    ],
+    "correct_answer": "He answers the charge that his testimony stands alone",
+    "explanation": "After mentioning that self-testimony is disputed, Jesus points to several witnesses that confirm him (John 5:31-39)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 3,
+    "prompt": "In John 5:24, what change happens to the one who hears Jesus' word and believes?",
+    "choices_json": [
+      "That person has passed from death into life",
+      "That person becomes a judge over Israel",
+      "That person is healed after entering the pool",
+      "That person is freed from every earthly illness"
+    ],
+    "correct_answer": "That person has passed from death into life",
+    "explanation": "Jesus says the believer has passed out of death into life (John 5:24)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 3,
+    "prompt": "At the end of John 5, how does Moses function in Jesus' argument?",
+    "choices_json": [
+      "Moses becomes an accuser because his writings point to Jesus",
+      "Moses replaces John as the witness whose voice settles the case",
+      "Moses is presented as the one who healed on the Sabbath",
+      "Moses proves that signs matter more than obedience"
+    ],
+    "correct_answer": "Moses becomes an accuser because his writings point to Jesus",
+    "explanation": "Jesus says Moses will accuse them because Moses wrote about him (John 5:45-47)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 4,
+    "prompt": "How does the healing at Bethesda function within the larger argument of John 5?",
+    "choices_json": [
+      "It opens into a discourse about the Son's authority to give life and judge",
+      "It mainly explains why the crowds preferred Jerusalem during feast season",
+      "It shows that the pool remained the center of healing after Jesus left",
+      "It serves as a quiet sign with little connection to what follows"
+    ],
+    "correct_answer": "It opens into a discourse about the Son's authority to give life and judge",
+    "explanation": "The healing leads directly into Jesus' claims about life, judgment, and the Father's work (John 5:8-29)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 4,
+    "prompt": "Why does John place the Sabbath dispute right beside Jesus' claims about the Father and the Son in John 5?",
+    "choices_json": [
+      "The controversy over rest becomes the setting for revealing Jesus' divine authority",
+      "The argument is meant to prove the pool had lost its power forever",
+      "The chapter shifts away from healing and focuses only on debates about Moses",
+      "The dispute shows that the temple leaders accepted the miracle at once"
+    ],
+    "correct_answer": "The controversy over rest becomes the setting for revealing Jesus' divine authority",
+    "explanation": "The Sabbath conflict becomes the doorway into Jesus' claims about working with the Father (John 5:16-23)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 4,
+    "prompt": "What does John 5:23 mean when it says all should honor the Son just as they honor the Father?",
+    "choices_json": [
+      "The Son is owed the same honor because he shares the Father's mission",
+      "The Son receives honor only after the Father steps back from judgment",
+      "The Son represents the temple but not the Father himself",
+      "The Son honors the Father by refusing all public recognition"
+    ],
+    "correct_answer": "The Son is owed the same honor because he shares the Father's mission",
+    "explanation": "Jesus says failure to honor the Son is failure to honor the Father who sent him (John 5:23)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 4,
+    "prompt": "Why is the repeated language of witness important in John 5?",
+    "choices_json": [
+      "It shows unbelief persists even when multiple testimonies agree",
+      "It means only John the Baptist can identify the Messiah correctly",
+      "It proves the healed man became Jesus' main spokesman in Jerusalem",
+      "It turns the chapter into a debate about Roman legal procedure"
+    ],
+    "correct_answer": "It shows unbelief persists even when multiple testimonies agree",
+    "explanation": "John, Jesus' works, the Father, and the Scriptures all testify, yet the leaders still refuse him (John 5:32-40)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 4,
+    "prompt": "How do John 5:25 and John 5:28-29 work together in this chapter?",
+    "choices_json": [
+      "Jesus' voice gives life now and will summon the dead from tombs later",
+      "They limit resurrection language to the healing at Bethesda alone",
+      "They separate the Father's voice from the Son's voice in public ministry",
+      "They show that judgment belongs to Moses rather than to the Son"
+    ],
+    "correct_answer": "Jesus' voice gives life now and will summon the dead from tombs later",
+    "explanation": "The chapter joins present life for hearers with future resurrection for those in the tombs (John 5:25, 28-29)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 4,
+    "prompt": "What does Jesus finding the man in the temple add to the meaning of the healing in John 5?",
+    "choices_json": [
+      "The restored man is back in worship, and the encounter adds a moral warning",
+      "The temple visit proves the man had always known Jesus' identity",
+      "The temple scene shows that the crowd forced Jesus to return to the pool",
+      "The meeting explains that carrying the mat was actually required by the law"
+    ],
+    "correct_answer": "The restored man is back in worship, and the encounter adds a moral warning",
+    "explanation": "Jesus meets him in the temple and connects restored wholeness with the call to stop sinning (John 5:14)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 4,
+    "prompt": "How does John 5 portray the roots of unbelief among Jesus' opponents?",
+    "choices_json": [
+      "They seek human glory and refuse the witness already given to them",
+      "They fail because the miracle at Bethesda was too private to verify",
+      "They are confused mainly because Jesus never mentions the Father",
+      "They would have believed if John had come back to testify again"
+    ],
+    "correct_answer": "They seek human glory and refuse the witness already given to them",
+    "explanation": "Jesus says they receive glory from one another and do not have God's love in them (John 5:42-44)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 5,
+    "prompt": "What contrast does John 5 set up between the pool's hoped-for healing and Jesus' word?",
+    "choices_json": [
+      "Jesus heals immediately by command, without dependence on stirred water",
+      "The pool grants life while Jesus offers only temporary relief",
+      "Jesus uses the pool as the final source of authority for healing in Jerusalem",
+      "The man is healed only after the water and Jesus work together"
+    ],
+    "correct_answer": "Jesus heals immediately by command, without dependence on stirred water",
+    "explanation": "The man does not reach the water at all; Jesus' word alone makes him well (John 5:7-9)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 5,
+    "prompt": "How does John 5 move from one healed body to a claim about the whole human race?",
+    "choices_json": [
+      "The sign leads to Jesus speaking about resurrection, judgment, and life for all",
+      "The narrative leaves the healed man behind and turns only to debates about temple customs",
+      "The miracle is repeated many times until the rulers accept it",
+      "The pool becomes a picture of how every feast in Jerusalem works"
+    ],
+    "correct_answer": "The sign leads to Jesus speaking about resurrection, judgment, and life for all",
+    "explanation": "After healing one man, Jesus speaks about all the dead hearing his voice and rising (John 5:21-29)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 5,
+    "prompt": "What does John 5:26 suggest when it says the Father granted the Son to have life in himself?",
+    "choices_json": [
+      "The Son shares the Father's own life-giving fullness",
+      "The Son received life only after the man at Bethesda was healed",
+      "The Son depends on the pool to display divine power",
+      "The Son will one day replace the Father's authority entirely"
+    ],
+    "correct_answer": "The Son shares the Father's own life-giving fullness",
+    "explanation": "Jesus describes the Son as possessing life in himself, echoing the Father's life-giving identity (John 5:26)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 5,
+    "prompt": "How does John 5 define faithful reading of Scripture?",
+    "choices_json": [
+      "Scripture should lead people to Jesus, the one it testifies about",
+      "Scripture matters only when a public sign explains every verse",
+      "Scripture and Moses belong to an older stage that Jesus ends",
+      "Scripture is useful chiefly for identifying feast days in Jerusalem"
+    ],
+    "correct_answer": "Scripture should lead people to Jesus, the one it testifies about",
+    "explanation": "Jesus says the Scriptures testify about him, yet his hearers will not come to him for life (John 5:39-40)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 5,
+    "prompt": "Why is it ironic that Moses is said to accuse Jesus' opponents in John 5?",
+    "choices_json": [
+      "The figure they rely on is the very one whose writings point to Jesus",
+      "Moses had publicly defended the healed man before the rulers",
+      "The leaders thought Moses had written against healing on the Sabbath",
+      "Moses is named because he also waited beside Bethesda"
+    ],
+    "correct_answer": "The figure they rely on is the very one whose writings point to Jesus",
+    "explanation": "Jesus says that if they believed Moses, they would believe him, because Moses wrote about him (John 5:45-46)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 5,
+    "prompt": "According to John 5:44, what blocks these leaders from believing?",
+    "choices_json": [
+      "They prize glory from one another more than glory from the only God",
+      "They lack access to the pool, the temple, and the strongest witnesses",
+      "They cannot remember what John the Baptist told them",
+      "They do not understand why the feast was held in Jerusalem"
+    ],
+    "correct_answer": "They prize glory from one another more than glory from the only God",
+    "explanation": "Jesus ties their unbelief to seeking glory from one another instead of from the only God (John 5:44)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 5,
+    "prompt": "How does John 5 deepen John's portrait of Jesus after the sign at Bethesda?",
+    "choices_json": [
+      "He is shown as the Son who works with the Father, gives life, and judges",
+      "He is presented mainly as a teacher whose words matter less than his signs",
+      "He is reduced to a healer whose mission stays local to one feast day",
+      "He is compared with John only to show that both have equal authority"
+    ],
+    "correct_answer": "He is shown as the Son who works with the Father, gives life, and judges",
+    "explanation": "The chapter expands the healing sign into a portrait of Jesus as the life-giving and judging Son (John 5:17-29)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 1,
+    "prompt": "In John 6, which disciple did Jesus ask about buying bread for the crowd?",
+    "choices_json": [
+      "Philip",
+      "Andrew",
+      "Peter",
+      "Judas"
+    ],
+    "correct_answer": "Philip",
+    "explanation": "Jesus asked Philip where they should buy bread for the crowd (John 6:5)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 1,
+    "prompt": "What food did the boy have in John 6?",
+    "choices_json": [
+      "Five barley loaves and two fish",
+      "Seven wheat loaves and three fish",
+      "Two barley loaves and five fish",
+      "Twelve loaves and one fish"
+    ],
+    "correct_answer": "Five barley loaves and two fish",
+    "explanation": "Andrew mentions a boy with five barley loaves and two fish (John 6:9)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 1,
+    "prompt": "About how many men sat down for the meal in John 6?",
+    "choices_json": [
+      "About five thousand",
+      "About three thousand",
+      "About seven thousand",
+      "About twelve thousand"
+    ],
+    "correct_answer": "About five thousand",
+    "explanation": "John says the men sat down, in number about five thousand (John 6:10)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 1,
+    "prompt": "How many baskets of pieces were left over after the feeding in John 6?",
+    "choices_json": [
+      "Twelve",
+      "Seven full baskets after everyone ate",
+      "Five",
+      "Two"
+    ],
+    "correct_answer": "Twelve",
+    "explanation": "The disciples filled twelve baskets with broken pieces (John 6:13)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 1,
+    "prompt": "Where were the disciples heading by boat after evening came in John 6?",
+    "choices_json": [
+      "Capernaum",
+      "Jerusalem",
+      "Bethsaida",
+      "Tiberias"
+    ],
+    "correct_answer": "Capernaum",
+    "explanation": "The disciples entered the boat and were going across the sea to Capernaum (John 6:17)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus say as he came near the boat on the sea in John 6?",
+    "choices_json": [
+      "It is I. Don't be afraid.",
+      "Take courage and cast your nets.",
+      "Peace be to this house.",
+      "Follow me to the mountain."
+    ],
+    "correct_answer": "It is I. Don't be afraid.",
+    "explanation": "When the disciples were afraid, Jesus said, \"It is I. Don't be afraid\" (John 6:20)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 1,
+    "prompt": "What title did Jesus use for himself in John 6:35?",
+    "choices_json": [
+      "The bread of life",
+      "The light of the world",
+      "The good shepherd",
+      "The resurrection and the life"
+    ],
+    "correct_answer": "The bread of life",
+    "explanation": "Jesus says, \"I am the bread of life\" in John 6:35."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 2,
+    "prompt": "Which feast was near when Jesus fed the multitude in John 6?",
+    "choices_json": [
+      "The Passover",
+      "The Feast of Booths",
+      "Pentecost",
+      "The Dedication"
+    ],
+    "correct_answer": "The Passover",
+    "explanation": "John notes that the Passover, the feast of the Jews, was at hand (John 6:4)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 2,
+    "prompt": "Why did Jesus ask Philip where to buy bread in John 6?",
+    "choices_json": [
+      "He was testing him",
+      "He needed money from him",
+      "He wanted Andrew's opinion first",
+      "He was sending him into the town"
+    ],
+    "correct_answer": "He was testing him",
+    "explanation": "John says Jesus asked Philip this to test him, since he knew what he would do (John 6:6)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 2,
+    "prompt": "How much bread did Philip say would not be enough for the crowd in John 6?",
+    "choices_json": [
+      "Two hundred denarii worth",
+      "Fifty shekels worth",
+      "Thirty pieces of silver",
+      "Twelve talents for a crowd this large"
+    ],
+    "correct_answer": "Two hundred denarii worth",
+    "explanation": "Philip answered that two hundred denarii worth of bread would not be sufficient (John 6:7)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 2,
+    "prompt": "After rowing on the sea, how far had the disciples gone when they saw Jesus in John 6?",
+    "choices_json": [
+      "About twenty-five or thirty stadia",
+      "About ten or twelve stadia",
+      "About forty or fifty stadia in the dark",
+      "About seventy stadia"
+    ],
+    "correct_answer": "About twenty-five or thirty stadia",
+    "explanation": "John says they had rowed about twenty-five or thirty stadia when they saw Jesus (John 6:19)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 2,
+    "prompt": "What were the people planning to do after they saw the feeding sign in John 6?",
+    "choices_json": [
+      "Make Jesus king by force",
+      "Ask Jesus to stay in Tiberias",
+      "Bring the sick to the mountain",
+      "Return at once to Jerusalem"
+    ],
+    "correct_answer": "Make Jesus king by force",
+    "explanation": "Jesus knew they were about to come and take him by force to make him king (John 6:15)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 2,
+    "prompt": "According to John 6:29, what is the work of God?",
+    "choices_json": [
+      "To believe in him whom he has sent",
+      "To gather the leftover baskets carefully",
+      "To keep the feast in Jerusalem",
+      "To search the Scriptures for manna"
+    ],
+    "correct_answer": "To believe in him whom he has sent",
+    "explanation": "Jesus answers, \"This is the work of God, that you believe in him whom he has sent\" (John 6:29)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 2,
+    "prompt": "Where did Jesus say these things about the bread of life in John 6?",
+    "choices_json": [
+      "In the synagogue in Capernaum",
+      "On the mountain above Galilee",
+      "In the temple courts in Jerusalem",
+      "At the shore near Tiberias"
+    ],
+    "correct_answer": "In the synagogue in Capernaum",
+    "explanation": "John says Jesus taught these things in the synagogue in Capernaum (John 6:59)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 3,
+    "prompt": "What does Jesus say truly motivated the crowd's search for him the next day in John 6?",
+    "choices_json": [
+      "They wanted more bread, not the sign's meaning",
+      "They feared the storm on the sea",
+      "They hoped to hear Andrew explain the sign again",
+      "They planned to leave Galilee for Judea"
+    ],
+    "correct_answer": "They wanted more bread, not the sign's meaning",
+    "explanation": "Jesus says they sought him because they ate the loaves and were filled (John 6:26)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus tell the disciples to gather the broken pieces so that nothing be lost in John 6?",
+    "choices_json": [
+      "The sign shows abundant provision without waste",
+      "The crowd still needed food for the trip to Jerusalem",
+      "The fragments had to be returned to the boy",
+      "The baskets were required for the synagogue service"
+    ],
+    "correct_answer": "The sign shows abundant provision without waste",
+    "explanation": "The leftovers underline both abundance and care after everyone has eaten their fill (John 6:12-13)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 3,
+    "prompt": "What does the crowd's wish to make Jesus king show about their reading of the sign in John 6?",
+    "choices_json": [
+      "They want a provider-king more than they grasp his mission",
+      "They understand at once that he must suffer and ascend",
+      "They see the sign mainly as a call to return to Jerusalem",
+      "They recognize that the miracle was done only for the twelve"
+    ],
+    "correct_answer": "They want a provider-king more than they grasp his mission",
+    "explanation": "Their reaction focuses on political and material hopes rather than on who Jesus is (John 6:14-15)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 3,
+    "prompt": "How does Jesus contrast the manna in the wilderness with the bread he gives in John 6?",
+    "choices_json": [
+      "Manna sustained for a time, but Jesus gives life that endures",
+      "Manna came from the Father, while Jesus came by Moses' provision",
+      "Manna filled more baskets than Jesus could provide",
+      "Manna was spiritual, but Jesus offers only earthly food"
+    ],
+    "correct_answer": "Manna sustained for a time, but Jesus gives life that endures",
+    "explanation": "Jesus says the fathers ate manna and died, but the one who comes to him lives (John 6:49-51, 58)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 3,
+    "prompt": "Why do many disciples call Jesus' teaching a hard saying in John 6?",
+    "choices_json": [
+      "His words about eating his flesh and drinking his blood offend them",
+      "He refuses to heal anyone else beside the sea",
+      "He tells them they must row back across the lake at night",
+      "His teaching can only be understood by trained teachers of the law in Jerusalem"
+    ],
+    "correct_answer": "His words about eating his flesh and drinking his blood offend them",
+    "explanation": "Many disciples stumble over Jesus' language about eating his flesh and drinking his blood (John 6:52-60)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 3,
+    "prompt": "What does Peter's answer to Jesus, \"To whom would we go?\" reveal in John 6?",
+    "choices_json": [
+      "He sees Jesus as the only source of words of eternal life",
+      "He expects Jesus to accept the crowd's offer of kingship in Galilee",
+      "He believes Andrew's food plan had been the right one",
+      "He wants the twelve to return to fishing in Galilee"
+    ],
+    "correct_answer": "He sees Jesus as the only source of words of eternal life",
+    "explanation": "Peter stays because he believes Jesus has the words of eternal life (John 6:68)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 3,
+    "prompt": "How does John 6:65 explain why some people do not come to Jesus?",
+    "choices_json": [
+      "Coming to him must be given by the Father",
+      "Only those with enough bread can hear him rightly",
+      "The crowd is waiting for another public sign first",
+      "They have not yet crossed the sea to Capernaum"
+    ],
+    "correct_answer": "Coming to him must be given by the Father",
+    "explanation": "Jesus says no one can come to him unless it is given by the Father (John 6:65)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 4,
+    "prompt": "How does the feeding sign prepare for the Bread of Life discourse in John 6?",
+    "choices_json": [
+      "It moves the crowd from physical bread to the question of lasting life",
+      "It shifts attention away from Jesus and onto the disciples' planning for the crowd",
+      "It proves that Galilee has replaced Jerusalem as the holy city",
+      "It shows that the boy's gift was greater than Jesus' teaching"
+    ],
+    "correct_answer": "It moves the crowd from physical bread to the question of lasting life",
+    "explanation": "The miracle creates the setting for Jesus to redirect hunger toward the food that remains to eternal life (John 6:11-14, 27, 35)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 4,
+    "prompt": "Why does John mention that Passover was near at the start of John 6?",
+    "choices_json": [
+      "It brings Exodus and manna themes into the background of the sign",
+      "It explains why the disciples had brought extra baskets that day",
+      "It shows that the crowd was already on the way to the temple courts",
+      "It marks the final week before Jesus' arrest in this Gospel"
+    ],
+    "correct_answer": "It brings Exodus and manna themes into the background of the sign",
+    "explanation": "Passover makes the chapter's bread, wilderness, and Moses language especially resonant (John 6:4, 31-32)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 4,
+    "prompt": "What does Jesus claim by saying, \"I am the bread of life,\" in John 6?",
+    "choices_json": [
+      "He himself is the Father's life-giving provision from heaven",
+      "He is repeating Moses' role without changing anything",
+      "He only means that his teaching is harder than manna",
+      "He is speaking about the synagogue bread in Capernaum"
+    ],
+    "correct_answer": "He himself is the Father's life-giving provision from heaven",
+    "explanation": "Jesus identifies himself, not merely his gifts, as the true bread from heaven (John 6:32-35)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 4,
+    "prompt": "How does John 6 connect faith with the Father's action?",
+    "choices_json": [
+      "Coming and believing are described as enabled by the Father",
+      "Faith is replaced by crowd enthusiasm after the miracle meal",
+      "The Father acts only after people fully understand the sign",
+      "Belief is limited to those who helped gather the leftovers"
+    ],
+    "correct_answer": "Coming and believing are described as enabled by the Father",
+    "explanation": "Jesus ties coming, believing, drawing, and giving to the Father's work (John 6:37, 44, 65)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 4,
+    "prompt": "What role does offense play in the structure of John 6?",
+    "choices_json": [
+      "The hard teaching exposes the difference between curiosity and true discipleship",
+      "It shows that the crowd finally understands the miracle correctly",
+      "It proves the sea crossing was more difficult than the feeding itself",
+      "It ends the chapter by resolving every question about Jesus' identity"
+    ],
+    "correct_answer": "The hard teaching exposes the difference between curiosity and true discipleship",
+    "explanation": "Many disciples leave over Jesus' words, while the twelve are pressed to respond in faith (John 6:60-69)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 4,
+    "prompt": "Why does John record both the crowd's enthusiasm and their later complaint in John 6?",
+    "choices_json": [
+      "The chapter contrasts sign-seeking excitement with resistance to Jesus' claims",
+      "It explains why the disciples forgot the feeding by evening",
+      "It shows that the synagogue in Capernaum controlled the crowd",
+      "It proves that miracles alone guarantee lasting faith"
+    ],
+    "correct_answer": "The chapter contrasts sign-seeking excitement with resistance to Jesus' claims",
+    "explanation": "The same crowd that praises the sign struggles when Jesus explains its meaning (John 6:14-15, 30, 41-42, 52)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 4,
+    "prompt": "How do the sea episode and the bread discourse work together in John 6?",
+    "choices_json": [
+      "Both scenes reveal Jesus as more than a miracle worker, drawing fear and faith",
+      "The sea episode interrupts the chapter and has little link to the discourse",
+      "Both scenes are mainly about Philip learning to manage crowds",
+      "The two scenes are included only to explain the move to Capernaum"
+    ],
+    "correct_answer": "Both scenes reveal Jesus as more than a miracle worker, drawing fear and faith",
+    "explanation": "John pairs the feeding and the sea crossing to show Jesus' authority before the discourse presses people to believe (John 6:19-21, 35-40)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 5,
+    "prompt": "How does John 6 reshape messianic expectation after the crowd tries to make Jesus king?",
+    "choices_json": [
+      "Jesus refuses political seizure and offers himself as the true gift from heaven",
+      "Jesus accepts the title king but delays the public ceremony until Passover",
+      "Jesus hands the kingdom over to the twelve beside the sea",
+      "Jesus moves from signs to silence so no one can know him"
+    ],
+    "correct_answer": "Jesus refuses political seizure and offers himself as the true gift from heaven",
+    "explanation": "He withdraws from forced kingship and later presents himself as the bread from heaven (John 6:15, 32-35)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 5,
+    "prompt": "In the flow of John 6, what does eating Jesus' flesh and drinking his blood signify?",
+    "choices_json": [
+      "Receiving Jesus fully in his self-giving life and death",
+      "Copying the miracle meal each time the feast returns",
+      "Trusting the boy who first supplied the loaves",
+      "Waiting for Moses to send bread again from heaven"
+    ],
+    "correct_answer": "Receiving Jesus fully in his self-giving life and death",
+    "explanation": "The discourse presses hearers to depend on Jesus himself for life, not merely on bread or signs (John 6:53-56)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 5,
+    "prompt": "How does the saying about the Son of Man ascending where he was before deepen John 6?",
+    "choices_json": [
+      "The one who came down from heaven will also return there",
+      "The crowd will soon watch Jesus ascend from the mountain",
+      "The disciples must ascend spiritually before they can believe",
+      "The ascent refers to the baskets being lifted into the boat"
+    ],
+    "correct_answer": "The one who came down from heaven will also return there",
+    "explanation": "Jesus links his heavenly descent with a future ascent, reinforcing his origin from above (John 6:38, 62)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 5,
+    "prompt": "What does \"The Spirit gives life; the flesh profits nothing\" clarify in John 6?",
+    "choices_json": [
+      "Jesus' words must be received as life-giving Spirit, not as crude literalism",
+      "Physical bread is sinful, so no believer should eat ordinary meals",
+      "The miracle of the loaves failed because the crowd still hungered",
+      "Only angels can understand the teaching given in Capernaum"
+    ],
+    "correct_answer": "Jesus' words must be received as life-giving Spirit, not as crude literalism",
+    "explanation": "Jesus immediately explains that his words are spirit and life, clarifying the scandal of the discourse (John 6:63)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 5,
+    "prompt": "Why is Peter's confession placed immediately after many disciples leave in John 6?",
+    "choices_json": [
+      "John contrasts departing offense with persevering faith in Jesus' words",
+      "Peter is being appointed to replace Judas in the twelve at once",
+      "The chapter is shifting from Galilee back to the pool at Bethesda",
+      "Peter is correcting Philip's answer about buying bread"
+    ],
+    "correct_answer": "John contrasts departing offense with persevering faith in Jesus' words",
+    "explanation": "After many walk away, Peter voices the faith of those who remain with Jesus (John 6:66-69)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 5,
+    "prompt": "How does the mention of Judas at the end of John 6 sharpen the chapter's message?",
+    "choices_json": [
+      "Even within the chosen twelve, unbelief can hide near Jesus",
+      "Judas is praised for staying when the larger crowd departs",
+      "The betrayal note explains why the baskets were twelve in number",
+      "It shows that every disciple except Judas understood the discourse"
+    ],
+    "correct_answer": "Even within the chosen twelve, unbelief can hide near Jesus",
+    "explanation": "John closes the chapter by noting that one of the twelve would betray Jesus (John 6:70-71)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 5,
+    "prompt": "How does John 6 advance the Gospel's theme of the sent Son?",
+    "choices_json": [
+      "Jesus repeatedly presents himself as the one sent down by the living Father",
+      "The chapter replaces the language of sending with only kingdom language",
+      "The sent theme appears only in Peter's confession, not in Jesus' words",
+      "Sending refers mainly to the crowd traveling from Tiberias"
+    ],
+    "correct_answer": "Jesus repeatedly presents himself as the one sent down by the living Father",
+    "explanation": "The discourse keeps returning to Jesus as the one the Father sent and gave (John 6:29, 38-40, 57)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 1,
+    "prompt": "Which feast was at hand in John 7?",
+    "choices_json": [
+      "The Feast of Booths",
+      "The Passover",
+      "The Feast of Dedication",
+      "Pentecost"
+    ],
+    "correct_answer": "The Feast of Booths",
+    "explanation": "John says the Feast of Booths was at hand (John 7:2)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 1,
+    "prompt": "Where was Jesus walking before going up to the feast in John 7?",
+    "choices_json": [
+      "Galilee",
+      "Judea",
+      "Samaria",
+      "Bethany"
+    ],
+    "correct_answer": "Galilee",
+    "explanation": "At the start of the chapter, Jesus was walking in Galilee (John 7:1)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 1,
+    "prompt": "Who urged Jesus to leave and go into Judea in John 7?",
+    "choices_json": [
+      "His brothers",
+      "The twelve",
+      "The Pharisees",
+      "The officers"
+    ],
+    "correct_answer": "His brothers",
+    "explanation": "Jesus' brothers urged him to go into Judea so his disciples could see his works (John 7:3)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 1,
+    "prompt": "How did Jesus go up to the feast after his brothers had gone in John 7?",
+    "choices_json": [
+      "Not publicly, but in secret",
+      "With a large crowd from Galilee",
+      "In the company of the officers",
+      "At the beginning of the feast in daylight"
+    ],
+    "correct_answer": "Not publicly, but in secret",
+    "explanation": "After his brothers went up, Jesus also went up, not publicly but in secret (John 7:10)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 1,
+    "prompt": "Where did Jesus begin teaching in the middle of the feast in John 7?",
+    "choices_json": [
+      "In the temple",
+      "In the synagogue at Capernaum",
+      "At the pool of Bethesda",
+      "On the Mount of Olives"
+    ],
+    "correct_answer": "In the temple",
+    "explanation": "In the middle of the feast, Jesus went up into the temple and taught (John 7:14)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 1,
+    "prompt": "What invitation did Jesus cry out on the last day of the feast in John 7?",
+    "choices_json": [
+      "If anyone thirsts, let him come to me and drink",
+      "If anyone is sick, let him enter the pool",
+      "If anyone listens, let him go to Galilee",
+      "If anyone hungers, let him gather the bread that remains"
+    ],
+    "correct_answer": "If anyone thirsts, let him come to me and drink",
+    "explanation": "Jesus cried out, \"If anyone thirsts, let him come to me and drink\" (John 7:37)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 1,
+    "prompt": "Which Pharisee spoke up about hearing a man before judging him in John 7?",
+    "choices_json": [
+      "Nicodemus",
+      "Caiaphas",
+      "Gamaliel, a respected teacher among the council",
+      "Andrew"
+    ],
+    "correct_answer": "Nicodemus",
+    "explanation": "Nicodemus asked whether their law judged a man before hearing him (John 7:50-51)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 2,
+    "prompt": "Why would Jesus not walk in Judea at the start of John 7?",
+    "choices_json": [
+      "Because the Jews sought to kill him",
+      "Because the roads were blocked for the feast",
+      "Because his disciples had already left him",
+      "Because the temple officers were guarding Galilee"
+    ],
+    "correct_answer": "Because the Jews sought to kill him",
+    "explanation": "John says Jesus would not walk in Judea because the Jews sought to kill him (John 7:1)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 2,
+    "prompt": "What reason did Jesus give for the world's hatred toward him in John 7?",
+    "choices_json": [
+      "He testified that its works were evil",
+      "He refused to attend the feast at all",
+      "He healed too many people in Jerusalem",
+      "He told the crowds to stop searching the law"
+    ],
+    "correct_answer": "He testified that its works were evil",
+    "explanation": "Jesus said the world hated him because he testified that its works were evil (John 7:7)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 2,
+    "prompt": "What did Jesus say about his time compared with his brothers' time in John 7?",
+    "choices_json": [
+      "My time has not yet come, but your time is always ready",
+      "My time is fulfilled, but yours will come later",
+      "Our time is hidden until the last day of the feast arrives",
+      "My time and your time are both under Moses"
+    ],
+    "correct_answer": "My time has not yet come, but your time is always ready",
+    "explanation": "Jesus contrasts his not-yet time with their always-ready time (John 7:6)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 2,
+    "prompt": "What standard did Jesus command in John 7:24?",
+    "choices_json": [
+      "Judge with righteous judgment",
+      "Judge only according to Moses",
+      "Judge by the number of signs seen",
+      "Judge no one until the feast is over"
+    ],
+    "correct_answer": "Judge with righteous judgment",
+    "explanation": "Jesus said, \"Don't judge according to appearance, but judge righteous judgment\" (John 7:24)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 2,
+    "prompt": "What did the officers say when they returned without arresting Jesus in John 7?",
+    "choices_json": [
+      "No man ever spoke like this man!",
+      "He slipped away before we reached him.",
+      "The crowd hid him among the worshipers.",
+      "Nicodemus told us to wait for daylight."
+    ],
+    "correct_answer": "No man ever spoke like this man!",
+    "explanation": "The officers answered, \"No man ever spoke like this man!\" (John 7:46)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 2,
+    "prompt": "What hometown objection did some in the crowd raise against Jesus being the Christ in John 7?",
+    "choices_json": [
+      "They said the Christ could not come out of Galilee",
+      "They said the Christ could not come from David's line",
+      "They said the Christ must first heal at Bethesda",
+      "They said the Christ would never appear at a feast"
+    ],
+    "correct_answer": "They said the Christ could not come out of Galilee",
+    "explanation": "Some objected that the Christ would not come out of Galilee (John 7:41)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 2,
+    "prompt": "According to the crowd in John 7:42, from what village should the Christ come?",
+    "choices_json": [
+      "Bethlehem",
+      "Nazareth",
+      "Bethany",
+      "Capernaum"
+    ],
+    "correct_answer": "Bethlehem",
+    "explanation": "The crowd says the Christ should come from Bethlehem, the village of David (John 7:42)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 3,
+    "prompt": "What does Jesus' quiet arrival and later public teaching show about his actions in John 7?",
+    "choices_json": [
+      "He moves by the Father's timing, not by human pressure",
+      "He changes his plans because his brothers persuade him",
+      "He fears the crowds more than he fears the rulers",
+      "He no longer wants anyone to know his works"
+    ],
+    "correct_answer": "He moves by the Father's timing, not by human pressure",
+    "explanation": "Jesus refuses his brothers' timetable, then appears publicly when the feast is underway (John 7:6-10, 14)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 3,
+    "prompt": "How does Jesus use the Sabbath circumcision example in his argument in John 7?",
+    "choices_json": [
+      "He shows that lawful Sabbath action should make whole-man healing understandable",
+      "He argues that circumcision should be ended during feast days",
+      "He says Moses' law matters less than the temple rituals and mercy",
+      "He admits the healing at Bethesda had broken the law"
+    ],
+    "correct_answer": "He shows that lawful Sabbath action should make whole-man healing understandable",
+    "explanation": "Jesus argues that if circumcision can happen on the Sabbath, making a man whole on the Sabbath should not anger them (John 7:22-23)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 3,
+    "prompt": "What does the chapter's repeated debate about where Jesus is from reveal in John 7?",
+    "choices_json": [
+      "People know surface facts about Jesus but miss his true sender",
+      "The crowds have accurate knowledge and therefore believe quickly",
+      "John wants to correct a mistake about the route from Galilee",
+      "The officers alone understand Jesus' family history"
+    ],
+    "correct_answer": "People know surface facts about Jesus but miss his true sender",
+    "explanation": "The crowd talks about Galilee and Bethlehem, while Jesus presses the deeper issue of the one who sent him (John 7:27-29, 41-42)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus say his hearers will seek him and not find him in John 7?",
+    "choices_json": [
+      "His departure to the one who sent him lies beyond their present grasp",
+      "He plans to hide again somewhere in Galilee after the feast",
+      "The officers will remove him from the temple before night falls",
+      "The crowd will forget him once the feast water ceremony is finished"
+    ],
+    "correct_answer": "His departure to the one who sent him lies beyond their present grasp",
+    "explanation": "Jesus says he is going to the one who sent him, and they cannot come where he is going (John 7:33-34)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 3,
+    "prompt": "What does Jesus' promise of living water mean in John 7's own explanation?",
+    "choices_json": [
+      "Believers will receive the Spirit after Jesus is glorified",
+      "Pilgrims will find fresh water in Jerusalem all year",
+      "The last day of the feast removes the need for temple offerings",
+      "The crowds will remember the pool of Bethesda and return there"
+    ],
+    "correct_answer": "Believers will receive the Spirit after Jesus is glorified",
+    "explanation": "John explains that Jesus was speaking about the Spirit, who would be given after Jesus was glorified (John 7:37-39)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 3,
+    "prompt": "What does Nicodemus' response to the Pharisees reveal in John 7?",
+    "choices_json": [
+      "At least one ruler insists on hearing Jesus fairly before judging him",
+      "Nicodemus fully confesses Jesus as Messiah before the council that night",
+      "Nicodemus agrees that no prophet can come from Galilee",
+      "Nicodemus leads the officers back to arrest Jesus himself"
+    ],
+    "correct_answer": "At least one ruler insists on hearing Jesus fairly before judging him",
+    "explanation": "Nicodemus asks whether their law judges a man before first hearing from him (John 7:50-51)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 3,
+    "prompt": "Why does John record such divided reactions to Jesus throughout John 7?",
+    "choices_json": [
+      "The same words force the crowd to take sides about his identity",
+      "The people agree on Jesus but fear the officers' report",
+      "The divisions are only about which feast should be kept",
+      "The chapter is mainly describing confusion over travel plans"
+    ],
+    "correct_answer": "The same words force the crowd to take sides about his identity",
+    "explanation": "John repeatedly shows debate, murmuring, belief, and rejection around Jesus' teaching in the feast setting (John 7:12, 25-31, 40-43)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 4,
+    "prompt": "How does the Feast of Booths setting sharpen Jesus' cry about thirst and living water in John 7?",
+    "choices_json": [
+      "The feast context lets Jesus present himself as the true source of what the celebration longs for",
+      "The feast proves that only Jerusalem can provide the life Jesus describes",
+      "The feast is mentioned only to explain why his brothers traveled first",
+      "The feast setting has no direct link to Jesus' words about water"
+    ],
+    "correct_answer": "The feast context lets Jesus present himself as the true source of what the celebration longs for",
+    "explanation": "John places the living water invitation on the great day of the feast, making Jesus the focus of the chapter's hope (John 7:2, 37-39)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 4,
+    "prompt": "Why does John note that even Jesus' brothers did not believe in him in John 7?",
+    "choices_json": [
+      "Rejection of Jesus is shown as beginning close to home, not only in the rulers",
+      "The brothers are being prepared to replace the Pharisees as leaders",
+      "Their unbelief explains why the officers later return empty-handed",
+      "John wants to identify which brother first reported him to the council"
+    ],
+    "correct_answer": "Rejection of Jesus is shown as beginning close to home, not only in the rulers",
+    "explanation": "John explicitly notes his brothers' unbelief before showing wider public division and official hostility (John 7:5, 12-13, 32)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 4,
+    "prompt": "What does Jesus' statement, \"My teaching is not mine,\" reveal in John 7?",
+    "choices_json": [
+      "His authority comes from the Father who sent him",
+      "His teaching changes according to the crowd at each feast",
+      "His words are only a repetition of what the brothers said",
+      "His message matters less than the signs people expect"
+    ],
+    "correct_answer": "His authority comes from the Father who sent him",
+    "explanation": "Jesus grounds his teaching in the one who sent him, not in self-promotion (John 7:16-18)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 4,
+    "prompt": "How does the repeated line that no one laid hands on Jesus function in John 7?",
+    "choices_json": [
+      "It shows human hostility cannot outrun the hour set for Jesus",
+      "It means the rulers had secretly decided to follow him instead",
+      "It proves the officers could not find Jesus in the temple courts",
+      "It shows that Nicodemus had legal control over the arrest"
+    ],
+    "correct_answer": "It shows human hostility cannot outrun the hour set for Jesus",
+    "explanation": "John explains the failed arrest by saying Jesus' hour had not yet come (John 7:30, 44)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 4,
+    "prompt": "What literary role do the officers' words, \"No man ever spoke like this man,\" play in John 7?",
+    "choices_json": [
+      "Unexpected witnesses underline the power of Jesus' speech amid official rejection",
+      "The officers are quoting Psalm language used earlier in the feast",
+      "Their report settles the debate and ends the division in Jerusalem",
+      "The line explains that the officers had become disciples in private"
+    ],
+    "correct_answer": "Unexpected witnesses underline the power of Jesus' speech amid official rejection",
+    "explanation": "The very officers sent to arrest Jesus return impressed by his words, deepening the chapter's divided responses (John 7:32, 45-46)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 4,
+    "prompt": "How does John 7 connect willingness to do God's will with recognizing Jesus' teaching?",
+    "choices_json": [
+      "Obedience is presented as the path to discerning whether his teaching is from God",
+      "Only trained teachers of the law can judge Jesus' doctrine correctly",
+      "Miracles matter more than moral willingness in testing a teacher",
+      "Recognition comes only after a ruler publicly approves him before the crowd"
+    ],
+    "correct_answer": "Obedience is presented as the path to discerning whether his teaching is from God",
+    "explanation": "Jesus says that the one who desires to do God's will will know whether the teaching is from God (John 7:17)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 4,
+    "prompt": "How does the argument about Galilee and Bethlehem function in John 7?",
+    "choices_json": [
+      "Partial knowledge and confident assumptions keep many from right judgment",
+      "The crowd solves the question and therefore ends the division quickly",
+      "John is correcting the census records of the Feast of Booths",
+      "The point is that Bethlehem had become spiritually unimportant"
+    ],
+    "correct_answer": "Partial knowledge and confident assumptions keep many from right judgment",
+    "explanation": "The crowd argues from incomplete information about Jesus' origin and ends up divided over him (John 7:41-43, 52)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 5,
+    "prompt": "How does John 7 connect thirst, coming to Jesus, and believing in him?",
+    "choices_json": [
+      "Faith is pictured as coming to Jesus to receive the life he alone gives",
+      "Belief is treated as one more purification rite during the feast",
+      "Thirst refers only to physical need after traveling to Jerusalem",
+      "Coming to Jesus is postponed until after his brothers believe"
+    ],
+    "correct_answer": "Faith is pictured as coming to Jesus to receive the life he alone gives",
+    "explanation": "Jesus calls the thirsty to come and drink, and John ties that promise to believing in him (John 7:37-38)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 5,
+    "prompt": "What does John's own comment in John 7:39 add to the meaning of the living water saying?",
+    "choices_json": [
+      "The promised water refers to the Spirit given after Jesus is glorified",
+      "The saying predicts that Jerusalem's pools will overflow during the feast",
+      "The crowd should remember Moses striking the rock in the desert",
+      "The words refer only to the tears of those who oppose Jesus"
+    ],
+    "correct_answer": "The promised water refers to the Spirit given after Jesus is glorified",
+    "explanation": "John explains that Jesus was speaking about the Spirit, who would be given after his glorification (John 7:39)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 5,
+    "prompt": "How does John 7 deepen John's theme of Jesus' heavenly origin?",
+    "choices_json": [
+      "People think they know where Jesus is from, but they do not know the one who sent him",
+      "John drops the origin theme here and focuses only on legal disputes",
+      "The brothers explain Jesus' origin more clearly than Jesus does himself",
+      "The rulers accept his origin but reject his teaching for other reasons"
+    ],
+    "correct_answer": "People think they know where Jesus is from, but they do not know the one who sent him",
+    "explanation": "The chapter contrasts familiar assumptions about Jesus' earthly background with his claim to be sent from the true one (John 7:27-29)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 5,
+    "prompt": "Why is Nicodemus' brief protest significant in the wider Gospel?",
+    "choices_json": [
+      "He moves from private night questions toward a public, if cautious, defense",
+      "He fully leaves the Pharisees and joins the twelve in this scene",
+      "He proves that every ruler already believes in Jesus secretly",
+      "He is appointed as the official judge over Jesus' case"
+    ],
+    "correct_answer": "He moves from private night questions toward a public, if cautious, defense",
+    "explanation": "Nicodemus, who first came by night, now speaks up publicly for due hearing (John 7:50-51)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 5,
+    "prompt": "What does John 7 suggest about the effect of social pressure on belief and speech?",
+    "choices_json": [
+      "Fear of the Jews keeps many from speaking openly or judging honestly",
+      "Public pressure has little effect once the feast begins in Jerusalem",
+      "The crowd becomes bolder because the rulers openly welcome debate",
+      "Only Jesus' brothers are silenced by fear in this chapter"
+    ],
+    "correct_answer": "Fear of the Jews keeps many from speaking openly or judging honestly",
+    "explanation": "John says people feared speaking openly, and the pressure of the rulers shapes the chapter's debates (John 7:13, 45-49)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus both fulfill and unsettle the Feast of Booths in John 7?",
+    "choices_json": [
+      "He uses the feast's setting to point its hopes back to himself",
+      "He refuses every feast symbol and speaks only about future judgment",
+      "He keeps the feast quietly but never teaches during it",
+      "He turns the feast into a debate about temple architecture"
+    ],
+    "correct_answer": "He uses the feast's setting to point its hopes back to himself",
+    "explanation": "Jesus teaches in the feast and turns its thirst and expectation toward himself (John 7:14, 37-38)."
+  },
+  {
+    "book_number": 43,
+    "chapter": 7,
+    "difficulty_stage": 5,
+    "prompt": "Why does John 7 end without resolving the division around Jesus?",
+    "choices_json": [
+      "The unresolved split shows that revelation intensifies decision rather than removing it",
+      "The chapter was originally missing the ending of the arrest report",
+      "John wants to save every answer until Nicodemus speaks again in a later public scene",
+      "The division ends because everyone finally agrees he is the Christ"
+    ],
+    "correct_answer": "The unresolved split shows that revelation intensifies decision rather than removing it",
+    "explanation": "The chapter closes with division still in place, showing how Jesus' words force judgment rather than instant consensus (John 7:40-43, 45-52)."
+  }
+]

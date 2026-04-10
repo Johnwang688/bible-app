@@ -1,0 +1,1794 @@
+[
+  {
+    "book_number": 43,
+    "chapter": 1,
+    "difficulty_stage": 3,
+    "prompt": "Why did John the Baptist deny being Elijah?",
+    "choices_json": [
+      "the one who believes in the Son has eternal life and does not come into judgment",
+      "the light has come into the world and people loved darkness rather than light",
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "because he was sent to witness, not to claim the title"
+    ],
+    "correct_answer": "because he was sent to witness, not to claim the title",
+    "explanation": "John stayed in the role of witness rather than claiming another identity."
+  },
+  {
+    "book_number": 43,
+    "chapter": 1,
+    "difficulty_stage": 3,
+    "prompt": "What does Nathanael's quick confession suggest about Jesus?",
+    "choices_json": [
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "the light has come into the world and people loved darkness rather than light",
+      "that Jesus knew his heart and saw him under the fig tree",
+      "the one who believes in the Son has eternal life and does not come into judgment"
+    ],
+    "correct_answer": "that Jesus knew his heart and saw him under the fig tree",
+    "explanation": "Jesus's knowledge leads Nathanael to recognize more than a normal teacher."
+  },
+  {
+    "book_number": 43,
+    "chapter": 1,
+    "difficulty_stage": 4,
+    "prompt": "Why is the title Lamb of God important in John 1?",
+    "choices_json": [
+      "the light has come into the world and people loved darkness rather than light",
+      "it points to Jesus as the sacrificial one who takes away sin",
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "the one who believes in the Son has eternal life and does not come into judgment"
+    ],
+    "correct_answer": "it points to Jesus as the sacrificial one who takes away sin",
+    "explanation": "The title frames Jesus as the one who deals with sin by giving himself."
+  },
+  {
+    "book_number": 43,
+    "chapter": 1,
+    "difficulty_stage": 4,
+    "prompt": "What does the Word becoming flesh reveal about God?",
+    "choices_json": [
+      "the light has come into the world and people loved darkness rather than light",
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "God has entered human life and made himself visible",
+      "the one who believes in the Son has eternal life and does not come into judgment"
+    ],
+    "correct_answer": "God has entered human life and made himself visible",
+    "explanation": "The Prologue presents revelation as embodied in Jesus."
+  },
+  {
+    "book_number": 43,
+    "chapter": 1,
+    "difficulty_stage": 5,
+    "prompt": "How does John 1 join creation and incarnation?",
+    "choices_json": [
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "the creator Word becomes flesh within the world he made",
+      "the light has come into the world and people loved darkness rather than light",
+      "the one who believes in the Son has eternal life and does not come into judgment"
+    ],
+    "correct_answer": "the creator Word becomes flesh within the world he made",
+    "explanation": "John links the one who made all things with the one who entered the world."
+  },
+  {
+    "book_number": 43,
+    "chapter": 1,
+    "difficulty_stage": 5,
+    "prompt": "Why does John say no one has seen God, yet the Son has made him known?",
+    "choices_json": [
+      "the Word became flesh and dwelt among us",
+      "Jesus uniquely reveals the unseen Father",
+      "the Father seeks such people to worship him",
+      "the only Son who is at the Father's side"
+    ],
+    "correct_answer": "Jesus uniquely reveals the unseen Father",
+    "explanation": "John's climax is that the Son interprets the Father perfectly."
+  },
+  {
+    "book_number": 43,
+    "chapter": 2,
+    "difficulty_stage": 3,
+    "prompt": "Why did Jesus cleanse the temple so early in John?",
+    "choices_json": [
+      "the light has come into the world and people loved darkness rather than light",
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "the one who believes in the Son has eternal life and does not come into judgment",
+      "to show zeal for his Father's house and provoke the confrontation"
+    ],
+    "correct_answer": "to show zeal for his Father's house and provoke the confrontation",
+    "explanation": "The sign of judgment opens the conflict over Jesus's authority."
+  },
+  {
+    "book_number": 43,
+    "chapter": 2,
+    "difficulty_stage": 3,
+    "prompt": "What did Jesus's three-day temple saying hint at?",
+    "choices_json": [
+      "My Father is still working, so I am working too",
+      "his resurrection",
+      "the hour is coming and is now here",
+      "the Father is seeking true worshipers"
+    ],
+    "correct_answer": "his resurrection",
+    "explanation": "John later explains that Jesus was speaking about the temple of his body."
+  },
+  {
+    "book_number": 43,
+    "chapter": 2,
+    "difficulty_stage": 4,
+    "prompt": "How do Cana and the temple cleansing work together in John 2?",
+    "choices_json": [
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "they reveal glory through abundance and judgment",
+      "the one who believes in the Son has eternal life and does not come into judgment",
+      "the light has come into the world and people loved darkness rather than light"
+    ],
+    "correct_answer": "they reveal glory through abundance and judgment",
+    "explanation": "The sign at Cana and the temple act both unveil who Jesus is."
+  },
+  {
+    "book_number": 43,
+    "chapter": 2,
+    "difficulty_stage": 4,
+    "prompt": "Why is my hour has not yet come significant?",
+    "choices_json": [
+      "the light has come into the world and people loved darkness rather than light",
+      "John's Gospel ties Jesus's mission to a divinely set timing",
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "the one who believes in the Son has eternal life and does not come into judgment"
+    ],
+    "correct_answer": "John's Gospel ties Jesus's mission to a divinely set timing",
+    "explanation": "The hour theme keeps Jesus's actions on the Father's schedule."
+  },
+  {
+    "book_number": 43,
+    "chapter": 2,
+    "difficulty_stage": 4,
+    "prompt": "How does the temple saying point beyond the building itself?",
+    "choices_json": [
+      "the bread which I will give for the life of the world is my flesh",
+      "to Jesus's body as the true temple",
+      "the Word was with God",
+      "the Scriptures testify about me"
+    ],
+    "correct_answer": "to Jesus's body as the true temple",
+    "explanation": "The saying makes Jesus the true meeting place between God and his people."
+  },
+  {
+    "book_number": 43,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "Why is Jesus's body called the temple in John 2?",
+    "choices_json": [
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "the one who believes in the Son has eternal life and does not come into judgment",
+      "because God's presence and worship center on him",
+      "the light has come into the world and people loved darkness rather than light"
+    ],
+    "correct_answer": "because God's presence and worship center on him",
+    "explanation": "The old temple points forward to Jesus as the new locus of God's presence."
+  },
+  {
+    "book_number": 43,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "What does John mean when he says Jesus did not entrust himself to them?",
+    "choices_json": [
+      "the bread which I will give for the life of the world is my flesh",
+      "the bread of life discourse that many found hard",
+      "No one can come to me unless the Father draws him",
+      "their faith was shallow and based on signs"
+    ],
+    "correct_answer": "their faith was shallow and based on signs",
+    "explanation": "John distinguishes sign-based enthusiasm from deep trust."
+  },
+  {
+    "book_number": 43,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "Why is the disciples' later remembrance important?",
+    "choices_json": [
+      "the light has come into the world and people loved darkness rather than light",
+      "it links Scripture, resurrection, and understanding",
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "the one who believes in the Son has eternal life and does not come into judgment"
+    ],
+    "correct_answer": "it links Scripture, resurrection, and understanding",
+    "explanation": "After the resurrection, they understand the sign and the Scripture together."
+  },
+  {
+    "book_number": 43,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "How does John 2 prepare for later temple themes?",
+    "choices_json": [
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "it anticipates Jesus replacing the old temple system",
+      "the light has come into the world and people loved darkness rather than light",
+      "the one who believes in the Son has eternal life and does not come into judgment"
+    ],
+    "correct_answer": "it anticipates Jesus replacing the old temple system",
+    "explanation": "John is already pointing readers beyond the building to Jesus himself."
+  },
+  {
+    "book_number": 43,
+    "chapter": 3,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus compare the Spirit to the wind?",
+    "choices_json": [
+      "the one who believes in the Son has eternal life and does not come into judgment",
+      "the Spirit moves freely and cannot be controlled",
+      "the light has come into the world and people loved darkness rather than light",
+      "the Father seeks true worshipers who will worship in spirit and truth"
+    ],
+    "correct_answer": "the Spirit moves freely and cannot be controlled",
+    "explanation": "The comparison stresses mystery and sovereign movement rather than human control."
+  },
+  {
+    "book_number": 43,
+    "chapter": 3,
+    "difficulty_stage": 3,
+    "prompt": "Why did Nicodemus struggle with being born from above?",
+    "choices_json": [
+      "No one can come to me unless the Father draws him",
+      "My food is to do the will of him who sent me",
+      "he heard Jesus in a literal, earthly way",
+      "the Word became flesh and dwelt among us"
+    ],
+    "correct_answer": "he heard Jesus in a literal, earthly way",
+    "explanation": "Nicodemus keeps reducing spiritual truth to physical language."
+  },
+  {
+    "book_number": 43,
+    "chapter": 3,
+    "difficulty_stage": 4,
+    "prompt": "How does the bronze serpent help explain Jesus's mission?",
+    "choices_json": [
+      "faith in the lifted-up one brings life",
+      "the Word became flesh and dwelt among us",
+      "that the world through him might be saved",
+      "My Father is still working, so I am working too"
+    ],
+    "correct_answer": "faith in the lifted-up one brings life",
+    "explanation": "Jesus uses the Old Testament image to explain salvation through looking in faith."
+  },
+  {
+    "book_number": 43,
+    "chapter": 3,
+    "difficulty_stage": 4,
+    "prompt": "What do light and darkness reveal in John 3?",
+    "choices_json": [
+      "the bread which I will give for the life of the world is my flesh",
+      "he spoke of the temple of his body",
+      "the Father is seeking true worshipers",
+      "people are judged by how they respond to revealed truth"
+    ],
+    "correct_answer": "people are judged by how they respond to revealed truth",
+    "explanation": "John turns moral response into the basic issue of the chapter."
+  },
+  {
+    "book_number": 43,
+    "chapter": 3,
+    "difficulty_stage": 4,
+    "prompt": "Why does John's joy at Jesus increasing matter?",
+    "choices_json": [
+      "it shows the friend of the bridegroom rejoicing, not competing",
+      "the light has come into the world and people loved darkness rather than light",
+      "the one who believes in the Son has eternal life and does not come into judgment",
+      "the Father seeks true worshipers who will worship in spirit and truth"
+    ],
+    "correct_answer": "it shows the friend of the bridegroom rejoicing, not competing",
+    "explanation": "John models faithful witness rather than rivalry."
+  },
+  {
+    "book_number": 43,
+    "chapter": 3,
+    "difficulty_stage": 5,
+    "prompt": "How does John 3 summarize the gospel's promise and warning?",
+    "choices_json": [
+      "the light has come into the world and people loved darkness rather than light",
+      "the one who believes in the Son has eternal life and does not come into judgment",
+      "belief brings life while unbelief brings judgment",
+      "the Father seeks true worshipers who will worship in spirit and truth"
+    ],
+    "correct_answer": "belief brings life while unbelief brings judgment",
+    "explanation": "The chapter gathers John's central response pattern into one contrast."
+  },
+  {
+    "book_number": 43,
+    "chapter": 3,
+    "difficulty_stage": 5,
+    "prompt": "Why is the Father's sending of the Son central here?",
+    "choices_json": [
+      "love moves salvation from God toward the world",
+      "the bread which I will give for the life of the world is my flesh",
+      "My Father is still working, so I am working too",
+      "No one can come to me unless the Father draws him"
+    ],
+    "correct_answer": "love moves salvation from God toward the world",
+    "explanation": "God's love is shown in sending, not merely in speaking."
+  },
+  {
+    "book_number": 43,
+    "chapter": 3,
+    "difficulty_stage": 5,
+    "prompt": "How does Nicodemus's nighttime visit foreshadow his later appearances?",
+    "choices_json": [
+      "the bread which I will give for the life of the world is my flesh",
+      "the bread of life discourse that many found hard",
+      "he gradually moves from secrecy toward openness",
+      "No one can come to me unless the Father draws him"
+    ],
+    "correct_answer": "he gradually moves from secrecy toward openness",
+    "explanation": "Nicodemus's arc suggests movement out of darkness."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus ask the Samaritan woman for at Jacob's well?",
+    "choices_json": [
+      "a drink",
+      "a bucket",
+      "baskets",
+      "the temple"
+    ],
+    "correct_answer": "a drink",
+    "explanation": "Jesus begins the conversation with an ordinary request for water."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "What kind of water did Jesus offer her?",
+    "choices_json": [
+      "five barley loaves",
+      "the stone water jars",
+      "living water",
+      "the good wine"
+    ],
+    "correct_answer": "living water",
+    "explanation": "Jesus contrasts his gift with ordinary well water."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "How many husbands had the woman had?",
+    "choices_json": [
+      "thirty-eight years",
+      "the same hour",
+      "five",
+      "an hour"
+    ],
+    "correct_answer": "five",
+    "explanation": "Jesus reveals the woman's past in a specific, memorable way."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus say true worshipers must do?",
+    "choices_json": [
+      "My food is to do the will of him who sent me",
+      "worship in spirit and truth",
+      "the hour is coming and is now here",
+      "No one can come to me unless the Father draws him"
+    ],
+    "correct_answer": "worship in spirit and truth",
+    "explanation": "True worship is no longer tied to one mountain."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "Who believed Jesus was the Savior of the world?",
+    "choices_json": [
+      "the disciples who stayed",
+      "many Samaritans",
+      "the man at Bethesda",
+      "the Samaritan woman"
+    ],
+    "correct_answer": "many Samaritans",
+    "explanation": "The response of the town shows the spread of belief beyond one person."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus call his food?",
+    "choices_json": [
+      "to do the will of him who sent me",
+      "You have the words of eternal life",
+      "the Son can do nothing of his own accord",
+      "he spoke of the temple of his body"
+    ],
+    "correct_answer": "to do the will of him who sent me",
+    "explanation": "Jesus defines nourishment in terms of obedience to the Father."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus say to the nobleman about his son?",
+    "choices_json": [
+      "Sir, give me this water",
+      "Your son lives",
+      "It is the Spirit who gives life",
+      "the resurrection of life"
+    ],
+    "correct_answer": "Your son lives",
+    "explanation": "Jesus gives the healing word before the sign is seen."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "What did the woman say when Jesus asked her for a drink?",
+    "choices_json": [
+      "My Father is still working, so I am working too",
+      "the bread which I will give for the life of the world is my flesh",
+      "How is it that you, a Jew, ask me for a drink?",
+      "No one can come to me unless the Father draws him"
+    ],
+    "correct_answer": "How is it that you, a Jew, ask me for a drink?",
+    "explanation": "Her reply exposes the social boundary Jesus is crossing."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "What did Jesus say about the water from Jacob's well?",
+    "choices_json": [
+      "the bread which I will give for the life of the world is my flesh",
+      "the Son gives life to whom he wishes",
+      "It makes you thirsty again",
+      "the life-giving word from heaven"
+    ],
+    "correct_answer": "It makes you thirsty again",
+    "explanation": "Ordinary water cannot finally satisfy."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "What detail about the woman's life did Jesus reveal?",
+    "choices_json": [
+      "the Word became flesh and dwelt among us",
+      "the Son of Man who has descended",
+      "the only Son who is at the Father's side",
+      "she had had five husbands"
+    ],
+    "correct_answer": "she had had five husbands",
+    "explanation": "Jesus shows he knows more about her life than she expected."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "What did the Samaritans ask Jesus to do after believing?",
+    "choices_json": [
+      "the Father seeks such people to worship him",
+      "Stay with them",
+      "No one can come to me unless the Father draws him",
+      "the Son of Man must be lifted up"
+    ],
+    "correct_answer": "Stay with them",
+    "explanation": "Their invitation shows growing faith and welcome."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "How long did Jesus stay in Sychar?",
+    "choices_json": [
+      "two days",
+      "during Passover",
+      "on the Sabbath",
+      "the same hour"
+    ],
+    "correct_answer": "two days",
+    "explanation": "John includes the detail to show Jesus's longer presence among them."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "At what hour did the nobleman's son recover?",
+    "choices_json": [
+      "worship in spirit and truth",
+      "the bread which I will give for the life of the world is my flesh",
+      "the same hour Jesus spoke",
+      "You have the words of eternal life"
+    ],
+    "correct_answer": "the same hour Jesus spoke",
+    "explanation": "The healing lines up exactly with Jesus's word."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "What did the disciples urge Jesus to eat when they returned?",
+    "choices_json": [
+      "the bread which I will give for the life of the world is my flesh",
+      "Rabbi, eat",
+      "that the world through him might be saved",
+      "the Son gives life to whom he wishes"
+    ],
+    "correct_answer": "Rabbi, eat",
+    "explanation": "They are thinking about physical food while Jesus speaks about mission."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "Why is Jesus asking a Samaritan woman for water surprising?",
+    "choices_json": [
+      "the Father seeks such people to worship him",
+      "the bread which I will give for the life of the world is my flesh",
+      "it crossed a Jewish-Samaritan boundary",
+      "the Son can do nothing of his own accord"
+    ],
+    "correct_answer": "it crossed a Jewish-Samaritan boundary",
+    "explanation": "The request breaks normal expectations of social distance."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus mention the woman's five husbands?",
+    "choices_json": [
+      "the bread which I will give for the life of the world is my flesh",
+      "to reveal his prophetic knowledge of her life",
+      "My Father is still working, so I am working too",
+      "No one can come to me unless the Father draws him"
+    ],
+    "correct_answer": "to reveal his prophetic knowledge of her life",
+    "explanation": "The conversation moves from water to revelation of the heart."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "Why is the well water not enough?",
+    "choices_json": [
+      "My Father is still working, so I am working too",
+      "the Father seeks such people to worship him",
+      "it only quenches thirst for a while",
+      "that the world through him might be saved"
+    ],
+    "correct_answer": "it only quenches thirst for a while",
+    "explanation": "Jesus contrasts temporary relief with lasting life."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "Why is healing at a distance significant?",
+    "choices_json": [
+      "the one who believes in the Son has eternal life and does not come into judgment",
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "it shows Jesus's word has authority without physical presence",
+      "the light has come into the world and people loved darkness rather than light"
+    ],
+    "correct_answer": "it shows Jesus's word has authority without physical presence",
+    "explanation": "The sign depends on his word, not on touch."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus talk about harvest to the disciples?",
+    "choices_json": [
+      "No one can come to me unless the Father draws him",
+      "My Father is still working, so I am working too",
+      "the bread which I will give for the life of the world is my flesh",
+      "to show the fields are already ripe for mission"
+    ],
+    "correct_answer": "to show the fields are already ripe for mission",
+    "explanation": "He teaches them to see mission-ready people around them."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "Why do the Samaritans believe first because of the woman's word and then because of Jesus's word?",
+    "choices_json": [
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "the light has come into the world and people loved darkness rather than light",
+      "their faith grows from testimony to direct hearing",
+      "the one who believes in the Son has eternal life and does not come into judgment"
+    ],
+    "correct_answer": "their faith grows from testimony to direct hearing",
+    "explanation": "John shows testimony leading to personal encounter."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus say his food is to do the Father's will?",
+    "choices_json": [
+      "the bread which I will give for the life of the world is my flesh",
+      "because obedience is his sustaining priority",
+      "No one can come to me unless the Father draws him",
+      "the bread of life discourse that many found hard"
+    ],
+    "correct_answer": "because obedience is his sustaining priority",
+    "explanation": "Jesus's mission outranks ordinary physical needs."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "How does John 4 redefine true worship?",
+    "choices_json": [
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "the one who believes in the Son has eternal life and does not come into judgment",
+      "the light has come into the world and people loved darkness rather than light",
+      "worship in spirit and truth, not on a sacred mountain"
+    ],
+    "correct_answer": "worship in spirit and truth, not on a sacred mountain",
+    "explanation": "Jesus relocates worship away from the old geography."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "What contrast does the chapter draw between Jacob's well and Jesus's gift?",
+    "choices_json": [
+      "temporary water versus eternal life",
+      "the bread that came down from heaven",
+      "the Father is seeking true worshipers",
+      "the Word became flesh and dwelt among us"
+    ],
+    "correct_answer": "temporary water versus eternal life",
+    "explanation": "The old well becomes a backdrop for Jesus's greater gift."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "Why is Jesus's self-disclosure to the woman important?",
+    "choices_json": [
+      "No one can come to me unless the Father draws him",
+      "My Father is still working, so I am working too",
+      "he reveals himself as Messiah to an outsider",
+      "My food is to do the will of him who sent me"
+    ],
+    "correct_answer": "he reveals himself as Messiah to an outsider",
+    "explanation": "The revelation goes to someone outside expected religious privilege."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "What does the title Savior of the world suggest?",
+    "choices_json": [
+      "the Son can do nothing of his own accord",
+      "My Father is still working, so I am working too",
+      "the bread which I will give for the life of the world is my flesh",
+      "Jesus's salvation extends beyond Israel"
+    ],
+    "correct_answer": "Jesus's salvation extends beyond Israel",
+    "explanation": "The Samaritans' confession widens the scope of the Gospel."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "How does the harvest saying fit John's mission theme?",
+    "choices_json": [
+      "My food is to do the will of him who sent me",
+      "disciples join an already prepared mission",
+      "No one can come to me unless the Father draws him",
+      "the Father seeks such people to worship him"
+    ],
+    "correct_answer": "disciples join an already prepared mission",
+    "explanation": "The image emphasizes shared labor in God's field."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "What does the nobleman's sign show about belief?",
+    "choices_json": [
+      "the one who believes in the Son has eternal life and does not come into judgment",
+      "the light has come into the world and people loved darkness rather than light",
+      "trust can rest on Jesus's word before the sign is seen",
+      "the Father seeks true worshipers who will worship in spirit and truth"
+    ],
+    "correct_answer": "trust can rest on Jesus's word before the sign is seen",
+    "explanation": "John keeps foregrounding word-based faith."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "How does the chapter connect worship with revelation?",
+    "choices_json": [
+      "the Son gives life to whom he wishes",
+      "the Father seeks worshipers through the Son",
+      "My food is to do the will of him who sent me",
+      "the fields are white for harvest"
+    ],
+    "correct_answer": "the Father seeks worshipers through the Son",
+    "explanation": "Worship is now defined by God's self-disclosure in Jesus."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "How does chapter 4 anticipate Gentile inclusion?",
+    "choices_json": [
+      "the bread which I will give for the life of the world is my flesh",
+      "My Father is still working, so I am working too",
+      "No one can come to me unless the Father draws him",
+      "Samaritans believe Jesus is Savior of the world"
+    ],
+    "correct_answer": "Samaritans believe Jesus is Savior of the world",
+    "explanation": "The chapter breaks out of a strictly Jewish horizon."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "Why does the woman's witness matter in John's Gospel?",
+    "choices_json": [
+      "the bread which I will give for the life of the world is my flesh",
+      "My Father is still working, so I am working too",
+      "No one can come to me unless the Father draws him",
+      "a marginalized witness leads others to faith"
+    ],
+    "correct_answer": "a marginalized witness leads others to faith",
+    "explanation": "John often uses surprising witnesses to advance belief."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "How does the distance healing point to John's view of Jesus's word?",
+    "choices_json": [
+      "No one can come to me unless the Father draws him",
+      "My Father is still working, so I am working too",
+      "that the world through him might be saved",
+      "his spoken word accomplishes what he says"
+    ],
+    "correct_answer": "his spoken word accomplishes what he says",
+    "explanation": "The sign shows the effective power of Jesus's speech."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "Why is spirit-and-truth worship a major Johannine theme?",
+    "choices_json": [
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "the one who believes in the Son has eternal life and does not come into judgment",
+      "the light has come into the world and people loved darkness rather than light",
+      "it shifts worship from place to Christ-centered relationship"
+    ],
+    "correct_answer": "it shifts worship from place to Christ-centered relationship",
+    "explanation": "John treats worship as defined by Jesus and the Father."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "How does the chapter show revelation moving from sign to faith?",
+    "choices_json": [
+      "the light has come into the world and people loved darkness rather than light",
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "the nobleman's house believes after Jesus's word",
+      "the one who believes in the Son has eternal life and does not come into judgment"
+    ],
+    "correct_answer": "the nobleman's house believes after Jesus's word",
+    "explanation": "The healing leads to broader believing response."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "What does the food saying reveal about Jesus's identity?",
+    "choices_json": [
+      "My food is to do the will of him who sent me",
+      "his life is centered on the Father's mission",
+      "My Father is still working, so I am working too",
+      "the bread which I will give for the life of the world is my flesh"
+    ],
+    "correct_answer": "his life is centered on the Father's mission",
+    "explanation": "Jesus is sustained by obedience to the sender."
+  },
+  {
+    "book_number": 43,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "How does the chapter portray Jesus as the source of life?",
+    "choices_json": [
+      "the Word was with God",
+      "Come and see",
+      "he gives living water and gives life by his word",
+      "the bread which I will give for the life of the world is my flesh"
+    ],
+    "correct_answer": "he gives living water and gives life by his word",
+    "explanation": "Both the well scene and the healing point to life in him."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 1,
+    "prompt": "What pool was the sick man lying beside?",
+    "choices_json": [
+      "the festival in Jerusalem",
+      "the pool called Bethesda",
+      "the Sea of Galilee",
+      "Bethesda"
+    ],
+    "correct_answer": "Bethesda",
+    "explanation": "The healing begins beside the pool by the Sheep Gate."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 1,
+    "prompt": "How long had the man been sick?",
+    "choices_json": [
+      "about five thousand",
+      "thirty-eight years",
+      "while it was still dark",
+      "when he entered the house"
+    ],
+    "correct_answer": "thirty-eight years",
+    "explanation": "John emphasizes the long duration of the man's condition."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus tell him to do?",
+    "choices_json": [
+      "the Son of Man must be lifted up",
+      "to those who believed in his name",
+      "You have the words of eternal life",
+      "take up your mat and walk"
+    ],
+    "correct_answer": "take up your mat and walk",
+    "explanation": "The command immediately follows the healing word."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 1,
+    "prompt": "On what day did Jesus heal him?",
+    "choices_json": [
+      "Sabbath",
+      "the Son gives life to whom he wishes",
+      "No one can come to me unless the Father draws him",
+      "grace upon grace"
+    ],
+    "correct_answer": "Sabbath",
+    "explanation": "The day intensifies the conflict over the sign."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus call God in the dispute?",
+    "choices_json": [
+      "He told me all that I ever did",
+      "We have found the Messiah",
+      "my Father",
+      "Your son lives"
+    ],
+    "correct_answer": "my Father",
+    "explanation": "Jesus's wording is what provokes the strongest reaction."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus say the Son can give?",
+    "choices_json": [
+      "It is the Spirit who gives life",
+      "life",
+      "You must be born from above",
+      "My food is to do the will of him who sent me"
+    ],
+    "correct_answer": "life",
+    "explanation": "Life-giving authority belongs to the Son."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 1,
+    "prompt": "What warning did Jesus later give the healed man?",
+    "choices_json": [
+      "to those who believed in his name",
+      "the true light",
+      "the Lamb of God",
+      "Sin no more"
+    ],
+    "correct_answer": "Sin no more",
+    "explanation": "Jesus pairs healing with a moral warning."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 2,
+    "prompt": "Why did Jesus ask the man if he wanted to be healed?",
+    "choices_json": [
+      "My Father is still working, so I am working too",
+      "he was drawing out the man's helplessness",
+      "that the world through him might be saved",
+      "My food is to do the will of him who sent me"
+    ],
+    "correct_answer": "he was drawing out the man's helplessness",
+    "explanation": "The question exposes the man's dependence before the healing."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 2,
+    "prompt": "What excuse did the man give?",
+    "choices_json": [
+      "the Father is seeking true worshipers",
+      "the Father seeks such people to worship him",
+      "My Father is still working, so I am working too",
+      "No one had put him into the pool"
+    ],
+    "correct_answer": "No one had put him into the pool",
+    "explanation": "He explains his inability to reach the water in time."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 2,
+    "prompt": "Why did the Jews persecute Jesus?",
+    "choices_json": [
+      "he spoke of the temple of his body",
+      "the Father seeks such people to worship him",
+      "he healed on the Sabbath",
+      "My food is to do the will of him who sent me"
+    ],
+    "correct_answer": "he healed on the Sabbath",
+    "explanation": "The healing becomes a Sabbath controversy."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 2,
+    "prompt": "What accusation did the Jews make about Jesus's claim?",
+    "choices_json": [
+      "the Word became flesh and dwelt among us",
+      "My food is to do the will of him who sent me",
+      "he was making himself equal with God",
+      "the bread which I will give for the life of the world is my flesh"
+    ],
+    "correct_answer": "he was making himself equal with God",
+    "explanation": "They hear divine equality in Jesus's claim to be working as the Father works."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 2,
+    "prompt": "What does the Son do with the Father's works?",
+    "choices_json": [
+      "No one can come to me unless the Father draws him",
+      "My Father is still working, so I am working too",
+      "whatever the Father does, the Son does likewise",
+      "the bread which I will give for the life of the world is my flesh"
+    ],
+    "correct_answer": "whatever the Father does, the Son does likewise",
+    "explanation": "Jesus describes a perfect shared pattern of action."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 2,
+    "prompt": "What happens to the one who hears and believes?",
+    "choices_json": [
+      "You have the words of eternal life",
+      "he passes from death to life",
+      "the Scriptures testify about me",
+      "that the world through him might be saved"
+    ],
+    "correct_answer": "he passes from death to life",
+    "explanation": "John frames belief as a transfer of realms."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 2,
+    "prompt": "What witnesses does Jesus cite?",
+    "choices_json": [
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "John, his works, the Father, the Scriptures, and Moses",
+      "the one who believes in the Son has eternal life and does not come into judgment",
+      "the light has come into the world and people loved darkness rather than light"
+    ],
+    "correct_answer": "John, his works, the Father, the Scriptures, and Moses",
+    "explanation": "Jesus builds a layered testimony for his identity."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 3,
+    "prompt": "Why is the healing at Bethesda significant beyond physical restoration?",
+    "choices_json": [
+      "it reveals divine mercy and authority",
+      "that the world through him might be saved",
+      "the only Son who is at the Father's side",
+      "the Father seeks such people to worship him"
+    ],
+    "correct_answer": "it reveals divine mercy and authority",
+    "explanation": "The sign shows more than compassion; it shows who Jesus is."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 3,
+    "prompt": "Why does the Sabbath conflict matter?",
+    "choices_json": [
+      "it points to Jesus's authority over sacred time",
+      "No one can come to me unless the Father draws him",
+      "the bread which I will give for the life of the world is my flesh",
+      "My Father is still working, so I am working too"
+    ],
+    "correct_answer": "it points to Jesus's authority over sacred time",
+    "explanation": "Jesus works in a way that reveals his divine status."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 3,
+    "prompt": "Why is the healed man told to carry his mat?",
+    "choices_json": [
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "the light has come into the world and people loved darkness rather than light",
+      "it makes the restoration public and sparks the conflict",
+      "the one who believes in the Son has eternal life and does not come into judgment"
+    ],
+    "correct_answer": "it makes the restoration public and sparks the conflict",
+    "explanation": "The carried mat becomes a visible sign of healing."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 3,
+    "prompt": "What does thirty-eight years suggest?",
+    "choices_json": [
+      "My Father is still working, so I am working too",
+      "that the world through him might be saved",
+      "long hopelessness and complete need",
+      "the Father seeks such people to worship him"
+    ],
+    "correct_answer": "long hopelessness and complete need",
+    "explanation": "John stresses the man's utter inability to heal himself."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 3,
+    "prompt": "Why is Jesus's claim My Father is still working provocative?",
+    "choices_json": [
+      "the bread which I will give for the life of the world is my flesh",
+      "the Son can do nothing of his own accord",
+      "it means he shares God's ongoing work",
+      "My Father is still working, so I am working too"
+    ],
+    "correct_answer": "it means he shares God's ongoing work",
+    "explanation": "Jesus places his own work inside the Father's work."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus cite witnesses?",
+    "choices_json": [
+      "the one who believes in the Son has eternal life and does not come into judgment",
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "to establish a case for his identity before his opponents",
+      "the light has come into the world and people loved darkness rather than light"
+    ],
+    "correct_answer": "to establish a case for his identity before his opponents",
+    "explanation": "The chapter has a courtroom feel."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 3,
+    "prompt": "What does hear my word and believe him who sent me imply about salvation?",
+    "choices_json": [
+      "the one who believes in the Son has eternal life and does not come into judgment",
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "life comes through trusting the Sender's testimony",
+      "the light has come into the world and people loved darkness rather than light"
+    ],
+    "correct_answer": "life comes through trusting the Sender's testimony",
+    "explanation": "Belief is rooted in hearing the divine witness."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 4,
+    "prompt": "How does chapter 5 portray Jesus's relation to the Father?",
+    "choices_json": [
+      "the one who comes down from heaven",
+      "We have found the Messiah",
+      "they share work and honor",
+      "He told me all that I ever did"
+    ],
+    "correct_answer": "they share work and honor",
+    "explanation": "The Son is not merely similar to the Father; he acts with him."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 4,
+    "prompt": "Why does the Son's authority to judge matter?",
+    "choices_json": [
+      "It is the Spirit who gives life",
+      "life and judgment belong to him",
+      "the Father is seeking true worshipers",
+      "No one can come to me unless the Father draws him"
+    ],
+    "correct_answer": "life and judgment belong to him",
+    "explanation": "Jesus holds the prerogatives that belong to God."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 4,
+    "prompt": "What does the chapter say about Scripture?",
+    "choices_json": [
+      "the light has come into the world and people loved darkness rather than light",
+      "it testifies to Jesus but cannot give life apart from him",
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "the one who believes in the Son has eternal life and does not come into judgment"
+    ],
+    "correct_answer": "it testifies to Jesus but cannot give life apart from him",
+    "explanation": "The Bible is witness, not substitute, in John's argument."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 4,
+    "prompt": "How does the sign at Bethesda expose spiritual blindness?",
+    "choices_json": [
+      "My Father is still working, so I am working too",
+      "leaders see healing but miss the giver of life",
+      "the bread which I will give for the life of the world is my flesh",
+      "No one can come to me unless the Father draws him"
+    ],
+    "correct_answer": "leaders see healing but miss the giver of life",
+    "explanation": "The sign does not produce understanding by itself."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 4,
+    "prompt": "Why is honoring the Son essential in John's theology?",
+    "choices_json": [
+      "the bread which I will give for the life of the world is my flesh",
+      "the Son gives life to whom he wishes",
+      "honoring the Son honors the Father",
+      "the only Son who is at the Father's side"
+    ],
+    "correct_answer": "honoring the Son honors the Father",
+    "explanation": "The Son shares the Father's honor, not just his message."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 4,
+    "prompt": "How does the chapter connect life now and life later?",
+    "choices_json": [
+      "grace upon grace",
+      "the Son gives life now and raises the dead",
+      "the bread which I will give for the life of the world is my flesh",
+      "Rabbi, eat"
+    ],
+    "correct_answer": "the Son gives life now and raises the dead",
+    "explanation": "John joins present and future life in the Son."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 4,
+    "prompt": "Why is Moses' testimony important?",
+    "choices_json": [
+      "it turns the law into a witness against unbelief",
+      "the light has come into the world and people loved darkness rather than light",
+      "the one who believes in the Son has eternal life and does not come into judgment",
+      "the Father seeks true worshipers who will worship in spirit and truth"
+    ],
+    "correct_answer": "it turns the law into a witness against unbelief",
+    "explanation": "Moses becomes part of the case that condemns rejection."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 5,
+    "prompt": "How does John 5 deepen the Gospel's picture of Jesus as divine?",
+    "choices_json": [
+      "the bread which I will give for the life of the world is my flesh",
+      "he shares the Father's work and prerogatives",
+      "My Father is still working, so I am working too",
+      "No one can come to me unless the Father draws him"
+    ],
+    "correct_answer": "he shares the Father's work and prerogatives",
+    "explanation": "John moves from sign to explicit theological claim."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 5,
+    "prompt": "Why is the Son's role as judge central to Johannine Christology?",
+    "choices_json": [
+      "No one can come to me unless the Father draws him",
+      "he embodies divine authority and final judgment",
+      "My Father is still working, so I am working too",
+      "the bread which I will give for the life of the world is my flesh"
+    ],
+    "correct_answer": "he embodies divine authority and final judgment",
+    "explanation": "The Son is not only giver of life but also judge."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 5,
+    "prompt": "How does the chapter's witness language function apologetically?",
+    "choices_json": [
+      "it builds a cumulative case from multiple testimonies",
+      "the light has come into the world and people loved darkness rather than light",
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "the one who believes in the Son has eternal life and does not come into judgment"
+    ],
+    "correct_answer": "it builds a cumulative case from multiple testimonies",
+    "explanation": "John stacks witnesses to support faith."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 5,
+    "prompt": "Why is the accusation of equality with God theologically important?",
+    "choices_json": [
+      "the light has come into the world and people loved darkness rather than light",
+      "it states what John's Gospel is claiming about Jesus",
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "the one who believes in the Son has eternal life and does not come into judgment"
+    ],
+    "correct_answer": "it states what John's Gospel is claiming about Jesus",
+    "explanation": "The opponents correctly hear the force of Jesus's words."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 5,
+    "prompt": "How does the healed man's past illness illustrate salvation?",
+    "choices_json": [
+      "the light has come into the world and people loved darkness rather than light",
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "the one who believes in the Son has eternal life and does not come into judgment",
+      "Jesus restores what had been helpless for decades"
+    ],
+    "correct_answer": "Jesus restores what had been helpless for decades",
+    "explanation": "The miracle dramatizes the life-giving power of Jesus."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 5,
+    "prompt": "What does the chapter imply about religious knowledge without faith?",
+    "choices_json": [
+      "it can miss the very one it studies",
+      "the Father seeks such people to worship him",
+      "the bread that came down from heaven",
+      "the true light"
+    ],
+    "correct_answer": "it can miss the very one it studies",
+    "explanation": "The chapter warns that Scripture alone does not guarantee belief."
+  },
+  {
+    "book_number": 43,
+    "chapter": 5,
+    "difficulty_stage": 5,
+    "prompt": "How does the chapter foreshadow resurrection hope?",
+    "choices_json": [
+      "the light has come into the world and people loved darkness rather than light",
+      "the Son gives life and raises the dead by his voice",
+      "the one who believes in the Son has eternal life and does not come into judgment",
+      "the Father seeks true worshipers who will worship in spirit and truth"
+    ],
+    "correct_answer": "the Son gives life and raises the dead by his voice",
+    "explanation": "John already anticipates the life-giving voice of the Son."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 1,
+    "prompt": "How many loaves did the boy have?",
+    "choices_json": [
+      "the stone water jars",
+      "the bread from heaven",
+      "five barley loaves",
+      "the food from the boy"
+    ],
+    "correct_answer": "five barley loaves",
+    "explanation": "The boy's small offering becomes the basis of the sign."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 1,
+    "prompt": "How many fish did he have?",
+    "choices_json": [
+      "two fish",
+      "living water",
+      "a bucket",
+      "the temple"
+    ],
+    "correct_answer": "two fish",
+    "explanation": "The second part of the meal is just as modest."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 1,
+    "prompt": "About how many men were fed?",
+    "choices_json": [
+      "an hour",
+      "twelve",
+      "about five thousand",
+      "three days"
+    ],
+    "correct_answer": "about five thousand",
+    "explanation": "John states the crowd size to show the scale of the miracle."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 1,
+    "prompt": "How many baskets of leftovers were gathered?",
+    "choices_json": [
+      "on the Sabbath",
+      "twelve",
+      "two days",
+      "about five thousand"
+    ],
+    "correct_answer": "twelve",
+    "explanation": "The leftovers highlight abundance after everyone had eaten."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 1,
+    "prompt": "What did Jesus do on the sea?",
+    "choices_json": [
+      "the bread which I will give for the life of the world is my flesh",
+      "walked on it",
+      "the only Son who is at the Father's side",
+      "It is the Spirit who gives life"
+    ],
+    "correct_answer": "walked on it",
+    "explanation": "He comes to the disciples in a way that reveals his power."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 1,
+    "prompt": "What title did Jesus use for himself?",
+    "choices_json": [
+      "He told me all that I ever did",
+      "bread of life",
+      "the Lamb of God",
+      "the darkness has not overcome it"
+    ],
+    "correct_answer": "bread of life",
+    "explanation": "Jesus interprets the sign by naming himself the true bread."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 1,
+    "prompt": "Who would betray Jesus?",
+    "choices_json": [
+      "Judas Iscariot",
+      "the crowd that had been fed",
+      "the man at Bethesda",
+      "the bridegroom"
+    ],
+    "correct_answer": "Judas Iscariot",
+    "explanation": "John names the betrayer as part of the chapter's tension."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 2,
+    "prompt": "Which disciple asked where to buy bread?",
+    "choices_json": [
+      "the Son",
+      "Andrew",
+      "the Samaritans",
+      "Philip"
+    ],
+    "correct_answer": "Philip",
+    "explanation": "Philip becomes the one through whom the test question comes."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 2,
+    "prompt": "Which disciple brought the boy?",
+    "choices_json": [
+      "the servant",
+      "Andrew",
+      "the disciples who stayed",
+      "the sick man at Bethesda"
+    ],
+    "correct_answer": "Andrew",
+    "explanation": "Andrew is again the one who brings someone to Jesus."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 2,
+    "prompt": "Why did Jesus test Philip?",
+    "choices_json": [
+      "the bread which I will give for the life of the world is my flesh",
+      "he already knew what he was going to do",
+      "My food is to do the will of him who sent me",
+      "My Father is still working, so I am working too"
+    ],
+    "correct_answer": "he already knew what he was going to do",
+    "explanation": "The question is a test, not a request for information."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 2,
+    "prompt": "Why did the crowd seek Jesus again?",
+    "choices_json": [
+      "the Father seeks such people to worship him",
+      "No one can come to me unless the Father draws him",
+      "the bread which I will give for the life of the world is my flesh",
+      "because they ate the loaves and were filled"
+    ],
+    "correct_answer": "because they ate the loaves and were filled",
+    "explanation": "Their desire is driven by bread, not by the sign's meaning."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 2,
+    "prompt": "What did Jesus say they should work for?",
+    "choices_json": [
+      "the Father is seeking true worshipers",
+      "My food is to do the will of him who sent me",
+      "food that endures to eternal life",
+      "the only Son who is at the Father's side"
+    ],
+    "correct_answer": "food that endures to eternal life",
+    "explanation": "Jesus redirects effort toward lasting nourishment."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 2,
+    "prompt": "What did Jesus say is the work of God?",
+    "choices_json": [
+      "the hour is coming and is now here",
+      "It is the Spirit who gives life",
+      "to believe in him whom he sent",
+      "the Son of Man who has descended"
+    ],
+    "correct_answer": "to believe in him whom he sent",
+    "explanation": "Faith is framed as the central divine work."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 2,
+    "prompt": "What happened when the disciples took him into the boat?",
+    "choices_json": [
+      "the darkness has not overcome it",
+      "the life-giving word from heaven",
+      "the hour is coming and is now here",
+      "it immediately reached land"
+    ],
+    "correct_answer": "it immediately reached land",
+    "explanation": "The arrival is quick and striking once Jesus is with them."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 3,
+    "prompt": "Why did the crowd want to make Jesus king?",
+    "choices_json": [
+      "they saw provision but missed the sign's meaning",
+      "the one who believes in the Son has eternal life and does not come into judgment",
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "the light has come into the world and people loved darkness rather than light"
+    ],
+    "correct_answer": "they saw provision but missed the sign's meaning",
+    "explanation": "They want power and bread, not the deeper revelation."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 3,
+    "prompt": "Why does John mention the Passover?",
+    "choices_json": [
+      "the bread which I will give for the life of the world is my flesh",
+      "the bread of life discourse that many found hard",
+      "No one can come to me unless the Father draws him",
+      "it echoes exodus and wilderness provision"
+    ],
+    "correct_answer": "it echoes exodus and wilderness provision",
+    "explanation": "The feast context links the sign to Israel's story."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 3,
+    "prompt": "Why are the leftover baskets important?",
+    "choices_json": [
+      "that the world through him might be saved",
+      "No one can come to me unless the Father draws him",
+      "the Father seeks such people to worship him",
+      "they show abundance and no waste"
+    ],
+    "correct_answer": "they show abundance and no waste",
+    "explanation": "The sign's surplus reinforces the generosity of Jesus."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 3,
+    "prompt": "Why is walking on the sea significant?",
+    "choices_json": [
+      "the bread which I will give for the life of the world is my flesh",
+      "No one can come to me unless the Father draws him",
+      "it shows mastery over chaos and divine presence",
+      "My Father is still working, so I am working too"
+    ],
+    "correct_answer": "it shows mastery over chaos and divine presence",
+    "explanation": "The sea scene evokes God's power over creation."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 3,
+    "prompt": "Why do many disciples leave after the discourse?",
+    "choices_json": [
+      "Jesus's words are hard and offensive to literal expectations",
+      "I am the bread of life",
+      "the bread which I will give for the life of the world is my flesh",
+      "the Word was with God"
+    ],
+    "correct_answer": "Jesus's words are hard and offensive to literal expectations",
+    "explanation": "They stumble over the teaching about eating his flesh."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 3,
+    "prompt": "Why does Jesus compare himself to manna?",
+    "choices_json": [
+      "the bread of life discourse that many found hard",
+      "to show he is greater than wilderness provision",
+      "No one can come to me unless the Father draws him",
+      "the bread which I will give for the life of the world is my flesh"
+    ],
+    "correct_answer": "to show he is greater than wilderness provision",
+    "explanation": "He claims to be the true bread from heaven."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 3,
+    "prompt": "Why does the crowd's focus on bread matter?",
+    "choices_json": [
+      "the Word became flesh and dwelt among us",
+      "the Son can do nothing of his own accord",
+      "they seek benefits instead of belief",
+      "the bread which I will give for the life of the world is my flesh"
+    ],
+    "correct_answer": "they seek benefits instead of belief",
+    "explanation": "John exposes shallow, sign-based following."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 4,
+    "prompt": "How does feeding the crowd echo the wilderness?",
+    "choices_json": [
+      "the bread which I will give for the life of the world is my flesh",
+      "the Son can do nothing of his own accord",
+      "Jesus provides bread as a greater Moses",
+      "My Father is still working, so I am working too"
+    ],
+    "correct_answer": "Jesus provides bread as a greater Moses",
+    "explanation": "The miracle recalls Moses but surpasses him."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 4,
+    "prompt": "How does the bread of life discourse transform the sign?",
+    "choices_json": [
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "physical bread becomes a picture of eternal life in Christ",
+      "the light has come into the world and people loved darkness rather than light",
+      "the one who believes in the Son has eternal life and does not come into judgment"
+    ],
+    "correct_answer": "physical bread becomes a picture of eternal life in Christ",
+    "explanation": "John moves from miracle to meaning."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 4,
+    "prompt": "What does eating Jesus's flesh and drinking his blood imply?",
+    "choices_json": [
+      "No one can come to me unless the Father draws him",
+      "the bread which I will give for the life of the world is my flesh",
+      "My food is to do the will of him who sent me",
+      "participation in his life and sacrifice"
+    ],
+    "correct_answer": "participation in his life and sacrifice",
+    "explanation": "The language points to union with Jesus through his self-giving."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 4,
+    "prompt": "How does the chapter portray unbelief?",
+    "choices_json": [
+      "the crowd follows for bread, many disciples turn back, and Judas remains",
+      "the Son of Man must be lifted up",
+      "Rabbi, eat",
+      "Destroy this temple"
+    ],
+    "correct_answer": "the crowd follows for bread, many disciples turn back, and Judas remains",
+    "explanation": "John presents a layered picture of failed response."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 4,
+    "prompt": "Why does Peter's confession matter?",
+    "choices_json": [
+      "the bread of life discourse that many found hard",
+      "it preserves faith when others leave",
+      "No one can come to me unless the Father draws him",
+      "the bread which I will give for the life of the world is my flesh"
+    ],
+    "correct_answer": "it preserves faith when others leave",
+    "explanation": "Peter speaks for the believing remnant."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 4,
+    "prompt": "How does the chapter connect belief and coming to Jesus?",
+    "choices_json": [
+      "No one can come to me unless the Father draws him",
+      "the bread which I will give for the life of the world is my flesh",
+      "the Father draws, and the Son gives life",
+      "the bread of life discourse that many found hard"
+    ],
+    "correct_answer": "the Father draws, and the Son gives life",
+    "explanation": "Divine initiative and Christ's gift belong together."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 4,
+    "prompt": "Why is Jesus refusing kingship important?",
+    "choices_json": [
+      "the bread which I will give for the life of the world is my flesh",
+      "the Father seeks such people to worship him",
+      "his messiahship is not political triumph",
+      "the Word became flesh and dwelt among us"
+    ],
+    "correct_answer": "his messiahship is not political triumph",
+    "explanation": "John resists turning Jesus into an earthly ruler."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 5,
+    "prompt": "How does chapter 6 prepare readers for the cross?",
+    "choices_json": [
+      "the bread which I will give for the life of the world is my flesh",
+      "by speaking of flesh given and blood received",
+      "My Father is still working, so I am working too",
+      "No one can come to me unless the Father draws him"
+    ],
+    "correct_answer": "by speaking of flesh given and blood received",
+    "explanation": "The discourse anticipates Jesus's death in sacrificial terms."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 5,
+    "prompt": "Why is the bread of life teaching central to John's Gospel?",
+    "choices_json": [
+      "it presents Jesus as heavenly sustainer",
+      "the only Son who is at the Father's side",
+      "No one can come to me unless the Father draws him",
+      "My Father is still working, so I am working too"
+    ],
+    "correct_answer": "it presents Jesus as heavenly sustainer",
+    "explanation": "Jesus is not only provider but the bread itself."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 5,
+    "prompt": "How does the chapter contrast signs and faith?",
+    "choices_json": [
+      "signs invite belief but can also be misread",
+      "the Father seeks such people to worship him",
+      "My Father is still working, so I am working too",
+      "the bread which I will give for the life of the world is my flesh"
+    ],
+    "correct_answer": "signs invite belief but can also be misread",
+    "explanation": "The crowd sees a miracle but still misses Jesus."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 5,
+    "prompt": "What does Judas's presence add to the chapter's theology?",
+    "choices_json": [
+      "betrayal coexists with chosen intimacy",
+      "the Father seeks such people to worship him",
+      "My food is to do the will of him who sent me",
+      "My Father is still working, so I am working too"
+    ],
+    "correct_answer": "betrayal coexists with chosen intimacy",
+    "explanation": "Even the inner circle contains a betrayer."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 5,
+    "prompt": "How does Peter's confession function canonically?",
+    "choices_json": [
+      "the one who believes in the Son has eternal life and does not come into judgment",
+      "it models the faithful response to hard teaching",
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "the light has come into the world and people loved darkness rather than light"
+    ],
+    "correct_answer": "it models the faithful response to hard teaching",
+    "explanation": "Peter stands as the believer who stays when others go."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 5,
+    "prompt": "Why do the Father's drawing and the Son's giving belong together?",
+    "choices_json": [
+      "the bread which I will give for the life of the world is my flesh",
+      "No one can come to me unless the Father draws him",
+      "My Father is still working, so I am working too",
+      "salvation is divine initiative and divine gift"
+    ],
+    "correct_answer": "salvation is divine initiative and divine gift",
+    "explanation": "Belief is rooted in the Father's action and the Son's life-giving word."
+  },
+  {
+    "book_number": 43,
+    "chapter": 6,
+    "difficulty_stage": 5,
+    "prompt": "How does Jesus' statement that his words are spirit and life shape the discourse?",
+    "choices_json": [
+      "the Father seeks true worshipers who will worship in spirit and truth",
+      "it points beyond literalism to spiritual understanding",
+      "the light has come into the world and people loved darkness rather than light",
+      "the one who believes in the Son has eternal life and does not come into judgment"
+    ],
+    "correct_answer": "it points beyond literalism to spiritual understanding",
+    "explanation": "John frames Jesus's words as life-giving revelation."
+  }
+]

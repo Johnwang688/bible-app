@@ -1,3 +1,5 @@
+from typing import Any
+
 from pydantic import BaseModel, Field
 
 
@@ -38,6 +40,8 @@ class SummaryEntityPageOut(BaseModel):
     slug: str
     label: str
     references: list[SummaryEntityReferenceOut]
+    overview: str | None = None
+    timeline: dict[str, Any] | None = None  # e.g. {"events": [...]}
 
 
 class SummaryEntityListItemOut(BaseModel):
