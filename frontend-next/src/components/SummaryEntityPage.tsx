@@ -67,6 +67,26 @@ function buildThemeDescriptionPrompt(label: string): string {
   return `In 3–4 sentences, explain the biblical theme of "${label}": what it means in Scripture, how it develops across the Old and New Testaments, and why it matters for understanding the Christian faith. Write in flowing prose — do not list verse citations like "Romans 3:23" in the text. Be specific and substantive.`;
 }
 
+/** Person / place page, opened from a chapter: short spotlight for that entity in that chapter only. */
+function buildEntityChapterSpotlightPrompt(
+  entityKind: 'person' | 'place',
+  label: string,
+  book: string,
+  chapter: number,
+): string {
+  const budget =
+    'Write exactly one short paragraph (at most about 150–200 tokens of text, roughly 100–120 words). '
+    + 'Ground your answer in the events of that chapter only. Use flowing prose, no bullet points, no title line, no verse-reference lists.';
+  if (entityKind === 'place') {
+    return (
+      `${budget} Describe how the place "${label}" functions in ${book} chapter ${chapter}: what happens there, who is present, and why that setting matters in the chapter’s story.`
+    );
+  }
+  return (
+    `${budget} Describe what "${label}" does in ${book} chapter ${chapter} and their significance in that chapter’s narrative.`
+  );
+}
+
 type RawTimelineEvent = {
   title?: string;
   era?: string;
@@ -182,6 +202,10 @@ export default function SummaryEntityPage({
   const [description, setDescription] = useState('');
   const [descLoading, setDescLoading] = useState(false);
 
+  // Person / place: AI “opened from chapter” spotlight (when navigated from reader with returnTo)
+  const [chapterSpotlightBlurb, setChapterSpotlightBlurb] = useState('');
+  const [chapterSpotlightLoading, setChapterSpotlightLoading] = useState(false);
+
   // Person / place: curated timeline from Supabase (same GET as overview)
   const [timeline, setTimeline] = useState<TimelineItem[]>([]);
 
@@ -201,6 +225,8 @@ export default function SummaryEntityPage({
     setData(null);
     setError(false);
     setDescription('');
+    setChapterSpotlightBlurb('');
+    setChapterSpotlightLoading(false);
     setTimeline([]);
     setHistory([]);
     setChatOpen(false);
@@ -238,6 +264,40 @@ export default function SummaryEntityPage({
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [kind, slug]);
+
+  useEffect(() => {
+    const isSpotlightKind = kind === 'person' || kind === 'place';
+    if (!isSpotlightKind || !chapterCtx || !data) {
+      setChapterSpotlightBlurb('');
+      setChapterSpotlightLoading(false);
+      return;
+    }
+    let cancelled = false;
+    setChapterSpotlightBlurb('');
+    setChapterSpotlightLoading(true);
+    const { book, chapter } = chapterCtx;
+    fetch('/api/v1/ai/entity-content', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        prompt: buildEntityChapterSpotlightPrompt(kind, data.label, book, chapter),
+        max_tokens: 200,
+      }),
+    })
+      .then((r) => r.json())
+      .then((j) => {
+        if (!cancelled && typeof j?.content === 'string' && j.content.trim()) {
+          setChapterSpotlightBlurb(j.content.trim());
+        }
+      })
+      .catch(() => {/* leave empty; UI falls back */})
+      .finally(() => {
+        if (!cancelled) setChapterSpotlightLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [kind, data, chapterCtx]);
 
   function loadThemeDescription(label: string, cancelled: boolean) {
     if (cancelled) return;
@@ -335,9 +395,22 @@ export default function SummaryEntityPage({
               <div className="entity-chapter-context-label">
                 Opened from {chapterCtx.book} {chapterCtx.chapter}
               </div>
-              <p className="entity-page-muted">
-                Use the overview and Scripture references on this page to study passages where {data.label} appears.
-              </p>
+              <>
+                {chapterSpotlightLoading && !chapterSpotlightBlurb && (
+                  <div className="entity-desc-loading entity-chapter-spotlight-loading">
+                    <span className="spinner" />
+                    <span>Generating chapter summary…</span>
+                  </div>
+                )}
+                {chapterSpotlightBlurb && (
+                  <p className="entity-desc-text entity-chapter-spotlight-text">{chapterSpotlightBlurb}</p>
+                )}
+                {!chapterSpotlightLoading && !chapterSpotlightBlurb && (
+                  <p className="entity-page-muted">
+                    Use the overview and Scripture references on this page to study passages where {data.label} appears.
+                  </p>
+                )}
+              </>
             </section>
           )}
 

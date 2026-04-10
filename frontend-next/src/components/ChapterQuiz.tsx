@@ -113,6 +113,8 @@ interface ChapterQuizProps {
   chapter: number;
   session: AuthSession;
   onClose: () => void;
+  /** Called after a successful quiz submission (results shown). */
+  onSubmitted?: () => void;
   onProgressUpdate?: (progress: ChapterProgressOut) => void;
 }
 
@@ -121,6 +123,7 @@ export default function ChapterQuiz({
   chapter,
   session,
   onClose,
+  onSubmitted,
   onProgressUpdate,
 }: ChapterQuizProps) {
   const [screen, setScreen] = useState<QuizScreen>('loading');
@@ -162,6 +165,7 @@ export default function ChapterQuiz({
       });
       setResult(res);
       setScreen('results');
+      onSubmitted?.();
       // Refresh progress for the strip
       if (onProgressUpdate) {
         getChapterProgress(session, bookNumber, chapter)

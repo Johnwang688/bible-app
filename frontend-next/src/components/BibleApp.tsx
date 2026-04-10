@@ -1124,6 +1124,8 @@ export default function BibleApp({
 
   // ── Quiz ───
   const [quizOpen, setQuizOpen] = useState(false);
+  /** After a successful submit, block another attempt until book/chapter/translation changes. */
+  const [quizTakenThisChapterVisit, setQuizTakenThisChapterVisit] = useState(false);
   const chapterQuizGateKeyRef = useRef('');
   const chapterQuizVisitRef = useRef<ChapterQuizVisitState>({
     visibleAccumMs: 0,
@@ -1238,6 +1240,10 @@ export default function BibleApp({
   const chromeBottomShownRef = useRef(true);
   const topChromeHoverRef = useRef(false);
   const bottomChromeHoverRef = useRef(false);
+  /** After scroll-up, suppress mouse-edge hiding until the auto-hide timer fires or user scrolls down. */
+  const chromeScrollRevealActiveRef = useRef(false);
+  /** Reader: hide chrome 3s after last scroll-up unless the user interacts or scrolls up again. */
+  const chromeScrollAutoHideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   /** Latest pointer Y for chrome hide checks when leaving topbar / bottom chrome. */
   const lastPointerYRef = useRef(0);
   const lastPointerXRef = useRef(0);
@@ -1293,6 +1299,11 @@ export default function BibleApp({
 
   useEffect(() => {
     if (homeScreenActive) {
+      chromeScrollRevealActiveRef.current = false;
+      if (chromeScrollAutoHideTimerRef.current) {
+        clearTimeout(chromeScrollAutoHideTimerRef.current);
+        chromeScrollAutoHideTimerRef.current = null;
+      }
       setChromeTopShown(true);
       setChromeBottomShown(true);
     } else {
@@ -1315,7 +1326,7 @@ export default function BibleApp({
       const topZone = h * 0.2;
       const bottomZone = h * 0.2;
       if (y <= topZone || topChromeHoverRef.current) setChromeTopShown(true);
-      else if (!topChromeHoverRef.current) setChromeTopShown(false);
+      else if (!topChromeHoverRef.current && !chromeScrollRevealActiveRef.current) setChromeTopShown(false);
       // Paged mode: corner prev/next buttons sit in the bottom band — don't auto-reveal the taskbar there.
       const chNavCornerPx = 100;
       const inPagedChNavCorner =
@@ -1326,7 +1337,7 @@ export default function BibleApp({
         if (!bottomChromeHoverRef.current) setChromeBottomShown(false);
       } else if (y >= h - bottomZone || bottomChromeHoverRef.current) {
         setChromeBottomShown(true);
-      } else if (!bottomChromeHoverRef.current) {
+      } else if (!bottomChromeHoverRef.current && !chromeScrollRevealActiveRef.current) {
         setChromeBottomShown(false);
       }
     };
@@ -1343,11 +1354,55 @@ export default function BibleApp({
 
   const leaveBottomChrome = useCallback(() => {
     bottomChromeHoverRef.current = false;
+    if (chromeScrollRevealActiveRef.current) return;
     const h = typeof window !== 'undefined' ? window.innerHeight : 0;
     if (h === 0) return;
     const bottomZone = h * 0.2;
     if (lastPointerYRef.current < h - bottomZone) setChromeBottomShown(false);
   }, []);
+
+  const scheduleChromeScrollAutoHide = useCallback(() => {
+    if (typeof window === 'undefined') return;
+    if (chromeScrollAutoHideTimerRef.current) {
+      clearTimeout(chromeScrollAutoHideTimerRef.current);
+      chromeScrollAutoHideTimerRef.current = null;
+    }
+    chromeScrollAutoHideTimerRef.current = setTimeout(() => {
+      chromeScrollAutoHideTimerRef.current = null;
+      const ctx = readerChromeCtxRef.current;
+      chromeScrollRevealActiveRef.current = false;
+      if (ctx.home || ctx.overlay) return;
+      if (topChromeHoverRef.current || bottomChromeHoverRef.current) return;
+      const h = window.innerHeight;
+      const w = window.innerWidth;
+      if (h === 0) return;
+      const py = lastPointerYRef.current;
+      const px = lastPointerXRef.current;
+      const topZone = h * 0.2;
+      const bottomZone = h * 0.2;
+      const chNavCornerPx = 100;
+      const inPagedChNavCorner =
+        isPagedReadingMode(readerSettingsRef.current.readingMode) &&
+        py >= h - bottomZone &&
+        (px <= chNavCornerPx || px >= w - chNavCornerPx);
+      if (py > topZone) {
+        setChromeTopShown(false);
+        chromeTopShownRef.current = false;
+      }
+      if (py < h - bottomZone && !inPagedChNavCorner) {
+        setChromeBottomShown(false);
+        chromeBottomShownRef.current = false;
+      }
+    }, 3000);
+  }, []);
+
+  /** Resets the 3s auto-hide countdown while chrome was revealed by scrolling up. */
+  const bumpChromeScrollInteraction = useCallback(() => {
+    const ctx = readerChromeCtxRef.current;
+    if (ctx.home || ctx.overlay) return;
+    if (!chromeScrollRevealActiveRef.current) return;
+    scheduleChromeScrollAutoHide();
+  }, [scheduleChromeScrollAutoHide]);
 
   useEffect(() => {
     resolvedGraphicsModeRef.current = readerSettings.graphicsMode === 'auto'
@@ -3625,6 +3680,10 @@ export default function BibleApp({
       if (commentarySyncIdleTimerRef.current) clearTimeout(commentarySyncIdleTimerRef.current);
       if (engagementTimerRef.current) clearTimeout(engagementTimerRef.current);
       if (scrollActiveTimerRef.current) clearTimeout(scrollActiveTimerRef.current);
+      if (chromeScrollAutoHideTimerRef.current) {
+        clearTimeout(chromeScrollAutoHideTimerRef.current);
+        chromeScrollAutoHideTimerRef.current = null;
+      }
       if (typeof document !== 'undefined') document.documentElement.removeAttribute('data-scroll-active');
     };
   }, []);
@@ -3647,24 +3706,31 @@ export default function BibleApp({
       markScrollActive();
       const y = pane.scrollTop;
       const delta = y - lastScrollYRef.current;
-      const { home, overlay, coarse } = readerChromeCtxRef.current;
-      if (coarse && !home && !overlay) {
-        let nextTop = chromeTopShownRef.current;
-        let nextBottom = chromeBottomShownRef.current;
-        if (delta > 6 && y > 80) {
-          nextTop = false;
-          nextBottom = false;
-        } else if (delta < -6 || y < 10) {
-          nextTop = true;
-          nextBottom = true;
-        }
-        if (nextTop !== chromeTopShownRef.current) {
-          chromeTopShownRef.current = nextTop;
-          setChromeTopShown(nextTop);
-        }
-        if (nextBottom !== chromeBottomShownRef.current) {
-          chromeBottomShownRef.current = nextBottom;
-          setChromeBottomShown(nextBottom);
+      const { home, overlay } = readerChromeCtxRef.current;
+      const chromeScrollDownDelta = 2;
+      const chromeScrollUpDelta = 6;
+      if (!home && !overlay) {
+        if (delta > chromeScrollDownDelta && y > 80) {
+          chromeScrollRevealActiveRef.current = false;
+          if (chromeScrollAutoHideTimerRef.current) {
+            clearTimeout(chromeScrollAutoHideTimerRef.current);
+            chromeScrollAutoHideTimerRef.current = null;
+          }
+          if (chromeTopShownRef.current) {
+            chromeTopShownRef.current = false;
+            setChromeTopShown(false);
+          }
+          if (chromeBottomShownRef.current) {
+            chromeBottomShownRef.current = false;
+            setChromeBottomShown(false);
+          }
+        } else if (delta < -chromeScrollUpDelta || y < 10) {
+          chromeScrollRevealActiveRef.current = true;
+          chromeTopShownRef.current = true;
+          chromeBottomShownRef.current = true;
+          setChromeTopShown(true);
+          setChromeBottomShown(true);
+          scheduleChromeScrollAutoHide();
         }
       }
       lastScrollYRef.current = y;
@@ -3693,6 +3759,7 @@ export default function BibleApp({
     markScrollActive,
     scheduleCommentarySyncAfterScroll,
     scheduleReadingProgressCommit,
+    scheduleChromeScrollAutoHide,
     translation,
     updateTopVisibleVerse,
   ]);
@@ -4622,6 +4689,7 @@ export default function BibleApp({
 
   useEffect(() => {
     setQuizOpen(false);
+    setQuizTakenThisChapterVisit(false);
   }, [chapter, chapterData?.book, translation]);
 
   useLayoutEffect(() => {
@@ -4778,6 +4846,12 @@ export default function BibleApp({
       isPagedDouble &&
       pagedLastSliceIndex >= 0 &&
       chapterSpreadIndex * 2 + 1 === pagedLastSliceIndex;
+    const masteryQuizBlocked = quizTakenThisChapterVisit;
+    const masteryQuizGateMet = chapterQuizGate.met && !masteryQuizBlocked;
+    const masteryQuizHint = masteryQuizBlocked
+      ? 'Leave this chapter and come back to take the quiz again.'
+      : chapterQuizGate.hint;
+
     const readerMasteryBlockScroll =
       authSession && currentBook && !chapterLoading && !chapterError ? (
         <div className="reader-mastery-anchor reader-mastery-anchor--scroll">
@@ -4785,10 +4859,10 @@ export default function BibleApp({
             bookNumber={currentBook.book_number}
             chapter={chapter}
             session={authSession}
-            quizGateMet={chapterQuizGate.met}
-            quizGateHint={chapterQuizGate.hint}
+            quizGateMet={masteryQuizGateMet}
+            quizGateHint={masteryQuizHint}
             onTakeQuiz={() => {
-              if (chapterQuizGate.met) setQuizOpen(true);
+              if (chapterQuizGate.met && !quizTakenThisChapterVisit) setQuizOpen(true);
             }}
           />
           <div className="reader-mastery-scroll-pad" aria-hidden />
@@ -4801,10 +4875,10 @@ export default function BibleApp({
             bookNumber={currentBook.book_number}
             chapter={chapter}
             session={authSession}
-            quizGateMet={chapterQuizGate.met}
-            quizGateHint={chapterQuizGate.hint}
+            quizGateMet={masteryQuizGateMet}
+            quizGateHint={masteryQuizHint}
             onTakeQuiz={() => {
-              if (chapterQuizGate.met) setQuizOpen(true);
+              if (chapterQuizGate.met && !quizTakenThisChapterVisit) setQuizOpen(true);
             }}
           />
         </div>
@@ -5892,12 +5966,15 @@ export default function BibleApp({
       {!homeScreenActive && (
       <nav
         className={`topbar${chromeTopVisible ? '' : ' chrome-hide-top'}`}
+        onPointerDown={bumpChromeScrollInteraction}
+        onFocusCapture={bumpChromeScrollInteraction}
         onMouseEnter={() => {
           topChromeHoverRef.current = true;
           setChromeTopShown(true);
         }}
         onMouseLeave={() => {
           topChromeHoverRef.current = false;
+          if (chromeScrollRevealActiveRef.current) return;
           const h = typeof window !== 'undefined' ? window.innerHeight : 0;
           if (h === 0) return;
           const topZone = h * 0.2;
@@ -6375,6 +6452,8 @@ export default function BibleApp({
             </div>
             <div
               className={`ch-nav ch-nav-prev${chromeBottomVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}${sideOpen && !sidePaneOnRight ? ' side-pane-open' : ''}`}
+              onPointerDown={bumpChromeScrollInteraction}
+              onFocusCapture={bumpChromeScrollInteraction}
               onMouseEnter={isPagedReadingMode(readerSettings.readingMode) ? undefined : enterBottomChrome}
               onMouseLeave={isPagedReadingMode(readerSettings.readingMode) ? undefined : leaveBottomChrome}
             >
@@ -6391,6 +6470,8 @@ export default function BibleApp({
 
             <div
               className={`ch-nav ch-nav-next${chromeBottomVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}${sideOpen && sidePaneOnRight ? ' side-pane-open' : ''}`}
+              onPointerDown={bumpChromeScrollInteraction}
+              onFocusCapture={bumpChromeScrollInteraction}
               onMouseEnter={isPagedReadingMode(readerSettings.readingMode) ? undefined : enterBottomChrome}
               onMouseLeave={isPagedReadingMode(readerSettings.readingMode) ? undefined : leaveBottomChrome}
             >
@@ -6428,6 +6509,8 @@ export default function BibleApp({
       {/* Chapter nav buttons */}
       <div
         className={`ch-nav ch-nav-prev ch-nav--legacy${chromeBottomVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}${sideOpen && !sidePaneOnRight ? ' side-pane-open' : ''}`}
+        onPointerDown={bumpChromeScrollInteraction}
+        onFocusCapture={bumpChromeScrollInteraction}
         onMouseEnter={isPagedReadingMode(readerSettings.readingMode) ? undefined : enterBottomChrome}
         onMouseLeave={isPagedReadingMode(readerSettings.readingMode) ? undefined : leaveBottomChrome}
       >
@@ -6444,6 +6527,8 @@ export default function BibleApp({
 
       <div
         className={`ch-nav ch-nav-next ch-nav--legacy${chromeBottomVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}${sideOpen && sidePaneOnRight ? ' side-pane-open' : ''}`}
+        onPointerDown={bumpChromeScrollInteraction}
+        onFocusCapture={bumpChromeScrollInteraction}
         onMouseEnter={isPagedReadingMode(readerSettings.readingMode) ? undefined : enterBottomChrome}
         onMouseLeave={isPagedReadingMode(readerSettings.readingMode) ? undefined : leaveBottomChrome}
       >
@@ -6459,7 +6544,11 @@ export default function BibleApp({
       </div>
 
       {/* TTS play button (center, same level as chapter nav arrows) */}
-      <div className={`ch-nav tts-center${chromeBottomVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}`}>
+      <div
+        className={`ch-nav tts-center${chromeBottomVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}`}
+        onPointerDown={bumpChromeScrollInteraction}
+        onFocusCapture={bumpChromeScrollInteraction}
+      >
         <div className="tts-btn-group">
           <button
             className={`ch-nav-btn tts-play-btn${ttsPlaying ? ' tts-playing' : ''}`}
@@ -6533,6 +6622,8 @@ export default function BibleApp({
       {/* Taskbar */}
       <div
         className={`taskbar${chromeBottomVisible ? '' : ' chrome-hide-bottom'}`}
+        onPointerDown={bumpChromeScrollInteraction}
+        onFocusCapture={bumpChromeScrollInteraction}
         onMouseEnter={enterBottomChrome}
         onMouseLeave={leaveBottomChrome}
       >
@@ -6982,6 +7073,7 @@ export default function BibleApp({
           chapter={chapter}
           session={authSession}
           onClose={() => setQuizOpen(false)}
+          onSubmitted={() => setQuizTakenThisChapterVisit(true)}
         />
       )}
     </>

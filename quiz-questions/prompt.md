@@ -6,7 +6,7 @@ You are generating a multiple-choice quiz bank for the biblical book **<book-nam
 
 ## Scope
 
-- Cover **every chapter** of **<book-name>** (if the book has fewer than 21 chapters, use its actual chapter count).
+- Cover **every chapter** of **<book-name>** 
 - For **each chapter**, include **5 difficulty stages** (numbered `1` through `5`).
 - For **each (chapter, difficulty_stage)** pair, include **at least 7** questions and **preferably 10** questions (aim for 10 unless the chapter is extremely short).
 
@@ -40,7 +40,7 @@ Each element must be an object with exactly these keys:
       "Disciples were ignorant",
       "The master was dishonest",
       "Jesus' work can be unrecognized by authorities while disciples know the source",
-      "Wine is irrelevant (a common guess, but not what John says here) (does not match John’s wording in this verse)"
+      "Wine is irrelevant"
     ],
     "correct_answer": "Jesus' work can be unrecognized by authorities while disciples know the source",
     "explanation": "The servants knew; the master did not — selective knowledge in the story (John 2:9)."
@@ -48,6 +48,7 @@ Each element must be an object with exactly these keys:
 
 ## Distractors (wrong answers)
 
+- **Do not** put meta-hints in `choices_json` strings—no parentheticals like “common guess,” “not what this book says,” “does not match wording in this verse,” or anything else that signals an option is wrong. Wrong answers should read like normal answer text; use the `explanation` for justification.
 - Wrong options must be **plausible** but **incorrect according to this book’s text**.
 - Match the **type** of the question: if the question is about **who** spoke or acted, distractors should be **people** (or groups), not random place names unless the question is about places. If the question is **where**, use places, not unrelated people. If **what was said**, use alternative phrasings or common confusions, not irrelevant categories.
 - Vary the **length** of all four options: do **not** make the correct answer obviously longer or more detailed than the others every time.
