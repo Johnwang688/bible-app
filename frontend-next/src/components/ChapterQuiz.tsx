@@ -9,7 +9,7 @@ import {
   getChapterProgress,
   getChapterQuiz,
   submitQuiz,
-} from '@/lib/quiz';
+} from '../lib/quiz';
 
 // ── Mastery strip (shown at chapter bottom) ───────────────────────────────────
 

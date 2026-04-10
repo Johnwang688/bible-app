@@ -8,7 +8,7 @@ import {
   type MasteryOverviewOut,
   type MasterySectionOut,
   type MasteryTestamentOut,
-} from '@/lib/quiz';
+} from '../lib/quiz';
 
 export type MasteryOverviewPanelProps = {
   session: AuthSession | null;

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import SiteLogo from '@/components/SiteLogo';
 import { useState } from 'react';
 import { persistAuthSession, signIn, signUp } from '@/lib/account';
 
@@ -26,7 +27,7 @@ export default function SignInPage() {
         mode === 'signin'
           ? await signIn(email.trim(), password)
           : await signUp(email.trim(), password, displayName.trim() || undefined);
-      persistAuthSession(session, mode === 'signin' ? rememberMe : true);
+      persistAuthSession(session);
       router.replace('/app');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong.');
@@ -37,130 +38,140 @@ export default function SignInPage() {
 
   return (
     <div className="si-root">
-      <div className="si-wash" aria-hidden="true" />
+      {/* Background elements */}
+      <div className="si-grid" aria-hidden="true" />
+      <div className="si-orb si-orb-1" aria-hidden="true" />
+      <div className="si-orb si-orb-2" aria-hidden="true" />
 
+      {/* Nav */}
       <nav className="si-nav">
-        <Link href="/" className="si-logo" aria-label="Open Bible home">
-          <img
-            className="si-logo-img"
-            src="/logo/openbible-logo-black.png"
-            alt=""
-            width={36}
-            height={36}
-            aria-hidden="true"
-          />
-          <span className="si-logo-open">Open</span>
-          <span className="si-logo-bible"> Bible</span>
-        </Link>
+        <SiteLogo className="si-logo" />
         <div className="si-nav-actions">
-          <Link href="/" className="si-btn si-btn-ghost">
-            Home
-          </Link>
-          <Link href="/app" className="si-btn si-btn-primary">
-            Continue as Guest
-          </Link>
+          <Link href="/" className="si-btn si-btn-ghost">← Back</Link>
+          <Link href="/app" className="si-btn si-btn-outline">Continue as Guest</Link>
         </div>
       </nav>
 
       <main className="si-main">
-        <div className="si-card">
-          <h1 className="si-heading">
-            {mode === 'signin' ? 'Welcome back' : 'Create an account'}
+        {/* Left brand panel */}
+        <div className="si-brand">
+          <p className="si-brand-eyebrow">Open Bible</p>
+          <h1 className="si-brand-title">
+            Your study,<br />your progress,<br />
+            <span className="si-brand-accent">everywhere.</span>
           </h1>
-          {mode === 'signup' && (
-            <p className="si-sub">Join to save your study across devices.</p>
-          )}
+          <p className="si-brand-desc">
+            Sign in to sync your reading streaks, mastery, and study notes
+            across all your devices — and pick up exactly where you left off.
+          </p>
+          <blockquote className="si-brand-quote">
+            <span className="si-brand-quote-mark">&ldquo;</span>
+            Blessed is the one who reads aloud the words of this prophecy.
+            <cite>— Revelation 1:3</cite>
+          </blockquote>
+        </div>
 
-          <div className="si-tab-row">
-            <button
-              type="button"
-              className={`si-tab${mode === 'signin' ? ' active' : ''}`}
-              onClick={() => { setMode('signin'); setError(null); }}
-            >
-              Sign in
-            </button>
-            <button
-              type="button"
-              className={`si-tab${mode === 'signup' ? ' active' : ''}`}
-              onClick={() => { setMode('signup'); setError(null); }}
-            >
-              Create account
-            </button>
-          </div>
+        {/* Right form panel */}
+        <div className="si-panel">
+          <div className="si-card">
+            <div className="si-card-hd">
+              <h2 className="si-heading">
+                {mode === 'signin' ? 'Welcome back' : 'Create account'}
+              </h2>
+              {mode === 'signup' && (
+                <p className="si-sub">Save your study across all devices.</p>
+              )}
+            </div>
 
-          <form className="si-form" onSubmit={e => void handleSubmit(e)}>
-            {mode === 'signup' && (
+            <div className="si-tab-row">
+              <button
+                type="button"
+                className={`si-tab${mode === 'signin' ? ' active' : ''}`}
+                onClick={() => { setMode('signin'); setError(null); }}
+              >
+                Sign in
+              </button>
+              <button
+                type="button"
+                className={`si-tab${mode === 'signup' ? ' active' : ''}`}
+                onClick={() => { setMode('signup'); setError(null); }}
+              >
+                Create account
+              </button>
+            </div>
+
+            <form className="si-form" onSubmit={e => void handleSubmit(e)}>
+              {mode === 'signup' && (
+                <div className="si-field">
+                  <label className="si-label" htmlFor="displayName">Display name</label>
+                  <input
+                    id="displayName"
+                    className="si-input"
+                    type="text"
+                    placeholder="Your name"
+                    autoComplete="name"
+                    value={displayName}
+                    onChange={e => setDisplayName(e.target.value)}
+                  />
+                </div>
+              )}
+
               <div className="si-field">
-                <label className="si-label" htmlFor="displayName">Display name</label>
+                <label className="si-label" htmlFor="email">Email</label>
                 <input
-                  id="displayName"
+                  id="email"
                   className="si-input"
-                  type="text"
-                  placeholder="Your name"
-                  autoComplete="name"
-                  value={displayName}
-                  onChange={e => setDisplayName(e.target.value)}
+                  type="email"
+                  placeholder="you@example.com"
+                  autoComplete="email"
+                  required
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
                 />
               </div>
-            )}
 
-            <div className="si-field">
-              <label className="si-label" htmlFor="email">Email</label>
-              <input
-                id="email"
-                className="si-input"
-                type="email"
-                placeholder="you@example.com"
-                autoComplete="email"
-                required
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-              />
-            </div>
-
-            <div className="si-field">
-              <label className="si-label" htmlFor="password">Password</label>
-              <input
-                id="password"
-                className="si-input"
-                type="password"
-                placeholder="••••••••"
-                autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
-                required
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-              />
-            </div>
-
-            {mode === 'signin' && (
-              <label className="si-remember">
+              <div className="si-field">
+                <label className="si-label" htmlFor="password">Password</label>
                 <input
-                  type="checkbox"
-                  checked={rememberMe}
-                  onChange={e => setRememberMe(e.target.checked)}
+                  id="password"
+                  className="si-input"
+                  type="password"
+                  placeholder="••••••••"
+                  autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
+                  required
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
                 />
-                <span>Remember me on this device</span>
-              </label>
-            )}
+              </div>
 
-            {error && <div className="si-error">{error}</div>}
+              {mode === 'signin' && (
+                <label className="si-remember">
+                  <input
+                    type="checkbox"
+                    checked={rememberMe}
+                    onChange={e => setRememberMe(e.target.checked)}
+                  />
+                  <span>Remember me on this device</span>
+                </label>
+              )}
 
-            <button
-              type="submit"
-              className="si-submit"
-              disabled={busy || !email.trim() || !password.trim()}
-            >
-              {busy
-                ? mode === 'signin' ? 'Signing in…' : 'Creating account…'
-                : mode === 'signin' ? 'Sign in' : 'Create account'}
-            </button>
-          </form>
+              {error && <div className="si-error" role="alert">{error}</div>}
 
-          <div className="si-divider"><span>or</span></div>
+              <button
+                type="submit"
+                className="si-submit"
+                disabled={busy || !email.trim() || !password.trim()}
+              >
+                {busy
+                  ? mode === 'signin' ? 'Signing in…' : 'Creating account…'
+                  : mode === 'signin' ? 'Sign in' : 'Create account'}
+              </button>
+            </form>
 
-          <Link href="/app" className="si-guest">
-            Continue as Guest
-          </Link>
+            <div className="si-divider"><span>or</span></div>
+
+            <Link href="/app" className="si-guest">Continue as Guest</Link>
+          </div>
         </div>
       </main>
 
@@ -168,170 +179,263 @@ export default function SignInPage() {
         body { overflow: auto !important; height: auto !important; }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        @keyframes si-wash {
-          0%      { background-color: rgba(255,   0,   0, 0);    }
-          8.333%  { background-color: rgba(255,   0,   0, 0.32); }
-          16.666% { background-color: rgba(255,   0,   0, 0);    }
-          16.667% { background-color: rgba(255, 255,   0, 0);    }
-          25%     { background-color: rgba(255, 255,   0, 0.32); }
-          33.333% { background-color: rgba(255, 255,   0, 0);    }
-          33.334% { background-color: rgba(  0, 255,   0, 0);    }
-          41.667% { background-color: rgba(  0, 255,   0, 0.32); }
-          50%     { background-color: rgba(  0, 255,   0, 0);    }
-          50.001% { background-color: rgba(  0, 255, 255, 0);    }
-          58.333% { background-color: rgba(  0, 255, 255, 0.32); }
-          66.666% { background-color: rgba(  0, 255, 255, 0);    }
-          66.667% { background-color: rgba(  0,   0, 255, 0);    }
-          75%     { background-color: rgba(  0,   0, 255, 0.32); }
-          83.333% { background-color: rgba(  0,   0, 255, 0);    }
-          83.334% { background-color: rgba(255,   0, 255, 0);    }
-          91.667% { background-color: rgba(255,   0, 255, 0.32); }
-          100%    { background-color: rgba(255,   0, 255, 0);    }
+        @keyframes si-orb1 {
+          0%,100% { transform: translate(-50%,-50%) scale(1); }
+          50%      { transform: translate(calc(-50% + 40px), calc(-50% - 30px)) scale(1.06); }
+        }
+        @keyframes si-orb2 {
+          0%,100% { transform: scale(1); }
+          50%      { transform: scale(1.08) translate(20px, 15px); }
+        }
+        @keyframes si-fadein {
+          from { opacity: 0; transform: translateY(16px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes si-accent-shimmer {
+          from { background-position: 200% center; }
+          to   { background-position: -200% center; }
         }
 
         .si-root {
           min-height: 100vh;
-          font-family: Georgia, "Times New Roman", serif;
-          background: #f7f7f7;
-          color: #221d16;
+          background: radial-gradient(ellipse 110% 70% at 40% -5%, #1e1004 0%, #080604 50%, #050403 100%);
+          color: #f0e8d8;
           display: flex;
           flex-direction: column;
           position: relative;
+          overflow: hidden;
         }
 
-        .si-wash {
+        /* Background texture */
+        .si-grid {
           position: fixed;
           inset: 0;
-          z-index: 0;
+          background-image: radial-gradient(circle, rgba(201,168,120,0.055) 1px, transparent 1px);
+          background-size: 34px 34px;
           pointer-events: none;
-          animation: si-wash 36s linear infinite;
+          z-index: 0;
+        }
+        .si-orb {
+          position: fixed;
+          border-radius: 50%;
+          pointer-events: none;
+          filter: blur(80px);
+          z-index: 0;
+        }
+        .si-orb-1 {
+          width: 700px; height: 700px;
+          background: radial-gradient(circle at 38%, #b07840 0%, #5c2c10 52%, transparent 70%);
+          top: 50%; left: 22%;
+          transform: translate(-50%,-50%);
+          opacity: 0.28;
+          animation: si-orb1 20s ease-in-out infinite;
+        }
+        .si-orb-2 {
+          width: 420px; height: 420px;
+          background: radial-gradient(circle, #7a4820 0%, transparent 68%);
+          bottom: -80px; right: -60px;
+          opacity: 0.18;
+          animation: si-orb2 26s ease-in-out infinite;
         }
         @media (prefers-reduced-motion: reduce) {
-          .si-wash { animation: none; }
+          .si-orb { animation: none !important; }
+          .si-brand-accent { animation: none !important; }
         }
 
-        .si-nav,
-        .si-main {
-          position: relative;
-          z-index: 1;
-        }
-
+        /* Nav */
         .si-nav {
+          position: relative;
+          z-index: 10;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 1.2rem 2.5rem;
-          border-bottom: 1px solid rgba(109,76,49,0.14);
-          position: sticky;
-          top: 0;
-          background: rgba(255, 253, 248, 0.88);
-          backdrop-filter: blur(12px);
-          z-index: 100;
-        }
-        .si-logo {
-          font-size: 1.2rem;
-          font-weight: 700;
-          letter-spacing: 0.02em;
-          text-decoration: none;
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-        }
-        .si-logo-img {
-          display: block;
-          width: 36px;
-          height: 36px;
-          object-fit: contain;
+          padding: 1.1rem 2.5rem;
+          border-bottom: 1px solid rgba(255,255,255,0.055);
+          background: rgba(8,6,4,0.55);
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
           flex-shrink: 0;
         }
-        .si-logo-open {
-          color: #221d16;
-        }
-        .si-logo-bible {
-          color: #6d4c31;
-        }
-        .si-nav-actions {
-          display: flex;
-          gap: 0.75rem;
+        .si-logo {
+          display: inline-flex;
           align-items: center;
+          gap: 0.55rem;
+          text-decoration: none;
+          font-size: 1.05rem;
+          font-weight: 700;
+          font-family: Georgia, serif;
+          letter-spacing: 0.01em;
         }
+        .si-logo-img {
+          width: 26px; height: 26px;
+          object-fit: contain;
+          filter: brightness(0) invert(1);
+          flex-shrink: 0;
+        }
+        .si-logo-text { color: #f0e8d8; }
+        .si-logo-accent { color: #c9a878; }
+        .si-nav-actions { display: flex; gap: 0.6rem; align-items: center; }
         .si-btn {
           display: inline-flex;
           align-items: center;
-          justify-content: center;
-          padding: 0.55rem 1.25rem;
+          padding: 0.48rem 1rem;
           border-radius: 8px;
-          font-size: 0.9rem;
+          font-size: 0.85rem;
           font-weight: 600;
           text-decoration: none;
-          cursor: pointer;
-          transition: opacity 0.15s, background 0.15s;
-          border: none;
           font-family: system-ui, -apple-system, sans-serif;
+          cursor: pointer;
+          border: none;
+          transition: all 0.18s;
         }
         .si-btn-ghost {
           background: transparent;
-          color: #6d4c31;
-          border: 1px solid rgba(109,76,49,0.3);
+          color: rgba(240,232,216,0.55);
+          border: 1px solid rgba(240,232,216,0.14);
         }
-        .si-btn-ghost:hover { background: rgba(109,76,49,0.07); }
-        .si-btn-primary {
-          background: #6d4c31;
-          color: #fff8ef;
+        .si-btn-ghost:hover { color: #f0e8d8; border-color: rgba(240,232,216,0.3); background: rgba(240,232,216,0.05); }
+        .si-btn-outline {
+          background: rgba(201,168,120,0.12);
+          color: #c9a878;
+          border: 1px solid rgba(201,168,120,0.28);
         }
-        .si-btn-primary:hover { opacity: 0.87; }
+        .si-btn-outline:hover { background: rgba(201,168,120,0.22); border-color: rgba(201,168,120,0.48); }
 
+        /* Main layout */
         .si-main {
+          position: relative;
+          z-index: 1;
           flex: 1;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 3rem 1.5rem;
-        }
-
-        .si-card {
-          background:
-            radial-gradient(circle at top right, rgba(214, 185, 140, 0.22), transparent 34%),
-            linear-gradient(135deg, rgba(255, 253, 248, 0.92), rgba(247, 240, 225, 0.86));
-          border: 1px solid rgba(221, 210, 195, 0.9);
-          border-radius: 24px;
-          padding: 2.5rem 2rem;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          max-width: 1080px;
           width: 100%;
-          max-width: 420px;
-          box-shadow: 0 18px 44px rgba(88, 63, 38, 0.08);
+          margin: 0 auto;
+          padding: 3rem 2.5rem;
+          gap: 4rem;
+          align-items: center;
         }
 
-        .si-heading {
-          font-size: 1.65rem;
-          font-weight: 800;
-          letter-spacing: -0.02em;
-          color: #221d16;
-          margin-bottom: 0.4rem;
+        /* Brand panel */
+        .si-brand {
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+          animation: si-fadein 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s both;
         }
-        .si-sub {
-          font-size: 0.9rem;
-          color: #8a7a68;
-          margin-bottom: 1.75rem;
-          line-height: 1.55;
+        .si-brand-eyebrow {
+          font-size: 0.64rem;
+          font-weight: 800;
+          letter-spacing: 0.34em;
+          text-transform: uppercase;
+          color: #c9a878;
+          font-family: system-ui, -apple-system, sans-serif;
+        }
+        .si-brand-title {
+          font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+          font-weight: 800;
+          line-height: 1.1;
+          letter-spacing: -0.03em;
+          color: #f0e8d8;
+          font-family: Georgia, "Times New Roman", serif;
+        }
+        .si-brand-accent {
+          background: linear-gradient(120deg, #f5e8c8 0%, #e8c060 28%, #c9a040 50%, #e8c060 72%, #f5e8c8 100%);
+          background-size: 220% auto;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          animation: si-accent-shimmer 5s linear 0.5s infinite;
+        }
+        .si-brand-desc {
+          font-size: 1rem;
+          line-height: 1.78;
+          color: rgba(240,232,216,0.5);
+          font-family: system-ui, -apple-system, sans-serif;
+          max-width: 38rem;
+        }
+        .si-brand-quote {
+          border-left: 2px solid rgba(201,168,120,0.3);
+          padding: 0.6rem 0 0.6rem 1.25rem;
+          font-style: italic;
+          font-size: 0.92rem;
+          line-height: 1.65;
+          color: rgba(240,232,216,0.42);
+          font-family: Georgia, serif;
+        }
+        .si-brand-quote-mark {
+          display: block;
+          font-size: 2rem;
+          line-height: 0.6;
+          color: rgba(201,168,120,0.25);
+          margin-bottom: 0.5rem;
+          font-style: normal;
+        }
+        .si-brand-quote cite {
+          display: block;
+          margin-top: 0.55rem;
+          font-style: normal;
+          font-size: 0.72rem;
+          font-weight: 700;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: rgba(201,168,120,0.45);
           font-family: system-ui, -apple-system, sans-serif;
         }
 
+        /* Form card */
+        .si-panel {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          animation: si-fadein 0.7s cubic-bezier(0.16,1,0.3,1) 0.22s both;
+        }
+        .si-card {
+          background: rgba(20,16,10,0.72);
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 22px;
+          padding: 2.25rem 2rem;
+          width: 100%;
+          max-width: 400px;
+          box-shadow:
+            0 32px 64px rgba(0,0,0,0.35),
+            0 0 0 1px rgba(255,255,255,0.04) inset;
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+        }
+        .si-card-hd { margin-bottom: 1.5rem; }
+        .si-heading {
+          font-size: 1.55rem;
+          font-weight: 800;
+          letter-spacing: -0.025em;
+          color: #f0e8d8;
+          font-family: Georgia, serif;
+          margin-bottom: 0.3rem;
+        }
+        .si-sub {
+          font-size: 0.88rem;
+          color: rgba(240,232,216,0.45);
+          line-height: 1.5;
+          font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        /* Tabs */
         .si-tab-row {
           display: flex;
           gap: 0;
-          background: rgba(255, 250, 241, 0.85);
-          border: 1px solid rgba(109, 76, 49, 0.12);
+          background: rgba(255,255,255,0.04);
+          border: 1px solid rgba(255,255,255,0.08);
           border-radius: 10px;
-          padding: 4px;
+          padding: 3px;
           margin-bottom: 1.5rem;
         }
         .si-tab {
           flex: 1;
-          padding: 0.5rem;
+          padding: 0.48rem;
           border: none;
           background: transparent;
-          color: #8a7a68;
-          font-size: 0.88rem;
+          color: rgba(240,232,216,0.4);
+          font-size: 0.85rem;
           font-weight: 600;
           font-family: system-ui, -apple-system, sans-serif;
           border-radius: 8px;
@@ -339,137 +443,139 @@ export default function SignInPage() {
           transition: background 0.15s, color 0.15s;
         }
         .si-tab.active {
-          background: rgba(109, 76, 49, 0.12);
-          color: #6d4c31;
+          background: rgba(201,168,120,0.16);
+          color: #c9a878;
         }
 
-        .si-form {
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-        }
-
-        .si-field {
-          display: flex;
-          flex-direction: column;
-          gap: 0.35rem;
-        }
+        /* Form */
+        .si-form { display: flex; flex-direction: column; gap: 1rem; }
+        .si-field { display: flex; flex-direction: column; gap: 0.32rem; }
         .si-label {
-          font-size: 0.8rem;
+          font-size: 0.77rem;
           font-weight: 600;
-          color: #5f4f40;
-          letter-spacing: 0.02em;
+          color: rgba(240,232,216,0.55);
+          letter-spacing: 0.03em;
           font-family: system-ui, -apple-system, sans-serif;
         }
         .si-input {
-          background: rgba(255, 250, 241, 0.85);
-          border: 1px solid rgba(109, 76, 49, 0.18);
+          background: rgba(255,255,255,0.055);
+          border: 1px solid rgba(255,255,255,0.1);
           border-radius: 10px;
-          padding: 0.7rem 0.9rem;
-          color: #221d16;
-          font-size: 0.95rem;
+          padding: 0.68rem 0.9rem;
+          color: #f0e8d8;
+          font-size: 0.93rem;
           font-family: system-ui, -apple-system, sans-serif;
           outline: none;
           transition: border-color 0.15s, box-shadow 0.15s;
           width: 100%;
-          box-shadow: inset 0 1px 0 rgba(255,255,255,0.45);
         }
-        .si-input::placeholder { color: #9d8d7b; }
+        .si-input::placeholder { color: rgba(240,232,216,0.22); }
         .si-input:focus {
-          border-color: rgba(109, 76, 49, 0.45);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 0 0 3px rgba(109, 76, 49, 0.12);
+          border-color: rgba(201,168,120,0.5);
+          box-shadow: 0 0 0 3px rgba(201,168,120,0.1);
         }
 
         .si-remember {
           display: flex;
           align-items: center;
-          gap: 0.55rem;
+          gap: 0.52rem;
           cursor: pointer;
-          font-size: 0.85rem;
+          font-size: 0.83rem;
           font-weight: 500;
-          color: #5f4f40;
+          color: rgba(240,232,216,0.45);
           font-family: system-ui, -apple-system, sans-serif;
           user-select: none;
         }
         .si-remember input {
-          width: 1rem;
-          height: 1rem;
+          width: 1rem; height: 1rem;
           flex-shrink: 0;
-          accent-color: #6d4c31;
+          accent-color: #c9a878;
           cursor: pointer;
         }
 
         .si-error {
-          background: rgba(200, 60, 60, 0.08);
-          border: 1px solid rgba(180, 50, 50, 0.28);
-          border-radius: 10px;
-          padding: 0.6rem 0.8rem;
-          color: #8b2e2e;
-          font-size: 0.85rem;
+          background: rgba(200,60,60,0.1);
+          border: 1px solid rgba(200,60,60,0.25);
+          border-radius: 9px;
+          padding: 0.58rem 0.78rem;
+          color: #e88888;
+          font-size: 0.83rem;
           font-family: system-ui, -apple-system, sans-serif;
+          line-height: 1.45;
         }
 
         .si-submit {
-          margin-top: 0.25rem;
+          margin-top: 0.2rem;
           padding: 0.75rem;
-          background: #6d4c31;
-          color: #fff8ef;
+          background: linear-gradient(135deg, #c9a878 0%, #9e7a3c 100%);
+          color: #1a0f00;
           border: none;
           border-radius: 10px;
-          font-size: 0.95rem;
+          font-size: 0.93rem;
           font-weight: 700;
           font-family: system-ui, -apple-system, sans-serif;
           cursor: pointer;
-          transition: opacity 0.15s;
+          transition: opacity 0.15s, transform 0.15s, box-shadow 0.15s;
           width: 100%;
+          box-shadow: 0 2px 14px rgba(201,168,120,0.2);
         }
-        .si-submit:disabled { opacity: 0.5; cursor: not-allowed; }
-        .si-submit:not(:disabled):hover { opacity: 0.87; }
+        .si-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+        .si-submit:not(:disabled):hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 6px 22px rgba(201,168,120,0.3); }
 
         .si-divider {
           display: flex;
           align-items: center;
           gap: 0.75rem;
-          margin: 1.25rem 0;
-          color: #9d8d7b;
-          font-size: 0.8rem;
+          margin: 1.2rem 0;
+          color: rgba(240,232,216,0.25);
+          font-size: 0.78rem;
           font-family: system-ui, -apple-system, sans-serif;
         }
         .si-divider::before, .si-divider::after {
           content: '';
           flex: 1;
           height: 1px;
-          background: rgba(109, 76, 49, 0.14);
+          background: rgba(255,255,255,0.07);
         }
 
         .si-guest {
           display: block;
           text-align: center;
-          padding: 0.7rem;
-          border: 1px solid rgba(109,76,49,0.3);
+          padding: 0.68rem;
+          border: 1px solid rgba(255,255,255,0.1);
           border-radius: 10px;
-          color: #6d4c31;
-          font-size: 0.9rem;
+          color: rgba(240,232,216,0.55);
+          font-size: 0.88rem;
           font-weight: 600;
           font-family: system-ui, -apple-system, sans-serif;
           text-decoration: none;
-          transition: border-color 0.15s, background 0.15s;
+          transition: border-color 0.15s, color 0.15s, background 0.15s;
         }
         .si-guest:hover {
-          border-color: rgba(109,76,49,0.45);
-          background: rgba(109,76,49,0.07);
+          border-color: rgba(255,255,255,0.2);
+          color: rgba(240,232,216,0.78);
+          background: rgba(255,255,255,0.04);
         }
 
-        @media (max-width: 640px) {
-          .si-nav {
-            padding: 1rem;
-            flex-wrap: wrap;
-            gap: 0.75rem;
+        /* Responsive */
+        @media (max-width: 760px) {
+          .si-main {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            padding: 2rem 1.25rem 3rem;
+            align-items: start;
           }
-          .si-nav-actions {
-            width: 100%;
-            justify-content: flex-end;
+          .si-brand {
+            text-align: center;
+            align-items: center;
           }
+          .si-brand-quote { text-align: left; }
+          .si-brand-title { font-size: clamp(1.9rem, 7vw, 2.6rem); }
+          .si-card { max-width: 100%; }
+        }
+        @media (max-width: 480px) {
+          .si-nav { padding: 0.9rem 1.1rem; }
+          .si-nav-actions .si-btn:first-child { display: none; }
         }
       `}</style>
     </div>

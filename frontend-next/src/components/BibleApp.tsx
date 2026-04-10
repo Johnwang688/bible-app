@@ -4513,7 +4513,7 @@ export default function BibleApp({
        only so init hydration and token refresh do not cancel this effect mid-flight (fixes sign-in
        from /signin when a stored session is restored on first /app load). */
     // eslint-disable-next-line react-hooks/exhaustive-deps -- see above
-  }, [authSession?.userId, books.length]);
+  }, [authSession?.user?.id, books.length]);
 
   useEffect(() => {
     if (!authSession || !syncReadyRef.current || hydratingAccountRef.current || books.length === 0) return;
