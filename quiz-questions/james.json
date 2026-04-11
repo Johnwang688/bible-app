@@ -1,0 +1,1601 @@
+[
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 1,
+    "prompt": "According to James 1, what should a person ask God for when lacking it?",
+    "choices_json": ["Wisdom", "Wealth", "Long life", "A sign"],
+    "correct_answer": "Wisdom",
+    "explanation": "James says to ask God for wisdom, who gives generously (James 1:5)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 1,
+    "prompt": "According to James 1, what should the lowly brother do?",
+    "choices_json": ["Glory in his high position", "Hide from trials", "Seek revenge", "Boast in riches"],
+    "correct_answer": "Glory in his high position",
+    "explanation": "The lowly brother is to glory in his high position in Christ (James 1:9)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 1,
+    "prompt": "According to James 1, what kind of person is unstable in all his ways?",
+    "choices_json": ["A double-minded man", "A quiet listener", "A cheerful giver", "A faithful elder"],
+    "correct_answer": "A double-minded man",
+    "explanation": "James describes the doubter as double-minded and unstable in all his ways (James 1:8)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 1,
+    "prompt": "According to James 1, what fades away in its pursuits?",
+    "choices_json": ["The rich man", "The poor widow", "The sower", "The teacher"],
+    "correct_answer": "The rich man",
+    "explanation": "James says the rich man will fade away in his pursuits like a flower (James 1:10-11)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 1,
+    "prompt": "According to James 1, what crown is promised to the one who endures temptation?",
+    "choices_json": ["The crown of life", "The crown of gold", "The victor's wreath", "The royal crown"],
+    "correct_answer": "The crown of life",
+    "explanation": "The one who endures testing will receive the crown of life (James 1:12)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 1,
+    "prompt": "According to James 1, every good gift and every perfect gift comes from whom?",
+    "choices_json": ["The Father of lights", "The elders", "Human effort", "The law of Moses"],
+    "correct_answer": "The Father of lights",
+    "explanation": "James says every good and perfect gift comes down from the Father of lights (James 1:17)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 1,
+    "prompt": "According to James 1, what should everyone be quick to do?",
+    "choices_json": ["Hear", "Speak", "Judge", "Promise"],
+    "correct_answer": "Hear",
+    "explanation": "James says everyone should be quick to hear, slow to speak, and slow to anger (James 1:19)."
+  },
+
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 2,
+    "prompt": "According to James 1, how should believers regard various trials?",
+    "choices_json": ["As all joy", "As a curse only", "As proof God left them", "As reasons to quit praying"],
+    "correct_answer": "As all joy",
+    "explanation": "James tells believers to count it all joy when they fall into various trials (James 1:2)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 2,
+    "prompt": "According to James 1, what does the testing of faith produce?",
+    "choices_json": ["Perseverance", "Comfort only", "Riches", "Reputation"],
+    "correct_answer": "Perseverance",
+    "explanation": "The testing of faith produces perseverance or patience (James 1:3)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 2,
+    "prompt": "According to James 1, how must a person ask God for wisdom?",
+    "choices_json": ["In faith, without doubting", "With many witnesses", "Only while fasting", "By repeating long prayers"],
+    "correct_answer": "In faith, without doubting",
+    "explanation": "James says the one who asks must ask in faith without any doubting (James 1:6)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 2,
+    "prompt": "According to James 1, to what is the doubter compared?",
+    "choices_json": ["A wave of the sea", "A rooted tree", "A city on a hill", "A lamp on a stand"],
+    "correct_answer": "A wave of the sea",
+    "explanation": "The doubter is like a wave of the sea driven by the wind and tossed (James 1:6)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 2,
+    "prompt": "According to James 1, what gives birth to sin when it has conceived?",
+    "choices_json": ["Lust", "Wisdom", "Mercy", "Discipline"],
+    "correct_answer": "Lust",
+    "explanation": "James says each person is drawn away by his own lust, and when lust has conceived, it gives birth to sin (James 1:14-15)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 2,
+    "prompt": "According to James 1, by what did God bring believers forth?",
+    "choices_json": ["The word of truth", "Signs and wonders", "Temple sacrifices", "National heritage"],
+    "correct_answer": "The word of truth",
+    "explanation": "James says God brought us forth by the word of truth (James 1:18)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 2,
+    "prompt": "According to James 1, what should believers put away to receive the implanted word?",
+    "choices_json": ["All filthiness and overflow of wickedness", "All food and drink", "Every earthly job", "Every friendship"],
+    "correct_answer": "All filthiness and overflow of wickedness",
+    "explanation": "James calls believers to put away filthiness and rampant wickedness and receive the implanted word (James 1:21)."
+  },
+
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 3,
+    "prompt": "In James 1, why can trials be counted as joy?",
+    "choices_json": ["They mature believers through tested faith", "They always remove pain immediately", "They guarantee earthly wealth", "They replace the need for prayer"],
+    "correct_answer": "They mature believers through tested faith",
+    "explanation": "James ties joy in trials to tested faith producing perseverance and maturity (James 1:2-4)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 3,
+    "prompt": "What does James 1 imply about the person who doubts while praying for wisdom?",
+    "choices_json": ["He lacks settled trust in God", "He prays too quietly", "He asks for too little", "He should stop reading Scripture"],
+    "correct_answer": "He lacks settled trust in God",
+    "explanation": "James links doubting with instability and warns such a person not to expect to receive from the Lord (James 1:6-8)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 3,
+    "prompt": "What contrast does James 1 make between humble believers and rich people?",
+    "choices_json": ["Status before God outlasts earthly prosperity", "Riches guarantee spiritual authority", "Poverty blocks spiritual growth", "Humility means refusing all work"],
+    "correct_answer": "Status before God outlasts earthly prosperity",
+    "explanation": "James tells the lowly brother to glory in exaltation and the rich in humiliation because wealth fades like a flower (James 1:9-11)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 3,
+    "prompt": "According to James 1, where does temptation toward sin arise?",
+    "choices_json": ["From a person's own desires", "From God's character", "From the implanted word", "From pure religion"],
+    "correct_answer": "From a person's own desires",
+    "explanation": "James says each person is tempted when drawn away by his own lust, not by God (James 1:13-14)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 3,
+    "prompt": "Why does James 1 call the word \"implanted\"?",
+    "choices_json": ["It is received inwardly and can save the soul", "It is carved only on stone tablets", "It grows only through public debate", "It belongs only to teachers"],
+    "correct_answer": "It is received inwardly and can save the soul",
+    "explanation": "James urges believers to receive the implanted word, which is able to save their souls (James 1:21)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 3,
+    "prompt": "What is wrong with hearing the word without doing it in James 1?",
+    "choices_json": ["It produces self-deception", "It proves the word is weak", "It replaces worship", "It guarantees blessing anyway"],
+    "correct_answer": "It produces self-deception",
+    "explanation": "James says hearers who are not doers deceive themselves (James 1:22)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 3,
+    "prompt": "Why does James compare a hearer-only person to someone looking in a mirror?",
+    "choices_json": ["He sees truth briefly but fails to act on it", "He studies the law too carefully", "He learns to judge others", "He becomes more eloquent"],
+    "correct_answer": "He sees truth briefly but fails to act on it",
+    "explanation": "The hearer-only person looks, goes away, and forgets what he was like (James 1:23-24)."
+  },
+
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 4,
+    "prompt": "How does James 1 connect prayer for wisdom with endurance in trials?",
+    "choices_json": ["God-given wisdom helps believers respond faithfully under testing", "Wisdom removes every trial at once", "Only the wealthy need wisdom", "Trials matter only after wisdom is gained"],
+    "correct_answer": "God-given wisdom helps believers respond faithfully under testing",
+    "explanation": "The call to ask for wisdom follows directly after James explains the purpose of trials and perseverance (James 1:2-5)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 4,
+    "prompt": "What does James 1 teach by saying God does not change like shifting shadows?",
+    "choices_json": ["His goodness is constant and reliable", "He cannot see human suffering", "He changes plans daily", "He favors only one class of people"],
+    "correct_answer": "His goodness is constant and reliable",
+    "explanation": "James grounds every good gift in the Father of lights, with whom there is no variation or shifting shadow (James 1:17)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 4,
+    "prompt": "Why does James 1 place anger next to hearing and speaking?",
+    "choices_json": ["Unchecked speech and anger hinder righteous response to God's word", "Anger is needed to understand truth", "Listening matters only in conflict", "Speech is holier than obedience"],
+    "correct_answer": "Unchecked speech and anger hinder righteous response to God's word",
+    "explanation": "James calls believers to be quick to hear, slow to speak, and slow to anger because human anger does not produce God's righteousness (James 1:19-20)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 4,
+    "prompt": "What is the function of the mirror image in James 1 within the chapter's larger argument?",
+    "choices_json": ["It shows that revelation demands obedient response", "It proves Scripture is unclear", "It dismisses the value of self-examination", "It teaches that memory is sinful"],
+    "correct_answer": "It shows that revelation demands obedient response",
+    "explanation": "James uses the mirror image to contrast fleeting hearing with persevering obedience to the word (James 1:22-25)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 4,
+    "prompt": "How does James 1 define the blessed person in relation to the law of liberty?",
+    "choices_json": ["He continues in it as a doer, not a forgetful hearer", "He avoids the law entirely", "He masters arguments about the law", "He teaches others but does not practice it"],
+    "correct_answer": "He continues in it as a doer, not a forgetful hearer",
+    "explanation": "The one who looks into the perfect law of liberty and continues in it will be blessed in doing (James 1:25)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 4,
+    "prompt": "Why does James 1 say unbridled speech can make religion worthless?",
+    "choices_json": ["Speech reveals whether the heart is self-deceived", "Words never affect spiritual life", "Silence is the only true worship", "Teaching is forbidden to believers"],
+    "correct_answer": "Speech reveals whether the heart is self-deceived",
+    "explanation": "James says a person who does not bridle his tongue deceives his heart and his religion is worthless (James 1:26)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 4,
+    "prompt": "What two marks of pure religion are paired in James 1?",
+    "choices_json": ["Mercy toward the vulnerable and personal holiness", "Public miracles and long prayers", "Temple attendance and fasting", "Debate skill and social honor"],
+    "correct_answer": "Mercy toward the vulnerable and personal holiness",
+    "explanation": "Pure religion visits orphans and widows in their affliction and keeps oneself unstained from the world (James 1:27)."
+  },
+
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 5,
+    "prompt": "How does James 1 reflect wisdom teaching when it links trials, steadfastness, and maturity?",
+    "choices_json": ["It treats endurance as the path to complete character", "It rejects moral formation entirely", "It limits wisdom to intellectual study", "It says testing has no purpose"],
+    "correct_answer": "It treats endurance as the path to complete character",
+    "explanation": "James sounds like wisdom literature by presenting tested perseverance as the route to being complete and lacking nothing (James 1:2-4)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 5,
+    "prompt": "What theological point is made in James 1 by denying that God tempts anyone?",
+    "choices_json": ["God's holiness means evil arises from human desire, not his character", "God lacks power over evil", "Trials and temptation are identical gifts", "Sin is caused by creation itself"],
+    "correct_answer": "God's holiness means evil arises from human desire, not his character",
+    "explanation": "James insists God cannot be tempted by evil and does not tempt anyone, shifting blame away from God to human desire (James 1:13-14)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 5,
+    "prompt": "Why is the phrase \"first fruits of his creatures\" significant in James 1?",
+    "choices_json": ["Believers are portrayed as the beginning of God's renewed people", "Only Israel can be saved", "Creation has been abandoned", "Humans become angels"],
+    "correct_answer": "Believers are portrayed as the beginning of God's renewed people",
+    "explanation": "James says God brought believers forth by the word of truth so that they would be a kind of first fruits of his creatures (James 1:18)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 5,
+    "prompt": "How does James 1 hold together new birth by the word and obedience to the word?",
+    "choices_json": ["The word both creates new life and governs the new life it creates", "New birth makes obedience unnecessary", "Obedience replaces the need for grace", "The word matters only at conversion"],
+    "correct_answer": "The word both creates new life and governs the new life it creates",
+    "explanation": "James says God brought believers forth by the word of truth and then commands them to receive and do that word (James 1:18, 21-25)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 5,
+    "prompt": "What is the likely force of calling Scripture the \"perfect law of liberty\" in James 1?",
+    "choices_json": ["God's word frees people into obedient life rather than bondage", "James rejects all moral commands", "Liberty means having no master at all", "The law applies only to judges"],
+    "correct_answer": "God's word frees people into obedient life rather than bondage",
+    "explanation": "James presents the perfect law of liberty as the pattern in which the doer continues and is blessed (James 1:25)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 5,
+    "prompt": "How does James 1 challenge a merely external religion?",
+    "choices_json": ["It measures faith by bridled speech, mercy, and holiness", "It replaces conduct with ceremony", "It says emotions alone define devotion", "It limits religion to private ideas"],
+    "correct_answer": "It measures faith by bridled speech, mercy, and holiness",
+    "explanation": "James closes by testing religion through the tongue, care for the vulnerable, and separation from worldly stain (James 1:26-27)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 1,
+    "difficulty_stage": 5,
+    "prompt": "What larger biblical reversal stands behind James 1:9-11 on the lowly and the rich?",
+    "choices_json": ["God overturns worldly status by exalting the humble and humbling the proud", "Material success is always a sign of election", "Poverty is holier than obedience", "Social class cannot be judged by God"],
+    "correct_answer": "God overturns worldly status by exalting the humble and humbling the proud",
+    "explanation": "James echoes a broader biblical theme by telling the lowly to boast in exaltation and the rich in humiliation because earthly splendor fades (James 1:9-11)."
+  },
+
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 1,
+    "prompt": "According to James 2, what should believers not show while holding the faith of Jesus Christ?",
+    "choices_json": ["Partiality", "Mercy", "Patience", "Hospitality"],
+    "correct_answer": "Partiality",
+    "explanation": "James says believers must not hold the faith of Jesus Christ with partiality (James 2:1)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 1,
+    "prompt": "According to James 2, what did the favored visitor wear on his fingers?",
+    "choices_json": ["A gold ring", "A priestly seal", "Iron chains", "Silver bracelets"],
+    "correct_answer": "A gold ring",
+    "explanation": "James describes a rich man coming in with a gold ring and fine clothing (James 2:2)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 1,
+    "prompt": "According to James 2, where was the poor man told to stand or sit?",
+    "choices_json": ["By your footstool", "At the place of honor", "Beside the teacher", "At the head table"],
+    "correct_answer": "By your footstool",
+    "explanation": "The poor man is told to stand there or sit by the footstool (James 2:3)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 1,
+    "prompt": "According to James 2, what law is fulfilled by loving your neighbor as yourself?",
+    "choices_json": ["The royal law", "The ceremonial law", "The food law", "The civil code"],
+    "correct_answer": "The royal law",
+    "explanation": "James calls \"You shall love your neighbor as yourself\" the royal law (James 2:8)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 1,
+    "prompt": "According to James 2, mercy triumphs over what?",
+    "choices_json": ["Judgment", "Discipline", "Knowledge", "Weakness"],
+    "correct_answer": "Judgment",
+    "explanation": "James says mercy triumphs over judgment (James 2:13)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 1,
+    "prompt": "According to James 2, what kind of faith is dead?",
+    "choices_json": ["Faith without works", "Faith with prayer", "Faith with patience", "Faith with mercy"],
+    "correct_answer": "Faith without works",
+    "explanation": "James says faith by itself, if it has no works, is dead (James 2:17)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 1,
+    "prompt": "According to James 2, which prostitute is named as an example?",
+    "choices_json": ["Rahab", "Jezebel", "Gomer", "Delilah"],
+    "correct_answer": "Rahab",
+    "explanation": "James names Rahab the prostitute as an example of faith shown by works (James 2:25)."
+  },
+
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 2,
+    "prompt": "According to James 2, what have believers become if they favor the rich over the poor?",
+    "choices_json": ["Judges with evil thoughts", "Wise stewards", "Peaceful servants", "Guardians of order"],
+    "correct_answer": "Judges with evil thoughts",
+    "explanation": "James says such favoritism makes them judges with evil thoughts (James 2:4)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 2,
+    "prompt": "According to James 2, whom has God chosen to be rich in faith?",
+    "choices_json": ["The poor as to the world", "The famous teachers", "The rulers of the synagogue", "The merchants"],
+    "correct_answer": "The poor as to the world",
+    "explanation": "James says God chose the poor as to the world to be rich in faith and heirs of the kingdom (James 2:5)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 2,
+    "prompt": "According to James 2, who were dragging believers before courts?",
+    "choices_json": ["The rich", "The poor", "The widows", "The tax collectors"],
+    "correct_answer": "The rich",
+    "explanation": "James asks whether the rich are not the ones oppressing believers and dragging them into court (James 2:6)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 2,
+    "prompt": "According to James 2, what happens if someone keeps the whole law but stumbles in one point?",
+    "choices_json": ["He becomes guilty of all", "He is excused by effort", "He breaks only a minor rule", "He needs no repentance"],
+    "correct_answer": "He becomes guilty of all",
+    "explanation": "James says stumbling in one point makes a person guilty of all (James 2:10)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 2,
+    "prompt": "According to James 2, how should believers speak and act?",
+    "choices_json": ["As those judged by a law of liberty", "As those beyond judgment", "As those seeking honor", "As those fearing the rich"],
+    "correct_answer": "As those judged by a law of liberty",
+    "explanation": "James says to speak and act as those who will be judged by a law of liberty (James 2:12)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 2,
+    "prompt": "In James 2, what example shows that words alone do not help someone in need?",
+    "choices_json": ["Telling a poorly clothed brother to be warmed and filled", "Inviting a rich man to the front seat", "Asking God for wisdom", "Anointing the sick with oil"],
+    "correct_answer": "Telling a poorly clothed brother to be warmed and filled",
+    "explanation": "James says empty words without giving needed help do not profit the needy (James 2:15-16)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 2,
+    "prompt": "According to James 2, what do demons do that shows mere belief is insufficient?",
+    "choices_json": ["They believe that God is one and shudder", "They pray with faith", "They perform works of mercy", "They confess publicly and obey"],
+    "correct_answer": "They believe that God is one and shudder",
+    "explanation": "James says even the demons believe that God is one, and they shudder (James 2:19)."
+  },
+
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 3,
+    "prompt": "Why does James 2 treat favoritism as incompatible with faith in Christ?",
+    "choices_json": ["It contradicts God's valuing of the lowly and neighbor love", "It helps protect church order", "It is only a social mistake", "It matters only in public worship"],
+    "correct_answer": "It contradicts God's valuing of the lowly and neighbor love",
+    "explanation": "James condemns favoritism because God chose the poor and because the royal law requires love of neighbor (James 2:1-9)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 3,
+    "prompt": "What does James 2 suggest about selective obedience to the law?",
+    "choices_json": ["Breaking one part exposes rebellion against the Lawgiver", "Selective obedience is good enough", "Only major sins count", "Neighbor love replaces all commands"],
+    "correct_answer": "Breaking one part exposes rebellion against the Lawgiver",
+    "explanation": "James argues from the one God who said both not to commit adultery and not to murder (James 2:10-11)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 3,
+    "prompt": "Why does James ask whether faith can save a person who never helps the needy?",
+    "choices_json": ["He is exposing a claim to faith that lacks living evidence", "He is denying the value of confession entirely", "He is teaching salvation by wealth", "He is arguing against prayer for the poor"],
+    "correct_answer": "He is exposing a claim to faith that lacks living evidence",
+    "explanation": "James challenges a merely verbal claim to faith when no merciful action appears (James 2:14-17)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 3,
+    "prompt": "What does James 2 mean when it says faith was working with Abraham's works?",
+    "choices_json": ["His actions expressed and completed his trust in God", "His works replaced faith", "His faith began only at Moriah", "His obedience was unrelated to belief"],
+    "correct_answer": "His actions expressed and completed his trust in God",
+    "explanation": "James says faith worked with Abraham's works and by works faith was perfected (James 2:22)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 3,
+    "prompt": "Why is Rahab a striking example in James 2?",
+    "choices_json": ["Her risky action showed faith from an unexpected person", "She was an Israelite judge", "She kept silent rather than acting", "She was wealthy and honored first"],
+    "correct_answer": "Her risky action showed faith from an unexpected person",
+    "explanation": "Rahab the prostitute demonstrated faith by receiving the messengers and sending them out another way (James 2:25)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 3,
+    "prompt": "What is the force of James 2:13, \"mercy triumphs over judgment\"?",
+    "choices_json": ["Those shaped by mercy should show mercy in view of coming judgment", "Judgment no longer exists", "Mercy cancels all moral responsibility", "Only judges need mercy"],
+    "correct_answer": "Those shaped by mercy should show mercy in view of coming judgment",
+    "explanation": "James warns that judgment is without mercy to the one who has shown no mercy, then says mercy triumphs over judgment (James 2:13)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 3,
+    "prompt": "How does the body-spirit comparison clarify James's point about faith?",
+    "choices_json": ["Works are to faith what breath is to a body's life", "Works are optional decorations", "Faith is a body and works are a shadow", "The spirit can save a dead body by itself"],
+    "correct_answer": "Works are to faith what breath is to a body's life",
+    "explanation": "James says just as the body apart from the spirit is dead, so faith apart from works is dead (James 2:26)."
+  },
+
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 4,
+    "prompt": "How does James 2 connect church seating practices with theology?",
+    "choices_json": ["Social favoritism reveals distorted values before the God who honors the poor", "Seating order is merely administrative", "Rich visitors are always holier guests", "The poor should never attend assemblies"],
+    "correct_answer": "Social favoritism reveals distorted values before the God who honors the poor",
+    "explanation": "James moves from seating the rich and poor differently to God's choice of the poor and the royal law of love (James 2:2-8)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 4,
+    "prompt": "Why does James 2 use both the royal law and the law of liberty?",
+    "choices_json": ["To show that God's liberating word still demands neighbor love", "To separate two contradictory moral systems", "To limit liberty to wealthy believers", "To replace mercy with strict ritual"],
+    "correct_answer": "To show that God's liberating word still demands neighbor love",
+    "explanation": "James speaks of the royal law, love of neighbor, and then says believers will be judged by the law of liberty (James 2:8, 12)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 4,
+    "prompt": "What role does the Shema-like confession \"God is one\" play in James 2?",
+    "choices_json": ["It proves orthodox words alone do not equal obedient faith", "It shows demons are saved", "It denies the need for confession", "It replaces Abraham as an example"],
+    "correct_answer": "It proves orthodox words alone do not equal obedient faith",
+    "explanation": "James uses correct monotheistic belief to show that doctrinal accuracy by itself is not saving faith, since demons believe and shudder (James 2:19)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 4,
+    "prompt": "How do Abraham and Rahab together strengthen James's argument?",
+    "choices_json": ["They show living faith across radically different social backgrounds", "They prove only ancestors can obey", "They limit faith to Israelite heroes", "They show works matter only in wartime"],
+    "correct_answer": "They show living faith across radically different social backgrounds",
+    "explanation": "James pairs Abraham, the patriarch, with Rahab, a Gentile prostitute, to show that genuine faith acts (James 2:21-25)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 4,
+    "prompt": "What does James 2 imply about the relationship between profession and practice?",
+    "choices_json": ["A verbal claim must be matched by deeds of love and obedience", "Practice matters only for leaders", "Profession alone is the highest form of faith", "Deeds can replace all belief"],
+    "correct_answer": "A verbal claim must be matched by deeds of love and obedience",
+    "explanation": "James repeatedly tests the claim \"I have faith\" by asking whether concrete actions accompany it (James 2:14-18)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 4,
+    "prompt": "Why does James 2 frame mercy in the context of future judgment?",
+    "choices_json": ["Present conduct reveals whether one grasps God's merciful rule", "Future judgment is only symbolic", "Mercy belongs only to courts", "Judgment applies only to unbelievers"],
+    "correct_answer": "Present conduct reveals whether one grasps God's merciful rule",
+    "explanation": "James tells believers to speak and act as those who will be judged, then warns the merciless about judgment (James 2:12-13)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 4,
+    "prompt": "How does James 2 guard against separating doctrine from ethics?",
+    "choices_json": ["It insists true belief must be embodied in love and obedience", "It says ethics matter but doctrine does not", "It reduces faith to social activism only", "It treats doctrine as a private hobby"],
+    "correct_answer": "It insists true belief must be embodied in love and obedience",
+    "explanation": "James criticizes favoritism, lack of mercy, and inactive faith to show that theology must shape conduct (James 2:1-26)."
+  },
+
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "How does James 2 use Leviticus 19:18 in its argument about favoritism?",
+    "choices_json": ["Neighbor love exposes partiality as a direct violation of God's royal command", "It narrows love to one's economic equals", "It replaces concern for the poor with ritual purity", "It proves courts are unnecessary"],
+    "correct_answer": "Neighbor love exposes partiality as a direct violation of God's royal command",
+    "explanation": "James cites \"You shall love your neighbor as yourself\" and applies it against favoritism in the assembly (James 2:8-9)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "What is the theological logic behind James 2:10-11 on becoming guilty of all?",
+    "choices_json": ["The unity of the law reflects the authority of the one Lawgiver", "Every sin is equal in earthly consequence", "Only murder and adultery matter", "The law can be divided by preference"],
+    "correct_answer": "The unity of the law reflects the authority of the one Lawgiver",
+    "explanation": "James argues that the same God who forbade adultery also forbade murder, so selective obedience still opposes him (James 2:10-11)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "Why is James 2:24 often discussed in relation to Abraham?",
+    "choices_json": ["It stresses that genuine faith is shown and completed in obedient action", "It denies Abraham's prior belief entirely", "It teaches that sacrifice earns salvation mechanically", "It rejects Genesis as unreliable"],
+    "correct_answer": "It stresses that genuine faith is shown and completed in obedient action",
+    "explanation": "James points to Abraham's offering of Isaac to show that faith was active with his works and was perfected by them (James 2:21-24)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "How does James 2 redefine what counts as \"seeing\" true faith?",
+    "choices_json": ["Faith becomes visible through deeds that correspond to confession", "Only inward sincerity can ever be known", "Faith is seen through wealth and rank", "Speech alone makes faith visible"],
+    "correct_answer": "Faith becomes visible through deeds that correspond to confession",
+    "explanation": "James responds to the challenge \"Show me your faith\" by insisting faith is shown by works (James 2:18)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "What broader biblical pattern appears when James 2 highlights the poor as heirs of the kingdom?",
+    "choices_json": ["God often honors those the world overlooks", "Earthly poverty automatically saves", "The kingdom excludes the rich by definition", "Material lack replaces repentance"],
+    "correct_answer": "God often honors those the world overlooks",
+    "explanation": "James says God chose the poor in the world to be rich in faith and heirs of the kingdom, echoing a repeated biblical reversal (James 2:5)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "How does James 2 resist reducing salvation to either bare assent or bare activism?",
+    "choices_json": ["It presents works as the living expression of real faith", "It says faith and works are unrelated paths", "It makes action valuable without trust in God", "It teaches that belief is enough if emotions are sincere"],
+    "correct_answer": "It presents works as the living expression of real faith",
+    "explanation": "James does not praise deeds apart from faith; he argues that real faith is active and not dead (James 2:17-26)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "What is the effect of placing Rahab after Abraham in James 2?",
+    "choices_json": ["It widens the claim so that active faith is not confined to one class or history", "It weakens the example by moving away from Israel", "It proves lineage matters more than belief", "It limits the lesson to spies and warfare"],
+    "correct_answer": "It widens the claim so that active faith is not confined to one class or history",
+    "explanation": "By pairing Abraham and Rahab, James shows that active faith characterizes God's people across very different backgrounds (James 2:21-25)."
+  },
+
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 1,
+    "prompt": "According to James 3, why should not many become teachers?",
+    "choices_json": ["They will receive heavier judgment", "They must travel constantly", "They cannot marry", "They must stop working"],
+    "correct_answer": "They will receive heavier judgment",
+    "explanation": "James warns that teachers will receive heavier judgment (James 3:1)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 1,
+    "prompt": "According to James 3, what small object is put into horses' mouths?",
+    "choices_json": ["Bits", "Stones", "Hooks", "Coins"],
+    "correct_answer": "Bits",
+    "explanation": "James mentions bits in horses' mouths to direct their whole bodies (James 3:3)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 1,
+    "prompt": "According to James 3, what tiny thing steers a large ship?",
+    "choices_json": ["A rudder", "An anchor", "A sailcloth patch", "A rope knot"],
+    "correct_answer": "A rudder",
+    "explanation": "James says a very small rudder turns a large ship (James 3:4)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 1,
+    "prompt": "According to James 3, the tongue is compared to what that sets a forest ablaze?",
+    "choices_json": ["A small fire", "A flood", "A hammer", "A thorn bush"],
+    "correct_answer": "A small fire",
+    "explanation": "James says see how small a fire can ignite a great forest (James 3:5)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 1,
+    "prompt": "According to James 3, what do people bless with the tongue?",
+    "choices_json": ["The Lord and Father", "Only friends", "Their own wisdom", "The rich alone"],
+    "correct_answer": "The Lord and Father",
+    "explanation": "James says with the tongue we bless our Lord and Father (James 3:9)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 1,
+    "prompt": "According to James 3, what cannot produce both fresh and bitter water?",
+    "choices_json": ["A spring", "A vineyard", "A mountain", "A cistern lid"],
+    "correct_answer": "A spring",
+    "explanation": "James asks whether a spring pours out fresh and bitter water from the same opening (James 3:11)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 1,
+    "prompt": "According to James 3, what is first among the qualities of wisdom from above?",
+    "choices_json": ["Pure", "Popular", "Bold", "Severe"],
+    "correct_answer": "Pure",
+    "explanation": "James says the wisdom from above is first pure, then peaceable and more (James 3:17)."
+  },
+
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 2,
+    "prompt": "According to James 3, in how many things do we all stumble?",
+    "choices_json": ["Many things", "One thing only", "Only in speech", "Never at all"],
+    "correct_answer": "Many things",
+    "explanation": "James says we all stumble in many things (James 3:2)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 2,
+    "prompt": "According to James 3, what kind of person is able to bridle the whole body?",
+    "choices_json": ["A man who does not stumble in word", "A wealthy elder", "A silent monk", "A strong soldier"],
+    "correct_answer": "A man who does not stumble in word",
+    "explanation": "James says if anyone does not stumble in word, he is a perfect man able to bridle the whole body (James 3:2)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 2,
+    "prompt": "According to James 3, what is the tongue full of?",
+    "choices_json": ["Deadly poison", "Quiet wisdom", "Living water", "Sacred mystery"],
+    "correct_answer": "Deadly poison",
+    "explanation": "James calls the tongue a restless evil full of deadly poison (James 3:8)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 2,
+    "prompt": "According to James 3, after blessing God with the tongue, what do people also do with it?",
+    "choices_json": ["Curse people made in God's likeness", "Sing psalms all day", "Teach the law perfectly", "Heal the sick"],
+    "correct_answer": "Curse people made in God's likeness",
+    "explanation": "James says with the same tongue people curse men who are made in the likeness of God (James 3:9)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 2,
+    "prompt": "According to James 3, what cannot a fig tree bear?",
+    "choices_json": ["Olives", "Figs", "Leaves", "Shade"],
+    "correct_answer": "Olives",
+    "explanation": "James asks if a fig tree can yield olives; the implied answer is no (James 3:12)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 2,
+    "prompt": "According to James 3, how should a wise and understanding person show his works?",
+    "choices_json": ["By good conduct in meekness of wisdom", "By loud speeches", "By public honors", "By strict appearance alone"],
+    "correct_answer": "By good conduct in meekness of wisdom",
+    "explanation": "James says wisdom should be shown by good conduct with the humility of wisdom (James 3:13)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 2,
+    "prompt": "According to James 3, what follows where jealousy and selfish ambition exist?",
+    "choices_json": ["Confusion and every evil deed", "Peace and order", "Long life and health", "Forgiveness and joy"],
+    "correct_answer": "Confusion and every evil deed",
+    "explanation": "James says where jealousy and selfish ambition are, there is confusion and every evil deed (James 3:16)."
+  },
+
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 3,
+    "prompt": "Why does James 3 begin with a warning to teachers before discussing the tongue broadly?",
+    "choices_json": ["Teachers especially influence others through speech", "Teaching avoids accountability", "Only teachers struggle with words", "The church needed fewer listeners"],
+    "correct_answer": "Teachers especially influence others through speech",
+    "explanation": "James warns teachers of stricter judgment and then develops how powerful and dangerous speech can be (James 3:1-6)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 3,
+    "prompt": "What does James 3 suggest about the tongue's power relative to its size?",
+    "choices_json": ["Small instruments can direct or destroy far more than their size suggests", "Only large things matter spiritually", "Words matter less than intentions", "Speech cannot shape conduct"],
+    "correct_answer": "Small instruments can direct or destroy far more than their size suggests",
+    "explanation": "James compares the tongue to a bit, rudder, and small fire to show disproportionate influence (James 3:3-5)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 3,
+    "prompt": "Why does James call the tongue inconsistent when it blesses God and curses people?",
+    "choices_json": ["People bear God's likeness, so cursing them contradicts worship", "Cursing is acceptable in worship", "Speech has no moral link to theology", "Only public cursing is wrong"],
+    "correct_answer": "People bear God's likeness, so cursing them contradicts worship",
+    "explanation": "James grounds the inconsistency in the fact that humans are made in God's likeness (James 3:9-10)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 3,
+    "prompt": "What is James 3 communicating through the spring, fig tree, and vine examples?",
+    "choices_json": ["A source should produce output consistent with its nature", "Nature can change by willpower instantly", "Speech is morally neutral", "Mixed fruit is a mark of wisdom"],
+    "correct_answer": "A source should produce output consistent with its nature",
+    "explanation": "James uses natural analogies to show that corrupt speech reveals a deeper inconsistency at the source (James 3:11-12)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 3,
+    "prompt": "How does James 3 distinguish earthly wisdom from wisdom from above?",
+    "choices_json": ["One is driven by envy and ambition, the other by purity and peace", "One belongs to teachers and the other to laypeople", "One is practical and the other useless", "One avoids works and the other avoids doctrine"],
+    "correct_answer": "One is driven by envy and ambition, the other by purity and peace",
+    "explanation": "Earthly wisdom is marked by jealousy and selfish ambition, while wisdom from above is pure and peaceable (James 3:14-17)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 3,
+    "prompt": "Why is meekness important in James 3's description of wisdom?",
+    "choices_json": ["True wisdom shows itself without proud self-assertion", "Meekness means never speaking", "Wisdom requires social weakness only", "Meekness replaces truthfulness"],
+    "correct_answer": "True wisdom shows itself without proud self-assertion",
+    "explanation": "James says wise people show their works in the meekness or humility of wisdom (James 3:13)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 3,
+    "prompt": "What does James 3 imply about communities marked by selfish ambition?",
+    "choices_json": ["They become disorderly and morally corrupted", "They become disciplined and fruitful", "They avoid conflict through silence", "They naturally produce righteousness"],
+    "correct_answer": "They become disorderly and morally corrupted",
+    "explanation": "James says jealousy and selfish ambition produce disorder and every evil practice (James 3:16)."
+  },
+
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 4,
+    "prompt": "How do the opening images in James 3 support its warning about leadership?",
+    "choices_json": ["They show how small acts of speech can steer whole lives and groups", "They prove teachers should never speak publicly", "They limit speech problems to children", "They teach that actions matter but words do not"],
+    "correct_answer": "They show how small acts of speech can steer whole lives and groups",
+    "explanation": "The bit, rudder, and fire images explain why speech, especially from teachers, carries serious moral weight (James 3:1-6)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 4,
+    "prompt": "What is the theological tension in James 3 when humans bless God and curse people?",
+    "choices_json": ["Worship of God is contradicted by contempt for his image-bearers", "God values speech but not people", "Human likeness to God ended after Eden", "Cursing is a form of blessing"],
+    "correct_answer": "Worship of God is contradicted by contempt for his image-bearers",
+    "explanation": "James says such speech is improper because people are made in God's likeness (James 3:9-10)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 4,
+    "prompt": "Why does James 3 call certain wisdom earthly, sensual, and demonic?",
+    "choices_json": ["Because its source and fruits oppose the character of God", "Because all practical skill is evil", "Because wisdom belongs only to heaven", "Because emotion is always sinful"],
+    "correct_answer": "Because its source and fruits oppose the character of God",
+    "explanation": "James labels jealous and self-seeking wisdom as earthly, unspiritual, and demonic because it yields disorder and evil (James 3:14-16)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 4,
+    "prompt": "How does James 3 define peace in relation to wisdom?",
+    "choices_json": ["Peace is both a trait of heavenly wisdom and the soil where righteousness grows", "Peace means avoiding all correction", "Peace belongs only to private devotion", "Peace comes from winning arguments"],
+    "correct_answer": "Peace is both a trait of heavenly wisdom and the soil where righteousness grows",
+    "explanation": "Wisdom from above is peaceable, and the fruit of righteousness is sown in peace by peacemakers (James 3:17-18)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 4,
+    "prompt": "What connection exists in James 3 between inner motives and outward speech?",
+    "choices_json": ["Corrupt motives eventually surface in destructive words and disorder", "Speech is detached from the heart", "Only public teaching reveals motives", "Words can purify envy by themselves"],
+    "correct_answer": "Corrupt motives eventually surface in destructive words and disorder",
+    "explanation": "James moves from the tongue's danger to jealousy and selfish ambition, showing the moral source behind harmful speech (James 3:6, 14-16)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 4,
+    "prompt": "Why does James 3 emphasize that no human can tame the tongue?",
+    "choices_json": ["It exposes human weakness and the need for deeper transformation", "It excuses reckless speech", "It means discipline is useless", "It singles out only unbelievers"],
+    "correct_answer": "It exposes human weakness and the need for deeper transformation",
+    "explanation": "James contrasts humanity's ability to tame animals with its inability to tame the tongue, underscoring the seriousness of the problem (James 3:7-8)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 4,
+    "prompt": "How does James 3 tie wisdom to conduct rather than mere claims?",
+    "choices_json": ["The wise must show their works by good conduct and meekness", "Wisdom is proved by mystical experiences", "Claims of wisdom are enough by themselves", "Only silence counts as wisdom"],
+    "correct_answer": "The wise must show their works by good conduct and meekness",
+    "explanation": "James asks who is wise, then answers by pointing to observable conduct shaped by humility (James 3:13)."
+  },
+
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 5,
+    "prompt": "What Genesis echo strengthens James 3's argument about cursing people?",
+    "choices_json": ["Humans are made in the image and likeness of God", "Language was divided at Babel", "Adam named the animals", "The serpent spoke in Eden"],
+    "correct_answer": "Humans are made in the image and likeness of God",
+    "explanation": "James grounds the wrongness of cursing people in their being made in God's likeness, echoing Genesis image-bearing language (James 3:9)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 5,
+    "prompt": "How does James 3 portray speech as a theological issue and not just a social one?",
+    "choices_json": ["Speech reveals allegiance either to God's wisdom or to corrupted desire", "Speech matters only for reputation", "The tongue is dangerous only in worship services", "Words are important mainly for politics"],
+    "correct_answer": "Speech reveals allegiance either to God's wisdom or to corrupted desire",
+    "explanation": "James links speech to judgment, image-bearing, demonic wisdom, and righteous peace, making it deeply theological (James 3:1, 9, 15-18)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 5,
+    "prompt": "Why is wisdom from above described first as pure in James 3?",
+    "choices_json": ["Moral integrity is the fountainhead of the rest of its qualities", "Purity is less important than peace", "James means ritual washing only", "Purity refers only to speech volume"],
+    "correct_answer": "Moral integrity is the fountainhead of the rest of its qualities",
+    "explanation": "James orders heavenly wisdom beginning with purity, then peaceableness and other communal fruits (James 3:17)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 5,
+    "prompt": "What is the significance of the phrase \"fruit of righteousness\" in James 3:18?",
+    "choices_json": ["Right living grows in the atmosphere created by peacemakers", "Righteousness is earned by avoiding conflict", "Fruit refers only to speech control", "Peace is the same as compromise"],
+    "correct_answer": "Right living grows in the atmosphere created by peacemakers",
+    "explanation": "James says the fruit of righteousness is sown in peace by those who make peace (James 3:18)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 5,
+    "prompt": "How does James 3 anticipate the next chapter's discussion of conflicts?",
+    "choices_json": ["It exposes envy and selfish ambition as seeds of communal disorder", "It resolves all disputes before chapter 4 begins", "It shifts away from inner motives entirely", "It treats conflict as purely political"],
+    "correct_answer": "It exposes envy and selfish ambition as seeds of communal disorder",
+    "explanation": "James 3 ends by naming envy and selfish ambition, which chapter 4 then develops into quarrels and fights (James 3:14-16; 4:1)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 5,
+    "prompt": "What does James 3 imply about the relationship between created order and moral order?",
+    "choices_json": ["Creation's consistent fruits expose the absurdity of morally mixed speech", "Nature is morally irrelevant", "Speech creates a new nature each day", "Moral order changes with social rank"],
+    "correct_answer": "Creation's consistent fruits expose the absurdity of morally mixed speech",
+    "explanation": "James appeals to springs, fig trees, and vines to show that moral inconsistency should be as unnatural as mixed natural outputs (James 3:11-12)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 3,
+    "difficulty_stage": 5,
+    "prompt": "Why does James 3 join meekness with wisdom rather than with weakness?",
+    "choices_json": ["Because heavenly wisdom acts without proud rivalry and still produces good works", "Because meekness means refusing responsibility", "Because only the powerless can be wise", "Because wisdom hides itself from community life"],
+    "correct_answer": "Because heavenly wisdom acts without proud rivalry and still produces good works",
+    "explanation": "James presents meekness as the proper mode in which wise conduct appears, in contrast to selfish ambition (James 3:13-14)."
+  },
+
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "According to James 4, where do wars and fightings among believers come from?",
+    "choices_json": ["Their pleasures that war in their members", "Rome's taxes", "Bad weather", "Lack of teachers"],
+    "correct_answer": "Their pleasures that war in their members",
+    "explanation": "James says conflicts come from pleasures that war in their members (James 4:1)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "According to James 4, what kind of friendship is enmity with God?",
+    "choices_json": ["Friendship with the world", "Friendship with believers", "Friendship with strangers", "Friendship with the poor"],
+    "correct_answer": "Friendship with the world",
+    "explanation": "James says friendship with the world is enmity with God (James 4:4)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "According to James 4, to whom does God give grace?",
+    "choices_json": ["The humble", "The proud", "The wealthy", "The angry"],
+    "correct_answer": "The humble",
+    "explanation": "James says God resists the proud but gives grace to the humble (James 4:6)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "According to James 4, what should believers do and the devil will flee?",
+    "choices_json": ["Resist him", "Ignore him", "Debate him", "Serve him"],
+    "correct_answer": "Resist him",
+    "explanation": "James says resist the devil, and he will flee from you (James 4:7)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "According to James 4, what should believers draw near to?",
+    "choices_json": ["God", "The marketplace", "Public praise", "The rich"],
+    "correct_answer": "God",
+    "explanation": "James says draw near to God, and he will draw near to you (James 4:8)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "According to James 4, what is your life like?",
+    "choices_json": ["A vapor", "A fortress", "A river", "A mountain"],
+    "correct_answer": "A vapor",
+    "explanation": "James says life is a vapor that appears for a little time and then vanishes (James 4:14)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "According to James 4, what is it if someone knows to do good and does not do it?",
+    "choices_json": ["Sin", "Weakness only", "A small mistake", "No offense"],
+    "correct_answer": "Sin",
+    "explanation": "James says to the one who knows to do good and does not do it, to him it is sin (James 4:17)."
+  },
+
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "According to James 4, why do believers not have what they desire?",
+    "choices_json": ["They do not ask", "They fast too often", "They work too hard", "They obey too much"],
+    "correct_answer": "They do not ask",
+    "explanation": "James says, \"You don't have because you don't ask\" (James 4:2)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "According to James 4, why do some ask and still not receive?",
+    "choices_json": ["They ask with wrong motives to spend it on pleasures", "They ask too quietly", "They ask on the Sabbath", "They ask without elders present"],
+    "correct_answer": "They ask with wrong motives to spend it on pleasures",
+    "explanation": "James says some ask and do not receive because they ask wrongly to spend it on pleasures (James 4:3)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "According to James 4, what should sinners do with their hands?",
+    "choices_json": ["Cleanse them", "Raise them in pride", "Hide them", "Fold them in laziness"],
+    "correct_answer": "Cleanse them",
+    "explanation": "James says, \"Cleanse your hands, you sinners\" (James 4:8)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "According to James 4, what should the double-minded do with their hearts?",
+    "choices_json": ["Purify them", "Harden them", "Follow them", "Ignore them"],
+    "correct_answer": "Purify them",
+    "explanation": "James says, \"Purify your hearts, you double-minded\" (James 4:8)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "According to James 4, what should believers not do against one another?",
+    "choices_json": ["Speak against one another", "Pray for one another", "Confess to one another", "Serve one another"],
+    "correct_answer": "Speak against one another",
+    "explanation": "James tells believers not to speak against one another (James 4:11)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "According to James 4, who is the one lawgiver and judge?",
+    "choices_json": ["God", "Moses", "The church elder", "Caesar"],
+    "correct_answer": "God",
+    "explanation": "James says there is one lawgiver and judge, who is able to save and destroy (James 4:12)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "According to James 4, what should people say instead of boasting about tomorrow?",
+    "choices_json": ["If the Lord wills, we will live and do this or that", "Tomorrow is guaranteed", "We control our own future", "Fortune will favor us"],
+    "correct_answer": "If the Lord wills, we will live and do this or that",
+    "explanation": "James says plans should be made with the words, \"If the Lord wills\" (James 4:15)."
+  },
+
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "What does James 4 identify as the root of outward conflict?",
+    "choices_json": ["Disordered desires within people", "A lack of political power", "Poor communication only", "Too much fasting"],
+    "correct_answer": "Disordered desires within people",
+    "explanation": "James traces fights to pleasures warring within the members (James 4:1-2)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "Why does James 4 call worldliness spiritual adultery?",
+    "choices_json": ["Because divided loyalty betrays covenant friendship with God", "Because all social contact is sinful", "Because marriage is the only theme in the chapter", "Because wealth itself is always forbidden"],
+    "correct_answer": "Because divided loyalty betrays covenant friendship with God",
+    "explanation": "James addresses \"adulterers and adulteresses\" because friendship with the world makes one God's enemy (James 4:4)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "What is the logic of James 4:6, \"He gives more grace\"?",
+    "choices_json": ["God opposes pride but provides grace for repentance and humility", "Grace removes the need to repent", "Grace is given only after perfection", "Pride attracts God's favor"],
+    "correct_answer": "God opposes pride but provides grace for repentance and humility",
+    "explanation": "James couples greater grace with the statement that God resists the proud and gives grace to the humble (James 4:6)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "Why does James 4 combine submission to God with resistance to the devil?",
+    "choices_json": ["Spiritual victory depends on yielding to God rather than to rival powers", "The devil can be resisted without repentance", "Submission and resistance are opposites only", "The devil flees from human strength alone"],
+    "correct_answer": "Spiritual victory depends on yielding to God rather than to rival powers",
+    "explanation": "James says submit to God, resist the devil, and draw near to God as parts of one response (James 4:7-8)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "What is wrong with boasting about future business in James 4?",
+    "choices_json": ["It assumes control over a life and future that belong to God", "Trade is inherently sinful", "Travel is forbidden to Christians", "Planning is always unbelief"],
+    "correct_answer": "It assumes control over a life and future that belong to God",
+    "explanation": "James rebukes arrogant planning because life is brief and plans must be subject to the Lord's will (James 4:13-15)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "Why does James 4 treat slander as an attack on the law?",
+    "choices_json": ["Judging a brother arrogates to oneself the authority of the Lawgiver", "The law commands public insult", "Speech against a brother is never serious", "Only civil courts can judge speech"],
+    "correct_answer": "Judging a brother arrogates to oneself the authority of the Lawgiver",
+    "explanation": "James says the one who speaks against a brother speaks against the law and judges the law, though there is one Lawgiver (James 4:11-12)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "What kind of repentance does James 4 call for in verses 8-10?",
+    "choices_json": ["A humble, serious turning from sin toward God", "A merely public ritual", "A private mood with no change", "A celebration of self-confidence"],
+    "correct_answer": "A humble, serious turning from sin toward God",
+    "explanation": "James calls for cleansing, purifying, mourning, weeping, and humbling oneself before the Lord (James 4:8-10)."
+  },
+
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "How does James 4 connect unanswered prayer with inner desires?",
+    "choices_json": ["Prayer is corrupted when requests merely feed self-centered passions", "God never answers requests for daily needs", "Desire is always sinful regardless of object", "Wrong motives matter less than persistence"],
+    "correct_answer": "Prayer is corrupted when requests merely feed self-centered passions",
+    "explanation": "James says some do not receive because they ask wrongly to spend it on pleasures (James 4:2-3)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "What progression does James 4 present from pride to restoration?",
+    "choices_json": ["Pride must yield to humility before God, who then exalts", "Self-assertion leads directly to honor", "Restoration comes through judging others", "Humility is useful only after success"],
+    "correct_answer": "Pride must yield to humility before God, who then exalts",
+    "explanation": "James quotes God's opposition to the proud and ends the section by saying, \"Humble yourselves... and he will exalt you\" (James 4:6, 10)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "Why does James 4 move from resisting the devil to cleansing hands and purifying hearts?",
+    "choices_json": ["Spiritual warfare involves concrete repentance, not slogans only", "The devil is defeated by ritual washing alone", "External cleansing replaces inner change", "Resistance means withdrawing from all people"],
+    "correct_answer": "Spiritual warfare involves concrete repentance, not slogans only",
+    "explanation": "James pairs resistance with drawing near to God, cleansing hands, and purifying hearts, showing a moral and spiritual response (James 4:7-8)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "How does James 4 challenge human autonomy in making plans?",
+    "choices_json": ["It demands that planning be subordinated to God's sovereign will", "It forbids all business decisions", "It says tomorrow can be known exactly", "It values confidence more than dependence"],
+    "correct_answer": "It demands that planning be subordinated to God's sovereign will",
+    "explanation": "James rebukes boastful planning and insists that people say, \"If the Lord wills\" (James 4:13-16)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "What does James 4 teach about speech against a brother in relation to community life?",
+    "choices_json": ["Slander fractures fellowship by replacing humility with self-appointed judgment", "Strong communities depend on accusations", "Speech is unrelated to community order", "Only formal judges may sin this way"],
+    "correct_answer": "Slander fractures fellowship by replacing humility with self-appointed judgment",
+    "explanation": "James forbids speaking against one another and roots the warning in God's sole authority as Lawgiver and Judge (James 4:11-12)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "Why does James 4 end with a statement about knowing the good and failing to do it?",
+    "choices_json": ["It broadens sin beyond evil acts to include culpable omission", "It excuses inaction when motives are sincere", "It limits sin to wealthy traders", "It separates knowledge from responsibility"],
+    "correct_answer": "It broadens sin beyond evil acts to include culpable omission",
+    "explanation": "James concludes that failing to do known good is itself sin (James 4:17)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "How does James 4 tie inner cravings to broader social conflict and worldliness?",
+    "choices_json": ["Private passions spill outward into quarrels and divided loyalty", "Social conflict is caused only by outsiders", "Worldliness is merely a fashion choice", "Conflict ends when desire is celebrated"],
+    "correct_answer": "Private passions spill outward into quarrels and divided loyalty",
+    "explanation": "James begins with passions at war within people and then calls world-friendship spiritual adultery against God (James 4:1-4)."
+  },
+
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "How does James 4 echo prophetic covenant language by calling the readers adulterous?",
+    "choices_json": ["It portrays friendship with the world as unfaithfulness to God", "It addresses only literal marital sin", "It abolishes the idea of covenant", "It refers only to Gentile customs"],
+    "correct_answer": "It portrays friendship with the world as unfaithfulness to God",
+    "explanation": "James uses adulterous language to describe disloyalty to God through friendship with the world (James 4:4)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "What is the theological weight of \"He yearns jealously over the spirit\" in James 4?",
+    "choices_json": ["God tolerates no rival loyalty in his people", "Human jealousy is always virtuous", "The verse denies human responsibility", "It teaches that envy is a gift"],
+    "correct_answer": "God tolerates no rival loyalty in his people",
+    "explanation": "In context James is stressing God's jealous claim over his people in contrast to world-friendship (James 4:4-5)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "Why is the call to humble mourning in James 4 not opposed to grace?",
+    "choices_json": ["Grace is given to the humble and leads them into real repentance", "Grace removes all sorrow over sin", "Repentance earns grace by severity", "Mourning is a substitute for obedience"],
+    "correct_answer": "Grace is given to the humble and leads them into real repentance",
+    "explanation": "James says God gives more grace, then commands humility, repentance, and mourning before promising exaltation (James 4:6-10)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "How does James 4 reshape the ethics of planning and commerce?",
+    "choices_json": ["It places ordinary business under God's sovereignty and human frailty", "It condemns profit as inherently evil", "It teaches fatalism instead of planning", "It treats commerce as outside moral concern"],
+    "correct_answer": "It places ordinary business under God's sovereignty and human frailty",
+    "explanation": "James addresses merchants directly and reminds them that life is a vapor and the Lord's will governs future action (James 4:13-15)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "What does James 4 reveal about sin when it includes both bad desires and neglected good?",
+    "choices_json": ["Sin includes corrupt motives, arrogant speech, and culpable omission", "Sin is only outward violence", "Only unbelievers commit omission sins", "Good intentions cancel neglected duties"],
+    "correct_answer": "Sin includes corrupt motives, arrogant speech, and culpable omission",
+    "explanation": "James addresses lustful motives, slander, boastful presumption, and finally failure to do known good (James 4:1-3, 11-17)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "Why does James 4 say there is one Lawgiver and Judge?",
+    "choices_json": ["To undercut human pretensions to final moral authority over others", "To deny the role of civil government entirely", "To suggest the law has no application now", "To limit judgment to the afterlife only"],
+    "correct_answer": "To undercut human pretensions to final moral authority over others",
+    "explanation": "James uses God's sole authority as Lawgiver and Judge to rebuke slanderous judgment of a brother (James 4:11-12)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "How does James 4 integrate spiritual warfare, repentance, and humility?",
+    "choices_json": ["Victory over evil comes through submission to God and repentant nearness to him", "Spiritual warfare is fought mainly by argument", "Humility weakens resistance to evil", "Repentance matters only after the conflict ends"],
+    "correct_answer": "Victory over evil comes through submission to God and repentant nearness to him",
+    "explanation": "James joins submitting to God, resisting the devil, drawing near, cleansing, mourning, and humbling oneself before the Lord (James 4:7-10)."
+  },
+
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 1,
+    "prompt": "According to James 5, what should the rich do because of coming miseries?",
+    "choices_json": ["Weep and howl", "Celebrate loudly", "Build bigger barns", "Demand more honor"],
+    "correct_answer": "Weep and howl",
+    "explanation": "James tells the rich to weep and howl for the miseries coming on them (James 5:1)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 1,
+    "prompt": "According to James 5, what has happened to the rich people's garments?",
+    "choices_json": ["They are moth-eaten", "They are anointed", "They are dyed purple", "They are stored in cedar"],
+    "correct_answer": "They are moth-eaten",
+    "explanation": "James says their garments are moth-eaten (James 5:2)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 1,
+    "prompt": "According to James 5, what has been withheld by fraud?",
+    "choices_json": ["The wages of laborers", "The temple tax", "The king's tribute", "The widow's inheritance"],
+    "correct_answer": "The wages of laborers",
+    "explanation": "James says the wages withheld by fraud cry out against the rich (James 5:4)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 1,
+    "prompt": "According to James 5, what should believers be until the Lord's coming?",
+    "choices_json": ["Patient", "Silent forever", "Suspicious", "Idle"],
+    "correct_answer": "Patient",
+    "explanation": "James says to be patient until the coming of the Lord (James 5:7)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 1,
+    "prompt": "According to James 5, which Old Testament figure is given as an example of steadfastness in suffering?",
+    "choices_json": ["Job", "Samson", "Saul", "Ahab"],
+    "correct_answer": "Job",
+    "explanation": "James points to the endurance of Job (James 5:11)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 1,
+    "prompt": "According to James 5, what should believers not do when making everyday statements?",
+    "choices_json": ["Swear by heaven or earth", "Confess sins", "Pray in faith", "Sing praise"],
+    "correct_answer": "Swear by heaven or earth",
+    "explanation": "James says not to swear either by heaven, earth, or any other oath (James 5:12)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 1,
+    "prompt": "According to James 5, what should a cheerful person do?",
+    "choices_json": ["Sing praise", "Store wealth", "Call a judge", "Fast in secret"],
+    "correct_answer": "Sing praise",
+    "explanation": "James says if anyone is cheerful, let him sing praise (James 5:13)."
+  },
+
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 2,
+    "prompt": "According to James 5, to what is the patient believer compared while waiting for the Lord?",
+    "choices_json": ["A farmer waiting for precious fruit", "A merchant chasing profit", "A soldier awaiting orders", "A judge on a bench"],
+    "correct_answer": "A farmer waiting for precious fruit",
+    "explanation": "James compares patience to a farmer waiting for the earth's precious fruit (James 5:7)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 2,
+    "prompt": "According to James 5, what should believers establish because the Lord's coming is near?",
+    "choices_json": ["Their hearts", "Their barns", "Their trading routes", "Their legal claims"],
+    "correct_answer": "Their hearts",
+    "explanation": "James says, \"Establish your hearts, for the coming of the Lord is at hand\" (James 5:8)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 2,
+    "prompt": "According to James 5, where is the Judge standing?",
+    "choices_json": ["At the door", "In the field", "At the temple gate", "By the sea"],
+    "correct_answer": "At the door",
+    "explanation": "James says the Judge is standing at the door (James 5:9)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 2,
+    "prompt": "According to James 5, whom should the sick call?",
+    "choices_json": ["The elders of the assembly", "The nearest merchant", "A Roman official", "The town crier"],
+    "correct_answer": "The elders of the assembly",
+    "explanation": "James says the sick should call for the elders of the assembly (James 5:14)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 2,
+    "prompt": "According to James 5, what should believers confess to one another?",
+    "choices_json": ["Their sins", "Their dreams", "Their profits", "Their travel plans"],
+    "correct_answer": "Their sins",
+    "explanation": "James says, \"Confess your sins to one another\" (James 5:16)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 2,
+    "prompt": "According to James 5, what kind of prayer has great power?",
+    "choices_json": ["The prayer of a righteous person", "The longest prayer", "A prayer made in public only", "A prayer with many oaths"],
+    "correct_answer": "The prayer of a righteous person",
+    "explanation": "James says the insistent prayer of a righteous person is very powerful (James 5:16)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 2,
+    "prompt": "According to James 5, how long did it not rain when Elijah prayed?",
+    "choices_json": ["Three years and six months", "Forty days", "Seven years", "Twelve months"],
+    "correct_answer": "Three years and six months",
+    "explanation": "James says the sky withheld rain for three years and six months (James 5:17)."
+  },
+
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 3,
+    "prompt": "What does James 5 suggest about wealth stored unjustly?",
+    "choices_json": ["It becomes evidence against its owners in judgment", "It guarantees protection from God", "It is neutral no matter how gained", "It excuses harsh treatment of workers"],
+    "correct_answer": "It becomes evidence against its owners in judgment",
+    "explanation": "James says corroded gold and silver will testify against the rich, alongside wages withheld by fraud (James 5:2-6)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 3,
+    "prompt": "Why does James 5 tell suffering believers to be patient rather than retaliate?",
+    "choices_json": ["The Lord's coming and judgment are near", "Injustice does not matter", "Believers should never care about righteousness", "Patience guarantees wealth"],
+    "correct_answer": "The Lord's coming and judgment are near",
+    "explanation": "James grounds patience in the nearness of the Lord's coming and the Judge standing at the door (James 5:7-9)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 3,
+    "prompt": "What is the point of using the prophets in James 5 as examples?",
+    "choices_json": ["Faithful suffering has long marked those who speak in the Lord's name", "Prophets were spared all hardship", "Only prophets should endure patiently", "Suffering proves God has abandoned his servants"],
+    "correct_answer": "Faithful suffering has long marked those who speak in the Lord's name",
+    "explanation": "James points to the prophets as examples of suffering and patience (James 5:10)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 3,
+    "prompt": "Why does James 5 forbid swearing and instead call for simple yes and no?",
+    "choices_json": ["Truthful speech should not need manipulative guarantees", "Ordinary speech has no moral weight", "Oaths are needed for sincere believers", "Only judges may speak plainly"],
+    "correct_answer": "Truthful speech should not need manipulative guarantees",
+    "explanation": "James tells believers to let their yes be yes and their no be no, so they do not fall under judgment (James 5:12)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 3,
+    "prompt": "What does James 5 imply about prayer across changing circumstances?",
+    "choices_json": ["Prayer and praise belong in suffering, sickness, and cheerfulness alike", "Prayer is mainly for emergencies", "Cheerful people have no need to worship", "Only elders should pray"],
+    "correct_answer": "Prayer and praise belong in suffering, sickness, and cheerfulness alike",
+    "explanation": "James gives different responses for suffering, cheerfulness, and sickness, all centered on prayerful dependence on God (James 5:13-15)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 3,
+    "prompt": "Why does James 5 mention forgiveness alongside healing?",
+    "choices_json": ["The community's care addresses both bodily need and sin before God", "Every sickness is directly caused by one known sin", "Forgiveness comes only through elders", "Healing makes confession unnecessary"],
+    "correct_answer": "The community's care addresses both bodily need and sin before God",
+    "explanation": "James says the prayer of faith will save the sick and adds that if he has committed sins, he will be forgiven (James 5:15)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 3,
+    "prompt": "What does the Elijah example teach in James 5?",
+    "choices_json": ["A human prophet like us could pray effectively under God's power", "Only miracle workers should pray about weather", "Prayer changes God against his will", "Elijah succeeded because he was sinless"],
+    "correct_answer": "A human prophet like us could pray effectively under God's power",
+    "explanation": "James stresses that Elijah was a man with a nature like ours, yet his prayers were effective (James 5:17-18)."
+  },
+
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 4,
+    "prompt": "How does James 5 connect economic injustice with eschatological judgment?",
+    "choices_json": ["Unjust wealth is portrayed as stored up for the last days as evidence against oppressors", "Judgment concerns only private morality", "Economic sin is ignored if worship is sincere", "The last days reward every form of accumulation"],
+    "correct_answer": "Unjust wealth is portrayed as stored up for the last days as evidence against oppressors",
+    "explanation": "James says the rich have stored up treasure in the last days while defrauded wages cry out and corrosion testifies against them (James 5:3-4)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 4,
+    "prompt": "Why does James 5 move from condemning rich oppressors to urging patience in believers?",
+    "choices_json": ["The righteous must entrust vindication to the Lord rather than seize it themselves", "Believers should admire the rich", "Patience is only for farmers, not the oppressed", "The chapter shifts topics without connection"],
+    "correct_answer": "The righteous must entrust vindication to the Lord rather than seize it themselves",
+    "explanation": "After denouncing oppressors, James tells brothers to be patient until the Lord's coming and not to grumble (James 5:1-9)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 4,
+    "prompt": "What does James 5 reveal about communal care in times of sickness?",
+    "choices_json": ["The church responds through prayer, anointing, confession, and mutual intercession", "Sickness should always remain private", "Only physicians may be involved in healing", "Confession belongs only in public assemblies"],
+    "correct_answer": "The church responds through prayer, anointing, confession, and mutual intercession",
+    "explanation": "James instructs the sick to call elders, receive prayer and anointing, and then calls the whole community to confess and pray for one another (James 5:14-16)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 4,
+    "prompt": "How does Job function in James 5 beyond being simply a patient sufferer?",
+    "choices_json": ["His story proves the Lord is compassionate and merciful in the end", "He shows suffering has no purpose", "He teaches believers to stay silent before injustice", "He replaces the prophets as the only example"],
+    "correct_answer": "His story proves the Lord is compassionate and merciful in the end",
+    "explanation": "James points to Job's endurance and says readers have seen the Lord's purpose, that the Lord is full of compassion and mercy (James 5:11)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 4,
+    "prompt": "Why does James 5 set truthful speech alongside prayer and patience?",
+    "choices_json": ["Steadfast communities require integrity in words as well as dependence on God", "Oaths are the strongest form of prayer", "Patience eliminates the need for honesty", "Speech matters only in court"],
+    "correct_answer": "Steadfast communities require integrity in words as well as dependence on God",
+    "explanation": "James moves from patience to honest speech to prayer, showing a community ethic shaped by truthfulness and trust in God (James 5:7-16)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 4,
+    "prompt": "What is the function of Elijah being \"like us\" in James 5?",
+    "choices_json": ["It encourages ordinary believers that effective prayer is not reserved for a different class of human", "It lowers Elijah's importance in Scripture", "It means prayer works automatically", "It suggests prophets had no special calling"],
+    "correct_answer": "It encourages ordinary believers that effective prayer is not reserved for a different class of human",
+    "explanation": "James highlights Elijah's shared human nature to encourage confidence in righteous prayer (James 5:16-18)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 4,
+    "prompt": "How does James 5 end the letter on a pastoral rather than merely personal note?",
+    "choices_json": ["It calls believers to restore wanderers and save them from ruin", "It turns to private meditation only", "It closes with greetings and travel plans", "It asks readers to avoid struggling members"],
+    "correct_answer": "It calls believers to restore wanderers and save them from ruin",
+    "explanation": "James ends by urging the community to turn back one who wanders from the truth, saving a soul from death and covering sins (James 5:19-20)."
+  },
+
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 5,
+    "prompt": "How does James 5 echo prophetic denunciations of oppressive wealth?",
+    "choices_json": ["It treats luxury built on injustice as grounds for divine judgment", "It praises wealth as neutral power", "It says prophets ignored economic sin", "It limits oppression to foreign nations"],
+    "correct_answer": "It treats luxury built on injustice as grounds for divine judgment",
+    "explanation": "James condemns hoarded riches, withheld wages, and self-indulgence in language similar to the prophets' judgments on oppression (James 5:1-6)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 5,
+    "prompt": "What eschatological perspective shapes the commands in James 5:7-9?",
+    "choices_json": ["The nearness of the Lord's coming and judgment should steady believers", "The end is distant so urgency is unnecessary", "Only the rich need to think about the future", "Judgment belongs entirely to human courts"],
+    "correct_answer": "The nearness of the Lord's coming and judgment should steady believers",
+    "explanation": "James grounds patience, heart-strengthening, and freedom from grumbling in the Lord's near coming and the Judge at the door (James 5:7-9)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 5,
+    "prompt": "How does James 5 present prayer as communal participation in God's mercy?",
+    "choices_json": ["The church bears one another's suffering, sickness, sin, and restoration through prayer", "Prayer is a private act with no communal dimension", "Only elders may ever pray effectively", "Prayer replaces confession and restoration"],
+    "correct_answer": "The church bears one another's suffering, sickness, sin, and restoration through prayer",
+    "explanation": "James moves from prayer in suffering to prayer for the sick, confession, mutual intercession, and restoring wanderers (James 5:13-20)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 5,
+    "prompt": "Why is the righteous person's prayer called powerful in James 5?",
+    "choices_json": ["James links effective prayer with a life aligned to God's will, not magical formulas", "Righteous people control God", "Length of prayer is the key factor", "Power belongs only to prophets from the past"],
+    "correct_answer": "James links effective prayer with a life aligned to God's will, not magical formulas",
+    "explanation": "James says the prayer of a righteous person is powerful and then illustrates with Elijah's earnest prayer (James 5:16-18)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 5,
+    "prompt": "What does James 5 imply by joining healing, forgiveness, and confession?",
+    "choices_json": ["God's saving care addresses the whole person within the believing community", "All illness is always punishment for a specific sin", "Confession is useful only when healing fails", "Forgiveness depends on oil itself"],
+    "correct_answer": "God's saving care addresses the whole person within the believing community",
+    "explanation": "James combines prayer for healing, forgiveness of sins, confession, and mutual prayer in one pastoral vision (James 5:14-16)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 5,
+    "prompt": "How does James 5 present restoration of a wanderer as an act of salvation?",
+    "choices_json": ["Turning a sinner back rescues from death and covers a multitude of sins", "Correction is mainly about preserving reputation", "Restoration applies only to teachers", "Wanderers should be left alone once they drift"],
+    "correct_answer": "Turning a sinner back rescues from death and covers a multitude of sins",
+    "explanation": "James ends by saying that whoever turns back a sinner will save a soul from death and cover a multitude of sins (James 5:19-20)."
+  },
+  {
+    "book_number": 59,
+    "chapter": 5,
+    "difficulty_stage": 5,
+    "prompt": "What larger theme of James is gathered up in the letter's final call to restore the wandering?",
+    "choices_json": ["Real faith takes active responsibility for the good of others", "Faith is mainly private and inward", "Speech alone is enough to heal communities", "Trials matter more than mercy"],
+    "correct_answer": "Real faith takes active responsibility for the good of others",
+    "explanation": "The ending fits James's repeated emphasis that living faith acts in mercy, prayer, truthfulness, and care for others (James 1:27; 2:14-17; 5:19-20)."
+  }
+]

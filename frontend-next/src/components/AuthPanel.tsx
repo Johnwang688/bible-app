@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
 
 type AuthMode = 'signin' | 'signup';
@@ -12,6 +13,8 @@ interface AuthPanelProps {
     email: string;
     display_name: string | null;
   } | null;
+  /** Wallet balance when signed in; `null` while loading or unavailable. */
+  coinBalance?: number | null;
   onModeChange: (mode: AuthMode) => void;
   onSignIn: (email: string, password: string) => Promise<void>;
   onSignUp: (email: string, password: string, displayName: string) => Promise<void>;
@@ -23,6 +26,7 @@ export default function AuthPanel({
   error,
   mode,
   profile,
+  coinBalance = null,
   onModeChange,
   onSignIn,
   onSignUp,
@@ -41,6 +45,22 @@ export default function AuthPanel({
           <button className="reader-onboarding-btn" type="button" disabled={isBusy} onClick={() => void onSignOut()}>
             {isBusy ? 'Signing out...' : 'Sign out'}
           </button>
+        </div>
+        <div className="auth-coins-block" aria-labelledby="auth-coins-heading">
+          <div id="auth-coins-heading" className="auth-coins-heading">
+            Coins
+          </div>
+          <div className="auth-coins-row">
+            <p className="auth-coins-amount" aria-live="polite">
+              <span className="auth-coins-icon" aria-hidden="true">
+                🪙
+              </span>
+              {coinBalance != null ? `${coinBalance.toLocaleString()} coins` : '…'}
+            </p>
+            <Link href="/app/shop" className="auth-shop-pill" aria-label="Open shop">
+              Shop
+            </Link>
+          </div>
         </div>
       </div>
     );

@@ -10,6 +10,7 @@ from app.schemas.quiz import (
     MasteryBookOut,
     MasteryChapterOut,
     MasteryOverviewOut,
+    MasteryScopeBonusOut,
     MasterySectionOut,
     MasteryTestamentOut,
     QuizQuestion,
@@ -36,7 +37,19 @@ STAGE_LABELS: dict[int, str] = {
 CURRENCY_FAIL = 2
 CURRENCY_PASS = 10
 CURRENCY_PERFECT_BONUS = 5
-CURRENCY_MASTERY_BONUS = 20
+# Coins when advancing to a new mastery stage (STAGE_MAP tiers: 50%, 75%, 87%, 99%, 100%).
+CURRENCY_MASTERY_MILESTONE: dict[int, int] = {
+    1: 3,
+    2: 5,
+    3: 5,
+    4: 5,
+    5: 20,
+}
+
+# One-time bonuses when every quizzable chapter in a scope is fully mastered (stage 5).
+COINS_BOOK_COMPLETE = 500
+COINS_SECTION_COMPLETE = 3000
+COINS_TESTAMENT_COMPLETE = 10000
 
 # Bible sections for mastery drill-down (Protestant 66-book canon, matches book_catalog)
 _OT_SECTIONS: tuple[tuple[str, str, tuple[int, ...]], ...] = (
@@ -211,19 +224,30 @@ def submit_quiz(user_id: str, payload: QuizSubmitIn) -> QuizSubmitOut:
     # Calculate mastery changes
     new_stage = current_stage
     mastery_after = mastery_before
-    newly_mastered = False
-
     if passed and current_stage < 5:
         new_stage = stage_attempted
         mastery_after = STAGE_MAP[new_stage]
-        if new_stage == 5:
-            newly_mastered = True
 
-    # Currency
+    # Currency: one milestone payout per successful stage advance (stages 1–5).
     base_currency = CURRENCY_PASS if passed else CURRENCY_FAIL
     perfect_bonus = CURRENCY_PERFECT_BONUS if score == total_questions else 0
-    mastery_bonus = CURRENCY_MASTERY_BONUS if newly_mastered else 0
-    total_currency = base_currency + perfect_bonus + mastery_bonus
+    milestone_bonus = (
+        CURRENCY_MASTERY_MILESTONE[new_stage]
+        if passed and new_stage > current_stage
+        else 0
+    )
+
+    scope_bonus_total = 0
+    scope_bonuses: list[MasteryScopeBonusOut] = []
+    newly_mastered = passed and new_stage == 5 and current_stage < 5
+    if newly_mastered:
+        quizzable = _quizzable_chapters_stage1(db)
+        prog_map = _user_progress_map(db, user_id)
+        scope_bonus_total, scope_bonuses = _collect_scope_completion_bonuses(
+            db, user_id, book_number, chapter, quizzable, prog_map
+        )
+
+    total_currency = base_currency + perfect_bonus + milestone_bonus + scope_bonus_total
 
     # Update user_chapter_progress
     new_total_attempts = progress["total_attempts"] + 1
@@ -270,7 +294,7 @@ def submit_quiz(user_id: str, payload: QuizSubmitIn) -> QuizSubmitOut:
             "passed": passed,
             "mastery_before": mastery_before,
             "mastery_after": mastery_after,
-            "currency_awarded": base_currency + mastery_bonus,
+            "currency_awarded": base_currency + milestone_bonus,
             "perfect_score_bonus": perfect_bonus,
         }
     ).execute()
@@ -285,9 +309,11 @@ def submit_quiz(user_id: str, payload: QuizSubmitIn) -> QuizSubmitOut:
         stage_attempted=stage_attempted,
         mastery_before=mastery_before,
         mastery_after=mastery_after,
-        currency_awarded=base_currency + mastery_bonus,
+        currency_awarded=base_currency + milestone_bonus,
         perfect_score_bonus=perfect_bonus,
-        mastery_completion_bonus=mastery_bonus,
+        mastery_completion_bonus=milestone_bonus,
+        scope_completion_bonus_total=scope_bonus_total,
+        scope_completion_bonuses=scope_bonuses,
         is_mastered=new_stage == 5,
         correct_answers=correct_answers,
         explanations=explanations,
@@ -350,6 +376,141 @@ def _user_progress_map(db, user_id: str) -> dict[tuple[int, int], dict]:
         key = (int(row["book_number"]), int(row["chapter"]))
         out[key] = row
     return out
+
+
+def _claim_milestone_reward(db, user_id: str, milestone_key: str, coins: int) -> bool:
+    """Insert a one-time scope reward row; return True if this call claimed it."""
+    existing = (
+        db.table("user_mastery_scope_rewards")
+        .select("milestone_key")
+        .eq("user_id", user_id)
+        .eq("milestone_key", milestone_key)
+        .limit(1)
+        .execute()
+    )
+    if existing.data:
+        return False
+    try:
+        db.table("user_mastery_scope_rewards").insert(
+            {
+                "user_id": user_id,
+                "milestone_key": milestone_key,
+                "coins_awarded": coins,
+            }
+        ).execute()
+    except Exception:
+        retry = (
+            db.table("user_mastery_scope_rewards")
+            .select("milestone_key")
+            .eq("user_id", user_id)
+            .eq("milestone_key", milestone_key)
+            .limit(1)
+            .execute()
+        )
+        return bool(retry.data)
+    return True
+
+
+def _section_for_book(book_number: int) -> tuple[str, str, tuple[int, ...]] | None:
+    for sec_id, sec_label, book_nums in (*_OT_SECTIONS, *_NT_SECTIONS):
+        if book_number in book_nums:
+            return sec_id, sec_label, book_nums
+    return None
+
+
+def _keys_for_book(quizzable: set[tuple[int, int]], book_num: int) -> list[tuple[int, int]]:
+    return sorted((b, c) for (b, c) in quizzable if b == book_num)
+
+
+def _keys_for_section(quizzable: set[tuple[int, int]], book_nums: tuple[int, ...]) -> list[tuple[int, int]]:
+    book_set = set(book_nums)
+    return sorted((b, c) for (b, c) in quizzable if b in book_set)
+
+
+def _keys_for_testament(quizzable: set[tuple[int, int]], tid: str) -> list[tuple[int, int]]:
+    if tid == "OT":
+        return sorted((b, c) for (b, c) in quizzable if 1 <= b <= 39)
+    return sorted((b, c) for (b, c) in quizzable if 40 <= b <= 66)
+
+
+def _all_quizzable_chapters_mastered(
+    keys: list[tuple[int, int]], prog: dict[tuple[int, int], dict]
+) -> bool:
+    for key in keys:
+        row = prog.get(key)
+        if not row:
+            return False
+        if row.get("is_mastered"):
+            continue
+        if int(row.get("mastery_percent") or 0) >= 100:
+            continue
+        return False
+    return True
+
+
+def _collect_scope_completion_bonuses(
+    db,
+    user_id: str,
+    book_number: int,
+    chapter: int,
+    quizzable: set[tuple[int, int]],
+    prog: dict[tuple[int, int], dict],
+) -> tuple[int, list[MasteryScopeBonusOut]]:
+    """
+    After a chapter reaches full mastery, award one-time coins if the book, Bible
+    section, or testament is now fully mastered (all quizzable chapters in that
+    scope have stage 5).
+    """
+    if (book_number, chapter) not in quizzable:
+        return 0, []
+
+    prog = dict(prog)
+    prog[(book_number, chapter)] = {"mastery_percent": 100, "is_mastered": True}
+
+    bonuses: list[MasteryScopeBonusOut] = []
+    total = 0
+
+    book_keys = _keys_for_book(quizzable, book_number)
+    if book_keys and _all_quizzable_chapters_mastered(book_keys, prog):
+        mkey = f"book:{book_number}"
+        if _claim_milestone_reward(db, user_id, mkey, COINS_BOOK_COMPLETE):
+            meta = BOOK_BY_NUMBER.get(book_number)
+            label = meta["name"] if meta else f"Book {book_number}"
+            bonuses.append(
+                MasteryScopeBonusOut(kind="book", label=label, coins=COINS_BOOK_COMPLETE)
+            )
+            total += COINS_BOOK_COMPLETE
+
+    section = _section_for_book(book_number)
+    if section:
+        sec_id, sec_label, book_nums = section
+        sec_keys = _keys_for_section(quizzable, book_nums)
+        if sec_keys and _all_quizzable_chapters_mastered(sec_keys, prog):
+            mkey = f"section:{sec_id}"
+            if _claim_milestone_reward(db, user_id, mkey, COINS_SECTION_COMPLETE):
+                bonuses.append(
+                    MasteryScopeBonusOut(
+                        kind="section", label=sec_label, coins=COINS_SECTION_COMPLETE
+                    )
+                )
+                total += COINS_SECTION_COMPLETE
+
+    testament_id = "OT" if 1 <= book_number <= 39 else "NT"
+    testament_label = "Old Testament" if testament_id == "OT" else "New Testament"
+    test_keys = _keys_for_testament(quizzable, testament_id)
+    if test_keys and _all_quizzable_chapters_mastered(test_keys, prog):
+        mkey = f"testament:{testament_id}"
+        if _claim_milestone_reward(db, user_id, mkey, COINS_TESTAMENT_COMPLETE):
+            bonuses.append(
+                MasteryScopeBonusOut(
+                    kind="testament",
+                    label=testament_label,
+                    coins=COINS_TESTAMENT_COMPLETE,
+                )
+            )
+            total += COINS_TESTAMENT_COMPLETE
+
+    return total, bonuses
 
 
 def _avg_percent(pairs: list[tuple[int, int]], prog: dict[tuple[int, int], dict]) -> tuple[int, int, int]:

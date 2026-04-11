@@ -3,6 +3,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { AuthSession } from '@/lib/account';
 import {
+  formatMasteryRewardCoins,
+  MASTERY_REWARD_BOOK,
+  MASTERY_REWARD_SECTION,
+  MASTERY_REWARD_TESTAMENT,
+} from '../lib/masteryRewards';
+import {
   getMasteryOverview,
   type MasteryBookOut,
   type MasteryOverviewOut,
@@ -13,8 +19,20 @@ import {
 export type MasteryOverviewPanelProps = {
   session: AuthSession | null;
   translation: string;
+  /**
+   * `teaser` — summary row for dashboard cards (links to /app/mastery).
+   * `accordion` — expandable OT/NT/section/book tree.
+   */
+  variant?: 'teaser' | 'accordion';
+  /** When false, omit the top "Mastery" label (e.g. home card supplies its own heading). */
+  showTitle?: boolean;
   /** Parent resolves book name and opens the reader. */
-  onChapterSelect?: (bookNumber: number, chapter: number, translation: string) => void;
+  onChapterSelect?: (
+    bookNumber: number,
+    chapter: number,
+    translation: string,
+    bookName?: string,
+  ) => void;
   className?: string;
 };
 
@@ -28,9 +46,26 @@ function MasteryBar({ percent }: { percent: number }) {
   );
 }
 
+function MasteryRewardBadge({ coins, scopeLabel }: { coins: number; scopeLabel: string }) {
+  const tip = `Reward for mastering every quizzable chapter in ${scopeLabel}: ${coins.toLocaleString()} coins`;
+  const shown = formatMasteryRewardCoins(coins);
+  return (
+    <span className="mastery-overview-reward" title={tip} aria-label={tip}>
+      <span className="mastery-overview-reward-icon" aria-hidden="true">
+        🪙
+      </span>
+      <span className="mastery-overview-reward-amount" aria-hidden="true">
+        {shown}
+      </span>
+    </span>
+  );
+}
+
 export default function MasteryOverviewPanel({
   session,
   translation,
+  variant = 'accordion',
+  showTitle = true,
   onChapterSelect,
   className = '',
 }: MasteryOverviewPanelProps) {
@@ -40,7 +75,6 @@ export default function MasteryOverviewPanel({
   const [otOpen, setOtOpen] = useState(false);
   const [ntOpen, setNtOpen] = useState(false);
   const [openSectionKey, setOpenSectionKey] = useState<string | null>(null);
-  const [openBookKey, setOpenBookKey] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     if (!session) return;
@@ -70,7 +104,6 @@ export default function MasteryOverviewPanel({
     setOtOpen(prev => {
       if (prev) {
         setOpenSectionKey(s => (s?.startsWith('OT:') ? null : s));
-        setOpenBookKey(b => (b?.startsWith('OT:') ? null : b));
       }
       return !prev;
     });
@@ -80,7 +113,6 @@ export default function MasteryOverviewPanel({
     setNtOpen(prev => {
       if (prev) {
         setOpenSectionKey(s => (s?.startsWith('NT:') ? null : s));
-        setOpenBookKey(b => (b?.startsWith('NT:') ? null : b));
       }
       return !prev;
     });
@@ -88,24 +120,21 @@ export default function MasteryOverviewPanel({
 
   const toggleSection = useCallback((key: string) => {
     setOpenSectionKey(s => (s === key ? null : key));
-    setOpenBookKey(null);
-  }, []);
-
-  const toggleBook = useCallback((key: string) => {
-    setOpenBookKey(b => (b === key ? null : key));
   }, []);
 
   const handleChapterClick = useCallback(
-    (bookNumber: number, chapter: number) => {
-      onChapterSelect?.(bookNumber, chapter, translation);
+    (bookNumber: number, chapter: number, bookName?: string) => {
+      onChapterSelect?.(bookNumber, chapter, translation, bookName);
     },
     [onChapterSelect, translation],
   );
 
   if (!session) {
     return (
-      <div className={`mastery-overview mastery-overview--guest ${className}`.trim()}>
-        <div className="reader-dashboard-label">Mastery</div>
+      <div
+        className={`mastery-overview mastery-overview--guest ${variant === 'teaser' ? 'mastery-overview--teaser' : ''} ${className}`.trim()}
+      >
+        {showTitle && <div className="reader-dashboard-label">Mastery</div>}
         <p className="mastery-overview-guest-copy">
           Sign in to see your Old and New Testament quiz progress by section, book, and chapter.
         </p>
@@ -113,10 +142,31 @@ export default function MasteryOverviewPanel({
     );
   }
 
+  if (variant === 'teaser') {
+    return (
+      <div className={`mastery-overview mastery-overview--teaser ${className}`.trim()}>
+        {showTitle && (
+          <div className="mastery-overview-header">
+            <div className="reader-dashboard-label">Mastery</div>
+          </div>
+        )}
+        {loading && !data && (
+          <div className="mastery-overview-loading" aria-busy="true">
+            <div className="mastery-overview-skeleton" />
+          </div>
+        )}
+        {error && !loading && <p className="mastery-overview-error">{error}</p>}
+        {data && (
+          <MasteryTeaserBody data={data} />
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className={`mastery-overview ${className}`.trim()}>
       <div className="mastery-overview-header">
-        <div className="reader-dashboard-label">Mastery</div>
+        {showTitle && <div className="reader-dashboard-label">Mastery</div>}
         {error && (
           <button type="button" className="mastery-overview-retry" onClick={() => void load()}>
             Retry
@@ -129,7 +179,7 @@ export default function MasteryOverviewPanel({
         </div>
       )}
       {error && !loading && <p className="mastery-overview-error">{error}</p>}
-      {data && (
+      {data && variant === 'accordion' && (
         <div className="mastery-overview-testaments">
           {data.testaments.map(t => (
             <TestamentBlock
@@ -138,9 +188,7 @@ export default function MasteryOverviewPanel({
               expanded={t.id === 'OT' ? otOpen : ntOpen}
               onToggle={t.id === 'OT' ? toggleOt : toggleNt}
               openSectionKey={openSectionKey}
-              openBookKey={openBookKey}
               onToggleSection={toggleSection}
-              onToggleBook={toggleBook}
               onChapterClick={handleChapterClick}
             />
           ))}
@@ -150,24 +198,66 @@ export default function MasteryOverviewPanel({
   );
 }
 
+function MasteryTeaserBody({ data }: { data: MasteryOverviewOut }) {
+  const ot = data.testaments.find(t => t.id === 'OT');
+  const nt = data.testaments.find(t => t.id === 'NT');
+  const otPct = ot?.average_mastery_percent ?? 0;
+  const ntPct = nt?.average_mastery_percent ?? 0;
+  const q =
+    (ot?.quizzable_chapters ?? 0) + (nt?.quizzable_chapters ?? 0);
+  const m =
+    (ot?.mastered_chapters ?? 0) + (nt?.mastered_chapters ?? 0);
+  const sub =
+    q === 0 ? 'Quiz banks are still rolling out.' : `${m}/${q} chapters mastered`;
+
+  return (
+    <div className="mastery-teaser-body">
+      <div className="mastery-teaser-testaments" aria-label="Mastery summary">
+        {ot && (
+          <div className="mastery-teaser-testament">
+            <div className="mastery-teaser-testament-hd">
+              <span className="mastery-teaser-testament-label">{ot.label}</span>
+              <span className="mastery-teaser-testament-pct">{otPct}%</span>
+            </div>
+            <div className="mastery-teaser-bar-row">
+              <MasteryBar percent={otPct} />
+              <MasteryRewardBadge coins={MASTERY_REWARD_TESTAMENT} scopeLabel={ot.label} />
+            </div>
+          </div>
+        )}
+        {nt && (
+          <div className="mastery-teaser-testament">
+            <div className="mastery-teaser-testament-hd">
+              <span className="mastery-teaser-testament-label">{nt.label}</span>
+              <span className="mastery-teaser-testament-pct">{ntPct}%</span>
+            </div>
+            <div className="mastery-teaser-bar-row">
+              <MasteryBar percent={ntPct} />
+              <MasteryRewardBadge coins={MASTERY_REWARD_TESTAMENT} scopeLabel={nt.label} />
+            </div>
+          </div>
+        )}
+      </div>
+      <p className="mastery-teaser-meta">{sub}</p>
+      <span className="mastery-teaser-cta">Open mastery map</span>
+    </div>
+  );
+}
+
 function TestamentBlock({
   testament,
   expanded,
   onToggle,
   openSectionKey,
-  openBookKey,
   onToggleSection,
-  onToggleBook,
   onChapterClick,
 }: {
   testament: MasteryTestamentOut;
   expanded: boolean;
   onToggle: () => void;
   openSectionKey: string | null;
-  openBookKey: string | null;
   onToggleSection: (key: string) => void;
-  onToggleBook: (key: string) => void;
-  onChapterClick: (bookNumber: number, chapter: number) => void;
+  onChapterClick: (bookNumber: number, chapter: number, bookName?: string) => void;
 }) {
   const pct = testament.average_mastery_percent;
   const sub =
@@ -190,7 +280,10 @@ function TestamentBlock({
           <span className="mastery-overview-title">{testament.label}</span>
           <span className="mastery-overview-pct">{pct}%</span>
         </div>
-        <MasteryBar percent={pct} />
+        <div className="mastery-overview-bar-row">
+          <MasteryBar percent={pct} />
+          <MasteryRewardBadge coins={MASTERY_REWARD_TESTAMENT} scopeLabel={testament.label} />
+        </div>
         <span className="mastery-overview-meta">{sub}</span>
       </button>
       {expanded && (
@@ -201,12 +294,9 @@ function TestamentBlock({
             testament.sections.map(sec => (
               <SectionBlock
                 key={sec.id}
-                testamentId={testament.id}
                 section={sec}
                 expanded={openSectionKey === `${testament.id}:${sec.id}`}
                 onToggle={() => onToggleSection(`${testament.id}:${sec.id}`)}
-                openBookKey={openBookKey}
-                onToggleBook={onToggleBook}
                 onChapterClick={onChapterClick}
               />
             ))
@@ -218,21 +308,15 @@ function TestamentBlock({
 }
 
 function SectionBlock({
-  testamentId,
   section,
   expanded,
   onToggle,
-  openBookKey,
-  onToggleBook,
   onChapterClick,
 }: {
-  testamentId: string;
   section: MasterySectionOut;
   expanded: boolean;
   onToggle: () => void;
-  openBookKey: string | null;
-  onToggleBook: (key: string) => void;
-  onChapterClick: (bookNumber: number, chapter: number) => void;
+  onChapterClick: (bookNumber: number, chapter: number, bookName?: string) => void;
 }) {
   const pct = section.average_mastery_percent;
   const sub = `${section.mastered_chapters}/${section.quizzable_chapters} chapters`;
@@ -252,21 +336,16 @@ function SectionBlock({
           <span className="mastery-overview-title">{section.label}</span>
           <span className="mastery-overview-pct">{pct}%</span>
         </div>
-        <MasteryBar percent={pct} />
+        <div className="mastery-overview-bar-row">
+          <MasteryBar percent={pct} />
+          <MasteryRewardBadge coins={MASTERY_REWARD_SECTION} scopeLabel={section.label} />
+        </div>
         <span className="mastery-overview-meta">{sub}</span>
       </button>
       {expanded && (
         <div className="mastery-overview-nest mastery-overview-nest--section" role="region">
           {section.books.map(book => (
-            <BookBlock
-              key={book.book_number}
-              testamentId={testamentId}
-              sectionId={section.id}
-              book={book}
-              expanded={openBookKey === `${testamentId}:${section.id}:${book.book_number}`}
-              onToggle={() => onToggleBook(`${testamentId}:${section.id}:${book.book_number}`)}
-              onChapterClick={onChapterClick}
-            />
+            <BookBlock key={book.book_number} book={book} onChapterClick={onChapterClick} />
           ))}
         </div>
       )}
@@ -275,22 +354,16 @@ function SectionBlock({
 }
 
 function BookBlock({
-  testamentId,
-  sectionId,
   book,
-  expanded,
-  onToggle,
   onChapterClick,
 }: {
-  testamentId: string;
-  sectionId: string;
   book: MasteryBookOut;
-  expanded: boolean;
-  onToggle: () => void;
-  onChapterClick: (bookNumber: number, chapter: number) => void;
+  onChapterClick: (bookNumber: number, chapter: number, bookName?: string) => void;
 }) {
+  const [expanded, setExpanded] = useState(false);
   const pct = book.average_mastery_percent;
   const sub = `${book.mastered_chapters}/${book.quizzable_chapters} chapters`;
+  const chapters = book.chapters ?? [];
 
   return (
     <div className="mastery-overview-book">
@@ -298,7 +371,10 @@ function BookBlock({
         type="button"
         className="mastery-overview-row mastery-overview-row--book"
         aria-expanded={expanded}
-        onClick={onToggle}
+        onClick={e => {
+          e.stopPropagation();
+          setExpanded(v => !v);
+        }}
       >
         <div className="mastery-overview-row-main">
           <span className="mastery-overview-chevron" aria-hidden="true">
@@ -307,31 +383,40 @@ function BookBlock({
           <span className="mastery-overview-title">{book.name}</span>
           <span className="mastery-overview-pct">{pct}%</span>
         </div>
-        <MasteryBar percent={pct} />
+        <div className="mastery-overview-bar-row">
+          <MasteryBar percent={pct} />
+          <MasteryRewardBadge coins={MASTERY_REWARD_BOOK} scopeLabel={book.name} />
+        </div>
         <span className="mastery-overview-meta">{sub}</span>
       </button>
       {expanded && (
         <ul className="mastery-chapter-list" role="list">
-          {book.chapters.map(ch => (
-            <li key={ch.chapter} className="mastery-chapter-item">
-              <button
-                type="button"
-                className="mastery-chapter-btn"
-                onClick={() => onChapterClick(book.book_number, ch.chapter)}
-              >
-                <span className="mastery-chapter-label">
-                  Ch. {ch.chapter}
-                  {ch.is_mastered && <span className="mastery-chapter-badge">Mastered</span>}
-                </span>
-                <div className="mastery-bar-wrap mastery-overview-bar mastery-overview-bar--chapter">
-                  <div className="mastery-bar-track" aria-hidden="true">
-                    <div className="mastery-bar-fill" style={{ width: `${ch.mastery_percent}%` }} />
-                  </div>
-                </div>
-                <span className="mastery-chapter-pct">{ch.mastery_percent}%</span>
-              </button>
+          {chapters.length === 0 ? (
+            <li className="mastery-chapter-item mastery-chapter-item--empty">
+              <span className="mastery-chapter-empty">No quiz chapters listed for this book.</span>
             </li>
-          ))}
+          ) : (
+            chapters.map(ch => (
+              <li key={ch.chapter} className="mastery-chapter-item">
+                <button
+                  type="button"
+                  className="mastery-chapter-btn"
+                  onClick={() => onChapterClick(book.book_number, ch.chapter, book.name)}
+                >
+                  <span className="mastery-chapter-label">
+                    Ch. {ch.chapter}
+                    {ch.is_mastered && <span className="mastery-chapter-badge">Mastered</span>}
+                  </span>
+                  <div className="mastery-bar-wrap mastery-overview-bar mastery-overview-bar--chapter">
+                    <div className="mastery-bar-track" aria-hidden="true">
+                      <div className="mastery-bar-fill" style={{ width: `${ch.mastery_percent}%` }} />
+                    </div>
+                  </div>
+                  <span className="mastery-chapter-pct">{ch.mastery_percent}%</span>
+                </button>
+              </li>
+            ))
+          )}
         </ul>
       )}
     </div>

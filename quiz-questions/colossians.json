@@ -1,0 +1,1981 @@
+[
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 1, to whom is the letter addressed with the saints and faithful brothers?",
+    "choices_json": [
+      "Those in Colossae",
+      "Those in Philippi",
+      "Those in Rome",
+      "Those in Corinth"
+    ],
+    "correct_answer": "Those in Colossae",
+    "explanation": "Paul addresses the saints and faithful brothers in Christ who are at Colossae (Colossians 1:2)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 1, what three virtues does Paul mention after hearing about the Colossians?",
+    "choices_json": [
+      "Faith, love, and hope",
+      "Power, wealth, and honor",
+      "Law, temple, and sacrifice",
+      "Wisdom, status, and learning"
+    ],
+    "correct_answer": "Faith, love, and hope",
+    "explanation": "Paul heard of their faith in Christ Jesus, their love toward all the saints, and the hope laid up for them in heaven (Colossians 1:4-5)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 1, through whom do believers have redemption?",
+    "choices_json": [
+      "The Son of God's love",
+      "Moses",
+      "The angels",
+      "The law"
+    ],
+    "correct_answer": "The Son of God's love",
+    "explanation": "Paul says believers were transferred into the kingdom of the Son of his love, in whom they have redemption and forgiveness of sins (Colossians 1:13-14)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 1, what is Christ called in relation to the invisible God?",
+    "choices_json": [
+      "The image of the invisible God",
+      "The prophet of the invisible God",
+      "The servant of the invisible God",
+      "The messenger of the invisible God"
+    ],
+    "correct_answer": "The image of the invisible God",
+    "explanation": "Paul says Christ is the image of the invisible God (Colossians 1:15)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 1, what is Christ in relation to the church?",
+    "choices_json": [
+      "The head of the body",
+      "A member among many",
+      "The prophet of the body",
+      "The servant of the body"
+    ],
+    "correct_answer": "The head of the body",
+    "explanation": "Paul says Christ is the head of the body, the assembly (Colossians 1:18)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 1, through what did God make peace?",
+    "choices_json": [
+      "The blood of Christ's cross",
+      "The law of Moses",
+      "Temple sacrifices",
+      "The wisdom of philosophers"
+    ],
+    "correct_answer": "The blood of Christ's cross",
+    "explanation": "Paul says God made peace through the blood of Christ's cross (Colossians 1:20)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 1, what mystery does Paul summarize as being among the Gentiles?",
+    "choices_json": [
+      "Christ in you, the hope of glory",
+      "Circumcision in the flesh",
+      "The law in Jerusalem",
+      "The temple in heaven"
+    ],
+    "correct_answer": "Christ in you, the hope of glory",
+    "explanation": "Paul says the mystery is Christ in you, the hope of glory (Colossians 1:27)."
+  },
+
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 2,
+    "prompt": "What does Paul pray the Colossians will be filled with in Colossians 1?",
+    "choices_json": [
+      "The knowledge of God's will in all spiritual wisdom and understanding",
+      "The traditions of the elders",
+      "The secrets of Rome",
+      "The fear of their opponents"
+    ],
+    "correct_answer": "The knowledge of God's will in all spiritual wisdom and understanding",
+    "explanation": "Paul prays they may be filled with the knowledge of God's will in all spiritual wisdom and understanding (Colossians 1:9)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 2,
+    "prompt": "How does Paul say believers should walk in Colossians 1?",
+    "choices_json": [
+      "Worthily of the Lord to all pleasing",
+      "According to human tradition",
+      "With confidence in the flesh",
+      "Under the fear of angels"
+    ],
+    "correct_answer": "Worthily of the Lord to all pleasing",
+    "explanation": "Paul prays that they may walk worthily of the Lord, to all pleasing (Colossians 1:10)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 2,
+    "prompt": "What does Paul say all things were created through and for in Colossians 1?",
+    "choices_json": [
+      "Christ",
+      "The law",
+      "Israel",
+      "The heavenly powers"
+    ],
+    "correct_answer": "Christ",
+    "explanation": "Paul says all things were created through Christ and for Christ (Colossians 1:16)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 2,
+    "prompt": "What does Paul say holds all things together in Colossians 1?",
+    "choices_json": [
+      "Christ",
+      "The temple",
+      "Roman order",
+      "The law of nature"
+    ],
+    "correct_answer": "Christ",
+    "explanation": "Paul says in Christ all things are held together (Colossians 1:17)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 2,
+    "prompt": "How does Paul describe the Colossians' former state before reconciliation?",
+    "choices_json": [
+      "Alienated and enemies in mind in evil works",
+      "Faithful but immature",
+      "Near to God through rituals",
+      "Blameless under the law"
+    ],
+    "correct_answer": "Alienated and enemies in mind in evil works",
+    "explanation": "Paul says they once were alienated and enemies in mind in evil works (Colossians 1:21)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 2,
+    "prompt": "What does Paul say he is filling up in his flesh for the church in Colossians 1?",
+    "choices_json": [
+      "What is lacking of Christ's afflictions",
+      "The curses of the law",
+      "The weakness of the apostles",
+      "The offerings of the temple"
+    ],
+    "correct_answer": "What is lacking of Christ's afflictions",
+    "explanation": "Paul says he fills up in his flesh what is lacking of Christ's afflictions for his body's sake, the church (Colossians 1:24)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 2,
+    "prompt": "How does Paul say he proclaims Christ in Colossians 1?",
+    "choices_json": [
+      "Warning every man and teaching every man in all wisdom",
+      "By force and political power",
+      "Only through visions and dreams",
+      "Without any need for wisdom"
+    ],
+    "correct_answer": "Warning every man and teaching every man in all wisdom",
+    "explanation": "Paul says, 'We proclaim him, admonishing every man and teaching every man in all wisdom' (Colossians 1:28)."
+  },
+
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 3,
+    "prompt": "Why does Colossians 1 place thanksgiving, prayer, and Christ's supremacy together?",
+    "choices_json": [
+      "The life of the church is grounded in the supreme person and saving work of Christ",
+      "Prayer replaces the need for doctrine about Christ",
+      "Paul shifts topics without connection",
+      "Christ's supremacy matters only for creation, not the church"
+    ],
+    "correct_answer": "The life of the church is grounded in the supreme person and saving work of Christ",
+    "explanation": "Paul moves from thanksgiving and prayer into a majestic description of Christ's person and work, showing that all Christian life flows from him (Colossians 1:3-20)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 3,
+    "prompt": "What does Colossians 1 teach about reconciliation?",
+    "choices_json": [
+      "God reconciles hostile sinners through Christ's bodily death to present them holy and blameless",
+      "Reconciliation comes mainly through moral self-improvement",
+      "Only Jews can be reconciled to God",
+      "Reconciliation is unrelated to Christ's death"
+    ],
+    "correct_answer": "God reconciles hostile sinners through Christ's bodily death to present them holy and blameless",
+    "explanation": "Paul says they were reconciled in Christ's body of flesh through death in order to present them holy, without blemish, and blameless (Colossians 1:21-22)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 3,
+    "prompt": "What does Paul emphasize by calling Christ the firstborn of all creation in Colossians 1?",
+    "choices_json": [
+      "Christ has supreme rank and authority over creation, not that he is part of it as a creature",
+      "Christ was the first being God made",
+      "Christ became Lord only after resurrection",
+      "Creation exists independently of Christ"
+    ],
+    "correct_answer": "Christ has supreme rank and authority over creation, not that he is part of it as a creature",
+    "explanation": "Paul immediately explains that all things were created in, through, and for Christ, showing his supremacy over creation (Colossians 1:15-17)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 3,
+    "prompt": "Why does Paul connect fruit-bearing with knowledge of God in Colossians 1?",
+    "choices_json": [
+      "True knowledge of God is meant to produce a fruitful life rather than mere information",
+      "Fruit makes knowledge unnecessary",
+      "Knowledge belongs only to teachers, not ordinary believers",
+      "Paul opposes growth in understanding"
+    ],
+    "correct_answer": "True knowledge of God is meant to produce a fruitful life rather than mere information",
+    "explanation": "Paul prays that they may know God's will so that they may walk worthily, bear fruit, and increase in the knowledge of God (Colossians 1:9-10)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 3,
+    "prompt": "What is the significance of Christ being both creator and head of the church in Colossians 1?",
+    "choices_json": [
+      "The one who rules all creation is also the one who governs and gives life to his redeemed people",
+      "Christ rules the church but not the world",
+      "Creation and redemption belong to separate divine plans",
+      "The church stands above creation in authority"
+    ],
+    "correct_answer": "The one who rules all creation is also the one who governs and gives life to his redeemed people",
+    "explanation": "Paul links Christ's role in creating and sustaining all things with his role as head of the body, the church (Colossians 1:16-18)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 3,
+    "prompt": "Why does Paul describe his ministry as laboring according to Christ's working in Colossians 1?",
+    "choices_json": [
+      "His ministry is strenuous, but its power comes from Christ rather than from himself",
+      "He wants to minimize the need for effort in ministry",
+      "Paul believes human labor can replace divine grace",
+      "Christ's working matters only in miracles, not teaching"
+    ],
+    "correct_answer": "His ministry is strenuous, but its power comes from Christ rather than from himself",
+    "explanation": "Paul says he labors, striving according to Christ's working, which works in him mightily (Colossians 1:29)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 3,
+    "prompt": "What does 'Christ in you, the hope of glory' imply in Colossians 1?",
+    "choices_json": [
+      "The indwelling Christ is the ground of the Gentiles' future share in divine glory",
+      "Glory is earned through law observance",
+      "Only Israel may hope for glory",
+      "Christ remains distant from believers"
+    ],
+    "correct_answer": "The indwelling Christ is the ground of the Gentiles' future share in divine glory",
+    "explanation": "Paul identifies the mystery among the Gentiles as Christ in you, the hope of glory (Colossians 1:27)."
+  },
+
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 4,
+    "prompt": "How does Colossians 1 connect creation and redemption?",
+    "choices_json": [
+      "The same Christ through whom all things were made is the one through whom all things are reconciled",
+      "Creation belongs to Christ, but redemption belongs to another power",
+      "Redemption corrects Christ's failure in creation",
+      "Creation and reconciliation have no theological relation"
+    ],
+    "correct_answer": "The same Christ through whom all things were made is the one through whom all things are reconciled",
+    "explanation": "Paul says all things were created through Christ and also that through Christ God reconciles all things to himself (Colossians 1:16, 20)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 4,
+    "prompt": "Why does Paul stress perseverance in the faith after speaking of reconciliation in Colossians 1?",
+    "choices_json": [
+      "The gospel that reconciles also calls believers to continue grounded and steadfast in its hope",
+      "Reconciliation depends finally on human achievement",
+      "Steadfastness replaces grace as the basis of acceptance",
+      "Paul doubts whether God can keep believers"
+    ],
+    "correct_answer": "The gospel that reconciles also calls believers to continue grounded and steadfast in its hope",
+    "explanation": "After describing reconciliation, Paul adds 'if indeed you continue in the faith, grounded and steadfast' and not moved away from gospel hope (Colossians 1:22-23)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 4,
+    "prompt": "What is the significance of fullness dwelling in Christ in Colossians 1?",
+    "choices_json": [
+      "God's saving presence and sufficiency are fully located in Christ rather than elsewhere",
+      "Christ receives divine fullness only temporarily",
+      "Fullness belongs mainly to angels and heavenly intermediaries",
+      "The church supplies what Christ lacks"
+    ],
+    "correct_answer": "God's saving presence and sufficiency are fully located in Christ rather than elsewhere",
+    "explanation": "Paul says it was the Father's good pleasure for all the fullness to dwell in Christ, tying divine fullness directly to him (Colossians 1:19)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 4,
+    "prompt": "How does Paul's ministry description in Colossians 1 serve the letter's wider argument?",
+    "choices_json": [
+      "It shows that the gospel Paul preaches aims to present every believer mature in Christ, not to lead them beyond him",
+      "It proves maturity comes through hidden knowledge beyond Christ",
+      "It reduces ministry to private spiritual experience",
+      "It says only apostles can be mature in Christ"
+    ],
+    "correct_answer": "It shows that the gospel Paul preaches aims to present every believer mature in Christ, not to lead them beyond him",
+    "explanation": "Paul says he proclaims Christ, warning and teaching everyone, so that he may present every man perfect in Christ (Colossians 1:28)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 4,
+    "prompt": "How does Colossians 1 portray the Christian life as both gift and growth?",
+    "choices_json": [
+      "Believers are rescued and reconciled by grace, then strengthened to walk worthily and bear fruit",
+      "Growth replaces the need for divine rescue",
+      "Gift and growth are unrelated themes in the chapter",
+      "Only rescue matters; fruit is optional"
+    ],
+    "correct_answer": "Believers are rescued and reconciled by grace, then strengthened to walk worthily and bear fruit",
+    "explanation": "Paul describes rescue from darkness and reconciliation in Christ, then prays for strength, endurance, and fruitful living (Colossians 1:11-14, 21-23)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 4,
+    "prompt": "Why does Paul frame thanksgiving around inheritance and rescue in Colossians 1?",
+    "choices_json": [
+      "Believers thank the Father because he both qualifies them for the saints' inheritance and rescues them from darkness",
+      "Thanksgiving belongs only to future blessing, not present salvation",
+      "Inheritance depends on personal merit, so thanksgiving is limited",
+      "Rescue from darkness is a minor theme in the chapter"
+    ],
+    "correct_answer": "Believers thank the Father because he both qualifies them for the saints' inheritance and rescues them from darkness",
+    "explanation": "Paul thanks the Father who made them fit for the inheritance of the saints in light and delivered them out of the power of darkness (Colossians 1:12-13)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 4,
+    "prompt": "What does Colossians 1 imply about cosmic powers in relation to Christ?",
+    "choices_json": [
+      "Even thrones, dominions, rulers, and authorities exist under Christ's creative supremacy",
+      "Christ rules only human beings, not spiritual powers",
+      "The powers stand outside Christ's authority",
+      "Paul names the powers to promote fear of them"
+    ],
+    "correct_answer": "Even thrones, dominions, rulers, and authorities exist under Christ's creative supremacy",
+    "explanation": "Paul explicitly includes thrones, dominions, principalities, and powers among the things created through and for Christ (Colossians 1:16)."
+  },
+
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 5,
+    "prompt": "How does Colossians 1 present Christ as sufficient against all rivals?",
+    "choices_json": [
+      "Christ is creator, sustainer, reconciler, head, and indwelling hope, leaving no gap for another mediator or supplement",
+      "Christ is central for forgiveness but not for wisdom or creation",
+      "Christ requires angelic additions to complete salvation",
+      "Paul leaves room for higher powers beyond Christ"
+    ],
+    "correct_answer": "Christ is creator, sustainer, reconciler, head, and indwelling hope, leaving no gap for another mediator or supplement",
+    "explanation": "Paul layers Christ's supremacy across creation, redemption, the church, reconciliation, fullness, and indwelling hope to show his complete sufficiency (Colossians 1:15-29)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 5,
+    "prompt": "Why is the phrase 'in him all things hold together' theologically weighty in Colossians 1?",
+    "choices_json": [
+      "It presents Christ not only as the origin but also the sustaining coherence of all reality",
+      "It refers only to the church's internal unity",
+      "It means creation now runs independently of Christ",
+      "It limits Christ's work to visible earthly things"
+    ],
+    "correct_answer": "It presents Christ not only as the origin but also the sustaining coherence of all reality",
+    "explanation": "Paul moves from creation through Christ to the claim that in him all things hold together, emphasizing ongoing dependence on Christ (Colossians 1:16-17)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 5,
+    "prompt": "What does Colossians 1 imply about maturity in Christ?",
+    "choices_json": [
+      "Maturity is the goal of apostolic ministry for every believer, not a hidden level for a spiritual elite",
+      "Maturity belongs only to those with mystical visions",
+      "Only teachers can become mature in Christ",
+      "Perfection in Christ is an earthly status reserved for Paul alone"
+    ],
+    "correct_answer": "Maturity is the goal of apostolic ministry for every believer, not a hidden level for a spiritual elite",
+    "explanation": "Paul says he proclaims Christ to present every man mature or perfect in Christ, stressing universal rather than elitist maturity (Colossians 1:28)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 5,
+    "prompt": "How does Colossians 1 hold together the historical cross and cosmic reconciliation?",
+    "choices_json": [
+      "A concrete historical death becomes the means by which God reconciles all things under Christ's lordship",
+      "Cosmic reconciliation happens apart from Christ's bodily death",
+      "The cross concerns only private forgiveness and not the wider order of creation",
+      "Reconciliation is cosmic only in a symbolic sense"
+    ],
+    "correct_answer": "A concrete historical death becomes the means by which God reconciles all things under Christ's lordship",
+    "explanation": "Paul speaks of peace through the blood of Christ's cross and then says through Christ God reconciles all things to himself (Colossians 1:20)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 5,
+    "prompt": "Why does Paul call the gospel hope something preached in all creation under heaven?",
+    "choices_json": [
+      "He emphasizes the universal scope and public character of the gospel over against narrow, sectarian alternatives",
+      "He means every creature has already believed the gospel",
+      "He is speaking only about local churches in Asia",
+      "The gospel's reach matters less than private spirituality"
+    ],
+    "correct_answer": "He emphasizes the universal scope and public character of the gospel over against narrow, sectarian alternatives",
+    "explanation": "Paul describes the gospel as preached in all creation under heaven while grounding the Colossians in its hope, stressing its broad and public reach (Colossians 1:23)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 5,
+    "prompt": "How does Colossians 1 portray the Christian life as deeply Trinitarian without using later technical formulas?",
+    "choices_json": [
+      "The Father rescues and qualifies, the Son redeems and reconciles, and the Spirit gives love and wisdom-filled life",
+      "Only the Father acts in salvation while Christ and the Spirit remain secondary",
+      "The chapter avoids any coordinated divine action",
+      "Spirit and Son are mentioned only as poetic images"
+    ],
+    "correct_answer": "The Father rescues and qualifies, the Son redeems and reconciles, and the Spirit gives love and wisdom-filled life",
+    "explanation": "Paul speaks of the Father's rescuing work, the Son's redemption and reconciliation, and the Spirit-shaped love and wisdom of believers (Colossians 1:8-14, 20-22)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 1,
+    "difficulty_stage": 5,
+    "prompt": "What deeper point lies behind Paul's joy in suffering for the church in Colossians 1?",
+    "choices_json": [
+      "A Christ-centered ministry can embrace suffering as service to the body rather than as contradiction to God's purpose",
+      "Suffering automatically earns salvation for others",
+      "Paul values pain more than Christ himself",
+      "The church grows only through apostolic imprisonment"
+    ],
+    "correct_answer": "A Christ-centered ministry can embrace suffering as service to the body rather than as contradiction to God's purpose",
+    "explanation": "Paul rejoices in suffering because it serves Christ's body, the church, within his God-given ministry to make the word fully known (Colossians 1:24-25)."
+  },
+
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 2, in whom are hidden all the treasures of wisdom and knowledge?",
+    "choices_json": [
+      "Christ",
+      "Moses",
+      "The angels",
+      "The philosophers"
+    ],
+    "correct_answer": "Christ",
+    "explanation": "Paul says all the treasures of wisdom and knowledge are hidden in Christ (Colossians 2:3)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 2, how should believers walk after receiving Christ Jesus the Lord?",
+    "choices_json": [
+      "In him",
+      "In the law",
+      "In fear of rulers",
+      "In human tradition"
+    ],
+    "correct_answer": "In him",
+    "explanation": "Paul says, 'As therefore you received Christ Jesus the Lord, walk in him' (Colossians 2:6)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 2, what dwells in Christ bodily?",
+    "choices_json": [
+      "All the fullness of the Godhead",
+      "The law of Moses",
+      "The spirits of the prophets",
+      "The powers of Rome"
+    ],
+    "correct_answer": "All the fullness of the Godhead",
+    "explanation": "Paul says in Christ all the fullness of the Godhead dwells bodily (Colossians 2:9)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 2, what was nailed to the cross?",
+    "choices_json": [
+      "The written code against us",
+      "The temple veil",
+      "The promises to Abraham",
+      "The prophets of Israel"
+    ],
+    "correct_answer": "The written code against us",
+    "explanation": "Paul says the bond written in ordinances that was against us was taken out of the way, having been nailed to the cross (Colossians 2:14)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 2, what did Christ do to principalities and powers?",
+    "choices_json": [
+      "He disarmed them",
+      "He submitted to them",
+      "He learned from them",
+      "He hid from them"
+    ],
+    "correct_answer": "He disarmed them",
+    "explanation": "Paul says Christ stripped principalities and powers and made a show of them openly, triumphing over them in it (Colossians 2:15)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 2, what should no one judge believers in regarding food, drink, or holy times?",
+    "choices_json": [
+      "A feast, a new moon, or a Sabbath day",
+      "Their prayers and songs",
+      "Their faith in Christ",
+      "Their love for the saints"
+    ],
+    "correct_answer": "A feast, a new moon, or a Sabbath day",
+    "explanation": "Paul says no one should judge them in eating, drinking, or regarding a feast, new moon, or Sabbath day (Colossians 2:16)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 2, what are such observances called in relation to Christ?",
+    "choices_json": [
+      "A shadow of the things to come",
+      "The substance of salvation",
+      "The highest wisdom",
+      "The eternal covenant itself"
+    ],
+    "correct_answer": "A shadow of the things to come",
+    "explanation": "Paul says these things are a shadow of the things to come, but the body is Christ's (Colossians 2:17)."
+  },
+
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 2,
+    "prompt": "What does Paul say he desires for the hearts of the believers in Colossians 2?",
+    "choices_json": [
+      "That they may be comforted and knit together in love",
+      "That they may seek visions first",
+      "That they may rely on human tradition",
+      "That they may fear all spiritual powers"
+    ],
+    "correct_answer": "That they may be comforted and knit together in love",
+    "explanation": "Paul says he wants their hearts to be comforted, being knit together in love (Colossians 2:2)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 2,
+    "prompt": "What does Paul warn may take believers captive in Colossians 2?",
+    "choices_json": [
+      "Philosophy and empty deceit according to human tradition",
+      "The gospel of Christ",
+      "The peace of God",
+      "The hope of glory"
+    ],
+    "correct_answer": "Philosophy and empty deceit according to human tradition",
+    "explanation": "Paul warns lest anyone take them captive through philosophy and empty deceit according to human tradition and not according to Christ (Colossians 2:8)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 2,
+    "prompt": "How are believers said to be complete in Colossians 2?",
+    "choices_json": [
+      "In Christ",
+      "In the law of Moses",
+      "In bodily discipline",
+      "In angelic worship"
+    ],
+    "correct_answer": "In Christ",
+    "explanation": "Paul says believers are made full or complete in Christ, who is head of all principality and power (Colossians 2:10)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 2,
+    "prompt": "What kind of circumcision does Paul describe in Colossians 2?",
+    "choices_json": [
+      "A circumcision made without hands",
+      "A circumcision required from Abraham's line only",
+      "A priestly circumcision in the temple",
+      "A circumcision by Roman law"
+    ],
+    "correct_answer": "A circumcision made without hands",
+    "explanation": "Paul says believers were circumcised with a circumcision not made with hands in the putting off of the body of flesh (Colossians 2:11)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 2,
+    "prompt": "How were believers raised with Christ according to Colossians 2?",
+    "choices_json": [
+      "Through faith in the working of God",
+      "Through food regulations",
+      "Through angelic mediators",
+      "Through Roman citizenship"
+    ],
+    "correct_answer": "Through faith in the working of God",
+    "explanation": "Paul says believers were raised with Christ through faith in the working of God, who raised him from the dead (Colossians 2:12)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 2,
+    "prompt": "What does Paul say false teachers delight in in Colossians 2?",
+    "choices_json": [
+      "Self-abasement and the worship of angels",
+      "The freedom of Christ",
+      "The hope of the resurrection",
+      "The simplicity of the gospel"
+    ],
+    "correct_answer": "Self-abasement and the worship of angels",
+    "explanation": "Paul warns against those delighting in false humility and the worship of angels (Colossians 2:18)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 2,
+    "prompt": "From whom does the whole body grow according to Colossians 2?",
+    "choices_json": [
+      "The Head",
+      "The philosophers",
+      "The principalities",
+      "The outward ordinances"
+    ],
+    "correct_answer": "The Head",
+    "explanation": "Paul says the whole body grows with God's growth by holding fast to the Head (Colossians 2:19)."
+  },
+
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 3,
+    "prompt": "Why does Paul stress rootedness and being built up in Christ in Colossians 2?",
+    "choices_json": [
+      "Stable growth in Christ protects believers from persuasive error and hollow alternatives",
+      "Christ is only the starting point before deeper systems are added",
+      "Being rooted in Christ limits thanksgiving and joy",
+      "The church matures best by leaving Christ behind"
+    ],
+    "correct_answer": "Stable growth in Christ protects believers from persuasive error and hollow alternatives",
+    "explanation": "Paul urges them to walk in Christ, rooted and built up in him, right after warning against enticing words and later against philosophy not according to Christ (Colossians 2:4, 6-8)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 3,
+    "prompt": "What does Colossians 2 imply about union with Christ in relation to old ordinances?",
+    "choices_json": [
+      "Dying and rising with Christ means the old condemning order no longer defines the believer",
+      "Union with Christ restores the old ordinances as the center of life",
+      "Only Jewish believers die and rise with Christ",
+      "The old written code remains the way of justification"
+    ],
+    "correct_answer": "Dying and rising with Christ means the old condemning order no longer defines the believer",
+    "explanation": "Paul speaks of burial and resurrection with Christ, forgiveness of sins, and the removal of the written code against believers (Colossians 2:12-14)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 3,
+    "prompt": "Why does Paul oppose angel worship in Colossians 2?",
+    "choices_json": [
+      "It distracts from holding fast to Christ, the only head and source of growth",
+      "Angels are evil in every biblical context",
+      "The church should never think about heavenly things",
+      "Angel worship is acceptable if paired with humility"
+    ],
+    "correct_answer": "It distracts from holding fast to Christ, the only head and source of growth",
+    "explanation": "Paul warns that such people are not holding firmly to the Head, from whom the whole body grows (Colossians 2:18-19)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 3,
+    "prompt": "What is the point of calling food laws and holy days a shadow in Colossians 2?",
+    "choices_json": [
+      "They pointed forward to Christ and must not be treated as the final substance",
+      "They were always meaningless and unrelated to God",
+      "They remain more important than Christ for maturity",
+      "They save those who keep them carefully"
+    ],
+    "correct_answer": "They pointed forward to Christ and must not be treated as the final substance",
+    "explanation": "Paul says such observances are a shadow of things to come, but the substance belongs to Christ (Colossians 2:16-17)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 3,
+    "prompt": "What does Colossians 2 teach about Christ's victory over hostile powers?",
+    "choices_json": [
+      "The cross is the means by which Christ publicly triumphs over spiritual rulers and authorities",
+      "Hostile powers remain outside Christ's authority",
+      "Victory comes mainly through severe bodily discipline",
+      "Believers must fear the powers because Christ only partly defeated them"
+    ],
+    "correct_answer": "The cross is the means by which Christ publicly triumphs over spiritual rulers and authorities",
+    "explanation": "Paul says Christ disarmed the rulers and authorities and triumphed over them in the cross (Colossians 2:15)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 3,
+    "prompt": "Why does Paul criticize regulations like 'Do not handle, nor taste, nor touch' in Colossians 2?",
+    "choices_json": [
+      "They appear wise but cannot restrain fleshly indulgence or produce true spiritual life",
+      "They are the heart of Christian maturity",
+      "They are commanded directly by Christ for all believers",
+      "They replace the need for faith in God's work"
+    ],
+    "correct_answer": "They appear wise but cannot restrain fleshly indulgence or produce true spiritual life",
+    "explanation": "Paul says such regulations have an appearance of wisdom but are of no value against the indulgence of the flesh (Colossians 2:20-23)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 3,
+    "prompt": "What does it mean for believers to be complete in Christ in Colossians 2?",
+    "choices_json": [
+      "Nothing outside Christ is needed to supply spiritual fullness or status before God",
+      "Christ begins salvation, but higher beings complete it",
+      "Completion comes through rules about food and days",
+      "Only certain elite believers are complete in Christ"
+    ],
+    "correct_answer": "Nothing outside Christ is needed to supply spiritual fullness or status before God",
+    "explanation": "Paul says believers are made full in Christ right after declaring that all the fullness of deity dwells in him bodily (Colossians 2:9-10)."
+  },
+
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 4,
+    "prompt": "How does Colossians 2 connect Christ's fullness with the rejection of false spirituality?",
+    "choices_json": [
+      "Because God's fullness dwells bodily in Christ, believers need no rival source of wisdom, power, or access to God",
+      "Christ's fullness encourages believers to seek angelic supplements",
+      "False spirituality is harmless if Christ remains central in theory",
+      "Paul treats fullness and false teaching as unrelated topics"
+    ],
+    "correct_answer": "Because God's fullness dwells bodily in Christ, believers need no rival source of wisdom, power, or access to God",
+    "explanation": "Paul grounds the warning against philosophy, ritual judgment, and angel worship in the fact that all divine fullness dwells in Christ and believers are complete in him (Colossians 2:8-10, 16-19)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 4,
+    "prompt": "Why does Paul treat ascetic regulations as inadequate in Colossians 2?",
+    "choices_json": [
+      "External severity cannot replace the inner transformation that comes from union with Christ",
+      "Ascetic practices are always the true path to holiness",
+      "The body is evil and must be punished to be saved",
+      "Only Gentiles were tempted by bodily discipline"
+    ],
+    "correct_answer": "External severity cannot replace the inner transformation that comes from union with Christ",
+    "explanation": "Paul says these regulations have an appearance of wisdom but lack real value against fleshly indulgence, in contrast to life rooted in Christ (Colossians 2:23)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 4,
+    "prompt": "How does Colossians 2 portray baptism in relation to Christ's death and resurrection?",
+    "choices_json": [
+      "Believers' baptism is tied to burial and resurrection with Christ through faith in God's power",
+      "Baptism replaces faith as the basis of salvation",
+      "Baptism is mainly a cultural sign of belonging to Israel",
+      "Paul mentions baptism only as a minor ritual detail"
+    ],
+    "correct_answer": "Believers' baptism is tied to burial and resurrection with Christ through faith in God's power",
+    "explanation": "Paul says believers were buried with Christ in baptism and raised with him through faith in God's working (Colossians 2:12)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 4,
+    "prompt": "What is the significance of holding fast to the Head in Colossians 2?",
+    "choices_json": [
+      "Growth in the body comes only by living connection to Christ, not by visionary or ritual alternatives",
+      "The body can grow equally well without Christ if it has discipline",
+      "The Head is one option among many for spiritual maturity",
+      "Paul uses body language only as a metaphor for social harmony"
+    ],
+    "correct_answer": "Growth in the body comes only by living connection to Christ, not by visionary or ritual alternatives",
+    "explanation": "Paul says the whole body grows with God's growth from the Head, contrasting that with those obsessed with false humility and angel worship (Colossians 2:18-19)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 4,
+    "prompt": "How does Colossians 2 combine forgiveness and victory?",
+    "choices_json": [
+      "The same cross that forgives sins also cancels hostile accusations and defeats hostile powers",
+      "Forgiveness concerns God while victory concerns only human enemies",
+      "Victory over powers makes forgiveness unnecessary",
+      "The two themes stand unrelated in the chapter"
+    ],
+    "correct_answer": "The same cross that forgives sins also cancels hostile accusations and defeats hostile powers",
+    "explanation": "Paul moves from forgiveness and the removal of the written code to Christ's triumph over rulers and authorities through the cross (Colossians 2:13-15)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 4,
+    "prompt": "Why does Paul stress thanksgiving while warning against deception in Colossians 2?",
+    "choices_json": [
+      "A grateful, rooted life in Christ helps stabilize believers against teachings that promise more than Christ gives",
+      "Thanksgiving is a minor ornament unrelated to steadfastness",
+      "Deception is best countered only by intellectual argument",
+      "Paul thinks gratitude belongs only to mature leaders"
+    ],
+    "correct_answer": "A grateful, rooted life in Christ helps stabilize believers against teachings that promise more than Christ gives",
+    "explanation": "Paul calls them to be rooted and built up in Christ, established in the faith, and abounding in thanksgiving in the same section where he warns against deceptive teaching (Colossians 2:6-8)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 4,
+    "prompt": "How does Colossians 2 challenge spiritual elitism?",
+    "choices_json": [
+      "Everything needed for wisdom, fullness, forgiveness, and growth is already given in Christ to the whole church",
+      "Only those with visions can truly know God",
+      "Maturity belongs only to those who adopt stricter regulations",
+      "The church requires layers of mediators beyond Christ"
+    ],
+    "correct_answer": "Everything needed for wisdom, fullness, forgiveness, and growth is already given in Christ to the whole church",
+    "explanation": "Paul directs all believers to Christ as the location of wisdom and fullness and rejects systems built on visions, regulations, and angelic intermediaries (Colossians 2:2-10, 18-23)."
+  },
+
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "How does Colossians 2 present Christ as the answer to both legalism and mysticism?",
+    "choices_json": [
+      "Christ's fullness, cross, and headship undercut both ritual self-righteousness and visionary spirituality",
+      "Paul rejects legalism but encourages mystical mediators",
+      "The chapter attacks only legalism and leaves mysticism intact",
+      "Mysticism and legalism are both necessary supplements to Christ"
+    ],
+    "correct_answer": "Christ's fullness, cross, and headship undercut both ritual self-righteousness and visionary spirituality",
+    "explanation": "Paul opposes judgment over food and days as well as angel worship and ascetic regulations by centering fullness, forgiveness, and growth in Christ alone (Colossians 2:9-10, 16-23)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "Why is the phrase 'according to Christ' decisive in Colossians 2?",
+    "choices_json": [
+      "It establishes Christ as the standard by which every philosophy, practice, and claim to wisdom must be judged",
+      "It limits Christ's relevance to private devotion only",
+      "It implies human tradition and Christ are equal authorities",
+      "It refers only to Paul's personal style of ministry"
+    ],
+    "correct_answer": "It establishes Christ as the standard by which every philosophy, practice, and claim to wisdom must be judged",
+    "explanation": "Paul warns against teachings according to human tradition and the elemental principles of the world, and not according to Christ (Colossians 2:8)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "How does Colossians 2 portray the believer's freedom without turning it into autonomy?",
+    "choices_json": [
+      "Believers are freed from condemning ordinances and false judgments precisely to live under Christ the Head",
+      "Freedom means release from all accountability and growth",
+      "Freedom is achieved by stricter self-imposed rules",
+      "Paul's freedom is only from Jewish practice, not from spiritual bondage"
+    ],
+    "correct_answer": "Believers are freed from condemning ordinances and false judgments precisely to live under Christ the Head",
+    "explanation": "Paul removes condemning ordinances and warns against human judgments while insisting on holding fast to Christ as Head (Colossians 2:14-19)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "What deeper problem lies beneath the regulations criticized in Colossians 2?",
+    "choices_json": [
+      "They promise control over the flesh while bypassing the person and work of Christ as the true source of life",
+      "They are wrong only because they are difficult to keep",
+      "They fail mainly because the church lacks enough discipline",
+      "They would work if combined with more visions"
+    ],
+    "correct_answer": "They promise control over the flesh while bypassing the person and work of Christ as the true source of life",
+    "explanation": "Paul says such practices appear wise but have no value against fleshly indulgence, in contrast to life rooted in Christ's fullness and victory (Colossians 2:8-10, 23)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "How does Colossians 2 make the cross central to spiritual warfare?",
+    "choices_json": [
+      "The cross is where accusation is canceled, forgiveness given, and hostile powers publicly defeated",
+      "Spiritual warfare requires practices beyond the cross to succeed",
+      "The cross forgives sins but does not affect spiritual rulers",
+      "The chapter locates spiritual victory mainly in ascetic rigor"
+    ],
+    "correct_answer": "The cross is where accusation is canceled, forgiveness given, and hostile powers publicly defeated",
+    "explanation": "Paul ties forgiveness, cancellation of the written code, and triumph over rulers and authorities together in Christ's cross (Colossians 2:13-15)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "Why is Colossians 2 so important for understanding Christian holiness?",
+    "choices_json": [
+      "It teaches that real holiness grows from union with Christ rather than from externally impressive but powerless regulations",
+      "It teaches holiness is impossible in the body",
+      "It makes bodily discipline the center of sanctification",
+      "It says holiness comes by judging others over shadows"
+    ],
+    "correct_answer": "It teaches that real holiness grows from union with Christ rather than from externally impressive but powerless regulations",
+    "explanation": "Paul roots fullness and growth in Christ while saying human regulations only appear wise and lack power against the flesh (Colossians 2:10, 19, 23)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "How does Colossians 2 frame the church's maturity as corporate rather than merely private?",
+    "choices_json": [
+      "The whole body grows from the Head as its members are joined and knit together under Christ",
+      "Growth belongs only to isolated individuals with special discipline",
+      "The body is irrelevant if one has enough personal knowledge",
+      "Only prophets and teachers need connection to the Head"
+    ],
+    "correct_answer": "The whole body grows from the Head as its members are joined and knit together under Christ",
+    "explanation": "Paul says the whole body, supplied and knit together, grows with God's growth by holding fast to the Head (Colossians 2:19)."
+  },
+
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 3, where should believers seek the things above?",
+    "choices_json": [
+      "Where Christ is seated at God's right hand",
+      "Where the temple still stands",
+      "Where Rome gives honor",
+      "Where angels rule independently"
+    ],
+    "correct_answer": "Where Christ is seated at God's right hand",
+    "explanation": "Paul tells believers to seek the things above, where Christ is seated on the right hand of God (Colossians 3:1)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 3, what should believers put to death?",
+    "choices_json": [
+      "Their members which are on the earth",
+      "Their hope in heaven",
+      "Their love for the saints",
+      "Their knowledge of Christ"
+    ],
+    "correct_answer": "Their members which are on the earth",
+    "explanation": "Paul says to put to death the earthly members, then names sexual immorality, uncleanness, passion, evil desire, and covetousness (Colossians 3:5)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 3, what does Paul call covetousness?",
+    "choices_json": [
+      "Idolatry",
+      "Wisdom",
+      "Weakness",
+      "Tradition"
+    ],
+    "correct_answer": "Idolatry",
+    "explanation": "Paul explicitly says covetousness is idolatry (Colossians 3:5)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 3, what should the peace of Christ do in believers' hearts?",
+    "choices_json": [
+      "Rule",
+      "Depart",
+      "Condemn",
+      "Remain hidden"
+    ],
+    "correct_answer": "Rule",
+    "explanation": "Paul says, 'Let the peace of Christ rule in your hearts' (Colossians 3:15)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 3, what should dwell richly in believers?",
+    "choices_json": [
+      "The word of Christ",
+      "The fear of men",
+      "The customs of the nations",
+      "The wisdom of philosophers"
+    ],
+    "correct_answer": "The word of Christ",
+    "explanation": "Paul says to let the word of Christ dwell in them richly (Colossians 3:16)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 3, what should wives do toward their husbands?",
+    "choices_json": [
+      "Be subject, as is fitting in the Lord",
+      "Ignore them completely",
+      "Rule them harshly",
+      "Withdraw from them in worship"
+    ],
+    "correct_answer": "Be subject, as is fitting in the Lord",
+    "explanation": "Paul says wives should be subject to their husbands, as is fitting in the Lord (Colossians 3:18)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 3, whom are servants ultimately serving?",
+    "choices_json": [
+      "The Lord Christ",
+      "Their earthly masters only",
+      "The rulers and authorities",
+      "Their own household"
+    ],
+    "correct_answer": "The Lord Christ",
+    "explanation": "Paul says, 'You serve the Lord Christ' (Colossians 3:24)."
+  },
+
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 2,
+    "prompt": "What does Paul say believers' life is hidden with in Colossians 3?",
+    "choices_json": [
+      "Christ in God",
+      "The law in Moses",
+      "The church in Jerusalem",
+      "Wisdom in angels"
+    ],
+    "correct_answer": "Christ in God",
+    "explanation": "Paul says believers died, and their life is hidden with Christ in God (Colossians 3:3)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 2,
+    "prompt": "What old behaviors does Paul tell believers to put away in Colossians 3?",
+    "choices_json": [
+      "Anger, wrath, malice, slander, and shameful speaking",
+      "Faith, hope, and love",
+      "Prayer, thanksgiving, and singing",
+      "Patience, gentleness, and kindness"
+    ],
+    "correct_answer": "Anger, wrath, malice, slander, and shameful speaking",
+    "explanation": "Paul commands believers to put away anger, wrath, malice, slander, and shameful speaking from their mouth (Colossians 3:8)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 2,
+    "prompt": "What does Paul say believers have put on in Colossians 3?",
+    "choices_json": [
+      "The new man",
+      "The whole armor of Rome",
+      "The old ordinances",
+      "The traditions of the fathers"
+    ],
+    "correct_answer": "The new man",
+    "explanation": "Paul says believers have put on the new man, which is being renewed in knowledge after the image of its Creator (Colossians 3:10)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 2,
+    "prompt": "What does Paul call the bond of perfection in Colossians 3?",
+    "choices_json": [
+      "Love",
+      "Knowledge",
+      "Discipline",
+      "Silence"
+    ],
+    "correct_answer": "Love",
+    "explanation": "Paul says above all these things to put on love, which is the bond of perfection (Colossians 3:14)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 2,
+    "prompt": "How are believers to sing according to Colossians 3?",
+    "choices_json": [
+      "With grace in their hearts to God",
+      "Only in public ceremonies",
+      "Without understanding",
+      "Only when commanded by leaders"
+    ],
+    "correct_answer": "With grace in their hearts to God",
+    "explanation": "Paul says believers should teach and admonish one another with psalms, hymns, and spiritual songs, singing with grace in their hearts to God (Colossians 3:16)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 2,
+    "prompt": "What should children do according to Colossians 3?",
+    "choices_json": [
+      "Obey their parents in all things",
+      "Provoke their fathers",
+      "Seek only their own way",
+      "Question every command with anger"
+    ],
+    "correct_answer": "Obey their parents in all things",
+    "explanation": "Paul says children should obey their parents in all things, for this pleases the Lord (Colossians 3:20)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 2,
+    "prompt": "What warning does Paul give fathers in Colossians 3?",
+    "choices_json": [
+      "Do not provoke your children, so they won't be discouraged",
+      "Do not teach your children the Lord's way",
+      "Do not speak gently to your children",
+      "Do not correct your household at all"
+    ],
+    "correct_answer": "Do not provoke your children, so they won't be discouraged",
+    "explanation": "Paul tells fathers not to provoke their children, lest they become discouraged (Colossians 3:21)."
+  },
+
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 3,
+    "prompt": "What does Colossians 3 imply by saying believers have died and been raised with Christ?",
+    "choices_json": [
+      "Their identity and values are now determined by the risen Christ rather than the old earthly order",
+      "They no longer live in bodily existence at all",
+      "Their earthly actions no longer matter",
+      "Paul rejects creation as evil in itself"
+    ],
+    "correct_answer": "Their identity and values are now determined by the risen Christ rather than the old earthly order",
+    "explanation": "Paul grounds the call to seek things above in the believer's death and risen life with Christ (Colossians 3:1-4)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 3,
+    "prompt": "Why does Paul move from setting the mind above to household relationships in Colossians 3?",
+    "choices_json": [
+      "Union with Christ reshapes both inner priorities and ordinary earthly conduct",
+      "He abandons theology once ethics begin",
+      "Household life matters less than worship and song",
+      "The heavenly life has no practical implications"
+    ],
+    "correct_answer": "Union with Christ reshapes both inner priorities and ordinary earthly conduct",
+    "explanation": "Paul begins with the heavenly identity of believers and then applies it to speech, forgiveness, worship, family life, and work (Colossians 3:1-25)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 3,
+    "prompt": "What does Colossians 3 teach about Christian identity beyond ethnic and social divisions?",
+    "choices_json": [
+      "Christ is all and in all within the new humanity",
+      "Ethnic status remains the center of the new life",
+      "Social divisions are the basis of holiness",
+      "The new man exists only for Jewish believers"
+    ],
+    "correct_answer": "Christ is all and in all within the new humanity",
+    "explanation": "Paul says in the new man there cannot be Greek or Jew, circumcision or uncircumcision, barbarian, Scythian, bondservant, or free man, but Christ is all and in all (Colossians 3:11)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 3,
+    "prompt": "Why does Paul place forgiveness alongside compassion, kindness, and humility in Colossians 3?",
+    "choices_json": [
+      "The new life in Christ is communal and must mirror the Lord's own forgiving grace",
+      "Forgiveness matters only if the offense is small",
+      "Kindness and humility are unrelated to reconciliation",
+      "Believers forgive mainly to avoid punishment"
+    ],
+    "correct_answer": "The new life in Christ is communal and must mirror the Lord's own forgiving grace",
+    "explanation": "Paul tells believers to bear with and forgive one another just as the Lord forgave them (Colossians 3:12-13)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 3,
+    "prompt": "What does it mean for the word of Christ to dwell richly in believers?",
+    "choices_json": [
+      "Christ's message is to saturate the church's teaching, worship, and mutual admonition",
+      "Only leaders need Christ's word in a deep way",
+      "The word matters mainly for private memory work",
+      "Singing replaces the need for teaching"
+    ],
+    "correct_answer": "Christ's message is to saturate the church's teaching, worship, and mutual admonition",
+    "explanation": "Paul links the word of Christ dwelling richly with teaching, admonishing, and singing together (Colossians 3:16)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 3,
+    "prompt": "How does Colossians 3 transform ordinary work?",
+    "choices_json": [
+      "Whatever believers do becomes service rendered to the Lord rather than merely to human masters",
+      "Ordinary work is spiritually inferior and outside Christ's lordship",
+      "Only public ministry can be done for the Lord",
+      "Work matters only when it gains praise from others"
+    ],
+    "correct_answer": "Whatever believers do becomes service rendered to the Lord rather than merely to human masters",
+    "explanation": "Paul says whatever they do, they should work heartily as to the Lord and not to men, because they serve the Lord Christ (Colossians 3:23-24)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 3,
+    "prompt": "What does Colossians 3 imply about the old and new selves?",
+    "choices_json": [
+      "Christian life involves decisive rejection of old sinful patterns and continual renewal into God's image",
+      "The old self remains the believer's truest identity",
+      "Renewal is unnecessary once sins are forgiven",
+      "Paul treats ethics as unrelated to creation"
+    ],
+    "correct_answer": "Christian life involves decisive rejection of old sinful patterns and continual renewal into God's image",
+    "explanation": "Paul says believers have put off the old man with its practices and put on the new man being renewed in knowledge after the image of its Creator (Colossians 3:9-10)."
+  },
+
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 4,
+    "prompt": "How does Colossians 3 connect heavenly-mindedness with earthly obedience?",
+    "choices_json": [
+      "Setting the mind above produces concrete holiness in speech, relationships, worship, and work below",
+      "Heavenly-mindedness excuses neglect of ordinary duties",
+      "Paul contrasts spiritual focus with household faithfulness",
+      "Earthly conduct becomes irrelevant once Christ is known"
+    ],
+    "correct_answer": "Setting the mind above produces concrete holiness in speech, relationships, worship, and work below",
+    "explanation": "Paul moves directly from seeking things above to commands about purity, speech, love, peace, worship, and household life (Colossians 3:1-25)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 4,
+    "prompt": "Why does Paul say believers will appear with Christ in glory?",
+    "choices_json": [
+      "The hidden life they now share with Christ will one day be openly revealed in his appearing",
+      "Present life in Christ remains permanently invisible and private",
+      "Glory belongs only to apostles and martyrs",
+      "Believers earn glory by household obedience"
+    ],
+    "correct_answer": "The hidden life they now share with Christ will one day be openly revealed in his appearing",
+    "explanation": "Paul says their life is hidden with Christ in God now, but when Christ appears, they also will appear with him in glory (Colossians 3:3-4)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 4,
+    "prompt": "How does Colossians 3 portray peace and gratitude in the life of the church?",
+    "choices_json": [
+      "Christ's peace and repeated thanksgiving are meant to govern the church's shared life and worship",
+      "Peace matters privately, while gratitude matters only in singing",
+      "Thanksgiving is optional when peace is present",
+      "Paul separates peace from communal unity"
+    ],
+    "correct_answer": "Christ's peace and repeated thanksgiving are meant to govern the church's shared life and worship",
+    "explanation": "Paul says the peace of Christ should rule in their hearts as one body, and he repeatedly commands thanksgiving in this section (Colossians 3:15-17)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 4,
+    "prompt": "What does Colossians 3 suggest about the image of God and the new creation?",
+    "choices_json": [
+      "Renewal in Christ restores people toward the Creator's image in a way that reorders community life",
+      "Image language is unrelated to ethics or community",
+      "Only inward belief matters, not recreated humanity",
+      "The new creation abolishes all ordinary relationships"
+    ],
+    "correct_answer": "Renewal in Christ restores people toward the Creator's image in a way that reorders community life",
+    "explanation": "Paul says the new man is renewed after the image of its Creator and then applies that renewed life to the church and household relationships (Colossians 3:10-25)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 4,
+    "prompt": "Why does Paul ground all actions in the name of the Lord Jesus in Colossians 3?",
+    "choices_json": [
+      "Christ's lordship is to govern every word and deed, making all of life an act of thankful obedience",
+      "Only religious acts are done in Christ's name",
+      "The name of Jesus matters only for public preaching",
+      "Paul reserves Christ's name for moments of conflict"
+    ],
+    "correct_answer": "Christ's lordship is to govern every word and deed, making all of life an act of thankful obedience",
+    "explanation": "Paul says whatever they do in word or deed should be done in the name of the Lord Jesus, giving thanks through him to God the Father (Colossians 3:17)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 4,
+    "prompt": "How does Colossians 3 reshape social hierarchies without denying ordinary roles?",
+    "choices_json": [
+      "All roles are subordinated to Christ's impartial lordship so that even servants work and are rewarded before him",
+      "Paul leaves earthly relationships entirely untouched by the gospel",
+      "The gospel abolishes all forms of obedience in households",
+      "Only free persons can truly serve the Lord Christ"
+    ],
+    "correct_answer": "All roles are subordinated to Christ's impartial lordship so that even servants work and are rewarded before him",
+    "explanation": "Paul tells servants they serve the Lord Christ and warns that wrongdoers will receive back for wrong without partiality (Colossians 3:23-25)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 4,
+    "prompt": "Why does Colossians 3 place love above the other virtues?",
+    "choices_json": [
+      "Love binds the new community together into mature wholeness in Christ",
+      "Love replaces the need for truth or holiness",
+      "Paul thinks compassion and kindness are unnecessary without love",
+      "Love is mainly an emotional experience disconnected from community"
+    ],
+    "correct_answer": "Love binds the new community together into mature wholeness in Christ",
+    "explanation": "Paul says above all these things to put on love, which is the bond of perfection (Colossians 3:14)."
+  },
+
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 5,
+    "prompt": "How does Colossians 3 present sanctification as participation in the risen life of Christ?",
+    "choices_json": [
+      "Holy living flows from sharing Christ's death, hidden life, and future glory rather than from mere rule-keeping",
+      "Sanctification is mainly self-improvement through discipline alone",
+      "The risen life has no effect on bodily conduct",
+      "Paul bases holiness on social respectability rather than union with Christ"
+    ],
+    "correct_answer": "Holy living flows from sharing Christ's death, hidden life, and future glory rather than from mere rule-keeping",
+    "explanation": "Paul grounds the whole chapter's ethical commands in the believers' death and risen life with Christ and their future appearing with him in glory (Colossians 3:1-4)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 5,
+    "prompt": "Why is Colossians 3 important for understanding Christian worship?",
+    "choices_json": [
+      "Worship is portrayed as word-saturated, mutually instructive, thankful, and inseparable from the church's common life",
+      "Worship is reduced to inward meditation only",
+      "Only leaders participate actively in worship",
+      "Singing replaces the need for teaching and admonition"
+    ],
+    "correct_answer": "Worship is portrayed as word-saturated, mutually instructive, thankful, and inseparable from the church's common life",
+    "explanation": "Paul links the word of Christ, teaching, admonishing, singing, and thanksgiving as shared practices of the body (Colossians 3:15-17)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 5,
+    "prompt": "How does Colossians 3 answer the idea that deep spirituality is separate from ordinary relationships?",
+    "choices_json": [
+      "The risen life in Christ must be expressed in forgiveness, peace, marriage, parenting, and work under his lordship",
+      "Spirituality belongs only to prayer and song, not households",
+      "Ordinary relationships remain outside Christ's reign",
+      "Paul thinks the household code is unrelated to union with Christ"
+    ],
+    "correct_answer": "The risen life in Christ must be expressed in forgiveness, peace, marriage, parenting, and work under his lordship",
+    "explanation": "Paul moves from heavenly identity and church virtues directly into household commands, showing the comprehensive reach of Christ's lordship (Colossians 3:1-25)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 5,
+    "prompt": "What does Colossians 3 imply about idolatry and desire?",
+    "choices_json": [
+      "Disordered desire can become worship, so the battle for holiness is also a battle over what the heart treats as ultimate",
+      "Idolatry concerns only carved images and never inward cravings",
+      "Desire is morally neutral in every form",
+      "Paul limits idolatry to pagan temple rituals"
+    ],
+    "correct_answer": "Disordered desire can become worship, so the battle for holiness is also a battle over what the heart treats as ultimate",
+    "explanation": "Paul identifies covetousness as idolatry, showing that desire can become a form of false worship (Colossians 3:5)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 5,
+    "prompt": "How does Colossians 3 unite grace and responsibility?",
+    "choices_json": [
+      "The new self is a gift of renewal from God, yet believers are called to actively put off sin and put on Christlike virtues",
+      "Grace removes all obligation to pursue holiness",
+      "Responsibility replaces the need for grace",
+      "Renewal depends entirely on human effort"
+    ],
+    "correct_answer": "The new self is a gift of renewal from God, yet believers are called to actively put off sin and put on Christlike virtues",
+    "explanation": "Paul speaks of the new man being renewed and simultaneously commands believers to put to death sin and clothe themselves with virtues fitting the chosen of God (Colossians 3:5, 10, 12)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 5,
+    "prompt": "Why is thanksgiving repeated so often in Colossians 3?",
+    "choices_json": [
+      "Thanksgiving is a core expression of the Christ-centered life, shaping peace, worship, and every word and deed",
+      "Paul repeats it only for stylistic variety",
+      "Thanksgiving matters less than strict discipline",
+      "Only public worship should include gratitude"
+    ],
+    "correct_answer": "Thanksgiving is a core expression of the Christ-centered life, shaping peace, worship, and every word and deed",
+    "explanation": "Paul repeatedly commands thankfulness alongside peace, song, and action in Jesus' name, showing gratitude as central to Christian life (Colossians 3:15-17)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 3,
+    "difficulty_stage": 5,
+    "prompt": "What deeper social vision stands behind Colossians 3:11?",
+    "choices_json": [
+      "The new humanity in Christ relativizes old divisions because Christ himself is the defining center of identity",
+      "Social distinctions remain the church's primary categories",
+      "Paul wants all cultures erased into sameness",
+      "Only private faith matters, not communal identity"
+    ],
+    "correct_answer": "The new humanity in Christ relativizes old divisions because Christ himself is the defining center of identity",
+    "explanation": "Paul says Christ is all and in all within the new humanity, showing that former identities no longer define covenant standing as before (Colossians 3:11)."
+  },
+
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 4, how should masters treat their servants?",
+    "choices_json": [
+      "With justice and fairness",
+      "With harshness and threats",
+      "With partiality and fear",
+      "With silence and neglect"
+    ],
+    "correct_answer": "With justice and fairness",
+    "explanation": "Paul tells masters to give their servants what is just and fair (Colossians 4:1)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 4, how are believers to continue in prayer?",
+    "choices_json": [
+      "Steadfastly, watching in it with thanksgiving",
+      "Only in times of crisis",
+      "With fear of rulers",
+      "Without any thanksgiving"
+    ],
+    "correct_answer": "Steadfastly, watching in it with thanksgiving",
+    "explanation": "Paul says to continue steadfastly in prayer, watching in it with thanksgiving (Colossians 4:2)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 4, what does Paul ask God to open for him?",
+    "choices_json": [
+      "A door for the word",
+      "The prison gate only",
+      "A seat in Caesar's court",
+      "The treasury of Jerusalem"
+    ],
+    "correct_answer": "A door for the word",
+    "explanation": "Paul asks for prayer that God would open to them a door for the word to speak the mystery of Christ (Colossians 4:3)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 4, with what should believers' speech always be seasoned?",
+    "choices_json": [
+      "Grace, seasoned with salt",
+      "Fear, seasoned with silence",
+      "Law, seasoned with strictness",
+      "Power, seasoned with threat"
+    ],
+    "correct_answer": "Grace, seasoned with salt",
+    "explanation": "Paul says their speech should always be with grace, seasoned with salt (Colossians 4:6)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 4, who will make Paul's circumstances known to the Colossians?",
+    "choices_json": [
+      "Tychicus",
+      "Timothy",
+      "Mark",
+      "Nympha"
+    ],
+    "correct_answer": "Tychicus",
+    "explanation": "Paul says Tychicus will make all things known to them (Colossians 4:7)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 4, who is sent with Tychicus?",
+    "choices_json": [
+      "Onesimus",
+      "Epaphras",
+      "Demas",
+      "Luke"
+    ],
+    "correct_answer": "Onesimus",
+    "explanation": "Paul says Onesimus, the faithful and beloved brother, is coming with Tychicus (Colossians 4:9)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "According to Colossians 4, in whose house does the church meet?",
+    "choices_json": [
+      "Nympha's",
+      "Lydia's",
+      "Priscilla's",
+      "Euodia's"
+    ],
+    "correct_answer": "Nympha's",
+    "explanation": "Paul greets Nympha and the assembly that is in her house (Colossians 4:15)."
+  },
+
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "Why does Paul ask for prayer in Colossians 4?",
+    "choices_json": [
+      "That he may speak the mystery of Christ clearly",
+      "That he may regain his former status",
+      "That he may avoid all ministry hardship",
+      "That he may return to the law"
+    ],
+    "correct_answer": "That he may speak the mystery of Christ clearly",
+    "explanation": "Paul asks prayer that he may make the mystery of Christ manifest as he ought to speak (Colossians 4:3-4)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "How should believers walk toward those who are outside according to Colossians 4?",
+    "choices_json": [
+      "In wisdom, redeeming the time",
+      "In fear, avoiding every conversation",
+      "In harsh judgment",
+      "In dependence on visions"
+    ],
+    "correct_answer": "In wisdom, redeeming the time",
+    "explanation": "Paul says they should walk in wisdom toward outsiders, redeeming the time (Colossians 4:5)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "What does Paul say believers should know about answering each person?",
+    "choices_json": [
+      "How they ought to answer each one",
+      "How to silence every opponent harshly",
+      "How to avoid all difficult questions",
+      "How to speak only to insiders"
+    ],
+    "correct_answer": "How they ought to answer each one",
+    "explanation": "Paul says their gracious speech should help them know how they ought to answer each one (Colossians 4:6)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "How does Paul describe Epaphras in Colossians 4?",
+    "choices_json": [
+      "A servant of Christ Jesus who always labors fervently in prayers",
+      "A ruler over the churches of Asia",
+      "A teacher of angelic mysteries",
+      "A philosopher from Greece"
+    ],
+    "correct_answer": "A servant of Christ Jesus who always labors fervently in prayers",
+    "explanation": "Paul says Epaphras, one of them and a servant of Christ Jesus, always strives for them in prayers (Colossians 4:12)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "For whom does Paul say Epaphras has much zeal?",
+    "choices_json": [
+      "Those in Colossae, Laodicea, and Hierapolis",
+      "Those in Rome, Corinth, and Galatia",
+      "Those in Jerusalem alone",
+      "Those in Macedonia only"
+    ],
+    "correct_answer": "Those in Colossae, Laodicea, and Hierapolis",
+    "explanation": "Paul says Epaphras has great zeal for those in Colossae, Laodicea, and Hierapolis (Colossians 4:13)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "Which fellow worker does Paul identify as the beloved physician in Colossians 4?",
+    "choices_json": [
+      "Luke",
+      "Demas",
+      "Aristarchus",
+      "Justus"
+    ],
+    "correct_answer": "Luke",
+    "explanation": "Paul says Luke, the beloved physician, and Demas greet them (Colossians 4:14)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "What message does Paul tell the Colossians to give Archippus?",
+    "choices_json": [
+      "Take heed to the ministry you received in the Lord, that you fulfill it",
+      "Return to Jerusalem at once",
+      "Set your mind on earthly things",
+      "Receive circumcision without delay"
+    ],
+    "correct_answer": "Take heed to the ministry you received in the Lord, that you fulfill it",
+    "explanation": "Paul tells them to say to Archippus, 'Take heed to the ministry which you have received in the Lord, that you fulfill it' (Colossians 4:17)."
+  },
+
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "What does Colossians 4 teach about prayer and mission?",
+    "choices_json": [
+      "Prayer is to accompany gospel mission by asking God to open doors and grant clear speech",
+      "Mission advances mainly without prayer",
+      "Prayer belongs to private comfort, not proclamation",
+      "Paul prays only for release, not for witness"
+    ],
+    "correct_answer": "Prayer is to accompany gospel mission by asking God to open doors and grant clear speech",
+    "explanation": "Paul asks for steadfast prayer and specifically requests prayer for an open door and clear proclamation of Christ's mystery (Colossians 4:2-4)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "Why does Paul emphasize gracious speech seasoned with salt?",
+    "choices_json": [
+      "Christian witness should be both attractive and discerning, suited to each person encountered",
+      "Salt language refers only to ritual sacrifice",
+      "Speech matters less than inward belief",
+      "Paul wants believers to avoid answering outsiders"
+    ],
+    "correct_answer": "Christian witness should be both attractive and discerning, suited to each person encountered",
+    "explanation": "Paul joins gracious, seasoned speech with the ability to answer each person appropriately (Colossians 4:6)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "What does Colossians 4 suggest about gospel fellowship?",
+    "choices_json": [
+      "The mission of Christ is carried by a network of faithful coworkers, praying friends, and house churches",
+      "Paul works largely alone and rejects assistance",
+      "Only apostles matter in the church's life",
+      "Households have no role in gospel ministry"
+    ],
+    "correct_answer": "The mission of Christ is carried by a network of faithful coworkers, praying friends, and house churches",
+    "explanation": "Paul names multiple coworkers, mentions Epaphras's prayers, and greets the church in Nympha's house, showing shared gospel labor (Colossians 4:7-15)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "Why does Paul instruct the Colossians and Laodiceans to exchange letters?",
+    "choices_json": [
+      "The churches are to share apostolic teaching across their local boundaries for common edification",
+      "Each church needs a different gospel message",
+      "Written instruction matters less than oral rumor",
+      "Paul wants to compare the churches competitively"
+    ],
+    "correct_answer": "The churches are to share apostolic teaching across their local boundaries for common edification",
+    "explanation": "Paul instructs that this letter be read in Laodicea and that the Colossians also read the letter from Laodicea (Colossians 4:16)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "What does Epaphras's prayer aim at for the Colossians?",
+    "choices_json": [
+      "That they may stand perfect and fully assured in all the will of God",
+      "That they may gain favor with Rome",
+      "That they may become free from work",
+      "That they may seek mystical visions"
+    ],
+    "correct_answer": "That they may stand perfect and fully assured in all the will of God",
+    "explanation": "Paul says Epaphras labors in prayer that they may stand perfect and fully assured in all the will of God (Colossians 4:12)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "What does Colossians 4 imply about ministry calling?",
+    "choices_json": [
+      "A ministry received in the Lord is to be watched carefully and fulfilled faithfully",
+      "Ministry is mainly self-chosen and self-defined",
+      "Calling matters only for apostles, not others",
+      "Faithfulness in ministry is less important than public success"
+    ],
+    "correct_answer": "A ministry received in the Lord is to be watched carefully and fulfilled faithfully",
+    "explanation": "Paul tells Archippus to take heed to the ministry he received in the Lord and fulfill it (Colossians 4:17)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "Why does Paul mention his chains at the close of Colossians?",
+    "choices_json": [
+      "His imprisonment underscores the cost of the gospel and invites the church's remembering solidarity",
+      "He wants sympathy more than faithfulness",
+      "The chains prove his ministry has ended",
+      "Paul mentions them only as a legal detail"
+    ],
+    "correct_answer": "His imprisonment underscores the cost of the gospel and invites the church's remembering solidarity",
+    "explanation": "Paul closes with 'Remember my bonds,' linking the letter's teaching to his embodied suffering for Christ's mission (Colossians 4:18)."
+  },
+
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "How does Colossians 4 connect wise conduct and gracious speech in witness to outsiders?",
+    "choices_json": [
+      "The church's public life and public words are both to be shaped by wisdom and grace for the sake of mission",
+      "Only speech matters in evangelistic witness",
+      "Conduct toward outsiders is irrelevant if doctrine is correct",
+      "Paul treats wisdom and grace as opposites"
+    ],
+    "correct_answer": "The church's public life and public words are both to be shaped by wisdom and grace for the sake of mission",
+    "explanation": "Paul commands wise walking toward outsiders and gracious speech suited to each person, joining conduct and speech in witness (Colossians 4:5-6)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "What does Colossians 4 reveal about the communal nature of perseverance?",
+    "choices_json": [
+      "Prayer, encouragement, exchanged letters, and mutual reminders all help the churches remain steadfast",
+      "Perseverance is purely individual and needs no church support",
+      "Only apostles strengthen churches, not fellow workers",
+      "Shared reading of letters is optional and spiritually minor"
+    ],
+    "correct_answer": "Prayer, encouragement, exchanged letters, and mutual reminders all help the churches remain steadfast",
+    "explanation": "Paul highlights steadfast prayer, trusted messengers, shared letters between churches, and exhortation to Archippus, showing perseverance as communal (Colossians 4:2-17)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "How does Colossians 4 portray local churches in relation to one another?",
+    "choices_json": [
+      "They are distinct communities yet bound together through shared teaching, greetings, workers, and prayer",
+      "Each church should remain isolated from the others",
+      "Only large urban churches matter to apostolic mission",
+      "Interchurch fellowship threatens doctrinal faithfulness"
+    ],
+    "correct_answer": "They are distinct communities yet bound together through shared teaching, greetings, workers, and prayer",
+    "explanation": "Paul links Colossae, Laodicea, and Hierapolis through coworkers, letter exchange, and intercession, showing connected church life (Colossians 4:12-16)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "Why does Paul combine watchfulness and thanksgiving in prayer?",
+    "choices_json": [
+      "Christian prayer is alert, dependent, and grateful rather than passive or anxious",
+      "Thanksgiving and watchfulness cancel each other out",
+      "Prayer should focus only on danger and not on grace",
+      "Watchfulness belongs only to apostles in prison"
+    ],
+    "correct_answer": "Christian prayer is alert, dependent, and grateful rather than passive or anxious",
+    "explanation": "Paul says to continue steadfastly in prayer, watching in it with thanksgiving, combining vigilance and gratitude (Colossians 4:2)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "How does Colossians 4 complement the earlier teaching about Christ's sufficiency?",
+    "choices_json": [
+      "The chapter shows Christ's sufficiency producing practical prayer, speech, fellowship, and faithful ministry rather than abstract theory",
+      "Practical church life is unrelated to Christ's centrality",
+      "Christ's sufficiency removes the need for communication between churches",
+      "Only doctrinal sections matter for real discipleship"
+    ],
+    "correct_answer": "The chapter shows Christ's sufficiency producing practical prayer, speech, fellowship, and faithful ministry rather than abstract theory",
+    "explanation": "Colossians 4 turns the letter's Christ-centered theology into lived practices of prayer, witness, hospitality, and ministry stewardship (Colossians 4:2-17)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "What does Colossians 4 imply about the role of ordinary believers in the spread of the gospel?",
+    "choices_json": [
+      "Through prayer, gracious speech, hospitality, letter-sharing, and encouragement, the whole church participates in gospel advance",
+      "Only apostles and evangelists participate in mission",
+      "Ordinary believers support mission only by remaining silent",
+      "Mission is restricted to public preaching events"
+    ],
+    "correct_answer": "Through prayer, gracious speech, hospitality, letter-sharing, and encouragement, the whole church participates in gospel advance",
+    "explanation": "Paul addresses the church broadly about prayer and speech and then names networks of household and ministry support, showing wide participation in gospel life (Colossians 4:2-17)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "Why is Onesimus called faithful and beloved in Colossians 4?",
+    "choices_json": [
+      "Paul presents him as a fully honored brother within the church rather than merely by former social status",
+      "Paul distinguishes him from true believers in Colossae",
+      "Onesimus is praised only for travel reliability",
+      "His value depends mainly on Roman approval"
+    ],
+    "correct_answer": "Paul presents him as a fully honored brother within the church rather than merely by former social status",
+    "explanation": "Paul calls Onesimus a faithful and beloved brother who is one of them, signaling his honored place among the believers (Colossians 4:9)."
+  },
+
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "How does Colossians 4 present mission as dependent on God without making believers passive?",
+    "choices_json": [
+      "God opens the door for the word, yet believers must pray, speak wisely, and answer others fittingly",
+      "If God opens doors, human speech and prayer no longer matter",
+      "Mission depends only on human planning and eloquence",
+      "Paul's imprisonment proves mission has stalled beyond human action"
+    ],
+    "correct_answer": "God opens the door for the word, yet believers must pray, speak wisely, and answer others fittingly",
+    "explanation": "Paul asks God to open a door for the word while also calling the church to prayerful watchfulness, wise conduct, and gracious speech (Colossians 4:2-6)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "What does Colossians 4 imply about apostolic ministry and local church life?",
+    "choices_json": [
+      "Apostolic teaching reaches churches through networks of trusted coworkers, shared letters, and accountable ministries",
+      "Local churches need no apostolic word once founded",
+      "Apostolic authority eliminates the role of local workers",
+      "The chapter leaves ministry unstructured and unaccountable"
+    ],
+    "correct_answer": "Apostolic teaching reaches churches through networks of trusted coworkers, shared letters, and accountable ministries",
+    "explanation": "Paul uses Tychicus and Onesimus, orders letter exchange, and charges Archippus to fulfill his ministry, showing coordinated oversight and local faithfulness (Colossians 4:7-17)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "How does Colossians 4 portray the church as both contemplative and active?",
+    "choices_json": [
+      "The church is to persist in thankful prayer while also speaking, walking wisely, and strengthening one another in mission",
+      "Prayer and action are treated as competing priorities",
+      "The chapter favors contemplation at the expense of witness",
+      "Only active ministry matters; prayer is secondary"
+    ],
+    "correct_answer": "The church is to persist in thankful prayer while also speaking, walking wisely, and strengthening one another in mission",
+    "explanation": "Paul joins steadfast prayer with wise conduct, gracious speech, and the sending and receiving of coworkers for mutual encouragement (Colossians 4:2-9)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "Why is gracious speech 'seasoned with salt' a fitting image in Colossians 4?",
+    "choices_json": [
+      "Christian words are to preserve truth, carry wisdom, and make the gospel fittingly answerable in each situation",
+      "Salt imagery means speech should always be harsh and sharp",
+      "Paul wants believers to avoid answering outsiders at all",
+      "The image refers only to temple offerings and not conversation"
+    ],
+    "correct_answer": "Christian words are to preserve truth, carry wisdom, and make the gospel fittingly answerable in each situation",
+    "explanation": "Paul connects speech seasoned with salt to knowing how to answer each person, implying wise, fitting, and attractive witness (Colossians 4:6)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "How does Colossians 4 turn a letter ending into theology for the church?",
+    "choices_json": [
+      "The closing names and instructions reveal a Christ-centered network of prayer, friendship, courage, and accountability that embodies the letter's message",
+      "The ending is mostly incidental and theologically empty",
+      "Paul ends the letter by setting theology aside for administration",
+      "Only the doctrinal center of the letter has spiritual significance"
+    ],
+    "correct_answer": "The closing names and instructions reveal a Christ-centered network of prayer, friendship, courage, and accountability that embodies the letter's message",
+    "explanation": "The final greetings, requests, and commands show the theology of Christ's sufficiency worked out in real communities, relationships, and ministries (Colossians 4:2-18)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "What deeper point is made by Epaphras striving in prayer for the churches?",
+    "choices_json": [
+      "Pastoral labor includes hidden intercession aimed at the full maturity and assurance of God's people",
+      "Prayer matters only when joined to public teaching",
+      "Maturity is achieved without any need for intercession",
+      "Only apostles carry spiritual concern for the churches"
+    ],
+    "correct_answer": "Pastoral labor includes hidden intercession aimed at the full maturity and assurance of God's people",
+    "explanation": "Paul highlights Epaphras's earnest prayer that the believers may stand mature and fully assured in all the will of God (Colossians 4:12)."
+  },
+  {
+    "book_number": 51,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "How does Colossians 4 show that Christ's lordship reaches beyond worship services?",
+    "choices_json": [
+      "Prayer habits, speech, hospitality, ministry stewardship, household justice, and mission all fall under Christ's rule",
+      "Christ's lordship applies mainly to explicit acts of devotion",
+      "Public witness lies outside the reign of Christ",
+      "Household and work matters are morally neutral in the chapter"
+    ],
+    "correct_answer": "Prayer habits, speech, hospitality, ministry stewardship, household justice, and mission all fall under Christ's rule",
+    "explanation": "Paul speaks about masters, prayer, speech, hospitality networks, and ministry faithfulness, showing Christ's rule over the whole life of the church (Colossians 4:1-18)."
+  }
+]

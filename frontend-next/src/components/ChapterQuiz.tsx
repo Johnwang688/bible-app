@@ -329,13 +329,31 @@ export default function ChapterQuiz({
               <div className="quiz-coins">
                 <span className="quiz-coins-icon">🪙</span>
                 <span className="quiz-coins-amount">
-                  +{result.currency_awarded + result.perfect_score_bonus} coins
+                  +
+                  {result.currency_awarded +
+                    result.perfect_score_bonus +
+                    (result.scope_completion_bonus_total ?? 0)}{' '}
+                  coins
                 </span>
                 {result.perfect_score_bonus > 0 && (
-                  <span className="quiz-coins-bonus">perfect score bonus!</span>
+                  <span className="quiz-coins-bonus">
+                    +{result.perfect_score_bonus} perfect score bonus!
+                  </span>
                 )}
                 {result.mastery_completion_bonus > 0 && (
-                  <span className="quiz-coins-bonus">mastery bonus!</span>
+                  <span className="quiz-coins-bonus">
+                    +{result.mastery_completion_bonus} milestone bonus!
+                  </span>
+                )}
+                {(result.scope_completion_bonuses ?? []).length > 0 && (
+                  <ul className="quiz-scope-bonuses" aria-label="Scope completion rewards">
+                    {(result.scope_completion_bonuses ?? []).map((b) => (
+                      <li key={`${b.kind}-${b.label}`}>
+                        <span className="quiz-scope-bonus-label">{b.label}</span>
+                        <span className="quiz-scope-bonus-coins">+{b.coins}</span>
+                      </li>
+                    ))}
+                  </ul>
                 )}
               </div>
 

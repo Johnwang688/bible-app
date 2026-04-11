@@ -1,0 +1,1281 @@
+[
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 1, to whom is the letter addressed?",
+    "choices_json": ["Timothy", "Titus", "Silas", "Philemon"],
+    "correct_answer": "Timothy",
+    "explanation": "Paul addresses the letter to Timothy, his beloved child (2 Timothy 1:2)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 1, whom does Paul serve with a pure conscience?",
+    "choices_json": ["God", "Caesar", "The synagogue council", "The Ephesian church"],
+    "correct_answer": "God",
+    "explanation": "Paul says he serves God with a pure conscience, as his forefathers did (2 Timothy 1:3)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 1, whose faith first lived in Timothy's family?",
+    "choices_json": ["Lois and Eunice", "Mary and Martha", "Priscilla and Lydia", "Anna and Elizabeth"],
+    "correct_answer": "Lois and Eunice",
+    "explanation": "Paul recalls the sincere faith that first lived in Timothy's grandmother Lois and his mother Eunice (2 Timothy 1:5)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 1, what should Timothy stir up?",
+    "choices_json": ["The gift of God", "His Roman citizenship", "Temple worship", "The collection for Jerusalem"],
+    "correct_answer": "The gift of God",
+    "explanation": "Paul tells Timothy to stir up the gift of God that is in him through the laying on of Paul's hands (2 Timothy 1:6)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 1, what spirit has God not given us?",
+    "choices_json": ["A spirit of fear", "A spirit of love", "A spirit of power", "A spirit of self-control"],
+    "correct_answer": "A spirit of fear",
+    "explanation": "Paul says God did not give us a spirit of fear, but of power, love, and self-control (2 Timothy 1:7)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 1, who abolished death?",
+    "choices_json": ["Jesus Christ", "Moses", "Timothy", "An angel"],
+    "correct_answer": "Jesus Christ",
+    "explanation": "Paul says Christ Jesus abolished death and brought life and immortality to light through the gospel (2 Timothy 1:10)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 1, who often refreshed Paul and was not ashamed of his chain?",
+    "choices_json": ["Onesiphorus", "Demas", "Alexander", "Tychicus"],
+    "correct_answer": "Onesiphorus",
+    "explanation": "Paul says Onesiphorus often refreshed him and was not ashamed of his chain (2 Timothy 1:16)."
+  },
+
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 2,
+    "prompt": "Why does Paul thank God in 2 Timothy 1?",
+    "choices_json": ["He remembers Timothy constantly in prayer", "He has been released from prison", "He has arrived in Ephesus", "He has recovered his books"],
+    "correct_answer": "He remembers Timothy constantly in prayer",
+    "explanation": "Paul thanks God as he remembers Timothy in his petitions night and day (2 Timothy 1:3)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 2,
+    "prompt": "What did Timothy's tears make Paul desire in 2 Timothy 1?",
+    "choices_json": ["To see Timothy again", "To send him to Rome", "To rebuke him sharply", "To write another letter immediately"],
+    "correct_answer": "To see Timothy again",
+    "explanation": "Paul remembers Timothy's tears and longs to see him so that he may be filled with joy (2 Timothy 1:4)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 2,
+    "prompt": "What three qualities does Paul say come from God's Spirit in 2 Timothy 1?",
+    "choices_json": ["Power, love, and self-control", "Wisdom, wealth, and honor", "Faith, sight, and knowledge", "Joy, peace, and patience"],
+    "correct_answer": "Power, love, and self-control",
+    "explanation": "Paul says God gives a spirit of power, love, and self-control (2 Timothy 1:7)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 2,
+    "prompt": "What does Paul tell Timothy not to be ashamed of in 2 Timothy 1?",
+    "choices_json": ["The testimony of our Lord and Paul his prisoner", "His youth and weakness", "His Jewish background", "His work in Ephesus"],
+    "correct_answer": "The testimony of our Lord and Paul his prisoner",
+    "explanation": "Paul tells Timothy not to be ashamed of the testimony of the Lord, nor of Paul his prisoner (2 Timothy 1:8)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 2,
+    "prompt": "According to 2 Timothy 1, when was God's grace given to believers in Christ Jesus?",
+    "choices_json": ["Before times eternal", "At the exodus", "At Sinai", "After the resurrection only"],
+    "correct_answer": "Before times eternal",
+    "explanation": "Paul says God's grace was given us in Christ Jesus before times eternal (2 Timothy 1:9)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 2,
+    "prompt": "What was Paul appointed to be according to 2 Timothy 1?",
+    "choices_json": ["A preacher, apostle, and teacher", "A priest and governor", "A scribe and elder", "A judge and prophet"],
+    "correct_answer": "A preacher, apostle, and teacher",
+    "explanation": "Paul says he was appointed a preacher, an apostle, and a teacher of the Gentiles (2 Timothy 1:11)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 2,
+    "prompt": "Whom does Paul say turned away from him in Asia in 2 Timothy 1?",
+    "choices_json": ["Phygelus and Hermogenes", "Hymenaeus and Philetus", "Demas and Crescens", "Titus and Luke"],
+    "correct_answer": "Phygelus and Hermogenes",
+    "explanation": "Paul says all who are in Asia turned away from him, among them Phygelus and Hermogenes (2 Timothy 1:15)."
+  },
+
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 3,
+    "prompt": "Why does Paul connect Timothy's family faith with Timothy's ministry calling in 2 Timothy 1?",
+    "choices_json": ["He shows that Timothy's present ministry stands in continuity with a sincere inherited faith", "He is replacing Timothy's call with family tradition", "He means ministers must come from famous families", "He is excusing Timothy from personal responsibility"],
+    "correct_answer": "He shows that Timothy's present ministry stands in continuity with a sincere inherited faith",
+    "explanation": "Paul recalls the faith in Lois and Eunice to encourage Timothy that the same sincere faith dwells in him as well (2 Timothy 1:5)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 3,
+    "prompt": "What does Paul's command to stir up the gift imply in 2 Timothy 1?",
+    "choices_json": ["Spiritual gifts require active, courageous use rather than neglect", "Gifts vanish unless constantly replaced", "Only apostles have gifts", "Timothy had not received a real calling"],
+    "correct_answer": "Spiritual gifts require active, courageous use rather than neglect",
+    "explanation": "Paul urges Timothy to fan into flame the gift of God, linking it with courage rather than fear (2 Timothy 1:6-7)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 3,
+    "prompt": "How does 2 Timothy 1 connect suffering with the gospel?",
+    "choices_json": ["Suffering is presented as something believers share for the gospel by God's power", "Suffering means the gospel has failed", "The gospel removes all earthly hardship", "Only Paul, not Timothy, should suffer"],
+    "correct_answer": "Suffering is presented as something believers share for the gospel by God's power",
+    "explanation": "Paul tells Timothy to suffer hardship with the gospel according to the power of God (2 Timothy 1:8)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 3,
+    "prompt": "What does Paul's confidence in 2 Timothy 1:12 reveal about faith?",
+    "choices_json": ["Faith rests on knowing Christ personally and trusting him to guard what is entrusted", "Faith is confidence in personal strength", "Faith removes all suffering immediately", "Faith means never feeling abandoned"],
+    "correct_answer": "Faith rests on knowing Christ personally and trusting him to guard what is entrusted",
+    "explanation": "Paul says, 'I know him whom I have believed,' and is persuaded Christ can guard what he entrusted to him until that day (2 Timothy 1:12)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 3,
+    "prompt": "Why does Paul emphasize that salvation is not according to works in 2 Timothy 1?",
+    "choices_json": ["He grounds courage in God's eternal grace rather than human merit", "He is denying the value of obedience entirely", "He is speaking only about Roman law", "He means Timothy should stop serving"],
+    "correct_answer": "He grounds courage in God's eternal grace rather than human merit",
+    "explanation": "Paul ties salvation and calling to God's own purpose and grace given in Christ before time, not to our works (2 Timothy 1:9)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 3,
+    "prompt": "What role does Onesiphorus play in the argument of 2 Timothy 1?",
+    "choices_json": ["He serves as a living example of loyal, unashamed support for a suffering apostle", "He represents false teaching in Asia", "He is a rival teacher to Timothy", "He replaces Timothy in ministry"],
+    "correct_answer": "He serves as a living example of loyal, unashamed support for a suffering apostle",
+    "explanation": "Onesiphorus is praised because he refreshed Paul, searched hard for him in Rome, and was not ashamed of his chains (2 Timothy 1:16-18)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 3,
+    "prompt": "Why does Paul tell Timothy to keep the pattern of sound words in 2 Timothy 1?",
+    "choices_json": ["The gospel must be preserved faithfully, not reinvented under pressure", "Timothy was forbidden to teach publicly", "Paul wanted only written liturgy", "Sound words were needed for Roman defense only"],
+    "correct_answer": "The gospel must be preserved faithfully, not reinvented under pressure",
+    "explanation": "Paul urges Timothy to hold the pattern of sound words and guard the good deposit through the Holy Spirit (2 Timothy 1:13-14)."
+  },
+
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 4,
+    "prompt": "How does 2 Timothy 1 tie personal encouragement to doctrinal truth?",
+    "choices_json": ["Paul strengthens Timothy by grounding him in God's eternal purpose, Christ's victory, and the guarded gospel", "Encouragement comes only from memory of friendship", "Doctrine is absent from Paul's encouragement", "Timothy is told to avoid theological reflection"],
+    "correct_answer": "Paul strengthens Timothy by grounding him in God's eternal purpose, Christ's victory, and the guarded gospel",
+    "explanation": "Paul encourages Timothy through themes of grace before time, Christ abolishing death, and the responsibility to guard sound teaching (2 Timothy 1:8-14)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 4,
+    "prompt": "Why is shame a central issue in 2 Timothy 1?",
+    "choices_json": ["Because gospel ministry in a suffering context tempts people to distance themselves from a chained apostle and a crucified Lord", "Because Timothy had committed a public crime", "Because Paul is mainly discussing private emotions", "Because shame here refers only to youthful insecurity"],
+    "correct_answer": "Because gospel ministry in a suffering context tempts people to distance themselves from a chained apostle and a crucified Lord",
+    "explanation": "Paul tells Timothy not to be ashamed of the Lord's testimony or of Paul his prisoner, and contrasts deserters with Onesiphorus (2 Timothy 1:8, 15-18)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 4,
+    "prompt": "What does Paul's reference to eternal grace add to the chapter's call for courage?",
+    "choices_json": ["Timothy's ministry is anchored in God's plan before time, so present hardship cannot nullify it", "It means present obedience no longer matters", "It limits grace to Paul alone", "It turns the chapter into abstract speculation"],
+    "correct_answer": "Timothy's ministry is anchored in God's plan before time, so present hardship cannot nullify it",
+    "explanation": "Paul connects courage in suffering with God's purpose and grace given in Christ Jesus before times eternal (2 Timothy 1:8-9)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 4,
+    "prompt": "How does chapter 1 present Christian ministry as stewardship?",
+    "choices_json": ["Timothy receives a deposit of sound teaching that must be guarded through the Spirit", "Ministry is free self-expression without constraint", "Only apostles guard the gospel", "Stewardship here refers only to money"],
+    "correct_answer": "Timothy receives a deposit of sound teaching that must be guarded through the Spirit",
+    "explanation": "Paul speaks of the pattern of sound words and the good deposit entrusted to Timothy, to be guarded by the Holy Spirit (2 Timothy 1:13-14)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 4,
+    "prompt": "What contrast shapes the end of 2 Timothy 1?",
+    "choices_json": ["Desertion by many is set against the faithful loyalty of Onesiphorus", "Timothy's weakness is set against Paul's strength only", "Jewish teachers are set against Gentile rulers", "Prayer is set against teaching"],
+    "correct_answer": "Desertion by many is set against the faithful loyalty of Onesiphorus",
+    "explanation": "Paul notes that people in Asia turned away from him, then commends Onesiphorus for diligently seeking and refreshing him (2 Timothy 1:15-18)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 4,
+    "prompt": "Why does Paul move from Timothy's sincere faith to Christ abolishing death in the same chapter?",
+    "choices_json": ["He situates Timothy's personal calling within the cosmic saving work of Christ", "He changes topics abruptly without connection", "He is abandoning pastoral concerns for theology", "He wants to compare Timothy with Moses"],
+    "correct_answer": "He situates Timothy's personal calling within the cosmic saving work of Christ",
+    "explanation": "The chapter moves from Timothy's upbringing and gift to the gospel by which Christ abolished death and brought life to light (2 Timothy 1:5-10)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 4,
+    "prompt": "How does 2 Timothy 1 portray courage?",
+    "choices_json": ["Courage is Spirit-enabled fidelity to the gospel in the face of suffering and shame", "Courage is boldness without love or restraint", "Courage means avoiding hardship", "Courage comes mainly from social approval"],
+    "correct_answer": "Courage is Spirit-enabled fidelity to the gospel in the face of suffering and shame",
+    "explanation": "Paul opposes fear with God's Spirit, calls Timothy to suffer hardship for the gospel, and urges him to guard the good deposit (2 Timothy 1:7-14)."
+  },
+
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 5,
+    "prompt": "How does 2 Timothy 1 unite pastoral tenderness and apostolic gravity?",
+    "choices_json": ["Paul's affection for Timothy serves a larger call to guard the gospel amid suffering, shame, and desertion", "Tenderness replaces doctrine in the chapter", "The chapter is only formal instruction without affection", "Paul separates love from ministry responsibility"],
+    "correct_answer": "Paul's affection for Timothy serves a larger call to guard the gospel amid suffering, shame, and desertion",
+    "explanation": "Paul's warm remembrance of Timothy frames a weighty charge about courage, sound words, the gospel deposit, and loyalty under pressure (2 Timothy 1:3-14)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 5,
+    "prompt": "Why is Paul's statement 'I know him whom I have believed' so central to chapter 1?",
+    "choices_json": ["It shows that perseverance flows from personal trust in Christ rather than merely abstract doctrine", "It suggests doctrine no longer matters", "It means Paul no longer suffers", "It reduces faith to memory of past experiences"],
+    "correct_answer": "It shows that perseverance flows from personal trust in Christ rather than merely abstract doctrine",
+    "explanation": "Paul's confidence in Christ's guarding power stands at the center of his willingness to suffer and of his call for Timothy's steadfastness (2 Timothy 1:12-14)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 5,
+    "prompt": "How does this chapter resist reducing the gospel to moral improvement?",
+    "choices_json": ["It roots salvation in God's eternal purpose and in Christ's destruction of death, not in human works", "It teaches morality is irrelevant to believers", "It portrays grace as reward for faithful families", "It focuses only on external behavior"],
+    "correct_answer": "It roots salvation in God's eternal purpose and in Christ's destruction of death, not in human works",
+    "explanation": "Paul grounds salvation and calling in God's purpose and grace before time and in Christ's appearing, not in works (2 Timothy 1:9-10)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 5,
+    "prompt": "What deeper theology of ministry emerges from Paul's charge to guard the deposit?",
+    "choices_json": ["Ministry is faithful transmission of a received gospel through the Spirit, not invention of a new message", "Ministry is mainly personal inspiration", "The deposit refers only to Paul's private hardships", "Timothy is told to preserve tradition without understanding"],
+    "correct_answer": "Ministry is faithful transmission of a received gospel through the Spirit, not invention of a new message",
+    "explanation": "Paul's language of pattern, sound words, and the good deposit makes ministry an entrusted stewardship upheld by the Holy Spirit (2 Timothy 1:13-14)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 5,
+    "prompt": "How does Onesiphorus deepen the chapter's message about discipleship?",
+    "choices_json": ["He embodies costly solidarity with a suffering servant of Christ in contrast to ashamed abandonment", "He is simply a travel note without theological force", "He proves Rome had accepted the gospel officially", "He shows that ministry success depends on wealth"],
+    "correct_answer": "He embodies costly solidarity with a suffering servant of Christ in contrast to ashamed abandonment",
+    "explanation": "Paul places Onesiphorus over against those who turned away, making him an example of gospel-shaped loyalty under shameful circumstances (2 Timothy 1:15-18)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 5,
+    "prompt": "What theological tension is held together in 2 Timothy 1?",
+    "choices_json": ["God's eternal grace secures the gospel, yet Timothy must actively suffer, guard, and remain unashamed", "Divine sovereignty removes all human responsibility", "Human effort secures salvation apart from grace", "The chapter avoids any link between grace and obedience"],
+    "correct_answer": "God's eternal grace secures the gospel, yet Timothy must actively suffer, guard, and remain unashamed",
+    "explanation": "Paul anchors everything in God's grace and Christ's victory, yet he still commands Timothy to stir up his gift, suffer hardship, and guard the deposit (2 Timothy 1:6-14)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 1,
+    "difficulty_stage": 5,
+    "prompt": "Why does chapter 1 make shame and loyalty decisive spiritual categories?",
+    "choices_json": ["Because allegiance to Christ and his gospel becomes visible in whether one stands with suffering truth or retreats from it", "Because Paul is chiefly concerned with social etiquette", "Because shame is treated as a private feeling with no doctrinal meaning", "Because loyalty here refers only to friendship"],
+    "correct_answer": "Because allegiance to Christ and his gospel becomes visible in whether one stands with suffering truth or retreats from it",
+    "explanation": "The chapter's contrast between being unashamed, suffering with the gospel, desertion, and Onesiphorus's loyalty makes shame and loyalty spiritually revelatory (2 Timothy 1:8, 12, 15-18)."
+  },
+
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 2, in what should Timothy be strengthened?",
+    "choices_json": ["The grace that is in Christ Jesus", "His own zeal", "Roman protection", "The wisdom of the elders"],
+    "correct_answer": "The grace that is in Christ Jesus",
+    "explanation": "Paul tells Timothy to be strengthened in the grace that is in Christ Jesus (2 Timothy 2:1)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 2, to whom should Timothy commit Paul's teaching?",
+    "choices_json": ["Faithful men who will be able to teach others also", "The magistrates of Rome", "The synagogue rulers", "Only the widows in Ephesus"],
+    "correct_answer": "Faithful men who will be able to teach others also",
+    "explanation": "Paul tells Timothy to entrust what he has heard to faithful men able to teach others also (2 Timothy 2:2)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 2, what should a soldier of Christ Jesus avoid?",
+    "choices_json": ["Entangling himself in the affairs of this life", "Prayer and fasting", "Teaching sound doctrine", "All forms of work"],
+    "correct_answer": "Entangling himself in the affairs of this life",
+    "explanation": "Paul says a soldier on service does not entangle himself in the affairs of this life (2 Timothy 2:4)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 2, who should be the first to partake of the crops?",
+    "choices_json": ["The hardworking farmer", "The Roman tax collector", "The city ruler", "The youngest laborer"],
+    "correct_answer": "The hardworking farmer",
+    "explanation": "Paul says the hardworking farmer should be first to partake of the crops (2 Timothy 2:6)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 2, from whose descendants was Jesus Christ raised from the dead?",
+    "choices_json": ["David's", "Aaron's", "Abraham's", "Levi's"],
+    "correct_answer": "David's",
+    "explanation": "Paul says Jesus Christ, of the seed of David, was raised from the dead according to his gospel (2 Timothy 2:8)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 2, what is not bound?",
+    "choices_json": ["The word of God", "Paul's chains", "Timothy's gift", "The church in Ephesus"],
+    "correct_answer": "The word of God",
+    "explanation": "Paul says he suffers hardship even to chains, but the word of God is not bound (2 Timothy 2:9)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 2, what should Timothy rightly divide?",
+    "choices_json": ["The word of truth", "The Roman law", "His inheritance", "The offerings of the church"],
+    "correct_answer": "The word of truth",
+    "explanation": "Paul tells Timothy to present himself approved to God, rightly dividing the word of truth (2 Timothy 2:15)."
+  },
+
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 2,
+    "prompt": "Why should Timothy endure hardship as a good soldier in 2 Timothy 2?",
+    "choices_json": ["To please the one who enlisted him", "To impress Rome", "To gain wealth", "To avoid all criticism"],
+    "correct_answer": "To please the one who enlisted him",
+    "explanation": "Paul says the soldier avoids entanglement so that he may please the one who enrolled him (2 Timothy 2:4)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 2,
+    "prompt": "What must an athlete do according to 2 Timothy 2?",
+    "choices_json": ["Compete according to the rules", "Win by any means", "Avoid public contests", "Depend on spectators"],
+    "correct_answer": "Compete according to the rules",
+    "explanation": "Paul says an athlete is not crowned unless he competes according to the rules (2 Timothy 2:5)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 2,
+    "prompt": "Why does Paul endure all things in 2 Timothy 2?",
+    "choices_json": ["For the sake of the chosen", "To gain Roman favor", "To escape judgment", "To silence all debate"],
+    "correct_answer": "For the sake of the chosen",
+    "explanation": "Paul says he endures all things for the sake of the chosen, that they may also obtain salvation in Christ Jesus (2 Timothy 2:10)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 2,
+    "prompt": "What happens if we endure, according to the faithful saying in 2 Timothy 2?",
+    "choices_json": ["We will also reign with him", "We will escape all suffering now", "We will never be tested", "We will judge Rome immediately"],
+    "correct_answer": "We will also reign with him",
+    "explanation": "The faithful saying declares that if we endure, we will also reign with him (2 Timothy 2:12)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 2,
+    "prompt": "What does profane babbling do according to 2 Timothy 2?",
+    "choices_json": ["It advances to more ungodliness", "It produces deeper wisdom", "It strengthens the church", "It brings peace quickly"],
+    "correct_answer": "It advances to more ungodliness",
+    "explanation": "Paul warns Timothy to shun profane babblings because they advance to more ungodliness (2 Timothy 2:16)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 2,
+    "prompt": "What had Hymenaeus and Philetus said had already happened?",
+    "choices_json": ["The resurrection", "The judgment", "The appearing of Christ", "The destruction of Rome"],
+    "correct_answer": "The resurrection",
+    "explanation": "Hymenaeus and Philetus erred concerning the truth by saying that the resurrection had already taken place (2 Timothy 2:18)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 2,
+    "prompt": "From what should the Lord's servant be gentle and patient according to 2 Timothy 2?",
+    "choices_json": ["Quarreling", "Sound doctrine", "Public reading", "Hard work"],
+    "correct_answer": "Quarreling",
+    "explanation": "Paul says the Lord's servant must not quarrel, but be gentle toward all, able to teach, patient (2 Timothy 2:24)."
+  },
+
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 3,
+    "prompt": "Why does Paul use the images of soldier, athlete, and farmer in 2 Timothy 2?",
+    "choices_json": ["They portray endurance, discipline, and labor as essential to ministry", "They show Timothy should change careers", "They prove ministry is a military office", "They mainly describe Roman citizenship"],
+    "correct_answer": "They portray endurance, discipline, and labor as essential to ministry",
+    "explanation": "Paul's examples highlight focus, lawful striving, and patient toil as patterns for faithful service (2 Timothy 2:3-6)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 3,
+    "prompt": "What does 'the word of God is not bound' contribute to the chapter?",
+    "choices_json": ["It shows the gospel's power outruns the imprisonment of its messengers", "It means Paul has escaped prison", "It teaches words have no limits of meaning", "It means Timothy need not preach"],
+    "correct_answer": "It shows the gospel's power outruns the imprisonment of its messengers",
+    "explanation": "Though Paul is chained like an evildoer, he insists God's word cannot be bound, underscoring the gospel's freedom and power (2 Timothy 2:9)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 3,
+    "prompt": "Why does Paul connect Jesus' resurrection with David in 2 Timothy 2?",
+    "choices_json": ["He anchors the gospel in both messianic promise and resurrection victory", "He is changing subjects to genealogy", "He means only Jews can be saved", "He is contrasting David with Paul"],
+    "correct_answer": "He anchors the gospel in both messianic promise and resurrection victory",
+    "explanation": "Paul's summary of the gospel names Jesus as risen from the dead and descended from David, joining messianic identity and resurrection (2 Timothy 2:8)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 3,
+    "prompt": "What does the call to rightly divide the word of truth imply about ministry?",
+    "choices_json": ["Teachers must handle God's word carefully and accurately before God", "Only scholars may read Scripture", "Truth can be reshaped for each audience", "Timothy should avoid doctrine and focus on comfort"],
+    "correct_answer": "Teachers must handle God's word carefully and accurately before God",
+    "explanation": "Paul frames Timothy's work as approved labor that does not need shame because he correctly handles the word of truth (2 Timothy 2:15)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 3,
+    "prompt": "How does the chapter connect doctrinal error with moral damage?",
+    "choices_json": ["False talk spreads like gangrene and overturns faith rather than remaining a harmless idea", "Error is treated as purely academic", "Doctrine affects only teachers, not hearers", "Wrong teaching is less serious than quarrels"],
+    "correct_answer": "False talk spreads like gangrene and overturns faith rather than remaining a harmless idea",
+    "explanation": "Paul says profane talk advances ungodliness and that Hymenaeus and Philetus are upsetting the faith of some (2 Timothy 2:16-18)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 3,
+    "prompt": "Why does Paul describe the Lord's servant as gentle and corrective instead of quarrelsome?",
+    "choices_json": ["Repentance is something God may grant through patient truth rather than combative pride", "Debate is always sinful in every form", "Gentleness means truth does not matter", "The servant should avoid correcting anyone"],
+    "correct_answer": "Repentance is something God may grant through patient truth rather than combative pride",
+    "explanation": "Paul says the Lord's servant must correct opponents in gentleness, in case God gives them repentance to know the truth (2 Timothy 2:24-25)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 3,
+    "prompt": "What is the significance of the great house imagery in 2 Timothy 2?",
+    "choices_json": ["It distinguishes honorable and dishonorable uses, urging believers to pursue cleansing for service", "It teaches the church should be socially elite", "It divides salvation by wealth status", "It refers only to the temple in Jerusalem"],
+    "correct_answer": "It distinguishes honorable and dishonorable uses, urging believers to pursue cleansing for service",
+    "explanation": "Paul says that in a great house there are vessels for honor and dishonor, and one who cleanses himself becomes useful to the Master (2 Timothy 2:20-21)."
+  },
+
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 4,
+    "prompt": "How does 2 Timothy 2 present ministry as both transmission and transformation?",
+    "choices_json": ["Timothy must pass on sound teaching to faithful people while also becoming a cleansed vessel fit for the Master's use", "Only doctrine is passed on; character does not matter", "Transformation matters but teaching does not", "Transmission here refers only to written letters"],
+    "correct_answer": "Timothy must pass on sound teaching to faithful people while also becoming a cleansed vessel fit for the Master's use",
+    "explanation": "Paul combines entrusting truth to faithful men with cleansing oneself, fleeing passions, and pursuing virtue (2 Timothy 2:2, 20-22)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 4,
+    "prompt": "Why does Paul place resurrection hope near his commands about suffering?",
+    "choices_json": ["Endurance is sustained by the gospel of the risen Christ and the promise of reigning with him", "Suffering makes resurrection unnecessary", "Paul is leaving practical ministry for abstract theology", "He means Timothy will avoid death entirely"],
+    "correct_answer": "Endurance is sustained by the gospel of the risen Christ and the promise of reigning with him",
+    "explanation": "Paul calls Timothy to hardship, then centers him on Jesus risen from the dead and on the faithful saying about dying and enduring with Christ (2 Timothy 2:3, 8, 11-12)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 4,
+    "prompt": "What is the function of the faithful saying in the middle of chapter 2?",
+    "choices_json": ["It interprets ministry hardship within union with Christ, endurance, warning, and faithfulness", "It serves only as a poetic pause with no argument", "It replaces Paul's commands entirely", "It focuses only on future rewards without present obedience"],
+    "correct_answer": "It interprets ministry hardship within union with Christ, endurance, warning, and faithfulness",
+    "explanation": "The saying ties dying, living, enduring, denying, and Christ's faithfulness into the chapter's call for steadfast service (2 Timothy 2:11-13)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 4,
+    "prompt": "How does the chapter balance firmness and gentleness in dealing with error?",
+    "choices_json": ["Timothy must reject corrupt teaching clearly while correcting opponents with patient gentleness", "Gentleness means leaving falsehood unchallenged", "Firmness requires harshness and rage", "Paul treats false doctrine as unimportant"],
+    "correct_answer": "Timothy must reject corrupt teaching clearly while correcting opponents with patient gentleness",
+    "explanation": "Paul warns sharply against gangrenous false teaching, yet tells the Lord's servant to correct opponents in gentleness (2 Timothy 2:16-18, 24-25)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 4,
+    "prompt": "What does the seal on God's firm foundation add to the chapter?",
+    "choices_json": ["It combines divine knowledge of his own with a human call to depart from unrighteousness", "It means conduct no longer matters if one belongs to God", "It guarantees no one can ever fall into error", "It concerns only the temple foundation stones"],
+    "correct_answer": "It combines divine knowledge of his own with a human call to depart from unrighteousness",
+    "explanation": "Paul says the Lord knows those who are his and that everyone naming the Lord's name should depart from unrighteousness (2 Timothy 2:19)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 4,
+    "prompt": "How do the soldier, athlete, farmer, and vessel images work together in 2 Timothy 2?",
+    "choices_json": ["They present ministry as focused, disciplined, patient, and morally prepared for useful service", "They prove Paul is writing about ordinary labor only", "They are unrelated illustrations with no common point", "They remove the need for doctrinal accuracy"],
+    "correct_answer": "They present ministry as focused, disciplined, patient, and morally prepared for useful service",
+    "explanation": "Across the chapter, Paul's images highlight endurance, lawful striving, hard work, and cleansing for honorable use in God's house (2 Timothy 2:3-6, 20-21)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 4,
+    "prompt": "Why does Paul connect youthful passions with the pursuit of righteousness and peace?",
+    "choices_json": ["The battle for ministry faithfulness involves both rejecting destructive desires and positively pursuing holy community", "Youthful passions matter only for private life", "Pursuit of peace means avoiding correction", "Paul wants Timothy to withdraw from all companionship"],
+    "correct_answer": "The battle for ministry faithfulness involves both rejecting destructive desires and positively pursuing holy community",
+    "explanation": "Paul tells Timothy to flee youthful lusts and pursue righteousness, faith, love, and peace with those who call on the Lord from a pure heart (2 Timothy 2:22)."
+  },
+
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "How does 2 Timothy 2 frame the preservation of the gospel across generations?",
+    "choices_json": ["The gospel is handed on through faithful teachers shaped by grace, endurance, and accurate handling of truth", "Transmission depends mainly on institutional power", "Only apostles can preserve the gospel", "Preservation happens automatically without effort"],
+    "correct_answer": "The gospel is handed on through faithful teachers shaped by grace, endurance, and accurate handling of truth",
+    "explanation": "Paul joins strengthening in grace, entrusting truth to faithful men, suffering, and rightly dividing the word of truth in one coherent vision (2 Timothy 2:1-3, 15)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "Why is the chapter's mixture of effort language and divine action theologically important?",
+    "choices_json": ["Paul calls for strenuous ministry while still grounding repentance, stability, and salvation in God's action", "Human effort replaces grace in this chapter", "God's action makes discipline pointless", "The chapter avoids divine sovereignty altogether"],
+    "correct_answer": "Paul calls for strenuous ministry while still grounding repentance, stability, and salvation in God's action",
+    "explanation": "Timothy must be strong, endure, flee, and teach, yet God grants understanding, his word is unbound, and God may grant repentance (2 Timothy 2:1, 7, 9, 25)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "How does 2 Timothy 2 show that false doctrine is never merely theoretical?",
+    "choices_json": ["It corrupts conduct, spreads like disease, and overturns the faith of hearers while requiring pastoral correction", "It stays confined to private speculation", "Paul sees doctrine as secondary to harmony", "Only public leaders are harmed by error"],
+    "correct_answer": "It corrupts conduct, spreads like disease, and overturns the faith of hearers while requiring pastoral correction",
+    "explanation": "Paul describes false teaching as advancing ungodliness, spreading like gangrene, and upsetting some people's faith (2 Timothy 2:16-18)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "What deeper pastoral theology emerges from Paul's commands about quarrels and correction?",
+    "choices_json": ["Truth must be defended in a way that seeks restoration, because opponents are captives who need repentance and release", "Correction is mainly about winning arguments", "Gentleness is incompatible with doctrinal conviction", "Paul expects teachers to avoid troubled people entirely"],
+    "correct_answer": "Truth must be defended in a way that seeks restoration, because opponents are captives who need repentance and release",
+    "explanation": "Paul's aim is not argumentative triumph but that opponents might come to repentance, know the truth, and escape the devil's snare (2 Timothy 2:24-26)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "How does chapter 2 integrate Christology and ministry practice?",
+    "choices_json": ["The risen Davidic Christ grounds endurance, shapes the faithful saying, and frames the entire pattern of ministry", "Christ is mentioned only in the greeting and then disappears", "Ministry practice is unrelated to the gospel of Christ", "Paul treats resurrection as less important than technique"],
+    "correct_answer": "The risen Davidic Christ grounds endurance, shapes the faithful saying, and frames the entire pattern of ministry",
+    "explanation": "Paul centers the chapter on remembering Jesus Christ raised from the dead, then unfolds endurance, dying and living with him, and faithful service in light of that gospel (2 Timothy 2:8-13)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "Why is cleansing oneself for honorable use a fitting climax to the chapter's argument?",
+    "choices_json": ["After warning about corrupt teaching and quarrels, Paul shows that holiness and usefulness are inseparable in God's house", "It means salvation depends on ritual purity", "It shifts the chapter away from ministry entirely", "It proves only a few believers belong to the church"],
+    "correct_answer": "After warning about corrupt teaching and quarrels, Paul shows that holiness and usefulness are inseparable in God's house",
+    "explanation": "The chapter's concern for truth, conduct, and correction culminates in the call to be a vessel for honor, sanctified and fit for the Master's use (2 Timothy 2:20-21)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 2,
+    "difficulty_stage": 5,
+    "prompt": "What overarching vision of ministry holds 2 Timothy 2 together?",
+    "choices_json": ["Faithful ministry is grace-strengthened transmission of truth through suffering, holiness, patience, and hope in Christ", "Ministry is mainly administrative efficiency", "The chapter treats ministry as personal self-fulfillment", "Paul's only concern is silencing critics"],
+    "correct_answer": "Faithful ministry is grace-strengthened transmission of truth through suffering, holiness, patience, and hope in Christ",
+    "explanation": "From strengthening in grace to entrusting truth, suffering hardship, avoiding error, and gently correcting opponents, the chapter presents a unified pastoral vision centered in Christ (2 Timothy 2:1-26)."
+  },
+
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 3, in what times will difficult days come?",
+    "choices_json": ["The last days", "The days of Moses", "The time of David", "The exile"],
+    "correct_answer": "The last days",
+    "explanation": "Paul says that in the last days difficult times will come (2 Timothy 3:1)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 3, what will people be lovers of first in Paul's list?",
+    "choices_json": ["Themselves", "Wisdom", "Scripture", "Peace"],
+    "correct_answer": "Themselves",
+    "explanation": "Paul begins the list by saying men will be lovers of self (2 Timothy 3:2)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 3, what kind of form do some people have while denying its power?",
+    "choices_json": ["A form of godliness", "A form of wisdom", "A form of prophecy", "A form of power"],
+    "correct_answer": "A form of godliness",
+    "explanation": "Paul says some have a form of godliness but deny its power (2 Timothy 3:5)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 3, whom did Paul say withstood Moses?",
+    "choices_json": ["Jannes and Jambres", "Hymenaeus and Philetus", "Phygelus and Hermogenes", "Annas and Caiaphas"],
+    "correct_answer": "Jannes and Jambres",
+    "explanation": "Paul compares false teachers to Jannes and Jambres, who withstood Moses (2 Timothy 3:8)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 3, who rescued Paul from all his persecutions?",
+    "choices_json": ["The Lord", "Timothy", "The Roman guards", "Barnabas"],
+    "correct_answer": "The Lord",
+    "explanation": "Paul says the Lord delivered him out of all his persecutions (2 Timothy 3:11)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 3, what will all who desire to live godly in Christ Jesus suffer?",
+    "choices_json": ["Persecution", "Immediate honor", "Riches", "Political power"],
+    "correct_answer": "Persecution",
+    "explanation": "Paul says all who desire to live godly in Christ Jesus will suffer persecution (2 Timothy 3:12)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 3, from childhood what had Timothy known?",
+    "choices_json": ["The holy Scriptures", "The rhetoric of Rome", "The secrets of the philosophers", "The songs of the temple choir"],
+    "correct_answer": "The holy Scriptures",
+    "explanation": "Paul says Timothy had known the holy Scriptures from childhood (2 Timothy 3:15)."
+  },
+
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 2,
+    "prompt": "What should Timothy do with people who have a form of godliness but deny its power?",
+    "choices_json": ["Turn away from them", "Appoint them as teachers", "Ignore them completely forever", "Ask Rome to punish them"],
+    "correct_answer": "Turn away from them",
+    "explanation": "Paul says to turn away from such people (2 Timothy 3:5)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 2,
+    "prompt": "What kind of women do certain deceivers capture according to 2 Timothy 3?",
+    "choices_json": ["Silly women loaded down with sins", "Faithful widows", "Women gifted in prophecy", "Mothers of the church"],
+    "correct_answer": "Silly women loaded down with sins",
+    "explanation": "Paul says some creep into houses and take captive silly women loaded with sins and led away by various lusts (2 Timothy 3:6)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 2,
+    "prompt": "What does Paul say these deceived women are always doing?",
+    "choices_json": ["Learning but never able to come to the knowledge of the truth", "Praying night and day", "Serving the poor faithfully", "Teaching the churches boldly"],
+    "correct_answer": "Learning but never able to come to the knowledge of the truth",
+    "explanation": "Paul says they are always learning and never able to come to the knowledge of the truth (2 Timothy 3:7)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 2,
+    "prompt": "What had Timothy closely followed in Paul's life according to 2 Timothy 3?",
+    "choices_json": ["Teaching, conduct, purpose, faith, love, patience, persecutions, and sufferings", "Only Paul's travel routes", "His Roman legal strategy", "His financial accounts"],
+    "correct_answer": "Teaching, conduct, purpose, faith, love, patience, persecutions, and sufferings",
+    "explanation": "Paul lists many aspects of his life that Timothy had followed closely, including doctrine and endurance in suffering (2 Timothy 3:10-11)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 2,
+    "prompt": "What will evil men and impostors do according to 2 Timothy 3?",
+    "choices_json": ["Grow worse and worse, deceiving and being deceived", "Repent quickly", "Become faithful teachers", "Disappear from the churches"],
+    "correct_answer": "Grow worse and worse, deceiving and being deceived",
+    "explanation": "Paul says evil men and impostors will proceed from bad to worse, deceiving and being deceived (2 Timothy 3:13)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 2,
+    "prompt": "What are the Scriptures able to make Timothy wise for?",
+    "choices_json": ["Salvation through faith in Christ Jesus", "Roman law and citizenship", "Success in public debate", "Health and wealth"],
+    "correct_answer": "Salvation through faith in Christ Jesus",
+    "explanation": "Paul says the holy Scriptures are able to make Timothy wise for salvation through faith in Christ Jesus (2 Timothy 3:15)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 2,
+    "prompt": "For what four things is all Scripture profitable according to 2 Timothy 3?",
+    "choices_json": ["Teaching, reproof, correction, and instruction in righteousness", "Government, trade, farming, and music", "Healing, prophecy, fasting, and travel", "Knowledge, secrecy, power, and honor"],
+    "correct_answer": "Teaching, reproof, correction, and instruction in righteousness",
+    "explanation": "Paul says all Scripture is inspired by God and profitable for teaching, reproof, correction, and instruction in righteousness (2 Timothy 3:16)."
+  },
+
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 3,
+    "prompt": "Why does Paul pair moral corruption with religious appearance in 2 Timothy 3?",
+    "choices_json": ["He shows that outward godliness can mask deep rebellion when its transforming power is denied", "He means all religious forms are false", "He opposes all discipline and order", "He is discussing only pagan society"],
+    "correct_answer": "He shows that outward godliness can mask deep rebellion when its transforming power is denied",
+    "explanation": "Paul describes many sins and then says such people have a form of godliness while denying its power (2 Timothy 3:2-5)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 3,
+    "prompt": "What is the function of Paul's personal example in 2 Timothy 3?",
+    "choices_json": ["It gives Timothy a lived pattern of faithful doctrine joined to patient suffering", "It replaces the authority of Scripture", "It proves persecution is unique to apostles only", "It invites Timothy to imitate Paul's personality only"],
+    "correct_answer": "It gives Timothy a lived pattern of faithful doctrine joined to patient suffering",
+    "explanation": "Paul contrasts corrupt teachers with the way Timothy has followed his teaching, conduct, faith, love, patience, and sufferings (2 Timothy 3:10-11)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 3,
+    "prompt": "Why does Paul say all who desire to live godly in Christ will suffer persecution?",
+    "choices_json": ["Faithful life in Christ provokes opposition in a world resistant to godliness", "Persecution comes only from poor planning", "Godliness guarantees social favor", "Paul is speaking only about Timothy's city"],
+    "correct_answer": "Faithful life in Christ provokes opposition in a world resistant to godliness",
+    "explanation": "Paul presents persecution as a normal consequence of godly life in Christ, not as a surprising exception (2 Timothy 3:12)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 3,
+    "prompt": "How does 2 Timothy 3 connect Scripture to Christian maturity?",
+    "choices_json": ["Scripture equips the servant of God thoroughly for every good work", "Scripture is useful only for salvation but not for growth", "Maturity comes mainly through suffering without teaching", "Only teachers, not ordinary believers, need Scripture"],
+    "correct_answer": "Scripture equips the servant of God thoroughly for every good work",
+    "explanation": "Paul says Scripture is profitable so that the man of God may be complete, thoroughly equipped for every good work (2 Timothy 3:16-17)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 3,
+    "prompt": "What does the phrase 'inspired by God' emphasize in 2 Timothy 3?",
+    "choices_json": ["Scripture's authority and usefulness come from God's own breath", "Only parts of Scripture reflect God", "Scripture is mainly human reflection", "Inspiration replaces the need to understand context"],
+    "correct_answer": "Scripture's authority and usefulness come from God's own breath",
+    "explanation": "By calling all Scripture God-breathed, Paul grounds its profit and authority in God himself (2 Timothy 3:16)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 3,
+    "prompt": "Why does Paul tell Timothy to continue in what he has learned?",
+    "choices_json": ["Because Timothy knows both the trustworthy teachers and the trustworthy Scriptures that formed him", "Because Timothy must avoid all new understanding", "Because learning ended in childhood", "Because Paul fears Timothy cannot think for himself"],
+    "correct_answer": "Because Timothy knows both the trustworthy teachers and the trustworthy Scriptures that formed him",
+    "explanation": "Paul appeals to what Timothy learned, from whom he learned it, and his childhood knowledge of Scripture (2 Timothy 3:14-15)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 3,
+    "prompt": "How do the examples of Jannes and Jambres function in the chapter?",
+    "choices_json": ["They show that resistance to God's truth can imitate religion while opposing it fundamentally", "They prove Moses failed in ministry", "They identify the only false teachers Timothy faced", "They are included merely as historical trivia"],
+    "correct_answer": "They show that resistance to God's truth can imitate religion while opposing it fundamentally",
+    "explanation": "Paul compares current opponents to Jannes and Jambres, depicting them as corrupt in mind and opposed to the truth (2 Timothy 3:8)."
+  },
+
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 4,
+    "prompt": "How does 2 Timothy 3 contrast counterfeit religion with genuine faithfulness?",
+    "choices_json": ["Counterfeit religion keeps appearances while resisting truth, whereas genuine faithfulness joins sound teaching, suffering, and Scriptural formation", "Counterfeit religion is mainly atheism", "Genuine faithfulness avoids all hardship", "Paul focuses only on moral behavior and not truth"],
+    "correct_answer": "Counterfeit religion keeps appearances while resisting truth, whereas genuine faithfulness joins sound teaching, suffering, and Scriptural formation",
+    "explanation": "Paul contrasts godliness without power and truth-resistant deceivers with Timothy's following of Paul's life and the authority of Scripture (2 Timothy 3:5, 8, 10, 14-17)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 4,
+    "prompt": "Why does Paul move from cultural decay to Scripture in the same chapter?",
+    "choices_json": ["The darker the times, the more Timothy must remain anchored in God-breathed Scripture", "Scripture is introduced to change the subject", "Paul wants Timothy to leave society entirely", "The list of sins is unrelated to ministry"],
+    "correct_answer": "The darker the times, the more Timothy must remain anchored in God-breathed Scripture",
+    "explanation": "After describing perilous last-day conditions and worsening deceivers, Paul tells Timothy to continue in Scripture, which equips the man of God for every good work (2 Timothy 3:1-17)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 4,
+    "prompt": "What does chapter 3 imply about the relationship between truth and suffering?",
+    "choices_json": ["Faithful attachment to truth often entails persecution, while resistance to truth breeds deception", "Truth guarantees peaceful acceptance", "Suffering proves teaching is false", "Deception flourishes only where Scripture is absent from childhood"],
+    "correct_answer": "Faithful attachment to truth often entails persecution, while resistance to truth breeds deception",
+    "explanation": "Paul links godly living with persecution and depicts impostors as deceiving and being deceived, while Timothy is called to remain in the truth (2 Timothy 3:12-14)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 4,
+    "prompt": "How does Paul's testimony from Antioch, Iconium, and Lystra strengthen Timothy?",
+    "choices_json": ["It shows that persecution has marked faithful ministry before and that the Lord remains the deliverer", "It proves Paul had an easy ministry after conversion", "It suggests Timothy should avoid all public witness", "It means suffering belongs only to Paul's generation"],
+    "correct_answer": "It shows that persecution has marked faithful ministry before and that the Lord remains the deliverer",
+    "explanation": "Paul reminds Timothy of his persecutions and immediately adds that the Lord delivered him out of them all (2 Timothy 3:11)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 4,
+    "prompt": "Why is Timothy's childhood knowledge of Scripture strategically important in the letter?",
+    "choices_json": ["It means Timothy is not beginning from scratch but from a long-formed Scriptural foundation for present ministry", "It excuses him from needing Paul's instruction", "It suggests adulthood makes Scripture less useful", "It proves only children can learn Scripture deeply"],
+    "correct_answer": "It means Timothy is not beginning from scratch but from a long-formed Scriptural foundation for present ministry",
+    "explanation": "Paul appeals to Timothy's long acquaintance with the holy Scriptures as a foundation for wisdom, perseverance, and ministry readiness (2 Timothy 3:14-17)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 4,
+    "prompt": "What does chapter 3 present as the antidote to deceptive last-days religion?",
+    "choices_json": ["Continuing in apostolic example and God-breathed Scripture that forms sound doctrine and righteous living", "Greater rhetorical skill than the deceivers", "Withdrawal from all public life", "Strictly emotional worship experiences"],
+    "correct_answer": "Continuing in apostolic example and God-breathed Scripture that forms sound doctrine and righteous living",
+    "explanation": "Paul points Timothy to what he has learned from Paul and to the Scriptures that make him wise and equip him fully for good works (2 Timothy 3:10, 14-17)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 4,
+    "prompt": "How does 2 Timothy 3 present the last days?",
+    "choices_json": ["As a period marked by moral disintegration, deceptive religiosity, and the need for steadfast truth", "As a time of automatic spiritual triumph for all", "As an era where persecution ends", "As a purely political crisis without religious implications"],
+    "correct_answer": "As a period marked by moral disintegration, deceptive religiosity, and the need for steadfast truth",
+    "explanation": "Paul's description of vice, deceptive teachers, persecution, and the call to continue in Scripture shows a morally and spiritually dangerous age (2 Timothy 3:1-17)."
+  },
+
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 5,
+    "prompt": "How does 2 Timothy 3 shape a theology of Scripture without reducing Scripture to a slogan?",
+    "choices_json": ["It presents Scripture as God-breathed, saving in relation to Christ, and practical for forming the entire life of the servant of God", "It treats Scripture as useful only for doctrinal disputes", "It makes Scripture replace all teaching relationships", "It values Scripture mainly as cultural heritage"],
+    "correct_answer": "It presents Scripture as God-breathed, saving in relation to Christ, and practical for forming the entire life of the servant of God",
+    "explanation": "Paul connects Scripture to salvation through faith in Christ Jesus and to teaching, correction, training, and complete equipping for good works (2 Timothy 3:15-17)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 5,
+    "prompt": "Why is the chapter's depiction of false teachers especially penetrating?",
+    "choices_json": ["They are not merely immoral outsiders but religious deceivers whose outward form disguises opposition to truth", "They are presented only as ignorant unbelievers with no influence", "Their main problem is lack of education", "Paul treats them as harmless background noise"],
+    "correct_answer": "They are not merely immoral outsiders but religious deceivers whose outward form disguises opposition to truth",
+    "explanation": "Paul describes them as having a form of godliness while denying its power, and as resisting the truth like Jannes and Jambres (2 Timothy 3:5, 8)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 5,
+    "prompt": "How does Paul weave biography, prophecy, and Scripture together in this chapter?",
+    "choices_json": ["He reads Timothy's ministry through the lens of last-days reality, apostolic example, and the enduring authority of Scripture", "He abandons prophecy in favor of memoir", "He sets Scripture against experience", "He limits ministry guidance to personal memories"],
+    "correct_answer": "He reads Timothy's ministry through the lens of last-days reality, apostolic example, and the enduring authority of Scripture",
+    "explanation": "The chapter moves from difficult times to Paul's own example and then to Timothy's lifelong grounding in Scripture, integrating all three strands (2 Timothy 3:1-17)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 5,
+    "prompt": "What does 2 Timothy 3 imply about Christian maturity in corrupt times?",
+    "choices_json": ["Maturity requires discernment about false appearances, endurance under suffering, and deep Scriptural formation", "Maturity is mainly avoiding contact with society", "Maturity is measured by rhetorical superiority", "Maturity means escaping persecution through compromise"],
+    "correct_answer": "Maturity requires discernment about false appearances, endurance under suffering, and deep Scriptural formation",
+    "explanation": "Timothy must detect counterfeit godliness, learn from Paul's sufferings, and continue in the Scriptures that equip him thoroughly (2 Timothy 3:5, 10-17)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 5,
+    "prompt": "Why is persecution treated as normal rather than exceptional in this chapter?",
+    "choices_json": ["Paul presents it as the ordinary collision between godly life in Christ and a deceptive, resistant age", "He expects faithful believers to be socially celebrated", "He thinks persecution happens only to apostles", "He means persecution is caused by poor behavior"],
+    "correct_answer": "Paul presents it as the ordinary collision between godly life in Christ and a deceptive, resistant age",
+    "explanation": "By stating that all who desire to live godly in Christ will suffer persecution, Paul normalizes suffering within faithful discipleship (2 Timothy 3:12)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 5,
+    "prompt": "How does the chapter resist both traditionalism and novelty as ultimate authorities?",
+    "choices_json": ["Timothy is told to continue in what he learned not because it is old, but because it is true, apostolic, and Scriptural", "Paul values novelty above inherited teaching", "The chapter teaches any tradition is automatically trustworthy", "Timothy is told to ignore all prior instruction"],
+    "correct_answer": "Timothy is told to continue in what he learned not because it is old, but because it is true, apostolic, and Scriptural",
+    "explanation": "Paul appeals to the trustworthiness of Timothy's teachers and to the divine origin and profit of Scripture, not to age alone (2 Timothy 3:14-17)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 3,
+    "difficulty_stage": 5,
+    "prompt": "What overarching pastoral logic structures 2 Timothy 3?",
+    "choices_json": ["Because corruption and deception intensify, Timothy must cling more tightly to embodied apostolic example and God-breathed Scripture", "As corruption rises, Timothy should reduce doctrinal seriousness", "The chapter argues that ministry depends chiefly on social strategy", "Paul concludes that Scripture is insufficient for hard times"],
+    "correct_answer": "Because corruption and deception intensify, Timothy must cling more tightly to embodied apostolic example and God-breathed Scripture",
+    "explanation": "The worsening last-days context leads directly to Paul's appeal: you, however, followed my life and must continue in the Scriptures you know (2 Timothy 3:10, 14-17)."
+  },
+
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 4, what does Paul tell Timothy to preach?",
+    "choices_json": ["The word", "His own opinions", "Roman law", "The wisdom of Greece"],
+    "correct_answer": "The word",
+    "explanation": "Paul charges Timothy to preach the word (2 Timothy 4:2)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 4, what will people heap up for themselves because of itching ears?",
+    "choices_json": ["Teachers", "Treasures", "Prophets of Baal", "Roman patrons"],
+    "correct_answer": "Teachers",
+    "explanation": "Paul says people will heap up teachers for themselves because they have itching ears (2 Timothy 4:3)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 4, what has Paul finished?",
+    "choices_json": ["The race", "The temple", "His letters", "His journey to Spain"],
+    "correct_answer": "The race",
+    "explanation": "Paul says, 'I have finished the race' (2 Timothy 4:7)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 4, what has Paul kept?",
+    "choices_json": ["The faith", "The law of Rome", "The temple vessels", "The peace of the city"],
+    "correct_answer": "The faith",
+    "explanation": "Paul says, 'I have kept the faith' (2 Timothy 4:7)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 4, who loved this present world and deserted Paul?",
+    "choices_json": ["Demas", "Luke", "Mark", "Onesiphorus"],
+    "correct_answer": "Demas",
+    "explanation": "Paul says Demas deserted him, having loved this present world (2 Timothy 4:10)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 4, who alone was with Paul?",
+    "choices_json": ["Luke", "Titus", "Crescens", "Tychicus"],
+    "correct_answer": "Luke",
+    "explanation": "Paul says only Luke is with him (2 Timothy 4:11)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 1,
+    "prompt": "According to 2 Timothy 4, what had Alexander the coppersmith done?",
+    "choices_json": ["He did Paul much evil", "He supplied Paul's needs", "He carried the letter", "He defended Paul before Caesar"],
+    "correct_answer": "He did Paul much evil",
+    "explanation": "Paul says Alexander the coppersmith did him much evil (2 Timothy 4:14)."
+  },
+
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "How should Timothy preach the word according to 2 Timothy 4?",
+    "choices_json": ["Be urgent in season and out of season", "Only when invited", "Only during festivals", "Only in private homes"],
+    "correct_answer": "Be urgent in season and out of season",
+    "explanation": "Paul tells Timothy to be urgent in season and out of season as he preaches the word (2 Timothy 4:2)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "What will people turn aside to according to 2 Timothy 4?",
+    "choices_json": ["Myths", "The Psalms", "The prophets", "Sound words"],
+    "correct_answer": "Myths",
+    "explanation": "Paul says people will turn away their ears from the truth and turn aside to myths (2 Timothy 4:4)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "What four duties does Paul give Timothy in 2 Timothy 4:5?",
+    "choices_json": ["Be sober, endure suffering, do an evangelist's work, fulfill your ministry", "Fast often, travel widely, debate constantly, appoint elders", "Write another letter, visit Rome, guard the prison, collect funds", "Rebuke rulers, avoid Gentiles, stay silent, await Paul"],
+    "correct_answer": "Be sober, endure suffering, do an evangelist's work, fulfill your ministry",
+    "explanation": "Paul tells Timothy to be sober in all things, suffer hardship, do the work of an evangelist, and fulfill his ministry (2 Timothy 4:5)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "How does Paul describe his present condition in 2 Timothy 4?",
+    "choices_json": ["Already being offered and the time of departure has come", "Fully restored and returning soon", "Free to travel wherever he pleases", "Hidden safely among friends"],
+    "correct_answer": "Already being offered and the time of departure has come",
+    "explanation": "Paul says he is already being offered and the time of his departure has come (2 Timothy 4:6)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "For whom is the crown of righteousness laid up according to 2 Timothy 4?",
+    "choices_json": ["All who have loved Christ's appearing", "Only apostles", "Only martyrs", "Only elders in Ephesus"],
+    "correct_answer": "All who have loved Christ's appearing",
+    "explanation": "Paul says the Lord will give the crown not only to him, but also to all who have loved Christ's appearing (2 Timothy 4:8)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "Why did Paul want Timothy to bring Mark?",
+    "choices_json": ["Because he was useful to Paul for service", "Because Mark had Roman influence", "Because Mark carried Paul's books", "Because Mark lived in Troas"],
+    "correct_answer": "Because he was useful to Paul for service",
+    "explanation": "Paul says to take Mark and bring him, for he is useful to him for ministry (2 Timothy 4:11)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 2,
+    "prompt": "What items does Paul ask Timothy to bring from Troas?",
+    "choices_json": ["The cloak, the books, and especially the parchments", "His chains, his sandals, and a lamp", "Bread, wine, and letters", "Money, clothes, and scroll cases"],
+    "correct_answer": "The cloak, the books, and especially the parchments",
+    "explanation": "Paul asks Timothy to bring the cloak left with Carpus at Troas, the books, and especially the parchments (2 Timothy 4:13)."
+  },
+
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "Why does Paul charge Timothy so solemnly at the start of 2 Timothy 4?",
+    "choices_json": ["Timothy's preaching takes place before God and Christ in view of coming judgment and appearing", "Paul wants to emphasize Timothy's personal reputation only", "The charge is mainly about church administration", "He is preparing Timothy for a legal speech in Rome"],
+    "correct_answer": "Timothy's preaching takes place before God and Christ in view of coming judgment and appearing",
+    "explanation": "Paul gives the charge before God and Christ Jesus, who will judge the living and the dead, by his appearing and kingdom (2 Timothy 4:1)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "What does the warning about itching ears teach about false teaching in 2 Timothy 4?",
+    "choices_json": ["False teaching often thrives because hearers want messages that suit their desires", "False teaching spreads only through persecution", "Teachers alone create error without any audience demand", "Itching ears refer only to physical sickness"],
+    "correct_answer": "False teaching often thrives because hearers want messages that suit their desires",
+    "explanation": "Paul says people will not endure sound teaching but will heap up teachers according to their own desires because they have itching ears (2 Timothy 4:3)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "How does Paul's self-description as being poured out function in 2 Timothy 4?",
+    "choices_json": ["It presents his approaching death as sacrificial completion rather than defeat", "It means Paul expects immediate escape", "It shows he regrets his ministry", "It refers only to physical weakness"],
+    "correct_answer": "It presents his approaching death as sacrificial completion rather than defeat",
+    "explanation": "Paul says he is already being offered, using sacrificial language as he nears death (2 Timothy 4:6)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "What does the crown of righteousness reveal about Paul's hope in 2 Timothy 4?",
+    "choices_json": ["His confidence rests in the Lord's just future reward for faithful endurance", "He expects honor from Rome", "He believes he has earned salvation by effort", "He thinks only he will be vindicated"],
+    "correct_answer": "His confidence rests in the Lord's just future reward for faithful endurance",
+    "explanation": "Paul expects the righteous Judge to award the crown on that day, and not only to him but to all who love Christ's appearing (2 Timothy 4:8)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "Why does Paul mention both Demas and Mark in the same chapter?",
+    "choices_json": ["They illustrate opposite trajectories: desertion through worldliness and restored usefulness in ministry", "They are named simply to fill out travel details", "Both men had equally abandoned Paul", "Both men were being sent to the same city"],
+    "correct_answer": "They illustrate opposite trajectories: desertion through worldliness and restored usefulness in ministry",
+    "explanation": "Demas deserted Paul, loving the present world, while Mark is said to be useful for ministry, creating a strong contrast (2 Timothy 4:10-11)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "What does Paul's first defense reveal in 2 Timothy 4?",
+    "choices_json": ["Human support may fail, yet the Lord remains present and strengthening", "Paul was fully supported by all believers", "Paul no longer needed prayer", "His defense ended the opposition permanently"],
+    "correct_answer": "Human support may fail, yet the Lord remains present and strengthening",
+    "explanation": "Paul says no one took his part at his first defense, but the Lord stood by him and strengthened him (2 Timothy 4:16-17)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 3,
+    "prompt": "Why does Paul say the Lord strengthened him at his defense?",
+    "choices_json": ["So the message might be fully proclaimed and all the Gentiles might hear", "So he could escape prison immediately", "So he could condemn all his friends", "So he could recover his possessions"],
+    "correct_answer": "So the message might be fully proclaimed and all the Gentiles might hear",
+    "explanation": "Paul says the Lord strengthened him so that through him the proclamation might be fully made and all the Gentiles might hear (2 Timothy 4:17)."
+  },
+
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "How does 2 Timothy 4 connect preaching with eschatology?",
+    "choices_json": ["Timothy's present preaching is carried out before the coming Judge and within the horizon of Christ's appearing and kingdom", "Preaching matters only for present church order", "Eschatology makes preaching unnecessary", "Paul limits judgment language to his own trial"],
+    "correct_answer": "Timothy's present preaching is carried out before the coming Judge and within the horizon of Christ's appearing and kingdom",
+    "explanation": "Paul's opening charge grounds preaching in Christ's future judgment, appearing, and kingdom (2 Timothy 4:1-2)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "What contrast structures the middle of chapter 4?",
+    "choices_json": ["People turn from truth to myths while Timothy is commanded to stay sober, suffer, and fulfill ministry", "Paul contrasts Jews and Gentiles without ministry application", "The chapter moves from doctrine to travel notes with no continuity", "Timothy is told to pursue popularity instead of endurance"],
+    "correct_answer": "People turn from truth to myths while Timothy is commanded to stay sober, suffer, and fulfill ministry",
+    "explanation": "After warning about itching ears and myths, Paul tells Timothy to endure hardship and complete his ministry faithfully (2 Timothy 4:3-5)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "How does Paul's nearing death intensify his final instructions?",
+    "choices_json": ["His own completed course turns the charge to Timothy into a handoff of faithful ministry", "It causes him to retract earlier commands", "It means Timothy no longer needs to preach", "It shifts the letter away from the gospel entirely"],
+    "correct_answer": "His own completed course turns the charge to Timothy into a handoff of faithful ministry",
+    "explanation": "Paul's declaration that he has fought the good fight and finished the race gives added force to his charge for Timothy to preach and fulfill his ministry (2 Timothy 4:5-8)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "What does chapter 4 suggest about the loneliness of ministry?",
+    "choices_json": ["Faithful servants may be deserted by some and opposed by others, yet upheld by the Lord", "Paul describes ministry as constant companionship and ease", "Loneliness proves ministry failure", "The chapter says only Timothy experiences abandonment"],
+    "correct_answer": "Faithful servants may be deserted by some and opposed by others, yet upheld by the Lord",
+    "explanation": "Demas deserts Paul, others depart elsewhere, Alexander opposes him, and at his first defense no one stands by him, yet the Lord strengthens him (2 Timothy 4:10, 14-17)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "Why does Paul include ordinary requests like the cloak and parchments alongside lofty themes?",
+    "choices_json": ["The chapter shows that profound apostolic faithfulness is lived out in concrete embodied needs and ongoing work", "These details are accidental and meaningless", "Paul is abandoning spiritual concerns for materialism", "The requests contradict his hope in Christ"],
+    "correct_answer": "The chapter shows that profound apostolic faithfulness is lived out in concrete embodied needs and ongoing work",
+    "explanation": "Paul moves naturally from judgment, preaching, and final hope to practical needs such as the cloak, books, and parchments, showing ministry's embodied reality (2 Timothy 4:1-13)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "How does the chapter portray the Lord's faithfulness at the end of Paul's life?",
+    "choices_json": ["The Lord stands by Paul, strengthens proclamation, delivers him from evil, and brings him safely to the heavenly kingdom", "The Lord's help is limited to earthly release only", "Paul is unsure whether the Lord will remain with him", "The Lord helps only through human friends"],
+    "correct_answer": "The Lord stands by Paul, strengthens proclamation, delivers him from evil, and brings him safely to the heavenly kingdom",
+    "explanation": "Paul says the Lord stood by him, strengthened him, delivered him from the lion's mouth, and will preserve him for the heavenly kingdom (2 Timothy 4:17-18)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 4,
+    "prompt": "What does Paul's confidence in the righteous Judge add to the letter's final tone?",
+    "choices_json": ["It turns a farewell under hardship into a hopeful anticipation of divine vindication", "It shows Paul expects vindication from Nero", "It means Paul's ministry is driven by fear only", "It removes the need for perseverance"],
+    "correct_answer": "It turns a farewell under hardship into a hopeful anticipation of divine vindication",
+    "explanation": "Paul's hope for the crown from the righteous Judge frames his final words with confidence rather than despair (2 Timothy 4:8)."
+  },
+
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "How does 2 Timothy 4 bring the whole letter's themes to a climax?",
+    "choices_json": ["It unites the charge to preach, the reality of defection, Paul's finished course, and the Lord's final faithfulness in one closing commission", "It abandons the earlier themes for travel logistics", "It reduces the letter to personal nostalgia", "It ends by denying the danger of false teaching"],
+    "correct_answer": "It unites the charge to preach, the reality of defection, Paul's finished course, and the Lord's final faithfulness in one closing commission",
+    "explanation": "The chapter gathers together truth, suffering, endurance, desertion, completed ministry, and confidence in the Lord's preservation (2 Timothy 4:1-18)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "Why is the command to preach the word placed under the gaze of judgment and kingdom?",
+    "choices_json": ["Because preaching is accountable before Christ and participates in realities larger than Timothy's immediate circumstances", "Because Timothy is being prepared to become a civil ruler", "Because Paul thinks sermons replace discipleship", "Because judgment language is only rhetorical decoration"],
+    "correct_answer": "Because preaching is accountable before Christ and participates in realities larger than Timothy's immediate circumstances",
+    "explanation": "Paul's solemn charge invokes Christ's future judgment, appearing, and kingdom, giving preaching eschatological seriousness (2 Timothy 4:1-2)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "How does Paul present faithful ministry as both contested and triumphant?",
+    "choices_json": ["It is contested by myths, desertion, and opposition, yet triumphant because the Lord preserves both the message and the messenger", "Triumph means ministry faces no opposition", "Contest proves the message is false", "Victory depends on human loyalty alone"],
+    "correct_answer": "It is contested by myths, desertion, and opposition, yet triumphant because the Lord preserves both the message and the messenger",
+    "explanation": "The chapter includes itching ears, Demas, Alexander, and abandonment, yet the Lord strengthens Paul and will bring him safely to the heavenly kingdom (2 Timothy 4:3-4, 10, 14-18)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "What does Paul's finished race teach about Christian perseverance?",
+    "choices_json": ["Perseverance is a lifelong fidelity to faith and calling that ends in hope before the righteous Judge", "Perseverance is measured mainly by visible success", "The race ends once hardship begins", "Only apostles are expected to finish faithfully"],
+    "correct_answer": "Perseverance is a lifelong fidelity to faith and calling that ends in hope before the righteous Judge",
+    "explanation": "Paul's 'good fight,' 'finished race,' and 'kept the faith' summarize enduring faithfulness rewarded by the Lord on that day (2 Timothy 4:7-8)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "How does the chapter keep final judgment from becoming merely threatening?",
+    "choices_json": ["Judgment is linked with the righteous Judge who awards the crown to all who love Christ's appearing", "Judgment is softened by denying accountability", "Paul presents judgment only for unbelievers and never for believers", "The chapter shifts away from judgment as soon as it is mentioned"],
+    "correct_answer": "Judgment is linked with the righteous Judge who awards the crown to all who love Christ's appearing",
+    "explanation": "Paul's language of judgment and kingdom is paired with the hope of the crown of righteousness for faithful lovers of Christ's appearing (2 Timothy 4:1, 8)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "What deeper view of Scripture and proclamation emerges from 2 Timothy 4?",
+    "choices_json": ["Because people wander to myths, the preached word must remain the church's urgent, patient, corrective center", "Scripture is useful, but myths are equally effective for some hearers", "Public proclamation matters less than private inspiration", "Correction should be removed from preaching to avoid offense"],
+    "correct_answer": "Because people wander to myths, the preached word must remain the church's urgent, patient, corrective center",
+    "explanation": "Paul's warning about itching ears leads directly to his command to preach the word with reproof, rebuke, and exhortation in steadfast patience and teaching (2 Timothy 4:2-4)."
+  },
+  {
+    "book_number": 55,
+    "chapter": 4,
+    "difficulty_stage": 5,
+    "prompt": "What overarching pastoral vision emerges from the final chapter?",
+    "choices_json": ["A dying apostle hands on a ministry of truth, endurance, sober courage, and hope in the Lord's appearing and kingdom", "Paul's final concern is mainly comfort and retirement", "The chapter encourages Timothy to lower expectations because times are hard", "The main vision is personal vindication apart from the church's mission"],
+    "correct_answer": "A dying apostle hands on a ministry of truth, endurance, sober courage, and hope in the Lord's appearing and kingdom",
+    "explanation": "Paul's final charge, personal example, warnings about desertion, and confidence in the Lord together form a closing pastoral commission for Timothy's future ministry (2 Timothy 4:1-22)."
+  }
+]

@@ -1,4 +1,4 @@
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, Field, field_validator
 
 
 class QuizQuestion(BaseModel):
@@ -36,6 +36,14 @@ class QuizSubmitIn(BaseModel):
         return v
 
 
+class MasteryScopeBonusOut(BaseModel):
+    """One-time bonus for fully mastering a book, section, or testament."""
+
+    kind: str  # "book" | "section" | "testament"
+    label: str
+    coins: int
+
+
 class QuizSubmitOut(BaseModel):
     score: int
     total_questions: int
@@ -45,7 +53,9 @@ class QuizSubmitOut(BaseModel):
     mastery_after: int
     currency_awarded: int
     perfect_score_bonus: int
-    mastery_completion_bonus: int
+    mastery_completion_bonus: int  # coins for advancing to a new mastery stage (50–100% tiers)
+    scope_completion_bonus_total: int = 0
+    scope_completion_bonuses: list[MasteryScopeBonusOut] = Field(default_factory=list)
     is_mastered: bool
     correct_answers: dict[int, str]       # question_id → correct answer text
     explanations: dict[int, str | None]   # question_id → explanation text

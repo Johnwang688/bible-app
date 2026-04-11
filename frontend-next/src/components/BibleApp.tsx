@@ -33,6 +33,7 @@ import {
   signOut,
   signUp,
 } from '@/lib/account';
+import { getWallet } from '@/lib/quiz';
 import { parseReferenceLabel, sortBookNamesForMatching } from '@/lib/scriptureReference';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
@@ -131,7 +132,7 @@ const READER_FONT_PX_OPTIONS = ['8', '10', '12', '14', '16', '18', '20', '22', '
 type ReaderFontPx = (typeof READER_FONT_PX_OPTIONS)[number];
 const READER_LINE_HEIGHT_OPTIONS = ['1.5', '2', '2.5'] as const;
 type ReaderLineHeightOption = (typeof READER_LINE_HEIGHT_OPTIONS)[number];
-const READER_FONT_IDS = ['georgia', 'charter', 'palatino', 'garamond', 'times', 'sans'] as const;
+const READER_FONT_IDS = ['georgia', 'charter', 'palatino', 'garamond', 'times', 'sans', 'openSans', 'dyslexie'] as const;
 type ReaderFontId = (typeof READER_FONT_IDS)[number];
 const HIGHLIGHT_COLOR_IDS = ['yellow', 'amber', 'green', 'blue', 'pink', 'lavender', 'mint'] as const;
 type ReaderHighlightColorId = (typeof HIGHLIGHT_COLOR_IDS)[number];
@@ -1121,6 +1122,8 @@ export default function BibleApp({
   const [authMode, setAuthMode]             = useState<'signin' | 'signup'>('signin');
   const [authBusy, setAuthBusy]             = useState(false);
   const [authError, setAuthError]           = useState<string | null>(null);
+  /** Quiz wallet balance (signed-in only); refreshed after quiz submit. */
+  const [coinBalance, setCoinBalance] = useState<number | null>(null);
 
   // ── Quiz ───
   const [quizOpen, setQuizOpen] = useState(false);
@@ -1784,6 +1787,21 @@ export default function BibleApp({
     sidePanelModeRef.current === 'study' ? closeSidePanel() : openSidePanel('study');
   }, [closeSidePanel, openSidePanel]);
 
+  const refreshCoinBalance = useCallback(() => {
+    const session = authSession;
+    if (!session) {
+      setCoinBalance(null);
+      return;
+    }
+    getWallet(session)
+      .then(w => setCoinBalance(w.balance))
+      .catch(() => setCoinBalance(null));
+  }, [authSession]);
+
+  useEffect(() => {
+    refreshCoinBalance();
+  }, [refreshCoinBalance]);
+
   const openReaderFromHome = useCallback((panel: SidePanelMode) => {
     setHomeScreenActive(false);
     setSettingsOpen(false);
@@ -1796,17 +1814,6 @@ export default function BibleApp({
       openSidePanel(panel);
     }
   }, [closeSidePanel, openSidePanel]);
-
-  const onMasteryChapterSelect = useCallback(
-    (bookNumber: number, nextChapter: number, nextTranslation: string) => {
-      const name = booksRef.current.find(b => b.book_number === bookNumber)?.name;
-      if (!name) return;
-      navigateToPassage(name, nextChapter, nextTranslation);
-      if (homeScreenActive) openReaderFromHome('none');
-      else closeSidePanel();
-    },
-    [navigateToPassage, homeScreenActive, openReaderFromHome, closeSidePanel],
-  );
 
   const goToHome = useCallback(() => {
     setHomeScreenActive(true);
@@ -4580,7 +4587,7 @@ export default function BibleApp({
        only so init hydration and token refresh do not cancel this effect mid-flight (fixes sign-in
        from /signin when a stored session is restored on first /app load). */
     // eslint-disable-next-line react-hooks/exhaustive-deps -- see above
-  }, [authSession?.user?.id, books.length]);
+  }, [authSession?.userId, books.length]);
 
   useEffect(() => {
     if (!authSession || !syncReadyRef.current || hydratingAccountRef.current || books.length === 0) return;
@@ -5645,6 +5652,7 @@ export default function BibleApp({
                   }
                 : null
             }
+            coinBalance={accountProfile ? coinBalance : null}
             onModeChange={setAuthMode}
             onSignIn={handleAuthSignIn}
             onSignUp={handleAuthSignUp}
@@ -5715,13 +5723,12 @@ export default function BibleApp({
         </section>
 
         <section className="mystuff-section mystuff-mastery-section">
-          <div className="reader-dashboard-card mastery-overview-card">
-            <MasteryOverviewPanel
-              session={authSession}
-              translation={translation}
-              onChapterSelect={onMasteryChapterSelect}
-            />
-          </div>
+          <Link
+            href="/app/mastery"
+            className="reader-dashboard-card mastery-overview-card mastery-overview-card--link"
+          >
+            <MasteryOverviewPanel variant="teaser" session={authSession} translation={translation} />
+          </Link>
         </section>
 
         {/* Saved (highlights + notes) */}
@@ -5875,16 +5882,46 @@ export default function BibleApp({
                 </div>
               </section>
               <section
-                className="home-screen-card reader-dashboard-card home-mastery-card"
+                className="home-screen-card reader-dashboard-card home-coins-card"
+                aria-labelledby="home-coins-heading"
+              >
+                <h2 id="home-coins-heading" className="reader-dashboard-label">Coins</h2>
+                <div className="auth-coins-block home-coins-block">
+                  {authSession ? (
+                    <div className="auth-coins-row">
+                      <p className="auth-coins-amount" aria-live="polite">
+                        <span className="auth-coins-icon" aria-hidden="true">
+                          🪙
+                        </span>
+                        {coinBalance != null ? `${coinBalance.toLocaleString()} coins` : '…'}
+                      </p>
+                      <Link href="/app/shop" className="auth-shop-pill" aria-label="Open shop">
+                        Shop
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className="auth-coins-row home-coins-row--guest">
+                      <p className="home-coins-guest-msg">Sign in to earn coins from quizzes.</p>
+                      <Link href="/app/shop" className="auth-shop-pill" aria-label="Open shop">
+                        Shop
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              </section>
+              <Link
+                href="/app/mastery"
+                className="home-screen-card reader-dashboard-card home-mastery-card home-mastery-card--link"
                 aria-labelledby="home-mastery-heading"
               >
                 <h2 id="home-mastery-heading" className="reader-dashboard-label">Mastery</h2>
                 <MasteryOverviewPanel
+                  variant="teaser"
+                  showTitle={false}
                   session={authSession}
                   translation={translation}
-                  onChapterSelect={onMasteryChapterSelect}
                 />
-              </section>
+              </Link>
               <section className="home-screen-card reader-dashboard-card" aria-labelledby="home-continue-heading">
                 <h2 id="home-continue-heading" className="reader-dashboard-label">Continue where you left off</h2>
                 {chapterLoading && !chapterData ? (
@@ -6360,7 +6397,7 @@ export default function BibleApp({
                       <button
                         type="button"
                         className="side-close-btn"
-                        aria-label="Close account sidebar"
+                        aria-label={sidePanelMode === 'study' ? 'Close My Stuff sidebar' : 'Close sidebar'}
                         onClick={closeSidePanel}
                       >
                         ×
@@ -6723,6 +6760,24 @@ export default function BibleApp({
             </span>
           </button>
         </span>
+
+        <span
+          className="taskbar-tooltip-wrap"
+          data-tooltip="Shop"
+        >
+          <Link
+            href="/app/shop"
+            className="taskbar-btn"
+            aria-label="Shop"
+          >
+            <span className="taskbar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M9 11V8a3 3 0 0 1 6 0v3" />
+                <path d="M5.5 10h13l-1.1 9.5a1 1 0 0 1-1 .5H7.6a1 1 0 0 1-1-.5L5.5 10Z" />
+              </svg>
+            </span>
+          </Link>
+        </span>
       </div>
 
       {/* Settings panel */}
@@ -6798,6 +6853,8 @@ export default function BibleApp({
                     <option value="garamond">Garamond style</option>
                     <option value="times">Times New Roman</option>
                     <option value="sans">Sans (UI)</option>
+                    <option value="openSans">Open Sans</option>
+                    <option value="dyslexie">Dyslexie</option>
                   </select>
                 </span>
               </label>
@@ -7073,7 +7130,10 @@ export default function BibleApp({
           chapter={chapter}
           session={authSession}
           onClose={() => setQuizOpen(false)}
-          onSubmitted={() => setQuizTakenThisChapterVisit(true)}
+          onSubmitted={() => {
+            setQuizTakenThisChapterVisit(true);
+            refreshCoinBalance();
+          }}
         />
       )}
     </>

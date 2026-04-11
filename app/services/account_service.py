@@ -324,7 +324,7 @@ def _coerce_settings_row(row: dict) -> None:
         row["page_flip_enabled"] = True
     if "side_panel_position" not in row:
         row["side_panel_position"] = "right"
-    _fonts = {"georgia", "charter", "palatino", "garamond", "times", "sans"}
+    _fonts = {"georgia", "charter", "palatino", "garamond", "times", "sans", "openSans", "dyslexie"}
     _highlights = {"yellow", "amber", "green", "blue", "pink", "lavender", "mint"}
     if row.get("reader_font") not in _fonts:
         row["reader_font"] = "georgia"
