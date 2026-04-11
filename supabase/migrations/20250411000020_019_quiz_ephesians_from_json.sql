@@ -1,4 +1,4 @@
-﻿-- ============================================================================
+-- ============================================================================
 -- LOGOS LIGHT — Ephesians (book 49) quiz questions from quiz-questions/ephesians.json
 -- ============================================================================
 -- Idempotent: skips rows that already match (book_number, chapter, difficulty_stage, prompt).

@@ -1,4 +1,4 @@
-﻿-- ============================================================================
+-- ============================================================================
 -- LOGOS LIGHT — Colossians (book 51) quiz questions from quiz-questions/colossians.json
 -- ============================================================================
 -- Idempotent: skips rows that already match (book_number, chapter, difficulty_stage, prompt).

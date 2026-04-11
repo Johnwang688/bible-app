@@ -1,4 +1,4 @@
-﻿-- ============================================================================
+-- ============================================================================
 -- LOGOS LIGHT — Philippians (book 50) quiz questions from quiz-questions/philippians.json
 -- ============================================================================
 -- Idempotent: skips rows that already match (book_number, chapter, difficulty_stage, prompt).

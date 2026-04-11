@@ -71,7 +71,7 @@ This string is what gets stored in `commentaries.content` for `source = summary`
 
 ### `summary_entities` and `commentary_entity_mentions`
 
-- **Schema:** [`supabase/012_summary_entities.sql`](../supabase/012_summary_entities.sql) creates:
+- **Schema:** [`supabase/migrations/20250411000012_012_summary_entities.sql`](../supabase/migrations/20250411000012_012_summary_entities.sql) creates:
   - **`summary_entities`:** `kind` (check constraint includes **theme** and **person** in the migration), `slug`, `label`, uniqueness on `(kind, slug)` and `(kind, label)`.
   - **`commentary_entity_mentions`:** many-to-many between `commentaries.id` and `summary_entities.id`, primary key `(commentary_id, entity_id)`.
 
@@ -290,7 +290,7 @@ flowchart LR
 | Concern | Primary location |
 |--------|------------------|
 | Chapter summary text (authoring → DB) | [`commentary/*.json`](../commentary/), [`scripts/load_summary.py`](../scripts/load_summary.py), `commentaries` rows with `source = summary` |
-| Entity graph and mention index | [`summary_entity_service.py`](../app/services/summary_entity_service.py), [`supabase/012_summary_entities.sql`](../supabase/012_summary_entities.sql) |
+| Entity graph and mention index | [`summary_entity_service.py`](../app/services/summary_entity_service.py), [`supabase/migrations/20250411000012_012_summary_entities.sql`](../supabase/migrations/20250411000012_012_summary_entities.sql) |
 | Reader: parse and render summary | [`BibleApp.tsx`](../frontend-next/src/components/BibleApp.tsx) — `parseSummaryContent`, `renderCommentaryContent` when `commentarySource === 'summary'` |
 | Entity page UI + `returnTo` | [`SummaryEntityPage.tsx`](../frontend-next/src/components/SummaryEntityPage.tsx) |
 | API routes | [`app/main.py`](../app/main.py) — `/api/v1/commentary`, `/api/v1/summary-entities/...` |

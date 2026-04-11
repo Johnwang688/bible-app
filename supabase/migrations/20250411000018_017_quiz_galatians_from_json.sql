@@ -1,4 +1,4 @@
-﻿-- ============================================================================
+-- ============================================================================
 -- LOGOS LIGHT — Galatians (book 48) quiz questions from quiz-questions/galatians.json
 -- ============================================================================
 -- Idempotent: skips rows that already match (book_number, chapter, difficulty_stage, prompt).

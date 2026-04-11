@@ -1,17 +1,16 @@
 """
-Generate supabase/migrations/*_016_quiz_john_from_json.sql from quiz-questions/john.json.
-Idempotent: each row uses INSERT ... SELECT ... WHERE NOT EXISTS on
-(book_number, chapter, difficulty_stage, prompt).
-Run from repo root: python scripts/generate_john_quiz_migration.py
+Generate a quiz_question_bank migration SQL file from a quiz-questions/*.json array.
+
+Each row becomes one idempotent INSERT ... SELECT ... WHERE NOT EXISTS.
+
+Usage (repo root):
+  python scripts/generate_quiz_migration_from_json.py quiz-questions/exodus.json supabase/migrations/20250411000025_024_quiz_exodus_from_json.sql "Exodus"
 """
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
-
-ROOT = Path(__file__).resolve().parents[1]
-JSON_PATH = ROOT / "quiz-questions" / "john.json"
-OUT_PATH = ROOT / "supabase" / "migrations" / "20250411000017_016_quiz_john_from_json.sql"
 
 
 def esc(s: str) -> str:
@@ -19,13 +18,32 @@ def esc(s: str) -> str:
 
 
 def main() -> None:
-    rows = json.loads(JSON_PATH.read_text(encoding="utf-8"))
+    if len(sys.argv) < 4:
+        print(
+            "Usage: python scripts/generate_quiz_migration_from_json.py "
+            "<quiz-questions/foo.json> <supabase/migrations/out.sql> <Book Title>",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+    json_rel = Path(sys.argv[1])
+    out_rel = Path(sys.argv[2])
+    book_title = sys.argv[3]
+
+    root = Path(__file__).resolve().parents[1]
+    json_path = root / json_rel
+    out_path = root / out_rel
+
+    rows = json.loads(json_path.read_text(encoding="utf-8"))
+    if not rows:
+        print("No rows in JSON", file=sys.stderr)
+        sys.exit(1)
+    book_number = int(rows[0]["book_number"])
+
     lines: list[str] = [
         "-- ============================================================================",
-        "-- LOGOS LIGHT — John (book 43) quiz questions from quiz-questions/john.json",
+        f"-- LOGOS LIGHT — {book_title} (book {book_number}) quiz questions from {json_rel.as_posix()}",
         "-- ============================================================================",
         "-- Idempotent: skips rows that already match (book_number, chapter, difficulty_stage, prompt).",
-        "-- Safe to run after 014 (which seeds the same MVP John set from SQL).",
         "-- ============================================================================",
         "",
     ]
@@ -52,8 +70,9 @@ def main() -> None:
             ");"
         )
         lines.append("")
-    OUT_PATH.write_text("\n".join(lines), encoding="utf-8")
-    print(f"Wrote {OUT_PATH} ({len(rows)} statements)")
+
+    out_path.write_text("\n".join(lines), encoding="utf-8")
+    print(f"Wrote {out_path} ({len(rows)} statements)")
 
 
 if __name__ == "__main__":
