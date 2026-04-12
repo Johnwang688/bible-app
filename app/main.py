@@ -62,16 +62,24 @@ from app.services.commentary_service import get_commentary, list_commentary_sour
 from app.schemas.quiz import (
     ChapterProgressOut,
     ChapterQuizOut,
+    DailyRewardClaimOut,
+    DailyRewardsStatusOut,
     MasteryOverviewOut,
+    QuizHintIn,
+    QuizHintOut,
     QuizSubmitIn,
     QuizSubmitOut,
     WalletOut,
 )
 from app.services.quiz_service import (
+    claim_daily_tasks_bonus,
+    claim_daily_verse_reward,
     get_chapter_quiz,
     get_chapter_progress,
+    get_daily_rewards_status,
     get_mastery_overview,
     get_wallet,
+    reveal_hint,
     submit_quiz,
 )
 from app.services.summary_entity_service import get_summary_entity_page, list_summary_entities
@@ -435,6 +443,14 @@ async def post_quiz_submit(
     return submit_quiz(current_user["id"], payload)
 
 
+@app.post("/api/v1/quiz/hint", response_model=QuizHintOut, tags=["quiz"])
+async def post_quiz_hint(
+    payload: QuizHintIn,
+    _current_user: dict = Depends(get_current_user),
+) -> QuizHintOut:
+    return reveal_hint(payload.question_id)
+
+
 @app.get(
     "/api/v1/quiz/progress/{book_number}/{chapter}",
     response_model=ChapterProgressOut,
@@ -450,7 +466,40 @@ async def read_chapter_progress(
 
 @app.get("/api/v1/wallet", response_model=WalletOut, tags=["quiz"])
 async def read_wallet(current_user: dict = Depends(get_current_user)) -> WalletOut:
-    return get_wallet(current_user["id"])
+    return get_wallet(current_user["id"], current_user.get("email"))
+
+
+@app.get(
+    "/api/v1/wallet/daily-rewards",
+    response_model=DailyRewardsStatusOut,
+    tags=["quiz"],
+)
+async def read_daily_rewards_status(
+    current_user: dict = Depends(get_current_user),
+) -> DailyRewardsStatusOut:
+    return get_daily_rewards_status(current_user["id"])
+
+
+@app.post(
+    "/api/v1/wallet/claim-daily-verse",
+    response_model=DailyRewardClaimOut,
+    tags=["quiz"],
+)
+async def post_claim_daily_verse(
+    current_user: dict = Depends(get_current_user),
+) -> DailyRewardClaimOut:
+    return claim_daily_verse_reward(current_user["id"], current_user.get("email"))
+
+
+@app.post(
+    "/api/v1/wallet/claim-daily-tasks",
+    response_model=DailyRewardClaimOut,
+    tags=["quiz"],
+)
+async def post_claim_daily_tasks(
+    current_user: dict = Depends(get_current_user),
+) -> DailyRewardClaimOut:
+    return claim_daily_tasks_bonus(current_user["id"], current_user.get("email"))
 
 
 @app.get(

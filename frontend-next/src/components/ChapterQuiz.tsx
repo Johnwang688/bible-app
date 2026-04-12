@@ -8,8 +8,18 @@ import {
   type QuizSubmitOut,
   getChapterProgress,
   getChapterQuiz,
+  revealQuizHint,
   submitQuiz,
 } from '../lib/quiz';
+import {
+  consumeCoinRushCharge,
+  consumeGraceShield,
+  consumeHintToken,
+  getBoostQuantity,
+  getInventory,
+  getQuizCoinMultiplier,
+  type Inventory,
+} from '@/lib/shopInventory';
 
 // ── Mastery strip (shown at chapter bottom) ───────────────────────────────────
 
@@ -132,6 +142,14 @@ export default function ChapterQuiz({
   const [result, setResult] = useState<QuizSubmitOut | null>(null);
   const [errorMsg, setErrorMsg] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [inv, setInv] = useState<Inventory>(() => getInventory());
+  const [useShield, setUseShield] = useState(false);
+  const [hintUsed, setHintUsed] = useState(false);
+  const [hintLoading, setHintLoading] = useState(false);
+  const [hintErr, setHintErr] = useState('');
+
+  const shieldQty = getBoostQuantity('shield', inv);
+  const hintQty = getBoostQuantity('hint-token', inv);
 
   // Load quiz on mount
   useEffect(() => {
@@ -140,6 +158,11 @@ export default function ChapterQuiz({
       .then((q) => {
         setQuiz(q);
         setAnswers({});
+        setUseShield(false);
+        setHintUsed(false);
+        setHintLoading(false);
+        setHintErr('');
+        setInv(getInventory());
         setScreen('quiz');
       })
       .catch((err: unknown) => {
@@ -149,10 +172,40 @@ export default function ChapterQuiz({
       });
   }, [bookNumber, chapter, session]);
 
+  useEffect(() => {
+    if (screen !== 'quiz') return;
+    const id = window.setInterval(() => setInv(getInventory()), 15000);
+    return () => clearInterval(id);
+  }, [screen]);
+
   const allAnswered = quiz !== null && Object.keys(answers).length === quiz.questions.length;
+
+  async function handleHint(questionId: number) {
+    if (hintUsed || hintQty < 1 || hintLoading) return;
+    setHintErr('');
+    setHintLoading(true);
+    try {
+      const { correct_answer: correctAnswer } = await revealQuizHint(session, questionId);
+      const consumed = consumeHintToken();
+      if (!consumed) {
+        setHintErr('Could not use hint — try again.');
+        return;
+      }
+      setInv(consumed);
+      setAnswers((prev) => ({ ...prev, [questionId]: correctAnswer }));
+      setHintUsed(true);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Hint failed.';
+      setHintErr(msg);
+    } finally {
+      setHintLoading(false);
+    }
+  }
 
   async function handleSubmit() {
     if (!quiz || !allAnswered) return;
+    const mult = getQuizCoinMultiplier(getInventory());
+
     setSubmitting(true);
     try {
       const res = await submitQuiz(session, {
@@ -162,11 +215,24 @@ export default function ChapterQuiz({
           question_id: q.id,
           answer: answers[q.id] ?? '',
         })),
+        grace_shield: useShield && shieldQty > 0,
+        coin_multiplier: mult,
       });
       setResult(res);
       setScreen('results');
+
+      let working = getInventory();
+      if (mult === 'coin_rush') {
+        const u = consumeCoinRushCharge(working);
+        if (u) working = u;
+      }
+      if (useShield && shieldQty > 0) {
+        const u = consumeGraceShield(working);
+        if (u) working = u;
+      }
+      setInv(working);
+
       onSubmitted?.();
-      // Refresh progress for the strip
       if (onProgressUpdate) {
         getChapterProgress(session, bookNumber, chapter)
           .then(onProgressUpdate)
@@ -220,12 +286,25 @@ export default function ChapterQuiz({
                 ✕
               </button>
             </div>
+            {hintErr && <p className="quiz-hint-err">{hintErr}</p>}
             <div className="quiz-questions">
               {quiz.questions.map((q, idx) => (
                 <div key={q.id} className="quiz-question">
-                  <p className="quiz-question-prompt">
-                    <span className="quiz-question-num">{idx + 1}.</span> {q.prompt}
-                  </p>
+                  <div className="quiz-question-head">
+                    <p className="quiz-question-prompt">
+                      <span className="quiz-question-num">{idx + 1}.</span> {q.prompt}
+                    </p>
+                    {!hintUsed && hintQty > 0 && (
+                      <button
+                        type="button"
+                        className="quiz-hint-btn"
+                        disabled={hintLoading}
+                        onClick={() => void handleHint(q.id)}
+                      >
+                        {hintLoading ? '…' : 'Hint 💡'}
+                      </button>
+                    )}
+                  </div>
                   <div className="quiz-choices">
                     {q.choices_json.map((choice) => {
                       const selected = answers[q.id] === choice;
@@ -249,18 +328,37 @@ export default function ChapterQuiz({
                 </div>
               ))}
             </div>
-            <div className="quiz-footer">
+            <div className="quiz-footer quiz-footer--stacked">
               <span className="quiz-progress-hint">
                 {Object.keys(answers).length}/{quiz.questions.length} answered
               </span>
-              <button
-                className="reader-onboarding-btn quiz-submit-btn"
-                type="button"
-                disabled={!allAnswered || submitting}
-                onClick={() => void handleSubmit()}
-              >
-                {submitting ? 'Submitting…' : 'Submit'}
-              </button>
+              <div className="quiz-footer-actions">
+                <label className="quiz-shield-toggle">
+                  <input
+                    type="checkbox"
+                    checked={useShield}
+                    disabled={shieldQty < 1}
+                    onChange={(e) => setUseShield(e.target.checked)}
+                  />
+                  <span className="quiz-shield-toggle-text">
+                    {shieldQty > 0 ? (
+                      <>
+                        Grace Shield <span className="quiz-shield-meta">({shieldQty} in bag)</span>
+                      </>
+                    ) : (
+                      'No Grace Shields in bag'
+                    )}
+                  </span>
+                </label>
+                <button
+                  className="reader-onboarding-btn quiz-submit-btn"
+                  type="button"
+                  disabled={!allAnswered || submitting}
+                  onClick={() => void handleSubmit()}
+                >
+                  {submitting ? 'Submitting…' : 'Submit'}
+                </button>
+              </div>
             </div>
           </>
         )}
@@ -283,6 +381,14 @@ export default function ChapterQuiz({
                   {result.score}/{result.total_questions}
                 </span>
               </div>
+              {result.grace_shield_applied && (
+                <p className="quiz-result-boost-msg">Grace Shield carried you through — mastery still advances.</p>
+              )}
+              {result.coin_multiplier_applied && result.coin_multiplier_applied !== 'none' && (
+                <p className="quiz-result-boost-msg">
+                  {result.coin_multiplier_applied === 'coin_rush' ? 'Coin Rush' : 'Study Blessing'}: 2× coins applied.
+                </p>
+              )}
 
               {/* Mastery change */}
               <div className="quiz-mastery-change">

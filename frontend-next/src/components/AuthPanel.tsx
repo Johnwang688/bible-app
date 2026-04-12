@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import CoinBoostControls from '@/components/CoinBoostControls';
 
 type AuthMode = 'signin' | 'signup';
 
@@ -62,6 +63,7 @@ export default function AuthPanel({
             </Link>
           </div>
         </div>
+        <CoinBoostControls compact />
       </div>
     );
   }

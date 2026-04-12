@@ -1,3 +1,5 @@
+from typing import Literal
+
 from pydantic import BaseModel, Field, field_validator
 
 
@@ -27,6 +29,8 @@ class QuizSubmitIn(BaseModel):
     book_number: int
     chapter: int
     answers: list[QuizAnswerIn]
+    grace_shield: bool = False
+    coin_multiplier: Literal["none", "coin_rush", "blessing"] = "none"
 
     @field_validator("answers")
     @classmethod
@@ -59,6 +63,16 @@ class QuizSubmitOut(BaseModel):
     is_mastered: bool
     correct_answers: dict[int, str]       # question_id → correct answer text
     explanations: dict[int, str | None]   # question_id → explanation text
+    grace_shield_applied: bool = False
+    coin_multiplier_applied: Literal["none", "coin_rush", "blessing"] = "none"
+
+
+class QuizHintIn(BaseModel):
+    question_id: int
+
+
+class QuizHintOut(BaseModel):
+    correct_answer: str
 
 
 class ChapterProgressOut(BaseModel):
@@ -78,6 +92,21 @@ class ChapterProgressOut(BaseModel):
 
 class WalletOut(BaseModel):
     user_id: str
+    balance: int
+
+
+class DailyRewardsStatusOut(BaseModel):
+    """UTC calendar day; which one-time daily rewards were already claimed."""
+
+    date: str
+    verse_claimed: bool
+    tasks_claimed: bool
+
+
+class DailyRewardClaimOut(BaseModel):
+    date: str
+    coins_awarded: int
+    already_claimed: bool
     balance: int
 
 

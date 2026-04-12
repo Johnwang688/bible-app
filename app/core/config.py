@@ -1,6 +1,11 @@
+from functools import lru_cache
+from pathlib import Path
+
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from functools import lru_cache
+
+# Always load repo-root `.env` (not cwd-dependent when uvicorn/cron uses another cwd).
+_ENV_FILE = Path(__file__).resolve().parents[2] / ".env"
 
 
 class Settings(BaseSettings):
@@ -8,6 +13,9 @@ class Settings(BaseSettings):
     app_name: str = Field(default="LogosLight", alias="APP_NAME")
     app_env: str = Field(default="development", alias="APP_ENV")
     app_secret_key: str = Field(default="change-me", alias="APP_SECRET_KEY")
+    # Local/dev only: Supabase user email that receives a high wallet floor (see quiz_service).
+    dev_account_email: str = Field(default="", alias="DEV_ACCOUNT_EMAIL")
+    dev_wallet_balance: int = Field(default=1_000_000, alias="DEV_WALLET_BALANCE")
     cors_origins: str = Field(
         default="http://localhost:3000,http://localhost:5173",
         alias="CORS_ORIGINS",
@@ -41,7 +49,7 @@ class Settings(BaseSettings):
         return self.app_env == "development"
 
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=_ENV_FILE,
         env_file_encoding="utf-8",
         populate_by_name=True,
         extra="ignore",

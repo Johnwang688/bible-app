@@ -1,0 +1,260 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120" fill="none">
+  <defs>
+    <linearGradient id="bb-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0D0821"/>
+      <stop offset="40%" stop-color="#1E0D3A"/>
+      <stop offset="75%" stop-color="#4A1C05"/>
+      <stop offset="100%" stop-color="#7A3008"/>
+    </linearGradient>
+    <linearGradient id="bb-ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C48840"/>
+      <stop offset="100%" stop-color="#6B4A1A"/>
+    </linearGradient>
+    <linearGradient id="bb-robe" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#C8B48A"/>
+      <stop offset="50%" stop-color="#EDD9A8"/>
+      <stop offset="100%" stop-color="#B89A6C"/>
+    </linearGradient>
+    <linearGradient id="bb-mantle" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#4A6B40"/>
+      <stop offset="60%" stop-color="#5C8050"/>
+      <stop offset="100%" stop-color="#3A5530"/>
+    </linearGradient>
+    <linearGradient id="bb-fl-outer" x1="0.5" y1="1" x2="0.5" y2="0">
+      <stop offset="0%" stop-color="#CC2200"/>
+      <stop offset="40%" stop-color="#FF5500"/>
+      <stop offset="78%" stop-color="#FF9900"/>
+      <stop offset="100%" stop-color="#FFCC00" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="bb-fl-mid" x1="0.5" y1="1" x2="0.5" y2="0">
+      <stop offset="0%" stop-color="#FF4400"/>
+      <stop offset="50%" stop-color="#FF8800"/>
+      <stop offset="85%" stop-color="#FFDD00"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="bb-fl-core" x1="0.5" y1="1" x2="0.5" y2="0">
+      <stop offset="0%" stop-color="#FFCC00"/>
+      <stop offset="55%" stop-color="#FFEE88"/>
+      <stop offset="100%" stop-color="#FFFFFF"/>
+    </linearGradient>
+    <radialGradient id="bb-glow" cx="50%" cy="55%" r="50%">
+      <stop offset="0%" stop-color="#FFD050" stop-opacity="0.75"/>
+      <stop offset="45%" stop-color="#FF8800" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#FF3300" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bb-ground-glow" cx="50%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#FF9900" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#FF4400" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bb-divine" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.35"/>
+      <stop offset="60%" stop-color="#FFEE88" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#FFD050" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="100" height="120" fill="url(#bb-sky)"/>
+
+  <!-- Stars -->
+  <circle cx="7"  cy="5"  r="0.55" fill="white" opacity="0.9"/>
+  <circle cx="17" cy="3"  r="0.40" fill="white" opacity="0.7"/>
+  <circle cx="29" cy="9"  r="0.50" fill="white" opacity="0.8"/>
+  <circle cx="40" cy="4"  r="0.30" fill="white" opacity="0.6"/>
+  <circle cx="74" cy="6"  r="0.55" fill="white" opacity="0.9"/>
+  <circle cx="86" cy="3"  r="0.40" fill="white" opacity="0.7"/>
+  <circle cx="93" cy="10" r="0.50" fill="white" opacity="0.8"/>
+  <circle cx="64" cy="5"  r="0.30" fill="white" opacity="0.5"/>
+  <circle cx="5"  cy="19" r="0.40" fill="white" opacity="0.6"/>
+  <circle cx="96" cy="14" r="0.40" fill="white" opacity="0.7"/>
+  <circle cx="51" cy="11" r="0.30" fill="white" opacity="0.5"/>
+  <circle cx="22" cy="15" r="0.25" fill="white" opacity="0.45"/>
+  <circle cx="80" cy="18" r="0.25" fill="white" opacity="0.45"/>
+
+  <!-- Distant mountains / Sinai silhouette -->
+  <path d="M0 78 Q8 66 18 72 Q28 60 40 70 Q50 77 60 72 Q70 65 80 70 Q90 66 100 73 L100 82 L0 82Z" fill="#1E0E04" opacity="0.75"/>
+  <path d="M0 82 Q12 77 25 80 Q38 75 52 79 Q65 74 80 78 Q90 75 100 79 L100 87 L0 87Z" fill="#2A1408" opacity="0.6"/>
+
+  <!-- Fire ground glow -->
+  <ellipse cx="67" cy="92" rx="28" ry="7" fill="url(#bb-ground-glow)"/>
+
+  <!-- Ground -->
+  <path d="M0 88 Q12 84 28 87 Q44 81 60 85 Q75 80 90 84 Q96 86 100 83 L100 120 L0 120Z" fill="url(#bb-ground)"/>
+
+  <!-- Ground rocks -->
+  <ellipse cx="10"  cy="93" rx="5.5" ry="2.2" fill="#8B6020" opacity="0.65"/>
+  <ellipse cx="88"  cy="92" rx="4.5" ry="1.9" fill="#7A5418" opacity="0.6"/>
+  <ellipse cx="44"  cy="95" rx="3.5" ry="1.6" fill="#7A5418" opacity="0.5"/>
+  <ellipse cx="30"  cy="91" rx="2.8" ry="1.3" fill="#6B4A10" opacity="0.45"/>
+
+  <!-- ── MOSES ── -->
+
+  <!-- Shadow -->
+  <ellipse cx="22" cy="91" rx="13" ry="2.8" fill="#2A1000" opacity="0.4"/>
+
+  <!-- Outer mantle flowing back -->
+  <path d="M7 89 Q9 80 13 74 Q15 69 18 67 Q21 65 23 68 Q21 74 18 81 Q15 86 13 90Z" fill="url(#bb-mantle)"/>
+  <!-- Mantle fold shading -->
+  <path d="M13 74 Q15 69 18 67 Q20 69 18 74 Q16 80 15 86Z" fill="#3A5530" opacity="0.5"/>
+
+  <!-- Robe body (Moses prostrating — torso pitched forward) -->
+  <path d="M14 88 Q20 83 30 85 Q33 88 28 91 Q22 93 17 92 Q12 90 14 88Z" fill="url(#bb-robe)"/>
+  <path d="M28 85 Q33 88 28 91 Q26 90 25 87 Q26 86 28 85Z" fill="#B89A6C"/>
+
+  <!-- Torso (leaning forward) -->
+  <path d="M17 67 Q19 59 21 55 Q23 52 26 54 Q28 57 26 65 Q24 72 22 77 Q20 79 18 77 Q15 72 17 67Z" fill="url(#bb-robe)"/>
+  <path d="M21 55 Q26 58 26 65 Q24 72 22 77 Q22 67 21 55Z" fill="#B89A6C" opacity="0.55"/>
+
+  <!-- Moses arms outstretched (prostrating) -->
+  <path d="M17 71 Q10 69 6 73 Q5 75 8 76 Q10 75 13 73 Q15 72 17 73Z" fill="#D4A870"/>
+  <path d="M22 71 Q27 69 31 72 Q33 74 31 76 Q28 74 25 73 Q23 72 22 71Z" fill="#D4A870"/>
+
+  <!-- Moses head bowed -->
+  <circle cx="22" cy="51" r="4.2" fill="#C8956A"/>
+  <!-- White head cloth / keffiyeh -->
+  <path d="M18 49 Q18 44 22 43 Q27 44 27 49 Q27 54 23 55 Q18 55 18 51Z" fill="#F2EAD5"/>
+  <!-- Head cloth shadow -->
+  <path d="M22 43 Q27 44 27 49 Q27 54 23 55 Q24 50 23 45Z" fill="#D8D0B8" opacity="0.5"/>
+  <!-- White beard (long, flowing — Moses was ~80 years old) -->
+  <path d="M17 52 Q16 58 18 62 Q20 65 23 63 Q26 61 27 57 Q27 53 25 52 Q23 54 22 54 Q20 54 17 52Z" fill="#E8E2CC"/>
+  <!-- Beard texture lines -->
+  <line x1="19" y1="53" x2="19" y2="61" stroke="#C8C0A8" stroke-width="0.4" opacity="0.6"/>
+  <line x1="22" y1="54" x2="22" y2="63" stroke="#C8C0A8" stroke-width="0.4" opacity="0.6"/>
+  <line x1="24" y1="53" x2="25" y2="60" stroke="#C8C0A8" stroke-width="0.4" opacity="0.6"/>
+  <!-- Face -->
+  <path d="M19 49 Q22 48 25 49 Q25 52 22 53 Q19 52 19 49Z" fill="#C8956A"/>
+  <!-- Closed eye (in reverence) -->
+  <path d="M20.5 50.5 Q22 49.8 23.5 50.5" stroke="#7A4A28" stroke-width="0.5" fill="none" stroke-linecap="round"/>
+
+  <!-- Belt / sash -->
+  <path d="M15 67 Q22 65 29 67 Q29 69 22 70 Q15 70 15 67Z" fill="#8B5C20" opacity="0.85"/>
+
+  <!-- Staff lying on ground -->
+  <path d="M31 76 Q43 78 55 79 Q59 80 62 80" stroke="#7B5020" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  <circle cx="31" cy="76" r="1.3" fill="#5C3A18"/>
+
+  <!-- Sandals removed, on ground (Exodus 3:5) -->
+  <path d="M7 86 Q10 84 14 86 Q13 89 10 90 Q6 89 7 86Z" fill="#8B6020" opacity="0.85"/>
+  <path d="M7 86 Q10 84 13 85 Q13 87 10 88 Q7 87 7 86Z" fill="#A07830" opacity="0.75"/>
+  <line x1="8"  y1="86" x2="12" y2="87.5" stroke="#5C3A10" stroke-width="0.55"/>
+  <line x1="9.5" y1="84.5" x2="9.5" y2="88" stroke="#5C3A10" stroke-width="0.55"/>
+
+  <!-- ── BURNING BUSH ── -->
+
+  <!-- Root / base trunk -->
+  <path d="M63 91 Q64 85 65 79 Q66 74 67 70" stroke="#5A3010" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  <path d="M69 91 Q68 85 67 79" stroke="#5A3010" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+
+  <!-- Main branches -->
+  <path d="M65 79 Q59 74 54 69 Q56 66 61 71"  stroke="#5A3010" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+  <path d="M66 76 Q61 70 59 63"               stroke="#5A3010" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+  <path d="M67 74 Q73 68 80 62 Q81 65 77 68"  stroke="#5A3010" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+  <path d="M67 70 Q71 64 76 57"               stroke="#5A3010" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+  <path d="M66 66 Q64 58 65 50 Q67 45 68 41"  stroke="#5A3010" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+  <path d="M67 66 Q73 56 78 46"               stroke="#5A3010" stroke-width="1.0" fill="none" stroke-linecap="round"/>
+  <path d="M65 66 Q58 56 55 48"               stroke="#5A3010" stroke-width="1.0" fill="none" stroke-linecap="round"/>
+
+  <!-- Divine glow aura around bush -->
+  <ellipse cx="67" cy="58" rx="26" ry="34" fill="url(#bb-glow)" opacity="0.7"/>
+
+  <!-- ═══ FLAMES — Layer 1: Outermost wide base (dark red-orange) ═══ -->
+  <path d="M49 90 C47 78 51 63 47 51 C52 61 50 55 54 46
+           C55 58 53 65 56 59 C57 50 59 41 57 30
+           C62 44 59 54 63 47 C62 62 60 72 63 80 L57 90Z"
+        fill="url(#bb-fl-outer)" opacity="0.88"/>
+  <path d="M85 90 C87 78 83 63 87 51 C82 61 84 55 80 46
+           C79 58 81 65 78 59 C77 50 75 41 77 30
+           C72 44 75 54 71 47 C72 62 74 72 71 80 L77 90Z"
+        fill="url(#bb-fl-outer)" opacity="0.88"/>
+  <path d="M53 90 C51 79 54 66 51 55 C55 65 54 58 58 49
+           C58 62 57 69 60 62 C60 53 62 44 60 33
+           C65 47 62 57 66 50 C65 65 63 74 66 82 L60 90Z"
+        fill="url(#bb-fl-outer)" opacity="0.82"/>
+  <path d="M81 90 C83 79 80 66 83 55 C79 65 80 58 76 49
+           C76 62 77 69 74 62 C74 53 72 44 74 33
+           C69 47 72 57 68 50 C69 65 71 74 68 82 L74 90Z"
+        fill="url(#bb-fl-outer)" opacity="0.82"/>
+
+  <!-- ═══ FLAMES — Layer 2: Mid orange ═══ -->
+  <path d="M56 90 C54 78 57 65 54 54 C58 63 57 56 61 47
+           C61 60 60 67 63 61 C63 51 66 43 63 32
+           C68 46 65 56 69 49 C68 64 66 73 69 81 L63 90Z"
+        fill="url(#bb-fl-mid)" opacity="0.92"/>
+  <path d="M78 90 C80 78 77 65 80 54 C76 63 77 56 73 47
+           C73 60 74 67 71 61 C71 51 69 43 71 32
+           C66 46 69 56 65 49 C66 64 68 73 65 81 L71 90Z"
+        fill="url(#bb-fl-mid)" opacity="0.92"/>
+  <!-- Tall centre-left mid flame -->
+  <path d="M60 90 C59 75 62 60 59 47 C63 58 62 51 65 41
+           C65 55 64 63 67 57 C67 47 69 36 67 23
+           C71 38 69 50 73 43 C72 59 70 70 73 79 L67 90Z"
+        fill="url(#bb-fl-mid)" opacity="0.87"/>
+
+  <!-- ═══ FLAMES — Layer 3: Inner bright yellow-gold ═══ -->
+  <path d="M62 90 C61 77 64 62 61 50 C65 60 64 53 67 43
+           C67 57 66 64 69 58 C69 47 71 36 68 24
+           C73 40 70 51 74 45 C72 62 71 71 73 80 L68 90Z"
+        fill="url(#bb-fl-core)" opacity="0.92"/>
+
+  <!-- ═══ FLAMES — Central divine column (brilliant gold-white) ═══ -->
+  <path d="M64 90 C63 73 67 55 64 42 C68 55 67 47 70 36
+           C70 51 69 60 72 52 C72 40 74 28 71 14
+           C76 32 73 46 77 39 C75 57 73 68 76 79 L70 90Z"
+        fill="#FFEE88" opacity="0.97"/>
+  <!-- Pure white divine core -->
+  <path d="M66 90 C65 75 69 58 67 45 C70 57 69 50 71 38
+           C72 53 71 63 73 55 C73 43 74 30 72 18
+           C75 35 74 48 76 42 C75 58 73 70 75 81 L71 90Z"
+        fill="white" opacity="0.62"/>
+
+  <!-- ═══ BUSH FOLIAGE (miraculously not consumed) ═══ -->
+  <!-- Back/shadow foliage -->
+  <circle cx="56" cy="73" r="7.5" fill="#1A5C1A" opacity="0.8"/>
+  <circle cx="68" cy="68" r="8.5" fill="#1A5C1A" opacity="0.72"/>
+  <circle cx="80" cy="71" r="7.5" fill="#1A5C1A" opacity="0.8"/>
+  <circle cx="62" cy="79" r="6.5" fill="#1A5C1A" opacity="0.78"/>
+  <circle cx="74" cy="77" r="6.5" fill="#1A5C1A" opacity="0.78"/>
+  <circle cx="60" cy="64" r="6.5" fill="#1A5C1A" opacity="0.65"/>
+  <circle cx="76" cy="63" r="6.5" fill="#1A5C1A" opacity="0.65"/>
+  <circle cx="67" cy="58" r="7.5" fill="#1A5C1A" opacity="0.58"/>
+  <!-- Foreground foliage (front of bush — lit by fire glow) -->
+  <circle cx="58" cy="77" r="5.5" fill="#2A7A2A" opacity="0.88"/>
+  <circle cx="68" cy="83" r="6.5" fill="#2A7A2A" opacity="0.9"/>
+  <circle cx="78" cy="77" r="5.5" fill="#2A7A2A" opacity="0.88"/>
+  <!-- Flame-lit leaf highlights -->
+  <circle cx="60" cy="74" r="2.8" fill="#3AAA3A" opacity="0.55"/>
+  <circle cx="75" cy="72" r="2.8" fill="#3AAA3A" opacity="0.55"/>
+  <circle cx="67" cy="80" r="3.2" fill="#3AAA3A" opacity="0.55"/>
+  <!-- Leaf edge catches golden light -->
+  <circle cx="57" cy="71" r="1.5" fill="#88CC44" opacity="0.35"/>
+  <circle cx="79" cy="70" r="1.5" fill="#88CC44" opacity="0.35"/>
+
+  <!-- ═══ DIVINE LIGHT RAYS ═══ -->
+  <line x1="68" y1="44" x2="55" y2="16"  stroke="#FFE066" stroke-width="0.55" opacity="0.32" stroke-linecap="round"/>
+  <line x1="68" y1="44" x2="81" y2="16"  stroke="#FFE066" stroke-width="0.55" opacity="0.32" stroke-linecap="round"/>
+  <line x1="68" y1="44" x2="40" y2="38"  stroke="#FFE066" stroke-width="0.50" opacity="0.26" stroke-linecap="round"/>
+  <line x1="68" y1="44" x2="96" y2="38"  stroke="#FFE066" stroke-width="0.50" opacity="0.26" stroke-linecap="round"/>
+  <line x1="68" y1="44" x2="68" y2="13"  stroke="#FFE066" stroke-width="0.60" opacity="0.35" stroke-linecap="round"/>
+  <line x1="68" y1="44" x2="50" y2="27"  stroke="#FFE066" stroke-width="0.45" opacity="0.22" stroke-linecap="round"/>
+  <line x1="68" y1="44" x2="86" y2="27"  stroke="#FFE066" stroke-width="0.45" opacity="0.22" stroke-linecap="round"/>
+
+  <!-- Smoke wisps above tallest flame -->
+  <path d="M65 18 Q63 12 65 6 Q67 2 65 -2"  stroke="#8899BB" stroke-width="0.9" fill="none" opacity="0.28" stroke-linecap="round"/>
+  <path d="M71 16 Q73 10 71 4 Q69 0 71 -3"  stroke="#8899BB" stroke-width="0.9" fill="none" opacity="0.22" stroke-linecap="round"/>
+  <path d="M68 14 Q66 8 68 3"               stroke="#AABBCC" stroke-width="0.7" fill="none" opacity="0.22" stroke-linecap="round"/>
+
+  <!-- Divine presence orb (Angel of the LORD within the flame) -->
+  <ellipse cx="68" cy="46" rx="7" ry="12" fill="url(#bb-divine)"/>
+  <ellipse cx="68" cy="46" rx="3.5" ry="7" fill="white" opacity="0.18"/>
+
+  <!-- Ground reflections / scattered embers -->
+  <ellipse cx="67" cy="90" rx="22" ry="3.2" fill="#FF8800" opacity="0.32"/>
+  <circle cx="82" cy="88" r="0.6" fill="#FF9900" opacity="0.55"/>
+  <circle cx="54" cy="89" r="0.5" fill="#FF8800" opacity="0.5"/>
+  <circle cx="76" cy="90" r="0.4" fill="#FFCC00" opacity="0.6"/>
+  <circle cx="59" cy="91" r="0.4" fill="#FF8800" opacity="0.45"/>
+
+  <!-- Lit rock near bush -->
+  <ellipse cx="87" cy="89" rx="4.5" ry="1.8" fill="#C09040" opacity="0.8"/>
+  <ellipse cx="50" cy="91" rx="3.2" ry="1.4" fill="#A07830" opacity="0.7"/>
+</svg>

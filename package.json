@@ -1,0 +1,19 @@
+{
+  "name": "bible-app",
+  "private": true,
+  "scripts": {
+    "supabase": "supabase",
+    "quiz:gemini-batches": "node quiz-questions/run-gemini-batches.mjs",
+    "quiz:gemini-whole-book": "BATCHES_DIR=quiz-questions/batches node quiz-questions/run-gemini-batches.mjs",
+    "quiz:write-batches": "node quiz-questions/write-book-batches.mjs",
+    "quiz:write-chapter-batches": "node quiz-questions/write-chapter-chunk-batches.mjs",
+    "quiz:rebuild-by-book": "node quiz-questions/rebuild-by-book.mjs"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.0",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "supabase": "^2.89.1"
+  }
+}

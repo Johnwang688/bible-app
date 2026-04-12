@@ -13,6 +13,7 @@ except ImportError:
     from gotrue.errors import AuthApiError, AuthError, AuthRetryableError
 
 from app.core.supabase_client import create_supabase, get_supabase_admin
+from app.services.quiz_service import reset_dev_wallet_on_auth
 
 logger = logging.getLogger(__name__)
 from app.schemas.account import (
@@ -65,7 +66,9 @@ def sign_up_user(email: str, password: str, display_name: str | None = None) -> 
         response = client.auth.sign_in_with_password({"email": email, "password": password})
     except AuthApiError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
-    return _require_session(response, "Sign-up succeeded but could not create a session.")
+    auth = _require_session(response, "Sign-up succeeded but could not create a session.")
+    reset_dev_wallet_on_auth(auth.user_id, auth.email or email)
+    return auth
 
 
 _INVALID_LOGIN = "Invalid login credentials"
@@ -87,7 +90,9 @@ def sign_in_user(email: str, password: str) -> AuthResponse:
     except AuthError as exc:
         logger.info("Sign-in failed: %s", exc)
         raise HTTPException(status_code=401, detail=_INVALID_LOGIN) from exc
-    return _require_session(response, _INVALID_LOGIN)
+    auth = _require_session(response, _INVALID_LOGIN)
+    reset_dev_wallet_on_auth(auth.user_id, auth.email or email)
+    return auth
 
 
 def refresh_user_session(refresh_token: str) -> AuthResponse:

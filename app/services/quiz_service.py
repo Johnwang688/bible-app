@@ -1,18 +1,23 @@
 import random
+from datetime import UTC, datetime
 
 from fastapi import HTTPException
 
 from app.core.book_catalog import BOOK_BY_NUMBER
+from app.core.config import get_settings
 from app.core.supabase_client import get_supabase_admin
 from app.schemas.quiz import (
     ChapterProgressOut,
     ChapterQuizOut,
+    DailyRewardClaimOut,
+    DailyRewardsStatusOut,
     MasteryBookOut,
     MasteryChapterOut,
     MasteryOverviewOut,
     MasteryScopeBonusOut,
     MasterySectionOut,
     MasteryTestamentOut,
+    QuizHintOut,
     QuizQuestion,
     QuizSubmitIn,
     QuizSubmitOut,
@@ -49,7 +54,14 @@ CURRENCY_MASTERY_MILESTONE: dict[int, int] = {
 # One-time bonuses when every quizzable chapter in a scope is fully mastered (stage 5).
 COINS_BOOK_COMPLETE = 500
 COINS_SECTION_COMPLETE = 3000
-COINS_TESTAMENT_COMPLETE = 10000
+
+# Testament: one-time bonus when average mastery across all quizzable chapters in OT or NT reaches 100%.
+COINS_TESTAMENT_PCT_100 = 25000
+TESTAMENT_PCT_MILESTONES: tuple[tuple[int, int], ...] = ((100, COINS_TESTAMENT_PCT_100),)
+
+# Home daily freebies (claimed once per UTC day; keys in user_mastery_scope_rewards).
+COINS_DAILY_VERSE = 10
+COINS_DAILY_TASKS_ALL = 20
 
 # Bible sections for mastery drill-down (Protestant 66-book canon, matches book_catalog)
 _OT_SECTIONS: tuple[tuple[str, str, tuple[int, ...]], ...] = (
@@ -69,6 +81,32 @@ _NT_SECTIONS: tuple[tuple[str, str, tuple[int, ...]], ...] = (
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
+
+def _dev_wallet_email_matches(email: str | None) -> bool:
+    if not email:
+        return False
+    settings = get_settings()
+    if not settings.is_dev:
+        return False
+    dev = (settings.dev_account_email or "").strip().lower()
+    if not dev:
+        return False
+    return email.strip().lower() == dev
+
+
+def reset_dev_wallet_on_auth(user_id: str, email: str | None) -> None:
+    """In development, set the dev account wallet to DEV_WALLET_BALANCE after sign-in or sign-up."""
+    if not _dev_wallet_email_matches(email):
+        return
+    settings = get_settings()
+    balance = max(0, int(settings.dev_wallet_balance))
+    db = get_supabase_admin()
+    now_iso = datetime.now(UTC).isoformat()
+    db.table("user_wallet").upsert(
+        {"user_id": user_id, "balance": balance, "updated_at": now_iso},
+        on_conflict="user_id",
+    ).execute()
+
 
 def _get_or_create_progress(db, user_id: str, book_number: int, chapter: int) -> dict:
     result = (
@@ -219,7 +257,9 @@ def submit_quiz(user_id: str, payload: QuizSubmitIn) -> QuizSubmitOut:
 
     total_questions = 5
     threshold = PASS_THRESHOLD[stage_attempted]
-    passed = score >= threshold
+    raw_passed = score >= threshold
+    shield_saves = bool(payload.grace_shield) and not raw_passed
+    passed = raw_passed or shield_saves
 
     # Calculate mastery changes
     new_stage = current_stage
@@ -240,21 +280,45 @@ def submit_quiz(user_id: str, payload: QuizSubmitIn) -> QuizSubmitOut:
     scope_bonus_total = 0
     scope_bonuses: list[MasteryScopeBonusOut] = []
     newly_mastered = passed and new_stage == 5 and current_stage < 5
-    if newly_mastered:
+    if mastery_after != mastery_before:
         quizzable = _quizzable_chapters_stage1(db)
         prog_map = _user_progress_map(db, user_id)
-        scope_bonus_total, scope_bonuses = _collect_scope_completion_bonuses(
-            db, user_id, book_number, chapter, quizzable, prog_map
+        tb, tbon = _collect_testament_average_milestones(
+            db, user_id, book_number, chapter, quizzable, prog_map, mastery_after
         )
+        scope_bonus_total += tb
+        scope_bonuses.extend(tbon)
+        if newly_mastered:
+            sb, sbon = _collect_scope_completion_bonuses(
+                db, user_id, book_number, chapter, quizzable, prog_map
+            )
+            scope_bonus_total += sb
+            scope_bonuses.extend(sbon)
 
-    total_currency = base_currency + perfect_bonus + milestone_bonus + scope_bonus_total
+    mult = (
+        2
+        if payload.coin_multiplier in ("coin_rush", "blessing")
+        else 1
+    )
+    currency_awarded_scaled = int((base_currency + milestone_bonus) * mult)
+    perfect_bonus_scaled = int(perfect_bonus * mult)
+    milestone_bonus_scaled = int(milestone_bonus * mult)
+    scope_bonuses_scaled = [
+        MasteryScopeBonusOut(
+            kind=b.kind, label=b.label, coins=int(b.coins * mult)
+        )
+        for b in scope_bonuses
+    ]
+    scope_bonus_total_scaled = sum(b.coins for b in scope_bonuses_scaled)
+    total_currency = (
+        currency_awarded_scaled + perfect_bonus_scaled + scope_bonus_total_scaled
+    )
 
     # Update user_chapter_progress
     new_total_attempts = progress["total_attempts"] + 1
     new_total_passes = progress["total_passes"] + (1 if passed else 0)
     new_highest_score = max(progress["highest_score"], score)
 
-    from datetime import UTC, datetime
     now_iso = datetime.now(UTC).isoformat()
 
     db.table("user_chapter_progress").upsert(
@@ -294,8 +358,8 @@ def submit_quiz(user_id: str, payload: QuizSubmitIn) -> QuizSubmitOut:
             "passed": passed,
             "mastery_before": mastery_before,
             "mastery_after": mastery_after,
-            "currency_awarded": base_currency + milestone_bonus,
-            "perfect_score_bonus": perfect_bonus,
+            "currency_awarded": currency_awarded_scaled,
+            "perfect_score_bonus": perfect_bonus_scaled,
         }
     ).execute()
 
@@ -309,15 +373,35 @@ def submit_quiz(user_id: str, payload: QuizSubmitIn) -> QuizSubmitOut:
         stage_attempted=stage_attempted,
         mastery_before=mastery_before,
         mastery_after=mastery_after,
-        currency_awarded=base_currency + milestone_bonus,
-        perfect_score_bonus=perfect_bonus,
-        mastery_completion_bonus=milestone_bonus,
-        scope_completion_bonus_total=scope_bonus_total,
-        scope_completion_bonuses=scope_bonuses,
+        currency_awarded=currency_awarded_scaled,
+        perfect_score_bonus=perfect_bonus_scaled,
+        mastery_completion_bonus=milestone_bonus_scaled,
+        scope_completion_bonus_total=scope_bonus_total_scaled,
+        scope_completion_bonuses=scope_bonuses_scaled,
         is_mastered=new_stage == 5,
         correct_answers=correct_answers,
         explanations=explanations,
+        grace_shield_applied=shield_saves,
+        coin_multiplier_applied=payload.coin_multiplier,
     )
+
+
+def reveal_hint(question_id: int) -> QuizHintOut:
+    """
+    Return the correct answer for a quiz question (for Hint Token UI).
+    """
+    db = get_supabase_admin()
+    result = (
+        db.table("quiz_question_bank")
+        .select("id, correct_answer")
+        .eq("id", question_id)
+        .limit(1)
+        .execute()
+    )
+    row = (result.data or [None])[0]
+    if not row:
+        raise HTTPException(status_code=404, detail="Unknown question id.")
+    return QuizHintOut(correct_answer=str(row["correct_answer"]))
 
 
 def get_chapter_progress(
@@ -343,10 +427,83 @@ def get_chapter_progress(
     )
 
 
-def get_wallet(user_id: str) -> WalletOut:
+def get_wallet(user_id: str, email: str | None = None) -> WalletOut:
     db = get_supabase_admin()
     wallet = _get_or_create_wallet(db, user_id)
-    return WalletOut(user_id=user_id, balance=wallet["balance"])
+    balance = int(wallet["balance"])
+    settings = get_settings()
+    if _dev_wallet_email_matches(email):
+        floor = max(0, int(settings.dev_wallet_balance))
+        if balance < floor:
+            now_iso = datetime.now(UTC).isoformat()
+            db.table("user_wallet").upsert(
+                {"user_id": user_id, "balance": floor, "updated_at": now_iso},
+                on_conflict="user_id",
+            ).execute()
+            balance = floor
+    return WalletOut(user_id=user_id, balance=balance)
+
+
+def _try_claim_daily_coins(db, user_id: str, milestone_key: str, coins: int) -> bool:
+    """Record a daily milestone and credit the wallet. Returns True if this call awarded coins."""
+    if not _claim_milestone_reward(db, user_id, milestone_key, coins):
+        return False
+    wallet = _get_or_create_wallet(db, user_id)
+    new_balance = int(wallet["balance"]) + coins
+    now_iso = datetime.now(UTC).isoformat()
+    db.table("user_wallet").upsert(
+        {"user_id": user_id, "balance": new_balance, "updated_at": now_iso},
+        on_conflict="user_id",
+    ).execute()
+    return True
+
+
+def get_daily_rewards_status(user_id: str) -> DailyRewardsStatusOut:
+    today = datetime.now(UTC).date().isoformat()
+    db = get_supabase_admin()
+    vkey = f"daily:verse:{today}"
+    tkey = f"daily:tasks:{today}"
+    result = (
+        db.table("user_mastery_scope_rewards")
+        .select("milestone_key")
+        .eq("user_id", user_id)
+        .in_("milestone_key", [vkey, tkey])
+        .execute()
+    )
+    keys = {row["milestone_key"] for row in (result.data or [])}
+    return DailyRewardsStatusOut(
+        date=today,
+        verse_claimed=vkey in keys,
+        tasks_claimed=tkey in keys,
+    )
+
+
+def claim_daily_verse_reward(user_id: str, email: str | None) -> DailyRewardClaimOut:
+    db = get_supabase_admin()
+    today = datetime.now(UTC).date().isoformat()
+    key = f"daily:verse:{today}"
+    awarded = _try_claim_daily_coins(db, user_id, key, COINS_DAILY_VERSE)
+    w = get_wallet(user_id, email)
+    return DailyRewardClaimOut(
+        date=today,
+        coins_awarded=COINS_DAILY_VERSE if awarded else 0,
+        already_claimed=not awarded,
+        balance=w.balance,
+    )
+
+
+def claim_daily_tasks_bonus(user_id: str, email: str | None) -> DailyRewardClaimOut:
+    db = get_supabase_admin()
+    today = datetime.now(UTC).date().isoformat()
+    key = f"daily:tasks:{today}"
+    awarded = _try_claim_daily_coins(db, user_id, key, COINS_DAILY_TASKS_ALL)
+    w = get_wallet(user_id, email)
+    return DailyRewardClaimOut(
+        date=today,
+        coins_awarded=COINS_DAILY_TASKS_ALL if awarded else 0,
+        already_claimed=not awarded,
+        balance=w.balance,
+    )
 
 
 def _quizzable_chapters_stage1(db) -> set[tuple[int, int]]:
@@ -448,6 +605,50 @@ def _all_quizzable_chapters_mastered(
     return True
 
 
+def _collect_testament_average_milestones(
+    db,
+    user_id: str,
+    book_number: int,
+    chapter: int,
+    quizzable: set[tuple[int, int]],
+    prog: dict[tuple[int, int], dict],
+    mastery_after: int,
+) -> tuple[int, list[MasteryScopeBonusOut]]:
+    """Award one-time coins when OT/NT average mastery reaches 100%."""
+    testament_id = "OT" if 1 <= book_number <= 39 else "NT"
+    testament_label = "Old Testament" if testament_id == "OT" else "New Testament"
+    test_keys = _keys_for_testament(quizzable, testament_id)
+    if not test_keys:
+        return 0, []
+
+    avg_before, _, _ = _avg_percent(sorted(test_keys), prog)
+
+    prog_after = dict(prog)
+    prev = prog_after.get((book_number, chapter)) or {}
+    prog_after[(book_number, chapter)] = {
+        **prev,
+        "mastery_percent": mastery_after,
+        "is_mastered": mastery_after >= 100,
+    }
+    avg_after, _, _ = _avg_percent(sorted(test_keys), prog_after)
+
+    bonuses: list[MasteryScopeBonusOut] = []
+    total = 0
+    for threshold, coins in TESTAMENT_PCT_MILESTONES:
+        if avg_before < threshold <= avg_after:
+            mkey = f"testament:{testament_id}:pct{threshold}"
+            if _claim_milestone_reward(db, user_id, mkey, coins):
+                bonuses.append(
+                    MasteryScopeBonusOut(
+                        kind="testament",
+                        label=f"{testament_label} ({threshold}% average)",
+                        coins=coins,
+                    )
+                )
+                total += coins
+    return total, bonuses
+
+
 def _collect_scope_completion_bonuses(
     db,
     user_id: str,
@@ -457,9 +658,8 @@ def _collect_scope_completion_bonuses(
     prog: dict[tuple[int, int], dict],
 ) -> tuple[int, list[MasteryScopeBonusOut]]:
     """
-    After a chapter reaches full mastery, award one-time coins if the book, Bible
-    section, or testament is now fully mastered (all quizzable chapters in that
-    scope have stage 5).
+    After a chapter reaches full mastery, award one-time coins if the book or Bible
+    section is now fully mastered (all quizzable chapters in that scope have stage 5).
     """
     if (book_number, chapter) not in quizzable:
         return 0, []
@@ -494,21 +694,6 @@ def _collect_scope_completion_bonuses(
                     )
                 )
                 total += COINS_SECTION_COMPLETE
-
-    testament_id = "OT" if 1 <= book_number <= 39 else "NT"
-    testament_label = "Old Testament" if testament_id == "OT" else "New Testament"
-    test_keys = _keys_for_testament(quizzable, testament_id)
-    if test_keys and _all_quizzable_chapters_mastered(test_keys, prog):
-        mkey = f"testament:{testament_id}"
-        if _claim_milestone_reward(db, user_id, mkey, COINS_TESTAMENT_COMPLETE):
-            bonuses.append(
-                MasteryScopeBonusOut(
-                    kind="testament",
-                    label=testament_label,
-                    coins=COINS_TESTAMENT_COMPLETE,
-                )
-            )
-            total += COINS_TESTAMENT_COMPLETE
 
     return total, bonuses
 

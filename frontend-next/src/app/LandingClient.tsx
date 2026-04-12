@@ -73,25 +73,30 @@ export default function LandingClient() {
     const flipElB = flipB;
 
     let raf: number;
-    let tFlip = -54, cFlip = -54;
+    let prevShowA = false; // tracks last visibility state so handoffs bypass the moved guard
+    let tFlip = -8, cFlip = -8;
     let tTiltX = 9, cTiltX = 9;
     let tTiltY = -12, cTiltY = -12;
     let tLift = 0, cLift = 0;
     let tDriftX = 0, cDriftX = 0;
     let tRoll = 0, cRoll = 0;
-    let mFlip = -54;
+    let mFlip = -8;
     let mTiltX = 9;
     let mTiltY = -12;
     let mLift = 0;
     let mDriftX = 0;
     let mRoll = 0;
     let mProximity = 0;
-    let autoTurn = 0.16;
+    let autoTurn = 0.05;
+    let lastTime = performance.now();
     let lastMouse = 0;
     const isTouch = window.matchMedia('(hover: none)').matches;
     const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
-    const easeOutCubic = (x: number) => 1 - Math.pow(1 - x, 3);
-    const turnAngle = (progress: number) => -8 - easeOutCubic(progress) * 210;
+    // easeInOutCubic: slow start → fast middle → slow landing (natural page-turn feel)
+    const easeInOutCubic = (x: number) => x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+    // Each page turns from -8° (resting on right) to -180° (fully on left) over its visible half-cycle.
+    // At -180° the front face is hidden (backface-visibility), so the handoff to the next page is seamless.
+    const turnAngle = (progress: number) => -8 - easeInOutCubic(progress) * 172;
     const turnCurl = (progress: number) => Math.sin(progress * Math.PI);
 
     const updateFromBookSpace = (clientX: number, clientY: number) => {
@@ -131,11 +136,18 @@ export default function LandingClient() {
     }
 
     function tick() {
-      // Reading-style idle turn: continuous right->left page turns (infinite pages).
-      autoTurn += 0.0025;
+      // Time-based advancement: frame-rate independent (60Hz, 120Hz, etc.)
+      const now = performance.now();
+      const dt = Math.min((now - lastTime) / 1000, 0.1); // seconds, clamped against tab-hidden gaps
+      lastTime = now;
+      autoTurn += dt * 0.15; // 0.15 turns/sec → ~6.7 s per full page turn
+
       const autoPhaseA = autoTurn % 1;
-      const autoPhaseB = (autoTurn + 0.5) % 1;
-      const autoFlip = turnAngle(autoPhaseA);
+      // A is visible during [0, 0.5): local phase 0→1 maps to a complete -8°→-180° turn.
+      // At phase 0.5 A has reached -180° (front face hidden) and B starts fresh at -8°.
+      const showA = autoPhaseA < 0.5;
+      const localPhase = showA ? autoPhaseA * 2 : (autoPhaseA - 0.5) * 2;
+      const autoFlip = turnAngle(localPhase); // tracks whichever page is visible — no wrap-jump
       const autoTiltX = 6 + Math.sin(autoTurn * Math.PI * 2 * 0.78) * 7.2;
       const autoTiltY = -10 + Math.cos(autoTurn * Math.PI * 2 * 0.58) * 8.8;
       const autoLift = Math.sin(autoTurn * Math.PI * 2 * 1.05) * 6.2;
@@ -162,8 +174,12 @@ export default function LandingClient() {
       cDriftX += (tDriftX - cDriftX) * 0.2;
       cRoll += (tRoll - cRoll) * 0.2;
 
-      // Skip DOM writes when nothing has moved meaningfully
-      const moved = Math.abs(cFlip - prevFlip) > 0.02
+      const handoff = showA !== prevShowA;
+      prevShowA = showA;
+
+      // Skip DOM writes when nothing has moved meaningfully, but always write on page handoff.
+      const moved = handoff
+        || Math.abs(cFlip - prevFlip) > 0.02
         || Math.abs(cTiltX - prevTiltX) > 0.02
         || Math.abs(cTiltY - prevTiltY) > 0.02
         || Math.abs(cLift - prevLift) > 0.02
@@ -175,31 +191,31 @@ export default function LandingClient() {
         let shadowAngleDeg = cFlip;
 
         if (mouseWeight > 0.02) {
-          // User interaction: one direct, fluid page controlled by cursor in both directions.
+          // User interaction: one direct, fluid page controlled by cursor.
           const userProgress = clamp((Math.abs(cFlip) - 8) / 224, 0, 1);
           const userCurl = turnCurl(userProgress);
           flipElA.style.visibility = 'visible';
           flipElB.style.visibility = 'hidden';
           flipElA.style.transform = `translateZ(${(userCurl * 2.2).toFixed(2)}px) rotateX(${(userCurl * 2.6).toFixed(2)}deg) rotateY(${cFlip.toFixed(2)}deg)`;
         } else {
-          // Idle mode: two staggered pages prevent reset/snapback.
-          // Toggle visibility (not opacity) to avoid ghost frames / afterimages.
-          const curlA = turnCurl(autoPhaseA);
-          const curlB = turnCurl(autoPhaseB);
-          const angleA = turnAngle(autoPhaseA);
-          const angleB = turnAngle(autoPhaseB);
-          // Strict < 0.5 so at phase 0.5 exactly only one sheet is visible (avoids double-layer ghosting).
-          const showA = autoPhaseA < 0.5;
-          const showB = autoPhaseB < 0.5;
+          // Idle mode: only the active page's transform is computed and written.
+          const curl = turnCurl(localPhase);
+          const angle = turnAngle(localPhase);
           flipElA.style.visibility = showA ? 'visible' : 'hidden';
-          flipElB.style.visibility = showB ? 'visible' : 'hidden';
-          flipElA.style.transform = `translateZ(${(curlA * 2.2 + 0.6).toFixed(2)}px) rotateX(${(curlA * 2.6).toFixed(2)}deg) rotateY(${angleA.toFixed(2)}deg)`;
-          flipElB.style.transform = `translateZ(${(curlB * 2.2 + 0.2).toFixed(2)}px) rotateX(${(curlB * 2.6).toFixed(2)}deg) rotateY(${angleB.toFixed(2)}deg)`;
-          shadowAngleDeg = showA ? angleA : angleB;
+          flipElB.style.visibility = showA ? 'hidden' : 'visible';
+          if (showA) {
+            flipElA.style.transform = `translateZ(${(curl * 2.2 + 0.6).toFixed(2)}px) rotateX(${(curl * 2.6).toFixed(2)}deg) rotateY(${angle.toFixed(2)}deg)`;
+            // On handoff, snap the newly-hidden B back to start so it's ready for its next turn.
+            if (handoff) flipElB.style.transform = `translateZ(0.2px) rotateX(0deg) rotateY(-8deg)`;
+          } else {
+            flipElB.style.transform = `translateZ(${(curl * 2.2 + 0.2).toFixed(2)}px) rotateX(${(curl * 2.6).toFixed(2)}deg) rotateY(${angle.toFixed(2)}deg)`;
+            if (handoff) flipElA.style.transform = `translateZ(0.6px) rotateX(0deg) rotateY(-8deg)`;
+          }
+          shadowAngleDeg = angle;
         }
 
         if (flipShadow || rightShadow) {
-          const t = clamp((Math.abs(shadowAngleDeg) - 8) / 224, 0, 1);
+          const t = clamp((Math.abs(shadowAngleDeg) - 8) / 172, 0, 1);
           if (flipShadow)  flipShadow.style.opacity  = (Math.sin(t * Math.PI) * 0.6).toFixed(3);
           if (rightShadow) rightShadow.style.opacity = ((1 - t) * 0.32).toFixed(3);
         }

@@ -19,6 +19,29 @@ ROOT = Path(__file__).resolve().parent
 FRONTEND_DIR = ROOT / "frontend-next"
 
 
+def _merge_root_dotenv(env: dict[str, str]) -> None:
+    """Expose repo-root .env to the Next.js child when missing (e.g. BACKEND_URL)."""
+    path = ROOT / ".env"
+    if not path.is_file():
+        return
+    try:
+        raw = path.read_text(encoding="utf-8")
+    except OSError:
+        return
+    for line in raw.splitlines():
+        s = line.strip()
+        if not s or s.startswith("#") or "=" not in s:
+            continue
+        key, _, val = s.partition("=")
+        key = key.strip()
+        if not key or key in env:
+            continue
+        val = val.strip()
+        if len(val) >= 2 and val[0] == val[-1] and val[0] in "\"'":
+            val = val[1:-1]
+        env[key] = val
+
+
 def _resolve_venv_python(root: Path) -> Path | None:
     """Project .venv interpreter if it exists (same deps as `pip install -r requirements.txt`)."""
     if sys.platform == "win32":
@@ -74,6 +97,7 @@ def main() -> int:
 
     os.chdir(ROOT)
     env = os.environ.copy()
+    _merge_root_dotenv(env)
 
     try:
         npm = _resolve_npm()

@@ -33,8 +33,15 @@ import {
   signOut,
   signUp,
 } from '@/lib/account';
-import { getWallet } from '@/lib/quiz';
+import {
+  claimDailyTasksBonus,
+  claimDailyVerseReward,
+  getDailyRewardsStatus,
+  getWallet,
+  type WalletOut,
+} from '@/lib/quiz';
 import { parseReferenceLabel, sortBookNamesForMatching } from '@/lib/scriptureReference';
+import { resetDevShopAfterAuth } from '@/lib/shopInventory';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 interface BookInfo {
@@ -1003,29 +1010,70 @@ function DailyTasksList({
   taskAiDone,
   taskMinutesDone,
   dailyGoalMinutes,
+  signedIn,
+  tasksBonusClaimed,
+  onClaimTasksBonus,
+  tasksBonusClaiming,
 }: {
   taskChapterDone: boolean;
   taskAiDone: boolean;
   taskMinutesDone: boolean;
   dailyGoalMinutes: number;
+  signedIn?: boolean;
+  tasksBonusClaimed?: boolean;
+  onClaimTasksBonus?: () => void;
+  tasksBonusClaiming?: boolean;
 }) {
   const rows = [
     { done: taskAiDone, label: 'Talk to the AI assistant once' },
     { done: taskChapterDone, label: 'Read one chapter of the Bible' },
     { done: taskMinutesDone, label: `Reach your daily active learning goal (${dailyGoalMinutes} min)` },
   ];
+  const allDone = rows.every(r => r.done);
   return (
     <ul className="daily-goals-list" aria-label="Daily tasks">
       {rows.map((row, i) => (
         <li key={i} className={`daily-task${row.done ? ' daily-task--done' : ''}`}>
           <div className="daily-task-row">
             <span className="daily-task-check" aria-hidden="true">
-              {row.done ? '✓' : ''}
+              {row.done ? '✓' : '○'}
             </span>
             <span className="daily-task-label">{row.label}</span>
+            <span className="daily-task-coins" aria-label="+10 coins">
+              {row.done ? '🪙' : '🪙 +10'}
+            </span>
           </div>
         </li>
       ))}
+      {allDone && (
+        <li className={`daily-task daily-task--bonus${tasksBonusClaimed ? ' daily-task--done' : ''}`}>
+          <div className="daily-task-row daily-task-row--bonus">
+            <span className="daily-task-check" aria-hidden="true">★</span>
+            <span className="daily-task-label">All tasks complete</span>
+            {tasksBonusClaimed ? (
+              <span className="daily-task-coins daily-task-coins--bonus" aria-label="Bonus claimed">
+                Claimed
+              </span>
+            ) : signedIn && onClaimTasksBonus ? (
+              <button
+                type="button"
+                className="daily-task-claim-btn"
+                disabled={tasksBonusClaiming}
+                onClick={onClaimTasksBonus}
+              >
+                {tasksBonusClaiming ? '…' : 'Claim +20'}
+              </button>
+            ) : (
+              <span className="daily-task-coins daily-task-coins--bonus" aria-label="+20 bonus coins">
+                🪙 +20
+              </span>
+            )}
+          </div>
+          {!signedIn && (
+            <p className="daily-task-bonus-hint">Sign in to claim your +20 coin bonus.</p>
+          )}
+        </li>
+      )}
     </ul>
   );
 }
@@ -1124,6 +1172,16 @@ export default function BibleApp({
   const [authError, setAuthError]           = useState<string | null>(null);
   /** Quiz wallet balance (signed-in only); refreshed after quiz submit. */
   const [coinBalance, setCoinBalance] = useState<number | null>(null);
+  const [dailyRewardsStatus, setDailyRewardsStatus] = useState<{
+    verse_claimed: boolean;
+    tasks_claimed: boolean;
+  } | null>(null);
+  const [tasksBonusClaiming, setTasksBonusClaiming] = useState(false);
+  const [homeRewardToast, setHomeRewardToast] = useState<{ msg: string; visible: boolean }>({
+    msg: '',
+    visible: false,
+  });
+  const homeToastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // ── Quiz ───
   const [quizOpen, setQuizOpen] = useState(false);
@@ -1794,13 +1852,64 @@ export default function BibleApp({
       return;
     }
     getWallet(session)
-      .then(w => setCoinBalance(w.balance))
+      .then((w: WalletOut) => setCoinBalance(w.balance))
       .catch(() => setCoinBalance(null));
   }, [authSession]);
 
   useEffect(() => {
     refreshCoinBalance();
   }, [refreshCoinBalance]);
+
+  const showHomeToast = useCallback((msg: string) => {
+    if (homeToastTimerRef.current) clearTimeout(homeToastTimerRef.current);
+    setHomeRewardToast({ msg, visible: true });
+    homeToastTimerRef.current = setTimeout(() => {
+      setHomeRewardToast(t => ({ ...t, visible: false }));
+    }, 2800);
+  }, []);
+
+  const refreshDailyRewardsStatus = useCallback(() => {
+    const session = authSession;
+    if (!session) {
+      setDailyRewardsStatus(null);
+      return;
+    }
+    getDailyRewardsStatus(session)
+      .then(s => setDailyRewardsStatus({ verse_claimed: s.verse_claimed, tasks_claimed: s.tasks_claimed }))
+      .catch(() => setDailyRewardsStatus(null));
+  }, [authSession]);
+
+  useEffect(() => {
+    refreshDailyRewardsStatus();
+  }, [refreshDailyRewardsStatus]);
+
+  useEffect(() => {
+    return () => {
+      if (homeToastTimerRef.current) clearTimeout(homeToastTimerRef.current);
+    };
+  }, []);
+
+  const handleClaimDailyTasksBonus = useCallback(async () => {
+    if (!authSession) return;
+    setTasksBonusClaiming(true);
+    try {
+      const r = await claimDailyTasksBonus(authSession);
+      setCoinBalance(r.balance);
+      setDailyRewardsStatus(prev => ({
+        verse_claimed: prev?.verse_claimed ?? false,
+        tasks_claimed: true,
+      }));
+      if (r.already_claimed) {
+        showHomeToast('Daily bonus already claimed today.');
+      } else {
+        showHomeToast(`+${r.coins_awarded} coins — all daily tasks done!`);
+      }
+    } catch {
+      showHomeToast('Could not claim bonus. Try again.');
+    } finally {
+      setTasksBonusClaiming(false);
+    }
+  }, [authSession, showHomeToast]);
 
   const openReaderFromHome = useCallback((panel: SidePanelMode) => {
     setHomeScreenActive(false);
@@ -2777,6 +2886,28 @@ export default function BibleApp({
   const taskMinutesDone = activeLearningMsToday >= dailyGoalMs;
   const savedVerseCount = highlightedVerses.length + bookmarkedVerses.length + Object.keys(verseNotes).length;
 
+  const handleDailyVerseRefClick = async () => {
+    if (authSession) {
+      try {
+        const r = await claimDailyVerseReward(authSession);
+        setCoinBalance(r.balance);
+        setDailyRewardsStatus(prev => ({
+          verse_claimed: true,
+          tasks_claimed: prev?.tasks_claimed ?? false,
+        }));
+        if (r.already_claimed) {
+          showHomeToast('Daily verse reward already claimed today.');
+        } else {
+          showHomeToast(`+${r.coins_awarded} coins!`);
+        }
+      } catch {
+        showHomeToast('Could not claim reward. Try again.');
+      }
+    }
+    const didNavigate = navigateToPassage(dailyVerse.book, dailyVerse.chapter, translation, dailyVerse.verse);
+    if (didNavigate) openReaderFromHome('none');
+  };
+
   const persistRecentPassage = useCallback((bookName: string, currentChapter: number, currentTranslation: string) => {
     const nextEntry: SavedPassage = {
       book: bookName,
@@ -3382,6 +3513,7 @@ export default function BibleApp({
     setAuthError(null);
     try {
       const session = await signIn(email, password);
+      resetDevShopAfterAuth();
       accountBootstrapRef.current = true;
       persistAuthSession(session);
       setAuthSession(session);
@@ -3398,6 +3530,7 @@ export default function BibleApp({
     setAuthError(null);
     try {
       const session = await signUp(email, password, displayName);
+      resetDevShopAfterAuth();
       accountBootstrapRef.current = true;
       persistAuthSession(session);
       setAuthSession(session);
@@ -4587,7 +4720,7 @@ export default function BibleApp({
        only so init hydration and token refresh do not cancel this effect mid-flight (fixes sign-in
        from /signin when a stored session is restored on first /app load). */
     // eslint-disable-next-line react-hooks/exhaustive-deps -- see above
-  }, [authSession?.userId, books.length]);
+  }, [authSession?.user?.id, books.length]);
 
   useEffect(() => {
     if (!authSession || !syncReadyRef.current || hydratingAccountRef.current || books.length === 0) return;
@@ -5716,6 +5849,10 @@ export default function BibleApp({
                   taskAiDone={taskAiDone}
                   taskMinutesDone={taskMinutesDone}
                   dailyGoalMinutes={dailyGoalMinutes}
+                  signedIn={Boolean(authSession)}
+                  tasksBonusClaimed={Boolean(dailyRewardsStatus?.tasks_claimed)}
+                  onClaimTasksBonus={handleClaimDailyTasksBonus}
+                  tasksBonusClaiming={tasksBonusClaiming}
                 />
               )}
             </div>
@@ -5819,99 +5956,160 @@ export default function BibleApp({
                 />
                 <h1 className="home-screen-title">{homeTimeGreeting || 'Welcome'}</h1>
               </div>
-              <span className="topbar-tooltip-wrap" data-tooltip="My stuff">
-                <button
-                  className={`nav-btn nav-btn-icon-only${sidePanelMode === 'study' ? ' active' : ''}`}
-                  type="button"
-                  aria-label="My stuff"
-                  aria-expanded={sidePanelMode === 'study'}
-                  aria-controls="home-mystuff-panel"
-                  onClick={() => toggleStudyPanel()}
-                >
-                  <svg className="nav-search-icon" viewBox="0 0 24 24" width={20} height={20} aria-hidden="true">
-                    <circle cx="12" cy="9" r="3.25" />
-                    <path d="M5 20.5v-.35c0-3.2 2.85-5.65 7-5.65s7 2.45 7 5.65v.35" />
-                  </svg>
-                </button>
-              </span>
+              <div className="home-header-actions">
+                {authSession ? (
+                  <Link href="/app/shop" className="home-header-coins-chip" aria-label={`${coinBalance != null ? coinBalance.toLocaleString() : '…'} coins — open shop`}>
+                    <span aria-hidden="true">🪙</span>
+                    <span className="home-header-coins-amount" aria-live="polite">
+                      {coinBalance != null ? coinBalance.toLocaleString() : '…'}
+                    </span>
+                  </Link>
+                ) : null}
+                <span className="topbar-tooltip-wrap" data-tooltip="My stuff">
+                  <button
+                    className={`nav-btn nav-btn-icon-only${sidePanelMode === 'study' ? ' active' : ''}`}
+                    type="button"
+                    aria-label="My stuff"
+                    aria-expanded={sidePanelMode === 'study'}
+                    aria-controls="home-mystuff-panel"
+                    onClick={() => toggleStudyPanel()}
+                  >
+                    <svg className="nav-search-icon" viewBox="0 0 24 24" width={20} height={20} aria-hidden="true">
+                      <circle cx="12" cy="9" r="3.25" />
+                      <path d="M5 20.5v-.35c0-3.2 2.85-5.65 7-5.65s7 2.45 7 5.65v.35" />
+                    </svg>
+                  </button>
+                </span>
+              </div>
             </header>
-            <div ref={tutorialHomeSpotRef} className="tutorial-home-highlight-region">
-              <section className="home-screen-card reader-dashboard-card home-daily-verse-card" aria-labelledby="home-daily-verse-heading">
+            <div ref={tutorialHomeSpotRef} className="home-cards-grid">
+              {/* Verse of the day — full width */}
+              <section className="home-screen-card reader-dashboard-card home-daily-verse-card home-grid-full" aria-labelledby="home-daily-verse-heading">
                 <h2 id="home-daily-verse-heading" className="reader-dashboard-label">Verse of the day</h2>
                 <p className="home-daily-verse-text">{dailyVerse.text}</p>
                 <button
                   type="button"
                   className="home-daily-verse-ref"
-                  onClick={() => {
-                    const didNavigate = navigateToPassage(dailyVerse.book, dailyVerse.chapter, translation, dailyVerse.verse);
-                    if (didNavigate) openReaderFromHome('none');
-                  }}
+                  onClick={() => void handleDailyVerseRefClick()}
                 >
                   {dailyVerse.book} {dailyVerse.chapter}:{dailyVerse.verse}
                 </button>
+                {authSession ? (
+                  <p className={`home-daily-verse-reward-hint${dailyRewardsStatus?.verse_claimed ? ' home-daily-verse-reward-hint--done' : ''}`}>
+                    {dailyRewardsStatus?.verse_claimed
+                      ? 'Daily verse reward claimed'
+                      : 'Tap for +10 coins (once per day)'}
+                  </p>
+                ) : (
+                  <p className="home-daily-verse-reward-hint">Sign in to earn coins when you open today&apos;s verse.</p>
+                )}
               </section>
-              <section className="home-screen-card reader-dashboard-card" aria-labelledby="home-streak-heading">
-                <h2 id="home-streak-heading" className="reader-dashboard-label">Your streak</h2>
-                <p className="reader-dashboard-title">{readingProgress.streak} day streak</p>
-                <p className="home-screen-card-caption">{readingRhythmTitle}</p>
-                <div className="reader-dashboard-metrics">
-                  <span className="reader-pill">
-                    {minutesTowardGoal} of {dailyGoalMinutes} min active today
-                  </span>
-                </div>
-                <div className="daily-goals-block home-daily-goals">
-                  <button
-                    type="button"
-                    className="daily-goals-toggle"
-                    aria-expanded={dailyGoalsExpanded}
-                    onClick={() => setDailyGoalsExpanded(v => !v)}
-                  >
-                    Daily tasks
-                    <span className="daily-goals-toggle-chevron" aria-hidden="true">
-                      {dailyGoalsExpanded ? '▼' : '▶'}
+              {/* Streak (left) | Continue 1/3 + Tutorial 2/3 stacked (right) */}
+              <div className="home-grid-full home-streak-right-col-row">
+                {/* ── Streak card ── */}
+                <section
+                  className="home-screen-card reader-dashboard-card home-streak-card"
+                  aria-labelledby="home-streak-heading"
+                >
+                  <h2 id="home-streak-heading" className="reader-dashboard-label">Your streak</h2>
+                  <div className="home-streak-flame-row">
+                    <p className="reader-dashboard-title home-streak-number">{readingProgress.streak}</p>
+                    <span className="home-streak-days-label">day streak</span>
+                  </div>
+                  <div className="reader-dashboard-metrics" style={{ marginTop: 6 }}>
+                    <span className="reader-pill">
+                      {minutesTowardGoal}/{dailyGoalMinutes} min active today
                     </span>
-                  </button>
-                  {dailyGoalsExpanded && (
+                  </div>
+                  <div className="home-streak-7days" aria-label="Last 7 days">
+                    {Array.from({ length: 7 }, (_, i) => {
+                      const d = new Date(readingProgress.todayIso);
+                      d.setDate(d.getDate() - (6 - i));
+                      const iso = d.toISOString().slice(0, 10);
+                      const isToday = iso === readingProgress.todayIso;
+                      const met = readingProgress.goalMetDays.includes(iso);
+                      const dayLabel = ['S', 'M', 'T', 'W', 'T', 'F', 'S'][d.getDay()];
+                      return (
+                        <div key={iso} className={`home-streak-dot-col${isToday ? ' today' : ''}`}>
+                          <div className={`home-streak-dot${met ? ' met' : ''}${isToday ? ' today' : ''}`} aria-label={met ? 'Goal met' : 'Missed'} />
+                          <span className="home-streak-dot-label">{dayLabel}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div className="home-streak-tasks-section">
+                    <p className="home-daily-tasks-summary">Daily tasks</p>
                     <DailyTasksList
                       taskChapterDone={taskChapterDone}
                       taskAiDone={taskAiDone}
                       taskMinutesDone={taskMinutesDone}
                       dailyGoalMinutes={dailyGoalMinutes}
+                      signedIn={Boolean(authSession)}
+                      tasksBonusClaimed={Boolean(dailyRewardsStatus?.tasks_claimed)}
+                      onClaimTasksBonus={handleClaimDailyTasksBonus}
+                      tasksBonusClaiming={tasksBonusClaiming}
                     />
-                  )}
-                </div>
-              </section>
-              <section
-                className="home-screen-card reader-dashboard-card home-coins-card"
-                aria-labelledby="home-coins-heading"
-              >
-                <h2 id="home-coins-heading" className="reader-dashboard-label">Coins</h2>
-                <div className="auth-coins-block home-coins-block">
-                  {authSession ? (
-                    <div className="auth-coins-row">
-                      <p className="auth-coins-amount" aria-live="polite">
-                        <span className="auth-coins-icon" aria-hidden="true">
-                          🪙
-                        </span>
-                        {coinBalance != null ? `${coinBalance.toLocaleString()} coins` : '…'}
-                      </p>
-                      <Link href="/app/shop" className="auth-shop-pill" aria-label="Open shop">
-                        Shop
-                      </Link>
+                  </div>
+                </section>
+                {/* ── Right column: Continue (1/3 height) stacked above Tutorial (2/3 height) ── */}
+                <div className="home-right-col">
+                  <section
+                    className="home-screen-card reader-dashboard-card home-continue-card"
+                    aria-labelledby="home-continue-heading"
+                  >
+                    <h2 id="home-continue-heading" className="reader-dashboard-label">Continue reading</h2>
+                    <div className="home-continue-half-body">
+                      {chapterLoading && !chapterData ? (
+                        <div className="home-continue-loading">
+                          <span className="spinner" aria-hidden="true" />
+                          <span>Loading…</span>
+                        </div>
+                      ) : currentBook ? (
+                        <button
+                          type="button"
+                          className="home-continue-btn"
+                          onClick={() => openReaderFromHome('none')}
+                        >
+                          <span className="home-continue-ref">{currentBookLabel} {chapter}</span>
+                          <span className="home-continue-meta">{currentTranslationLabel}</span>
+                        </button>
+                      ) : (
+                        <p className="home-continue-empty">Pick a book to get started.</p>
+                      )}
                     </div>
-                  ) : (
-                    <div className="auth-coins-row home-coins-row--guest">
-                      <p className="home-coins-guest-msg">Sign in to earn coins from quizzes.</p>
-                      <Link href="/app/shop" className="auth-shop-pill" aria-label="Open shop">
-                        Shop
-                      </Link>
+                  </section>
+                  <section
+                    className="home-screen-card tutorial-home-card home-tutorial-card"
+                    aria-labelledby="home-tutorial-heading"
+                  >
+                    <div className="tutorial-home-copy">
+                      <h2 id="home-tutorial-heading" className="reader-dashboard-label">Guided tour</h2>
+                      <p className="tutorial-home-title">Learn every feature in a few quick steps.</p>
+                      <p className="home-screen-card-caption">Walk through reading, search, verse tools, commentary, AI, My Stuff, and settings without leaving the app.</p>
                     </div>
-                  )}
+                    <div className="tutorial-home-actions">
+                      <button
+                        type="button"
+                        className="tutorial-home-btn"
+                        onClick={() => openTutorial(0)}
+                      >
+                        Start tutorial
+                      </button>
+                      <button
+                        type="button"
+                        className="tutorial-home-btn tutorial-home-btn-secondary"
+                        onClick={() => openTutorial(2)}
+                      >
+                        Jump to features
+                      </button>
+                    </div>
+                  </section>
                 </div>
-              </section>
+              </div>
+              {/* Mastery — full width */}
               <Link
                 href="/app/mastery"
-                className="home-screen-card reader-dashboard-card home-mastery-card home-mastery-card--link"
+                className="home-screen-card reader-dashboard-card home-mastery-card home-mastery-card--link home-grid-full"
                 aria-labelledby="home-mastery-heading"
               >
                 <h2 id="home-mastery-heading" className="reader-dashboard-label">Mastery</h2>
@@ -5922,55 +6120,7 @@ export default function BibleApp({
                   translation={translation}
                 />
               </Link>
-              <section className="home-screen-card reader-dashboard-card" aria-labelledby="home-continue-heading">
-                <h2 id="home-continue-heading" className="reader-dashboard-label">Continue where you left off</h2>
-                {chapterLoading && !chapterData ? (
-                  <div className="home-continue-loading">
-                    <span className="spinner" aria-hidden="true" />
-                    <span>Loading your place…</span>
-                  </div>
-                ) : currentBook ? (
-                  <button
-                    type="button"
-                    className="home-continue-btn"
-                    onClick={() => openReaderFromHome('none')}
-                  >
-                    <span className="home-continue-ref">{currentBookLabel} {chapter}</span>
-                    <span className="home-continue-meta">{currentTranslationLabel}</span>
-                  </button>
-                ) : (
-                  <p className="home-continue-empty">Open the reader and pick a book to start.</p>
-                )}
-              </section>
             </div>
-            <section
-              className="home-screen-card tutorial-home-card"
-              aria-labelledby="home-tutorial-heading"
-            >
-              <div className="tutorial-home-copy">
-                <h2 id="home-tutorial-heading" className="reader-dashboard-label">Guided tour</h2>
-                <p className="tutorial-home-title">Learn every feature in a few quick steps.</p>
-                <p className="home-screen-card-caption">
-                  Walk through reading, search, verse tools, commentary, AI, My Stuff, and settings without leaving the app.
-                </p>
-              </div>
-              <div className="tutorial-home-actions">
-                <button
-                  type="button"
-                  className="tutorial-home-btn"
-                  onClick={() => openTutorial(0)}
-                >
-                  Start tutorial
-                </button>
-                <button
-                  type="button"
-                  className="tutorial-home-btn tutorial-home-btn-secondary"
-                  onClick={() => openTutorial(2)}
-                >
-                  Jump to features
-                </button>
-              </div>
-            </section>
           </div>
           {sidePanelMode === 'study' && (
             <aside
@@ -7136,6 +7286,13 @@ export default function BibleApp({
           }}
         />
       )}
+
+      <div
+        className={`sp-toast${homeRewardToast.visible ? ' sp-toast--visible' : ''}`}
+        aria-live="polite"
+      >
+        {homeRewardToast.msg}
+      </div>
     </>
   );
 }
