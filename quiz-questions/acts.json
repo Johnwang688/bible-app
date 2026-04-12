@@ -101,7 +101,7 @@
     "book_number": 44,
     "chapter": 1,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 1, what happened?",
+    "prompt": "According to Acts 1, what happened (Acts 1:4)?",
     "choices_json": [
       "a cloud received him out of their sight",
       "filled with the Holy Spirit",
@@ -115,7 +115,7 @@
     "book_number": 44,
     "chapter": 1,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 1, what happened?",
+    "prompt": "According to Acts 1, what happened (Acts 1:8)?",
     "choices_json": [
       "will come back in the same way",
       "filled with the Holy Spirit",
@@ -227,7 +227,7 @@
     "book_number": 44,
     "chapter": 1,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 1?",
+    "prompt": "Which phrase belongs in Acts 1 (Acts 1:3)?",
     "choices_json": [
       "a cloud received him out of their sight",
       "filled with the Holy Spirit",
@@ -241,7 +241,7 @@
     "book_number": 44,
     "chapter": 1,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 1?",
+    "prompt": "Which phrase belongs in Acts 1 (Acts 1:4)?",
     "choices_json": [
       "will come back in the same way",
       "filled with the Holy Spirit",
@@ -563,7 +563,7 @@
     "book_number": 44,
     "chapter": 2,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 2?",
+    "prompt": "Which phrase belongs in Acts 2 (Acts 2:2)?",
     "choices_json": [
       "this is what has been spoken through the prophet Joel",
       "you will be baptized in the Holy Spirit",
@@ -619,7 +619,7 @@
     "book_number": 44,
     "chapter": 2,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 2?",
+    "prompt": "Which phrase belongs in Acts 2 (Acts 2:22)?",
     "choices_json": [
       "about three thousand souls",
       "you will be baptized in the Holy Spirit",
@@ -703,7 +703,7 @@
     "book_number": 44,
     "chapter": 3,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 3, what does the chapter say about Jesus?",
+    "prompt": "According to Acts 3, what does the chapter say about Jesus (Acts 3:6)?",
     "choices_json": [
       "Peter commanded the beggar to walk in the name of Jesus Christ of Nazareth.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -745,7 +745,7 @@
     "book_number": 44,
     "chapter": 3,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 3, what does the chapter say about Jesus?",
+    "prompt": "According to Acts 3, what does the chapter say about Jesus (Acts 3:15)?",
     "choices_json": [
       "Faith in Jesus’s name gave the man perfect soundness.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -787,7 +787,7 @@
     "book_number": 44,
     "chapter": 3,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 3, what happened?",
+    "prompt": "According to Acts 3, what happened (Acts 3:8)?",
     "choices_json": [
       "Silver and gold I have not",
       "you will be baptized in the Holy Spirit",
@@ -801,7 +801,7 @@
     "book_number": 44,
     "chapter": 3,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 3, what happened?",
+    "prompt": "According to Acts 3, what happened (Acts 3:13)?",
     "choices_json": [
       "whom you delivered up, and denied in the presence of Pilate",
       "you will be baptized in the Holy Spirit",
@@ -885,7 +885,7 @@
     "book_number": 44,
     "chapter": 3,
     "difficulty_stage": 3,
-    "prompt": "According to Acts 3, what happened?",
+    "prompt": "According to Acts 3, what happened (Acts 3:15)?",
     "choices_json": [
       "He called for repentance so sins might be blotted out.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -899,7 +899,7 @@
     "book_number": 44,
     "chapter": 3,
     "difficulty_stage": 3,
-    "prompt": "According to Acts 3, what happened?",
+    "prompt": "According to Acts 3, what happened (Acts 3:16)?",
     "choices_json": [
       "He cited Moses about the prophet they must hear.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -913,7 +913,7 @@
     "book_number": 44,
     "chapter": 3,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 3?",
+    "prompt": "Which phrase belongs in Acts 3 (Acts 3:6)?",
     "choices_json": [
       "Silver and gold I have not",
       "you will be baptized in the Holy Spirit",
@@ -927,7 +927,7 @@
     "book_number": 44,
     "chapter": 3,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 3?",
+    "prompt": "Which phrase belongs in Acts 3 (Acts 3:8)?",
     "choices_json": [
       "whom you delivered up, and denied in the presence of Pilate",
       "you will be baptized in the Holy Spirit",
@@ -969,7 +969,7 @@
     "book_number": 44,
     "chapter": 3,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 3?",
+    "prompt": "Which phrase belongs in Acts 3 (Acts 3:16)?",
     "choices_json": [
       "All the families of the earth will be blessed",
       "you will be baptized in the Holy Spirit",
@@ -1011,7 +1011,7 @@
     "book_number": 44,
     "chapter": 3,
     "difficulty_stage": 5,
-    "prompt": "According to Acts 3, what happened?",
+    "prompt": "According to Acts 3, what happened (Acts 3:13)?",
     "choices_json": [
       "He called for repentance so sins might be blotted out.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -1025,7 +1025,7 @@
     "book_number": 44,
     "chapter": 3,
     "difficulty_stage": 5,
-    "prompt": "According to Acts 3, what happened?",
+    "prompt": "According to Acts 3, what happened (Acts 3:15)?",
     "choices_json": [
       "He cited Moses about the prophet they must hear.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -1151,7 +1151,7 @@
     "book_number": 44,
     "chapter": 4,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 4, what happened?",
+    "prompt": "According to Acts 4, what happened (Acts 4:12)?",
     "choices_json": [
       "There is salvation in no one else",
       "you will be baptized in the Holy Spirit",
@@ -1165,7 +1165,7 @@
     "book_number": 44,
     "chapter": 4,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 4, what happened?",
+    "prompt": "According to Acts 4, what happened (Acts 4:19)?",
     "choices_json": [
       "We must obey God rather than men",
       "you will be baptized in the Holy Spirit",
@@ -1179,7 +1179,7 @@
     "book_number": 44,
     "chapter": 4,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 4, what happened?",
+    "prompt": "According to Acts 4, what happened (Acts 4:20)?",
     "choices_json": [
       "the place was shaken",
       "you will be baptized in the Holy Spirit",
@@ -1235,7 +1235,7 @@
     "book_number": 44,
     "chapter": 4,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 4 teach?",
+    "prompt": "What does Acts 4 teach (Acts 4:19)?",
     "choices_json": [
       "The company prayed for boldness despite threats.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -1249,7 +1249,7 @@
     "book_number": 44,
     "chapter": 4,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 4 teach?",
+    "prompt": "What does Acts 4 teach (Acts 4:20)?",
     "choices_json": [
       "The place was shaken; they spoke God’s word with boldness.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -1277,7 +1277,7 @@
     "book_number": 44,
     "chapter": 4,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 4?",
+    "prompt": "Which phrase belongs in Acts 4 (Acts 4:10)?",
     "choices_json": [
       "There is salvation in no one else",
       "you will be baptized in the Holy Spirit",
@@ -1291,7 +1291,7 @@
     "book_number": 44,
     "chapter": 4,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 4?",
+    "prompt": "Which phrase belongs in Acts 4 (Acts 4:12)?",
     "choices_json": [
       "We must obey God rather than men",
       "you will be baptized in the Holy Spirit",
@@ -1305,7 +1305,7 @@
     "book_number": 44,
     "chapter": 4,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 4?",
+    "prompt": "Which phrase belongs in Acts 4 (Acts 4:19)?",
     "choices_json": [
       "the place was shaken",
       "you will be baptized in the Holy Spirit",
@@ -1319,7 +1319,7 @@
     "book_number": 44,
     "chapter": 4,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 4?",
+    "prompt": "Which phrase belongs in Acts 4 (Acts 4:20)?",
     "choices_json": [
       "of one heart and soul",
       "you will be baptized in the Holy Spirit",
@@ -1361,7 +1361,7 @@
     "book_number": 44,
     "chapter": 4,
     "difficulty_stage": 5,
-    "prompt": "What major point is made in Acts 4?",
+    "prompt": "What major point is made in Acts 4 (Acts 4:12)?",
     "choices_json": [
       "The company prayed for boldness despite threats.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -1375,7 +1375,7 @@
     "book_number": 44,
     "chapter": 4,
     "difficulty_stage": 5,
-    "prompt": "What major point is made in Acts 4?",
+    "prompt": "What major point is made in Acts 4 (Acts 4:19)?",
     "choices_json": [
       "The place was shaken; they spoke God’s word with boldness.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -1417,7 +1417,7 @@
     "book_number": 44,
     "chapter": 5,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 5, what happened?",
+    "prompt": "According to Acts 5, what happened (Acts 5:5)?",
     "choices_json": [
       "Sapphira fell dead after agreeing to the lie.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -1459,7 +1459,7 @@
     "book_number": 44,
     "chapter": 5,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 5, what happened?",
+    "prompt": "According to Acts 5, what happened (Acts 5:20)?",
     "choices_json": [
       "Gamaliel warned against fighting God if the work is of him.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -1473,7 +1473,7 @@
     "book_number": 44,
     "chapter": 5,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 5, what happened?",
+    "prompt": "According to Acts 5, what happened (Acts 5:3)?",
     "choices_json": [
       "You haven’t lied to men, but to God",
       "you will be baptized in the Holy Spirit",
@@ -1501,7 +1501,7 @@
     "book_number": 44,
     "chapter": 5,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 5, what happened?",
+    "prompt": "According to Acts 5, what happened (Acts 5:9)?",
     "choices_json": [
       "We must obey God rather than men",
       "you will be baptized in the Holy Spirit",
@@ -1515,7 +1515,7 @@
     "book_number": 44,
     "chapter": 5,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 5, what happened?",
+    "prompt": "According to Acts 5, what happened (Acts 5:19)?",
     "choices_json": [
       "fighting against God",
       "you will be baptized in the Holy Spirit",
@@ -1529,7 +1529,7 @@
     "book_number": 44,
     "chapter": 5,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 5, what happened?",
+    "prompt": "According to Acts 5, what happened (Acts 5:20)?",
     "choices_json": [
       "rejoicing that they were counted worthy to suffer dishonor",
       "you will be baptized in the Holy Spirit",
@@ -1543,7 +1543,7 @@
     "book_number": 44,
     "chapter": 5,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 5 teach?",
+    "prompt": "What does Acts 5 teach (Acts 5:3)?",
     "choices_json": [
       "Sapphira fell dead after agreeing to the lie.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -1571,7 +1571,7 @@
     "book_number": 44,
     "chapter": 5,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 5 teach about Jesus?",
+    "prompt": "What does Acts 5 teach about Jesus (Acts 5:9)?",
     "choices_json": [
       "Peter said God exalted Jesus to give repentance and forgiveness to Israel.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -1585,7 +1585,7 @@
     "book_number": 44,
     "chapter": 5,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 5 teach?",
+    "prompt": "What does Acts 5 teach (Acts 5:19)?",
     "choices_json": [
       "Gamaliel warned against fighting God if the work is of him.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -1599,7 +1599,7 @@
     "book_number": 44,
     "chapter": 5,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 5 teach about Jesus?",
+    "prompt": "What does Acts 5 teach about Jesus (Acts 5:20)?",
     "choices_json": [
       "The apostles were beaten yet rejoiced to suffer for Jesus’s name.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -1627,7 +1627,7 @@
     "book_number": 44,
     "chapter": 5,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 5?",
+    "prompt": "Which phrase belongs in Acts 5 (Acts 5:5)?",
     "choices_json": [
       "We must obey God rather than men",
       "you will be baptized in the Holy Spirit",
@@ -1641,7 +1641,7 @@
     "book_number": 44,
     "chapter": 5,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 5?",
+    "prompt": "Which phrase belongs in Acts 5 (Acts 5:9)?",
     "choices_json": [
       "fighting against God",
       "you will be baptized in the Holy Spirit",
@@ -1655,7 +1655,7 @@
     "book_number": 44,
     "chapter": 5,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 5?",
+    "prompt": "Which phrase belongs in Acts 5 (Acts 5:19)?",
     "choices_json": [
       "rejoicing that they were counted worthy to suffer dishonor",
       "you will be baptized in the Holy Spirit",
@@ -1669,7 +1669,7 @@
     "book_number": 44,
     "chapter": 5,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 5?",
+    "prompt": "Which phrase belongs in Acts 5 (Acts 5:20)?",
     "choices_json": [
       "You haven’t lied to men, but to God",
       "you will be baptized in the Holy Spirit",
@@ -1697,7 +1697,7 @@
     "book_number": 44,
     "chapter": 5,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 5 make about Jesus?",
+    "prompt": "What major point does Acts 5 make about Jesus (Acts 5:5)?",
     "choices_json": [
       "Peter said God exalted Jesus to give repentance and forgiveness to Israel.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -1725,7 +1725,7 @@
     "book_number": 44,
     "chapter": 5,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 5 make about Jesus?",
+    "prompt": "What major point does Acts 5 make about Jesus (Acts 5:19)?",
     "choices_json": [
       "The apostles were beaten yet rejoiced to suffer for Jesus’s name.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -1823,7 +1823,7 @@
     "book_number": 44,
     "chapter": 6,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 6, what does the chapter say about the word of God?",
+    "prompt": "According to Acts 6, what does the chapter say about the word of God (Acts 6:2)?",
     "choices_json": [
       "It is not appropriate for us to forsake the word of God and serve tables",
       "you will be baptized in the Holy Spirit",
@@ -1851,7 +1851,7 @@
     "book_number": 44,
     "chapter": 6,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 6, what does the chapter say about the word of God?",
+    "prompt": "According to Acts 6, what does the chapter say about the word of God (Acts 6:5)?",
     "choices_json": [
       "The word of God increased",
       "you will be baptized in the Holy Spirit",
@@ -1977,7 +1977,7 @@
     "book_number": 44,
     "chapter": 6,
     "difficulty_stage": 4,
-    "prompt": "Which phrase in Acts 6 speaks about the word of God?",
+    "prompt": "Which phrase in Acts 6 speaks about the word of God (Acts 6:3)?",
     "choices_json": [
       "The word of God increased",
       "you will be baptized in the Holy Spirit",
@@ -2019,7 +2019,7 @@
     "book_number": 44,
     "chapter": 6,
     "difficulty_stage": 4,
-    "prompt": "Which phrase in Acts 6 speaks about the word of God?",
+    "prompt": "Which phrase in Acts 6 speaks about the word of God (Acts 6:8)?",
     "choices_json": [
       "It is not appropriate for us to forsake the word of God and serve tables",
       "you will be baptized in the Holy Spirit",
@@ -2117,7 +2117,7 @@
     "book_number": 44,
     "chapter": 7,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 7, what happened?",
+    "prompt": "According to Acts 7, what happened (Acts 7:35)?",
     "choices_json": [
       "He accused them of always resisting the Holy Spirit.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -2131,7 +2131,7 @@
     "book_number": 44,
     "chapter": 7,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 7, what happened?",
+    "prompt": "According to Acts 7, what happened (Acts 7:51)?",
     "choices_json": [
       "He said they betrayed and murdered the Righteous One.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -2145,7 +2145,7 @@
     "book_number": 44,
     "chapter": 7,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 7, what happened?",
+    "prompt": "According to Acts 7, what happened (Acts 7:52)?",
     "choices_json": [
       "He saw the Son of Man standing at God’s right hand.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -2173,7 +2173,7 @@
     "book_number": 44,
     "chapter": 7,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 7, what happened?",
+    "prompt": "According to Acts 7, what happened (Acts 7:2)?",
     "choices_json": [
       "You stiff-necked and uncircumcised in heart and ears",
       "you will be baptized in the Holy Spirit",
@@ -2187,7 +2187,7 @@
     "book_number": 44,
     "chapter": 7,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 7, what happened?",
+    "prompt": "According to Acts 7, what happened (Acts 7:35)?",
     "choices_json": [
       "I see the heavens opened, and the Son of Man standing",
       "you will be baptized in the Holy Spirit",
@@ -2215,7 +2215,7 @@
     "book_number": 44,
     "chapter": 7,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 7, what happened?",
+    "prompt": "According to Acts 7, what happened (Acts 7:52)?",
     "choices_json": [
       "don’t hold this sin against them",
       "you will be baptized in the Holy Spirit",
@@ -2243,7 +2243,7 @@
     "book_number": 44,
     "chapter": 7,
     "difficulty_stage": 3,
-    "prompt": "According to Acts 7, what happened?",
+    "prompt": "According to Acts 7, what happened (Acts 7:2)?",
     "choices_json": [
       "He accused them of always resisting the Holy Spirit.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -2257,7 +2257,7 @@
     "book_number": 44,
     "chapter": 7,
     "difficulty_stage": 3,
-    "prompt": "According to Acts 7, what happened?",
+    "prompt": "According to Acts 7, what happened (Acts 7:35)?",
     "choices_json": [
       "He said they betrayed and murdered the Righteous One.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -2271,7 +2271,7 @@
     "book_number": 44,
     "chapter": 7,
     "difficulty_stage": 3,
-    "prompt": "According to Acts 7, what happened?",
+    "prompt": "According to Acts 7, what happened (Acts 7:51)?",
     "choices_json": [
       "He saw the Son of Man standing at God’s right hand.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -2299,7 +2299,7 @@
     "book_number": 44,
     "chapter": 7,
     "difficulty_stage": 3,
-    "prompt": "According to Acts 7, what happened?",
+    "prompt": "According to Acts 7, what happened (Acts 7:55)?",
     "choices_json": [
       "He asked the Lord Jesus to receive his spirit.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -2313,7 +2313,7 @@
     "book_number": 44,
     "chapter": 7,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 7?",
+    "prompt": "Which phrase belongs in Acts 7 (Acts 7:2)?",
     "choices_json": [
       "I see the heavens opened, and the Son of Man standing",
       "you will be baptized in the Holy Spirit",
@@ -2341,7 +2341,7 @@
     "book_number": 44,
     "chapter": 7,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 7?",
+    "prompt": "Which phrase belongs in Acts 7 (Acts 7:51)?",
     "choices_json": [
       "don’t hold this sin against them",
       "you will be baptized in the Holy Spirit",
@@ -2369,7 +2369,7 @@
     "book_number": 44,
     "chapter": 7,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 7?",
+    "prompt": "Which phrase belongs in Acts 7 (Acts 7:55)?",
     "choices_json": [
       "You stiff-necked and uncircumcised in heart and ears",
       "you will be baptized in the Holy Spirit",
@@ -2383,7 +2383,7 @@
     "book_number": 44,
     "chapter": 7,
     "difficulty_stage": 5,
-    "prompt": "According to Acts 7, what happened?",
+    "prompt": "According to Acts 7, what happened (Acts 7:2)?",
     "choices_json": [
       "He said they betrayed and murdered the Righteous One.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -2397,7 +2397,7 @@
     "book_number": 44,
     "chapter": 7,
     "difficulty_stage": 5,
-    "prompt": "According to Acts 7, what happened?",
+    "prompt": "According to Acts 7, what happened (Acts 7:35)?",
     "choices_json": [
       "He saw the Son of Man standing at God’s right hand.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -2425,7 +2425,7 @@
     "book_number": 44,
     "chapter": 7,
     "difficulty_stage": 5,
-    "prompt": "According to Acts 7, what happened?",
+    "prompt": "According to Acts 7, what happened (Acts 7:52)?",
     "choices_json": [
       "He asked the Lord Jesus to receive his spirit.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -2439,7 +2439,7 @@
     "book_number": 44,
     "chapter": 7,
     "difficulty_stage": 5,
-    "prompt": "According to Acts 7, what happened?",
+    "prompt": "According to Acts 7, what happened (Acts 7:55)?",
     "choices_json": [
       "He asked that their sin not be held against them.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -2523,7 +2523,7 @@
     "book_number": 44,
     "chapter": 8,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 8, what happened?",
+    "prompt": "According to Acts 8, what happened (Acts 8:1)?",
     "choices_json": [
       "Saul was consenting to his death",
       "you will be baptized in the Holy Spirit",
@@ -2551,7 +2551,7 @@
     "book_number": 44,
     "chapter": 8,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 8, what happened?",
+    "prompt": "According to Acts 8, what happened (Acts 8:4)?",
     "choices_json": [
       "May your silver perish with you",
       "you will be baptized in the Holy Spirit",
@@ -2747,7 +2747,7 @@
     "book_number": 44,
     "chapter": 8,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 8 make about the Holy Spirit?",
+    "prompt": "What major point does Acts 8 make about the Holy Spirit (Acts 8:3)?",
     "choices_json": [
       "Peter and John prayed and laid hands so Samaritans received the Holy Spirit.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -2789,7 +2789,7 @@
     "book_number": 44,
     "chapter": 8,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 8 make about the Holy Spirit?",
+    "prompt": "What major point does Acts 8 make about the Holy Spirit (Acts 8:12)?",
     "choices_json": [
       "The Spirit caught Philip away; he preached to cities as far as Caesarea.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -2803,7 +2803,7 @@
     "book_number": 44,
     "chapter": 9,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 9, what does the chapter say about Jesus?",
+    "prompt": "According to Acts 9, what does the chapter say about Jesus (Acts 9:4)?",
     "choices_json": [
       "Jesus identified himself as the one Saul persecuted.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -2831,7 +2831,7 @@
     "book_number": 44,
     "chapter": 9,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 9, what does the chapter say about Jesus?",
+    "prompt": "According to Acts 9, what does the chapter say about Jesus (Acts 9:15)?",
     "choices_json": [
       "Saul immediately proclaimed Jesus as the Son of God in synagogues.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -2901,7 +2901,7 @@
     "book_number": 44,
     "chapter": 9,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 9, what happened?",
+    "prompt": "According to Acts 9, what happened (Acts 9:15)?",
     "choices_json": [
       "he is my chosen vessel",
       "you will be baptized in the Holy Spirit",
@@ -2915,7 +2915,7 @@
     "book_number": 44,
     "chapter": 9,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 9, what happened?",
+    "prompt": "According to Acts 9, what happened (Acts 9:17)?",
     "choices_json": [
       "lowered him in a basket",
       "you will be baptized in the Holy Spirit",
@@ -3013,7 +3013,7 @@
     "book_number": 44,
     "chapter": 9,
     "difficulty_stage": 4,
-    "prompt": "Which phrase in Acts 9 speaks about Jesus?",
+    "prompt": "Which phrase in Acts 9 speaks about Jesus (Acts 9:4)?",
     "choices_json": [
       "I am Jesus, whom you are persecuting",
       "you will be baptized in the Holy Spirit",
@@ -3069,7 +3069,7 @@
     "book_number": 44,
     "chapter": 9,
     "difficulty_stage": 4,
-    "prompt": "Which phrase in Acts 9 speaks about Jesus?",
+    "prompt": "Which phrase in Acts 9 speaks about Jesus (Acts 9:20)?",
     "choices_json": [
       "Jesus Christ heals you. Get up and make your bed",
       "you will be baptized in the Holy Spirit",
@@ -3125,7 +3125,7 @@
     "book_number": 44,
     "chapter": 9,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 9 make about Peter?",
+    "prompt": "What major point does Acts 9 make about Peter (Acts 9:17)?",
     "choices_json": [
       "Peter healed paralyzed Aeneas in Lydda.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -3139,7 +3139,7 @@
     "book_number": 44,
     "chapter": 9,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 9 make about Peter?",
+    "prompt": "What major point does Acts 9 make about Peter (Acts 9:20)?",
     "choices_json": [
       "Peter raised Tabitha, and many believed in Joppa.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -3153,7 +3153,7 @@
     "book_number": 44,
     "chapter": 10,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 10, what does the chapter say about Peter?",
+    "prompt": "According to Acts 10, what does the chapter say about Peter (Acts 10:3)?",
     "choices_json": [
       "An angel told Cornelius to send for Peter at Joppa.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -3167,7 +3167,7 @@
     "book_number": 44,
     "chapter": 10,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 10, what does the chapter say about Peter?",
+    "prompt": "According to Acts 10, what does the chapter say about Peter (Acts 10:4)?",
     "choices_json": [
       "Peter saw the sheet vision three times with the command to eat.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -3181,7 +3181,7 @@
     "book_number": 44,
     "chapter": 10,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 10, what does the chapter say about Peter?",
+    "prompt": "According to Acts 10, what does the chapter say about Peter (Acts 10:15)?",
     "choices_json": [
       "Peter said God showed him not to call any man unholy or unclean.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -3293,7 +3293,7 @@
     "book_number": 44,
     "chapter": 10,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 10 teach about Peter?",
+    "prompt": "What does Acts 10 teach about Peter (Acts 10:3)?",
     "choices_json": [
       "Peter saw the sheet vision three times with the command to eat.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -3307,7 +3307,7 @@
     "book_number": 44,
     "chapter": 10,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 10 teach about Peter?",
+    "prompt": "What does Acts 10 teach about Peter (Acts 10:4)?",
     "choices_json": [
       "Peter said God showed him not to call any man unholy or unclean.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -3531,7 +3531,7 @@
     "book_number": 44,
     "chapter": 11,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 11, what happened?",
+    "prompt": "According to Acts 11, what happened (Acts 11:18)?",
     "choices_json": [
       "A great number believed at Antioch.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -3545,7 +3545,7 @@
     "book_number": 44,
     "chapter": 11,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 11, what happened?",
+    "prompt": "According to Acts 11, what happened (Acts 11:21)?",
     "choices_json": [
       "Disciples were first called Christians in Antioch.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -3559,7 +3559,7 @@
     "book_number": 44,
     "chapter": 11,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 11, what happened?",
+    "prompt": "According to Acts 11, what happened (Acts 11:26)?",
     "choices_json": [
       "Agabus foretold a great famine in Claudius’s days.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -3573,7 +3573,7 @@
     "book_number": 44,
     "chapter": 11,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 11, what did God do?",
+    "prompt": "According to Acts 11, what did God do (Acts 11:15)?",
     "choices_json": [
       "God gave to them the same gift as us",
       "you will be baptized in the Holy Spirit",
@@ -3587,7 +3587,7 @@
     "book_number": 44,
     "chapter": 11,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 11, what did God do?",
+    "prompt": "According to Acts 11, what did God do (Acts 11:17)?",
     "choices_json": [
       "God has also granted to the Gentiles repentance to life",
       "you will be baptized in the Holy Spirit",
@@ -3601,7 +3601,7 @@
     "book_number": 44,
     "chapter": 11,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 11, what happened?",
+    "prompt": "According to Acts 11, what happened (Acts 11:18)?",
     "choices_json": [
       "The disciples were first called Christians in Antioch",
       "you will be baptized in the Holy Spirit",
@@ -3615,7 +3615,7 @@
     "book_number": 44,
     "chapter": 11,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 11, what happened?",
+    "prompt": "According to Acts 11, what happened (Acts 11:21)?",
     "choices_json": [
       "there should be a great famine all over the world",
       "you will be baptized in the Holy Spirit",
@@ -3657,7 +3657,7 @@
     "book_number": 44,
     "chapter": 11,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 11 teach?",
+    "prompt": "What does Acts 11 teach (Acts 11:17)?",
     "choices_json": [
       "A great number believed at Antioch.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -3671,7 +3671,7 @@
     "book_number": 44,
     "chapter": 11,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 11 teach?",
+    "prompt": "What does Acts 11 teach (Acts 11:18)?",
     "choices_json": [
       "Disciples were first called Christians in Antioch.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -3685,7 +3685,7 @@
     "book_number": 44,
     "chapter": 11,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 11 teach?",
+    "prompt": "What does Acts 11 teach (Acts 11:21)?",
     "choices_json": [
       "Agabus foretold a great famine in Claudius’s days.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -3713,7 +3713,7 @@
     "book_number": 44,
     "chapter": 11,
     "difficulty_stage": 4,
-    "prompt": "According to Acts 11, what did God do?",
+    "prompt": "According to Acts 11, what did God do (Acts 11:15)?",
     "choices_json": [
       "God has also granted to the Gentiles repentance to life",
       "you will be baptized in the Holy Spirit",
@@ -3727,7 +3727,7 @@
     "book_number": 44,
     "chapter": 11,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 11?",
+    "prompt": "Which phrase belongs in Acts 11 (Acts 11:17)?",
     "choices_json": [
       "The disciples were first called Christians in Antioch",
       "you will be baptized in the Holy Spirit",
@@ -3741,7 +3741,7 @@
     "book_number": 44,
     "chapter": 11,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 11?",
+    "prompt": "Which phrase belongs in Acts 11 (Acts 11:18)?",
     "choices_json": [
       "there should be a great famine all over the world",
       "you will be baptized in the Holy Spirit",
@@ -3769,7 +3769,7 @@
     "book_number": 44,
     "chapter": 11,
     "difficulty_stage": 4,
-    "prompt": "According to Acts 11, what did God do?",
+    "prompt": "According to Acts 11, what did God do (Acts 11:26)?",
     "choices_json": [
       "God gave to them the same gift as us",
       "you will be baptized in the Holy Spirit",
@@ -3783,7 +3783,7 @@
     "book_number": 44,
     "chapter": 11,
     "difficulty_stage": 5,
-    "prompt": "What major point is made in Acts 11?",
+    "prompt": "What major point is made in Acts 11 (Acts 11:15)?",
     "choices_json": [
       "A great number believed at Antioch.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -3797,7 +3797,7 @@
     "book_number": 44,
     "chapter": 11,
     "difficulty_stage": 5,
-    "prompt": "What major point is made in Acts 11?",
+    "prompt": "What major point is made in Acts 11 (Acts 11:17)?",
     "choices_json": [
       "Disciples were first called Christians in Antioch.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -3811,7 +3811,7 @@
     "book_number": 44,
     "chapter": 11,
     "difficulty_stage": 5,
-    "prompt": "What major point is made in Acts 11?",
+    "prompt": "What major point is made in Acts 11 (Acts 11:18)?",
     "choices_json": [
       "Agabus foretold a great famine in Claudius’s days.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -3853,7 +3853,7 @@
     "book_number": 44,
     "chapter": 12,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 12, what does the chapter say about Peter?",
+    "prompt": "According to Acts 12, what does the chapter say about Peter (Acts 12:2)?",
     "choices_json": [
       "Herod killed James with the sword and seized Peter.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -3867,7 +3867,7 @@
     "book_number": 44,
     "chapter": 12,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 12, what does the chapter say about Peter?",
+    "prompt": "According to Acts 12, what does the chapter say about Peter (Acts 12:5)?",
     "choices_json": [
       "An angel woke Peter, chains fell, and the iron gate opened.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -3881,7 +3881,7 @@
     "book_number": 44,
     "chapter": 12,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 12, what does the chapter say about Peter?",
+    "prompt": "According to Acts 12, what does the chapter say about Peter (Acts 12:7)?",
     "choices_json": [
       "Rhoda recognized Peter’s voice but the house doubted.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -3895,7 +3895,7 @@
     "book_number": 44,
     "chapter": 12,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 12, what does the chapter say about Peter?",
+    "prompt": "According to Acts 12, what does the chapter say about Peter (Acts 12:11)?",
     "choices_json": [
       "Herod had the guards put to death when Peter vanished.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -3937,7 +3937,7 @@
     "book_number": 44,
     "chapter": 12,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 12, what happened?",
+    "prompt": "According to Acts 12, what happened (Acts 12:5)?",
     "choices_json": [
       "His chains fell off his hands",
       "you will be baptized in the Holy Spirit",
@@ -3965,7 +3965,7 @@
     "book_number": 44,
     "chapter": 12,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 12, what happened?",
+    "prompt": "According to Acts 12, what happened (Acts 12:11)?",
     "choices_json": [
       "The voice of a god, and not of a man",
       "you will be baptized in the Holy Spirit",
@@ -3979,7 +3979,7 @@
     "book_number": 44,
     "chapter": 12,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 12, what happened?",
+    "prompt": "According to Acts 12, what happened (Acts 12:12)?",
     "choices_json": [
       "he was eaten by worms and died",
       "you will be baptized in the Holy Spirit",
@@ -3993,7 +3993,7 @@
     "book_number": 44,
     "chapter": 12,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 12 teach about Peter?",
+    "prompt": "What does Acts 12 teach about Peter (Acts 12:2)?",
     "choices_json": [
       "An angel woke Peter, chains fell, and the iron gate opened.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -4007,7 +4007,7 @@
     "book_number": 44,
     "chapter": 12,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 12 teach about Peter?",
+    "prompt": "What does Acts 12 teach about Peter (Acts 12:5)?",
     "choices_json": [
       "Rhoda recognized Peter’s voice but the house doubted.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -4021,7 +4021,7 @@
     "book_number": 44,
     "chapter": 12,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 12 teach about Peter?",
+    "prompt": "What does Acts 12 teach about Peter (Acts 12:7)?",
     "choices_json": [
       "Herod had the guards put to death when Peter vanished.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -4063,7 +4063,7 @@
     "book_number": 44,
     "chapter": 12,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 12?",
+    "prompt": "Which phrase belongs in Acts 12 (Acts 12:2)?",
     "choices_json": [
       "His chains fell off his hands",
       "you will be baptized in the Holy Spirit",
@@ -4091,7 +4091,7 @@
     "book_number": 44,
     "chapter": 12,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 12?",
+    "prompt": "Which phrase belongs in Acts 12 (Acts 12:7)?",
     "choices_json": [
       "The voice of a god, and not of a man",
       "you will be baptized in the Holy Spirit",
@@ -4133,7 +4133,7 @@
     "book_number": 44,
     "chapter": 12,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 12 make about Peter?",
+    "prompt": "What major point does Acts 12 make about Peter (Acts 12:2)?",
     "choices_json": [
       "Rhoda recognized Peter’s voice but the house doubted.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -4147,7 +4147,7 @@
     "book_number": 44,
     "chapter": 12,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 12 make about Peter?",
+    "prompt": "What major point does Acts 12 make about Peter (Acts 12:5)?",
     "choices_json": [
       "Herod had the guards put to death when Peter vanished.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -4189,7 +4189,7 @@
     "book_number": 44,
     "chapter": 12,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 12 make about Peter?",
+    "prompt": "What major point does Acts 12 make about Peter (Acts 12:12)?",
     "choices_json": [
       "Herod killed James with the sword and seized Peter.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -4217,7 +4217,7 @@
     "book_number": 44,
     "chapter": 13,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 13, what does the chapter say about Paul?",
+    "prompt": "According to Acts 13, what does the chapter say about Paul (Acts 13:3)?",
     "choices_json": [
       "Paul struck Elymas blind for opposing the faith.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -4259,7 +4259,7 @@
     "book_number": 44,
     "chapter": 13,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 13, what does the chapter say about Paul?",
+    "prompt": "According to Acts 13, what does the chapter say about Paul (Acts 13:12)?",
     "choices_json": [
       "Jews contradicted; Paul said they judged themselves unworthy of eternal life.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -4343,7 +4343,7 @@
     "book_number": 44,
     "chapter": 13,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 13 teach about Paul?",
+    "prompt": "What does Acts 13 teach about Paul (Acts 13:2)?",
     "choices_json": [
       "Paul struck Elymas blind for opposing the faith.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -4385,7 +4385,7 @@
     "book_number": 44,
     "chapter": 13,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 13 teach about Paul?",
+    "prompt": "What does Acts 13 teach about Paul (Acts 13:11)?",
     "choices_json": [
       "Jews contradicted; Paul said they judged themselves unworthy of eternal life.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -4427,7 +4427,7 @@
     "book_number": 44,
     "chapter": 13,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 13?",
+    "prompt": "Which phrase belongs in Acts 13 (Acts 13:3)?",
     "choices_json": [
       "the hand of the Lord is on you, and you will be blind",
       "you will be baptized in the Holy Spirit",
@@ -4469,7 +4469,7 @@
     "book_number": 44,
     "chapter": 13,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 13?",
+    "prompt": "Which phrase belongs in Acts 13 (Acts 13:12)?",
     "choices_json": [
       "as many as were appointed to eternal life believed",
       "you will be baptized in the Holy Spirit",
@@ -4567,7 +4567,7 @@
     "book_number": 44,
     "chapter": 14,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 14, what does the chapter say about Paul?",
+    "prompt": "According to Acts 14, what does the chapter say about Paul (Acts 14:9)?",
     "choices_json": [
       "Paul healed a lifelong cripple who had faith to be healed.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -4581,7 +4581,7 @@
     "book_number": 44,
     "chapter": 14,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 14, what did they do?",
+    "prompt": "According to Acts 14, what did they do (Acts 14:10)?",
     "choices_json": [
       "They urged Lycaonians to turn from vain things to the living God.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -4595,7 +4595,7 @@
     "book_number": 44,
     "chapter": 14,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 14, what does the chapter say about Paul?",
+    "prompt": "According to Acts 14, what does the chapter say about Paul (Acts 14:15)?",
     "choices_json": [
       "Jews persuaded the crowd to stone Paul; he entered the city next day.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -4609,7 +4609,7 @@
     "book_number": 44,
     "chapter": 14,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 14, what did they do?",
+    "prompt": "According to Acts 14, what did they do (Acts 14:19)?",
     "choices_json": [
       "They appointed elders with prayer and fasting in each assembly.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -4637,7 +4637,7 @@
     "book_number": 44,
     "chapter": 14,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 14, what happened?",
+    "prompt": "According to Acts 14, what happened (Acts 14:9)?",
     "choices_json": [
       "Stand upright on your feet!",
       "you will be baptized in the Holy Spirit",
@@ -4651,7 +4651,7 @@
     "book_number": 44,
     "chapter": 14,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 14, what happened?",
+    "prompt": "According to Acts 14, what happened (Acts 14:10)?",
     "choices_json": [
       "We also are men of like passions with you",
       "you will be baptized in the Holy Spirit",
@@ -4679,7 +4679,7 @@
     "book_number": 44,
     "chapter": 14,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 14, what happened?",
+    "prompt": "According to Acts 14, what happened (Acts 14:19)?",
     "choices_json": [
       "he had opened a door of faith to the nations",
       "you will be baptized in the Holy Spirit",
@@ -4693,7 +4693,7 @@
     "book_number": 44,
     "chapter": 14,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 14 teach about Paul?",
+    "prompt": "What does Acts 14 teach about Paul (Acts 14:3)?",
     "choices_json": [
       "Paul healed a lifelong cripple who had faith to be healed.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -4707,7 +4707,7 @@
     "book_number": 44,
     "chapter": 14,
     "difficulty_stage": 3,
-    "prompt": "According to Acts 14, what did they do?",
+    "prompt": "According to Acts 14, what did they do (Acts 14:9)?",
     "choices_json": [
       "They urged Lycaonians to turn from vain things to the living God.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -4721,7 +4721,7 @@
     "book_number": 44,
     "chapter": 14,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 14 teach about Paul?",
+    "prompt": "What does Acts 14 teach about Paul (Acts 14:10)?",
     "choices_json": [
       "Jews persuaded the crowd to stone Paul; he entered the city next day.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -4735,7 +4735,7 @@
     "book_number": 44,
     "chapter": 14,
     "difficulty_stage": 3,
-    "prompt": "According to Acts 14, what did they do?",
+    "prompt": "According to Acts 14, what did they do (Acts 14:15)?",
     "choices_json": [
       "They appointed elders with prayer and fasting in each assembly.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -4749,7 +4749,7 @@
     "book_number": 44,
     "chapter": 14,
     "difficulty_stage": 3,
-    "prompt": "According to Acts 14, what did they do?",
+    "prompt": "According to Acts 14, what did they do (Acts 14:19)?",
     "choices_json": [
       "They reported God had opened a door of faith to the nations.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -4763,7 +4763,7 @@
     "book_number": 44,
     "chapter": 14,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 14?",
+    "prompt": "Which phrase belongs in Acts 14 (Acts 14:3)?",
     "choices_json": [
       "Stand upright on your feet!",
       "you will be baptized in the Holy Spirit",
@@ -4777,7 +4777,7 @@
     "book_number": 44,
     "chapter": 14,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 14?",
+    "prompt": "Which phrase belongs in Acts 14 (Acts 14:9)?",
     "choices_json": [
       "We also are men of like passions with you",
       "you will be baptized in the Holy Spirit",
@@ -4833,7 +4833,7 @@
     "book_number": 44,
     "chapter": 14,
     "difficulty_stage": 5,
-    "prompt": "According to Acts 14, what did they do?",
+    "prompt": "According to Acts 14, what did they do (Acts 14:3)?",
     "choices_json": [
       "They urged Lycaonians to turn from vain things to the living God.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -4861,7 +4861,7 @@
     "book_number": 44,
     "chapter": 14,
     "difficulty_stage": 5,
-    "prompt": "According to Acts 14, what did they do?",
+    "prompt": "According to Acts 14, what did they do (Acts 14:10)?",
     "choices_json": [
       "They appointed elders with prayer and fasting in each assembly.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -4875,7 +4875,7 @@
     "book_number": 44,
     "chapter": 14,
     "difficulty_stage": 5,
-    "prompt": "According to Acts 14, what did they do?",
+    "prompt": "According to Acts 14, what did they do (Acts 14:15)?",
     "choices_json": [
       "They reported God had opened a door of faith to the nations.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -4917,7 +4917,7 @@
     "book_number": 44,
     "chapter": 15,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 15, what does the chapter say about the Holy Spirit?",
+    "prompt": "According to Acts 15, what does the chapter say about the Holy Spirit (Acts 15:8)?",
     "choices_json": [
       "Peter said God gave Gentiles the Holy Spirit as to Jewish believers.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -4959,7 +4959,7 @@
     "book_number": 44,
     "chapter": 15,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 15, what does the chapter say about the Holy Spirit?",
+    "prompt": "According to Acts 15, what does the chapter say about the Holy Spirit (Acts 15:19)?",
     "choices_json": [
       "It seemed good to the Holy Spirit and to the apostles and elders.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -5043,7 +5043,7 @@
     "book_number": 44,
     "chapter": 15,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 15 teach about the Holy Spirit?",
+    "prompt": "What does Acts 15 teach about the Holy Spirit (Acts 15:7)?",
     "choices_json": [
       "Peter said God gave Gentiles the Holy Spirit as to Jewish believers.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -5085,7 +5085,7 @@
     "book_number": 44,
     "chapter": 15,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 15 teach about the Holy Spirit?",
+    "prompt": "What does Acts 15 teach about the Holy Spirit (Acts 15:11)?",
     "choices_json": [
       "It seemed good to the Holy Spirit and to the apostles and elders.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -5253,7 +5253,7 @@
     "book_number": 44,
     "chapter": 16,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 16, what does the chapter say about Paul?",
+    "prompt": "According to Acts 16, what does the chapter say about Paul (Acts 16:3)?",
     "choices_json": [
       "Paul circumcised Timothy because Jews knew his father was Greek.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -5281,7 +5281,7 @@
     "book_number": 44,
     "chapter": 16,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 16, what does the chapter say about Paul?",
+    "prompt": "According to Acts 16, what does the chapter say about Paul (Acts 16:9)?",
     "choices_json": [
       "Paul saw a man of Macedonia begging help in a vision.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -5295,7 +5295,7 @@
     "book_number": 44,
     "chapter": 16,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 16, what does the chapter say about Paul?",
+    "prompt": "According to Acts 16, what does the chapter say about Paul (Acts 16:10)?",
     "choices_json": [
       "The Lord opened Lydia’s heart to Paul’s words.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -5323,7 +5323,7 @@
     "book_number": 44,
     "chapter": 16,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 16, what happened?",
+    "prompt": "According to Acts 16, what happened (Acts 16:3)?",
     "choices_json": [
       "Come over into Macedonia and help us",
       "you will be baptized in the Holy Spirit",
@@ -5337,7 +5337,7 @@
     "book_number": 44,
     "chapter": 16,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 16, what happened?",
+    "prompt": "According to Acts 16, what happened (Acts 16:4)?",
     "choices_json": [
       "The Lord opened her heart",
       "you will be baptized in the Holy Spirit",
@@ -5351,7 +5351,7 @@
     "book_number": 44,
     "chapter": 16,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 16, what does the chapter say about Jesus?",
+    "prompt": "According to Acts 16, what does the chapter say about Jesus (Acts 16:9)?",
     "choices_json": [
       "I command you in the name of Jesus Christ to come out of her!",
       "you will be baptized in the Holy Spirit",
@@ -5365,7 +5365,7 @@
     "book_number": 44,
     "chapter": 16,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 16, what does the chapter say about Jesus?",
+    "prompt": "According to Acts 16, what does the chapter say about Jesus (Acts 16:10)?",
     "choices_json": [
       "Believe in the Lord Jesus Christ, and you will be saved",
       "you will be baptized in the Holy Spirit",
@@ -5407,7 +5407,7 @@
     "book_number": 44,
     "chapter": 16,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 16 teach about Paul?",
+    "prompt": "What does Acts 16 teach about Paul (Acts 16:4)?",
     "choices_json": [
       "Paul saw a man of Macedonia begging help in a vision.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -5421,7 +5421,7 @@
     "book_number": 44,
     "chapter": 16,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 16 teach about Paul?",
+    "prompt": "What does Acts 16 teach about Paul (Acts 16:9)?",
     "choices_json": [
       "The Lord opened Lydia’s heart to Paul’s words.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -5463,7 +5463,7 @@
     "book_number": 44,
     "chapter": 16,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 16?",
+    "prompt": "Which phrase belongs in Acts 16 (Acts 16:3)?",
     "choices_json": [
       "The Lord opened her heart",
       "you will be baptized in the Holy Spirit",
@@ -5477,7 +5477,7 @@
     "book_number": 44,
     "chapter": 16,
     "difficulty_stage": 4,
-    "prompt": "Which phrase in Acts 16 speaks about Jesus?",
+    "prompt": "Which phrase in Acts 16 speaks about Jesus (Acts 16:4)?",
     "choices_json": [
       "I command you in the name of Jesus Christ to come out of her!",
       "you will be baptized in the Holy Spirit",
@@ -5491,7 +5491,7 @@
     "book_number": 44,
     "chapter": 16,
     "difficulty_stage": 4,
-    "prompt": "Which phrase in Acts 16 speaks about Jesus?",
+    "prompt": "Which phrase in Acts 16 speaks about Jesus (Acts 16:9)?",
     "choices_json": [
       "Believe in the Lord Jesus Christ, and you will be saved",
       "you will be baptized in the Holy Spirit",
@@ -5519,7 +5519,7 @@
     "book_number": 44,
     "chapter": 16,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 16?",
+    "prompt": "Which phrase belongs in Acts 16 (Acts 16:14)?",
     "choices_json": [
       "Come over into Macedonia and help us",
       "you will be baptized in the Holy Spirit",
@@ -5533,7 +5533,7 @@
     "book_number": 44,
     "chapter": 16,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 16 make about Paul?",
+    "prompt": "What major point does Acts 16 make about Paul (Acts 16:3)?",
     "choices_json": [
       "Paul saw a man of Macedonia begging help in a vision.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -5547,7 +5547,7 @@
     "book_number": 44,
     "chapter": 16,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 16 make about Paul?",
+    "prompt": "What major point does Acts 16 make about Paul (Acts 16:4)?",
     "choices_json": [
       "The Lord opened Lydia’s heart to Paul’s words.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -5589,7 +5589,7 @@
     "book_number": 44,
     "chapter": 16,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 16 make about Paul?",
+    "prompt": "What major point does Acts 16 make about Paul (Acts 16:14)?",
     "choices_json": [
       "Magistrates begged Paul and Silas when they learned they were Romans.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -5603,7 +5603,7 @@
     "book_number": 44,
     "chapter": 17,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 17, what does the chapter say about Paul?",
+    "prompt": "According to Acts 17, what does the chapter say about Paul (Acts 17:3)?",
     "choices_json": [
       "Paul showed from Scripture that Christ must suffer and rise.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -5631,7 +5631,7 @@
     "book_number": 44,
     "chapter": 17,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 17, what happened?",
+    "prompt": "According to Acts 17, what happened (Acts 17:7)?",
     "choices_json": [
       "Beroeans examined the Scriptures daily.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -5645,7 +5645,7 @@
     "book_number": 44,
     "chapter": 17,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 17, what does the chapter say about Paul?",
+    "prompt": "According to Acts 17, what does the chapter say about Paul (Acts 17:11)?",
     "choices_json": [
       "Paul cited the altar TO AN UNKNOWN GOD.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -5659,7 +5659,7 @@
     "book_number": 44,
     "chapter": 17,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 17, what happened?",
+    "prompt": "According to Acts 17, what happened (Acts 17:23)?",
     "choices_json": [
       "He said God commands all people everywhere to repent.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -5687,7 +5687,7 @@
     "book_number": 44,
     "chapter": 17,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 17, what happened?",
+    "prompt": "According to Acts 17, what happened (Acts 17:6)?",
     "choices_json": [
       "examining the Scriptures daily to see whether these things were so",
       "you will be baptized in the Holy Spirit",
@@ -5701,7 +5701,7 @@
     "book_number": 44,
     "chapter": 17,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 17, what happened?",
+    "prompt": "According to Acts 17, what happened (Acts 17:7)?",
     "choices_json": [
       "TO AN UNKNOWN GOD",
       "you will be baptized in the Holy Spirit",
@@ -5715,7 +5715,7 @@
     "book_number": 44,
     "chapter": 17,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 17, what happened?",
+    "prompt": "According to Acts 17, what happened (Acts 17:11)?",
     "choices_json": [
       "he has appointed a day in which he will judge the world",
       "you will be baptized in the Holy Spirit",
@@ -5785,7 +5785,7 @@
     "book_number": 44,
     "chapter": 17,
     "difficulty_stage": 3,
-    "prompt": "According to Acts 17, what happened?",
+    "prompt": "According to Acts 17, what happened (Acts 17:11)?",
     "choices_json": [
       "He said God commands all people everywhere to repent.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -5799,7 +5799,7 @@
     "book_number": 44,
     "chapter": 17,
     "difficulty_stage": 3,
-    "prompt": "According to Acts 17, what happened?",
+    "prompt": "According to Acts 17, what happened (Acts 17:23)?",
     "choices_json": [
       "He set a day of judgment by the man God raised from the dead.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -5813,7 +5813,7 @@
     "book_number": 44,
     "chapter": 17,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 17?",
+    "prompt": "Which phrase belongs in Acts 17 (Acts 17:3)?",
     "choices_json": [
       "examining the Scriptures daily to see whether these things were so",
       "you will be baptized in the Holy Spirit",
@@ -5827,7 +5827,7 @@
     "book_number": 44,
     "chapter": 17,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 17?",
+    "prompt": "Which phrase belongs in Acts 17 (Acts 17:6)?",
     "choices_json": [
       "TO AN UNKNOWN GOD",
       "you will be baptized in the Holy Spirit",
@@ -5897,7 +5897,7 @@
     "book_number": 44,
     "chapter": 17,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 17 make about Paul?",
+    "prompt": "What major point does Acts 17 make about Paul (Acts 17:6)?",
     "choices_json": [
       "Paul cited the altar TO AN UNKNOWN GOD.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -5911,7 +5911,7 @@
     "book_number": 44,
     "chapter": 17,
     "difficulty_stage": 5,
-    "prompt": "According to Acts 17, what happened?",
+    "prompt": "According to Acts 17, what happened (Acts 17:7)?",
     "choices_json": [
       "He said God commands all people everywhere to repent.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -5925,7 +5925,7 @@
     "book_number": 44,
     "chapter": 17,
     "difficulty_stage": 5,
-    "prompt": "According to Acts 17, what happened?",
+    "prompt": "According to Acts 17, what happened (Acts 17:11)?",
     "choices_json": [
       "He set a day of judgment by the man God raised from the dead.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -5939,7 +5939,7 @@
     "book_number": 44,
     "chapter": 17,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 17 make about Paul?",
+    "prompt": "What major point does Acts 17 make about Paul (Acts 17:23)?",
     "choices_json": [
       "Paul showed from Scripture that Christ must suffer and rise.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -5953,7 +5953,7 @@
     "book_number": 44,
     "chapter": 18,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 18, what does the chapter say about Paul?",
+    "prompt": "According to Acts 18, what does the chapter say about Paul (Acts 18:4)?",
     "choices_json": [
       "Paul reasoned in Corinth’s synagogue every Sabbath.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -5967,7 +5967,7 @@
     "book_number": 44,
     "chapter": 18,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 18, what does the chapter say about Paul?",
+    "prompt": "According to Acts 18, what does the chapter say about Paul (Acts 18:6)?",
     "choices_json": [
       "The Lord told Paul not to fear; he had many people in the city.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -5995,7 +5995,7 @@
     "book_number": 44,
     "chapter": 18,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 18, what does the chapter say about Paul?",
+    "prompt": "According to Acts 18, what does the chapter say about Paul (Acts 18:9)?",
     "choices_json": [
       "Paul left Priscilla and Aquila at Ephesus.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6023,7 +6023,7 @@
     "book_number": 44,
     "chapter": 18,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 18, what happened?",
+    "prompt": "According to Acts 18, what happened (Acts 18:4)?",
     "choices_json": [
       "I am with you, and no one will attack you to harm you",
       "you will be baptized in the Holy Spirit",
@@ -6051,7 +6051,7 @@
     "book_number": 44,
     "chapter": 18,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 18, what happened?",
+    "prompt": "According to Acts 18, what happened (Acts 18:8)?",
     "choices_json": [
       "I don’t want to be a judge of these matters",
       "you will be baptized in the Holy Spirit",
@@ -6065,7 +6065,7 @@
     "book_number": 44,
     "chapter": 18,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 18, what happened?",
+    "prompt": "According to Acts 18, what happened (Acts 18:9)?",
     "choices_json": [
       "explained to him the way of God more accurately",
       "you will be baptized in the Holy Spirit",
@@ -6093,7 +6093,7 @@
     "book_number": 44,
     "chapter": 18,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 18 teach about Paul?",
+    "prompt": "What does Acts 18 teach about Paul (Acts 18:4)?",
     "choices_json": [
       "The Lord told Paul not to fear; he had many people in the city.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6121,7 +6121,7 @@
     "book_number": 44,
     "chapter": 18,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 18 teach about Paul?",
+    "prompt": "What does Acts 18 teach about Paul (Acts 18:8)?",
     "choices_json": [
       "Paul left Priscilla and Aquila at Ephesus.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6177,7 +6177,7 @@
     "book_number": 44,
     "chapter": 18,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 18?",
+    "prompt": "Which phrase belongs in Acts 18 (Acts 18:6)?",
     "choices_json": [
       "I don’t want to be a judge of these matters",
       "you will be baptized in the Holy Spirit",
@@ -6191,7 +6191,7 @@
     "book_number": 44,
     "chapter": 18,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 18?",
+    "prompt": "Which phrase belongs in Acts 18 (Acts 18:8)?",
     "choices_json": [
       "explained to him the way of God more accurately",
       "you will be baptized in the Holy Spirit",
@@ -6219,7 +6219,7 @@
     "book_number": 44,
     "chapter": 18,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 18?",
+    "prompt": "Which phrase belongs in Acts 18 (Acts 18:10)?",
     "choices_json": [
       "I am with you, and no one will attack you to harm you",
       "you will be baptized in the Holy Spirit",
@@ -6247,7 +6247,7 @@
     "book_number": 44,
     "chapter": 18,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 18 make about Paul?",
+    "prompt": "What major point does Acts 18 make about Paul (Acts 18:6)?",
     "choices_json": [
       "Paul left Priscilla and Aquila at Ephesus.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6289,7 +6289,7 @@
     "book_number": 44,
     "chapter": 18,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 18 make about Paul?",
+    "prompt": "What major point does Acts 18 make about Paul (Acts 18:10)?",
     "choices_json": [
       "Paul reasoned in Corinth’s synagogue every Sabbath.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6303,7 +6303,7 @@
     "book_number": 44,
     "chapter": 19,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 19, what does the chapter say about the Holy Spirit?",
+    "prompt": "According to Acts 19, what does the chapter say about the Holy Spirit (Acts 19:2)?",
     "choices_json": [
       "Twelve men were re-baptized and received the Holy Spirit through Paul’s hands.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6317,7 +6317,7 @@
     "book_number": 44,
     "chapter": 19,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 19, what does the chapter say about Paul?",
+    "prompt": "According to Acts 19, what does the chapter say about Paul (Acts 19:5)?",
     "choices_json": [
       "Paul taught daily two years; Asia heard the word.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6331,7 +6331,7 @@
     "book_number": 44,
     "chapter": 19,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 19, what does the chapter say about the Holy Spirit?",
+    "prompt": "According to Acts 19, what does the chapter say about the Holy Spirit (Acts 19:6)?",
     "choices_json": [
       "Evil spirit knew Jesus and Paul but not the exorcists.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6359,7 +6359,7 @@
     "book_number": 44,
     "chapter": 19,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 19, what does the chapter say about Paul?",
+    "prompt": "According to Acts 19, what does the chapter say about Paul (Acts 19:11)?",
     "choices_json": [
       "Paul said he must see Rome after Jerusalem.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6387,7 +6387,7 @@
     "book_number": 44,
     "chapter": 19,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 19, what happened?",
+    "prompt": "According to Acts 19, what happened (Acts 19:5)?",
     "choices_json": [
       "reasoning daily in the school of Tyrannus",
       "you will be baptized in the Holy Spirit",
@@ -6415,7 +6415,7 @@
     "book_number": 44,
     "chapter": 19,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 19, what happened?",
+    "prompt": "According to Acts 19, what happened (Acts 19:10)?",
     "choices_json": [
       "fifty thousand pieces of silver",
       "you will be baptized in the Holy Spirit",
@@ -6429,7 +6429,7 @@
     "book_number": 44,
     "chapter": 19,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 19, what happened?",
+    "prompt": "According to Acts 19, what happened (Acts 19:11)?",
     "choices_json": [
       "Great is Artemis of the Ephesians!",
       "you will be baptized in the Holy Spirit",
@@ -6443,7 +6443,7 @@
     "book_number": 44,
     "chapter": 19,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 19 teach about Paul?",
+    "prompt": "What does Acts 19 teach about Paul (Acts 19:2)?",
     "choices_json": [
       "Paul taught daily two years; Asia heard the word.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6485,7 +6485,7 @@
     "book_number": 44,
     "chapter": 19,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 19 teach about Paul?",
+    "prompt": "What does Acts 19 teach about Paul (Acts 19:10)?",
     "choices_json": [
       "Paul said he must see Rome after Jerusalem.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6499,7 +6499,7 @@
     "book_number": 44,
     "chapter": 19,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 19 teach about Paul?",
+    "prompt": "What does Acts 19 teach about Paul (Acts 19:11)?",
     "choices_json": [
       "Demetrius feared Paul’s teaching hurt the Artemis trade.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6513,7 +6513,7 @@
     "book_number": 44,
     "chapter": 19,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 19?",
+    "prompt": "Which phrase belongs in Acts 19 (Acts 19:2)?",
     "choices_json": [
       "reasoning daily in the school of Tyrannus",
       "you will be baptized in the Holy Spirit",
@@ -6541,7 +6541,7 @@
     "book_number": 44,
     "chapter": 19,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 19?",
+    "prompt": "Which phrase belongs in Acts 19 (Acts 19:6)?",
     "choices_json": [
       "fifty thousand pieces of silver",
       "you will be baptized in the Holy Spirit",
@@ -6555,7 +6555,7 @@
     "book_number": 44,
     "chapter": 19,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 19?",
+    "prompt": "Which phrase belongs in Acts 19 (Acts 19:10)?",
     "choices_json": [
       "Great is Artemis of the Ephesians!",
       "you will be baptized in the Holy Spirit",
@@ -6597,7 +6597,7 @@
     "book_number": 44,
     "chapter": 19,
     "difficulty_stage": 5,
-    "prompt": "What major point is made in Acts 19?",
+    "prompt": "What major point is made in Acts 19 (Acts 19:5)?",
     "choices_json": [
       "Believers burned books worth fifty thousand pieces of silver.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6611,7 +6611,7 @@
     "book_number": 44,
     "chapter": 19,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 19 make about Paul?",
+    "prompt": "What major point does Acts 19 make about Paul (Acts 19:6)?",
     "choices_json": [
       "Paul said he must see Rome after Jerusalem.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6625,7 +6625,7 @@
     "book_number": 44,
     "chapter": 19,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 19 make about Paul?",
+    "prompt": "What major point does Acts 19 make about Paul (Acts 19:10)?",
     "choices_json": [
       "Demetrius feared Paul’s teaching hurt the Artemis trade.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6639,7 +6639,7 @@
     "book_number": 44,
     "chapter": 19,
     "difficulty_stage": 5,
-    "prompt": "What major point is made in Acts 19?",
+    "prompt": "What major point is made in Acts 19 (Acts 19:11)?",
     "choices_json": [
       "The town clerk warned against riot without cause.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6667,7 +6667,7 @@
     "book_number": 44,
     "chapter": 20,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 20, what happened?",
+    "prompt": "According to Acts 20, what happened (Acts 20:9)?",
     "choices_json": [
       "He said he declared the whole counsel of God publicly and house to house.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6681,7 +6681,7 @@
     "book_number": 44,
     "chapter": 20,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 20, what happened?",
+    "prompt": "According to Acts 20, what happened (Acts 20:10)?",
     "choices_json": [
       "He testified to repentance toward God and faith toward Jesus.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6695,7 +6695,7 @@
     "book_number": 44,
     "chapter": 20,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 20, what happened?",
+    "prompt": "According to Acts 20, what happened (Acts 20:12)?",
     "choices_json": [
       "He warned overseers to shepherd the church God purchased with his own blood.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6709,7 +6709,7 @@
     "book_number": 44,
     "chapter": 20,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 20, what happened?",
+    "prompt": "According to Acts 20, what happened (Acts 20:21)?",
     "choices_json": [
       "He foretold grievous wolves and men speaking perverse things.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6723,7 +6723,7 @@
     "book_number": 44,
     "chapter": 20,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 20, what happened?",
+    "prompt": "According to Acts 20, what happened (Acts 20:7)?",
     "choices_json": [
       "his life is in him",
       "you will be baptized in the Holy Spirit",
@@ -6737,7 +6737,7 @@
     "book_number": 44,
     "chapter": 20,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 20, what happened?",
+    "prompt": "According to Acts 20, what happened (Acts 20:9)?",
     "choices_json": [
       "I didn’t shrink from declaring to you the whole counsel of God",
       "you will be baptized in the Holy Spirit",
@@ -6765,7 +6765,7 @@
     "book_number": 44,
     "chapter": 20,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 20, what happened?",
+    "prompt": "According to Acts 20, what happened (Acts 20:12)?",
     "choices_json": [
       "vicious wolves will enter in among you",
       "you will be baptized in the Holy Spirit",
@@ -6779,7 +6779,7 @@
     "book_number": 44,
     "chapter": 20,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 20, what happened?",
+    "prompt": "According to Acts 20, what happened (Acts 20:21)?",
     "choices_json": [
       "It is more blessed to give than to receive",
       "you will be baptized in the Holy Spirit",
@@ -6793,7 +6793,7 @@
     "book_number": 44,
     "chapter": 20,
     "difficulty_stage": 3,
-    "prompt": "According to Acts 20, what happened?",
+    "prompt": "According to Acts 20, what happened (Acts 20:7)?",
     "choices_json": [
       "He said he declared the whole counsel of God publicly and house to house.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6807,7 +6807,7 @@
     "book_number": 44,
     "chapter": 20,
     "difficulty_stage": 3,
-    "prompt": "According to Acts 20, what happened?",
+    "prompt": "According to Acts 20, what happened (Acts 20:9)?",
     "choices_json": [
       "He testified to repentance toward God and faith toward Jesus.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6821,7 +6821,7 @@
     "book_number": 44,
     "chapter": 20,
     "difficulty_stage": 3,
-    "prompt": "According to Acts 20, what happened?",
+    "prompt": "According to Acts 20, what happened (Acts 20:10)?",
     "choices_json": [
       "He warned overseers to shepherd the church God purchased with his own blood.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6835,7 +6835,7 @@
     "book_number": 44,
     "chapter": 20,
     "difficulty_stage": 3,
-    "prompt": "According to Acts 20, what happened?",
+    "prompt": "According to Acts 20, what happened (Acts 20:12)?",
     "choices_json": [
       "He foretold grievous wolves and men speaking perverse things.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6849,7 +6849,7 @@
     "book_number": 44,
     "chapter": 20,
     "difficulty_stage": 3,
-    "prompt": "According to Acts 20, what happened?",
+    "prompt": "According to Acts 20, what happened (Acts 20:21)?",
     "choices_json": [
       "He quoted Jesus: it is more blessed to give than to receive.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6863,7 +6863,7 @@
     "book_number": 44,
     "chapter": 20,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 20?",
+    "prompt": "Which phrase belongs in Acts 20 (Acts 20:7)?",
     "choices_json": [
       "I didn’t shrink from declaring to you the whole counsel of God",
       "you will be baptized in the Holy Spirit",
@@ -6891,7 +6891,7 @@
     "book_number": 44,
     "chapter": 20,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 20?",
+    "prompt": "Which phrase belongs in Acts 20 (Acts 20:10)?",
     "choices_json": [
       "vicious wolves will enter in among you",
       "you will be baptized in the Holy Spirit",
@@ -6905,7 +6905,7 @@
     "book_number": 44,
     "chapter": 20,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 20?",
+    "prompt": "Which phrase belongs in Acts 20 (Acts 20:12)?",
     "choices_json": [
       "It is more blessed to give than to receive",
       "you will be baptized in the Holy Spirit",
@@ -6919,7 +6919,7 @@
     "book_number": 44,
     "chapter": 20,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 20?",
+    "prompt": "Which phrase belongs in Acts 20 (Acts 20:21)?",
     "choices_json": [
       "his life is in him",
       "you will be baptized in the Holy Spirit",
@@ -6933,7 +6933,7 @@
     "book_number": 44,
     "chapter": 20,
     "difficulty_stage": 5,
-    "prompt": "According to Acts 20, what happened?",
+    "prompt": "According to Acts 20, what happened (Acts 20:7)?",
     "choices_json": [
       "He testified to repentance toward God and faith toward Jesus.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6947,7 +6947,7 @@
     "book_number": 44,
     "chapter": 20,
     "difficulty_stage": 5,
-    "prompt": "According to Acts 20, what happened?",
+    "prompt": "According to Acts 20, what happened (Acts 20:9)?",
     "choices_json": [
       "He warned overseers to shepherd the church God purchased with his own blood.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6961,7 +6961,7 @@
     "book_number": 44,
     "chapter": 20,
     "difficulty_stage": 5,
-    "prompt": "According to Acts 20, what happened?",
+    "prompt": "According to Acts 20, what happened (Acts 20:10)?",
     "choices_json": [
       "He foretold grievous wolves and men speaking perverse things.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -6975,7 +6975,7 @@
     "book_number": 44,
     "chapter": 20,
     "difficulty_stage": 5,
-    "prompt": "According to Acts 20, what happened?",
+    "prompt": "According to Acts 20, what happened (Acts 20:12)?",
     "choices_json": [
       "He quoted Jesus: it is more blessed to give than to receive.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -7017,7 +7017,7 @@
     "book_number": 44,
     "chapter": 21,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 21, what does the chapter say about Paul?",
+    "prompt": "According to Acts 21, what does the chapter say about Paul (Acts 21:11)?",
     "choices_json": [
       "Agabus bound Paul’s belt symbolizing binding at Jerusalem.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -7045,7 +7045,7 @@
     "book_number": 44,
     "chapter": 21,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 21, what does the chapter say about Paul?",
+    "prompt": "According to Acts 21, what does the chapter say about Paul (Acts 21:19)?",
     "choices_json": [
       "Elders asked Paul to join purification to show he kept the law.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -7087,7 +7087,7 @@
     "book_number": 44,
     "chapter": 21,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 21, what happened?",
+    "prompt": "According to Acts 21, what happened (Acts 21:11)?",
     "choices_json": [
       "I am ready not only to be bound, but also to die",
       "you will be baptized in the Holy Spirit",
@@ -7101,7 +7101,7 @@
     "book_number": 44,
     "chapter": 21,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 21, what happened?",
+    "prompt": "According to Acts 21, what happened (Acts 21:13)?",
     "choices_json": [
       "The Lord’s will be done",
       "you will be baptized in the Holy Spirit",
@@ -7115,7 +7115,7 @@
     "book_number": 44,
     "chapter": 21,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 21, what happened?",
+    "prompt": "According to Acts 21, what happened (Acts 21:19)?",
     "choices_json": [
       "purify yourself with them",
       "you will be baptized in the Holy Spirit",
@@ -7129,7 +7129,7 @@
     "book_number": 44,
     "chapter": 21,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 21, what happened?",
+    "prompt": "According to Acts 21, what happened (Acts 21:24)?",
     "choices_json": [
       "he also brought Greeks into the temple",
       "you will be baptized in the Holy Spirit",
@@ -7143,7 +7143,7 @@
     "book_number": 44,
     "chapter": 21,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 21 teach about Paul?",
+    "prompt": "What does Acts 21 teach about Paul (Acts 21:4)?",
     "choices_json": [
       "Agabus bound Paul’s belt symbolizing binding at Jerusalem.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -7171,7 +7171,7 @@
     "book_number": 44,
     "chapter": 21,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 21 teach about Paul?",
+    "prompt": "What does Acts 21 teach about Paul (Acts 21:13)?",
     "choices_json": [
       "Elders asked Paul to join purification to show he kept the law.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -7199,7 +7199,7 @@
     "book_number": 44,
     "chapter": 21,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 21 teach about Paul?",
+    "prompt": "What does Acts 21 teach about Paul (Acts 21:24)?",
     "choices_json": [
       "The commander arrested Paul and bound him with chains.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -7213,7 +7213,7 @@
     "book_number": 44,
     "chapter": 21,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 21?",
+    "prompt": "Which phrase belongs in Acts 21 (Acts 21:4)?",
     "choices_json": [
       "I am ready not only to be bound, but also to die",
       "you will be baptized in the Holy Spirit",
@@ -7227,7 +7227,7 @@
     "book_number": 44,
     "chapter": 21,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 21?",
+    "prompt": "Which phrase belongs in Acts 21 (Acts 21:11)?",
     "choices_json": [
       "The Lord’s will be done",
       "you will be baptized in the Holy Spirit",
@@ -7241,7 +7241,7 @@
     "book_number": 44,
     "chapter": 21,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 21?",
+    "prompt": "Which phrase belongs in Acts 21 (Acts 21:13)?",
     "choices_json": [
       "purify yourself with them",
       "you will be baptized in the Holy Spirit",
@@ -7269,7 +7269,7 @@
     "book_number": 44,
     "chapter": 21,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 21?",
+    "prompt": "Which phrase belongs in Acts 21 (Acts 21:24)?",
     "choices_json": [
       "I am a Jew, from Tarsus in Cilicia",
       "you will be baptized in the Holy Spirit",
@@ -7297,7 +7297,7 @@
     "book_number": 44,
     "chapter": 21,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 21 make about Paul?",
+    "prompt": "What major point does Acts 21 make about Paul (Acts 21:11)?",
     "choices_json": [
       "Elders asked Paul to join purification to show he kept the law.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -7325,7 +7325,7 @@
     "book_number": 44,
     "chapter": 21,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 21 make about Paul?",
+    "prompt": "What major point does Acts 21 make about Paul (Acts 21:19)?",
     "choices_json": [
       "The commander arrested Paul and bound him with chains.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -7339,7 +7339,7 @@
     "book_number": 44,
     "chapter": 21,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 21 make about Paul?",
+    "prompt": "What major point does Acts 21 make about Paul (Acts 21:24)?",
     "choices_json": [
       "Paul asked to speak to the crowd in Hebrew.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -7395,7 +7395,7 @@
     "book_number": 44,
     "chapter": 22,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 22, what does the chapter say about the Gentiles?",
+    "prompt": "According to Acts 22, what does the chapter say about the Gentiles (Acts 22:21)?",
     "choices_json": [
       "The Lord sent him far to the Gentiles.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -7409,7 +7409,7 @@
     "book_number": 44,
     "chapter": 22,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 22, what does the chapter say about the Gentiles?",
+    "prompt": "According to Acts 22, what does the chapter say about the Gentiles (Acts 22:22)?",
     "choices_json": [
       "The crowd raged when he mentioned Gentiles.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -7437,7 +7437,7 @@
     "book_number": 44,
     "chapter": 22,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 22, what happened?",
+    "prompt": "According to Acts 22, what happened (Acts 22:8)?",
     "choices_json": [
       "Arise, and go into Damascus",
       "you will be baptized in the Holy Spirit",
@@ -7479,7 +7479,7 @@
     "book_number": 44,
     "chapter": 22,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 22, what happened?",
+    "prompt": "According to Acts 22, what happened (Acts 22:22)?",
     "choices_json": [
       "But I was born a Roman",
       "you will be baptized in the Holy Spirit",
@@ -7521,7 +7521,7 @@
     "book_number": 44,
     "chapter": 22,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 22 teach about the Gentiles?",
+    "prompt": "What does Acts 22 teach about the Gentiles (Acts 22:16)?",
     "choices_json": [
       "The Lord sent him far to the Gentiles.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -7535,7 +7535,7 @@
     "book_number": 44,
     "chapter": 22,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 22 teach about the Gentiles?",
+    "prompt": "What does Acts 22 teach about the Gentiles (Acts 22:21)?",
     "choices_json": [
       "The crowd raged when he mentioned Gentiles.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -7563,7 +7563,7 @@
     "book_number": 44,
     "chapter": 22,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 22?",
+    "prompt": "Which phrase belongs in Acts 22 (Acts 22:3)?",
     "choices_json": [
       "Arise, and go into Damascus",
       "you will be baptized in the Holy Spirit",
@@ -7605,7 +7605,7 @@
     "book_number": 44,
     "chapter": 22,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 22?",
+    "prompt": "Which phrase belongs in Acts 22 (Acts 22:21)?",
     "choices_json": [
       "But I was born a Roman",
       "you will be baptized in the Holy Spirit",
@@ -7647,7 +7647,7 @@
     "book_number": 44,
     "chapter": 22,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 22 make about the Gentiles?",
+    "prompt": "What major point does Acts 22 make about the Gentiles (Acts 22:8)?",
     "choices_json": [
       "The Lord sent him far to the Gentiles.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -7661,7 +7661,7 @@
     "book_number": 44,
     "chapter": 22,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 22 make about the Gentiles?",
+    "prompt": "What major point does Acts 22 make about the Gentiles (Acts 22:16)?",
     "choices_json": [
       "The crowd raged when he mentioned Gentiles.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -7675,7 +7675,7 @@
     "book_number": 44,
     "chapter": 22,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 22 make about Paul?",
+    "prompt": "What major point does Acts 22 make about Paul (Acts 22:21)?",
     "choices_json": [
       "Paul’s Roman birth halted illegal scourging.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -7689,7 +7689,7 @@
     "book_number": 44,
     "chapter": 22,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 22 make about Paul?",
+    "prompt": "What major point does Acts 22 make about Paul (Acts 22:22)?",
     "choices_json": [
       "Paul said he was educated under Gamaliel and persecuted the Way.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -7703,7 +7703,7 @@
     "book_number": 44,
     "chapter": 23,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 23, what does the chapter say about Paul?",
+    "prompt": "According to Acts 23, what does the chapter say about Paul (Acts 23:1)?",
     "choices_json": [
       "Paul said he lived in good conscience before God.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -7731,7 +7731,7 @@
     "book_number": 44,
     "chapter": 23,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 23, what does the chapter say about Paul?",
+    "prompt": "According to Acts 23, what does the chapter say about Paul (Acts 23:8)?",
     "choices_json": [
       "The Lord said Paul would testify at Rome as at Jerusalem.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -7745,7 +7745,7 @@
     "book_number": 44,
     "chapter": 23,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 23, what does the chapter say about Paul?",
+    "prompt": "According to Acts 23, what does the chapter say about Paul (Acts 23:11)?",
     "choices_json": [
       "More than forty men vowed not to eat until they killed Paul.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -7759,7 +7759,7 @@
     "book_number": 44,
     "chapter": 23,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 23, what does the chapter say about Paul?",
+    "prompt": "According to Acts 23, what does the chapter say about Paul (Acts 23:12)?",
     "choices_json": [
       "Paul’s nephew told the commander the ambush plan.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -7773,7 +7773,7 @@
     "book_number": 44,
     "chapter": 23,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 23, what happened?",
+    "prompt": "According to Acts 23, what happened (Acts 23:1)?",
     "choices_json": [
       "Concerning the hope and resurrection of the dead I am being judged",
       "you will be baptized in the Holy Spirit",
@@ -7787,7 +7787,7 @@
     "book_number": 44,
     "chapter": 23,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 23, what does the chapter say about Paul?",
+    "prompt": "According to Acts 23, what does the chapter say about Paul (Acts 23:6)?",
     "choices_json": [
       "Cheer up, Paul, for as you have testified about me at Jerusalem, so you must testify also at Rome",
       "you will be baptized in the Holy Spirit",
@@ -7801,7 +7801,7 @@
     "book_number": 44,
     "chapter": 23,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 23, what does the chapter say about Paul?",
+    "prompt": "According to Acts 23, what does the chapter say about Paul (Acts 23:8)?",
     "choices_json": [
       "neither eat nor drink until they have killed Paul",
       "you will be baptized in the Holy Spirit",
@@ -7815,7 +7815,7 @@
     "book_number": 44,
     "chapter": 23,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 23, what happened?",
+    "prompt": "According to Acts 23, what happened (Acts 23:11)?",
     "choices_json": [
       "Claudius Lysias to the most excellent governor Felix",
       "you will be baptized in the Holy Spirit",
@@ -7829,7 +7829,7 @@
     "book_number": 44,
     "chapter": 23,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 23, what does the chapter say about Paul?",
+    "prompt": "According to Acts 23, what does the chapter say about Paul (Acts 23:12)?",
     "choices_json": [
       "Paul said he lived in good conscience before God.",
       "you will be baptized in the Holy Spirit",
@@ -7857,7 +7857,7 @@
     "book_number": 44,
     "chapter": 23,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 23 teach about Paul?",
+    "prompt": "What does Acts 23 teach about Paul (Acts 23:6)?",
     "choices_json": [
       "The Lord said Paul would testify at Rome as at Jerusalem.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -7871,7 +7871,7 @@
     "book_number": 44,
     "chapter": 23,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 23 teach about Paul?",
+    "prompt": "What does Acts 23 teach about Paul (Acts 23:8)?",
     "choices_json": [
       "More than forty men vowed not to eat until they killed Paul.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -7885,7 +7885,7 @@
     "book_number": 44,
     "chapter": 23,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 23 teach about Paul?",
+    "prompt": "What does Acts 23 teach about Paul (Acts 23:11)?",
     "choices_json": [
       "Paul’s nephew told the commander the ambush plan.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -7899,7 +7899,7 @@
     "book_number": 44,
     "chapter": 23,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 23 teach about Paul?",
+    "prompt": "What does Acts 23 teach about Paul (Acts 23:12)?",
     "choices_json": [
       "Paul was sent by night with soldiers to Felix in Caesarea.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -7913,7 +7913,7 @@
     "book_number": 44,
     "chapter": 23,
     "difficulty_stage": 4,
-    "prompt": "Which phrase in Acts 23 speaks about Paul?",
+    "prompt": "Which phrase in Acts 23 speaks about Paul (Acts 23:1)?",
     "choices_json": [
       "Cheer up, Paul, for as you have testified about me at Jerusalem, so you must testify also at Rome",
       "you will be baptized in the Holy Spirit",
@@ -7927,7 +7927,7 @@
     "book_number": 44,
     "chapter": 23,
     "difficulty_stage": 4,
-    "prompt": "Which phrase in Acts 23 speaks about Paul?",
+    "prompt": "Which phrase in Acts 23 speaks about Paul (Acts 23:6)?",
     "choices_json": [
       "neither eat nor drink until they have killed Paul",
       "you will be baptized in the Holy Spirit",
@@ -7941,7 +7941,7 @@
     "book_number": 44,
     "chapter": 23,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 23?",
+    "prompt": "Which phrase belongs in Acts 23 (Acts 23:8)?",
     "choices_json": [
       "Claudius Lysias to the most excellent governor Felix",
       "you will be baptized in the Holy Spirit",
@@ -7955,7 +7955,7 @@
     "book_number": 44,
     "chapter": 23,
     "difficulty_stage": 4,
-    "prompt": "Which phrase in Acts 23 speaks about Paul?",
+    "prompt": "Which phrase in Acts 23 speaks about Paul (Acts 23:11)?",
     "choices_json": [
       "Paul said he lived in good conscience before God.",
       "you will be baptized in the Holy Spirit",
@@ -7969,7 +7969,7 @@
     "book_number": 44,
     "chapter": 23,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 23?",
+    "prompt": "Which phrase belongs in Acts 23 (Acts 23:12)?",
     "choices_json": [
       "Concerning the hope and resurrection of the dead I am being judged",
       "you will be baptized in the Holy Spirit",
@@ -7983,7 +7983,7 @@
     "book_number": 44,
     "chapter": 23,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 23 make about Paul?",
+    "prompt": "What major point does Acts 23 make about Paul (Acts 23:1)?",
     "choices_json": [
       "The Lord said Paul would testify at Rome as at Jerusalem.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -7997,7 +7997,7 @@
     "book_number": 44,
     "chapter": 23,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 23 make about Paul?",
+    "prompt": "What major point does Acts 23 make about Paul (Acts 23:6)?",
     "choices_json": [
       "More than forty men vowed not to eat until they killed Paul.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8011,7 +8011,7 @@
     "book_number": 44,
     "chapter": 23,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 23 make about Paul?",
+    "prompt": "What major point does Acts 23 make about Paul (Acts 23:8)?",
     "choices_json": [
       "Paul’s nephew told the commander the ambush plan.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8025,7 +8025,7 @@
     "book_number": 44,
     "chapter": 23,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 23 make about Paul?",
+    "prompt": "What major point does Acts 23 make about Paul (Acts 23:11)?",
     "choices_json": [
       "Paul was sent by night with soldiers to Felix in Caesarea.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8039,7 +8039,7 @@
     "book_number": 44,
     "chapter": 23,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 23 make about Paul?",
+    "prompt": "What major point does Acts 23 make about Paul (Acts 23:12)?",
     "choices_json": [
       "Paul said he lived in good conscience before God.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8053,7 +8053,7 @@
     "book_number": 44,
     "chapter": 24,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 24, what does the chapter say about Paul?",
+    "prompt": "According to Acts 24, what does the chapter say about Paul (Acts 24:5)?",
     "choices_json": [
       "Tertullus called Paul a ringleader of the Nazarene sect.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8067,7 +8067,7 @@
     "book_number": 44,
     "chapter": 24,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 24, what does the chapter say about Paul?",
+    "prompt": "According to Acts 24, what does the chapter say about Paul (Acts 24:10)?",
     "choices_json": [
       "Paul confessed worshiping the God of the fathers according to the Way.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8081,7 +8081,7 @@
     "book_number": 44,
     "chapter": 24,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 24, what happened?",
+    "prompt": "According to Acts 24, what happened (Acts 24:14)?",
     "choices_json": [
       "He said he believed in resurrection of both just and unjust.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8095,7 +8095,7 @@
     "book_number": 44,
     "chapter": 24,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 24, what happened?",
+    "prompt": "According to Acts 24, what happened (Acts 24:15)?",
     "choices_json": [
       "Felix postponed judgment wanting Lysias’s account.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8109,7 +8109,7 @@
     "book_number": 44,
     "chapter": 24,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 24, what does the chapter say about Paul?",
+    "prompt": "According to Acts 24, what does the chapter say about Paul (Acts 24:22)?",
     "choices_json": [
       "Felix trembled when Paul spoke of righteousness and coming judgment.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8123,7 +8123,7 @@
     "book_number": 44,
     "chapter": 24,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 24, what happened?",
+    "prompt": "According to Acts 24, what happened (Acts 24:5)?",
     "choices_json": [
       "a ringleader of the sect of the Nazarenes",
       "you will be baptized in the Holy Spirit",
@@ -8151,7 +8151,7 @@
     "book_number": 44,
     "chapter": 24,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 24, what happened?",
+    "prompt": "According to Acts 24, what happened (Acts 24:14)?",
     "choices_json": [
       "there will be a resurrection of the dead, both of the just and unjust",
       "you will be baptized in the Holy Spirit",
@@ -8165,7 +8165,7 @@
     "book_number": 44,
     "chapter": 24,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 24, what happened?",
+    "prompt": "According to Acts 24, what happened (Acts 24:15)?",
     "choices_json": [
       "Felix was terrified",
       "you will be baptized in the Holy Spirit",
@@ -8193,7 +8193,7 @@
     "book_number": 44,
     "chapter": 24,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 24 teach about Paul?",
+    "prompt": "What does Acts 24 teach about Paul (Acts 24:5)?",
     "choices_json": [
       "Paul confessed worshiping the God of the fathers according to the Way.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8235,7 +8235,7 @@
     "book_number": 44,
     "chapter": 24,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 24 teach about Paul?",
+    "prompt": "What does Acts 24 teach about Paul (Acts 24:15)?",
     "choices_json": [
       "Felix trembled when Paul spoke of righteousness and coming judgment.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8249,7 +8249,7 @@
     "book_number": 44,
     "chapter": 24,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 24 teach about Paul?",
+    "prompt": "What does Acts 24 teach about Paul (Acts 24:22)?",
     "choices_json": [
       "Felix left Paul bound two years to please the Jews.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8277,7 +8277,7 @@
     "book_number": 44,
     "chapter": 24,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 24?",
+    "prompt": "Which phrase belongs in Acts 24 (Acts 24:10)?",
     "choices_json": [
       "there will be a resurrection of the dead, both of the just and unjust",
       "you will be baptized in the Holy Spirit",
@@ -8291,7 +8291,7 @@
     "book_number": 44,
     "chapter": 24,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 24?",
+    "prompt": "Which phrase belongs in Acts 24 (Acts 24:14)?",
     "choices_json": [
       "Felix was terrified",
       "you will be baptized in the Holy Spirit",
@@ -8319,7 +8319,7 @@
     "book_number": 44,
     "chapter": 24,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 24?",
+    "prompt": "Which phrase belongs in Acts 24 (Acts 24:22)?",
     "choices_json": [
       "a ringleader of the sect of the Nazarenes",
       "you will be baptized in the Holy Spirit",
@@ -8361,7 +8361,7 @@
     "book_number": 44,
     "chapter": 24,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 24 make about Paul?",
+    "prompt": "What major point does Acts 24 make about Paul (Acts 24:14)?",
     "choices_json": [
       "Felix trembled when Paul spoke of righteousness and coming judgment.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8375,7 +8375,7 @@
     "book_number": 44,
     "chapter": 24,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 24 make about Paul?",
+    "prompt": "What major point does Acts 24 make about Paul (Acts 24:15)?",
     "choices_json": [
       "Felix left Paul bound two years to please the Jews.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8389,7 +8389,7 @@
     "book_number": 44,
     "chapter": 24,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 24 make about Paul?",
+    "prompt": "What major point does Acts 24 make about Paul (Acts 24:22)?",
     "choices_json": [
       "Tertullus called Paul a ringleader of the Nazarene sect.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8403,7 +8403,7 @@
     "book_number": 44,
     "chapter": 25,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 25, what does the chapter say about Paul?",
+    "prompt": "According to Acts 25, what does the chapter say about Paul (Acts 25:3)?",
     "choices_json": [
       "Jews asked Festus to summon Paul to Jerusalem to kill him en route.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8417,7 +8417,7 @@
     "book_number": 44,
     "chapter": 25,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 25, what does the chapter say about Paul?",
+    "prompt": "According to Acts 25, what does the chapter say about Paul (Acts 25:4)?",
     "choices_json": [
       "Paul said he stood before Caesar’s seat where he ought be tried.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8431,7 +8431,7 @@
     "book_number": 44,
     "chapter": 25,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 25, what does the chapter say about Paul?",
+    "prompt": "According to Acts 25, what does the chapter say about Paul (Acts 25:8)?",
     "choices_json": [
       "Paul appealed to Caesar; Festus granted it.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8459,7 +8459,7 @@
     "book_number": 44,
     "chapter": 25,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 25, what does the chapter say about Paul?",
+    "prompt": "According to Acts 25, what does the chapter say about Paul (Acts 25:11)?",
     "choices_json": [
       "Agrippa wanted to hear Paul himself.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8473,7 +8473,7 @@
     "book_number": 44,
     "chapter": 25,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 25, what happened?",
+    "prompt": "According to Acts 25, what happened (Acts 25:3)?",
     "choices_json": [
       "plotting to kill him on the way",
       "you will be baptized in the Holy Spirit",
@@ -8487,7 +8487,7 @@
     "book_number": 44,
     "chapter": 25,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 25, what does the chapter say about Caesar?",
+    "prompt": "According to Acts 25, what does the chapter say about Caesar (Acts 25:4)?",
     "choices_json": [
       "I am standing before Caesar’s judgment seat",
       "you will be baptized in the Holy Spirit",
@@ -8501,7 +8501,7 @@
     "book_number": 44,
     "chapter": 25,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 25, what does the chapter say about Caesar?",
+    "prompt": "According to Acts 25, what does the chapter say about Caesar (Acts 25:8)?",
     "choices_json": [
       "I appeal to Caesar!",
       "you will be baptized in the Holy Spirit",
@@ -8529,7 +8529,7 @@
     "book_number": 44,
     "chapter": 25,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 25, what happened?",
+    "prompt": "According to Acts 25, what happened (Acts 25:11)?",
     "choices_json": [
       "Tomorrow you shall hear him",
       "you will be baptized in the Holy Spirit",
@@ -8543,7 +8543,7 @@
     "book_number": 44,
     "chapter": 25,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 25 teach about Paul?",
+    "prompt": "What does Acts 25 teach about Paul (Acts 25:3)?",
     "choices_json": [
       "Paul said he stood before Caesar’s seat where he ought be tried.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8557,7 +8557,7 @@
     "book_number": 44,
     "chapter": 25,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 25 teach about Paul?",
+    "prompt": "What does Acts 25 teach about Paul (Acts 25:4)?",
     "choices_json": [
       "Paul appealed to Caesar; Festus granted it.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8585,7 +8585,7 @@
     "book_number": 44,
     "chapter": 25,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 25 teach about Paul?",
+    "prompt": "What does Acts 25 teach about Paul (Acts 25:10)?",
     "choices_json": [
       "Agrippa wanted to hear Paul himself.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8599,7 +8599,7 @@
     "book_number": 44,
     "chapter": 25,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 25 teach about Paul?",
+    "prompt": "What does Acts 25 teach about Paul (Acts 25:11)?",
     "choices_json": [
       "Jews asked Festus to summon Paul to Jerusalem to kill him en route.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8613,7 +8613,7 @@
     "book_number": 44,
     "chapter": 25,
     "difficulty_stage": 4,
-    "prompt": "Which phrase in Acts 25 speaks about Caesar?",
+    "prompt": "Which phrase in Acts 25 speaks about Caesar (Acts 25:3)?",
     "choices_json": [
       "I am standing before Caesar’s judgment seat",
       "you will be baptized in the Holy Spirit",
@@ -8627,7 +8627,7 @@
     "book_number": 44,
     "chapter": 25,
     "difficulty_stage": 4,
-    "prompt": "Which phrase in Acts 25 speaks about Caesar?",
+    "prompt": "Which phrase in Acts 25 speaks about Caesar (Acts 25:4)?",
     "choices_json": [
       "I appeal to Caesar!",
       "you will be baptized in the Holy Spirit",
@@ -8655,7 +8655,7 @@
     "book_number": 44,
     "chapter": 25,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 25?",
+    "prompt": "Which phrase belongs in Acts 25 (Acts 25:10)?",
     "choices_json": [
       "Tomorrow you shall hear him",
       "you will be baptized in the Holy Spirit",
@@ -8669,7 +8669,7 @@
     "book_number": 44,
     "chapter": 25,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 25?",
+    "prompt": "Which phrase belongs in Acts 25 (Acts 25:11)?",
     "choices_json": [
       "plotting to kill him on the way",
       "you will be baptized in the Holy Spirit",
@@ -8683,7 +8683,7 @@
     "book_number": 44,
     "chapter": 25,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 25 make about Paul?",
+    "prompt": "What major point does Acts 25 make about Paul (Acts 25:3)?",
     "choices_json": [
       "Paul appealed to Caesar; Festus granted it.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8711,7 +8711,7 @@
     "book_number": 44,
     "chapter": 25,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 25 make about Paul?",
+    "prompt": "What major point does Acts 25 make about Paul (Acts 25:8)?",
     "choices_json": [
       "Agrippa wanted to hear Paul himself.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8725,7 +8725,7 @@
     "book_number": 44,
     "chapter": 25,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 25 make about Paul?",
+    "prompt": "What major point does Acts 25 make about Paul (Acts 25:10)?",
     "choices_json": [
       "Jews asked Festus to summon Paul to Jerusalem to kill him en route.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8739,7 +8739,7 @@
     "book_number": 44,
     "chapter": 25,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 25 make about Paul?",
+    "prompt": "What major point does Acts 25 make about Paul (Acts 25:11)?",
     "choices_json": [
       "Paul said he stood before Caesar’s seat where he ought be tried.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8753,7 +8753,7 @@
     "book_number": 44,
     "chapter": 26,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 26, what does the chapter say about Paul?",
+    "prompt": "According to Acts 26, what does the chapter say about Paul (Acts 26:6)?",
     "choices_json": [
       "Paul said he was a Pharisee judged for hope of resurrection.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8781,7 +8781,7 @@
     "book_number": 44,
     "chapter": 26,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 26, what does the chapter say about Paul?",
+    "prompt": "According to Acts 26, what does the chapter say about Paul (Acts 26:14)?",
     "choices_json": [
       "Festus said Paul’s learning made him insane.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8795,7 +8795,7 @@
     "book_number": 44,
     "chapter": 26,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 26, what does the chapter say about Paul?",
+    "prompt": "According to Acts 26, what does the chapter say about Paul (Acts 26:18)?",
     "choices_json": [
       "Paul said he spoke true and reasonable words.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8809,7 +8809,7 @@
     "book_number": 44,
     "chapter": 26,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 26, what does the chapter say about Paul?",
+    "prompt": "According to Acts 26, what does the chapter say about Paul (Acts 26:19)?",
     "choices_json": [
       "Agrippa asked if Paul tried to make him a Christian.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8823,7 +8823,7 @@
     "book_number": 44,
     "chapter": 26,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 26, what happened?",
+    "prompt": "According to Acts 26, what happened (Acts 26:6)?",
     "choices_json": [
       "for the hope of the promise made by God to our fathers",
       "you will be baptized in the Holy Spirit",
@@ -8837,7 +8837,7 @@
     "book_number": 44,
     "chapter": 26,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 26, what happened?",
+    "prompt": "According to Acts 26, what happened (Acts 26:8)?",
     "choices_json": [
       "to open their eyes, that they may turn from darkness to light",
       "you will be baptized in the Holy Spirit",
@@ -8851,7 +8851,7 @@
     "book_number": 44,
     "chapter": 26,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 26, what happened?",
+    "prompt": "According to Acts 26, what happened (Acts 26:14)?",
     "choices_json": [
       "I am not crazy, most excellent Festus",
       "you will be baptized in the Holy Spirit",
@@ -8907,7 +8907,7 @@
     "book_number": 44,
     "chapter": 26,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 26 teach about Paul?",
+    "prompt": "What does Acts 26 teach about Paul (Acts 26:8)?",
     "choices_json": [
       "Festus said Paul’s learning made him insane.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8921,7 +8921,7 @@
     "book_number": 44,
     "chapter": 26,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 26 teach about Paul?",
+    "prompt": "What does Acts 26 teach about Paul (Acts 26:14)?",
     "choices_json": [
       "Paul said he spoke true and reasonable words.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8935,7 +8935,7 @@
     "book_number": 44,
     "chapter": 26,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 26 teach about Paul?",
+    "prompt": "What does Acts 26 teach about Paul (Acts 26:18)?",
     "choices_json": [
       "Agrippa asked if Paul tried to make him a Christian.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8949,7 +8949,7 @@
     "book_number": 44,
     "chapter": 26,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 26 teach about Paul?",
+    "prompt": "What does Acts 26 teach about Paul (Acts 26:19)?",
     "choices_json": [
       "The king and governor agreed Paul did nothing worthy of death or chains.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -8963,7 +8963,7 @@
     "book_number": 44,
     "chapter": 26,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 26?",
+    "prompt": "Which phrase belongs in Acts 26 (Acts 26:6)?",
     "choices_json": [
       "to open their eyes, that they may turn from darkness to light",
       "you will be baptized in the Holy Spirit",
@@ -8977,7 +8977,7 @@
     "book_number": 44,
     "chapter": 26,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 26?",
+    "prompt": "Which phrase belongs in Acts 26 (Acts 26:8)?",
     "choices_json": [
       "I am not crazy, most excellent Festus",
       "you will be baptized in the Holy Spirit",
@@ -9019,7 +9019,7 @@
     "book_number": 44,
     "chapter": 26,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 26?",
+    "prompt": "Which phrase belongs in Acts 26 (Acts 26:19)?",
     "choices_json": [
       "for the hope of the promise made by God to our fathers",
       "you will be baptized in the Holy Spirit",
@@ -9033,7 +9033,7 @@
     "book_number": 44,
     "chapter": 26,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 26 make about Paul?",
+    "prompt": "What major point does Acts 26 make about Paul (Acts 26:6)?",
     "choices_json": [
       "Festus said Paul’s learning made him insane.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9047,7 +9047,7 @@
     "book_number": 44,
     "chapter": 26,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 26 make about Paul?",
+    "prompt": "What major point does Acts 26 make about Paul (Acts 26:8)?",
     "choices_json": [
       "Paul said he spoke true and reasonable words.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9061,7 +9061,7 @@
     "book_number": 44,
     "chapter": 26,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 26 make about Paul?",
+    "prompt": "What major point does Acts 26 make about Paul (Acts 26:14)?",
     "choices_json": [
       "Agrippa asked if Paul tried to make him a Christian.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9075,7 +9075,7 @@
     "book_number": 44,
     "chapter": 26,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 26 make about Paul?",
+    "prompt": "What major point does Acts 26 make about Paul (Acts 26:18)?",
     "choices_json": [
       "The king and governor agreed Paul did nothing worthy of death or chains.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9089,7 +9089,7 @@
     "book_number": 44,
     "chapter": 26,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 26 make about Paul?",
+    "prompt": "What major point does Acts 26 make about Paul (Acts 26:19)?",
     "choices_json": [
       "Paul said he was a Pharisee judged for hope of resurrection.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9103,7 +9103,7 @@
     "book_number": 44,
     "chapter": 27,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 27, what does the chapter say about Paul?",
+    "prompt": "According to Acts 27, what does the chapter say about Paul (Acts 27:10)?",
     "choices_json": [
       "Paul foresaw injury and loss if they sailed from Crete.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9117,7 +9117,7 @@
     "book_number": 44,
     "chapter": 27,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 27, what happened?",
+    "prompt": "According to Acts 27, what happened (Acts 27:14)?",
     "choices_json": [
       "The ship was caught by Euroclydon and driven days without sun or stars.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9131,7 +9131,7 @@
     "book_number": 44,
     "chapter": 27,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 27, what does the chapter say about Paul?",
+    "prompt": "According to Acts 27, what does the chapter say about Paul (Acts 27:20)?",
     "choices_json": [
       "An angel said Paul must stand before Caesar and all would be saved.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9145,7 +9145,7 @@
     "book_number": 44,
     "chapter": 27,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 27, what does the chapter say about Paul?",
+    "prompt": "According to Acts 27, what does the chapter say about Paul (Acts 27:23)?",
     "choices_json": [
       "Paul said not a hair would perish from their heads.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9159,7 +9159,7 @@
     "book_number": 44,
     "chapter": 27,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 27, what happened?",
+    "prompt": "According to Acts 27, what happened (Acts 27:24)?",
     "choices_json": [
       "Two hundred seventy-six people were on the ship.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9173,7 +9173,7 @@
     "book_number": 44,
     "chapter": 27,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 27, what happened?",
+    "prompt": "According to Acts 27, what happened (Acts 27:10)?",
     "choices_json": [
       "the voyage will be with injury and much loss",
       "you will be baptized in the Holy Spirit",
@@ -9187,7 +9187,7 @@
     "book_number": 44,
     "chapter": 27,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 27, what happened?",
+    "prompt": "According to Acts 27, what happened (Acts 27:14)?",
     "choices_json": [
       "which is called Euroclydon",
       "you will be baptized in the Holy Spirit",
@@ -9201,7 +9201,7 @@
     "book_number": 44,
     "chapter": 27,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 27, what happened?",
+    "prompt": "According to Acts 27, what happened (Acts 27:20)?",
     "choices_json": [
       "all hope that we would be saved was now taken away",
       "you will be baptized in the Holy Spirit",
@@ -9229,7 +9229,7 @@
     "book_number": 44,
     "chapter": 27,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 27, what happened?",
+    "prompt": "According to Acts 27, what happened (Acts 27:24)?",
     "choices_json": [
       "two hundred seventy-six souls on the ship",
       "you will be baptized in the Holy Spirit",
@@ -9243,7 +9243,7 @@
     "book_number": 44,
     "chapter": 27,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 27 teach?",
+    "prompt": "What does Acts 27 teach (Acts 27:10)?",
     "choices_json": [
       "The ship was caught by Euroclydon and driven days without sun or stars.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9257,7 +9257,7 @@
     "book_number": 44,
     "chapter": 27,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 27 teach about Paul?",
+    "prompt": "What does Acts 27 teach about Paul (Acts 27:14)?",
     "choices_json": [
       "An angel said Paul must stand before Caesar and all would be saved.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9271,7 +9271,7 @@
     "book_number": 44,
     "chapter": 27,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 27 teach about Paul?",
+    "prompt": "What does Acts 27 teach about Paul (Acts 27:20)?",
     "choices_json": [
       "Paul said not a hair would perish from their heads.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9285,7 +9285,7 @@
     "book_number": 44,
     "chapter": 27,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 27 teach?",
+    "prompt": "What does Acts 27 teach (Acts 27:23)?",
     "choices_json": [
       "Two hundred seventy-six people were on the ship.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9299,7 +9299,7 @@
     "book_number": 44,
     "chapter": 27,
     "difficulty_stage": 3,
-    "prompt": "What does Acts 27 teach about Paul?",
+    "prompt": "What does Acts 27 teach about Paul (Acts 27:24)?",
     "choices_json": [
       "Julius kept soldiers from killing prisoners so Paul could be saved.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9313,7 +9313,7 @@
     "book_number": 44,
     "chapter": 27,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 27?",
+    "prompt": "Which phrase belongs in Acts 27 (Acts 27:10)?",
     "choices_json": [
       "which is called Euroclydon",
       "you will be baptized in the Holy Spirit",
@@ -9327,7 +9327,7 @@
     "book_number": 44,
     "chapter": 27,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 27?",
+    "prompt": "Which phrase belongs in Acts 27 (Acts 27:14)?",
     "choices_json": [
       "all hope that we would be saved was now taken away",
       "you will be baptized in the Holy Spirit",
@@ -9355,7 +9355,7 @@
     "book_number": 44,
     "chapter": 27,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 27?",
+    "prompt": "Which phrase belongs in Acts 27 (Acts 27:23)?",
     "choices_json": [
       "two hundred seventy-six souls on the ship",
       "you will be baptized in the Holy Spirit",
@@ -9369,7 +9369,7 @@
     "book_number": 44,
     "chapter": 27,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 27?",
+    "prompt": "Which phrase belongs in Acts 27 (Acts 27:24)?",
     "choices_json": [
       "So they all escaped safely to the land",
       "you will be baptized in the Holy Spirit",
@@ -9383,7 +9383,7 @@
     "book_number": 44,
     "chapter": 27,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 27 make about Paul?",
+    "prompt": "What major point does Acts 27 make about Paul (Acts 27:10)?",
     "choices_json": [
       "An angel said Paul must stand before Caesar and all would be saved.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9397,7 +9397,7 @@
     "book_number": 44,
     "chapter": 27,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 27 make about Paul?",
+    "prompt": "What major point does Acts 27 make about Paul (Acts 27:14)?",
     "choices_json": [
       "Paul said not a hair would perish from their heads.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9425,7 +9425,7 @@
     "book_number": 44,
     "chapter": 27,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 27 make about Paul?",
+    "prompt": "What major point does Acts 27 make about Paul (Acts 27:23)?",
     "choices_json": [
       "Julius kept soldiers from killing prisoners so Paul could be saved.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9439,7 +9439,7 @@
     "book_number": 44,
     "chapter": 27,
     "difficulty_stage": 5,
-    "prompt": "What major point does Acts 27 make about Paul?",
+    "prompt": "What major point does Acts 27 make about Paul (Acts 27:24)?",
     "choices_json": [
       "Paul foresaw injury and loss if they sailed from Crete.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9467,7 +9467,7 @@
     "book_number": 44,
     "chapter": 28,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 28, what happened?",
+    "prompt": "According to Acts 28, what happened (Acts 28:8)?",
     "choices_json": [
       "He healed Publius’s father of fever and dysentery.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9495,7 +9495,7 @@
     "book_number": 44,
     "chapter": 28,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 28, what happened?",
+    "prompt": "According to Acts 28, what happened (Acts 28:20)?",
     "choices_json": [
       "He reasoned about God’s Kingdom and Jesus from law and prophets.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9509,7 +9509,7 @@
     "book_number": 44,
     "chapter": 28,
     "difficulty_stage": 1,
-    "prompt": "According to Acts 28, what happened?",
+    "prompt": "According to Acts 28, what happened (Acts 28:23)?",
     "choices_json": [
       "He applied Isaiah about dull hearing and closed eyes.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9523,7 +9523,7 @@
     "book_number": 44,
     "chapter": 28,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 28, what happened?",
+    "prompt": "According to Acts 28, what happened (Acts 28:5)?",
     "choices_json": [
       "he shook off the creature into the fire, and wasn’t harmed",
       "you will be baptized in the Holy Spirit",
@@ -9537,7 +9537,7 @@
     "book_number": 44,
     "chapter": 28,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 28, what happened?",
+    "prompt": "According to Acts 28, what happened (Acts 28:8)?",
     "choices_json": [
       "because of the hope of Israel I am bound with this chain",
       "you will be baptized in the Holy Spirit",
@@ -9551,7 +9551,7 @@
     "book_number": 44,
     "chapter": 28,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 28, what does the chapter say about Jesus?",
+    "prompt": "According to Acts 28, what does the chapter say about Jesus (Acts 28:15)?",
     "choices_json": [
       "persuading them concerning Jesus, both from the law of Moses and from the prophets",
       "you will be baptized in the Holy Spirit",
@@ -9565,7 +9565,7 @@
     "book_number": 44,
     "chapter": 28,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 28, what happened?",
+    "prompt": "According to Acts 28, what happened (Acts 28:20)?",
     "choices_json": [
       "the salvation of God is sent to the nations",
       "you will be baptized in the Holy Spirit",
@@ -9579,7 +9579,7 @@
     "book_number": 44,
     "chapter": 28,
     "difficulty_stage": 2,
-    "prompt": "According to Acts 28, what does the chapter say about Jesus?",
+    "prompt": "According to Acts 28, what does the chapter say about Jesus (Acts 28:23)?",
     "choices_json": [
       "preaching God’s Kingdom, and teaching the things concerning the Lord Jesus Christ with all boldness, without hindrance",
       "you will be baptized in the Holy Spirit",
@@ -9593,7 +9593,7 @@
     "book_number": 44,
     "chapter": 28,
     "difficulty_stage": 3,
-    "prompt": "According to Acts 28, what happened?",
+    "prompt": "According to Acts 28, what happened (Acts 28:5)?",
     "choices_json": [
       "He healed Publius’s father of fever and dysentery.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9621,7 +9621,7 @@
     "book_number": 44,
     "chapter": 28,
     "difficulty_stage": 3,
-    "prompt": "According to Acts 28, what happened?",
+    "prompt": "According to Acts 28, what happened (Acts 28:15)?",
     "choices_json": [
       "He reasoned about God’s Kingdom and Jesus from law and prophets.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9635,7 +9635,7 @@
     "book_number": 44,
     "chapter": 28,
     "difficulty_stage": 3,
-    "prompt": "According to Acts 28, what happened?",
+    "prompt": "According to Acts 28, what happened (Acts 28:20)?",
     "choices_json": [
       "He applied Isaiah about dull hearing and closed eyes.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9649,7 +9649,7 @@
     "book_number": 44,
     "chapter": 28,
     "difficulty_stage": 3,
-    "prompt": "According to Acts 28, what happened?",
+    "prompt": "According to Acts 28, what happened (Acts 28:23)?",
     "choices_json": [
       "He said God’s salvation was sent to the nations who would listen.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9663,7 +9663,7 @@
     "book_number": 44,
     "chapter": 28,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 28?",
+    "prompt": "Which phrase belongs in Acts 28 (Acts 28:5)?",
     "choices_json": [
       "because of the hope of Israel I am bound with this chain",
       "you will be baptized in the Holy Spirit",
@@ -9677,7 +9677,7 @@
     "book_number": 44,
     "chapter": 28,
     "difficulty_stage": 4,
-    "prompt": "Which phrase in Acts 28 speaks about Jesus?",
+    "prompt": "Which phrase in Acts 28 speaks about Jesus (Acts 28:8)?",
     "choices_json": [
       "persuading them concerning Jesus, both from the law of Moses and from the prophets",
       "you will be baptized in the Holy Spirit",
@@ -9691,7 +9691,7 @@
     "book_number": 44,
     "chapter": 28,
     "difficulty_stage": 4,
-    "prompt": "Which phrase belongs in Acts 28?",
+    "prompt": "Which phrase belongs in Acts 28 (Acts 28:15)?",
     "choices_json": [
       "the salvation of God is sent to the nations",
       "you will be baptized in the Holy Spirit",
@@ -9705,7 +9705,7 @@
     "book_number": 44,
     "chapter": 28,
     "difficulty_stage": 4,
-    "prompt": "Which phrase in Acts 28 speaks about Jesus?",
+    "prompt": "Which phrase in Acts 28 speaks about Jesus (Acts 28:20)?",
     "choices_json": [
       "preaching God’s Kingdom, and teaching the things concerning the Lord Jesus Christ with all boldness, without hindrance",
       "you will be baptized in the Holy Spirit",
@@ -9747,7 +9747,7 @@
     "book_number": 44,
     "chapter": 28,
     "difficulty_stage": 5,
-    "prompt": "According to Acts 28, what happened?",
+    "prompt": "According to Acts 28, what happened (Acts 28:8)?",
     "choices_json": [
       "He reasoned about God’s Kingdom and Jesus from law and prophets.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9761,7 +9761,7 @@
     "book_number": 44,
     "chapter": 28,
     "difficulty_stage": 5,
-    "prompt": "According to Acts 28, what happened?",
+    "prompt": "According to Acts 28, what happened (Acts 28:15)?",
     "choices_json": [
       "He applied Isaiah about dull hearing and closed eyes.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
@@ -9775,7 +9775,7 @@
     "book_number": 44,
     "chapter": 28,
     "difficulty_stage": 5,
-    "prompt": "According to Acts 28, what happened?",
+    "prompt": "According to Acts 28, what happened (Acts 28:20)?",
     "choices_json": [
       "He said God’s salvation was sent to the nations who would listen.",
       "Jesus showed himself alive forty days and spoke about God’s Kingdom.",

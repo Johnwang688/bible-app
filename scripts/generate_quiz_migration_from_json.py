@@ -38,6 +38,19 @@ def main() -> None:
         print("No rows in JSON", file=sys.stderr)
         sys.exit(1)
     book_number = int(rows[0]["book_number"])
+    seen: set[tuple[int, int, str]] = set()
+    for r in rows:
+        ch = int(r["chapter"])
+        st = int(r["difficulty_stage"])
+        pr = str(r["prompt"])
+        key = (ch, st, pr)
+        if key in seen:
+            print(
+                f"Duplicate prompt for chapter {ch} stage {st} (second prompt): {pr[:120]}…",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+        seen.add(key)
 
     lines: list[str] = [
         "-- ============================================================================",

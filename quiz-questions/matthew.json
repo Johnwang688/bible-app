@@ -5113,7 +5113,7 @@
     "book_number": 40,
     "chapter": 18,
     "difficulty_stage": 1,
-    "prompt": "According to Matthew 18, who is greatest in the Kingdom of Heaven?",
+    "prompt": "According to Matthew 18, who is greatest in the Kingdom of Heaven (Matt 18:3)?",
     "choices_json": [
       "One who humbles himself like a little child",
       "The oldest disciple",
@@ -5323,7 +5323,7 @@
     "book_number": 40,
     "chapter": 21,
     "difficulty_stage": 1,
-    "prompt": "What animal did Jesus ride into Jerusalem in Matthew 21?",
+    "prompt": "What animal did Jesus ride into Jerusalem in Matthew 21 (Matt 21:5)?",
     "choices_json": [
       "A donkey",
       "A horse",
@@ -5673,7 +5673,7 @@
     "book_number": 40,
     "chapter": 26,
     "difficulty_stage": 1,
-    "prompt": "Who agreed to betray Jesus for silver in Matthew 26?",
+    "prompt": "Who agreed to betray Jesus for silver in Matthew 26 (Matt 26:14)?",
     "choices_json": [
       "Judas Iscariot",
       "Peter",
@@ -6723,7 +6723,7 @@
     "book_number": 40,
     "chapter": 18,
     "difficulty_stage": 1,
-    "prompt": "According to Matthew 18, who is greatest in the Kingdom of Heaven?",
+    "prompt": "According to Matthew 18, who is greatest in the Kingdom of Heaven (One who becomes like a little child)?",
     "choices_json": [
       "One who becomes like a little child",
       "The richest disciple",
@@ -7563,7 +7563,7 @@
     "book_number": 40,
     "chapter": 21,
     "difficulty_stage": 1,
-    "prompt": "What animal did Jesus ride into Jerusalem in Matthew 21?",
+    "prompt": "What animal did Jesus ride into Jerusalem in Matthew 21 (A donkey)?",
     "choices_json": [
       "A donkey",
       "A horse",
@@ -8963,7 +8963,7 @@
     "book_number": 40,
     "chapter": 26,
     "difficulty_stage": 1,
-    "prompt": "Who agreed to betray Jesus for silver in Matthew 26?",
+    "prompt": "Who agreed to betray Jesus for silver in Matthew 26 (Judas Iscariot)?",
     "choices_json": [
       "Judas Iscariot",
       "Peter",

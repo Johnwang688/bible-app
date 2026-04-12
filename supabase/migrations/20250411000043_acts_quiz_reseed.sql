@@ -1,3 +1,6 @@
+-- Re-seed Acts after duplicate-prompt fix (clears partial rows from skipped INSERTs).
+DELETE FROM quiz_question_bank WHERE book_number = 44;
+
 -- ============================================================================
 -- LOGOS LIGHT — Acts (book 44) quiz questions from quiz-questions/acts.json
 -- ============================================================================
