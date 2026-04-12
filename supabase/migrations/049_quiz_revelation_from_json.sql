@@ -1,0 +1,8875 @@
+-- ============================================================================
+-- LOGOS LIGHT — Revelation (book 66) quiz questions from quiz-questions/revelation.json
+-- ============================================================================
+-- Idempotent: skips rows that already match (book_number, chapter, difficulty_stage, prompt).
+-- ============================================================================
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 1, 'According to Revelation 1, from whom is the revelation given to Jesus Christ?', '["God", "An angel", "John", "The churches"]'::jsonb, 'God', 'The book opens by saying it is ''The Revelation of Jesus Christ, which God gave him'' (Revelation 1:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 1, from whom is the revelation given to Jesus Christ?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 1, 'According to Revelation 1, to whom was the revelation signified through an angel?', '["John", "Peter", "Paul", "James"]'::jsonb, 'John', 'God gave the revelation to Jesus, who sent and signified it by his angel to his servant John (Revelation 1:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 1, to whom was the revelation signified through an angel?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 1, 'According to Revelation 1, how many churches are addressed in Asia?', '["Seven", "Three", "Twelve", "Twenty-four"]'::jsonb, 'Seven', 'John writes ''to the seven assemblies that are in Asia'' (Revelation 1:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 1, how many churches are addressed in Asia?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 1, 'According to Revelation 1, on what island was John when he received the vision?', '["Patmos", "Crete", "Cyprus", "Malta"]'::jsonb, 'Patmos', 'John says he was on the island called Patmos (Revelation 1:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 1, on what island was John when he received the vision?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 1, 'According to Revelation 1, on what day was John in the Spirit?', '["The Lord''s day", "The Day of Atonement", "The Sabbath year", "Passover day"]'::jsonb, 'The Lord''s day', 'John says, ''I was in the Spirit on the Lord''s day'' (Revelation 1:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 1, on what day was John in the Spirit?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 1, 'According to Revelation 1, what did John hear behind him?', '["A loud voice like a trumpet", "A choir of angels singing softly", "Thunder from the sea", "The sound of rushing water from the shore"]'::jsonb, 'A loud voice like a trumpet', 'John heard behind him ''a loud voice, like a trumpet'' (Revelation 1:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 1, what did John hear behind him?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 1, 'According to Revelation 1, what did John see when he turned to see the voice?', '["Seven golden lampstands", "A white horse", "A crystal sea", "Twelve gates"]'::jsonb, 'Seven golden lampstands', 'When John turned, he saw seven golden lampstands (Revelation 1:12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 1, what did John see when he turned to see the voice?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 2, 'According to Revelation 1, why is the one who reads and those who hear called blessed?', '["Because they keep the things written in it", "Because they understand every mystery immediately", "Because they escape all persecution", "Because they live in Jerusalem"]'::jsonb, 'Because they keep the things written in it', 'The blessing is for the one who reads and those who hear and keep the things written in the prophecy (Revelation 1:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 1, why is the one who reads and those who hear called blessed?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 2, 'According to Revelation 1, what reason is given for the urgency of the prophecy?', '["The time is at hand", "The empire is falling", "The temple is standing", "The churches are complete"]'::jsonb, 'The time is at hand', 'John says the time is at hand (Revelation 1:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 1, what reason is given for the urgency of the prophecy?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 2, 'According to Revelation 1, from whom do grace and peace come in John''s greeting?', '["From him who is, who was, and who is to come; from the seven Spirits; and from Jesus Christ", "From Moses, Elijah, and David", "From the apostles in Jerusalem only", "From the elders of Asia"]'::jsonb, 'From him who is, who was, and who is to come; from the seven Spirits; and from Jesus Christ', 'John''s greeting names these three sources of grace and peace (Revelation 1:4-5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 1, from whom do grace and peace come in John''s greeting?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 2, 'According to Revelation 1, what has Jesus made believers to be for his God and Father?', '["A Kingdom and priests", "Judges and warriors", "Prophets and scribes", "A temple and altar"]'::jsonb, 'A Kingdom and priests', 'Jesus made believers ''to be a Kingdom, priests to his God and Father'' (Revelation 1:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 1, what has Jesus made believers to be for his God and Father?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 2, 'According to Revelation 1, what will all the tribes of the earth do when he comes with the clouds?', '["Mourn over him", "Hide him from the nations", "Build him a temple", "Crown John as king"]'::jsonb, 'Mourn over him', 'John says all the tribes of the earth will mourn over him (Revelation 1:7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 1, what will all the tribes of the earth do when he comes with the clouds?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 2, 'According to Revelation 1, for what reasons was John on Patmos?', '["For the word of God and the testimony of Jesus Christ", "For preaching in the synagogues of Asia", "For rebuilding the churches", "For writing the Gospel of Luke"]'::jsonb, 'For the word of God and the testimony of Jesus Christ', 'John says he was on Patmos for the word of God and the testimony of Jesus Christ (Revelation 1:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 1, for what reasons was John on Patmos?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 2, 'According to Revelation 1, what was John told to do with what he saw?', '["Write it in a book and send it to the seven churches", "Tell it only to Peter and Paul", "Seal it until the distant future", "Teach it in the temple courts"]'::jsonb, 'Write it in a book and send it to the seven churches', 'The voice told John to write what he saw in a book and send it to the seven churches (Revelation 1:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 1, what was John told to do with what he saw?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 2, 'According to Revelation 1, where was the one like a son of man standing?', '["In the middle of the seven lampstands", "On the sea of glass", "Before the altar of incense", "At the gate of the city"]'::jsonb, 'In the middle of the seven lampstands', 'John saw one like a son of man in the middle of the seven lampstands (Revelation 1:13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 1, where was the one like a son of man standing?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 3, 'According to Revelation 1, what does the repeated emphasis on testimony show about John''s role?', '["He serves as a faithful witness to what he saw and heard from God", "He mainly interprets Roman politics", "He is writing fiction to encourage courage", "He is guessing about future events"]'::jsonb, 'He serves as a faithful witness to what he saw and heard from God', 'John bears witness to the word of God, the testimony of Jesus Christ, and all that he saw (Revelation 1:2, 9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 1, what does the repeated emphasis on testimony show about John''s role?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 3, 'According to Revelation 1, what is suggested by calling Jesus ''the faithful witness, the firstborn from the dead, and the ruler of the kings of the earth''?', '["He is trustworthy, victorious over death, and sovereign over earthly power", "He is only an example of patient suffering", "He rules one church but not the nations", "He came only to judge Israel"]'::jsonb, 'He is trustworthy, victorious over death, and sovereign over earthly power', 'These titles present Jesus as truthful, risen, and supreme over earthly rulers (Revelation 1:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 1, what is suggested by calling Jesus ''the faithful witness, the firstborn from the dead, and the ruler of the kings of the earth''?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 3, 'According to Revelation 1, what does John''s falling at Jesus'' feet like a dead man reveal?', '["The overwhelming glory and authority of the risen Christ", "John''s rejection of the vision", "A sign that the vision was ending", "Fear of the seven churches"]'::jsonb, 'The overwhelming glory and authority of the risen Christ', 'John''s reaction shows the majesty of the one he sees, and Jesus comforts him afterward (Revelation 1:17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 1, what does John''s falling at Jesus'' feet like a dead man reveal?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 3, 'According to Revelation 1, what is implied by Jesus holding the keys of Death and of Hades?', '["He has authority over death and the realm of the dead", "He needs help from angels to judge", "He rules only the dead and not the living", "He is locked away from the churches"]'::jsonb, 'He has authority over death and the realm of the dead', 'Jesus says he has the keys of Death and of Hades, indicating full authority over them (Revelation 1:18).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 1, what is implied by Jesus holding the keys of Death and of Hades?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 3, 'According to Revelation 1, why does the image of Jesus among the lampstands matter for the churches?', '["It shows he is present among and attentive to the churches", "It means the churches have become angels", "It proves the churches are in heaven already", "It shows John is replacing Jesus as leader"]'::jsonb, 'It shows he is present among and attentive to the churches', 'Jesus stands in the midst of the lampstands, and the lampstands are the seven churches (Revelation 1:13, 20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 1, why does the image of Jesus among the lampstands matter for the churches?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 3, 'According to Revelation 1, what is the force of saying Jesus ''loves us and freed us from our sins by his blood''?', '["His sacrificial death is the basis of redemption and covenant identity", "His example alone inspires moral reform", "His blood is only symbolic of suffering", "His love applies only to John"]'::jsonb, 'His sacrificial death is the basis of redemption and covenant identity', 'The text joins Jesus'' love, release from sins, and the making of a kingdom and priests (Revelation 1:5-6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 1, what is the force of saying Jesus ''loves us and freed us from our sins by his blood''?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 3, 'According to Revelation 1, what is communicated by the title ''the Alpha and the Omega''?', '["God''s completeness and sovereignty from beginning to end", "The end of prophecy for the churches", "A secret code for the churches of Asia", "John''s authorship of the Old Testament"]'::jsonb, 'God''s completeness and sovereignty from beginning to end', 'The title Alpha and Omega expresses divine fullness and lordship over all history (Revelation 1:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 1, what is communicated by the title ''the Alpha and the Omega''?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 4, 'How does Revelation 1 connect the suffering of John with the reign of Jesus?', '["John shares in tribulation and perseverance while Jesus is shown as the living ruler over death and kings", "John''s suffering proves Jesus has stopped reigning", "Jesus reigns only after the churches are removed", "John suffers because he failed to obey the vision"]'::jsonb, 'John shares in tribulation and perseverance while Jesus is shown as the living ruler over death and kings', 'John is a brother and partner in tribulation and perseverance, while Jesus is presented as ruler of kings and the living one (Revelation 1:5, 9, 18).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 1 connect the suffering of John with the reign of Jesus?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 4, 'How does Revelation 1 prepare the reader for the messages to the churches that follow?', '["It presents Christ as glorious, present among the churches, and fully aware of them", "It mainly explains the geography of Asia", "It focuses only on the future new Jerusalem", "It removes the need for correction and warning"]'::jsonb, 'It presents Christ as glorious, present among the churches, and fully aware of them', 'The vision of Christ among the lampstands sets up his direct address to the churches in chapters 2-3 (Revelation 1:12-20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 1 prepare the reader for the messages to the churches that follow?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 4, 'How does Revelation 1 balance comfort and awe in its portrayal of Jesus?', '["Jesus terrifies John with glory, then reassures him with ''Don''t be afraid''", "Jesus hides his power so John stays calm", "Jesus speaks only judgment without mercy", "Jesus leaves John unconscious and silent"]'::jsonb, 'Jesus terrifies John with glory, then reassures him with ''Don''t be afraid''', 'John falls as though dead, but Jesus lays his right hand on him and says not to fear (Revelation 1:17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 1 balance comfort and awe in its portrayal of Jesus?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 4, 'How does Revelation 1 frame the whole book in relation to time?', '["The revelation concerns things that must soon happen, yet it is spoken by the eternal Lord", "The book ignores time completely", "The book is only about the distant past", "The vision is postponed until another age"]'::jsonb, 'The revelation concerns things that must soon happen, yet it is spoken by the eternal Lord', 'The book opens with things that must soon happen and the time being at hand, while God is described as eternal (Revelation 1:1, 3, 8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 1 frame the whole book in relation to time?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 4, 'What role does the interpretation of the stars and lampstands play in Revelation 1?', '["It shows that the vision''s symbols are meaningful and tied to real churches and their angels", "It proves every detail in the book must remain unexplained", "It cancels the literal reality of the churches", "It limits the book to private mystical experience"]'::jsonb, 'It shows that the vision''s symbols are meaningful and tied to real churches and their angels', 'Jesus explains that the seven stars are the angels of the churches and the lampstands are the churches (Revelation 1:20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What role does the interpretation of the stars and lampstands play in Revelation 1?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 4, 'Why is the description of Jesus in Revelation 1 important before any church is evaluated?', '["The churches are judged and comforted by the risen Christ''s authority, not by human opinion", "It shows John will be the final judge of the churches", "It means the churches no longer matter", "It replaces obedience with visionary experience"]'::jsonb, 'The churches are judged and comforted by the risen Christ''s authority, not by human opinion', 'Christ''s majestic identity grounds the later exhortations, rebukes, and promises to the churches (Revelation 1:13-20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is the description of Jesus in Revelation 1 important before any church is evaluated?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 5, 'According to Revelation 1, what does the combination of priestly and royal language applied to believers suggest?', '["Jesus'' redemptive work creates a people who belong to God and serve him in consecrated dignity", "Believers replace all earthly governments immediately", "Only church leaders become priests to God", "The churches are freed from all suffering"]'::jsonb, 'Jesus'' redemptive work creates a people who belong to God and serve him in consecrated dignity', 'Jesus freed believers from sins and made them a kingdom and priests to his God and Father (Revelation 1:5-6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 1, what does the combination of priestly and royal language applied to believers suggest?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 5, 'According to Revelation 1, how do Jesus'' death and present life shape the meaning of the vision?', '["The one John sees is the crucified and risen Lord who now reigns forever", "The vision concerns only a future messiah not yet revealed", "Jesus was once alive spiritually but not bodily", "The resurrection is not important to the churches"]'::jsonb, 'The one John sees is the crucified and risen Lord who now reigns forever', 'Jesus says, ''I was dead, and behold, I am alive forever and ever'' (Revelation 1:18).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 1, how do Jesus'' death and present life shape the meaning of the vision?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 5, 'According to Revelation 1, why is Jesus'' coming with the clouds presented as universal in impact?', '["Every eye will see him, including those who pierced him, and all tribes of the earth will mourn", "Only the churches of Asia will know he came", "His coming is invisible to the nations", "It affects heaven but not earth"]'::jsonb, 'Every eye will see him, including those who pierced him, and all tribes of the earth will mourn', 'John emphasizes the universality of Christ''s appearing and its effect on all peoples (Revelation 1:7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 1, why is Jesus'' coming with the clouds presented as universal in impact?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 5, 'According to Revelation 1, what theological weight is carried by the statement that Jesus holds the seven stars in his right hand?', '["It portrays his sovereign care and authority over the churches and their angels", "It means the churches are distant from him", "It shows the stars rule over Jesus", "It identifies John as the keeper of the churches"]'::jsonb, 'It portrays his sovereign care and authority over the churches and their angels', 'The stars represent the angels of the churches, and Jesus holds them in his right hand (Revelation 1:16, 20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 1, what theological weight is carried by the statement that Jesus holds the seven stars in his right hand?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 5, 'According to Revelation 1, why does the book begin with blessing for hearing and keeping rather than merely analyzing?', '["Apocalyptic revelation is meant to form faithful obedience, not just curiosity", "The visions are too vague to understand", "Only John is expected to obey the message", "The churches are praised regardless of response"]'::jsonb, 'Apocalyptic revelation is meant to form faithful obedience, not just curiosity', 'The blessing is linked to reading, hearing, and keeping the prophecy (Revelation 1:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 1, why does the book begin with blessing for hearing and keeping rather than merely analyzing?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 1, 5, 'According to Revelation 1, what does the vision imply about the relationship between heaven''s authority and the churches on earth?', '["The churches on earth are directly addressed and governed by the exalted Christ from heaven", "The churches are left to govern without divine involvement", "Heaven speaks only through political rulers", "John replaces Christ as heavenly mediator"]'::jsonb, 'The churches on earth are directly addressed and governed by the exalted Christ from heaven', 'The glorified Christ appears, interprets the vision, and directs messages to the churches (Revelation 1:10-20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 1
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 1, what does the vision imply about the relationship between heaven''s authority and the churches on earth?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 1, 'According to Revelation 2, which church is told that it has left its first love?', '["Ephesus", "Smyrna", "Pergamum", "Thyatira"]'::jsonb, 'Ephesus', 'Jesus tells Ephesus that it left its first love (Revelation 2:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 2, which church is told that it has left its first love?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 1, 'According to Revelation 2, which church is told that it will have tribulation for ten days?', '["Smyrna", "Ephesus", "Pergamum", "Thyatira"]'::jsonb, 'Smyrna', 'Jesus tells Smyrna that it will have tribulation ten days (Revelation 2:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 2, which church is told that it will have tribulation for ten days?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 1, 'According to Revelation 2, where was Satan''s throne said to be?', '["Pergamum", "Ephesus", "Smyrna", "Philadelphia"]'::jsonb, 'Pergamum', 'Jesus says Pergamum is where Satan''s throne is (Revelation 2:13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 2, where was Satan''s throne said to be?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 1, 'According to Revelation 2, who is the false prophetess mentioned in the message to Thyatira?', '["Jezebel", "Athaliah", "Delilah", "Miriam"]'::jsonb, 'Jezebel', 'Jesus says Thyatira tolerates the woman Jezebel (Revelation 2:20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 2, who is the false prophetess mentioned in the message to Thyatira?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 1, 'According to Revelation 2, what tree is promised to the one who overcomes in Ephesus?', '["The tree of life", "The cedar of Lebanon", "The olive tree of Israel", "The fig tree of peace"]'::jsonb, 'The tree of life', 'The one who overcomes is promised to eat from the tree of life (Revelation 2:7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 2, what tree is promised to the one who overcomes in Ephesus?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 1, 'According to Revelation 2, what crown is promised to the faithful in Smyrna?', '["The crown of life", "A crown of gold leaves", "The crown of David", "The crown of twelve stars"]'::jsonb, 'The crown of life', 'Jesus tells Smyrna to be faithful to death and he will give the crown of life (Revelation 2:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 2, what crown is promised to the faithful in Smyrna?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 1, 'According to Revelation 2, what is promised to the one who overcomes in Thyatira?', '["Authority over the nations and the morning star", "A white stone and hidden manna", "To sit on twelve thrones", "A crown of gold"]'::jsonb, 'Authority over the nations and the morning star', 'The overcomer in Thyatira receives authority over the nations and the morning star (Revelation 2:26-28).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 2, what is promised to the one who overcomes in Thyatira?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 2, 'According to Revelation 2, what is praised about Ephesus before it is rebuked?', '["Its works, toil, perseverance, and testing of false apostles", "Its wealth and political influence", "Its freedom from all suffering", "Its love for Jezebel''s teaching"]'::jsonb, 'Its works, toil, perseverance, and testing of false apostles', 'Jesus praises Ephesus for these qualities before rebuking it for leaving its first love (Revelation 2:2-4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 2, what is praised about Ephesus before it is rebuked?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 2, 'According to Revelation 2, what is Ephesus commanded to do after remembering from where it fell?', '["Repent and do the first works", "Move to another city", "Hide from persecution", "Wait silently for judgment"]'::jsonb, 'Repent and do the first works', 'Jesus tells Ephesus to remember, repent, and do the first works (Revelation 2:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 2, what is Ephesus commanded to do after remembering from where it fell?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 2, 'According to Revelation 2, what does Jesus say about the poverty of Smyrna?', '["It is poor, but actually rich", "It is poor because it lacks faith", "It will become rich through compromise", "It must leave the city to survive"]'::jsonb, 'It is poor, but actually rich', 'Jesus says, ''I know your poverty, but you are rich'' (Revelation 2:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 2, what does Jesus say about the poverty of Smyrna?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 2, 'According to Revelation 2, what should Smyrna not fear?', '["The things it is about to suffer", "The loss of its lampstand", "The sword from Jesus'' mouth", "The teaching of Jezebel"]'::jsonb, 'The things it is about to suffer', 'Jesus tells Smyrna, ''Don''t be afraid of the things which you are about to suffer'' (Revelation 2:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 2, what should Smyrna not fear?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 2, 'According to Revelation 2, whose teaching was present in Pergamum?', '["The teaching of Balaam and the teaching of the Nicolaitans", "The teaching of Jezebel and Korah", "The teaching of the Pharisees only", "The teaching of the Sadducees only"]'::jsonb, 'The teaching of Balaam and the teaching of the Nicolaitans', 'Jesus says some in Pergamum hold the teaching of Balaam and likewise the teaching of the Nicolaitans (Revelation 2:14-15).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 2, whose teaching was present in Pergamum?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 2, 'According to Revelation 2, what is promised to the one who overcomes in Pergamum?', '["Hidden manna and a white stone with a new name", "The right to the tree of life", "Authority over the nations", "To be clothed in white garments"]'::jsonb, 'Hidden manna and a white stone with a new name', 'Jesus promises hidden manna and a white stone with a new name to the overcomer in Pergamum (Revelation 2:17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 2, what is promised to the one who overcomes in Pergamum?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 2, 'According to Revelation 2, what is praised about Thyatira?', '["Its love, faith, service, perseverance, and increasing works", "Its freedom from false teaching", "Its public power over Rome", "Its wealth and social peace"]'::jsonb, 'Its love, faith, service, perseverance, and increasing works', 'Jesus praises Thyatira for these things, saying its last works are more than the first (Revelation 2:19).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 2, what is praised about Thyatira?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 2, 'According to Revelation 2, what had Jezebel been teaching and leading Christ''s servants to do?', '["Commit sexual immorality and eat things sacrificed to idols", "Forsake prayer and fasting", "Deny the resurrection only", "Refuse all hospitality"]'::jsonb, 'Commit sexual immorality and eat things sacrificed to idols', 'Jezebel is said to seduce Christ''s servants to commit sexual immorality and eat idol sacrifices (Revelation 2:20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 2, what had Jezebel been teaching and leading Christ''s servants to do?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 3, 'According to Revelation 2, what is the main danger in Ephesus''s condition?', '["Orthodoxy and endurance had continued, but love had cooled", "It had fully embraced idol worship", "It had denied Christ under persecution", "It had become spiritually dead"]'::jsonb, 'Orthodoxy and endurance had continued, but love had cooled', 'Ephesus is praised for discernment and perseverance, yet rebuked for leaving its first love (Revelation 2:2-4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 2, what is the main danger in Ephesus''s condition?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 3, 'According to Revelation 2, what does the message to Smyrna show about how Jesus views suffering churches?', '["He knows their affliction and calls them rich even in poverty", "He assumes suffering proves unfaithfulness", "He tells them to compromise to survive", "He promises immediate escape from all trial"]'::jsonb, 'He knows their affliction and calls them rich even in poverty', 'Jesus knows Smyrna''s tribulation and poverty and declares them rich (Revelation 2:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 2, what does the message to Smyrna show about how Jesus views suffering churches?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 3, 'According to Revelation 2, what does Antipas''s mention in Pergamum highlight?', '["Faithful witness is possible even where Satan''s throne is", "Pergamum had no faithful believers left", "Martyrdom guarantees earthly victory", "Only leaders are called to witness"]'::jsonb, 'Faithful witness is possible even where Satan''s throne is', 'Antipas is called Jesus'' faithful witness who was killed there, yet Christ commends the church for holding fast his name (Revelation 2:13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 2, what does Antipas''s mention in Pergamum highlight?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 3, 'According to Revelation 2, what is the effect of tolerating Jezebel in Thyatira?', '["A church with many strengths is endangered by tolerated corruption", "The church becomes stronger through broader inclusion", "Only outsiders are affected by false teaching", "It shows that doctrine matters less than service"]'::jsonb, 'A church with many strengths is endangered by tolerated corruption', 'Thyatira is commended for much good, yet sharply rebuked for tolerating Jezebel''s corrupting influence (Revelation 2:19-20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 2, what is the effect of tolerating Jezebel in Thyatira?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 3, 'According to Revelation 2, what does the phrase ''the synagogue of Satan'' in the Smyrna message emphasize?', '["Some who claim covenant privilege are acting in opposition to God''s people", "Every synagogue is condemned without distinction", "The church should reject the Old Testament", "Smyrna should stop gathering publicly"]'::jsonb, 'Some who claim covenant privilege are acting in opposition to God''s people', 'Jesus refers to those who say they are Jews and are not, but are a synagogue of Satan (Revelation 2:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 2, what does the phrase ''the synagogue of Satan'' in the Smyrna message emphasize?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 3, 'According to Revelation 2, what do the promises to overcomers suggest about perseverance?', '["Faithfulness under pressure leads to life, fellowship, and vindication from Christ", "Overcoming is only for a special elite class", "Perseverance earns salvation apart from grace", "The promises apply only to martyrs"]'::jsonb, 'Faithfulness under pressure leads to life, fellowship, and vindication from Christ', 'The promises include the tree of life, freedom from the second death, hidden manna, a new name, authority, and the morning star (Revelation 2:7, 11, 17, 26-28).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 2, what do the promises to overcomers suggest about perseverance?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 3, 'According to Revelation 2, why is repentance demanded from churches as well as individuals?', '["Corporate tolerance of evil brings corporate accountability before Christ", "Only individuals are ever responsible for sin", "Repentance is symbolic and not urgent", "Churches cannot really change after falling"]'::jsonb, 'Corporate tolerance of evil brings corporate accountability before Christ', 'Ephesus, Pergamum, and Thyatira are addressed as churches and warned to repent of their condition or tolerance of evil (Revelation 2:5, 16, 22).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 2, why is repentance demanded from churches as well as individuals?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 4, 'How do the four messages in Revelation 2 together portray Jesus'' knowledge of the churches?', '["He sees both hidden faithfulness and hidden compromise with exact clarity", "He judges only public actions and not motives", "He speaks the same word to every church without distinction", "He leaves correction to local leaders alone"]'::jsonb, 'He sees both hidden faithfulness and hidden compromise with exact clarity', 'Each message begins from Christ''s knowledge and addresses the precise condition of each church (Revelation 2:2, 9, 13, 19).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How do the four messages in Revelation 2 together portray Jesus'' knowledge of the churches?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 4, 'How do Ephesus and Thyatira together warn against incomplete faithfulness?', '["One church had truth without love, while the other had love and works but tolerated falsehood", "Both churches were condemned only for poverty", "Both churches had denied Christ openly", "Neither church had anything commendable"]'::jsonb, 'One church had truth without love, while the other had love and works but tolerated falsehood', 'Ephesus left its first love, while Thyatira had love and service yet tolerated Jezebel (Revelation 2:4, 20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How do Ephesus and Thyatira together warn against incomplete faithfulness?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 4, 'How does Revelation 2 connect present faithfulness with future reward?', '["Each church''s response now is linked to an overcoming promise later", "Rewards are disconnected from endurance", "Only one church receives any promise", "Judgment is the only future theme"]'::jsonb, 'Each church''s response now is linked to an overcoming promise later', 'Each message ends with a promise to the one who overcomes, connecting present perseverance with future blessing (Revelation 2:7, 11, 17, 26-28).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 2 connect present faithfulness with future reward?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 4, 'What role does persecution play across the messages in Revelation 2?', '["Persecution tests some churches, while compromise endangers others from within", "Every church is threatened in exactly the same way", "Persecution is never mentioned directly", "External suffering automatically purifies all churches"]'::jsonb, 'Persecution tests some churches, while compromise endangers others from within', 'Smyrna and Pergamum face hostile pressure, while Ephesus, Pergamum, and Thyatira also face dangers of inner failure or compromise (Revelation 2:9-10, 13-16, 20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What role does persecution play across the messages in Revelation 2?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 4, 'Why is the warning about lampstand removal in Ephesus especially serious?', '["A church can lose its place as Christ''s recognized witness if it refuses to repent", "It means salvation is impossible for any individual there", "It refers only to a change of building location", "It promises Ephesus greater public influence"]'::jsonb, 'A church can lose its place as Christ''s recognized witness if it refuses to repent', 'Jesus warns he will remove Ephesus''s lampstand from its place unless it repents (Revelation 2:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is the warning about lampstand removal in Ephesus especially serious?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 4, 'Why do the titles of Christ at the start of each message in Revelation 2 matter?', '["They fit the specific needs and warnings of each church", "They are decorative and unrelated to the message", "They replace the actual content of the letters", "They are hidden codes for political alliances"]'::jsonb, 'They fit the specific needs and warnings of each church', 'Christ is described differently to each church in ways that match the message, such as the one who was dead and came to life for Smyrna, and the one with the sharp two-edged sword for Pergamum (Revelation 2:1, 8, 12, 18).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why do the titles of Christ at the start of each message in Revelation 2 matter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 5, 'According to Revelation 2, what does the repeated call ''He who has an ear, let him hear what the Spirit says to the churches'' imply?', '["Each message is specific to one church but relevant to all the churches", "Only prophets can understand the letters", "The Spirit speaks apart from Christ''s words", "Hearing is less important than outward ritual"]'::jsonb, 'Each message is specific to one church but relevant to all the churches', 'Though each letter is addressed to one church, the call is to hear what the Spirit says to the churches collectively (Revelation 2:7, 11, 17, 29).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 2, what does the repeated call ''He who has an ear, let him hear what the Spirit says to the churches'' imply?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 5, 'According to Revelation 2, how does the chapter hold together holiness and encouragement?', '["Christ sharply confronts sin while still promising rich reward to overcomers", "Christ encourages without ever judging", "Christ judges but never offers hope", "Holiness is reserved for one church only"]'::jsonb, 'Christ sharply confronts sin while still promising rich reward to overcomers', 'The messages include rebuke and warning, yet each also holds out promises to those who overcome (Revelation 2:5, 10-11, 16-17, 24-28).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 2, how does the chapter hold together holiness and encouragement?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 5, 'According to Revelation 2, why is compromise with idolatry and immorality presented as so dangerous?', '["It directly opposes loyalty to Christ and corrupts the church''s witness", "It only affects personal reputation", "It is permitted when persecution grows severe", "It is a minor matter compared with church growth"]'::jsonb, 'It directly opposes loyalty to Christ and corrupts the church''s witness', 'The teachings of Balaam and Jezebel lead Christ''s servants into idolatry and immorality, bringing Christ''s judgment unless there is repentance (Revelation 2:14, 20-23).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 2, why is compromise with idolatry and immorality presented as so dangerous?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 5, 'According to Revelation 2, what theological contrast appears between Smyrna and the compromising churches?', '["Smyrna suffers outwardly but is spiritually rich, while others appear active yet harbor compromise", "Smyrna prospers outwardly but is spiritually poor", "All four churches are condemned equally", "Only persecuted churches matter to Christ"]'::jsonb, 'Smyrna suffers outwardly but is spiritually rich, while others appear active yet harbor compromise', 'Smyrna is poor yet rich, while other churches face rebuke for lost love or tolerated falsehood despite strengths (Revelation 2:4, 9, 14-15, 20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 2, what theological contrast appears between Smyrna and the compromising churches?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 5, 'According to Revelation 2, what does the promise of a ''new name'' in Pergamum most naturally suggest?', '["Personal acceptance and identity given by Christ to the faithful", "A political title recognized by Rome", "A secret password for escaping martyrdom", "The replacement of repentance with privilege"]'::jsonb, 'Personal acceptance and identity given by Christ to the faithful', 'The white stone and new name known by the receiver point to intimate recognition and belonging from Christ (Revelation 2:17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 2, what does the promise of a ''new name'' in Pergamum most naturally suggest?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 5, 'According to Revelation 2, why does Jesus describe himself in Thyatira as the one whose eyes are like a flame of fire and feet like burnished brass?', '["He searches deeply and judges firmly in a church tolerating corruption", "He mainly wants to inspire artistic imagery", "He is identifying himself as an angel", "He is promising military conquest for Thyatira"]'::jsonb, 'He searches deeply and judges firmly in a church tolerating corruption', 'In the Thyatira message Jesus later says that all the churches will know he searches minds and hearts and repays works (Revelation 2:18, 23).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 2, why does Jesus describe himself in Thyatira as the one whose eyes are like a flame of fire and feet like burnished brass?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 2, 5, 'According to Revelation 2, what does the chapter teach about faithful endurance?', '["It is not passive survival but loving, truthful, repentant loyalty to Christ under pressure", "It means avoiding all conflict by compromise", "It requires outward success in every church", "It belongs only to those who never suffer"]'::jsonb, 'It is not passive survival but loving, truthful, repentant loyalty to Christ under pressure', 'Across the four messages, endurance includes first works, faithfulness unto death, rejection of false teaching, and holding fast what Christ gave (Revelation 2:5, 10, 16, 25).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 2
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 2, what does the chapter teach about faithful endurance?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 1, 'According to Revelation 3, which church is said to have a name that it lives, but is dead?', '["Sardis", "Philadelphia", "Laodicea", "Smyrna"]'::jsonb, 'Sardis', 'Jesus tells Sardis, ''You have a name that you live, and are dead'' (Revelation 3:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 3, which church is said to have a name that it lives, but is dead?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 1, 'According to Revelation 3, which church is told, ''I have set before you an open door''?', '["Philadelphia", "Sardis", "Laodicea", "Pergamum"]'::jsonb, 'Philadelphia', 'Jesus tells Philadelphia that he has set before it an open door (Revelation 3:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 3, which church is told, ''I have set before you an open door''?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 1, 'According to Revelation 3, which church is described as lukewarm?', '["Laodicea", "Sardis", "Philadelphia", "Ephesus"]'::jsonb, 'Laodicea', 'Jesus says Laodicea is neither cold nor hot, but lukewarm (Revelation 3:15-16).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 3, which church is described as lukewarm?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 1, 'According to Revelation 3, what color garments are promised to the overcomer in Sardis?', '["White garments", "Purple garments", "Scarlet garments", "Golden garments"]'::jsonb, 'White garments', 'The one who overcomes in Sardis will be clothed in white garments (Revelation 3:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 3, what color garments are promised to the overcomer in Sardis?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 1, 'According to Revelation 3, what is promised to the overcomer in Philadelphia?', '["To be made a pillar in the temple of God", "To receive hidden manna", "To rule the nations with a rod of iron", "To eat from the tree of life"]'::jsonb, 'To be made a pillar in the temple of God', 'Jesus promises to make the overcomer in Philadelphia a pillar in the temple of God (Revelation 3:12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 3, what is promised to the overcomer in Philadelphia?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 1, 'According to Revelation 3, what does Jesus stand at and knock?', '["The door", "The gate of the city", "The altar", "The church lampstand"]'::jsonb, 'The door', 'Jesus says, ''Behold, I stand at the door and knock'' (Revelation 3:20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 3, what does Jesus stand at and knock?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 1, 'According to Revelation 3, what seat is promised to the overcomer in Laodicea?', '["To sit with Jesus on his throne", "To sit among the twenty-four elders", "To sit at the right hand of John", "To sit in the temple court"]'::jsonb, 'To sit with Jesus on his throne', 'Jesus promises the overcomer to sit with him on his throne (Revelation 3:21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 3, what seat is promised to the overcomer in Laodicea?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 2, 'According to Revelation 3, what is Sardis told to do first in response to its condition?', '["Wake up and strengthen the things that remain", "Flee into the wilderness", "Sell its possessions", "Endure ten days of tribulation"]'::jsonb, 'Wake up and strengthen the things that remain', 'Jesus tells Sardis to wake up and strengthen what remains, which was about to die (Revelation 3:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 3, what is Sardis told to do first in response to its condition?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 2, 'According to Revelation 3, how will Jesus come to Sardis if it does not watch?', '["Like a thief", "Like a shepherd", "Like the dawn", "Like a trumpet blast only"]'::jsonb, 'Like a thief', 'If Sardis does not watch, Jesus says he will come as a thief (Revelation 3:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 3, how will Jesus come to Sardis if it does not watch?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 2, 'According to Revelation 3, what is praised about Philadelphia?', '["It has a little power, kept Jesus'' word, and did not deny his name", "It is wealthy and needs nothing", "It has tested false apostles perfectly", "It has growing works but tolerates Jezebel"]'::jsonb, 'It has a little power, kept Jesus'' word, and did not deny his name', 'Jesus praises Philadelphia for these things (Revelation 3:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 3, what is praised about Philadelphia?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 2, 'According to Revelation 3, why will Jesus keep Philadelphia from the hour of trial?', '["Because it kept the word of his perseverance", "Because it had great political influence", "Because it lived without weakness", "Because it moved to another city"]'::jsonb, 'Because it kept the word of his perseverance', 'Jesus says, ''Because you kept my command to endure, I also will keep you from the hour of testing'' (Revelation 3:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 3, why will Jesus keep Philadelphia from the hour of trial?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 2, 'According to Revelation 3, what does Laodicea say about itself?', '["I am rich, have gotten riches, and have need of nothing", "I am poor but truly rich", "I have little power but kept your word", "I hate the works of the Nicolaitans"]'::jsonb, 'I am rich, have gotten riches, and have need of nothing', 'Laodicea boasts in self-sufficiency (Revelation 3:17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 3, what does Laodicea say about itself?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 2, 'According to Revelation 3, what does Jesus say Laodicea actually is?', '["Wretched, miserable, poor, blind, and naked", "Faithful, humble, and enduring", "Pure, strong, and discerning", "Blessed, joyful, and steadfast"]'::jsonb, 'Wretched, miserable, poor, blind, and naked', 'Jesus exposes Laodicea''s true condition with these words (Revelation 3:17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 3, what does Jesus say Laodicea actually is?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 2, 'According to Revelation 3, what three things does Jesus counsel Laodicea to buy from him?', '["Gold refined by fire, white garments, and eye salve", "Bread, oil, and wine", "A sword, shield, and helmet", "Incense, myrrh, and frankincense"]'::jsonb, 'Gold refined by fire, white garments, and eye salve', 'Jesus counsels Laodicea to buy these from him so it may become truly rich, clothed, and able to see (Revelation 3:18).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 3, what three things does Jesus counsel Laodicea to buy from him?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 3, 'According to Revelation 3, what is the central problem with Sardis?', '["It has reputation without spiritual reality", "It is persecuted beyond endurance", "It lacks doctrinal accuracy completely", "It has no believers left at all"]'::jsonb, 'It has reputation without spiritual reality', 'Sardis has a name that it lives, yet Jesus says it is dead (Revelation 3:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 3, what is the central problem with Sardis?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 3, 'According to Revelation 3, what does the message to Philadelphia show about weakness?', '["Small strength does not prevent real faithfulness and open opportunity from Christ", "Weak churches are ignored by Jesus", "Weakness must be hidden through compromise", "Only strong churches receive promises"]'::jsonb, 'Small strength does not prevent real faithfulness and open opportunity from Christ', 'Philadelphia has little power yet kept Christ''s word and did not deny his name, and Christ sets before it an open door (Revelation 3:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 3, what does the message to Philadelphia show about weakness?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 3, 'According to Revelation 3, why is Laodicea''s lukewarmness especially offensive?', '["It combines self-satisfaction with spiritual emptiness", "It shows open hatred toward Christ''s name", "It is caused only by persecution", "It is better than being cold or hot"]'::jsonb, 'It combines self-satisfaction with spiritual emptiness', 'Laodicea claims to need nothing, but Christ says it is poor, blind, and naked; its lukewarmness reflects complacent self-deception (Revelation 3:16-17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 3, why is Laodicea''s lukewarmness especially offensive?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 3, 'According to Revelation 3, what does Jesus'' rebuke of Laodicea reveal about his love?', '["His love includes discipline and a call to repentance", "His love means he never confronts sin", "His love is limited to faithful churches only", "His love is only future and not present"]'::jsonb, 'His love includes discipline and a call to repentance', 'Jesus says, ''As many as I love, I reprove and chasten. Be zealous therefore, and repent'' (Revelation 3:19).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 3, what does Jesus'' rebuke of Laodicea reveal about his love?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 3, 'According to Revelation 3, what does the promise not to blot a name out of the book of life imply in Sardis?', '["Faithful perseverance is honored by Christ''s public acknowledgment", "Only famous leaders are written in the book of life", "Repentance is unnecessary once a name is written", "The book of life concerns angels only"]'::jsonb, 'Faithful perseverance is honored by Christ''s public acknowledgment', 'The overcomer in Sardis will be clothed in white and confessed before the Father and the angels (Revelation 3:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 3, what does the promise not to blot a name out of the book of life imply in Sardis?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 3, 'According to Revelation 3, what does the open door in Philadelphia most likely emphasize in the message?', '["A Christ-given opportunity or access that no opposition can shut", "A call to leave the church permanently", "A secret escape route from trial", "A literal temple door in Jerusalem"]'::jsonb, 'A Christ-given opportunity or access that no opposition can shut', 'Jesus, who opens and no one shuts, sets before Philadelphia an open door that no one can shut (Revelation 3:7-8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 3, what does the open door in Philadelphia most likely emphasize in the message?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 3, 'According to Revelation 3, what does Jesus'' standing at the door and knocking communicate to Laodicea?', '["He graciously calls for renewed fellowship with a complacent church", "He has permanently abandoned the church", "He is only speaking to outsiders and not the church", "He is threatening immediate destruction without invitation"]'::jsonb, 'He graciously calls for renewed fellowship with a complacent church', 'Jesus invites anyone who hears and opens the door to share table fellowship with him (Revelation 3:20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 3, what does Jesus'' standing at the door and knocking communicate to Laodicea?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 4, 'How do Sardis, Philadelphia, and Laodicea together present three different spiritual conditions?', '["Sardis has reputation without life, Philadelphia has little strength with faithfulness, and Laodicea has comfort without zeal", "All three are equally healthy churches", "All three are praised without rebuke", "All three are condemned only for false teaching"]'::jsonb, 'Sardis has reputation without life, Philadelphia has little strength with faithfulness, and Laodicea has comfort without zeal', 'The three messages contrast dead reputation, faithful weakness, and complacent self-sufficiency (Revelation 3:1, 8, 15-17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How do Sardis, Philadelphia, and Laodicea together present three different spiritual conditions?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 4, 'How does Revelation 3 show that Jesus'' evaluation differs from human appearance?', '["He sees deadness behind reputation, faithfulness behind weakness, and poverty behind wealth claims", "He only repeats what the churches say about themselves", "He judges only visible size and success", "He ignores inner motives and conditions"]'::jsonb, 'He sees deadness behind reputation, faithfulness behind weakness, and poverty behind wealth claims', 'Sardis appears alive but is dead, Philadelphia is weak yet faithful, and Laodicea claims wealth but is poor (Revelation 3:1, 8, 17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 3 show that Jesus'' evaluation differs from human appearance?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 4, 'How does the chapter balance warning and promise across its three messages?', '["Each church is confronted truthfully, yet overcomers are given hope-filled promises from Christ", "Warnings are given without any promises", "Promises are given without any call to repent", "Only one church receives either warning or promise"]'::jsonb, 'Each church is confronted truthfully, yet overcomers are given hope-filled promises from Christ', 'Sardis, Philadelphia, and Laodicea each receive searching words along with promises to the one who overcomes (Revelation 3:5, 12, 21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does the chapter balance warning and promise across its three messages?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 4, 'Why is Jesus'' self-description important at the start of each message in Revelation 3?', '["His identity matches what each church most needs to hear", "It serves only as repeated ornamentation", "It removes the need for the body of the message", "It is unrelated to the promises that follow"]'::jsonb, 'His identity matches what each church most needs to hear', 'He is the one with the seven Spirits and stars for Sardis, the holy and true one with David''s key for Philadelphia, and the Amen and faithful witness for Laodicea (Revelation 3:1, 7, 14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is Jesus'' self-description important at the start of each message in Revelation 3?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 4, 'What role does repentance play in Revelation 3?', '["It is urgent for dead and lukewarm churches, while faithful endurance is strengthened in Philadelphia", "It is unnecessary once a church is established", "It is demanded only from persecuted believers", "It applies only to individual unbelievers"]'::jsonb, 'It is urgent for dead and lukewarm churches, while faithful endurance is strengthened in Philadelphia', 'Sardis must remember and repent, Laodicea must be zealous and repent, and Philadelphia is encouraged to hold fast (Revelation 3:3, 11, 19).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What role does repentance play in Revelation 3?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 4, 'Why is the image of shared throne rule at the end of Revelation 3 especially striking?', '["It links the believer''s victory to Christ''s own victorious reign after suffering", "It replaces all earlier promises with earthly power", "It means every church already rules visibly now", "It applies only to John and not the churches"]'::jsonb, 'It links the believer''s victory to Christ''s own victorious reign after suffering', 'Jesus promises the overcomer a place with him on his throne, just as he overcame and sat with his Father on his throne (Revelation 3:21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is the image of shared throne rule at the end of Revelation 3 especially striking?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 5, 'According to Revelation 3, what does the message to Sardis teach about nominal Christianity?', '["A living reputation can conceal true spiritual deadness before Christ", "Names and reputation are all that Christ requires", "Public approval proves inward life", "Death and life are only social labels"]'::jsonb, 'A living reputation can conceal true spiritual deadness before Christ', 'Sardis has a name that it lives, yet Christ says it is dead (Revelation 3:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 3, what does the message to Sardis teach about nominal Christianity?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 5, 'According to Revelation 3, what is the significance of Jesus holding David''s key in the Philadelphia message?', '["He possesses sovereign authority to open and shut access and opportunity", "He is merely a guardian of earthly temples", "He delegates all authority away from himself", "He is only announcing political control over Jerusalem"]'::jsonb, 'He possesses sovereign authority to open and shut access and opportunity', 'Jesus is the one who opens and no one shuts, and shuts and no one opens (Revelation 3:7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 3, what is the significance of Jesus holding David''s key in the Philadelphia message?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 5, 'According to Revelation 3, why is Laodicea''s wealth language turned back on itself by Jesus?', '["Material or self-perceived success can mask profound spiritual need", "Jesus opposes every form of material possession", "Poverty automatically makes a church holy", "The church had miscounted its finances"]'::jsonb, 'Material or self-perceived success can mask profound spiritual need', 'Laodicea claims to be rich and in need of nothing, but Christ says it is wretched, poor, blind, and naked (Revelation 3:17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 3, why is Laodicea''s wealth language turned back on itself by Jesus?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 5, 'According to Revelation 3, how does the chapter deepen the meaning of overcoming?', '["Overcoming includes waking from deadness, holding fast under weakness, and repenting from complacency", "Overcoming means escaping all earthly difficulty", "Overcoming is identical with visible success", "Overcoming is limited to martyrs alone"]'::jsonb, 'Overcoming includes waking from deadness, holding fast under weakness, and repenting from complacency', 'The three messages show different obstacles to faithfulness and different calls to conquer them by responding to Christ (Revelation 3:2-3, 8-11, 18-21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 3, how does the chapter deepen the meaning of overcoming?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 5, 'According to Revelation 3, why is Jesus called ''the Amen, the faithful and true witness, the beginning of God''s creation'' in the Laodicea message?', '["The self-satisfied church needs to hear from the perfectly trustworthy Lord of all reality", "The title is unrelated to Laodicea''s condition", "It means Jesus was the first being created and nothing more", "It serves only to praise the city''s achievements"]'::jsonb, 'The self-satisfied church needs to hear from the perfectly trustworthy Lord of all reality', 'Laodicea''s self-deception is met by the words of the Amen, the faithful and true witness, whose judgment is utterly reliable (Revelation 3:14-17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 3, why is Jesus called ''the Amen, the faithful and true witness, the beginning of God''s creation'' in the Laodicea message?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 3, 5, 'According to Revelation 3, what does the chapter reveal about Christ''s fellowship with his people?', '["He both disciplines and invites, seeking restored communion with those who respond", "He refuses fellowship once rebuke is needed", "He gives fellowship only to the strongest churches", "He speaks only through threats and never through welcome"]'::jsonb, 'He both disciplines and invites, seeking restored communion with those who respond', 'Jesus reproves those he loves, calls them to repent, and stands at the door knocking, promising fellowship to the one who opens (Revelation 3:19-20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 3
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 3, what does the chapter reveal about Christ''s fellowship with his people?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 1, 'According to Revelation 4, what did John first see in heaven after the door was opened?', '["A throne set in heaven", "A white horse", "A golden altar", "A river of life"]'::jsonb, 'A throne set in heaven', 'John says, ''Behold, a throne set in heaven, and one sitting on the throne'' (Revelation 4:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 4, what did John first see in heaven after the door was opened?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 1, 'According to Revelation 4, how many elders were around the throne?', '["Twenty-four", "Twelve", "Seven", "Seventy"]'::jsonb, 'Twenty-four', 'John saw twenty-four thrones, and on the thrones twenty-four elders sitting (Revelation 4:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 4, how many elders were around the throne?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 1, 'According to Revelation 4, what were the elders wearing on their heads?', '["Crowns of gold", "White veils", "Silver helmets", "Garlands of olive leaves"]'::jsonb, 'Crowns of gold', 'The twenty-four elders had crowns of gold on their heads (Revelation 4:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 4, what were the elders wearing on their heads?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 1, 'According to Revelation 4, what burned before the throne?', '["Seven lamps of fire", "Twelve torches", "A single great flame", "Incense only"]'::jsonb, 'Seven lamps of fire', 'Seven lamps of fire were burning before the throne (Revelation 4:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 4, what burned before the throne?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 1, 'According to Revelation 4, what was before the throne like a sea of glass?', '["Something like crystal", "Something like bronze", "Something like sapphire", "Something like snow"]'::jsonb, 'Something like crystal', 'Before the throne was something like a sea of glass, like crystal (Revelation 4:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 4, what was before the throne like a sea of glass?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 1, 'According to Revelation 4, how many living creatures were in the midst of and around the throne?', '["Four", "Seven", "Twelve", "Twenty-four"]'::jsonb, 'Four', 'John saw four living creatures in the midst of the throne and around the throne (Revelation 4:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 4, how many living creatures were in the midst of and around the throne?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 1, 'According to Revelation 4, what did the first living creature resemble?', '["A lion", "An eagle", "A calf", "A man"]'::jsonb, 'A lion', 'The first living creature was like a lion (Revelation 4:7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 4, what did the first living creature resemble?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 2, 'According to Revelation 4, what did the voice say John must be shown after he came up?', '["The things which must happen after this", "The names of the angels only", "The secrets of Rome alone", "The end of the sea"]'::jsonb, 'The things which must happen after this', 'The voice said, ''I will show you the things which must happen after this'' (Revelation 4:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 4, what did the voice say John must be shown after he came up?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 2, 'According to Revelation 4, what came from the throne?', '["Lightnings, sounds, and thunders", "A river and green fields", "A trumpet and a harp only", "Smoke and darkness only"]'::jsonb, 'Lightnings, sounds, and thunders', 'Out of the throne proceeded lightnings, sounds, and thunders (Revelation 4:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 4, what came from the throne?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 2, 'According to Revelation 4, what do the four living creatures continually say?', '["Holy, holy, holy, is the Lord God, the Almighty", "Worthy is the Lamb who was slain", "Blessing and honor to the churches", "Peace to those on the earth"]'::jsonb, 'Holy, holy, holy, is the Lord God, the Almighty', 'The four living creatures say day and night, ''Holy, holy, holy, is the Lord God, the Almighty'' (Revelation 4:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 4, what do the four living creatures continually say?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 2, 'According to Revelation 4, what do the elders do when the living creatures give glory and thanks?', '["They fall down and worship the one on the throne", "They sing alone without bowing", "They leave their thrones immediately", "They sound trumpets before the sea"]'::jsonb, 'They fall down and worship the one on the throne', 'The twenty-four elders fall down before him who sits on the throne and worship him (Revelation 4:9-10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 4, what do the elders do when the living creatures give glory and thanks?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 2, 'According to Revelation 4, what do the elders cast before the throne?', '["Their crowns", "Their robes", "Their staffs", "Their scrolls"]'::jsonb, 'Their crowns', 'The elders cast their crowns before the throne (Revelation 4:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 4, what do the elders cast before the throne?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 2, 'According to Revelation 4, why is the one on the throne worthy to receive glory, honor, and power?', '["Because he created all things", "Because he opened the seals", "Because he judged Babylon", "Because he gathered the nations"]'::jsonb, 'Because he created all things', 'The elders declare God worthy because he created all things and by his desire they existed and were created (Revelation 4:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 4, why is the one on the throne worthy to receive glory, honor, and power?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 2, 'According to Revelation 4, what were the four living creatures full of?', '["Eyes in front and behind", "Fire and smoke", "Wings and crowns", "Trumpets and bowls"]'::jsonb, 'Eyes in front and behind', 'John describes the four living creatures as full of eyes in front and behind (Revelation 4:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 4, what were the four living creatures full of?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 2, 'According to Revelation 4, how many wings did each living creature have?', '["Six", "Four", "Two", "Twelve"]'::jsonb, 'Six', 'Each one of the four living creatures had six wings (Revelation 4:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 4, how many wings did each living creature have?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 3, 'According to Revelation 4, what does the throne-centered scene mainly emphasize?', '["God''s sovereign holiness and rule over all creation", "The independence of the elders from God", "The fall of earthly empires already completed", "John''s authority over heaven"]'::jsonb, 'God''s sovereign holiness and rule over all creation', 'The repeated focus on the throne, worship, and creation highlights God''s sovereignty and holiness (Revelation 4:2-11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 4, what does the throne-centered scene mainly emphasize?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 3, 'According to Revelation 4, what is suggested by the elders casting their crowns before the throne?', '["All honor and authority are finally submitted to God", "Their reign has failed completely", "Crowns have no value in heaven", "The living creatures command the elders"]'::jsonb, 'All honor and authority are finally submitted to God', 'By casting their crowns before the throne, the elders acknowledge God''s supreme worthiness over all honor and status (Revelation 4:10-11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 4, what is suggested by the elders casting their crowns before the throne?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 3, 'According to Revelation 4, what does the unceasing cry ''Holy, holy, holy'' communicate?', '["God''s holiness is central and never exhausted in heavenly worship", "The worshipers fear speaking any other words", "The scene is only about judgment and not praise", "The elders and creatures disagree on worship"]'::jsonb, 'God''s holiness is central and never exhausted in heavenly worship', 'The living creatures do not rest day and night from declaring God''s holiness, showing its centrality in worship (Revelation 4:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 4, what does the unceasing cry ''Holy, holy, holy'' communicate?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 3, 'According to Revelation 4, what role does creation play in the worship scene?', '["Creation is the reason given for God''s worthiness to receive praise", "Creation is treated as distant from God''s throne", "Creation is ignored in favor of angels only", "Creation replaces the need for worship"]'::jsonb, 'Creation is the reason given for God''s worthiness to receive praise', 'The elders say God is worthy because he created all things (Revelation 4:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 4, what role does creation play in the worship scene?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 3, 'According to Revelation 4, what is the effect of moving from the earthly churches to the heavenly throne room?', '["The struggles of the churches are placed beneath God''s ultimate rule", "The churches are forgotten and left behind", "Earth and heaven are shown to be unrelated", "John is told to stop thinking about the churches"]'::jsonb, 'The struggles of the churches are placed beneath God''s ultimate rule', 'After the church messages, the vision shifts to the heavenly throne, showing that earthly events unfold under God''s sovereign reign (Revelation 4:1-11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 4, what is the effect of moving from the earthly churches to the heavenly throne room?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 3, 'According to Revelation 4, why are the repeated throne references important?', '["They keep the reader focused on God''s central authority in the vision", "They are mainly decorative details", "They shift authority to the elders gradually", "They show heaven is unstable and changing"]'::jsonb, 'They keep the reader focused on God''s central authority in the vision', 'The throne is repeatedly mentioned to center the vision on God''s rule and majesty (Revelation 4:2-6, 9-10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 4, why are the repeated throne references important?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 4, 'How does Revelation 4 prepare the reader for the sealed scroll in Revelation 5?', '["It first establishes the throne room and the worship due to God before the question of unfolding history is raised", "It explains the seals before the scroll appears", "It shifts attention away from God to the elders", "It reveals the Lamb before the throne appears"]'::jsonb, 'It first establishes the throne room and the worship due to God before the question of unfolding history is raised', 'Chapter 4 presents God''s throne and worthiness, setting the stage for chapter 5 where the scroll and the worthy one to open it are introduced (Revelation 4:1-11; 5:1-7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 4 prepare the reader for the sealed scroll in Revelation 5?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 4, 'How do the living creatures and elders together shape the worship of Revelation 4?', '["The creatures lead continual praise and the elders respond with submission and adoration", "The elders worship while the creatures remain silent", "They compete for authority before the throne", "They only observe the throne without action"]'::jsonb, 'The creatures lead continual praise and the elders respond with submission and adoration', 'The creatures cry holy without rest, and the elders fall down, worship, and cast their crowns before the throne (Revelation 4:8-10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How do the living creatures and elders together shape the worship of Revelation 4?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 4, 'Why is the holiness of God linked with thunder, lightning, and fire in Revelation 4?', '["The imagery presents God''s presence as glorious, powerful, and awe-inspiring", "It suggests heaven is chaotic and uncontrolled", "It means judgment has already ended", "It shows the elders are creating the storm"]'::jsonb, 'The imagery presents God''s presence as glorious, powerful, and awe-inspiring', 'The throne scene includes lightning, sounds, thunders, and lamps of fire, reinforcing divine majesty and power (Revelation 4:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is the holiness of God linked with thunder, lightning, and fire in Revelation 4?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 4, 'What larger contrast is created by Revelation 4 after the church letters of chapters 2 and 3?', '["The weakness and conflict of earthly churches are set beside the unshaken order of heaven", "The churches are shown to be more powerful than heaven", "The elders replace the churches entirely", "Earthly history is shown to matter more than heavenly worship"]'::jsonb, 'The weakness and conflict of earthly churches are set beside the unshaken order of heaven', 'The church letters reveal struggle and failure, while chapter 4 reveals the stable throne room of God above all turmoil (Revelation 2-4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What larger contrast is created by Revelation 4 after the church letters of chapters 2 and 3?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 4, 'Why does Revelation 4 end with creation rather than redemption as the reason for worship?', '["The scene is first grounding all that follows in God''s identity as Creator of everything", "Redemption is unimportant in Revelation", "The Lamb has already opened all the seals", "The churches no longer need salvation"]'::jsonb, 'The scene is first grounding all that follows in God''s identity as Creator of everything', 'Chapter 4 emphasizes God as Creator, while chapter 5 will add the Lamb''s redemptive worthiness (Revelation 4:11; 5:9-10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why does Revelation 4 end with creation rather than redemption as the reason for worship?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 4, 'What does Revelation 4 suggest about the right response to God''s throne?', '["Worship, humility, and acknowledgment of his supreme worth", "Argument and negotiation for power", "Silence from fear without praise", "Withdrawal from creation"]'::jsonb, 'Worship, humility, and acknowledgment of his supreme worth', 'The creatures and elders model worship, humility, and praise before the throne (Revelation 4:8-11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What does Revelation 4 suggest about the right response to God''s throne?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 5, 'According to Revelation 4, what theological truth is reinforced by worship directed to the one ''who lives forever and ever''?', '["God''s eternal life grounds his unending worthiness to rule and be worshiped", "The elders have eternal life apart from God", "Heaven changes rulers across the ages", "Only the future matters to God"]'::jsonb, 'God''s eternal life grounds his unending worthiness to rule and be worshiped', 'The one on the throne lives forever and ever, and the elders worship him accordingly (Revelation 4:9-10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 4, what theological truth is reinforced by worship directed to the one ''who lives forever and ever''?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 5, 'According to Revelation 4, why is the throne room vision foundational for the rest of the book?', '["It shows that every later judgment and deliverance comes from the sovereign God already enthroned", "It removes the need for later visions and symbols", "It teaches that worship is separate from history", "It proves the churches have already been perfected"]'::jsonb, 'It shows that every later judgment and deliverance comes from the sovereign God already enthroned', 'By presenting God enthroned before the seals and judgments unfold, the vision roots all later events in his sovereign rule (Revelation 4:1-11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 4, why is the throne room vision foundational for the rest of the book?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 5, 'According to Revelation 4, what is the significance of heaven''s worship being centered on God''s holiness and creation?', '["It presents God as morally perfect and as the source of all existence", "It limits worship to nature alone", "It denies the importance of redemption entirely", "It shows the creatures are worshiping themselves"]'::jsonb, 'It presents God as morally perfect and as the source of all existence', 'The living creatures praise God''s holiness, and the elders praise him as Creator of all things (Revelation 4:8, 11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 4, what is the significance of heaven''s worship being centered on God''s holiness and creation?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 5, 'According to Revelation 4, what does the heavenly pattern of worship imply for the churches on earth?', '["Earthly faithfulness should be shaped by the reality that God is already enthroned and worthy", "The churches should stop enduring hardship and wait passively", "Heavenly worship has no relation to church life", "Only angels are invited to worship God"]'::jsonb, 'Earthly faithfulness should be shaped by the reality that God is already enthroned and worthy', 'Placed after the messages to the churches, the throne room vision gives them a heavenly frame for endurance and worship (Revelation 4:1-11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 4, what does the heavenly pattern of worship imply for the churches on earth?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 5, 'According to Revelation 4, why does John emphasize both God''s transcendence and his nearness in worship?', '["God is exalted on the throne, yet heaven''s whole court is actively gathered around him in worship", "God is distant and unreachable to all created beings", "The throne removes all personal response from heaven", "The elders worship only out of duty and not devotion"]'::jsonb, 'God is exalted on the throne, yet heaven''s whole court is actively gathered around him in worship', 'The vision shows the high throne and the gathered creatures and elders worshiping immediately around it (Revelation 4:2-10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 4, why does John emphasize both God''s transcendence and his nearness in worship?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 4, 5, 'According to Revelation 4, what does the chapter imply about the meaning of all created existence?', '["Creation exists by God''s will and therefore finds its proper end in his glory", "Creation exists independently of God''s purpose", "Creation has meaning only through human rule", "Creation has already passed away in the vision"]'::jsonb, 'Creation exists by God''s will and therefore finds its proper end in his glory', 'The elders declare that all things existed and were created because of God''s will, grounding creation in him (Revelation 4:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 4
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 4, what does the chapter imply about the meaning of all created existence?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 1, 'According to Revelation 5, where was the scroll located?', '["In the right hand of the one sitting on the throne", "In the hands of an elder", "On the sea of glass", "At the feet of the living creatures"]'::jsonb, 'In the right hand of the one sitting on the throne', 'John saw a scroll in the right hand of him who sat on the throne (Revelation 5:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 5, where was the scroll located?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 1, 'According to Revelation 5, how many seals sealed the scroll?', '["Seven", "Three", "Twelve", "Ten"]'::jsonb, 'Seven', 'The scroll was sealed with seven seals (Revelation 5:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 5, how many seals sealed the scroll?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 1, 'According to Revelation 5, who first asked who was worthy to open the scroll?', '["A strong angel", "One of the elders", "John", "A living creature"]'::jsonb, 'A strong angel', 'A strong angel proclaimed with a loud voice, asking who was worthy to open the scroll and break its seals (Revelation 5:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 5, who first asked who was worthy to open the scroll?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 1, 'According to Revelation 5, who was found worthy to open the scroll?', '["The Lamb", "John", "Michael", "One of the elders"]'::jsonb, 'The Lamb', 'The Lamb came and took the scroll and is declared worthy to open its seals (Revelation 5:6-9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 5, who was found worthy to open the scroll?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 1, 'According to Revelation 5, what title did one of the elders use for the worthy one before John saw the Lamb?', '["The Lion of the tribe of Judah, the Root of David", "The Son of Man in the lampstands", "The Alpha and the Omega alone", "The rider on the white horse"]'::jsonb, 'The Lion of the tribe of Judah, the Root of David', 'An elder says the Lion of the tribe of Judah, the Root of David, has overcome to open the scroll (Revelation 5:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 5, what title did one of the elders use for the worthy one before John saw the Lamb?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 1, 'According to Revelation 5, how did John see the Lamb standing?', '["As though it had been killed", "As a warrior with a sword", "As seated on the throne", "As hidden behind the elders"]'::jsonb, 'As though it had been killed', 'John saw a Lamb standing, as though it had been slain (Revelation 5:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 5, how did John see the Lamb standing?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 1, 'According to Revelation 5, what are the golden bowls full of incense?', '["The prayers of the saints", "The judgments of God", "The songs of the angels", "The tears of John"]'::jsonb, 'The prayers of the saints', 'The golden bowls full of incense are the prayers of the saints (Revelation 5:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 5, what are the golden bowls full of incense?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 2, 'According to Revelation 5, why did John weep much?', '["Because no one was found worthy to open the scroll or look in it", "Because the churches had all fallen away", "Because the throne had disappeared", "Because the sea of glass was broken"]'::jsonb, 'Because no one was found worthy to open the scroll or look in it', 'John wept much because no one was found worthy to open the scroll or to look in it (Revelation 5:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 5, why did John weep much?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 2, 'According to Revelation 5, what did the elder tell John before he saw the Lamb?', '["Do not weep; the Lion of Judah has overcome", "Take the scroll yourself", "The churches must open the seals", "Wait until the final trumpet"]'::jsonb, 'Do not weep; the Lion of Judah has overcome', 'The elder comforts John by saying the Lion of the tribe of Judah has overcome to open the scroll (Revelation 5:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 5, what did the elder tell John before he saw the Lamb?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 2, 'According to Revelation 5, how many horns did the Lamb have?', '["Seven", "Two", "Twelve", "Ten"]'::jsonb, 'Seven', 'The Lamb had seven horns and seven eyes (Revelation 5:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 5, how many horns did the Lamb have?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 2, 'According to Revelation 5, what are the seven eyes of the Lamb said to be?', '["The seven Spirits of God sent out into all the earth", "Seven angels of judgment", "The eyes of the churches", "The seven thunders"]'::jsonb, 'The seven Spirits of God sent out into all the earth', 'The seven eyes are the seven Spirits of God sent out into all the earth (Revelation 5:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 5, what are the seven eyes of the Lamb said to be?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 2, 'According to Revelation 5, what did the living creatures and elders do when the Lamb took the scroll?', '["They fell down before the Lamb", "They fled from the throne", "They sealed the scroll again", "They asked John to sing first"]'::jsonb, 'They fell down before the Lamb', 'When the Lamb took the scroll, the four living creatures and the twenty-four elders fell down before the Lamb (Revelation 5:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 5, what did the living creatures and elders do when the Lamb took the scroll?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 2, 'According to Revelation 5, why is the Lamb worthy to take the scroll and open its seals?', '["Because he was killed and purchased people for God with his blood", "Because he created all things alone", "Because he is one of the elders", "Because John gave him authority"]'::jsonb, 'Because he was killed and purchased people for God with his blood', 'The new song says the Lamb is worthy because he was slain and redeemed people for God by his blood (Revelation 5:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 5, why is the Lamb worthy to take the scroll and open its seals?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 2, 'According to Revelation 5, from what groups did the Lamb purchase people for God?', '["Every tribe, language, people, and nation", "Only the churches of Asia", "Only Judah and Benjamin", "Only kings and priests"]'::jsonb, 'Every tribe, language, people, and nation', 'The song says the Lamb purchased people out of every tribe, language, people, and nation (Revelation 5:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 5, from what groups did the Lamb purchase people for God?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 2, 'According to Revelation 5, what has the Lamb made the redeemed people to be?', '["A kingdom and priests to our God", "Judges over angels only", "Citizens without responsibility", "Hidden servants without reward"]'::jsonb, 'A kingdom and priests to our God', 'The redeemed are made a kingdom and priests to God (Revelation 5:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 5, what has the Lamb made the redeemed people to be?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 3, 'According to Revelation 5, what is the significance of John hearing about a Lion but seeing a slain Lamb?', '["Christ''s victory comes through sacrificial death rather than worldly force", "The elder was mistaken about the vision", "The Lion and the Lamb are different persons", "John was seeing two separate scroll-openers"]'::jsonb, 'Christ''s victory comes through sacrificial death rather than worldly force', 'John hears of the conquering Lion, but sees the worthy one as a slain Lamb, showing that Christ conquers through his sacrificial death (Revelation 5:5-6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 5, what is the significance of John hearing about a Lion but seeing a slain Lamb?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 3, 'According to Revelation 5, why is the Lamb central to the unfolding of the vision?', '["Only he is worthy to reveal and carry out God''s purposes in history", "He replaces the one on the throne", "He explains every detail to John directly", "He keeps the scroll permanently closed"]'::jsonb, 'Only he is worthy to reveal and carry out God''s purposes in history', 'The whole scene turns on who is worthy to take and open the scroll, and the Lamb alone is found worthy (Revelation 5:1-9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 5, why is the Lamb central to the unfolding of the vision?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 3, 'According to Revelation 5, what does the new song emphasize about redemption?', '["It is achieved by the Lamb''s blood and gathers a people from all nations", "It belongs only to one ethnic group", "It comes mainly through angelic power", "It is separate from worship"]'::jsonb, 'It is achieved by the Lamb''s blood and gathers a people from all nations', 'The new song centers on the Lamb''s blood purchasing a people for God from every tribe, language, people, and nation (Revelation 5:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 5, what does the new song emphasize about redemption?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 3, 'According to Revelation 5, what is suggested by the prayers of the saints being present before the Lamb?', '["The worship and petitions of God''s people are gathered into heaven''s worship scene", "The saints no longer need to pray on earth", "Only the elders can speak before God", "Prayer has replaced redemption"]'::jsonb, 'The worship and petitions of God''s people are gathered into heaven''s worship scene', 'The bowls of incense are identified as the prayers of the saints and are held in the heavenly worship scene before the Lamb (Revelation 5:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 5, what is suggested by the prayers of the saints being present before the Lamb?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 3, 'According to Revelation 5, what does the multitude of angels declaring the Lamb worthy show?', '["The worth of the Lamb is recognized universally in heaven", "The angels are judging the Lamb''s actions", "Only the elders honor the Lamb", "The creatures refuse to join the worship"]'::jsonb, 'The worth of the Lamb is recognized universally in heaven', 'Myriads of angels join in saying the Lamb is worthy to receive power, riches, wisdom, strength, honor, glory, and blessing (Revelation 5:11-12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 5, what does the multitude of angels declaring the Lamb worthy show?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 3, 'According to Revelation 5, why does worship expand from the elders to angels to every creature?', '["The Lamb''s worth and God''s glory are cosmic in scope", "The scroll changes ownership repeatedly", "John is imagining a symbolic choir only", "The elders lose their place in worship"]'::jsonb, 'The Lamb''s worth and God''s glory are cosmic in scope', 'The worship grows outward until every created thing blesses both the one on the throne and the Lamb (Revelation 5:8-14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 5, why does worship expand from the elders to angels to every creature?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 4, 'How does Revelation 5 build on Revelation 4?', '["Chapter 4 presents the Creator on the throne, and chapter 5 adds the Lamb as worthy Redeemer and scroll-opener", "Chapter 5 replaces worship with silence", "Chapter 4 is about redemption, while chapter 5 is only about creation", "The throne disappears once the Lamb appears"]'::jsonb, 'Chapter 4 presents the Creator on the throne, and chapter 5 adds the Lamb as worthy Redeemer and scroll-opener', 'Revelation 4 praises God as Creator, while Revelation 5 praises the Lamb as Redeemer who is worthy to open the scroll (Revelation 4:11; 5:9-10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 5 build on Revelation 4?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 4, 'Why is John''s weeping an important part of Revelation 5''s movement?', '["It highlights the crisis of history if no worthy one can unveil and enact God''s purposes", "It shows John lacks faith in the throne", "It interrupts the vision without meaning", "It proves the scroll should remain closed forever"]'::jsonb, 'It highlights the crisis of history if no worthy one can unveil and enact God''s purposes', 'John''s tears underscore the urgency of finding one worthy to open the scroll; the Lamb resolves that crisis (Revelation 5:4-7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is John''s weeping an important part of Revelation 5''s movement?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 4, 'How does Revelation 5 connect redemption and kingship?', '["The slain Lamb redeems a people and makes them a kingdom and priests", "Kingship is separated from sacrifice entirely", "Only earthly rulers are included in redemption", "The redeemed are freed from serving God"]'::jsonb, 'The slain Lamb redeems a people and makes them a kingdom and priests', 'The new song links the Lamb''s death with the formation of a kingdom and priests for God (Revelation 5:9-10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 5 connect redemption and kingship?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 4, 'What role does the Lamb''s worthiness play in the structure of Revelation 5?', '["It turns the chapter from sorrow and suspense into worship and action", "It ends the heavenly worship scene", "It keeps the vision unresolved", "It shifts authority away from God"]'::jsonb, 'It turns the chapter from sorrow and suspense into worship and action', 'The chapter begins with the question of worthiness and John''s weeping, but once the Lamb takes the scroll, praise erupts and the vision moves forward (Revelation 5:2-14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What role does the Lamb''s worthiness play in the structure of Revelation 5?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 4, 'Why are both the one on the throne and the Lamb worshiped together at the end of Revelation 5?', '["The chapter presents the Lamb sharing in the divine honor of heaven''s worship", "The Lamb is merely a temporary messenger", "The throne is now empty and replaced", "The creatures are confused about whom to worship"]'::jsonb, 'The chapter presents the Lamb sharing in the divine honor of heaven''s worship', 'Every creature gives blessing, honor, glory, and dominion to both the one on the throne and the Lamb (Revelation 5:13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why are both the one on the throne and the Lamb worshiped together at the end of Revelation 5?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 4, 'Why is the universal scope of the Lamb''s redemption important in Revelation 5?', '["It shows that the people of God gathered by the Lamb come from every people group", "It limits redemption to political rulers", "It means the churches of Asia no longer matter", "It removes the need for witness on earth"]'::jsonb, 'It shows that the people of God gathered by the Lamb come from every people group', 'The song states that the Lamb purchased people out of every tribe, language, people, and nation (Revelation 5:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is the universal scope of the Lamb''s redemption important in Revelation 5?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 5, 'According to Revelation 5, why is the Lamb''s slain condition not a contradiction of his victory?', '["His sacrificial death is precisely the means by which he overcomes and is found worthy", "The Lamb only appeared slain but was never killed", "Victory belongs to the elders, not the Lamb", "The scroll was unrelated to redemption"]'::jsonb, 'His sacrificial death is precisely the means by which he overcomes and is found worthy', 'The elder says the Lion has overcome, and John sees the victorious one as a Lamb standing as though slain, worthy because he was killed and redeemed a people (Revelation 5:5-10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 5, why is the Lamb''s slain condition not a contradiction of his victory?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 5, 'According to Revelation 5, what theological connection exists between the scroll and the Lamb''s redemption?', '["The Lamb''s redemptive worthiness qualifies him to unveil and carry forward God''s purposes for history", "Any angel could have opened the scroll if permitted", "The scroll concerns only worship songs and not history", "Redemption and the scroll are unrelated themes"]'::jsonb, 'The Lamb''s redemptive worthiness qualifies him to unveil and carry forward God''s purposes for history', 'The Lamb''s worthiness is grounded in his being slain and redeeming a people, and this worthiness is exactly what qualifies him to take and open the scroll (Revelation 5:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 5, what theological connection exists between the scroll and the Lamb''s redemption?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 5, 'According to Revelation 5, why is the Lamb praised with language of power, riches, wisdom, strength, honor, glory, and blessing?', '["All fullness of worth belongs to the Lamb because of who he is and what he has accomplished", "The angels are exaggerating without reason", "These are temporary honors until the seals begin", "The praise is limited to one choir in heaven"]'::jsonb, 'All fullness of worth belongs to the Lamb because of who he is and what he has accomplished', 'Heaven attributes complete worth to the Lamb in response to his redemptive victory and authority (Revelation 5:12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 5, why is the Lamb praised with language of power, riches, wisdom, strength, honor, glory, and blessing?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 5, 'According to Revelation 5, what does the joint worship of the throne and the Lamb imply about Christ?', '["He shares in the honor and worship that belong in heaven''s throne room", "He is honored only as a created helper", "He stands outside the center of divine worship", "He points worship away from himself entirely"]'::jsonb, 'He shares in the honor and worship that belong in heaven''s throne room', 'All creation blesses both the one on the throne and the Lamb together, placing the Lamb at the center of heavenly worship (Revelation 5:13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 5, what does the joint worship of the throne and the Lamb imply about Christ?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 5, 'According to Revelation 5, why is the new song truly ''new'' in context?', '["It celebrates the fresh redemptive accomplishment of the Lamb and its worldwide effect", "It replaces all earlier praise of God as Creator", "It is new only because the melody had not been heard before", "It belongs only to the elders and not the church"]'::jsonb, 'It celebrates the fresh redemptive accomplishment of the Lamb and its worldwide effect', 'The new song praises the Lamb for being slain and purchasing a people for God from all nations (Revelation 5:9-10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 5, why is the new song truly ''new'' in context?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 5, 5, 'According to Revelation 5, what does the chapter suggest about the ultimate purpose of redemption?', '["Redeemed people are brought into worshipful service and reign under God", "Redemption exists only to remove suffering temporarily", "Redemption frees people from all calling and service", "Redemption is mainly a private experience without corporate identity"]'::jsonb, 'Redeemed people are brought into worshipful service and reign under God', 'The Lamb''s blood purchases a people who are made a kingdom and priests to God and who will reign on the earth (Revelation 5:9-10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 5
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 5, what does the chapter suggest about the ultimate purpose of redemption?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 1, 'According to Revelation 6, what appeared when the first seal was opened?', '["A white horse", "A black horse", "A pale horse", "A red dragon"]'::jsonb, 'A white horse', 'When the Lamb opened the first seal, John saw a white horse (Revelation 6:1-2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 6, what appeared when the first seal was opened?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 1, 'According to Revelation 6, what color was the horse of the second seal?', '["Red", "White", "Black", "Pale"]'::jsonb, 'Red', 'The second living creature called forth a fiery red horse (Revelation 6:3-4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 6, what color was the horse of the second seal?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 1, 'According to Revelation 6, what did the rider on the black horse hold?', '["A balance in his hand", "A great sword", "A bow", "A trumpet"]'::jsonb, 'A balance in his hand', 'The rider on the black horse had a balance in his hand (Revelation 6:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 6, what did the rider on the black horse hold?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 1, 'According to Revelation 6, what was the name of the rider on the pale horse?', '["Death", "War", "Plague", "Famine"]'::jsonb, 'Death', 'The rider on the pale horse was named Death, and Hades followed with him (Revelation 6:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 6, what was the name of the rider on the pale horse?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 1, 'According to Revelation 6, where were the souls of those who had been killed for the word of God?', '["Under the altar", "On the sea of glass", "At the gate of the city", "Inside the scroll"]'::jsonb, 'Under the altar', 'When the fifth seal was opened, John saw under the altar the souls of those who had been slain (Revelation 6:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 6, where were the souls of those who had been killed for the word of God?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 1, 'According to Revelation 6, what were the martyrs given?', '["White robes", "Golden crowns", "Harps", "Palm branches"]'::jsonb, 'White robes', 'A white robe was given to each of them (Revelation 6:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 6, what were the martyrs given?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 1, 'According to Revelation 6, what happened to the sun when the sixth seal was opened?', '["It became black as sackcloth made of hair", "It burned seven times brighter", "It stood still in the sky", "It fell to the earth"]'::jsonb, 'It became black as sackcloth made of hair', 'At the sixth seal the sun became black as sackcloth made of hair (Revelation 6:12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 6, what happened to the sun when the sixth seal was opened?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 2, 'According to Revelation 6, what was given to the rider on the white horse?', '["A crown", "A scale", "A robe", "A trumpet"]'::jsonb, 'A crown', 'The rider on the white horse had a bow, and a crown was given to him (Revelation 6:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 6, what was given to the rider on the white horse?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 2, 'According to Revelation 6, what was granted to the rider on the red horse?', '["To take peace from the earth so people should kill one another", "To rule the nations with justice", "To gather the martyrs into rest", "To seal the servants of God"]'::jsonb, 'To take peace from the earth so people should kill one another', 'The rider on the red horse was given power to take peace from the earth, and a great sword was given to him (Revelation 6:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 6, what was granted to the rider on the red horse?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 2, 'According to Revelation 6, what was said about the oil and the wine when the third seal was opened?', '["Do not damage the oil and the wine", "Pour out the oil and the wine", "Hide the oil and the wine", "Sell the oil and the wine freely"]'::jsonb, 'Do not damage the oil and the wine', 'A voice said, ''Do not damage the oil and the wine'' (Revelation 6:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 6, what was said about the oil and the wine when the third seal was opened?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 2, 'According to Revelation 6, what followed Death on the pale horse?', '["Hades", "The abyss", "A dragon", "A locust swarm"]'::jsonb, 'Hades', 'John says Hades followed with Death (Revelation 6:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 6, what followed Death on the pale horse?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 2, 'According to Revelation 6, over what portion of the earth was authority given to Death and Hades?', '["Over a fourth of the earth", "Over the whole earth", "Over a tenth of the earth", "Over the sea only"]'::jsonb, 'Over a fourth of the earth', 'Authority was given over one fourth of the earth to kill with sword, famine, death, and wild animals (Revelation 6:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 6, over what portion of the earth was authority given to Death and Hades?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 2, 'According to Revelation 6, why had the souls under the altar been killed?', '["For the word of God and for the testimony which they held", "For refusing Roman taxes", "For breaking the seals", "For leaving the seven churches"]'::jsonb, 'For the word of God and for the testimony which they held', 'The slain were there because of the word of God and the testimony they held (Revelation 6:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 6, why had the souls under the altar been killed?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 2, 'According to Revelation 6, what were the martyrs told to do a little longer?', '["Rest", "Judge the nations", "Sing a new song", "Seal the servants"]'::jsonb, 'Rest', 'They were told that they should rest yet for a little time (Revelation 6:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 6, what were the martyrs told to do a little longer?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 2, 'According to Revelation 6, what did the kings and powerful people of the earth do at the sixth seal?', '["They hid themselves in caves and among the rocks of the mountains", "They gathered to worship the Lamb", "They marched against heaven", "They crowned the martyrs"]'::jsonb, 'They hid themselves in caves and among the rocks of the mountains', 'At the sixth seal the kings and others hid in caves and rocks of the mountains (Revelation 6:15).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 6, what did the kings and powerful people of the earth do at the sixth seal?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 3, 'According to Revelation 6, what is the effect of the first four seals taken together?', '["They portray conquest, violence, scarcity, and death spreading across the earth", "They describe the final new creation", "They focus only on the churches'' worship", "They show complete peace on earth"]'::jsonb, 'They portray conquest, violence, scarcity, and death spreading across the earth', 'The four horsemen bring conquest, war, famine-like scarcity, and widespread death (Revelation 6:1-8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 6, what is the effect of the first four seals taken together?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 3, 'According to Revelation 6, what does the cry of the souls under the altar reveal?', '["God''s justice has not been forgotten, though its full answer is still awaited", "The martyrs regret their witness", "Heaven is unaware of earthly suffering", "Judgment has already completely finished"]'::jsonb, 'God''s justice has not been forgotten, though its full answer is still awaited', 'The martyrs cry out for judgment, and they are told to rest a little longer until the appointed number is complete (Revelation 6:10-11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 6, what does the cry of the souls under the altar reveal?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 3, 'According to Revelation 6, why are the white robes given to the martyrs significant?', '["They show honor, vindication, and acceptance before God", "They make the martyrs into angels", "They symbolize earthly power and wealth", "They are a temporary disguise from enemies"]'::jsonb, 'They show honor, vindication, and acceptance before God', 'The giving of white robes signifies heavenly honor and vindication even before the final judgment is completed (Revelation 6:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 6, why are the white robes given to the martyrs significant?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 3, 'According to Revelation 6, what does the terror of the great and small alike at the sixth seal emphasize?', '["No human status can shield anyone from divine wrath", "Only kings fear the day of judgment", "The poor alone are judged by God", "Judgment is merely symbolic and not feared"]'::jsonb, 'No human status can shield anyone from divine wrath', 'Kings, princes, commanders, rich, strong, slave, and free all hide alike from the wrath of the one on the throne and the Lamb (Revelation 6:15-17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 6, what does the terror of the great and small alike at the sixth seal emphasize?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 3, 'According to Revelation 6, what is implied by the martyrs being told to wait until their fellow servants are also completed?', '["History is still unfolding according to God''s appointed measure", "God has forgotten the church on earth", "The martyrs must earn their vindication", "The seals cannot continue any further"]'::jsonb, 'History is still unfolding according to God''s appointed measure', 'They are told to rest until the number of their fellow servants and brothers is completed, showing God''s timing over history (Revelation 6:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 6, what is implied by the martyrs being told to wait until their fellow servants are also completed?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 3, 'According to Revelation 6, what does the sixth seal''s cosmic disturbance communicate?', '["The created order itself is shaken by the approach of divine judgment", "Creation has become evil in itself", "Only the stars are being judged", "The churches have been removed from history"]'::jsonb, 'The created order itself is shaken by the approach of divine judgment', 'The earthquake, darkened sun, blood-like moon, falling stars, and receding sky show creation trembling before God''s judgment (Revelation 6:12-14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 6, what does the sixth seal''s cosmic disturbance communicate?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 4, 'How does Revelation 6 develop the movement begun in Revelation 5?', '["The worthy Lamb now begins to open the scroll, and the consequences unfold on earth", "The Lamb gives the scroll back unopened", "The worship scene ends history immediately", "The elders alone carry out the judgments"]'::jsonb, 'The worthy Lamb now begins to open the scroll, and the consequences unfold on earth', 'Chapter 5 establishes the Lamb''s worthiness to open the scroll, and chapter 6 shows the opening of the first six seals and their effects (Revelation 5:7-9; 6:1-17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 6 develop the movement begun in Revelation 5?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 4, 'How do the first four seals differ from the fifth seal?', '["The first four bring judgments on earth, while the fifth reveals the heavenly cry of the martyrs", "The fifth seal begins a new creation", "The first four concern heaven only, while the fifth concerns earth only", "The fifth seal ends all conflict immediately"]'::jsonb, 'The first four bring judgments on earth, while the fifth reveals the heavenly cry of the martyrs', 'The first four seals release horsemen across the earth, while the fifth shifts to the souls under the altar in heaven (Revelation 6:1-11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How do the first four seals differ from the fifth seal?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 4, 'How does Revelation 6 hold together judgment and martyrdom?', '["The earth experiences upheaval while the faithful dead wait under God''s just timetable", "Martyrdom cancels the need for judgment", "Judgment falls only on the martyrs", "The seals ignore the suffering of believers"]'::jsonb, 'The earth experiences upheaval while the faithful dead wait under God''s just timetable', 'The seals bring turmoil to the earth, yet the martyrs are seen and heard before God, awaiting the completion of his purposes (Revelation 6:1-17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 6 hold together judgment and martyrdom?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 4, 'What larger question does Revelation 6 end with?', '["Who is able to stand?", "Who can open the scroll?", "Who will sing the new song?", "Who can number the elders?"]'::jsonb, 'Who is able to stand?', 'The chapter ends with the question, ''The great day of his wrath has come; and who is able to stand?'' (Revelation 6:17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What larger question does Revelation 6 end with?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 4, 'Why is the reaction of the earth''s rulers important at the sixth seal?', '["It shows that people who seemed powerful are helpless before God''s wrath", "It proves rulers can negotiate with the Lamb", "It shows judgment only affects the weak", "It means the rulers are becoming righteous"]'::jsonb, 'It shows that people who seemed powerful are helpless before God''s wrath', 'The powerful hide in terror and ask the mountains to fall on them, showing their helplessness before divine wrath (Revelation 6:15-17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is the reaction of the earth''s rulers important at the sixth seal?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 4, 'Why is the Lamb''s wrath especially striking in Revelation 6?', '["The same Lamb who was slain in chapter 5 is also the one before whom the unrepentant now tremble", "The Lamb has changed into a different being", "Wrath belongs only to the elders and not to the Lamb", "The wrath of the Lamb is described as symbolic and harmless"]'::jsonb, 'The same Lamb who was slain in chapter 5 is also the one before whom the unrepentant now tremble', 'Those on earth cry for the mountains to hide them from the wrath of the Lamb, linking the slain Lamb''s worthiness with judicial authority (Revelation 6:16).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is the Lamb''s wrath especially striking in Revelation 6?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 5, 'According to Revelation 6, what does the chapter suggest about history under the Lamb''s authority?', '["Even conquest, suffering, and judgment unfold only as the Lamb opens the seals", "The Lamb is unable to affect events on earth", "History moves independently of heaven''s throne", "Only human rulers determine the course of events"]'::jsonb, 'Even conquest, suffering, and judgment unfold only as the Lamb opens the seals', 'Each stage begins as the Lamb opens a seal, showing heaven''s authority over what unfolds in history (Revelation 6:1-17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 6, what does the chapter suggest about history under the Lamb''s authority?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 5, 'According to Revelation 6, why is the cry ''How long?'' from the martyrs theologically important?', '["It joins faithful suffering with confidence that God will judge righteously in his appointed time", "It shows the martyrs doubt God''s existence", "It proves judgment depends on the martyrs'' impatience", "It means heaven is divided against itself"]'::jsonb, 'It joins faithful suffering with confidence that God will judge righteously in his appointed time', 'The martyrs appeal to God as holy and true and are told to rest until the appointed completion of others, combining lament with trust (Revelation 6:10-11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 6, why is the cry ''How long?'' from the martyrs theologically important?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 5, 'According to Revelation 6, what does the sequence from horsemen to martyrs to cosmic collapse reveal?', '["Judgment unfolds progressively, affecting society, the faithful witness of the church, and finally the whole created order", "The chapter moves randomly without structure", "The seals only describe symbolic animals", "The martyrs and the cosmos are unrelated themes"]'::jsonb, 'Judgment unfolds progressively, affecting society, the faithful witness of the church, and finally the whole created order', 'The chapter moves from earthly calamities to heavenly martyr-cry to cosmic upheaval, intensifying the sense of judgment (Revelation 6:1-17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 6, what does the sequence from horsemen to martyrs to cosmic collapse reveal?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 5, 'According to Revelation 6, why is the final question ''Who is able to stand?'' so important for what follows?', '["It creates the need for the next vision to show who can endure God''s day", "It means no one at all will survive in any sense", "It is answered fully within the same verse", "It closes the book''s main concern permanently"]'::jsonb, 'It creates the need for the next vision to show who can endure God''s day', 'The question at the end of chapter 6 prepares for the following chapter''s vision of those marked out and preserved before God (Revelation 6:17; 7:1-17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 6, why is the final question ''Who is able to stand?'' so important for what follows?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 5, 'According to Revelation 6, how does the chapter challenge worldly confidence?', '["It shows that military strength, wealth, rank, and social position cannot shield anyone from God''s judgment", "It teaches that rulers are safe while common people suffer", "It suggests wealth can delay the day of wrath", "It praises the earth''s mighty ones for hiding wisely"]'::jsonb, 'It shows that military strength, wealth, rank, and social position cannot shield anyone from God''s judgment', 'Kings, princes, generals, rich, strong, slave, and free all alike hide in fear at the sixth seal (Revelation 6:15-17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 6, how does the chapter challenge worldly confidence?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 6, 5, 'According to Revelation 6, what does the combination of the throne''s wrath and the Lamb''s wrath imply?', '["The Lamb shares in the divine authority to judge the world", "The Lamb opposes the one on the throne", "Judgment is divided between two rival powers", "The throne judges while the Lamb only watches"]'::jsonb, 'The Lamb shares in the divine authority to judge the world', 'Those on earth fear both the face of him who sits on the throne and the wrath of the Lamb, showing the Lamb''s participation in divine judgment (Revelation 6:16).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 6
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 6, what does the combination of the throne''s wrath and the Lamb''s wrath imply?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 1, 'According to Revelation 7, how many angels were standing at the four corners of the earth?', '["Four", "Seven", "Twelve", "Twenty-four"]'::jsonb, 'Four', 'John saw four angels standing at the four corners of the earth, holding the four winds (Revelation 7:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 7, how many angels were standing at the four corners of the earth?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 1, 'According to Revelation 7, what were the four angels holding back?', '["The four winds of the earth", "The four horsemen", "The rivers of the nations", "The stars of heaven"]'::jsonb, 'The four winds of the earth', 'The four angels were holding the four winds of the earth so that no wind should blow (Revelation 7:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 7, what were the four angels holding back?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 1, 'According to Revelation 7, what did the angel ascending from the sunrise have?', '["The seal of the living God", "A golden censer", "A sharp sickle", "A little scroll"]'::jsonb, 'The seal of the living God', 'Another angel ascending from the sunrise had the seal of the living God (Revelation 7:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 7, what did the angel ascending from the sunrise have?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 1, 'According to Revelation 7, how many were sealed from all the tribes of the children of Israel?', '["144,000", "12,000", "70,000", "1,000"]'::jsonb, '144,000', 'John heard the number of those who were sealed: 144,000 from all the tribes of the children of Israel (Revelation 7:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 7, how many were sealed from all the tribes of the children of Israel?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 1, 'According to Revelation 7, how many from each listed tribe were sealed?', '["12,000", "7,000", "1,000", "24,000"]'::jsonb, '12,000', 'Each listed tribe is described as having 12,000 sealed (Revelation 7:5-8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 7, how many from each listed tribe were sealed?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 1, 'According to Revelation 7, what were the people of the great multitude wearing?', '["White robes", "Scarlet garments", "Golden armor", "Sackcloth"]'::jsonb, 'White robes', 'John saw a great multitude clothed with white robes (Revelation 7:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 7, what were the people of the great multitude wearing?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 1, 'According to Revelation 7, what were the people of the great multitude holding in their hands?', '["Palm branches", "Trumpets", "Lamps", "Scrolls"]'::jsonb, 'Palm branches', 'The great multitude stood before the throne and before the Lamb with palm branches in their hands (Revelation 7:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 7, what were the people of the great multitude holding in their hands?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 2, 'According to Revelation 7, what were the angels told not to harm until something happened?', '["The earth, the sea, and the trees until God''s servants were sealed", "The stars and the moon until the martyrs rested", "The rivers and springs until the trumpets sounded", "The churches until John finished writing"]'::jsonb, 'The earth, the sea, and the trees until God''s servants were sealed', 'The angel cried out not to harm the earth, sea, or trees until the servants of God were sealed on their foreheads (Revelation 7:2-3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 7, what were the angels told not to harm until something happened?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 2, 'According to Revelation 7, from where did the great multitude come?', '["Out of the great tribulation", "From the seven churches of Asia only", "From Jerusalem alone", "Out of the abyss"]'::jsonb, 'Out of the great tribulation', 'One of the elders says these are the ones who came out of the great tribulation (Revelation 7:14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 7, from where did the great multitude come?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 2, 'According to Revelation 7, how had the great multitude made their robes white?', '["By washing them in the Lamb''s blood", "By keeping the law perfectly", "By passing through the fire", "By fasting day and night"]'::jsonb, 'By washing them in the Lamb''s blood', 'The elder says they washed their robes and made them white in the Lamb''s blood (Revelation 7:14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 7, how had the great multitude made their robes white?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 2, 'According to Revelation 7, where does the great multitude stand?', '["Before the throne and before the Lamb", "Under the altar", "On Mount Zion only", "At the city gates"]'::jsonb, 'Before the throne and before the Lamb', 'The great multitude is standing before the throne and before the Lamb (Revelation 7:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 7, where does the great multitude stand?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 2, 'According to Revelation 7, what do the great multitude cry with a loud voice?', '["Salvation belongs to our God who sits on the throne, and to the Lamb", "Holy, holy, holy is the Lord God Almighty", "Worthy is the Lamb who was slain", "The kingdoms of the world have become the Lord''s"]'::jsonb, 'Salvation belongs to our God who sits on the throne, and to the Lamb', 'The great multitude cries out this declaration before the throne (Revelation 7:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 7, what do the great multitude cry with a loud voice?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 2, 'According to Revelation 7, what do the angels, elders, and living creatures do before the throne?', '["They fall on their faces and worship God", "They open the sealed scroll again", "They sound seven trumpets", "They hide from the throne''s glory"]'::jsonb, 'They fall on their faces and worship God', 'The angels, elders, and four living creatures fall before the throne on their faces and worship God (Revelation 7:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 7, what do the angels, elders, and living creatures do before the throne?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 2, 'According to Revelation 7, what will the Lamb do for the great multitude?', '["He will shepherd them and lead them to springs of living waters", "He will send them back to earth to witness", "He will give them trumpets to sound", "He will appoint them over the four winds"]'::jsonb, 'He will shepherd them and lead them to springs of living waters', 'The Lamb will be their shepherd and will guide them to springs of living waters (Revelation 7:17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 7, what will the Lamb do for the great multitude?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 3, 'According to Revelation 7, what is the main effect of the sealing before judgment proceeds?', '["It shows God''s people are marked out and protected under his authority before the winds are released", "It cancels all future judgments entirely", "It removes the need for endurance", "It proves only angels matter in the vision"]'::jsonb, 'It shows God''s people are marked out and protected under his authority before the winds are released', 'The harm is restrained until God''s servants are sealed on their foreheads, showing divine marking and preservation (Revelation 7:1-3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 7, what is the main effect of the sealing before judgment proceeds?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 3, 'According to Revelation 7, what is suggested by the contrast between John''s hearing the number 144,000 and then seeing a countless multitude?', '["The people of God are both numbered by God and vast beyond human counting", "The two groups must be enemies of one another", "John first hears a mistake and then corrects it", "The multitude replaces the sealed entirely"]'::jsonb, 'The people of God are both numbered by God and vast beyond human counting', 'John hears a specific number of the sealed and then sees a vast multitude from all nations, emphasizing God''s ordered knowledge and the vast scope of salvation (Revelation 7:4, 9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 7, what is suggested by the contrast between John''s hearing the number 144,000 and then seeing a countless multitude?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 3, 'According to Revelation 7, what does the white clothing of the great multitude signify?', '["Purity and vindication granted through the Lamb", "Earthly wealth and public honor", "Their status as angels rather than humans", "Their escape from all suffering without cost"]'::jsonb, 'Purity and vindication granted through the Lamb', 'Their robes are made white through the Lamb''s blood, showing cleansing and acceptance before God (Revelation 7:14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 7, what does the white clothing of the great multitude signify?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 3, 'According to Revelation 7, what is emphasized by the great multitude coming from every nation, tribe, people, and language?', '["The saving work of God and the Lamb reaches across all peoples", "Only one nation remains important in the end", "The churches of Asia are forgotten", "The throne room is divided by language barriers"]'::jsonb, 'The saving work of God and the Lamb reaches across all peoples', 'The multitude is explicitly described as coming from every nation, tribe, people, and language (Revelation 7:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 7, what is emphasized by the great multitude coming from every nation, tribe, people, and language?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 3, 'According to Revelation 7, what does the phrase ''they serve him day and night in his temple'' imply about the redeemed?', '["Their life before God is one of continual worshipful service", "They are given only temporary access to God", "They return to earthly temple rituals", "Only priests from one tribe serve there"]'::jsonb, 'Their life before God is one of continual worshipful service', 'The multitude stands before God and serves him day and night in his temple (Revelation 7:15).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 7, what does the phrase ''they serve him day and night in his temple'' imply about the redeemed?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 3, 'According to Revelation 7, why is the promise that they will hunger and thirst no more significant?', '["Their tribulation is answered by God''s complete provision and comfort", "They are returned to earthly prosperity only", "Their suffering is forgotten rather than answered", "Only physical needs are in view and not spiritual hope"]'::jsonb, 'Their tribulation is answered by God''s complete provision and comfort', 'Those who came out of great tribulation are promised that they will hunger no more, thirst no more, and be shepherded by the Lamb (Revelation 7:14-17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 7, why is the promise that they will hunger and thirst no more significant?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 4, 'How does Revelation 7 answer the question at the end of Revelation 6, ''Who is able to stand?''', '["Those sealed by God and those cleansed by the Lamb are shown standing before the throne", "No one at all can stand before God", "Only the powerful rulers of the earth can stand", "Only the four living creatures can remain standing"]'::jsonb, 'Those sealed by God and those cleansed by the Lamb are shown standing before the throne', 'Chapter 6 ends with the question of who can stand, and chapter 7 shows the sealed and the redeemed multitude standing before the throne and the Lamb (Revelation 6:17; 7:3-4, 9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 7 answer the question at the end of Revelation 6, ''Who is able to stand?'''
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 4, 'How do the two scenes in Revelation 7 work together?', '["The sealing scene shows God''s marking of his servants, and the multitude scene shows their worshipful salvation before him", "The first scene cancels the second completely", "The first is about angels only, and the second is about animals only", "Both scenes describe the same trumpet judgment"]'::jsonb, 'The sealing scene shows God''s marking of his servants, and the multitude scene shows their worshipful salvation before him', 'The first half focuses on sealing before harm, while the second shows the redeemed multitude in triumph before the throne (Revelation 7:1-8, 9-17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How do the two scenes in Revelation 7 work together?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 4, 'Why is Revelation 7 placed between the sixth and seventh seals?', '["It pauses the judgments to reveal God''s preserving purpose for his people", "It shows the seals have been forgotten", "It changes the subject permanently away from judgment", "It proves the seventh seal is unnecessary"]'::jsonb, 'It pauses the judgments to reveal God''s preserving purpose for his people', 'The chapter interrupts the seal sequence with a vision of sealing and salvation before the seventh seal is opened (Revelation 7:1-17; 8:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is Revelation 7 placed between the sixth and seventh seals?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 4, 'What role does the Lamb play in Revelation 7''s comfort scene?', '["The Lamb who redeemed them now shepherds and leads them into final consolation", "The Lamb disappears after the sealing", "The Lamb only judges and does not comfort", "The Lamb hands all care over to the elders"]'::jsonb, 'The Lamb who redeemed them now shepherds and leads them into final consolation', 'The Lamb is in the midst of the throne and will shepherd them and lead them to living waters (Revelation 7:17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What role does the Lamb play in Revelation 7''s comfort scene?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 4, 'Why is the worship of the multitude important after the fear of chapter 6?', '["It shows that salvation and worship, not terror, define the destiny of God''s redeemed people", "It proves judgment has no meaning anymore", "It shifts all attention away from the throne", "It means tribulation never happened"]'::jsonb, 'It shows that salvation and worship, not terror, define the destiny of God''s redeemed people', 'After chapter 6 shows universal terror at wrath, chapter 7 shows the redeemed joyfully worshiping God and the Lamb (Revelation 6:15-17; 7:9-12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is the worship of the multitude important after the fear of chapter 6?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 4, 'Why are both God''s throne and the Lamb central in Revelation 7?', '["Salvation is attributed to God on the throne and to the Lamb, and the redeemed live in the presence of both", "The Lamb replaces the throne entirely", "The throne and the Lamb compete for worship", "Only the angel with the seal matters in the chapter"]'::jsonb, 'Salvation is attributed to God on the throne and to the Lamb, and the redeemed live in the presence of both', 'The multitude cries that salvation belongs to God and the Lamb, and stands before both (Revelation 7:10, 15, 17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why are both God''s throne and the Lamb central in Revelation 7?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 5, 'According to Revelation 7, what theological tension is held together by sealing and tribulation?', '["God''s people may pass through suffering, yet they remain marked out and secure under his ownership", "Tribulation means God has abandoned his servants", "Sealing removes all need for endurance", "Only unsealed people can be saved"]'::jsonb, 'God''s people may pass through suffering, yet they remain marked out and secure under his ownership', 'The servants are sealed before harm proceeds, yet the multitude is described as coming out of the great tribulation (Revelation 7:3, 14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 7, what theological tension is held together by sealing and tribulation?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 5, 'According to Revelation 7, why is the washing of robes in the Lamb''s blood such a striking image?', '["It shows cleansing comes through the Lamb''s sacrificial death in a paradoxical and powerful way", "It teaches that suffering alone makes people pure", "It refers only to outward priestly clothing", "It means the multitude never sinned"]'::jsonb, 'It shows cleansing comes through the Lamb''s sacrificial death in a paradoxical and powerful way', 'The robes are made white in the Lamb''s blood, emphasizing purification through sacrificial redemption (Revelation 7:14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 7, why is the washing of robes in the Lamb''s blood such a striking image?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 5, 'According to Revelation 7, what does the chapter teach about the final identity of the redeemed?', '["They are a worshiping, multinational people gathered before God and shepherded by the Lamb", "They are isolated survivors with no shared identity", "They are mainly political rulers over earth", "They are hidden from God''s presence forever"]'::jsonb, 'They are a worshiping, multinational people gathered before God and shepherded by the Lamb', 'The redeemed multitude comes from all peoples, stands before the throne, worships God and the Lamb, and is shepherded by the Lamb (Revelation 7:9-17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 7, what does the chapter teach about the final identity of the redeemed?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 5, 'According to Revelation 7, why is the promise that God will wipe away every tear from their eyes so significant?', '["It reveals God''s final personal comfort after tribulation and suffering", "It means sorrow was never real", "It applies only to angels in heaven", "It cancels the need for the Lamb''s shepherding"]'::jsonb, 'It reveals God''s final personal comfort after tribulation and suffering', 'After speaking of tribulation, hunger, thirst, and heat, the vision ends with God wiping away every tear from their eyes (Revelation 7:14-17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 7, why is the promise that God will wipe away every tear from their eyes so significant?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 7, 5, 'According to Revelation 7, what does the chapter imply about the relationship between divine sovereignty and salvation?', '["God numbers, seals, gathers, shelters, and comforts his people through the Lamb", "Salvation depends mainly on human strength and planning", "The multitude reaches the throne apart from the Lamb", "The sealing angel acts independently of God"]'::jsonb, 'God numbers, seals, gathers, shelters, and comforts his people through the Lamb', 'The chapter shows God commanding the sealing, receiving worship, sheltering the redeemed, and doing this through the saving and shepherding work of the Lamb (Revelation 7:2-4, 10, 15-17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 7
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 7, what does the chapter imply about the relationship between divine sovereignty and salvation?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 1, 'According to Revelation 8, what happened in heaven when the Lamb opened the seventh seal?', '["There was silence in heaven for about half an hour", "The living creatures cried out without ceasing", "The throne was hidden by smoke immediately", "The martyrs sang a new song"]'::jsonb, 'There was silence in heaven for about half an hour', 'When the seventh seal was opened, there was silence in heaven for about half an hour (Revelation 8:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 8, what happened in heaven when the Lamb opened the seventh seal?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 1, 'According to Revelation 8, how many angels stood before God and received trumpets?', '["Seven", "Four", "Twelve", "Twenty-four"]'::jsonb, 'Seven', 'John saw the seven angels who stand before God, and seven trumpets were given to them (Revelation 8:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 8, how many angels stood before God and received trumpets?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 1, 'According to Revelation 8, what kind of censer did the other angel have?', '["A golden censer", "An iron censer", "A bronze censer", "A silver censer"]'::jsonb, 'A golden censer', 'Another angel came and stood over the altar, having a golden censer (Revelation 8:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 8, what kind of censer did the other angel have?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 1, 'According to Revelation 8, what was added to the prayers of all the saints?', '["Much incense", "Fire from the altar only", "A loud trumpet blast", "Palm branches"]'::jsonb, 'Much incense', 'Much incense was given to the angel so he could add it to the prayers of all the saints (Revelation 8:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 8, what was added to the prayers of all the saints?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 1, 'According to Revelation 8, what happened after the angel threw fire from the altar to the earth?', '["There followed thunders, sounds, lightnings, and an earthquake", "The sea became blood", "The sun became dark immediately", "The abyss was opened"]'::jsonb, 'There followed thunders, sounds, lightnings, and an earthquake', 'After the angel threw the fire to the earth, there were thunders, sounds, lightnings, and an earthquake (Revelation 8:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 8, what happened after the angel threw fire from the altar to the earth?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 1, 'According to Revelation 8, what happened when the first angel sounded?', '["Hail and fire mixed with blood were thrown to the earth", "A great mountain burning with fire was thrown into the sea", "A great star fell from heaven", "The sun, moon, and stars were darkened"]'::jsonb, 'Hail and fire mixed with blood were thrown to the earth', 'At the first trumpet, hail and fire mixed with blood were thrown to the earth (Revelation 8:7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 8, what happened when the first angel sounded?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 1, 'According to Revelation 8, what was the name of the great star that fell at the third trumpet?', '["Wormwood", "Apollyon", "Morning Star", "Abaddon"]'::jsonb, 'Wormwood', 'The name of the star was called Wormwood (Revelation 8:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 8, what was the name of the great star that fell at the third trumpet?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 2, 'According to Revelation 8, where did the smoke of the incense go?', '["Up before God out of the angel''s hand", "Into the abyss", "Across the sea of glass", "Toward the four winds"]'::jsonb, 'Up before God out of the angel''s hand', 'The smoke of the incense with the prayers of the saints went up before God out of the angel''s hand (Revelation 8:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 8, where did the smoke of the incense go?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 2, 'According to Revelation 8, what fraction of the earth, trees, and green grass was affected by the first trumpet?', '["A third", "A fourth", "All of it", "A tenth"]'::jsonb, 'A third', 'A third of the earth was burned up, a third of the trees, and all green grass was burned up (Revelation 8:7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 8, what fraction of the earth, trees, and green grass was affected by the first trumpet?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 2, 'According to Revelation 8, what happened at the second trumpet?', '["Something like a great mountain burning with fire was thrown into the sea", "The rivers became bitter from Wormwood", "The abyss was opened and smoke rose", "A star fell and unlocked the pit"]'::jsonb, 'Something like a great mountain burning with fire was thrown into the sea', 'At the second trumpet, a great burning mountain-like object was thrown into the sea (Revelation 8:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 8, what happened at the second trumpet?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 2, 'According to Revelation 8, what happened to a third of the sea at the second trumpet?', '["It became blood", "It dried up completely", "It turned to crystal", "It froze solid"]'::jsonb, 'It became blood', 'A third of the sea became blood (Revelation 8:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 8, what happened to a third of the sea at the second trumpet?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 2, 'According to Revelation 8, what happened to many people because of the waters at the third trumpet?', '["Many men died because the waters were made bitter", "They were healed of their sicknesses", "They crossed the rivers safely", "They received white robes"]'::jsonb, 'Many men died because the waters were made bitter', 'Many men died from the waters because they were made bitter (Revelation 8:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 8, what happened to many people because of the waters at the third trumpet?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 2, 'According to Revelation 8, what was darkened at the fourth trumpet?', '["A third of the sun, moon, and stars", "The sea and the rivers", "The abyss and the pit", "The temple and the altar"]'::jsonb, 'A third of the sun, moon, and stars', 'A third of the sun, moon, and stars were struck so that a third of them would be darkened (Revelation 8:12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 8, what was darkened at the fourth trumpet?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 2, 'According to Revelation 8, what did the eagle cry with a loud voice as it flew in mid heaven?', '["Woe, woe, woe for those who dwell on the earth", "Holy, holy, holy is the Lord God Almighty", "The kingdoms of the world have become the Lord''s", "Come and see"]'::jsonb, 'Woe, woe, woe for those who dwell on the earth', 'The eagle cried, ''Woe, woe, woe for those who dwell on the earth'' because of the remaining trumpet blasts (Revelation 8:13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 8, what did the eagle cry with a loud voice as it flew in mid heaven?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 3, 'According to Revelation 8, what does the silence in heaven before the trumpets suggest?', '["A solemn pause before the next stage of divine judgment", "The end of all heavenly worship forever", "The defeat of the throne''s authority", "John''s confusion about the vision"]'::jsonb, 'A solemn pause before the next stage of divine judgment', 'The half hour of silence follows the opening of the seventh seal and precedes the trumpet judgments, giving the scene a solemn, anticipatory tone (Revelation 8:1-2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 8, what does the silence in heaven before the trumpets suggest?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 3, 'According to Revelation 8, what is the significance of the prayers of the saints appearing before the trumpet judgments?', '["The judgments are shown in connection with God''s hearing the cries of his people", "Prayer delays God''s rule permanently", "The saints cause the judgments without God", "The prayers are forgotten once the trumpets begin"]'::jsonb, 'The judgments are shown in connection with God''s hearing the cries of his people', 'The incense and prayers rise before God, and then fire from the altar is thrown to the earth, linking prayer and judgment in the scene (Revelation 8:3-5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 8, what is the significance of the prayers of the saints appearing before the trumpet judgments?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 3, 'According to Revelation 8, what pattern is seen in the first four trumpets?', '["Judgment falls on the earth, sea, fresh waters, and heavenly lights", "Only human rulers are judged directly", "The churches alone are addressed again", "Heaven itself is destroyed completely"]'::jsonb, 'Judgment falls on the earth, sea, fresh waters, and heavenly lights', 'The first four trumpets affect land, sea, rivers and springs, and then sun, moon, and stars (Revelation 8:7-12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 8, what pattern is seen in the first four trumpets?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 3, 'According to Revelation 8, what does the repeated fraction ''a third'' suggest about the trumpet judgments?', '["They are severe but partial, not yet the final total end", "They are symbolic of mercy no longer existing", "They mean one third is always the righteous group", "They show creation can judge itself"]'::jsonb, 'They are severe but partial, not yet the final total end', 'The repeated third indicates devastating but limited judgments rather than complete destruction at this stage (Revelation 8:7-12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 8, what does the repeated fraction ''a third'' suggest about the trumpet judgments?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 3, 'According to Revelation 8, why is the bitterness of Wormwood especially significant?', '["A source meant for life becomes a source of death under judgment", "The star provides healing to the rivers", "Only the sea is affected and not human life", "The name has no relation to the waters"]'::jsonb, 'A source meant for life becomes a source of death under judgment', 'The star turns waters bitter, and many die from drinking them, reversing the life-giving role of water (Revelation 8:10-11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 8, why is the bitterness of Wormwood especially significant?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 3, 'According to Revelation 8, what is emphasized by the eagle''s threefold cry of woe?', '["The remaining trumpet judgments will be even more dreadful", "The first four trumpets were insignificant", "The judgments are now finished completely", "The eagle is replacing the angels'' role"]'::jsonb, 'The remaining trumpet judgments will be even more dreadful', 'The eagle announces three woes because of the trumpet blasts still to come, signaling intensified severity ahead (Revelation 8:13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 8, what is emphasized by the eagle''s threefold cry of woe?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 4, 'How does Revelation 8 connect the seventh seal with the trumpet judgments?', '["The opening of the seventh seal introduces the seven trumpets as the next phase of what unfolds", "The seventh seal ends all visions immediately", "The trumpets are unrelated to the seals", "The elders sound the trumpets without angelic involvement"]'::jsonb, 'The opening of the seventh seal introduces the seven trumpets as the next phase of what unfolds', 'After the seventh seal is opened, the seven angels receive trumpets, linking the seal sequence to the trumpet sequence (Revelation 8:1-2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 8 connect the seventh seal with the trumpet judgments?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 4, 'How do the altar and the earth relate in Revelation 8?', '["Fire from the heavenly altar is cast to the earth, showing heavenly worship and judgment meeting in history", "The altar is removed from the vision once judgment begins", "The earth controls what happens at the altar", "The altar scene is unrelated to the trumpets"]'::jsonb, 'Fire from the heavenly altar is cast to the earth, showing heavenly worship and judgment meeting in history', 'The angel takes fire from the altar and throws it to the earth after the prayers ascend, showing the connection between heaven and earth in the judgments (Revelation 8:3-5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How do the altar and the earth relate in Revelation 8?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 4, 'Why is the order of creation affected across the first four trumpets important?', '["It shows divine judgment reaching broadly across the created world", "It means creation has become independent of God", "It proves the trumpets concern only one region of earth", "It shifts the book away from theological meaning"]'::jsonb, 'It shows divine judgment reaching broadly across the created world', 'Land, sea, waters, and heavenly lights are struck in order, showing judgment spreading through the created order (Revelation 8:7-12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is the order of creation affected across the first four trumpets important?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 4, 'What role does the eagle''s announcement play in Revelation 8?', '["It marks a transition from the first four trumpets to the more intense final three woes", "It ends the trumpet sequence before it begins", "It explains the identities of the elders", "It reveals the meaning of the sealed tribes"]'::jsonb, 'It marks a transition from the first four trumpets to the more intense final three woes', 'The eagle announces three woes because of the three trumpet blasts still remaining, dividing the trumpet sequence into two parts (Revelation 8:13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What role does the eagle''s announcement play in Revelation 8?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 4, 'Why does Revelation 8 begin with silence and then end with woe?', '["The chapter moves from solemn anticipation into mounting warning about escalating judgment", "It shows judgment has been canceled by prayer", "It means heaven has become silent permanently", "It replaces worship with confusion"]'::jsonb, 'The chapter moves from solemn anticipation into mounting warning about escalating judgment', 'The chapter opens with silence before the seventh seal''s consequences unfold and ends with an eagle warning of coming woes (Revelation 8:1, 13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why does Revelation 8 begin with silence and then end with woe?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 4, 'Why is it important that the trumpet judgments are partial rather than total in Revelation 8?', '["The judgments warn severely while history continues toward fuller consummation", "Partial judgment means the trumpets do nothing", "It proves there will be no final judgment", "It shows the angels lack authority to act"]'::jsonb, 'The judgments warn severely while history continues toward fuller consummation', 'The repeated third shows the judgments are grave and real, yet not final total destruction at this point in the book (Revelation 8:7-12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is it important that the trumpet judgments are partial rather than total in Revelation 8?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 5, 'According to Revelation 8, what does the chapter imply about the relationship between prayer and judgment?', '["The cries of God''s people are not ignored but are gathered before him as the judgments proceed", "Prayer prevents God from acting at all", "Judgment happens apart from the throne''s awareness", "Only angels, not saints, matter in heaven"]'::jsonb, 'The cries of God''s people are not ignored but are gathered before him as the judgments proceed', 'The prayers ascend before God with incense, and then fire from the altar is cast to the earth as the trumpet judgments begin (Revelation 8:3-5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 8, what does the chapter imply about the relationship between prayer and judgment?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 5, 'According to Revelation 8, why is the darkening of a third of the heavenly lights theologically weighty?', '["It shows that divine judgment reaches even the ordered lights governing day and night", "It means creation has slipped beyond God''s control", "It affects only symbolic stars and nothing real", "It proves the throne room is disappearing"]'::jsonb, 'It shows that divine judgment reaches even the ordered lights governing day and night', 'A third of the sun, moon, and stars are darkened, showing judgment touching even the structures that order life and time (Revelation 8:12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 8, why is the darkening of a third of the heavenly lights theologically weighty?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 5, 'According to Revelation 8, what does the chapter suggest about creation under divine judgment?', '["The created order itself becomes the arena through which God warns the earth", "Creation is morally evil and must be abandoned", "Creation acts independently from God''s throne", "Only human politics matter in the judgments"]'::jsonb, 'The created order itself becomes the arena through which God warns the earth', 'The trumpet judgments affect land, sea, rivers, and heavenly lights, showing creation as the sphere through which warning falls (Revelation 8:7-12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 8, what does the chapter suggest about creation under divine judgment?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 5, 'According to Revelation 8, why is the heavenly altar still central even as judgments intensify?', '["The chapter keeps divine judgment tied to God''s holy presence and the prayers rising before him", "The altar becomes irrelevant after the seals end", "The altar shows worship has no connection to history", "The altar is used only as decoration in the vision"]'::jsonb, 'The chapter keeps divine judgment tied to God''s holy presence and the prayers rising before him', 'The altar scene frames the trumpets, showing that judgment comes from the holy presence of God and is linked to the prayers of the saints (Revelation 8:3-5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 8, why is the heavenly altar still central even as judgments intensify?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 8, 5, 'According to Revelation 8, what is the function of the threefold woe announcement in the structure of the book?', '["It prepares the reader for a sharper intensification in the judgments still to come", "It closes the book''s warning section entirely", "It means the next trumpets will be easier to endure", "It replaces the angels with the eagle permanently"]'::jsonb, 'It prepares the reader for a sharper intensification in the judgments still to come', 'The eagle''s cry points forward to the remaining trumpet blasts as three woes, signaling an intensified phase ahead (Revelation 8:13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 8
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 8, what is the function of the threefold woe announcement in the structure of the book?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 1, 'According to Revelation 9, what fell from heaven to the earth at the fifth trumpet?', '["A star", "A mountain of fire", "A white horse", "A lampstand"]'::jsonb, 'A star', 'At the fifth trumpet John saw a star from heaven which had fallen to the earth (Revelation 9:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 9, what fell from heaven to the earth at the fifth trumpet?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 1, 'According to Revelation 9, what was given to the fallen star?', '["The key to the pit of the abyss", "A golden censer", "A sharp sickle", "A white robe"]'::jsonb, 'The key to the pit of the abyss', 'The key to the pit of the abyss was given to the fallen star (Revelation 9:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 9, what was given to the fallen star?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 1, 'According to Revelation 9, what came out of the smoke from the abyss?', '["Locusts on the earth", "Seven stars", "Palm branches", "White horses"]'::jsonb, 'Locusts on the earth', 'Locusts came out of the smoke onto the earth (Revelation 9:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 9, what came out of the smoke from the abyss?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 1, 'According to Revelation 9, whom were the locusts told not to harm?', '["Those who had the seal of God on their foreheads", "The kings of the earth", "The four living creatures", "The angels at the Euphrates"]'::jsonb, 'Those who had the seal of God on their foreheads', 'The locusts were told not to hurt those who had the seal of God on their foreheads (Revelation 9:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 9, whom were the locusts told not to harm?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 1, 'According to Revelation 9, how long were the locusts allowed to torment people?', '["Five months", "Ten days", "A year", "Forty-two months"]'::jsonb, 'Five months', 'They were given authority to torment for five months (Revelation 9:5, 10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 9, how long were the locusts allowed to torment people?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 1, 'According to Revelation 9, what was the name of the king over the locusts in Hebrew?', '["Abaddon", "Wormwood", "Michael", "Apollyon"]'::jsonb, 'Abaddon', 'Their king is called Abaddon in Hebrew (Revelation 9:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 9, what was the name of the king over the locusts in Hebrew?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 1, 'According to Revelation 9, at the sixth trumpet, where were the four angels bound?', '["At the great river Euphrates", "At the sea of glass", "At Mount Zion", "At the altar in heaven"]'::jsonb, 'At the great river Euphrates', 'The four angels had been bound at the great river Euphrates (Revelation 9:14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 9, at the sixth trumpet, where were the four angels bound?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 2, 'According to Revelation 9, what happened when the fallen star opened the pit of the abyss?', '["Smoke rose like the smoke of a great furnace", "The sea became blood", "The temple was opened", "A rainbow appeared around the throne"]'::jsonb, 'Smoke rose like the smoke of a great furnace', 'When the pit was opened, smoke went up like the smoke of a great furnace (Revelation 9:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 9, what happened when the fallen star opened the pit of the abyss?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 2, 'According to Revelation 9, what were the locusts commanded not to harm?', '["The grass of the earth, any green thing, and any tree", "The rivers and fountains of waters", "The sun, moon, and stars", "The sea and the ships"]'::jsonb, 'The grass of the earth, any green thing, and any tree', 'The locusts were told not to hurt grass, any green thing, or any tree, but only certain people (Revelation 9:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 9, what were the locusts commanded not to harm?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 2, 'According to Revelation 9, what kind of pain did the locusts inflict?', '["Torment like the torment of a scorpion when it strikes a person", "A wound from a sword", "Burning from fire and brimstone only", "A silent sickness with no pain"]'::jsonb, 'Torment like the torment of a scorpion when it strikes a person', 'Their torment was like the torment of a scorpion when it strikes a person (Revelation 9:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 9, what kind of pain did the locusts inflict?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 2, 'According to Revelation 9, what will people seek during the five months of torment?', '["Death, but they will not find it", "Food, but there will be none", "The temple, but it will be closed", "The sealed servants, but they will be hidden"]'::jsonb, 'Death, but they will not find it', 'In those days people will seek death and will by no means find it; they will desire to die, and death will flee from them (Revelation 9:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 9, what will people seek during the five months of torment?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 2, 'According to Revelation 9, what were the locusts'' faces like?', '["Faces of men", "Faces of lions", "Faces of eagles", "Faces of calves"]'::jsonb, 'Faces of men', 'The locusts had faces like men''s faces (Revelation 9:7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 9, what were the locusts'' faces like?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 2, 'According to Revelation 9, what were the breastplates of the horsemen at the sixth trumpet like?', '["Breastplates of fire, hyacinth, and sulfur", "Breastplates of gold and silver", "White linen garments", "Armor of bronze only"]'::jsonb, 'Breastplates of fire, hyacinth, and sulfur', 'The horsemen had breastplates like breastplates of fire, hyacinth, and sulfur (Revelation 9:17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 9, what were the breastplates of the horsemen at the sixth trumpet like?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 2, 'According to Revelation 9, by what three plagues was a third of mankind killed?', '["By the fire, smoke, and sulfur coming out of the horses'' mouths", "By hail, blood, and Wormwood", "By famine, sword, and wild beasts", "By locust stings, darkness, and flood"]'::jsonb, 'By the fire, smoke, and sulfur coming out of the horses'' mouths', 'A third of mankind was killed by these three plagues coming from the horses'' mouths (Revelation 9:18).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 9, by what three plagues was a third of mankind killed?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 3, 'According to Revelation 9, what is emphasized by the locusts harming only those without God''s seal?', '["God distinguishes his own people even in the midst of judgment", "The seal has no practical effect", "The locusts act independently of divine command", "Only angels are under God''s protection"]'::jsonb, 'God distinguishes his own people even in the midst of judgment', 'The locusts are specifically forbidden to harm those who have God''s seal on their foreheads (Revelation 9:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 9, what is emphasized by the locusts harming only those without God''s seal?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 3, 'According to Revelation 9, what is the effect of the description of the locusts as both animal-like and human-like?', '["It portrays a terrifying, unnatural force of judgment beyond ordinary categories", "It proves the vision is meant as literal natural history only", "It makes the locusts harmless symbolic decorations", "It shows John cannot describe anything clearly"]'::jsonb, 'It portrays a terrifying, unnatural force of judgment beyond ordinary categories', 'The locusts are described with mixed features like horses, crowns, faces of men, hair of women, teeth of lions, and scorpion tails, heightening their terrifying character (Revelation 9:7-10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 9, what is the effect of the description of the locusts as both animal-like and human-like?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 3, 'According to Revelation 9, what does the fifth trumpet show about divine judgment?', '["Judgment can take the form of prolonged torment without immediate death", "Judgment always kills instantly without warning", "Judgment never involves spiritual darkness", "Judgment affects only the sea and sky"]'::jsonb, 'Judgment can take the form of prolonged torment without immediate death', 'The locusts are not allowed to kill but to torment for five months, making the judgment severe and agonizing (Revelation 9:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 9, what does the fifth trumpet show about divine judgment?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 3, 'According to Revelation 9, what is suggested by the four angels being prepared for the hour, day, month, and year?', '["The sixth trumpet unfolds according to precise divine timing", "The angels act unpredictably without God''s oversight", "The judgment is accidental rather than planned", "The timing matters only to John and not to God"]'::jsonb, 'The sixth trumpet unfolds according to precise divine timing', 'The four angels had been prepared for the specific hour, day, month, and year, emphasizing divine appointment (Revelation 9:15).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 9, what is suggested by the four angels being prepared for the hour, day, month, and year?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 3, 'According to Revelation 9, what is the significance of the horsemen''s power being in both their mouths and tails?', '["The judgment is presented as relentless and dangerous from multiple directions", "The horses are peaceful unless approached from behind", "Only their tails are harmful and not their mouths", "The imagery is meant to reduce the terror of the scene"]'::jsonb, 'The judgment is presented as relentless and dangerous from multiple directions', 'The horses kill by what comes from their mouths, and their tails are like serpents with heads, combining multiple threatening features (Revelation 9:17-19).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 9, what is the significance of the horsemen''s power being in both their mouths and tails?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 3, 'According to Revelation 9, why is the refusal of the survivors to repent especially striking?', '["Even after devastating judgments, human rebellion can remain stubborn and idolatrous", "The survivors were never shown any reason to repent", "Repentance had become impossible for everyone", "The judgments had no visible effect on people"]'::jsonb, 'Even after devastating judgments, human rebellion can remain stubborn and idolatrous', 'The rest of mankind did not repent of idolatry, murders, sorceries, sexual immorality, or thefts even after these plagues (Revelation 9:20-21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 9, why is the refusal of the survivors to repent especially striking?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 4, 'How do the fifth and sixth trumpets differ from the first four trumpets?', '["They intensify into direct woes upon humanity rather than mainly striking parts of creation", "They return the vision back only to the churches", "They cancel the earlier trumpet effects", "They focus entirely on heavenly worship"]'::jsonb, 'They intensify into direct woes upon humanity rather than mainly striking parts of creation', 'The first four trumpets primarily affect creation, but the fifth and sixth bring direct torment and death upon human beings (Revelation 8:7-13; 9:1-21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How do the fifth and sixth trumpets differ from the first four trumpets?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 4, 'How does Revelation 9 develop the eagle''s warning of coming woes?', '["The chapter presents the first two woes as intensified judgments marked by torment, destruction, and human hardness", "The chapter explains that the woes were only symbolic sounds", "The warnings are withdrawn before anything happens", "The woes affect only the angels and not the earth"]'::jsonb, 'The chapter presents the first two woes as intensified judgments marked by torment, destruction, and human hardness', 'The fifth trumpet is the first woe and the sixth trumpet is the second, both bringing severe and terrifying judgments (Revelation 8:13; 9:12, 18-21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 9 develop the eagle''s warning of coming woes?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 4, 'Why is the closing statement about unrepentance important for the structure of Revelation 9?', '["It shows that the problem exposed by judgment is not only suffering but persistent rebellion", "It means the judgments achieved complete renewal", "It ends the book''s moral concern permanently", "It proves the plagues were imaginary"]'::jsonb, 'It shows that the problem exposed by judgment is not only suffering but persistent rebellion', 'The chapter closes by saying the survivors did not repent of their works, idols, murders, sorceries, sexual immorality, or thefts (Revelation 9:20-21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is the closing statement about unrepentance important for the structure of Revelation 9?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 4, 'What role does the abyss play in Revelation 9?', '["It is the source from which a dark and destructive woe emerges onto the earth", "It is the place of final blessing for the saints", "It functions like the sea of glass before the throne", "It is where the elders cast their crowns"]'::jsonb, 'It is the source from which a dark and destructive woe emerges onto the earth', 'The fallen star opens the pit of the abyss, smoke rises, and locusts emerge from it to torment people (Revelation 9:1-3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What role does the abyss play in Revelation 9?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 4, 'How does Revelation 9 connect judgment with idolatry?', '["Despite severe plagues, the survivors refuse to repent of worshiping idols and demons", "Judgment removes all concern about worship", "Only social crimes matter, not false worship", "Idolatry is no longer mentioned after the seals"]'::jsonb, 'Despite severe plagues, the survivors refuse to repent of worshiping idols and demons', 'The rest of mankind does not repent of the works of their hands, including worshiping demons and idols (Revelation 9:20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 9 connect judgment with idolatry?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 4, 'Why are the sealed servants from chapter 7 important background for Revelation 9?', '["The locusts are specifically restrained from harming those who bear God''s seal", "The sealed are the ones commanding the locusts", "The sealed are removed from the book entirely", "The sealing is reversed before the fifth trumpet"]'::jsonb, 'The locusts are specifically restrained from harming those who bear God''s seal', 'The command not to harm those with God''s seal on their foreheads recalls the sealing of chapter 7 (Revelation 7:3; 9:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why are the sealed servants from chapter 7 important background for Revelation 9?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 5, 'According to Revelation 9, what does the chapter suggest about the moral purpose of judgment?', '["Judgment exposes evil and calls for repentance, even though many still refuse", "Judgment exists only to display power without moral meaning", "Judgment automatically changes every heart", "Judgment concerns nature but not human sin"]'::jsonb, 'Judgment exposes evil and calls for repentance, even though many still refuse', 'The chapter ends by emphasizing that the survivors did not repent of idolatry and other sins, showing that judgment reveals persistent rebellion (Revelation 9:20-21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 9, what does the chapter suggest about the moral purpose of judgment?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 5, 'According to Revelation 9, why is the inability to find death during the locust torment theologically striking?', '["It shows that even death does not lie within human control under God''s judgment", "It proves death has permanently ended for everyone", "It means the locusts bring healing rather than judgment", "It shows the abyss has become a refuge"]'::jsonb, 'It shows that even death does not lie within human control under God''s judgment', 'People long for death but cannot find it, showing the terrifying authority of the judgment beyond human escape (Revelation 9:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 9, why is the inability to find death during the locust torment theologically striking?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 5, 'According to Revelation 9, what does the contrast between the sealed and the unrepentant teach?', '["God''s people are distinguished by his mark, while the unrepentant remain defined by idolatry and rebellion", "The sealed are morally perfect by nature", "The unrepentant are beyond God''s knowledge", "The distinction between the two groups disappears in judgment"]'::jsonb, 'God''s people are distinguished by his mark, while the unrepentant remain defined by idolatry and rebellion', 'Those with God''s seal are spared from the locust harm, while the rest are shown persisting in unrepentant idolatry and sin (Revelation 9:4, 20-21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 9, what does the contrast between the sealed and the unrepentant teach?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 5, 'According to Revelation 9, why is the sixth trumpet''s destruction of a third of mankind so weighty in the chapter''s theology?', '["It demonstrates a devastating yet still partial judgment that leaves room for repentance, though many refuse it", "It shows final judgment is already fully complete", "It means humanity has been reduced to a faithful remnant automatically", "It has no connection to the survivors'' response"]'::jsonb, 'It demonstrates a devastating yet still partial judgment that leaves room for repentance, though many refuse it', 'A third of mankind is killed, yet survivors remain, and the text highlights that they still do not repent (Revelation 9:18-21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 9, why is the sixth trumpet''s destruction of a third of mankind so weighty in the chapter''s theology?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 9, 5, 'According to Revelation 9, what broader truth does the chapter reveal about spiritual evil and human idolatry?', '["Terrifying judgments may expose evil, but idolatry can still harden people against repentance", "Spiritual evil disappears once people suffer enough", "Idolatry is only a minor social problem in the vision", "Judgment affects the body only and never worship"]'::jsonb, 'Terrifying judgments may expose evil, but idolatry can still harden people against repentance', 'After severe plagues and woes, the survivors still refuse to repent of idol worship and other sins, revealing profound hardness of heart (Revelation 9:20-21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 9
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 9, what broader truth does the chapter reveal about spiritual evil and human idolatry?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 1, 'According to Revelation 10, what did John see coming down out of heaven?', '["Another mighty angel", "A rider on a white horse", "One of the elders", "A great eagle"]'::jsonb, 'Another mighty angel', 'John says he saw another mighty angel coming down out of heaven (Revelation 10:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 10, what did John see coming down out of heaven?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 1, 'According to Revelation 10, what was over the mighty angel''s head?', '["A rainbow", "A golden crown", "A white cloud only", "A diadem of stars"]'::jsonb, 'A rainbow', 'John describes the angel as clothed with a cloud, and a rainbow was on his head (Revelation 10:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 10, what was over the mighty angel''s head?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 1, 'According to Revelation 10, what was in the mighty angel''s hand?', '["A little open book", "A golden censer", "A trumpet", "A sharp sickle"]'::jsonb, 'A little open book', 'The mighty angel had in his hand a little open book (Revelation 10:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 10, what was in the mighty angel''s hand?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 1, 'According to Revelation 10, where did the mighty angel set his feet?', '["His right foot on the sea and his left on the land", "Both feet on the sea", "Both feet on the altar", "His right foot on the throne and his left on the sea"]'::jsonb, 'His right foot on the sea and his left on the land', 'The angel set his right foot on the sea and his left on the land (Revelation 10:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 10, where did the mighty angel set his feet?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 1, 'According to Revelation 10, what did the seven thunders do?', '["They uttered their voices", "They opened the abyss", "They crowned the angel", "They measured the temple"]'::jsonb, 'They uttered their voices', 'When the angel cried out, the seven thunders uttered their voices (Revelation 10:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 10, what did the seven thunders do?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 1, 'According to Revelation 10, what was John told to do with what the seven thunders said?', '["Seal up those things and do not write them", "Write them immediately in the book", "Tell them only to the churches", "Speak them aloud before the angel"]'::jsonb, 'Seal up those things and do not write them', 'John was told, ''Seal up the things which the seven thunders said, and don''t write them'' (Revelation 10:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 10, what was John told to do with what the seven thunders said?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 1, 'According to Revelation 10, what was John told to do with the little book?', '["Take it and eat it", "Seal it with seven seals", "Give it to the elders", "Hide it in the temple"]'::jsonb, 'Take it and eat it', 'The voice told John to take the open book from the angel, and the angel told him to eat it (Revelation 10:8-9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 10, what was John told to do with the little book?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 2, 'According to Revelation 10, how did the mighty angel cry out?', '["Like a lion roars", "Like a trumpet blast", "Like many waters", "Like an eagle in mid heaven"]'::jsonb, 'Like a lion roars', 'The mighty angel cried with a loud voice, as a lion roars (Revelation 10:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 10, how did the mighty angel cry out?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 2, 'According to Revelation 10, by whom did the angel swear there would be delay no longer?', '["By him who lives forever and ever, who created heaven, earth, sea, and all in them", "By the Lamb alone", "By the four living creatures", "By the twenty-four elders"]'::jsonb, 'By him who lives forever and ever, who created heaven, earth, sea, and all in them', 'The angel swore by the eternal Creator that there should be delay no longer (Revelation 10:5-6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 10, by whom did the angel swear there would be delay no longer?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 2, 'According to Revelation 10, when would God''s mystery be finished?', '["In the days of the voice of the seventh angel, when he is about to sound", "At the opening of the fifth seal", "When the two witnesses ascend", "At the first trumpet only"]'::jsonb, 'In the days of the voice of the seventh angel, when he is about to sound', 'The mystery of God would be finished in the days of the voice of the seventh angel when he is about to sound (Revelation 10:7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 10, when would God''s mystery be finished?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 2, 'According to Revelation 10, how did the little book taste in John''s mouth?', '["Sweet as honey", "Bitter as gall", "Like water", "Like bitter herbs and salt"]'::jsonb, 'Sweet as honey', 'John says the little book was as sweet as honey in his mouth (Revelation 10:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 10, how did the little book taste in John''s mouth?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 2, 'According to Revelation 10, what happened after John ate the little book?', '["His stomach was made bitter", "He fell down as though dead", "He was taken into the temple", "He was told to remain silent"]'::jsonb, 'His stomach was made bitter', 'After John ate the book, his stomach was made bitter (Revelation 10:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 10, what happened after John ate the little book?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 2, 'According to Revelation 10, what was John told he must do again?', '["Prophesy over many peoples, nations, languages, and kings", "Measure the outer court", "Open the seventh trumpet himself", "Call down fire from heaven"]'::jsonb, 'Prophesy over many peoples, nations, languages, and kings', 'John is told, ''You must prophesy again over many peoples, nations, languages, and kings'' (Revelation 10:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 10, what was John told he must do again?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 2, 'According to Revelation 10, what posture did the angel take when swearing?', '["He lifted up his right hand to heaven", "He bowed before the throne", "He placed both hands on the sea", "He fell on his face before John"]'::jsonb, 'He lifted up his right hand to heaven', 'The angel lifted up his right hand to heaven and swore (Revelation 10:5-6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 10, what posture did the angel take when swearing?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 3, 'According to Revelation 10, what does the open little book suggest in contrast to the sealed scroll earlier in Revelation?', '["A message is now being received and internalized for prophetic proclamation", "The earlier scroll was false and this one is true", "All mysteries have already been fully explained", "John is replacing the Lamb as the revealer"]'::jsonb, 'A message is now being received and internalized for prophetic proclamation', 'The little book is open, John is told to take and eat it, and then he must prophesy again, linking revelation received with proclamation given (Revelation 10:2, 8-11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 10, what does the open little book suggest in contrast to the sealed scroll earlier in Revelation?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 3, 'According to Revelation 10, why might the little book be sweet in the mouth but bitter in the stomach?', '["Receiving God''s word is delightful, yet its prophetic burden and judgments are painful to bear", "John ate it too quickly", "The book changed from truth to error", "The angel intended to deceive John"]'::jsonb, 'Receiving God''s word is delightful, yet its prophetic burden and judgments are painful to bear', 'The book is sweet as honey in John''s mouth, yet bitter in his stomach, suggesting the mixed experience of receiving and bearing prophetic truth (Revelation 10:9-10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 10, why might the little book be sweet in the mouth but bitter in the stomach?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 3, 'According to Revelation 10, what is emphasized by the angel standing on both sea and land?', '["The message and authority involved extend over the whole created world", "The angel is uncertain where to stand", "Only the sea is under heaven''s rule", "The land opposes the sea permanently"]'::jsonb, 'The message and authority involved extend over the whole created world', 'The angel''s stance over sea and land, together with his oath by the Creator, emphasizes broad, worldwide authority (Revelation 10:2, 5-6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 10, what is emphasized by the angel standing on both sea and land?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 3, 'According to Revelation 10, what does the command to seal up the voices of the seven thunders imply?', '["Not everything revealed to John is meant to be written or disclosed at that moment", "The thunders spoke falsely and were rejected", "John forgot what he heard", "The thunders had no meaning at all"]'::jsonb, 'Not everything revealed to John is meant to be written or disclosed at that moment', 'John is explicitly told to seal up what the seven thunders said and not write it (Revelation 10:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 10, what does the command to seal up the voices of the seven thunders imply?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 3, 'According to Revelation 10, what is the force of saying there will be delay no longer?', '["God''s redemptive and judicial plan is moving decisively toward completion", "All prophecy has ended permanently", "The trumpets will stop sounding", "John will no longer be allowed to write"]'::jsonb, 'God''s redemptive and judicial plan is moving decisively toward completion', 'The angel swears there will be delay no longer, and connects this with the finishing of God''s mystery at the sounding of the seventh angel (Revelation 10:6-7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 10, what is the force of saying there will be delay no longer?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 3, 'According to Revelation 10, why is John told to prophesy again after eating the book?', '["Revelation must be internalized before it is faithfully proclaimed to the nations", "John had failed his earlier calling", "The churches no longer mattered", "The angel needed John to replace the witnesses"]'::jsonb, 'Revelation must be internalized before it is faithfully proclaimed to the nations', 'John receives the little book into himself and then is told to prophesy again over many peoples, nations, languages, and kings (Revelation 10:9-11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 10, why is John told to prophesy again after eating the book?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 4, 'How does Revelation 10 function between the sixth and seventh trumpets?', '["It pauses the trumpet sequence to recommission John and clarify that God''s mystery is nearing completion", "It ends the trumpet sequence permanently", "It repeats the first four trumpets in a different order", "It replaces the trumpets with the seals again"]'::jsonb, 'It pauses the trumpet sequence to recommission John and clarify that God''s mystery is nearing completion', 'The chapter interrupts the trumpet flow with the mighty angel, the little book, and the announcement about the seventh angel and God''s mystery (Revelation 10:1-11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 10 function between the sixth and seventh trumpets?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 4, 'How does Revelation 10 connect heaven''s authority with John''s prophetic task?', '["A mighty angel from heaven gives the open book, and John must then prophesy to the world", "John receives authority only from the churches", "The angel speaks, but John is told not to continue his work", "The prophecy becomes limited to Israel alone"]'::jsonb, 'A mighty angel from heaven gives the open book, and John must then prophesy to the world', 'The heavenly messenger brings the open book, John receives and eats it, and then is commissioned to prophesy again over many peoples and kings (Revelation 10:1-11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 10 connect heaven''s authority with John''s prophetic task?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 4, 'Why is the Creator language in the angel''s oath important in Revelation 10?', '["It grounds the coming completion of God''s mystery in the authority of the One who made everything", "It narrows the vision to one nation only", "It shows the angel himself is the creator", "It replaces the throne room worship of chapter 4"]'::jsonb, 'It grounds the coming completion of God''s mystery in the authority of the One who made everything', 'The angel swears by the One who created heaven, earth, sea, and all in them, emphasizing the total authority behind the oath (Revelation 10:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is the Creator language in the angel''s oath important in Revelation 10?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 4, 'Why does Revelation 10 combine hidden thunder-words with an open book?', '["The chapter shows that God both reveals what must be proclaimed and withholds what is not yet to be disclosed", "It teaches that all prophecy is contradictory", "It means nothing John sees can be understood", "It proves the thunders and the book come from rival sources"]'::jsonb, 'The chapter shows that God both reveals what must be proclaimed and withholds what is not yet to be disclosed', 'John must not write the thunder-voices, yet he is given the open book to eat and proclaim, showing both concealment and disclosure in God''s revelation (Revelation 10:4, 8-11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why does Revelation 10 combine hidden thunder-words with an open book?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 4, 'Why is the sweetness and bitterness of the book important for understanding prophecy in Revelation 10?', '["Prophetic revelation brings both joy in God''s word and sorrow in the burden of its contents", "It shows John disliked receiving visions", "It means the message changes from true to false", "It suggests prophecy is mostly about physical sensation"]'::jsonb, 'Prophetic revelation brings both joy in God''s word and sorrow in the burden of its contents', 'The little book is sweet in John''s mouth but bitter in his stomach, highlighting the mixed experience of receiving prophetic truth (Revelation 10:9-10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is the sweetness and bitterness of the book important for understanding prophecy in Revelation 10?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 4, 'What larger theme does Revelation 10 reinforce before chapter 11 begins?', '["God''s plan is moving toward completion, and his prophetic word must still be announced to the world", "The judgments have been canceled", "John''s role has ended", "The nations have already repented"]'::jsonb, 'God''s plan is moving toward completion, and his prophetic word must still be announced to the world', 'The angel announces that God''s mystery will be finished, and John is told to prophesy again, preparing for what follows in chapter 11 (Revelation 10:7, 11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What larger theme does Revelation 10 reinforce before chapter 11 begins?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 5, 'According to Revelation 10, what does the finishing of God''s mystery most naturally suggest in context?', '["God''s long-announced plan is reaching its intended completion in the coming events", "Every symbol in Revelation will be explained immediately", "The churches no longer need endurance", "Only the seven thunders matter from now on"]'::jsonb, 'God''s long-announced plan is reaching its intended completion in the coming events', 'The angel links the finishing of God''s mystery with what God announced to his servants the prophets and with the days of the seventh angel''s voice (Revelation 10:7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 10, what does the finishing of God''s mystery most naturally suggest in context?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 5, 'According to Revelation 10, why is John''s act of eating the book theologically important?', '["It shows God''s word must become inwardly received before it becomes outwardly proclaimed", "It shows physical hunger is central to prophecy", "It turns John into an angelic being", "It replaces the need for written revelation"]'::jsonb, 'It shows God''s word must become inwardly received before it becomes outwardly proclaimed', 'John is commanded to eat the book and then told he must prophesy again, linking internal reception with prophetic mission (Revelation 10:9-11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 10, why is John''s act of eating the book theologically important?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 5, 'According to Revelation 10, what does the chapter suggest about revelation itself?', '["Revelation is governed by God''s authority, partly disclosed, partly withheld, and given for obedient witness", "Revelation is random and uncontrolled", "Everything revealed must always be written immediately", "The angel decides independently what truth to reveal"]'::jsonb, 'Revelation is governed by God''s authority, partly disclosed, partly withheld, and given for obedient witness', 'The chapter includes the sealed thunders, the open book, the angel''s oath, and John''s renewed commission, showing revelation under God''s sovereign control and for witness (Revelation 10:4-11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 10, what does the chapter suggest about revelation itself?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 5, 'According to Revelation 10, why is the no-more-delay announcement significant for the suffering church?', '["It assures believers that God''s purposes are not stalled forever but are moving toward fulfillment", "It promises all hardship ends immediately in chapter 10", "It means history is now meaningless", "It says the church no longer needs prophecy"]'::jsonb, 'It assures believers that God''s purposes are not stalled forever but are moving toward fulfillment', 'The angel swears there will be delay no longer and that God''s mystery will be finished, giving assurance of approaching fulfillment (Revelation 10:6-7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 10, why is the no-more-delay announcement significant for the suffering church?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 10, 5, 'According to Revelation 10, what is the significance of John''s continued commission to prophesy over many peoples, nations, languages, and kings?', '["The scope of God''s message in Revelation is global and not limited to a small circle", "The book is only for one local church", "John''s vision is now reduced to private comfort alone", "The prophetic word no longer concerns rulers"]'::jsonb, 'The scope of God''s message in Revelation is global and not limited to a small circle', 'John is explicitly told to prophesy again over many peoples, nations, languages, and kings (Revelation 10:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 10
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 10, what is the significance of John''s continued commission to prophesy over many peoples, nations, languages, and kings?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 1, 'According to Revelation 11, what was John given like a rod?', '["A reed", "A trumpet", "A scroll", "A censer"]'::jsonb, 'A reed', 'John was given a reed like a rod to measure with (Revelation 11:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 11, what was John given like a rod?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 1, 'According to Revelation 11, what was John told to measure?', '["The temple of God, the altar, and those who worship there", "The sea and the land", "The New Jerusalem", "The river of life"]'::jsonb, 'The temple of God, the altar, and those who worship there', 'John is told to measure the temple of God, the altar, and those who worship there (Revelation 11:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 11, what was John told to measure?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 1, 'According to Revelation 11, for how long will the holy city be trampled by the nations?', '["Forty-two months", "Seven years", "Ten days", "One thousand years"]'::jsonb, 'Forty-two months', 'The nations will tread the holy city under foot for forty-two months (Revelation 11:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 11, for how long will the holy city be trampled by the nations?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 1, 'According to Revelation 11, for how many days will the two witnesses prophesy?', '["1,260 days", "1,000 days", "490 days", "42 days"]'::jsonb, '1,260 days', 'God says, ''I will give power to my two witnesses, and they will prophesy one thousand two hundred sixty days'' (Revelation 11:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 11, for how many days will the two witnesses prophesy?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 1, 'According to Revelation 11, what are the two witnesses called?', '["The two olive trees and the two lampstands", "The two stars and two bowls", "The two trumpets and two seals", "The two mountains and two rivers"]'::jsonb, 'The two olive trees and the two lampstands', 'The two witnesses are described as the two olive trees and the two lampstands standing before the Lord of the earth (Revelation 11:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 11, what are the two witnesses called?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 1, 'According to Revelation 11, from where does fire come if anyone desires to harm the two witnesses?', '["Out of their mouth", "From the altar in heaven", "From the abyss", "From the throne directly"]'::jsonb, 'Out of their mouth', 'If anyone desires to harm them, fire proceeds out of their mouth and devours their enemies (Revelation 11:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 11, from where does fire come if anyone desires to harm the two witnesses?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 1, 'According to Revelation 11, from where does the beast that kills the two witnesses come?', '["The abyss", "The sea", "The temple court", "The great river Euphrates"]'::jsonb, 'The abyss', 'The beast that comes up out of the abyss makes war with them and kills them (Revelation 11:7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 11, from where does the beast that kills the two witnesses come?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 2, 'According to Revelation 11, what was John told not to measure?', '["The court outside the temple", "The altar inside the temple", "Those who worship there", "The holy city"]'::jsonb, 'The court outside the temple', 'John is told to leave out the court which is outside the temple and not measure it, because it has been given to the nations (Revelation 11:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 11, what was John told not to measure?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 2, 'According to Revelation 11, how are the two witnesses clothed?', '["In sackcloth", "In white robes", "In scarlet garments", "In linen with gold sashes"]'::jsonb, 'In sackcloth', 'The two witnesses will prophesy clothed in sackcloth (Revelation 11:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 11, how are the two witnesses clothed?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 2, 'According to Revelation 11, what power do the two witnesses have over the sky?', '["To shut the sky so that no rain may fall during the days of their prophecy", "To darken the sun by a third", "To call down hail on the sea", "To open the heavens for all nations"]'::jsonb, 'To shut the sky so that no rain may fall during the days of their prophecy', 'The witnesses have authority to shut the sky, that it may not rain during the days of their prophecy (Revelation 11:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 11, what power do the two witnesses have over the sky?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 2, 'According to Revelation 11, what other power do the two witnesses have over waters?', '["To turn them into blood", "To part them like Moses", "To make them sweet again", "To dry up the Euphrates"]'::jsonb, 'To turn them into blood', 'The witnesses have authority over the waters to turn them into blood (Revelation 11:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 11, what other power do the two witnesses have over waters?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 2, 'According to Revelation 11, how long do people from the peoples and tribes and languages and nations look at the dead bodies of the witnesses?', '["Three and a half days", "Seven days", "Forty-two days", "One day"]'::jsonb, 'Three and a half days', 'The dead bodies of the two witnesses are looked upon for three and a half days (Revelation 11:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 11, how long do people from the peoples and tribes and languages and nations look at the dead bodies of the witnesses?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 2, 'According to Revelation 11, what do the dwellers on the earth do when the two witnesses are dead?', '["They rejoice, celebrate, and send gifts to one another", "They mourn and fast publicly", "They hide in caves from the witnesses", "They crown the beast as king"]'::jsonb, 'They rejoice, celebrate, and send gifts to one another', 'The earth dwellers rejoice over them, make merry, and send gifts because the two prophets tormented those who dwell on the earth (Revelation 11:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 11, what do the dwellers on the earth do when the two witnesses are dead?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 2, 'According to Revelation 11, what happened after the breath of life from God entered the two witnesses?', '["They stood on their feet and great fear fell on those who saw them", "They immediately judged the nations", "They opened the seventh seal", "They returned to the temple court"]'::jsonb, 'They stood on their feet and great fear fell on those who saw them', 'After the breath of life from God entered them, they stood on their feet, and great fear fell on those who saw them (Revelation 11:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 11, what happened after the breath of life from God entered the two witnesses?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 3, 'According to Revelation 11, what does the measuring of the temple and worshipers suggest?', '["God knows and marks out what belongs to him even amid coming pressure", "The temple will never face any opposition", "Only physical architecture matters to God", "The nations will soon control all worship"]'::jsonb, 'God knows and marks out what belongs to him even amid coming pressure', 'John measures the temple, the altar, and worshipers, while the outer court is given to the nations, suggesting distinction and preservation in the midst of trial (Revelation 11:1-2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 11, what does the measuring of the temple and worshipers suggest?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 3, 'According to Revelation 11, what is emphasized by the witnesses prophesying in sackcloth?', '["Their testimony is marked by mourning, seriousness, and prophetic warning", "They are royal figures in earthly triumph", "They are disguised from the nations", "They have lost all authority"]'::jsonb, 'Their testimony is marked by mourning, seriousness, and prophetic warning', 'Sackcloth commonly signifies mourning and solemn prophetic burden, fitting their role as witnesses under opposition (Revelation 11:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 11, what is emphasized by the witnesses prophesying in sackcloth?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 3, 'According to Revelation 11, what is the effect of the world''s reaction to the witnesses'' death?', '["It exposes how hostile the earth dwellers are to God''s prophetic truth", "It shows the world misunderstood their temporary sickness", "It proves the witnesses had stopped prophesying long before", "It means the nations are ready to repent immediately"]'::jsonb, 'It exposes how hostile the earth dwellers are to God''s prophetic truth', 'The earth dwellers rejoice at the witnesses'' death because the prophets had tormented them, revealing their hatred of the witnesses'' message (Revelation 11:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 11, what is the effect of the world''s reaction to the witnesses'' death?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 3, 'According to Revelation 11, what does the resurrection and ascension of the witnesses show?', '["God vindicates his witnesses publicly after their apparent defeat", "The beast has final authority over life and death", "Their testimony was unnecessary after all", "Only angels can be raised by God"]'::jsonb, 'God vindicates his witnesses publicly after their apparent defeat', 'After being killed, the witnesses are raised by the breath of life from God and ascend in a cloud before their enemies (Revelation 11:11-12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 11, what does the resurrection and ascension of the witnesses show?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 3, 'According to Revelation 11, why is the city where the witnesses die called spiritually Sodom and Egypt, where also their Lord was crucified?', '["The place is portrayed as morally corrupt, oppressive, and opposed to God''s purposes", "It is being praised as the holiest city on earth", "It means Sodom and Egypt were rebuilt literally there", "It shows the witnesses died in multiple cities at once"]'::jsonb, 'The place is portrayed as morally corrupt, oppressive, and opposed to God''s purposes', 'The symbolic names Sodom and Egypt, together with the reference to where the Lord was crucified, present the city as a place of rebellion and hostility to God (Revelation 11:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 11, why is the city where the witnesses die called spiritually Sodom and Egypt, where also their Lord was crucified?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 3, 'According to Revelation 11, what does the second woe''s close and the seventh trumpet''s arrival suggest?', '["The vision is moving from witness under suffering toward climactic kingdom proclamation and judgment", "The trumpets are now ending without result", "The witnesses replace the seventh angel", "The temple is no longer relevant to the vision"]'::jsonb, 'The vision is moving from witness under suffering toward climactic kingdom proclamation and judgment', 'After the witnesses'' vindication and the earthquake, the second woe passes, and the seventh trumpet follows, advancing the vision toward its climax (Revelation 11:13-15).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 11, what does the second woe''s close and the seventh trumpet''s arrival suggest?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 4, 'How do the first and second halves of Revelation 11 relate to each other?', '["The chapter moves from measured worship and suffering witness to heavenly proclamation that God''s kingdom has come", "The two halves are unrelated visions from different books", "The second half cancels the need for the witnesses", "The first half is about angels only, and the second about animals only"]'::jsonb, 'The chapter moves from measured worship and suffering witness to heavenly proclamation that God''s kingdom has come', 'The measuring and witness scene leads into the seventh trumpet, where heaven announces the kingdom of the Lord and his Christ (Revelation 11:1-15).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How do the first and second halves of Revelation 11 relate to each other?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 4, 'How does Revelation 11 portray the pattern of faithful witness in a hostile world?', '["God''s witnesses speak with authority, suffer apparent defeat, and are finally vindicated by God", "Faithful witness avoids all conflict and public opposition", "Witness always leads to immediate earthly success", "The beast never gains any temporary advantage"]'::jsonb, 'God''s witnesses speak with authority, suffer apparent defeat, and are finally vindicated by God', 'The witnesses prophesy powerfully, are killed by the beast, then are raised and taken up by God, showing suffering followed by vindication (Revelation 11:3-12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 11 portray the pattern of faithful witness in a hostile world?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 4, 'Why is the seventh trumpet announcement so important in Revelation 11?', '["It declares that the kingdom of the world has become the kingdom of the Lord and of his Christ", "It reveals the identity of the two witnesses only", "It ends all heavenly worship permanently", "It reverses the earlier trumpets"]'::jsonb, 'It declares that the kingdom of the world has become the kingdom of the Lord and of his Christ', 'At the sounding of the seventh trumpet, loud voices in heaven make this proclamation (Revelation 11:15).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is the seventh trumpet announcement so important in Revelation 11?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 4, 'What role do the twenty-four elders play after the seventh trumpet sounds?', '["They fall on their faces, worship God, and give thanks for his reign and judgment", "They hand their crowns to the witnesses", "They measure the outer court", "They open the abyss again"]'::jsonb, 'They fall on their faces, worship God, and give thanks for his reign and judgment', 'The elders worship God and thank him for taking great power and beginning to reign (Revelation 11:16-17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What role do the twenty-four elders play after the seventh trumpet sounds?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 4, 'Why does Revelation 11 mention both reward for God''s servants and destruction for those who destroy the earth?', '["The chapter presents God''s reign as both vindicating and judging", "It means only environmental harm is being judged", "It shows reward and judgment are unrelated", "It narrows the vision to one local event only"]'::jsonb, 'The chapter presents God''s reign as both vindicating and judging', 'The elders declare that the time has come to reward God''s servants and to destroy those who destroy the earth (Revelation 11:18).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why does Revelation 11 mention both reward for God''s servants and destruction for those who destroy the earth?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 4, 'Why is the opening of God''s temple in heaven at the end of Revelation 11 significant?', '["It reveals the heavenly ark and signals God''s covenant faithfulness amid the storm of judgment", "It means the earthly court is restored immediately", "It shows the throne room has disappeared", "It replaces all symbolism with plain geography"]'::jsonb, 'It reveals the heavenly ark and signals God''s covenant faithfulness amid the storm of judgment', 'God''s temple in heaven is opened and the ark of his covenant is seen, followed by lightning, sounds, thunder, earthquake, and great hail (Revelation 11:19).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is the opening of God''s temple in heaven at the end of Revelation 11 significant?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 5, 'According to Revelation 11, what does the chapter suggest about the church''s witness before the final kingdom appears in fullness?', '["Faithful witness will be contested and costly, yet God will ultimately vindicate it", "Witness will be unnecessary once opposition rises", "The church''s role is replaced entirely by angels", "Public testimony belongs only to the end of the book"]'::jsonb, 'Faithful witness will be contested and costly, yet God will ultimately vindicate it', 'The two witnesses embody prophetic testimony under opposition, death, resurrection, and vindication, anticipating the pattern of faithful witness under trial (Revelation 11:3-12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 11, what does the chapter suggest about the church''s witness before the final kingdom appears in fullness?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 5, 'According to Revelation 11, why is the beast''s apparent victory over the witnesses not the final word?', '["God raises and exalts the witnesses, showing that beastly power is temporary and limited", "The beast later repents and restores them", "The witnesses never truly died", "The nations secretly defended them all along"]'::jsonb, 'God raises and exalts the witnesses, showing that beastly power is temporary and limited', 'Though the beast kills the witnesses, God gives them life again and calls them up to heaven in the sight of their enemies (Revelation 11:7-12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 11, why is the beast''s apparent victory over the witnesses not the final word?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 5, 'According to Revelation 11, what does the seventh trumpet reveal about God''s kingdom?', '["God''s reign in Christ is the final answer to the world''s rebellious kingdoms", "The kingdom remains one option among many powers", "Christ''s reign is delayed beyond the book''s vision", "The kingdom applies only in heaven and not to the world"]'::jsonb, 'God''s reign in Christ is the final answer to the world''s rebellious kingdoms', 'The seventh trumpet announces that the kingdom of the world has become the kingdom of the Lord and of his Christ, and he will reign forever and ever (Revelation 11:15).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 11, what does the seventh trumpet reveal about God''s kingdom?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 5, 'According to Revelation 11, what theological balance is held together in the elders'' song after the seventh trumpet?', '["God''s reign brings both reward for the faithful and judgment on the wicked", "God''s reign brings reward but no judgment", "Judgment belongs to the beast while God only rewards", "The servants are rewarded apart from God''s justice"]'::jsonb, 'God''s reign brings both reward for the faithful and judgment on the wicked', 'The elders thank God for reigning and speak of judging the dead, rewarding servants, and destroying destroyers of the earth (Revelation 11:17-18).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 11, what theological balance is held together in the elders'' song after the seventh trumpet?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 11, 5, 'According to Revelation 11, what does the heavenly ark at the close of the chapter most strongly reinforce?', '["God''s covenant presence and faithfulness remain central even as judgment intensifies", "The temple is now empty of God''s presence", "The witnesses are the true ark of God", "The nations have seized heaven''s sanctuary"]'::jsonb, 'God''s covenant presence and faithfulness remain central even as judgment intensifies', 'The ark of God''s covenant appears in the opened heavenly temple at the climax of the chapter, joined with signs of divine majesty and judgment (Revelation 11:19).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 11
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 11, what does the heavenly ark at the close of the chapter most strongly reinforce?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 1, 'According to Revelation 12, what great sign appeared in heaven first?', '["A woman clothed with the sun", "A beast rising from the sea", "A white horse and rider", "A golden city descending"]'::jsonb, 'A woman clothed with the sun', 'John says a great sign appeared in heaven: a woman clothed with the sun (Revelation 12:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 12, what great sign appeared in heaven first?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 1, 'According to Revelation 12, what was under the woman''s feet?', '["The moon", "The sea", "A rainbow", "A cloud"]'::jsonb, 'The moon', 'The woman had the moon under her feet (Revelation 12:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 12, what was under the woman''s feet?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 1, 'According to Revelation 12, what was on the woman''s head?', '["A crown of twelve stars", "A diadem of seven horns", "A veil of white linen", "A wreath of palm branches"]'::jsonb, 'A crown of twelve stars', 'The woman had on her head a crown of twelve stars (Revelation 12:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 12, what was on the woman''s head?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 1, 'According to Revelation 12, what other great sign appeared in heaven?', '["A great red dragon", "A mighty angel with a little book", "A sea of glass", "A temple opened in heaven"]'::jsonb, 'A great red dragon', 'Another sign appeared in heaven: behold, a great red dragon (Revelation 12:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 12, what other great sign appeared in heaven?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 1, 'According to Revelation 12, how many heads did the dragon have?', '["Seven", "Ten", "Twelve", "Three"]'::jsonb, 'Seven', 'The dragon had seven heads and ten horns (Revelation 12:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 12, how many heads did the dragon have?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 1, 'According to Revelation 12, what was the woman about to bring forth?', '["A son, a male child", "Two witnesses", "A great nation", "A white horse"]'::jsonb, 'A son, a male child', 'The woman was with child and later brought forth a son, a male child (Revelation 12:2, 5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 12, what was the woman about to bring forth?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 1, 'According to Revelation 12, where was the male child caught up to?', '["To God and to his throne", "To the wilderness", "To the sea of glass", "To the temple court"]'::jsonb, 'To God and to his throne', 'The child was caught up to God and to his throne (Revelation 12:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 12, where was the male child caught up to?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 2, 'According to Revelation 12, what did the dragon''s tail do?', '["It drew a third of the stars of heaven and threw them to the earth", "It swept the sea into blood", "It opened the abyss", "It measured the temple"]'::jsonb, 'It drew a third of the stars of heaven and threw them to the earth', 'The dragon''s tail drew one third of the stars of heaven and cast them to the earth (Revelation 12:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 12, what did the dragon''s tail do?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 2, 'According to Revelation 12, what was the dragon waiting to do when the woman gave birth?', '["Devour her child", "Worship the child", "Seal the child", "Take the child into the wilderness"]'::jsonb, 'Devour her child', 'The dragon stood before the woman so that when she gave birth, he might devour her child (Revelation 12:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 12, what was the dragon waiting to do when the woman gave birth?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 2, 'According to Revelation 12, how long was the woman nourished in the wilderness?', '["1,260 days", "Forty-two days", "Seven years", "Ten days"]'::jsonb, '1,260 days', 'The woman fled into the wilderness where she is nourished for 1,260 days (Revelation 12:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 12, how long was the woman nourished in the wilderness?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 2, 'According to Revelation 12, who fought against the dragon?', '["Michael and his angels", "The two witnesses", "The twenty-four elders", "The beast from the sea"]'::jsonb, 'Michael and his angels', 'There was war in heaven: Michael and his angels fought against the dragon (Revelation 12:7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 12, who fought against the dragon?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 2, 'According to Revelation 12, by what names is the dragon identified?', '["The old serpent, called the devil and Satan", "Abaddon and Apollyon only", "The false prophet and the beast", "Death and Hades"]'::jsonb, 'The old serpent, called the devil and Satan', 'The dragon is identified as the old serpent, called the devil and Satan, who deceives the whole world (Revelation 12:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 12, by what names is the dragon identified?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 2, 'According to Revelation 12, how did the brothers overcome the accuser?', '["By the blood of the Lamb, by the word of their testimony, and by not loving their lives unto death", "By the strength of Michael alone", "By fleeing into the wilderness", "By taking hold of the dragon''s crown"]'::jsonb, 'By the blood of the Lamb, by the word of their testimony, and by not loving their lives unto death', 'The heavenly voice says they overcame him by the blood of the Lamb, by the word of their testimony, and because they did not love their lives even to death (Revelation 12:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 12, how did the brothers overcome the accuser?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 2, 'According to Revelation 12, what was given to the woman so she could fly into the wilderness?', '["The two wings of the great eagle", "A white horse", "A golden censer", "A little open book"]'::jsonb, 'The two wings of the great eagle', 'The woman was given the two wings of the great eagle to fly into the wilderness to her place (Revelation 12:14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to Revelation 12, what was given to the woman so she could fly into the wilderness?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 3, 'According to Revelation 12, what is emphasized by the male child being destined to rule all the nations with a rod of iron?', '["The child has royal messianic authority over the nations", "The child will become one of the witnesses later", "The nations are already fully subdued in the chapter", "The woman herself rules the nations directly"]'::jsonb, 'The child has royal messianic authority over the nations', 'The male child is described as one who is to rule all the nations with a rod of iron, marking him out as the messianic ruler (Revelation 12:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 12, what is emphasized by the male child being destined to rule all the nations with a rod of iron?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 3, 'According to Revelation 12, what does the dragon''s expulsion from heaven signify?', '["Satan''s accusing access is defeated and his rage is redirected against the earth", "Satan has become harmless and inactive", "The war in heaven ended with no real result", "The dragon now rules heaven from below"]'::jsonb, 'Satan''s accusing access is defeated and his rage is redirected against the earth', 'The accuser is cast down, and a loud voice declares that the accuser of the brothers has been thrown down; afterward the dragon persecutes the woman and her offspring (Revelation 12:9-10, 13, 17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 12, what does the dragon''s expulsion from heaven signify?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 3, 'According to Revelation 12, what does the heavenly song reveal about victory over Satan?', '["Victory comes through the Lamb''s blood and faithful witness even unto death", "Victory comes through earthly power and military strength", "Victory comes by avoiding all suffering", "Victory depends only on angelic warfare"]'::jsonb, 'Victory comes through the Lamb''s blood and faithful witness even unto death', 'The song explains that the brothers overcame by the blood of the Lamb, the word of their testimony, and by not loving their lives unto death (Revelation 12:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 12, what does the heavenly song reveal about victory over Satan?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 3, 'According to Revelation 12, why does the dragon persecute the woman after being cast down?', '["Because he knows his time is short and turns his fury toward those connected to God''s saving plan", "Because he has forgotten the child entirely", "Because heaven invited him back to fight again", "Because the earth had begun to worship God completely"]'::jsonb, 'Because he knows his time is short and turns his fury toward those connected to God''s saving plan', 'The voice says the devil has come down with great wrath because he knows he has only a short time, and the dragon then persecutes the woman (Revelation 12:12-13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 12, why does the dragon persecute the woman after being cast down?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 3, 'According to Revelation 12, what does the earth helping the woman suggest?', '["God''s providence can use creation itself to preserve his people from the dragon''s attack", "The earth has rebelled against God permanently", "The wilderness is more powerful than heaven", "The dragon willingly releases the woman"]'::jsonb, 'God''s providence can use creation itself to preserve his people from the dragon''s attack', 'The serpent pours out water like a river after the woman, but the earth helps the woman by swallowing the river (Revelation 12:15-16).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 12, what does the earth helping the woman suggest?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 3, 'According to Revelation 12, who are the rest of the woman''s offspring?', '["Those who keep God''s commandments and hold Jesus'' testimony", "Only the angels who fought with Michael", "The rulers of the nations", "The inhabitants of the abyss"]'::jsonb, 'Those who keep God''s commandments and hold Jesus'' testimony', 'The dragon makes war with the rest of her offspring, defined as those who keep God''s commandments and hold the testimony of Jesus (Revelation 12:17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'According to Revelation 12, who are the rest of the woman''s offspring?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 4, 'How does Revelation 12 retell the conflict behind the book''s earlier scenes of suffering and judgment?', '["It unveils the deeper war between God''s saving purpose and Satan''s opposition behind earthly events", "It sets aside all earlier chapters as unrelated symbols", "It reduces the conflict to human politics only", "It explains that the dragon caused the throne room worship"]'::jsonb, 'It unveils the deeper war between God''s saving purpose and Satan''s opposition behind earthly events', 'The chapter reveals the dragon, the child, the war in heaven, and the persecution of the woman and her offspring, exposing the spiritual conflict behind the book''s themes of suffering and witness (Revelation 12:1-17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 12 retell the conflict behind the book''s earlier scenes of suffering and judgment?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 4, 'How do the child, the woman, and the dragon function together in Revelation 12?', '["The chapter presents God''s promised ruler, the people connected to his coming, and the enemy bent on destroying both", "They are three equal heavenly rulers", "The woman and dragon are allies against the child", "The child is merely symbolic of the witnesses only"]'::jsonb, 'The chapter presents God''s promised ruler, the people connected to his coming, and the enemy bent on destroying both', 'The woman bears the male child, the dragon seeks to devour him, and then persecutes the woman and her offspring after the child is caught up to God (Revelation 12:1-6, 13-17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How do the child, the woman, and the dragon function together in Revelation 12?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 4, 'Why is the heavenly declaration of salvation, power, kingdom, and authority placed after the dragon is cast down?', '["The defeat of the accuser marks a decisive stage in the triumph of God and his Christ", "It means the conflict with Satan had never existed", "It shows heaven fears the dragon''s return immediately", "It ends the need for witness on earth"]'::jsonb, 'The defeat of the accuser marks a decisive stage in the triumph of God and his Christ', 'After the dragon is cast down, the heavenly voice announces salvation, power, the kingdom of God, and the authority of his Christ because the accuser has been thrown down (Revelation 12:9-10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is the heavenly declaration of salvation, power, kingdom, and authority placed after the dragon is cast down?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 4, 'Why does Revelation 12 combine triumph in heaven with woe for the earth?', '["Satan''s defeat in heaven results in intensified hostility on earth for a limited time", "Heaven''s joy and earth''s suffering are unrelated", "The earth is now outside God''s concern", "The dragon has gained a greater throne on earth than in heaven"]'::jsonb, 'Satan''s defeat in heaven results in intensified hostility on earth for a limited time', 'Heaven is told to rejoice, but the earth and sea are warned because the devil has come down in great wrath, knowing his time is short (Revelation 12:12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why does Revelation 12 combine triumph in heaven with woe for the earth?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 4, 'What role does the wilderness play in Revelation 12?', '["It is a place of divine preservation for the woman under pressure", "It is the dragon''s permanent throne", "It represents God''s abandonment of his people", "It is where the child begins ruling the nations"]'::jsonb, 'It is a place of divine preservation for the woman under pressure', 'The woman flees into the wilderness to a place prepared by God, where she is nourished for the appointed time (Revelation 12:6, 14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What role does the wilderness play in Revelation 12?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 4, 'Why does Revelation 12 end with the dragon going to make war on the rest of the woman''s offspring?', '["The chapter shifts from the child to the continuing conflict faced by Jesus'' faithful people", "The dragon has forgotten the woman entirely", "The war in heaven is starting over from the beginning", "The child returns immediately to earth to end the story"]'::jsonb, 'The chapter shifts from the child to the continuing conflict faced by Jesus'' faithful people', 'After failing against the child and the woman, the dragon goes to make war with those who keep God''s commandments and hold Jesus'' testimony (Revelation 12:17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why does Revelation 12 end with the dragon going to make war on the rest of the woman''s offspring?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 5, 'According to Revelation 12, what does the chapter teach about the church''s conflict with Satan?', '["The church''s struggle is part of a larger cosmic conflict, yet victory is secured through the Lamb and faithful witness", "The church''s struggle is mainly political and not spiritual", "Satan cannot affect believers at all once cast down", "Victory depends on hiding rather than witness"]'::jsonb, 'The church''s struggle is part of a larger cosmic conflict, yet victory is secured through the Lamb and faithful witness', 'The dragon wages war against the woman''s offspring, but the heavenly voice explains that believers overcome through the Lamb''s blood and testimony (Revelation 12:11, 17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 12, what does the chapter teach about the church''s conflict with Satan?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 5, 'According to Revelation 12, why is the dragon called both the ancient serpent and Satan?', '["The chapter identifies the present persecuting enemy with the long-standing deceiver and adversary of God''s people", "It introduces two separate evil beings working independently", "It limits Satan''s work only to the garden narrative", "It shows the dragon has already repented"]'::jsonb, 'The chapter identifies the present persecuting enemy with the long-standing deceiver and adversary of God''s people', 'The dragon is explicitly named as the old serpent, the devil, and Satan, tying this conflict to the broader biblical story of deception and opposition (Revelation 12:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 12, why is the dragon called both the ancient serpent and Satan?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 5, 'According to Revelation 12, what is the theological significance of the child''s being caught up to God and to his throne?', '["The messianic ruler is secured in divine authority beyond the dragon''s reach", "The child is removed because he failed his mission", "The throne rejects the child at first", "The woman becomes the ruler in his place"]'::jsonb, 'The messianic ruler is secured in divine authority beyond the dragon''s reach', 'Though the dragon seeks to devour the child, he is caught up to God and to his throne, showing the dragon cannot overthrow God''s messianic purpose (Revelation 12:4-5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 12, what is the theological significance of the child''s being caught up to God and to his throne?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 5, 'According to Revelation 12, why is the phrase ''they did not love their life even to death'' so important?', '["It defines faithful victory as steadfast witness that values Christ above self-preservation", "It teaches believers should despise life as God''s gift", "It means martyrdom is earned by personal strength", "It applies only to Michael''s angels and not to believers"]'::jsonb, 'It defines faithful victory as steadfast witness that values Christ above self-preservation', 'The overcomers conquer through the Lamb''s blood, their testimony, and their willingness to remain faithful even unto death (Revelation 12:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 12, why is the phrase ''they did not love their life even to death'' so important?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 12, 5, 'According to Revelation 12, what does the chapter imply about the time between Christ''s exaltation and the final end?', '["It is a period of real satanic rage and persecution, yet one bounded by God''s control and destined to end", "It is a period with no conflict at all", "It is beyond God''s ability to govern", "It begins only after the dragon wins permanently"]'::jsonb, 'It is a period of real satanic rage and persecution, yet one bounded by God''s control and destined to end', 'The dragon knows his time is short, the woman is nourished for an appointed period, and the conflict continues under God''s limits rather than outside them (Revelation 12:6, 12, 14-17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 12
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'According to Revelation 12, what does the chapter imply about the time between Christ''s exaltation and the final end?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 1, 'According to Revelation 13, where does the beast rise from?', '["The earth", "The sea", "The sky", "The desert"]'::jsonb, 'The sea', 'The first beast rises out of the sea (Revelation 13:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 13, where does the beast rise from?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 1, 'How many horns did the beast from the sea have?', '["Seven", "Ten", "Twelve", "Three"]'::jsonb, 'Ten', 'The beast had ten horns (Revelation 13:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'How many horns did the beast from the sea have?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 1, 'What animal is one of the beast’s likenesses?', '["Lion", "Leopard", "Bear", "Wolf"]'::jsonb, 'Leopard', 'The beast was like a leopard (Revelation 13:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What animal is one of the beast’s likenesses?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 1, 'Who gave authority to the beast?', '["God", "An angel", "The dragon", "A prophet"]'::jsonb, 'The dragon', 'The dragon gave power and authority (Revelation 13:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'Who gave authority to the beast?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 1, 'What happened to one of the beast’s heads?', '["It was crowned", "It was wounded", "It was burned", "It disappeared"]'::jsonb, 'It was wounded', 'One head seemed mortally wounded (Revelation 13:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What happened to one of the beast’s heads?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 1, 'What did people do after seeing the beast’s wound healed?', '["They fled", "They worshiped", "They hid", "They ignored it"]'::jsonb, 'They worshiped', 'People marveled and followed the beast (Revelation 13:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What did people do after seeing the beast’s wound healed?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 1, 'How long was the beast allowed to act?', '["12 months", "42 months", "7 years", "3 days"]'::jsonb, '42 months', 'The beast was given authority for 42 months (Revelation 13:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'How long was the beast allowed to act?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 1, 'Who did the beast blaspheme?', '["Kings", "Nations", "God", "Angels"]'::jsonb, 'God', 'The beast spoke blasphemies against God (Revelation 13:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'Who did the beast blaspheme?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 1, 'What group did the beast make war against?', '["Kings", "Saints", "Merchants", "Farmers"]'::jsonb, 'Saints', 'It made war with the saints (Revelation 13:7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What group did the beast make war against?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 1, 'What number is associated with the beast?', '["777", "666", "144000", "12"]'::jsonb, '666', 'The number of the beast is 666 (Revelation 13:18).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What number is associated with the beast?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 2, 'Why did people worship the dragon in Revelation 13?', '["Because it created the earth", "Because it gave authority to the beast", "Because it defeated angels", "Because it ruled heaven"]'::jsonb, 'Because it gave authority to the beast', 'People worshiped the dragon because it gave authority to the beast (Revelation 13:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Why did people worship the dragon in Revelation 13?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 2, 'What question did people ask about the beast?', '["Who created it?", "Who is like the beast?", "Where is it from?", "How old is it?"]'::jsonb, 'Who is like the beast?', 'They said, ''Who is like the beast?'' (Revelation 13:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What question did people ask about the beast?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 2, 'What kind of words did the beast speak?', '["Words of peace", "Words of prophecy", "Blasphemies", "Songs"]'::jsonb, 'Blasphemies', 'The beast spoke arrogant words and blasphemies (Revelation 13:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What kind of words did the beast speak?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 2, 'Against whom did the beast open its mouth?', '["Kings", "Nations", "God", "Angels"]'::jsonb, 'God', 'It opened its mouth to blaspheme God (Revelation 13:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Against whom did the beast open its mouth?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 2, 'Who worshiped the beast?', '["Only kings", "All whose names were not in the book of life", "Only Jews", "Only angels"]'::jsonb, 'All whose names were not in the book of life', 'Those not written in the Lamb’s book of life worshiped it (Revelation 13:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Who worshiped the beast?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 2, 'What does the text say about those taken captive?', '["They escape", "They will be freed", "They go into captivity", "They rule nations"]'::jsonb, 'They go into captivity', 'If anyone is to be taken captive, into captivity they go (Revelation 13:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What does the text say about those taken captive?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 2, 'Where does the second beast come from?', '["Sea", "Earth", "Sky", "Abyss"]'::jsonb, 'Earth', 'The second beast rises from the earth (Revelation 13:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Where does the second beast come from?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 2, 'What did the second beast look like?', '["Like a dragon", "Like a lamb", "Like a lion", "Like a bear"]'::jsonb, 'Like a lamb', 'It had two horns like a lamb (Revelation 13:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What did the second beast look like?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 2, 'What miracle did the second beast perform?', '["Healing the sick", "Calling fire from heaven", "Parting the sea", "Raising the dead"]'::jsonb, 'Calling fire from heaven', 'It made fire come down from heaven (Revelation 13:13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What miracle did the second beast perform?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 2, 'What mark did people receive?', '["On forehead or hand", "On feet", "On chest", "On back"]'::jsonb, 'On forehead or hand', 'The mark was on the right hand or forehead (Revelation 13:16).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What mark did people receive?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 3, 'What does the healed wound of the beast symbolize in context?', '["True resurrection power", "Deceptive imitation of life", "Natural healing", "A sign of peace"]'::jsonb, 'Deceptive imitation of life', 'The healed wound leads people to marvel and follow falsely (Revelation 13:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the healed wound of the beast symbolize in context?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 3, 'Why is the beast’s blasphemy significant?', '["It shows weakness", "It challenges God’s authority", "It confuses nations", "It promotes peace"]'::jsonb, 'It challenges God’s authority', 'Blasphemy directly opposes God (Revelation 13:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why is the beast’s blasphemy significant?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 3, 'What role do miracles play in the second beast’s actions?', '["They save people", "They deceive people", "They teach truth", "They glorify God"]'::jsonb, 'They deceive people', 'Signs deceive those on earth (Revelation 13:14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What role do miracles play in the second beast’s actions?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 3, 'What does the mark of the beast control?', '["Prayer", "Trade", "Weather", "Time"]'::jsonb, 'Trade', 'No one could buy or sell without the mark (Revelation 13:17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the mark of the beast control?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 3, 'Why is endurance mentioned for the saints?', '["Because they rule", "Because they suffer persecution", "Because they are wealthy", "Because they travel"]'::jsonb, 'Because they suffer persecution', 'It calls for endurance and faith (Revelation 13:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why is endurance mentioned for the saints?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 3, 'What does worship of the beast represent?', '["Political loyalty", "Spiritual allegiance", "Cultural tradition", "Economic activity"]'::jsonb, 'Spiritual allegiance', 'Worship shows allegiance opposed to God (Revelation 13:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does worship of the beast represent?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 3, 'Why is the number 666 significant?', '["A random number", "A symbolic human number", "A holy number", "An angelic code"]'::jsonb, 'A symbolic human number', 'It is the number of a man (Revelation 13:18).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why is the number 666 significant?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 3, 'What does the second beast promote?', '["Peace", "Worship of the first beast", "Freedom", "Equality"]'::jsonb, 'Worship of the first beast', 'It causes people to worship the first beast (Revelation 13:12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the second beast promote?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 3, 'What does the image of the beast do?', '["Speaks", "Walks", "Disappears", "Burns"]'::jsonb, 'Speaks', 'The image is given breath to speak (Revelation 13:15).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the image of the beast do?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 3, 'What is the purpose of the mark system?', '["Identification", "Control", "Protection", "Education"]'::jsonb, 'Control', 'It controls buying and selling (Revelation 13:17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What is the purpose of the mark system?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 4, 'How does Revelation 13 connect the dragon and the beast?', '["They oppose each other", "The dragon empowers the beast", "They ignore each other", "The beast defeats the dragon"]'::jsonb, 'The dragon empowers the beast', 'The dragon gives authority to the beast (Revelation 13:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 13 connect the dragon and the beast?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 4, 'What is the relationship between the two beasts?', '["Enemies", "Independent rulers", "One supports the other", "They merge"]'::jsonb, 'One supports the other', 'The second beast promotes the first (Revelation 13:12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What is the relationship between the two beasts?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 4, 'How does economic control reinforce worship?', '["It limits travel", "It pressures compliance", "It increases wealth", "It builds cities"]'::jsonb, 'It pressures compliance', 'Without the mark, no one can buy or sell (Revelation 13:17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does economic control reinforce worship?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 4, 'What theme connects persecution and endurance?', '["Victory", "Suffering faithfulness", "Wealth", "Peace"]'::jsonb, 'Suffering faithfulness', 'Endurance is required amid persecution (Revelation 13:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What theme connects persecution and endurance?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 4, 'How does deception escalate in the chapter?', '["Through laws", "Through miracles", "Through silence", "Through angels"]'::jsonb, 'Through miracles', 'Signs deceive those who dwell on earth (Revelation 13:14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does deception escalate in the chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 4, 'What narrative role does the image of the beast serve?', '["Decoration", "Judgment", "Enforcement of worship", "Teaching"]'::jsonb, 'Enforcement of worship', 'Those who refuse are killed (Revelation 13:15).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What narrative role does the image of the beast serve?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 4, 'Why is universal worship emphasized?', '["To show unity", "To show global deception", "To show peace", "To show culture"]'::jsonb, 'To show global deception', 'All whose names are not in the book of life worship (Revelation 13:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is universal worship emphasized?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 4, 'How does the beast mimic divine authority?', '["By healing", "By ruling and receiving worship", "By creating life", "By forgiving sins"]'::jsonb, 'By ruling and receiving worship', 'It imitates divine authority through power and worship (Revelation 13:4-8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does the beast mimic divine authority?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 4, 'What contrast exists between saints and beast followers?', '["Wealth vs poverty", "Faith vs deception", "Strength vs weakness", "Speech vs silence"]'::jsonb, 'Faith vs deception', 'Saints endure in faith; others are deceived (Revelation 13:10,14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What contrast exists between saints and beast followers?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 4, 'What does the book of life signify here?', '["History record", "List of rulers", "Belonging to the Lamb", "Trade registry"]'::jsonb, 'Belonging to the Lamb', 'Those written belong to the Lamb (Revelation 13:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What does the book of life signify here?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 5, 'How does the beast parody Christ’s authority?', '["By preaching", "By imitation of death and rule", "By healing all people", "By forgiving sins"]'::jsonb, 'By imitation of death and rule', 'The healed wound imitates resurrection and authority (Revelation 13:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does the beast parody Christ’s authority?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 5, 'What theological role does deception play in Revelation 13?', '["Neutral", "Means of judgment and testing", "Irrelevant", "Pure illusion"]'::jsonb, 'Means of judgment and testing', 'Deception leads people to false worship (Revelation 13:14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What theological role does deception play in Revelation 13?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 5, 'Why is the number called ‘wisdom’?', '["It is hidden", "It requires understanding", "It is random", "It is divine law"]'::jsonb, 'It requires understanding', 'Let the one who has understanding calculate (Revelation 13:18).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'Why is the number called ‘wisdom’?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 5, 'How does Revelation 13 portray false worship structurally?', '["Through prayer", "Through enforced system", "Through voluntary choice only", "Through angels"]'::jsonb, 'Through enforced system', 'Worship is enforced via threats and economy (Revelation 13:15-17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does Revelation 13 portray false worship structurally?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 5, 'What does the second beast resemble symbolically?', '["True prophet", "False prophet", "Angel", "King"]'::jsonb, 'False prophet', 'It promotes worship through deception (Revelation 13:11-14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What does the second beast resemble symbolically?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 5, 'How is sovereignty contrasted in the chapter?', '["God vs humans", "God vs beast authority", "Humans vs angels", "Kings vs nations"]'::jsonb, 'God vs beast authority', 'The beast’s authority is permitted but limited (Revelation 13:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How is sovereignty contrasted in the chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 5, 'What does endurance reveal about true believers?', '["Strength", "Wealth", "Faithfulness", "Wisdom"]'::jsonb, 'Faithfulness', 'Endurance and faith define the saints (Revelation 13:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What does endurance reveal about true believers?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 5, 'What is the ultimate outcome implied for the beast system?', '["Eternal rule", "Eventual judgment", "Expansion", "Transformation"]'::jsonb, 'Eventual judgment', 'Its authority is limited in time (Revelation 13:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What is the ultimate outcome implied for the beast system?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 5, 'Why is worship central in this chapter?', '["Cultural identity", "Ultimate allegiance", "Political system", "Economic growth"]'::jsonb, 'Ultimate allegiance', 'Worship determines allegiance (Revelation 13:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'Why is worship central in this chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 13, 5, 'What does the mark ultimately represent?', '["Technology", "Spiritual identification", "Health record", "Wealth system"]'::jsonb, 'Spiritual identification', 'It signifies allegiance to the beast (Revelation 13:16-17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 13
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What does the mark ultimately represent?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 1, 'According to Revelation 14, where does the Lamb stand?', '["Mount Zion", "Mount Sinai", "Mount Carmel", "Mount Olivet"]'::jsonb, 'Mount Zion', 'The Lamb stands on Mount Zion (Revelation 14:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 14, where does the Lamb stand?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 1, 'How many people were with the Lamb?', '["12000", "144000", "7000", "1000"]'::jsonb, '144000', 'There were 144,000 with Him (Revelation 14:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'How many people were with the Lamb?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 1, 'What was written on their foreheads?', '["The mark of the beast", "A number", "The Lamb’s and Father’s name", "A crown"]'::jsonb, 'The Lamb’s and Father’s name', 'They had His name and His Father’s name written on their foreheads (Revelation 14:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What was written on their foreheads?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 1, 'What kind of song did the 144,000 sing?', '["A war song", "A lament", "A new song", "A psalm"]'::jsonb, 'A new song', 'They sang a new song before the throne (Revelation 14:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What kind of song did the 144,000 sing?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 1, 'Who could learn the song?', '["Everyone", "Only angels", "Only the 144,000", "Only prophets"]'::jsonb, 'Only the 144,000', 'No one could learn the song except the 144,000 (Revelation 14:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'Who could learn the song?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 1, 'What is said about the 144,000’s purity?', '["They were kings", "They were undefiled", "They were priests", "They were warriors"]'::jsonb, 'They were undefiled', 'They were not defiled and followed the Lamb (Revelation 14:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What is said about the 144,000’s purity?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 1, 'What was found in their mouths?', '["Lies", "Truth", "No lie", "Songs"]'::jsonb, 'No lie', 'No lie was found in their mouth (Revelation 14:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What was found in their mouths?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 1, 'What message did the first angel proclaim?', '["War", "Judgment", "The eternal gospel", "Peace"]'::jsonb, 'The eternal gospel', 'The first angel proclaimed the eternal gospel (Revelation 14:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What message did the first angel proclaim?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 1, 'Which city is said to have fallen?', '["Jerusalem", "Rome", "Babylon", "Nineveh"]'::jsonb, 'Babylon', 'Babylon is declared fallen (Revelation 14:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'Which city is said to have fallen?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 1, 'What happens to those who worship the beast?', '["They prosper", "They are judged", "They flee", "They are healed"]'::jsonb, 'They are judged', 'They will drink the wine of God’s wrath (Revelation 14:9-10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What happens to those who worship the beast?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 2, 'What does the voice from heaven sound like?', '["Thunder", "Many waters and harps", "Trumpets", "Wind"]'::jsonb, 'Many waters and harps', 'It sounded like many waters and harpists (Revelation 14:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What does the voice from heaven sound like?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 2, 'What distinguishes the 144,000 from others?', '["Their clothing", "Their knowledge", "Their redemption and purity", "Their wealth"]'::jsonb, 'Their redemption and purity', 'They were redeemed and undefiled (Revelation 14:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What distinguishes the 144,000 from others?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 2, 'What does the first angel call people to do?', '["Fight", "Fear God and give Him glory", "Build temples", "Flee"]'::jsonb, 'Fear God and give Him glory', 'The angel calls people to fear God and worship Him (Revelation 14:7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What does the first angel call people to do?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 2, 'Why has the hour of judgment come?', '["Because of war", "Because of sin", "Because God’s time has arrived", "Because of angels"]'::jsonb, 'Because God’s time has arrived', 'The hour of His judgment has come (Revelation 14:7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Why has the hour of judgment come?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 2, 'What did Babylon make nations drink?', '["Water", "Wine of wrath of immorality", "Oil", "Blood"]'::jsonb, 'Wine of wrath of immorality', 'Babylon made nations drink the wine of her immorality (Revelation 14:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What did Babylon make nations drink?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 2, 'Where is the mark of the beast received?', '["Hand or forehead", "Chest", "Feet", "Back"]'::jsonb, 'Hand or forehead', 'The mark is on the hand or forehead (Revelation 14:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Where is the mark of the beast received?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 2, 'What punishment is described for beast worshipers?', '["Exile", "Fire and sulfur", "Flood", "Darkness"]'::jsonb, 'Fire and sulfur', 'They are tormented with fire and sulfur (Revelation 14:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What punishment is described for beast worshipers?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 2, 'What rises forever for the wicked?', '["Light", "Smoke", "Dust", "Ash"]'::jsonb, 'Smoke', 'The smoke of their torment rises forever (Revelation 14:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What rises forever for the wicked?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 2, 'Who are called blessed in this chapter?', '["The rich", "The dead in the Lord", "The kings", "The angels"]'::jsonb, 'The dead in the Lord', 'Blessed are the dead who die in the Lord (Revelation 14:13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Who are called blessed in this chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 2, 'What does the Son of Man hold?', '["Sword", "Sickle", "Crown", "Scroll"]'::jsonb, 'Sickle', 'He holds a sharp sickle (Revelation 14:14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What does the Son of Man hold?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 3, 'What does the ‘new song’ signify in context?', '["Victory and redemption", "War preparation", "Sadness", "Tradition"]'::jsonb, 'Victory and redemption', 'The redeemed alone sing it (Revelation 14:3-4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the ‘new song’ signify in context?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 3, 'Why are the 144,000 described as firstfruits?', '["They are farmers", "They are first redeemed group", "They rule nations", "They are angels"]'::jsonb, 'They are first redeemed group', 'They are firstfruits to God and the Lamb (Revelation 14:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why are the 144,000 described as firstfruits?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 3, 'What is the purpose of the eternal gospel proclamation?', '["To warn and call to worship", "To entertain", "To inform angels", "To start war"]'::jsonb, 'To warn and call to worship', 'It calls people to fear God and worship Him (Revelation 14:6-7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What is the purpose of the eternal gospel proclamation?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 3, 'What does Babylon’s fall represent?', '["Political collapse", "Spiritual judgment", "Economic loss", "Natural disaster"]'::jsonb, 'Spiritual judgment', 'Babylon’s fall reflects judgment on corruption (Revelation 14:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does Babylon’s fall represent?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 3, 'Why is the warning about the beast repeated?', '["To increase fear", "To stress consequences", "To confuse", "To entertain"]'::jsonb, 'To stress consequences', 'The warning emphasizes judgment for worshiping the beast (Revelation 14:9-11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why is the warning about the beast repeated?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 3, 'What does endurance of saints show?', '["Strength", "Faithfulness", "Wisdom", "Power"]'::jsonb, 'Faithfulness', 'They keep God’s commandments and faith (Revelation 14:12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does endurance of saints show?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 3, 'What does rest from labor imply?', '["Sleep", "Reward after death", "Forgetfulness", "Escape"]'::jsonb, 'Reward after death', 'They rest from labors, their deeds follow them (Revelation 14:13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does rest from labor imply?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 3, 'What does the harvest symbolize?', '["Food", "Judgment", "Growth", "Peace"]'::jsonb, 'Judgment', 'The earth is harvested as judgment (Revelation 14:15).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the harvest symbolize?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 3, 'What does the winepress represent?', '["Celebration", "Wrath of God", "Harvest joy", "Farming"]'::jsonb, 'Wrath of God', 'The winepress is God’s wrath (Revelation 14:19).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the winepress represent?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 3, 'Why is blood described flowing from the winepress?', '["War imagery", "Harvest imagery", "Symbolic judgment severity", "Literal river"]'::jsonb, 'Symbolic judgment severity', 'It shows the magnitude of judgment (Revelation 14:20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why is blood described flowing from the winepress?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 4, 'How does the Lamb’s group contrast with beast followers?', '["Wealth vs poverty", "Purity vs corruption", "Strength vs weakness", "Speech vs silence"]'::jsonb, 'Purity vs corruption', 'They are undefiled unlike Babylon’s corruption (Revelation 14:4,8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does the Lamb’s group contrast with beast followers?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 4, 'What is the relationship between gospel proclamation and judgment?', '["Unrelated", "Sequential warning before judgment", "Opposing ideas", "Same event"]'::jsonb, 'Sequential warning before judgment', 'The gospel call precedes judgment (Revelation 14:6-7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What is the relationship between gospel proclamation and judgment?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 4, 'How do the three angels’ messages function together?', '["Conflicting", "Progressive warnings", "Random", "Symbolic only"]'::jsonb, 'Progressive warnings', 'They build from gospel to judgment to warning (Revelation 14:6-10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How do the three angels’ messages function together?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 4, 'What theme links endurance and blessing?', '["Victory", "Faithfulness leads to rest", "Wealth", "Power"]'::jsonb, 'Faithfulness leads to rest', 'Those who endure are blessed (Revelation 14:12-13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What theme links endurance and blessing?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 4, 'How does Babylon’s fall fit the narrative?', '["Beginning", "Midpoint warning", "Conclusion", "Irrelevant"]'::jsonb, 'Midpoint warning', 'It warns before final judgment scenes (Revelation 14:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Babylon’s fall fit the narrative?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 4, 'What dual imagery appears in the harvest scenes?', '["Peace and war", "Salvation and judgment", "Water and fire", "Light and dark"]'::jsonb, 'Salvation and judgment', 'Harvest and winepress depict judgment themes (Revelation 14:14-20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What dual imagery appears in the harvest scenes?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 4, 'Why is the Son of Man depicted with a crown?', '["Royal authority", "Decoration", "War symbol", "Angel rank"]'::jsonb, 'Royal authority', 'The crown signifies authority to judge (Revelation 14:14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is the Son of Man depicted with a crown?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 4, 'What connects the winepress and wrath imagery?', '["Joy", "Judgment execution", "Harvest celebration", "Peace"]'::jsonb, 'Judgment execution', 'The winepress symbolizes God’s wrath (Revelation 14:19).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What connects the winepress and wrath imagery?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 4, 'How does the chapter emphasize finality?', '["Repeated cycles", "Eternal consequences", "Temporary punishment", "No ending"]'::jsonb, 'Eternal consequences', 'Smoke rises forever (Revelation 14:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does the chapter emphasize finality?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 4, 'What is the role of angels in this chapter?', '["Observers", "Messengers of warning and action", "Judges", "Kings"]'::jsonb, 'Messengers of warning and action', 'They proclaim messages and execute commands (Revelation 14:6-15).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What is the role of angels in this chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 5, 'How does Revelation 14 portray true vs false worship?', '["Through location", "Through allegiance and consequences", "Through clothing", "Through speech"]'::jsonb, 'Through allegiance and consequences', 'Worship determines destiny (Revelation 14:9-11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does Revelation 14 portray true vs false worship?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 5, 'What theological significance does ‘eternal gospel’ carry here?', '["Temporary message", "Universal and lasting truth", "Hidden teaching", "Symbolic idea"]'::jsonb, 'Universal and lasting truth', 'It is proclaimed to all nations (Revelation 14:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What theological significance does ‘eternal gospel’ carry here?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 5, 'Why is Babylon’s fall announced before final judgment?', '["Chronology only", "To assure outcome", "To confuse readers", "To delay events"]'::jsonb, 'To assure outcome', 'It guarantees the certainty of judgment (Revelation 14:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'Why is Babylon’s fall announced before final judgment?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 5, 'What does the harvest imagery ultimately convey?', '["Agriculture", "Divine separation and judgment", "Economic growth", "Peace"]'::jsonb, 'Divine separation and judgment', 'Harvest represents gathering for judgment (Revelation 14:15).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What does the harvest imagery ultimately convey?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 5, 'How does the winepress deepen the judgment theme?', '["Adds celebration", "Shows severity and wrath", "Shows mercy", "Shows delay"]'::jsonb, 'Shows severity and wrath', 'The winepress represents intense wrath (Revelation 14:19-20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does the winepress deepen the judgment theme?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 5, 'What does the blessing of the dead emphasize?', '["Escape", "Rest and reward", "Forgetfulness", "Victory only"]'::jsonb, 'Rest and reward', 'They rest and their deeds follow them (Revelation 14:13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What does the blessing of the dead emphasize?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 5, 'How does endurance relate to faith in this chapter?', '["Separate ideas", "Faith produces endurance", "Endurance replaces faith", "Unrelated"]'::jsonb, 'Faith produces endurance', 'Saints keep faith and endure (Revelation 14:12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does endurance relate to faith in this chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 5, 'What contrast exists between Lamb followers and beast followers?', '["Location", "Eternal destiny", "Clothing", "Speech"]'::jsonb, 'Eternal destiny', 'One group is redeemed; the other judged (Revelation 14:9-11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What contrast exists between Lamb followers and beast followers?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 5, 'Why is worship language central again?', '["Habit", "Ultimate allegiance decision", "Culture", "Law"]'::jsonb, 'Ultimate allegiance decision', 'Worship determines judgment outcome (Revelation 14:7-10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'Why is worship language central again?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 14, 5, 'What does the chapter reveal about God’s justice?', '["Delayed", "Arbitrary", "Certain and complete", "Hidden"]'::jsonb, 'Certain and complete', 'Judgment is fully executed (Revelation 14:19-20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 14
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What does the chapter reveal about God’s justice?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 1, 'According to Revelation 15, what sign did John see in heaven?', '["A new Jerusalem", "Seven angels with seven plagues", "A great dragon", "A golden temple"]'::jsonb, 'Seven angels with seven plagues', 'John saw seven angels having the seven last plagues (Revelation 15:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 15, what sign did John see in heaven?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 1, 'What was mixed with the sea of glass?', '["Blood", "Fire", "Clouds", "Smoke"]'::jsonb, 'Fire', 'John saw something like a sea of glass mixed with fire (Revelation 15:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What was mixed with the sea of glass?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 1, 'Who was standing by the sea of glass?', '["The twenty-four elders", "Those who had overcome the beast", "The four living creatures", "The kings of the earth"]'::jsonb, 'Those who had overcome the beast', 'Those who had overcome the beast and his image stood by the sea of glass (Revelation 15:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'Who was standing by the sea of glass?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 1, 'What did the victorious people have in their hands?', '["Trumpets", "Crowns", "Harps of God", "Scrolls"]'::jsonb, 'Harps of God', 'They had harps of God (Revelation 15:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What did the victorious people have in their hands?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 1, 'Whose song did they sing?', '["David and Solomon", "Moses and the Lamb", "Abraham and Isaac", "Elijah and Elisha"]'::jsonb, 'Moses and the Lamb', 'They sang the song of Moses and the song of the Lamb (Revelation 15:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'Whose song did they sing?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 1, 'What is one phrase from their song about God''s works?', '["They are hidden", "They are great and marvelous", "They are unfinished", "They are difficult to know"]'::jsonb, 'They are great and marvelous', 'The song says, ''Great and marvelous are your works'' (Revelation 15:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What is one phrase from their song about God''s works?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 1, 'What title is given to God in the song?', '["King of the ages", "Prince of peace", "Lord of harvest", "Judge of Israel"]'::jsonb, 'King of the ages', 'The song addresses God as ''King of the ages'' (Revelation 15:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What title is given to God in the song?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 1, 'What part of heaven was opened?', '["The gate of pearl", "The temple of the tabernacle of the testimony", "The city wall", "The throne room door"]'::jsonb, 'The temple of the tabernacle of the testimony', 'The temple of the tabernacle of the testimony in heaven was opened (Revelation 15:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What part of heaven was opened?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 1, 'How were the seven angels clothed?', '["In sackcloth", "In pure bright linen", "In scarlet robes", "In armor"]'::jsonb, 'In pure bright linen', 'The seven angels were arrayed with pure, bright linen (Revelation 15:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'How were the seven angels clothed?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 1, 'What did one of the four living creatures give to the seven angels?', '["Seven trumpets", "Seven bowls full of God''s wrath", "Seven scrolls", "Seven lamps"]'::jsonb, 'Seven bowls full of God''s wrath', 'One of the four living creatures gave them seven golden bowls full of the wrath of God (Revelation 15:7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What did one of the four living creatures give to the seven angels?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 2, 'Why are the seven plagues called the last plagues?', '["They are the smallest plagues", "They happen first", "God''s wrath is finished in them", "They only affect kings"]'::jsonb, 'God''s wrath is finished in them', 'They are called last because in them God''s wrath is finished (Revelation 15:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Why are the seven plagues called the last plagues?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 2, 'Over what had the people standing by the sea gained victory?', '["The sea and the wind", "The beast, its image, and the number of its name", "The kings of the earth", "Sin and death only"]'::jsonb, 'The beast, its image, and the number of its name', 'They had overcome the beast, his image, and the number of his name (Revelation 15:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Over what had the people standing by the sea gained victory?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 2, 'What two songs are joined together in this chapter?', '["The songs of Zion and Jerusalem", "The song of Moses and the song of the Lamb", "The song of David and the prophets", "The song of angels and elders"]'::jsonb, 'The song of Moses and the song of the Lamb', 'The victors sing both the song of Moses and the song of the Lamb (Revelation 15:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What two songs are joined together in this chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 2, 'According to the song, why will all nations come and worship before God?', '["Because angels command them", "Because His righteous acts have been revealed", "Because Babylon falls", "Because the temple opens"]'::jsonb, 'Because His righteous acts have been revealed', 'All nations will come because God''s righteous acts have been revealed (Revelation 15:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'According to the song, why will all nations come and worship before God?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 2, 'What question is asked in the song about fearing God?', '["Who can escape your wrath?", "Who wouldn''t fear you, Lord, and glorify your name?", "Who can stand before the beast?", "Who will open the scroll?"]'::jsonb, 'Who wouldn''t fear you, Lord, and glorify your name?', 'The song asks, ''Who wouldn''t fear you, Lord, and glorify your name?'' (Revelation 15:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What question is asked in the song about fearing God?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 2, 'What was around the chests of the angels?', '["Iron belts", "Golden sashes", "Silver chains", "Purple cords"]'::jsonb, 'Golden sashes', 'The angels were clothed and bound around their breasts with golden sashes (Revelation 15:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What was around the chests of the angels?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 2, 'What filled the temple after the bowls were given?', '["Light", "Smoke", "Water", "Song"]'::jsonb, 'Smoke', 'The temple was filled with smoke from the glory of God and from His power (Revelation 15:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What filled the temple after the bowls were given?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 2, 'What caused the smoke in the temple?', '["The prayers of the saints", "The glory and power of God", "The fire from the altar", "The wings of the cherubim"]'::jsonb, 'The glory and power of God', 'The smoke came from the glory of God and from His power (Revelation 15:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What caused the smoke in the temple?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 2, 'What could no one do until the seven plagues were finished?', '["Sing a new song", "Enter the temple", "Stand by the sea", "Open the scroll"]'::jsonb, 'Enter the temple', 'No one was able to enter into the temple until the seven plagues were finished (Revelation 15:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What could no one do until the seven plagues were finished?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 2, 'What kind of bowls did the angels receive?', '["Bronze bowls", "Golden bowls", "Clay bowls", "Crystal bowls"]'::jsonb, 'Golden bowls', 'They received seven golden bowls full of the wrath of God (Revelation 15:7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What kind of bowls did the angels receive?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 3, 'What does the sea of glass mixed with fire suggest in context?', '["A peaceful river", "Holy victory in the presence of judgment", "A new creation garden", "An earthly battlefield"]'::jsonb, 'Holy victory in the presence of judgment', 'The victors stand by the sea of glass while the final plagues are about to begin, combining triumph and impending judgment (Revelation 15:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the sea of glass mixed with fire suggest in context?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 3, 'Why is the song of Moses paired with the song of the Lamb?', '["To combine themes of deliverance and redemption", "To compare two prophets", "To replace the old covenant", "To mark the end of music"]'::jsonb, 'To combine themes of deliverance and redemption', 'The pairing links God''s past deliverance with His final saving work through the Lamb (Revelation 15:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why is the song of Moses paired with the song of the Lamb?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 3, 'What does the phrase ''you alone are holy'' emphasize about God?', '["His isolation from heaven", "His unique holiness", "His distance from nations", "His secrecy"]'::jsonb, 'His unique holiness', 'The song declares that God alone is holy, emphasizing His unmatched purity (Revelation 15:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the phrase ''you alone are holy'' emphasize about God?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 3, 'Why do the nations come and worship God in the song?', '["Because they are forced by angels", "Because His righteous acts are revealed", "Because the beast is stronger", "Because the sea parts"]'::jsonb, 'Because His righteous acts are revealed', 'The nations respond to the revelation of God''s righteous acts (Revelation 15:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why do the nations come and worship God in the song?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 3, 'What is the significance of the opened temple in this vision?', '["It reveals divine presence and coming judgment", "It shows the end of prayer", "It marks a wedding feast", "It invites the nations inside"]'::jsonb, 'It reveals divine presence and coming judgment', 'The opened heavenly temple introduces the angels who carry the final plagues from God''s presence (Revelation 15:5-6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What is the significance of the opened temple in this vision?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 3, 'Why are the bowls associated with wrath rather than mercy?', '["They symbolize final judgment", "They are ordinary temple vessels", "They contain prayers only", "They cleanse the sea"]'::jsonb, 'They symbolize final judgment', 'The bowls are explicitly full of the wrath of God and prepare for the final plagues (Revelation 15:7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why are the bowls associated with wrath rather than mercy?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 3, 'What does the smoke-filled temple communicate?', '["God is absent", "God''s glory makes access impossible", "The angels are confused", "The temple is being destroyed"]'::jsonb, 'God''s glory makes access impossible', 'The temple is filled with smoke from God''s glory and power so that no one can enter (Revelation 15:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the smoke-filled temple communicate?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 3, 'How does the chapter portray the victors over the beast?', '["As frightened refugees", "As worshipers holding God''s harps", "As rulers on thrones", "As silent witnesses"]'::jsonb, 'As worshipers holding God''s harps', 'Those who overcame the beast stand by the sea of glass with harps of God and sing (Revelation 15:2-3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'How does the chapter portray the victors over the beast?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 3, 'What does finishing God''s wrath in the last plagues imply?', '["A partial warning", "The completion of a judgment sequence", "The cancellation of justice", "A return to Egypt"]'::jsonb, 'The completion of a judgment sequence', 'The seven last plagues complete God''s wrath (Revelation 15:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does finishing God''s wrath in the last plagues imply?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 3, 'Why is worship central before the bowls are poured out?', '["To show heaven ignores judgment", "To frame judgment within God''s holiness and justice", "To delay the narrative", "To honor the angels instead of God"]'::jsonb, 'To frame judgment within God''s holiness and justice', 'The song praises God''s holiness and righteous acts before the final judgments begin (Revelation 15:3-4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why is worship central before the bowls are poured out?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 4, 'How does Revelation 15 connect victory over the beast with the coming plagues?', '["The victors cause the plagues", "The victors worship while final judgment is prepared", "The plagues cancel their victory", "The beast escapes the plagues"]'::jsonb, 'The victors worship while final judgment is prepared', 'The overcomers sing by the sea of glass just before the seven angels receive the bowls of wrath (Revelation 15:2-7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 15 connect victory over the beast with the coming plagues?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 4, 'What larger theme is reinforced by combining Moses and the Lamb in one song?', '["God saves consistently across His acts of redemption", "The law replaces grace", "Israel and the church are unrelated", "Only the past matters"]'::jsonb, 'God saves consistently across His acts of redemption', 'The chapter links the deliverance associated with Moses to the redemption accomplished by the Lamb (Revelation 15:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What larger theme is reinforced by combining Moses and the Lamb in one song?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 4, 'How does the heavenly temple scene prepare for chapter 16?', '["It introduces the bowls and their angelic carriers", "It ends all heavenly action", "It removes wrath from the story", "It shifts focus to Babylon only"]'::jsonb, 'It introduces the bowls and their angelic carriers', 'Chapter 15 presents the seven angels and the bowls of wrath that are poured out in the next chapter (Revelation 15:5-7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does the heavenly temple scene prepare for chapter 16?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 4, 'What contrast is implied between the names in Revelation 14 and the victors in Revelation 15?', '["No contrast exists", "Those loyal to the Lamb stand victorious over the beast", "The beast''s followers are now rewarded", "Everyone bears both marks"]'::jsonb, 'Those loyal to the Lamb stand victorious over the beast', 'The overcomers in Revelation 15 stand in contrast to those aligned with the beast in the surrounding chapters (Revelation 15:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What contrast is implied between the names in Revelation 14 and the victors in Revelation 15?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 4, 'Why is God''s justice highlighted before judgment falls?', '["To show His wrath is righteous, not arbitrary", "To excuse the nations", "To glorify the angels", "To delay punishment"]'::jsonb, 'To show His wrath is righteous, not arbitrary', 'The song celebrates God''s righteous acts and holiness before the bowls of wrath appear (Revelation 15:3-4,7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is God''s justice highlighted before judgment falls?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 4, 'What narrative function does the inaccessible temple serve?', '["It marks a pause until judgment is completed", "It invites human worshipers inside", "It shows the temple is empty", "It ends God''s presence"]'::jsonb, 'It marks a pause until judgment is completed', 'No one may enter the temple until the seven plagues are finished, underscoring the seriousness and completeness of what follows (Revelation 15:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What narrative function does the inaccessible temple serve?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 4, 'How do song and sanctuary work together in this chapter?', '["Praise interprets the judgments coming from God''s presence", "They are unrelated scenes", "The sanctuary silences worship", "The song replaces the temple"]'::jsonb, 'Praise interprets the judgments coming from God''s presence', 'The song declares God''s righteousness, then the temple opens and the judgments proceed from there (Revelation 15:3-6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How do song and sanctuary work together in this chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 4, 'What does the chapter suggest about the outcome of resistance against God?', '["It will continue forever unchecked", "God''s holiness and justice will prevail", "The beast will share God''s throne", "The nations will remain neutral"]'::jsonb, 'God''s holiness and justice will prevail', 'The worship scene and the coming plagues show that God''s righteous rule will triumph (Revelation 15:3-4,7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What does the chapter suggest about the outcome of resistance against God?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 4, 'How does the image of the sea of glass relate to the heavenly setting overall?', '["It frames the victors in a holy court before God''s throne", "It turns heaven into earth", "It hides the angels from view", "It replaces the temple"]'::jsonb, 'It frames the victors in a holy court before God''s throne', 'The sea of glass is part of the heavenly scene where the victors worship in God''s presence (Revelation 15:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does the image of the sea of glass relate to the heavenly setting overall?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 4, 'Why are the angels'' garments described so carefully?', '["To stress the purity and solemnity of their commission", "To suggest they are weak", "To show they are earthly priests only", "To identify different nations"]'::jsonb, 'To stress the purity and solemnity of their commission', 'Their bright linen and golden sashes emphasize the holy seriousness of their task (Revelation 15:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why are the angels'' garments described so carefully?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 5, 'How does Revelation 15 use Exodus-like imagery without retelling Exodus directly?', '["It combines Moses, deliverance song, and judgment motifs in a final heavenly setting", "It repeats the ten plagues word for word", "It ignores Moses completely", "It replaces the Lamb with Pharaoh"]'::jsonb, 'It combines Moses, deliverance song, and judgment motifs in a final heavenly setting', 'The chapter invokes Moses, deliverance, and plagues while centering the Lamb and the final judgments of God (Revelation 15:1-4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does Revelation 15 use Exodus-like imagery without retelling Exodus directly?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 5, 'What theological point is made by singing the song of Moses and the song of the Lamb together?', '["God''s redemptive acts form one coherent story", "The old covenant cancels the new", "The Lamb is secondary to Moses", "Only Israel matters in the end"]'::jsonb, 'God''s redemptive acts form one coherent story', 'The paired song presents continuity between God''s earlier deliverance and His climactic redemption through the Lamb (Revelation 15:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What theological point is made by singing the song of Moses and the song of the Lamb together?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 5, 'Why is God''s holiness emphasized before the bowls are poured out?', '["To show judgment flows from His righteous character", "To soften the warnings", "To deny mercy exists", "To praise the angels instead"]'::jsonb, 'To show judgment flows from His righteous character', 'The song celebrates God''s holiness and righteous acts, showing that His judgments are morally grounded (Revelation 15:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'Why is God''s holiness emphasized before the bowls are poured out?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 5, 'What does the closed access to the smoke-filled temple imply about this stage of the vision?', '["Judgment is now irrevocably underway until completion", "Heaven has been abandoned", "Prayer has ended forever", "The nations have already repented"]'::jsonb, 'Judgment is now irrevocably underway until completion', 'No one can enter the temple until the seven plagues are finished, signaling the fixed progression of the final judgments (Revelation 15:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What does the closed access to the smoke-filled temple imply about this stage of the vision?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 5, 'How does the chapter balance worship and wrath?', '["It separates them completely", "It presents wrath as proceeding from the God who is worshiped as just and holy", "It says worship cancels judgment", "It focuses only on wrath"]'::jsonb, 'It presents wrath as proceeding from the God who is worshiped as just and holy', 'The song of praise is followed by the handing over of the bowls of wrath, linking both to God''s righteous rule (Revelation 15:3-7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does the chapter balance worship and wrath?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 5, 'Why are the overcomers shown before the bowls rather than after them?', '["To reassure readers of God''s vindication before final judgment unfolds", "To introduce a new enemy", "To shift attention away from the Lamb", "To show the plagues no longer matter"]'::jsonb, 'To reassure readers of God''s vindication before final judgment unfolds', 'The vision shows the faithful already victorious in God''s presence before the last plagues begin (Revelation 15:2-3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'Why are the overcomers shown before the bowls rather than after them?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 5, 'What does calling God ''King of the ages'' contribute to the chapter''s meaning?', '["It grounds final judgment in His eternal rule", "It limits His rule to Israel", "It contrasts Him with Moses only", "It suggests time has ended already"]'::jsonb, 'It grounds final judgment in His eternal rule', 'The title presents God as the eternal sovereign whose judgments are universally rightful (Revelation 15:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What does calling God ''King of the ages'' contribute to the chapter''s meaning?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 5, 'How does Revelation 15 portray the relationship between divine presence and divine judgment?', '["Judgment happens far from God", "Judgment proceeds from God''s holy presence", "God appears only after judgment", "The angels act independently of God"]'::jsonb, 'Judgment proceeds from God''s holy presence', 'The temple opens, the angels emerge, and the temple fills with smoke from God''s glory and power (Revelation 15:5-8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does Revelation 15 portray the relationship between divine presence and divine judgment?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 5, 'What larger Revelation theme is reinforced by the nations eventually worshiping God?', '["God''s justice will be publicly vindicated", "Babylon will never fall", "The beast wins temporary worship forever", "The saints remain hidden"]'::jsonb, 'God''s justice will be publicly vindicated', 'The song looks ahead to universal recognition of God''s righteous acts (Revelation 15:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What larger Revelation theme is reinforced by the nations eventually worshiping God?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 15, 5, 'In the flow of Revelation, what is the main role of chapter 15?', '["It serves as a liturgical and theological prelude to the final bowl judgments", "It retells chapter 13 exactly", "It ends the whole book", "It focuses only on earthly politics"]'::jsonb, 'It serves as a liturgical and theological prelude to the final bowl judgments', 'Revelation 15 prepares for chapter 16 by celebrating God''s justice and introducing the seven angels with the bowls of wrath (Revelation 15:1,5-7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 15
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'In the flow of Revelation, what is the main role of chapter 15?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 1, 'According to Revelation 16, who told the seven angels to pour out the bowls of God''s wrath?', '["A loud voice from the temple", "One of the elders", "The Lamb", "The archangel Michael"]'::jsonb, 'A loud voice from the temple', 'A loud voice out of the temple told the seven angels to pour out the seven bowls of God''s wrath (Revelation 16:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 16, who told the seven angels to pour out the bowls of God''s wrath?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 1, 'What happened when the first angel poured out his bowl?', '["The sea became blood", "Painful sores came on people with the beast''s mark", "The sun was darkened", "The Euphrates dried up"]'::jsonb, 'Painful sores came on people with the beast''s mark', 'The first bowl brought harmful and evil sores on those who had the mark of the beast and worshiped its image (Revelation 16:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What happened when the first angel poured out his bowl?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 1, 'What did the sea become when the second bowl was poured out?', '["Fresh water", "Crystal", "Blood like a dead man''s", "Smoke"]'::jsonb, 'Blood like a dead man''s', 'The sea became blood like that of a dead man (Revelation 16:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What did the sea become when the second bowl was poured out?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 1, 'What happened to every living thing in the sea?', '["They hid", "They became stronger", "They died", "They multiplied"]'::jsonb, 'They died', 'Every living thing in the sea died (Revelation 16:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What happened to every living thing in the sea?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 1, 'What did the third angel''s bowl affect?', '["The throne of the beast", "The rivers and springs of water", "The sun", "The air"]'::jsonb, 'The rivers and springs of water', 'The third bowl was poured into the rivers and springs of water (Revelation 16:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What did the third angel''s bowl affect?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 1, 'What did the rivers and springs become?', '["Wine", "Oil", "Blood", "Fire"]'::jsonb, 'Blood', 'The rivers and springs became blood (Revelation 16:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What did the rivers and springs become?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 1, 'What was the fourth angel given power to do?', '["Shake the earth", "Burn people with fire through the sun", "Dry up rivers", "Darken the moon"]'::jsonb, 'Burn people with fire through the sun', 'The fourth bowl gave the sun power to scorch men with fire (Revelation 16:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What was the fourth angel given power to do?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 1, 'What happened when the fifth bowl was poured out?', '["The sea dried up", "The beast''s kingdom was darkened", "Stars fell from heaven", "A great hailstorm began"]'::jsonb, 'The beast''s kingdom was darkened', 'The fifth bowl was poured on the throne of the beast, and his kingdom was darkened (Revelation 16:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What happened when the fifth bowl was poured out?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 1, 'Which river was dried up by the sixth bowl?', '["Jordan", "Nile", "Euphrates", "Tigris"]'::jsonb, 'Euphrates', 'The sixth bowl dried up the great river Euphrates (Revelation 16:12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'Which river was dried up by the sixth bowl?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 1, 'What did the loud voice say when the seventh bowl was poured out?', '["It is finished", "Babylon has fallen", "Holy, holy, holy", "Woe to the earth"]'::jsonb, 'It is finished', 'A loud voice from the throne in the temple said, ''It is done!'' (Revelation 16:17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What did the loud voice say when the seventh bowl was poured out?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 2, 'Who were specifically struck by the first bowl''s sores?', '["All people on earth", "Those with the mark of the beast", "Only kings", "Only merchants"]'::jsonb, 'Those with the mark of the beast', 'The sores came upon those who had the mark of the beast and worshiped his image (Revelation 16:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Who were specifically struck by the first bowl''s sores?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 2, 'What did the angel of the waters say about God after the waters became blood?', '["You are merciful", "You are righteous", "You are silent", "You are hidden"]'::jsonb, 'You are righteous', 'The angel of the waters declared that God is righteous in these judgments (Revelation 16:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What did the angel of the waters say about God after the waters became blood?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 2, 'Why does the angel say people are given blood to drink?', '["Because they worshiped idols", "Because they shed the blood of saints and prophets", "Because they refused to trade", "Because they attacked Babylon"]'::jsonb, 'Because they shed the blood of saints and prophets', 'The judgment matches their guilt because they poured out the blood of saints and prophets (Revelation 16:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Why does the angel say people are given blood to drink?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 2, 'What response did the altar give to God''s judgments?', '["They are delayed", "They are true and righteous", "They are too severe", "They are mysterious"]'::jsonb, 'They are true and righteous', 'The altar answered, ''Yes, Lord God, the Almighty, true and righteous are your judgments'' (Revelation 16:7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What response did the altar give to God''s judgments?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 2, 'How did people respond when they were scorched by the sun?', '["They repented", "They prayed for mercy", "They blasphemed God''s name", "They fled to the mountains"]'::jsonb, 'They blasphemed God''s name', 'Though scorched, they blasphemed God''s name and did not repent (Revelation 16:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'How did people respond when they were scorched by the sun?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 2, 'What did people do in the darkness of the fifth bowl?', '["They sang", "They gnawed their tongues in pain", "They repented in sackcloth", "They hid in caves"]'::jsonb, 'They gnawed their tongues in pain', 'In the darkness and pain, they gnawed their tongues (Revelation 16:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What did people do in the darkness of the fifth bowl?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 2, 'What came out of the mouth of the dragon, the beast, and the false prophet?', '["Seven stars", "Three frogs like unclean spirits", "A river of blood", "Smoke and fire"]'::jsonb, 'Three frogs like unclean spirits', 'Three unclean spirits like frogs came out of their mouths (Revelation 16:13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What came out of the mouth of the dragon, the beast, and the false prophet?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 2, 'What do these frog-like spirits do?', '["Heal the nations", "Perform signs and gather kings for battle", "Open the temple", "Pour out bowls"]'::jsonb, 'Perform signs and gather kings for battle', 'They are demonic spirits, performing signs, who go out to gather the kings of the whole world (Revelation 16:14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What do these frog-like spirits do?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 2, 'At what place were the kings gathered?', '["Megiddo", "Armageddon", "Babylon", "Jerusalem"]'::jsonb, 'Armageddon', 'They were gathered to the place called in Hebrew Armageddon (Revelation 16:16).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'At what place were the kings gathered?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 2, 'What happened to Babylon the great when the seventh bowl was poured out?', '["It was healed", "It came into remembrance before God", "It conquered the nations", "It moved to the desert"]'::jsonb, 'It came into remembrance before God', 'Babylon the great was remembered before God to give her the cup of the wine of His fierce wrath (Revelation 16:19).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What happened to Babylon the great when the seventh bowl was poured out?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 3, 'What does the first bowl reveal about the target of God''s wrath?', '["It falls mainly on the faithful", "It specifically strikes those aligned with the beast", "It avoids idolaters", "It only affects nature"]'::jsonb, 'It specifically strikes those aligned with the beast', 'The sores come on those who have the mark of the beast and worship his image (Revelation 16:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the first bowl reveal about the target of God''s wrath?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 3, 'Why is turning waters into blood a fitting judgment in this chapter?', '["It symbolizes harvest", "It reflects retribution for shedding righteous blood", "It prepares for a flood", "It marks a feast"]'::jsonb, 'It reflects retribution for shedding righteous blood', 'The angel explains they are given blood to drink because they shed the blood of saints and prophets (Revelation 16:5-6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why is turning waters into blood a fitting judgment in this chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 3, 'What does people''s refusal to repent under the fourth bowl show?', '["They misunderstand the plagues", "Their hearts remain hardened", "They cannot speak", "They are physically absent"]'::jsonb, 'Their hearts remain hardened', 'Even under intense suffering, they blaspheme God and do not repent or give Him glory (Revelation 16:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does people''s refusal to repent under the fourth bowl show?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 3, 'What is the significance of darkness on the beast''s kingdom?', '["It signals the weakening of beastly rule", "It brings peace", "It means creation is ending immediately", "It hides the faithful from view"]'::jsonb, 'It signals the weakening of beastly rule', 'The darkness falls on the throne and kingdom of the beast, showing judgment on his dominion (Revelation 16:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What is the significance of darkness on the beast''s kingdom?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 3, 'Why are the spirits described as frog-like and unclean?', '["To stress deception and impurity", "To show they come from the sea", "To indicate they are harmless", "To identify them as angels"]'::jsonb, 'To stress deception and impurity', 'They are called unclean spirits and are linked with demonic deception and false gathering (Revelation 16:13-14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why are the spirits described as frog-like and unclean?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 3, 'What is the purpose of drying up the Euphrates in the vision?', '["To feed the sea", "To prepare the way for the kings from the east", "To end trade permanently", "To save Babylon"]'::jsonb, 'To prepare the way for the kings from the east', 'The Euphrates is dried up to prepare the way for the kings who come from the sunrise (Revelation 16:12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What is the purpose of drying up the Euphrates in the vision?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 3, 'What does the warning ''I come like a thief'' emphasize in the middle of the bowl judgments?', '["Secret knowledge", "The need for vigilance", "The certainty of wealth", "The victory of Babylon"]'::jsonb, 'The need for vigilance', 'The blessing falls on the one who stays awake and keeps garments, emphasizing readiness (Revelation 16:15).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the warning ''I come like a thief'' emphasize in the middle of the bowl judgments?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 3, 'Why is Babylon remembered before God?', '["For mercy", "For final judgment", "For restoration", "For protection"]'::jsonb, 'For final judgment', 'Babylon is remembered in order to receive the cup of the wine of God''s fierce wrath (Revelation 16:19).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why is Babylon remembered before God?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 3, 'What does the great hail at the end of the chapter communicate?', '["A covenant blessing", "The severity of final judgment", "A seasonal change", "A sign of peace"]'::jsonb, 'The severity of final judgment', 'Huge hailstones fall as part of the final bowl judgment, underscoring its terror and weight (Revelation 16:21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the great hail at the end of the chapter communicate?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 3, 'How do the bowl judgments portray God''s justice overall?', '["Random and excessive", "Measured and morally fitting", "Symbolic with no moral meaning", "Limited only to nature"]'::jsonb, 'Measured and morally fitting', 'The judgments are declared true and righteous, and some explicitly match the sins committed (Revelation 16:5-7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'How do the bowl judgments portray God''s justice overall?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 4, 'How does Revelation 16 develop the theme of hardened rebellion seen in earlier chapters?', '["Sufferers repeatedly refuse to repent even under judgment", "The nations turn quickly to worship God", "Babylon repents before the end", "The beast confesses his sins"]'::jsonb, 'Sufferers repeatedly refuse to repent even under judgment', 'Twice the chapter notes that people blaspheme God and do not repent despite the plagues (Revelation 16:9,11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 16 develop the theme of hardened rebellion seen in earlier chapters?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 4, 'What pattern links the second and third bowls?', '["Both restore creation", "Both turn waters to blood and intensify judgment", "Both affect only kings", "Both center on the temple"]'::jsonb, 'Both turn waters to blood and intensify judgment', 'The sea becomes blood in the second bowl, and the rivers and springs become blood in the third (Revelation 16:3-4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What pattern links the second and third bowls?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 4, 'How does the chapter connect demonic deception with world conflict?', '["Deception ends all war", "Unclean spirits gather kings for the great battle", "Angels force every nation to fight", "The saints summon the armies"]'::jsonb, 'Unclean spirits gather kings for the great battle', 'The frog-like demonic spirits perform signs and gather the kings of the whole world for battle on the great day of God (Revelation 16:14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does the chapter connect demonic deception with world conflict?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 4, 'What is the literary role of the parenthetical blessing in Revelation 16:15?', '["It interrupts with a call to watchfulness", "It changes the subject permanently", "It identifies the false prophet", "It explains Babylon''s architecture"]'::jsonb, 'It interrupts with a call to watchfulness', 'In the middle of gathering for battle, the voice warns readers to stay awake and clothed (Revelation 16:15).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What is the literary role of the parenthetical blessing in Revelation 16:15?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 4, 'How does the seventh bowl bring the chapter to a climax?', '["It reverses all earlier plagues", "It unleashes a final collapse with voice, earthquake, and hail", "It only affects one city", "It concludes with silence only"]'::jsonb, 'It unleashes a final collapse with voice, earthquake, and hail', 'The seventh bowl brings the declaration ''It is done,'' followed by lightning, thunder, a great earthquake, city collapse, and huge hail (Revelation 16:17-21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does the seventh bowl bring the chapter to a climax?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 4, 'What contrast exists between God''s judgments and human response in this chapter?', '["Righteous judgments meet persistent blasphemy", "Unclear signs meet sincere repentance", "Mercy meets obedience", "Silence meets worship"]'::jsonb, 'Righteous judgments meet persistent blasphemy', 'God''s judgments are called true and righteous, yet people answer with blasphemy and refusal to repent (Revelation 16:7,9,11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What contrast exists between God''s judgments and human response in this chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 4, 'Why is the beast''s throne mentioned specifically in the fifth bowl?', '["To show judgment reaches the center of beastly power", "To honor the beast''s authority", "To move the story away from the beast", "To identify the kings from the east"]'::jsonb, 'To show judgment reaches the center of beastly power', 'The bowl falls on the throne of the beast, showing that the core of his kingdom is under God''s judgment (Revelation 16:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is the beast''s throne mentioned specifically in the fifth bowl?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 4, 'How does Babylon''s mention in the seventh bowl prepare for later chapters?', '["It introduces her coming detailed judgment", "It ends her story completely with no follow-up", "It proves Babylon is innocent", "It shifts attention back to Egypt"]'::jsonb, 'It introduces her coming detailed judgment', 'Babylon is remembered for wrath here, preparing for her fuller exposure and fall in the chapters that follow (Revelation 16:19).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Babylon''s mention in the seventh bowl prepare for later chapters?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 4, 'What theme unites sores, blood, scorching, darkness, drying river, and hail?', '["The dismantling of human rebellion under divine wrath", "Random disasters with no relation", "Natural cycles of the earth", "Blessings on the righteous"]'::jsonb, 'The dismantling of human rebellion under divine wrath', 'The successive bowls strike people, creation, the beast''s realm, the nations, and the great city under God''s wrath (Revelation 16:1-21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What theme unites sores, blood, scorching, darkness, drying river, and hail?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 4, 'How does Revelation 16 portray the final battle gathering?', '["As a neutral political alliance", "As a spiritually charged deception orchestrated by demonic powers", "As a festival in Jerusalem", "As an angelic rehearsal"]'::jsonb, 'As a spiritually charged deception orchestrated by demonic powers', 'Demonic spirits perform signs and gather the kings of the whole world for battle on God''s great day (Revelation 16:13-14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 16 portray the final battle gathering?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 5, 'How does Revelation 16 present the bowl judgments in relation to God''s character?', '["As impulsive acts disconnected from holiness", "As expressions of the righteous judgment of the Almighty", "As mistakes later corrected", "As merely symbolic warnings with no moral force"]'::jsonb, 'As expressions of the righteous judgment of the Almighty', 'The angel of the waters and the altar both affirm that God''s judgments are righteous and true (Revelation 16:5-7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does Revelation 16 present the bowl judgments in relation to God''s character?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 5, 'What theological principle is illustrated by giving blood to those who shed blood?', '["Grace without consequence", "Retributive justice that fits the crime", "Random escalation", "Universal pardon"]'::jsonb, 'Retributive justice that fits the crime', 'Because they shed the blood of saints and prophets, they are given blood to drink, showing fitting judgment (Revelation 16:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What theological principle is illustrated by giving blood to those who shed blood?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 5, 'Why is the refusal to repent so important in this chapter?', '["It shows judgment alone does not soften rebellious hearts", "It proves the plagues are imaginary", "It means God stops speaking", "It identifies the saints as guilty"]'::jsonb, 'It shows judgment alone does not soften rebellious hearts', 'Even under scorching and darkness, people blaspheme God and do not repent, revealing entrenched rebellion (Revelation 16:9,11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'Why is the refusal to repent so important in this chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 5, 'How does the chapter portray the relationship between evil powers and human rulers?', '["Rulers remain untouched by spiritual influence", "Demonic deception mobilizes rulers for opposition to God", "Kings defeat the demonic spirits immediately", "Human rulers disappear from the vision"]'::jsonb, 'Demonic deception mobilizes rulers for opposition to God', 'The unclean spirits go out to the kings of the whole world to gather them for battle against God''s purposes (Revelation 16:13-14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does the chapter portray the relationship between evil powers and human rulers?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 5, 'What does the warning about keeping garments most likely symbolize in context?', '["Maintaining spiritual readiness and integrity", "Protecting royal status", "Preparing for trade", "Preserving priestly ancestry"]'::jsonb, 'Maintaining spiritual readiness and integrity', 'The blessing falls on the one who stays awake and keeps garments so as not to be found exposed, a picture of readiness and faithfulness (Revelation 16:15).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What does the warning about keeping garments most likely symbolize in context?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 5, 'How does Revelation 16 intensify the conflict introduced by the dragon, beast, and false prophet?', '["It removes them from the story entirely", "It shows their deceptive influence extending to the kings of the earth", "It turns them into servants of the Lamb", "It limits them to one city only"]'::jsonb, 'It shows their deceptive influence extending to the kings of the earth', 'Spirits from the dragon, beast, and false prophet gather the kings of the whole world for battle (Revelation 16:13-14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does Revelation 16 intensify the conflict introduced by the dragon, beast, and false prophet?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 5, 'What is the significance of the declaration ''It is done'' at the seventh bowl?', '["It marks the completion of this cycle of wrath", "It cancels every previous judgment", "It announces Babylon''s repentance", "It begins the seals again"]'::jsonb, 'It marks the completion of this cycle of wrath', 'The statement comes with the seventh bowl at the climax of the judgments, signaling completion (Revelation 16:17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What is the significance of the declaration ''It is done'' at the seventh bowl?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 5, 'How does the collapse of cities and islands in the seventh bowl serve the vision?', '["It highlights the undoing of human security before divine judgment", "It describes normal weather patterns", "It limits judgment to one nation", "It restores Eden immediately"]'::jsonb, 'It highlights the undoing of human security before divine judgment', 'The great earthquake splits the great city, the cities of the nations fall, islands flee, and mountains are not found (Revelation 16:18-20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does the collapse of cities and islands in the seventh bowl serve the vision?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 5, 'In the flow of Revelation, what does Armageddon chiefly represent here?', '["A tourist location", "The gathering point for the climactic opposition to God", "The final home of the saints", "A restored kingdom of peace"]'::jsonb, 'The gathering point for the climactic opposition to God', 'The demonic spirits gather the kings to the place called Armageddon for the battle of the great day of God Almighty (Revelation 16:14-16).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'In the flow of Revelation, what does Armageddon chiefly represent here?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 16, 5, 'What larger message does Revelation 16 communicate about evil empires and human rebellion?', '["They can endure indefinitely without challenge", "They stand under God''s active, final, and righteous judgment", "They will slowly reform themselves", "They are outside the scope of divine justice"]'::jsonb, 'They stand under God''s active, final, and righteous judgment', 'The bowls strike the beast''s followers, the beast''s throne, the nations, and Babylon, while heaven affirms God''s judgments as true and righteous (Revelation 16:2,10,14,19; 16:5-7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 16
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What larger message does Revelation 16 communicate about evil empires and human rebellion?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 1, 'According to Revelation 17, where was John carried in the Spirit?', '["To a mountain", "To the desert", "To the sea", "To the temple"]'::jsonb, 'To the desert', 'One of the seven angels carried John away in the Spirit into a wilderness or desert (Revelation 17:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 17, where was John carried in the Spirit?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 1, 'What was the woman sitting on in Revelation 17?', '["A white horse", "A scarlet beast", "A throne of gold", "A sea of glass"]'::jsonb, 'A scarlet beast', 'John saw a woman sitting on a scarlet beast (Revelation 17:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What was the woman sitting on in Revelation 17?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 1, 'What was the scarlet beast full of?', '["Crowns", "Eyes", "Blasphemous names", "Fire"]'::jsonb, 'Blasphemous names', 'The beast was full of blasphemous names (Revelation 17:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What was the scarlet beast full of?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 1, 'How many heads did the beast have?', '["Three", "Seven", "Ten", "Twelve"]'::jsonb, 'Seven', 'The beast had seven heads (Revelation 17:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'How many heads did the beast have?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 1, 'How many horns did the beast have?', '["Two", "Seven", "Ten", "Fourteen"]'::jsonb, 'Ten', 'The beast had ten horns (Revelation 17:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'How many horns did the beast have?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 1, 'What colors was the woman dressed in?', '["White and gold", "Purple and scarlet", "Blue and silver", "Black and crimson"]'::jsonb, 'Purple and scarlet', 'The woman was arrayed in purple and scarlet (Revelation 17:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What colors was the woman dressed in?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 1, 'What was in the woman''s hand?', '["A sword", "A golden cup", "A scroll", "A lamp"]'::jsonb, 'A golden cup', 'She had in her hand a golden cup full of abominations (Revelation 17:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What was in the woman''s hand?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 1, 'What name was written on the woman''s forehead?', '["Jerusalem the holy city", "Babylon the great, the mother of prostitutes and of the abominations of the earth", "The bride of the Lamb", "Mystery of the kingdom"]'::jsonb, 'Babylon the great, the mother of prostitutes and of the abominations of the earth', 'That full title is written on her forehead (Revelation 17:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What name was written on the woman''s forehead?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 1, 'With whose blood was the woman drunk?', '["The blood of kings", "The blood of prophets and saints", "The blood of merchants", "The blood of soldiers"]'::jsonb, 'The blood of prophets and saints', 'She was drunk with the blood of the saints and with the blood of the martyrs of Jesus (Revelation 17:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'With whose blood was the woman drunk?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 1, 'What kind of beast carries the woman?', '["Scarlet beast", "White beast", "Black horse", "Red dragon"]'::jsonb, 'Scarlet beast', 'The woman sits on a scarlet beast (Revelation 17:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What kind of beast carries the woman?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 2, 'Why did John marvel when he saw the woman?', '["She was wearing white linen", "He saw the woman and the beast that carried her", "She was singing a new song", "She held seven trumpets"]'::jsonb, 'He saw the woman and the beast that carried her', 'John marveled greatly at the sight of the woman and the beast (Revelation 17:6-7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Why did John marvel when he saw the woman?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 2, 'How does the angel describe the beast''s past, present, and future?', '["It is, was, and will reign forever", "It was, is not, and is about to come up out of the abyss", "It came from heaven and returns there", "It was slain and rose again"]'::jsonb, 'It was, is not, and is about to come up out of the abyss', 'The angel says the beast was, is not, and is about to come up out of the abyss (Revelation 17:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'How does the angel describe the beast''s past, present, and future?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 2, 'Who marvels at the beast according to the angel?', '["Those whose names are not written in the book of life", "Only the kings of Israel", "Only the merchants of the earth", "The twenty-four elders"]'::jsonb, 'Those whose names are not written in the book of life', 'Those not written in the book of life marvel when they see the beast (Revelation 17:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Who marvels at the beast according to the angel?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 2, 'What do the seven heads represent first?', '["Seven churches", "Seven mountains", "Seven seals", "Seven angels"]'::jsonb, 'Seven mountains', 'The seven heads are seven mountains on which the woman sits (Revelation 17:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What do the seven heads represent first?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 2, 'What else do the seven heads represent?', '["Seven kings", "Seven oceans", "Seven plagues", "Seven thrones"]'::jsonb, 'Seven kings', 'The seven heads also represent seven kings (Revelation 17:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What else do the seven heads represent?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 2, 'How many of the kings had fallen?', '["Three", "Five", "Seven", "Ten"]'::jsonb, 'Five', 'The angel says five have fallen (Revelation 17:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'How many of the kings had fallen?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 2, 'How many kings are said to remain for a little while?', '["One", "Two", "Five", "Ten"]'::jsonb, 'One', 'One has not yet come, and when he comes he must remain a little while (Revelation 17:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'How many kings are said to remain for a little while?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 2, 'What are the ten horns said to be?', '["Ten priests", "Ten kings", "Ten mountains", "Ten cities"]'::jsonb, 'Ten kings', 'The ten horns are ten kings who have not yet received a kingdom (Revelation 17:12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What are the ten horns said to be?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 2, 'For how long do the ten kings receive authority with the beast?', '["For one hour", "For seven years", "For forty-two months", "For one day"]'::jsonb, 'For one hour', 'They receive authority as kings with the beast for one hour (Revelation 17:12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'For how long do the ten kings receive authority with the beast?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 2, 'Whom will the beast and the ten kings ultimately hate?', '["The Lamb", "The woman", "The saints", "The false prophet"]'::jsonb, 'The woman', 'The ten horns and the beast will hate the prostitute or woman (Revelation 17:16).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Whom will the beast and the ten kings ultimately hate?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 3, 'What does the woman''s luxurious clothing and golden cup suggest in context?', '["Hidden purity", "Outward splendor hiding inner corruption", "Simple poverty", "Temple holiness"]'::jsonb, 'Outward splendor hiding inner corruption', 'She is richly adorned, yet her cup is full of abominations and impurities (Revelation 17:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the woman''s luxurious clothing and golden cup suggest in context?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 3, 'Why is Babylon called ''the mother of prostitutes''?', '["She has many literal daughters only", "She is portrayed as the source and pattern of corruption", "She rules the temple sacrifices", "She protects the saints"]'::jsonb, 'She is portrayed as the source and pattern of corruption', 'The title presents Babylon as the origin and sponsor of widespread spiritual corruption (Revelation 17:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why is Babylon called ''the mother of prostitutes''?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 3, 'What does the woman''s drunkenness with the saints'' blood reveal about her character?', '["She is merciful", "She is violently opposed to God''s people", "She is politically weak", "She is ignorant of heaven"]'::jsonb, 'She is violently opposed to God''s people', 'Her drunkenness with the blood of the saints shows her persecution of God''s people (Revelation 17:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the woman''s drunkenness with the saints'' blood reveal about her character?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 3, 'What is the effect of the beast''s strange description ''was, is not, and is about to come''?', '["It emphasizes deceptive, unstable power", "It proves the beast is eternal life", "It means the beast is innocent", "It removes all mystery"]'::jsonb, 'It emphasizes deceptive, unstable power', 'The language highlights the beast''s puzzling and counterfeit kind of power that astonishes the world (Revelation 17:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What is the effect of the beast''s strange description ''was, is not, and is about to come''?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 3, 'Why do those not written in the book of life marvel at the beast?', '["They understand its true nature", "They are susceptible to its deceptive power", "They are forced into heaven", "They have already repented"]'::jsonb, 'They are susceptible to its deceptive power', 'Those not in the book of life are the ones who marvel at the beast (Revelation 17:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why do those not written in the book of life marvel at the beast?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 3, 'What does the short duration of the ten kings'' authority imply?', '["Their power is limited and temporary", "Their reign is peaceful", "They never truly rule", "They replace the beast immediately"]'::jsonb, 'Their power is limited and temporary', 'They receive authority for only one hour with the beast, showing brief and dependent power (Revelation 17:12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the short duration of the ten kings'' authority imply?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 3, 'What does the alliance of the beast and ten kings show about evil power in this chapter?', '["It is unified against the Lamb", "It is divided in favor of the saints", "It seeks repentance first", "It ignores the nations"]'::jsonb, 'It is unified against the Lamb', 'They are of one mind and give their power to the beast, making war on the Lamb (Revelation 17:13-14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the alliance of the beast and ten kings show about evil power in this chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 3, 'Why is the destruction of the woman by the beast and ten kings significant?', '["It shows evil turns on itself", "It proves the woman was righteous", "It ends all judgment immediately", "It restores Babylon"]'::jsonb, 'It shows evil turns on itself', 'The beast and the kings devour and burn the woman, showing internal self-destruction among evil powers (Revelation 17:16).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why is the destruction of the woman by the beast and ten kings significant?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 3, 'What do the many waters symbolize?', '["Baptism", "Peoples, multitudes, nations, and languages", "Angels and elders", "Mountains and kings"]'::jsonb, 'Peoples, multitudes, nations, and languages', 'The angel explains that the waters are peoples, multitudes, nations, and languages (Revelation 17:15).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What do the many waters symbolize?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 3, 'What is emphasized by the Lamb being called ''Lord of lords and King of kings''?', '["His temporary rule", "His supreme authority over opposing powers", "His weakness in battle", "His distance from the saints"]'::jsonb, 'His supreme authority over opposing powers', 'The Lamb overcomes them because He is Lord of lords and King of kings (Revelation 17:14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What is emphasized by the Lamb being called ''Lord of lords and King of kings''?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 4, 'How does Revelation 17 connect political power and spiritual corruption?', '["The woman and beast are entirely unrelated", "The woman rides the beast, showing corrupt partnership", "The saints empower the kings", "The temple rules the nations"]'::jsonb, 'The woman rides the beast, showing corrupt partnership', 'The woman sitting on the beast pictures a close alliance between corrupt influence and beastly power (Revelation 17:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 17 connect political power and spiritual corruption?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 4, 'What contrast is created between the woman and the Lamb?', '["Both persecute the saints", "The woman corrupts and kills, while the Lamb overcomes with His called and faithful people", "Both sit on mountains only", "The Lamb serves the beast"]'::jsonb, 'The woman corrupts and kills, while the Lamb overcomes with His called and faithful people', 'The woman is drunk with the blood of the saints, but the Lamb triumphs with His called, chosen, and faithful followers (Revelation 17:6,14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What contrast is created between the woman and the Lamb?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 4, 'How do the seven heads and ten horns add to the chapter''s message?', '["They show that evil power is layered and complex", "They remove all symbolism", "They describe temple furniture", "They only identify geography"]'::jsonb, 'They show that evil power is layered and complex', 'The heads and horns are interpreted with multiple symbolic dimensions, including mountains and kings (Revelation 17:9-12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How do the seven heads and ten horns add to the chapter''s message?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 4, 'What narrative role does the angel''s explanation play in Revelation 17?', '["It deepens the meaning of the vision''s symbols", "It cancels the vision", "It replaces the beast with an angel", "It leaves John more confused with no guidance"]'::jsonb, 'It deepens the meaning of the vision''s symbols', 'The angel interprets the beast, the heads, the horns, the waters, and the woman (Revelation 17:7-18).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What narrative role does the angel''s explanation play in Revelation 17?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 4, 'How does the chapter portray the destiny of anti-God alliances?', '["They last forever in harmony", "They unite briefly, then collapse into mutual destruction under God''s sovereignty", "They quickly convert to truth", "They defeat the Lamb permanently"]'::jsonb, 'They unite briefly, then collapse into mutual destruction under God''s sovereignty', 'The kings unite with the beast, but later hate and destroy the woman, all within God''s purpose (Revelation 17:13,16-17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does the chapter portray the destiny of anti-God alliances?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 4, 'Why is the statement about God putting it into their hearts important?', '["It shows God remains sovereign over even rebellious rulers", "It means the kings are innocent", "It removes human responsibility entirely", "It says the woman controls God"]'::jsonb, 'It shows God remains sovereign over even rebellious rulers', 'God puts it into their hearts to carry out His purpose, showing His sovereignty over the outcome (Revelation 17:17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is the statement about God putting it into their hearts important?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 4, 'How does the chapter build anticipation for Babylon''s fall in the next chapter?', '["It ignores Babylon''s identity", "It identifies the woman as the great city ruling over kings and shows her coming ruin", "It says Babylon will be restored", "It shifts entirely to the churches"]'::jsonb, 'It identifies the woman as the great city ruling over kings and shows her coming ruin', 'The woman is identified as the great city ruling over the kings of the earth, and her destruction is announced (Revelation 17:16,18).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does the chapter build anticipation for Babylon''s fall in the next chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 4, 'What does the one-hour authority of the kings contribute to the larger chapter?', '["It highlights the fleeting nature of rebellious political power", "It proves their kingdom is eternal", "It makes them stronger than the Lamb", "It refers only to literal clock time with no symbolic force"]'::jsonb, 'It highlights the fleeting nature of rebellious political power', 'Their authority lasts only one hour with the beast, underscoring its brevity (Revelation 17:12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What does the one-hour authority of the kings contribute to the larger chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 4, 'How are the faithful followers of the Lamb described in contrast to the beast''s admirers?', '["Rich, wise, and strong", "Called, chosen, and faithful", "Political and powerful", "Silent and hidden"]'::jsonb, 'Called, chosen, and faithful', 'Those with the Lamb are called, chosen, and faithful (Revelation 17:14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How are the faithful followers of the Lamb described in contrast to the beast''s admirers?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 4, 'What does the chapter suggest about the relationship between worldly splendor and spiritual evil?', '["Splendor always proves holiness", "Lavish appearance can mask profound corruption", "Evil avoids wealth entirely", "Spiritual evil is invisible in society"]'::jsonb, 'Lavish appearance can mask profound corruption', 'The woman is adorned with luxury, yet she is filled with abominations and bloodguilt (Revelation 17:4-6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What does the chapter suggest about the relationship between worldly splendor and spiritual evil?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 5, 'How does Revelation 17 portray Babylon primarily?', '["As a purely local city with no symbolic dimension", "As a seductive, violent, and globally influential anti-God power", "As the faithful bride of the Lamb", "As a neutral marketplace"]'::jsonb, 'As a seductive, violent, and globally influential anti-God power', 'Babylon is depicted as a corrupting woman ruling over kings, sitting on many waters, and persecuting the saints (Revelation 17:1,5-6,15,18).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does Revelation 17 portray Babylon primarily?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 5, 'What theological point is made by the beast''s eventual destruction of the woman it supports?', '["Evil is self-defeating under God''s sovereign judgment", "The beast becomes righteous", "The woman triumphs spiritually", "God loses control of events"]'::jsonb, 'Evil is self-defeating under God''s sovereign judgment', 'The beast and kings turn against the woman and destroy her, yet this fulfills God''s purpose (Revelation 17:16-17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What theological point is made by the beast''s eventual destruction of the woman it supports?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 5, 'Why is the phrase ''book of life from the foundation of the world'' significant here?', '["It emphasizes God''s prior knowledge and the distinction between deceived and faithful people", "It denies human history", "It describes only angels", "It means everyone is saved"]'::jsonb, 'It emphasizes God''s prior knowledge and the distinction between deceived and faithful people', 'Those not written in the book of life marvel at the beast, distinguishing them from the faithful (Revelation 17:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'Why is the phrase ''book of life from the foundation of the world'' significant here?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 5, 'How does the title ''Lord of lords and King of kings'' function in this chapter?', '["It identifies the Lamb as supreme over every rival rule", "It limits the Lamb to Israel only", "It compares the Lamb to Babylon", "It describes the ten kings collectively"]'::jsonb, 'It identifies the Lamb as supreme over every rival rule', 'The Lamb defeats the beastly coalition because He is Lord of lords and King of kings (Revelation 17:14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does the title ''Lord of lords and King of kings'' function in this chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 5, 'What does Revelation 17 reveal about the union of idolatry, power, and persecution?', '["They naturally lead to faithful worship", "They cooperate in rebellion against God and harm God''s people", "They belong only to the Old Testament", "They are unrelated themes"]'::jsonb, 'They cooperate in rebellion against God and harm God''s people', 'The woman embodies corruption and persecution, while the beast and kings exercise hostile power against the Lamb and saints (Revelation 17:5-6,13-14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What does Revelation 17 reveal about the union of idolatry, power, and persecution?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 5, 'Why does the angel say the vision calls for a mind with wisdom?', '["Because the symbols require careful spiritual discernment", "Because the chapter has no meaning", "Because only kings can understand it", "Because John forgot the details"]'::jsonb, 'Because the symbols require careful spiritual discernment', 'The angel introduces the explanation of the heads and kings by saying this calls for a mind with wisdom (Revelation 17:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'Why does the angel say the vision calls for a mind with wisdom?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 5, 'How does this chapter contribute to Revelation''s larger critique of empire?', '["It celebrates imperial luxury and violence", "It exposes empire as seductive, blasphemous, and doomed under God''s judgment", "It avoids political imagery completely", "It says all kingdoms are equally holy"]'::jsonb, 'It exposes empire as seductive, blasphemous, and doomed under God''s judgment', 'Babylon rules kings, intoxicates nations, sheds saintly blood, and is destined for destruction (Revelation 17:1-6,16-18).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does this chapter contribute to Revelation''s larger critique of empire?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 5, 'What is the significance of the woman sitting on many waters and on the beast?', '["It shows broad influence and dependence on corrupt power", "It means she is geographically isolated", "It symbolizes her repentance", "It proves she is the new creation"]'::jsonb, 'It shows broad influence and dependence on corrupt power', 'The waters symbolize peoples and nations, while the beast signifies the political power carrying her (Revelation 17:1,3,15).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What is the significance of the woman sitting on many waters and on the beast?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 5, 'How does Revelation 17 balance divine sovereignty and human evil?', '["Human evil acts freely, yet God directs the final outcome toward His purpose", "God causes no human choices at all", "Human rulers have absolute independence from God", "The chapter denies any real evil exists"]'::jsonb, 'Human evil acts freely, yet God directs the final outcome toward His purpose', 'The kings willingly align with the beast, yet God puts it into their hearts to accomplish His purpose until His words are fulfilled (Revelation 17:13,17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does Revelation 17 balance divine sovereignty and human evil?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 17, 5, 'In the flow of Revelation, what is the main role of chapter 17?', '["It interprets the prostitute Babylon and the beastly alliance before Babylon''s downfall is described in detail", "It retells the seven churches", "It concludes the entire book", "It focuses only on the new Jerusalem"]'::jsonb, 'It interprets the prostitute Babylon and the beastly alliance before Babylon''s downfall is described in detail', 'The chapter identifies the woman, explains the beast and kings, and sets up Babylon''s judgment in the following chapter (Revelation 17:1-18).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 17
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'In the flow of Revelation, what is the main role of chapter 17?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 1, 'According to Revelation 18, what does the mighty angel announce about Babylon?', '["Babylon has been restored", "Babylon the great has fallen", "Babylon will reign forever", "Babylon has become holy"]'::jsonb, 'Babylon the great has fallen', 'The angel cried with a mighty voice, ''Fallen, fallen is Babylon the great'' (Revelation 18:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 18, what does the mighty angel announce about Babylon?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 1, 'What has Babylon become after her fall?', '["A house of prayer", "A dwelling place of demons", "A city of peace", "A refuge for the saints"]'::jsonb, 'A dwelling place of demons', 'Babylon becomes a dwelling place of demons and a prison of every unclean spirit (Revelation 18:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What has Babylon become after her fall?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 1, 'Who committed sexual immorality with Babylon?', '["The saints", "The kings of the earth", "The angels", "The elders"]'::jsonb, 'The kings of the earth', 'The kings of the earth committed sexual immorality with her (Revelation 18:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'Who committed sexual immorality with Babylon?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 1, 'Who grew rich from Babylon''s luxury?', '["The prophets", "The merchants of the earth", "The martyrs", "The living creatures"]'::jsonb, 'The merchants of the earth', 'The merchants of the earth grew rich from the power of her luxury (Revelation 18:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'Who grew rich from Babylon''s luxury?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 1, 'What voice from heaven tells God''s people to do?', '["Build Babylon again", "Come out of her", "Mourn for her", "Trade with her"]'::jsonb, 'Come out of her', 'A voice from heaven says, ''Come out of her, my people'' (Revelation 18:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What voice from heaven tells God''s people to do?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 1, 'Why are God''s people told to come out of Babylon?', '["To conquer Rome", "So they do not participate in her sins", "To become merchants", "So they can rule the beast"]'::jsonb, 'So they do not participate in her sins', 'They are told to come out so they do not share in her sins and plagues (Revelation 18:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'Why are God''s people told to come out of Babylon?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 1, 'How high have Babylon''s sins piled up?', '["To the mountains", "To heaven", "To the sea", "To the desert"]'::jsonb, 'To heaven', 'Her sins have reached to heaven (Revelation 18:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'How high have Babylon''s sins piled up?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 1, 'In what did Babylon say she sat?', '["A chariot", "A throne as queen", "A temple", "A cave"]'::jsonb, 'A throne as queen', 'Babylon says, ''I sit a queen'' (Revelation 18:7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'In what did Babylon say she sat?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 1, 'What will come upon Babylon in one day?', '["Peace and safety", "Plagues, death, mourning, and famine", "Rain and harvest", "Mercy and healing"]'::jsonb, 'Plagues, death, mourning, and famine', 'Her plagues will come in one day: death, mourning, and famine (Revelation 18:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What will come upon Babylon in one day?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 1, 'What will Babylon be burned with?', '["Fire", "Sulfur only", "Lightning", "Oil"]'::jsonb, 'Fire', 'She will be utterly burned with fire (Revelation 18:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What will Babylon be burned with?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 2, 'Why do the kings of the earth stand far away from Babylon?', '["They are gathering to help her", "They fear her torment", "They have forgotten her", "They are obeying the beast"]'::jsonb, 'They fear her torment', 'The kings stand far off for fear of her torment (Revelation 18:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Why do the kings of the earth stand far away from Babylon?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 2, 'What do the kings cry when they see Babylon''s fall?', '["Peace, peace", "Alas, alas, the great city", "Holy, holy, holy", "Babylon has risen"]'::jsonb, 'Alas, alas, the great city', 'They lament, ''Alas, alas, the great city, Babylon'' (Revelation 18:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What do the kings cry when they see Babylon''s fall?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 2, 'How quickly does Babylon''s judgment come?', '["In one year", "In one hour", "In seven days", "In forty-two months"]'::jsonb, 'In one hour', 'The kings and merchants say her judgment came in one hour (Revelation 18:10,17,19).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'How quickly does Babylon''s judgment come?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 2, 'Why do the merchants of the earth weep?', '["Because no one buys their cargo anymore", "Because the sea is calm", "Because the temple is open", "Because the saints have left"]'::jsonb, 'Because no one buys their cargo anymore', 'The merchants weep because no one buys their merchandise anymore (Revelation 18:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Why do the merchants of the earth weep?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 2, 'Which luxury item is listed among Babylon''s cargo?', '["Silver and gold", "Manna", "Incense from the altar only", "Stone tablets"]'::jsonb, 'Silver and gold', 'Gold and silver are part of the merchandise list (Revelation 18:12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Which luxury item is listed among Babylon''s cargo?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 2, 'What had departed from Babylon according to the lament?', '["Her armies", "The fruit that your soul desired", "Her kings", "Her prophets"]'::jsonb, 'The fruit that your soul desired', 'The lament says the fruit the soul desired has departed (Revelation 18:14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What had departed from Babylon according to the lament?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 2, 'Who else stands far off and cries out over Babylon''s destruction?', '["Farmers", "Shipmasters and sailors", "The seven angels", "The living creatures"]'::jsonb, 'Shipmasters and sailors', 'Shipmasters, sailors, and all who earn their living by the sea stand far away and lament (Revelation 18:17-18).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Who else stands far off and cries out over Babylon''s destruction?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 2, 'What do the sea traders throw on their heads?', '["Gold dust", "Dust", "Ashes and oil", "Water"]'::jsonb, 'Dust', 'They throw dust on their heads as they mourn (Revelation 18:19).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What do the sea traders throw on their heads?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 2, 'Who is told to rejoice over Babylon''s fall?', '["Heaven, saints, apostles, and prophets", "Only merchants", "Only kings", "Only the nations"]'::jsonb, 'Heaven, saints, apostles, and prophets', 'Heaven and God''s people are told to rejoice because God has judged her for them (Revelation 18:20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Who is told to rejoice over Babylon''s fall?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 2, 'What does a mighty angel throw into the sea?', '["A golden bowl", "A stone like a great millstone", "A scroll", "A trumpet"]'::jsonb, 'A stone like a great millstone', 'A mighty angel casts a stone like a great millstone into the sea (Revelation 18:21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What does a mighty angel throw into the sea?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 3, 'What does Babylon''s fall reveal about worldly luxury in this chapter?', '["It guarantees safety", "It is temporary and subject to judgment", "It always honors God", "It saves the nations"]'::jsonb, 'It is temporary and subject to judgment', 'Babylon''s luxurious wealth disappears suddenly under judgment (Revelation 18:7-8,16-17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does Babylon''s fall reveal about worldly luxury in this chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 3, 'Why are God''s people commanded to come out of Babylon?', '["To avoid sharing in her sins and plagues", "To attack the kings", "To rebuild the city", "To become wealthy"]'::jsonb, 'To avoid sharing in her sins and plagues', 'They must separate from her so they do not share in her sins or receive her plagues (Revelation 18:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why are God''s people commanded to come out of Babylon?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 3, 'What does Babylon''s claim to sit as queen show about her attitude?', '["Humility", "Self-confidence and pride", "Repentance", "Fear of God"]'::jsonb, 'Self-confidence and pride', 'Her boast shows arrogant pride before judgment falls (Revelation 18:7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does Babylon''s claim to sit as queen show about her attitude?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 3, 'Why is the reaction of kings and merchants significant?', '["They mourn their losses more than Babylon''s sin", "They celebrate justice", "They repent immediately", "They defend the saints"]'::jsonb, 'They mourn their losses more than Babylon''s sin', 'Their laments focus on lost power, trade, and luxury rather than her evil (Revelation 18:9-19).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why is the reaction of kings and merchants significant?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 3, 'What does the long list of cargo emphasize?', '["Babylon''s military strength", "Babylon''s vast commercial wealth", "The beauty of creation", "The simplicity of city life"]'::jsonb, 'Babylon''s vast commercial wealth', 'The merchandise list highlights immense luxury and trade (Revelation 18:12-13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the long list of cargo emphasize?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 3, 'What is implied by including ''slaves, that is, human souls'' in the cargo list?', '["Trade is harmless", "Babylon commodifies human life", "Only animals are traded", "The list is symbolic only"]'::jsonb, 'Babylon commodifies human life', 'The list culminates with human beings treated as merchandise (Revelation 18:13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What is implied by including ''slaves, that is, human souls'' in the cargo list?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 3, 'What does the millstone cast into the sea symbolize?', '["Babylon''s peaceful rest", "Babylon''s sudden and irreversible downfall", "The growth of her empire", "A call to repentance"]'::jsonb, 'Babylon''s sudden and irreversible downfall', 'The angel says Babylon will be thrown down violently and found no more (Revelation 18:21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the millstone cast into the sea symbolize?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 3, 'Why are heaven and the saints told to rejoice?', '["Because trade will return", "Because God has executed justice", "Because Babylon moved cities", "Because the kings repented"]'::jsonb, 'Because God has executed justice', 'God has judged Babylon on behalf of His people (Revelation 18:20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why are heaven and the saints told to rejoice?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 3, 'What do the repeated words ''no more at all'' communicate?', '["Temporary silence", "Final removal", "Hidden blessing", "Uncertain outcome"]'::jsonb, 'Final removal', 'The repeated phrase emphasizes the complete end of Babylon''s life and culture (Revelation 18:21-23).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What do the repeated words ''no more at all'' communicate?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 3, 'Why is Babylon held guilty at the end of the chapter?', '["Because she was weak", "Because in her was found the blood of prophets, saints, and all slain on the earth", "Because she lost her ships", "Because she feared the beast"]'::jsonb, 'Because in her was found the blood of prophets, saints, and all slain on the earth', 'Her bloodguilt is explicitly stated in the final verse (Revelation 18:24).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why is Babylon held guilty at the end of the chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 4, 'How does Revelation 18 expand on the Babylon image from chapter 17?', '["It shifts from symbolic woman to the detailed fall of the great city", "It abandons Babylon entirely", "It focuses only on the beast''s resurrection", "It retells the seven churches"]'::jsonb, 'It shifts from symbolic woman to the detailed fall of the great city', 'Chapter 17 identifies Babylon; chapter 18 describes her collapse and the world''s reaction (Revelation 18:1-24).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 18 expand on the Babylon image from chapter 17?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 4, 'What contrast shapes the chapter''s responses to Babylon''s fall?', '["Earth mourns while heaven rejoices", "Heaven mourns while earth rejoices", "Everyone celebrates equally", "No one reacts"]'::jsonb, 'Earth mourns while heaven rejoices', 'Kings, merchants, and sailors lament, but heaven and the saints are called to rejoice (Revelation 18:9-20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What contrast shapes the chapter''s responses to Babylon''s fall?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 4, 'How does Babylon''s destruction expose the weakness of earthly power?', '["Her allies quickly save her", "Her wealth and influence vanish in one hour", "Her city grows stronger after fire", "Her merchants become kings"]'::jsonb, 'Her wealth and influence vanish in one hour', 'The repeated statement that judgment came in one hour stresses the fragility of earthly glory (Revelation 18:10,17,19).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Babylon''s destruction expose the weakness of earthly power?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 4, 'Why are kings, merchants, and sailors all included in the laments?', '["To show Babylon''s influence across politics, commerce, and trade", "To prove they are innocent", "To identify the churches", "To list all believers"]'::jsonb, 'To show Babylon''s influence across politics, commerce, and trade', 'These groups represent the broad social and economic systems tied to Babylon (Revelation 18:9-19).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why are kings, merchants, and sailors all included in the laments?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 4, 'What does the chapter suggest about luxury disconnected from righteousness?', '["It is harmless", "It can become part of a corrupt and judged system", "It always blesses the poor", "It is the same as holiness"]'::jsonb, 'It can become part of a corrupt and judged system', 'Babylon''s luxury is tied to pride, immorality, exploitation, and judgment (Revelation 18:3,7,13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What does the chapter suggest about luxury disconnected from righteousness?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 4, 'How does the ''come out of her'' command function in the chapter?', '["As a call for separation from corrupt participation", "As an invitation to conquer Babylon militarily", "As a trade boycott only", "As a command to rebuild Jerusalem"]'::jsonb, 'As a call for separation from corrupt participation', 'God''s people are told to leave so they do not share in her sins and plagues (Revelation 18:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does the ''come out of her'' command function in the chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 4, 'What role does the millstone sign-act play in the chapter''s ending?', '["It visually seals the certainty of Babylon''s fall", "It invites Babylon to repent", "It explains the bowls again", "It starts a new creation scene"]'::jsonb, 'It visually seals the certainty of Babylon''s fall', 'The millstone dramatizes Babylon''s violent and final overthrow (Revelation 18:21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What role does the millstone sign-act play in the chapter''s ending?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 4, 'How do the repeated losses of music, craftsmen, mills, and lamps deepen the judgment?', '["They show the complete collapse of city life", "They predict temporary recession only", "They focus on one neighborhood", "They restore worship in Babylon"]'::jsonb, 'They show the complete collapse of city life', 'The repeated ''no more at all'' covers sound, work, light, and celebration, signaling total desolation (Revelation 18:22-23).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How do the repeated losses of music, craftsmen, mills, and lamps deepen the judgment?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 4, 'Why is Babylon''s sorcery mentioned near the end?', '["To show her deceptive influence over the nations", "To praise her wisdom", "To explain her architecture", "To identify one merchant"]'::jsonb, 'To show her deceptive influence over the nations', 'By her sorcery all the nations were deceived (Revelation 18:23).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is Babylon''s sorcery mentioned near the end?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 4, 'What overall picture of Babylon emerges from this chapter?', '["A misunderstood but righteous city", "A proud, wealthy, exploitative, and doomed world system", "A temporary refuge for believers", "A minor kingdom with little influence"]'::jsonb, 'A proud, wealthy, exploitative, and doomed world system', 'Babylon is marked by luxury, immorality, deception, bloodguilt, and sudden destruction (Revelation 18:3,7,13,23-24).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What overall picture of Babylon emerges from this chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 5, 'How does Revelation 18 portray divine justice against Babylon?', '["As delayed and uncertain", "As certain, proportionate, and final", "As unnecessary mercy", "As purely symbolic with no outcome"]'::jsonb, 'As certain, proportionate, and final', 'Babylon is repaid according to her deeds, judged suddenly, and found no more (Revelation 18:6-8,21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does Revelation 18 portray divine justice against Babylon?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 5, 'What theological point is made by heaven rejoicing while earth mourns?', '["God''s perspective on justice differs from the world''s attachment to corrupt gain", "Heaven values trade less than music", "Earth understands righteousness better", "The saints grieve more than merchants"]'::jsonb, 'God''s perspective on justice differs from the world''s attachment to corrupt gain', 'Earthly powers lament lost wealth, while heaven rejoices in God''s righteous judgment (Revelation 18:9-20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What theological point is made by heaven rejoicing while earth mourns?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 5, 'Why is Babylon''s self-description as queen significant?', '["It reveals proud self-exaltation before sudden humiliation", "It shows covenant faithfulness", "It proves she cannot be judged", "It identifies her as the bride"]'::jsonb, 'It reveals proud self-exaltation before sudden humiliation', 'Her boast is answered by death, mourning, famine, and fire (Revelation 18:7-8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'Why is Babylon''s self-description as queen significant?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 5, 'What does the cargo list contribute theologically to the chapter?', '["It shows economic splendor can become morally corrupt and dehumanizing", "It praises free trade alone", "It lists temple offerings", "It proves wealth is always evil"]'::jsonb, 'It shows economic splendor can become morally corrupt and dehumanizing', 'The list climaxes with human souls, showing a system that commodifies people (Revelation 18:12-13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What does the cargo list contribute theologically to the chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 5, 'How does Revelation 18 critique empire?', '["It celebrates imperial glory", "It exposes empire as seductive, exploitative, deceptive, and bloodstained", "It ignores politics entirely", "It limits evil to private religion"]'::jsonb, 'It exposes empire as seductive, exploitative, deceptive, and bloodstained', 'Babylon enriches nations, deceives them, and is guilty of the blood of prophets and saints (Revelation 18:3,23-24).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does Revelation 18 critique empire?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 5, 'What is the significance of the repeated ''in one hour'' language?', '["It underscores the sudden collapse of what seemed secure", "It gives a precise clock reading only", "It means the vision is not symbolic", "It refers to one worship service"]'::jsonb, 'It underscores the sudden collapse of what seemed secure', 'Babylon''s enormous wealth and influence disappear with shocking speed (Revelation 18:10,17,19).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What is the significance of the repeated ''in one hour'' language?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 5, 'How does the command to come out of Babylon relate to faithful living?', '["It calls for moral and spiritual separation from a corrupt system", "It commands isolation from all society", "It requires fleeing every city", "It replaces trust in the Lamb"]'::jsonb, 'It calls for moral and spiritual separation from a corrupt system', 'God''s people must not participate in Babylon''s sins or share in her judgment (Revelation 18:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does the command to come out of Babylon relate to faithful living?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 5, 'Why does the chapter end with bloodguilt?', '["To show Babylon''s fall is rooted in moral accountability before God", "To switch topics abruptly", "To excuse the merchants", "To focus only on ancient history"]'::jsonb, 'To show Babylon''s fall is rooted in moral accountability before God', 'Babylon''s judgment is justified because the blood of prophets, saints, and the slain was found in her (Revelation 18:24).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'Why does the chapter end with bloodguilt?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 5, 'In the flow of Revelation, what is chapter 18 mainly doing?', '["Giving a full lament and judgment oracle over Babylon after her identification in chapter 17", "Retelling the seals", "Describing the new Jerusalem", "Returning to the seven churches"]'::jsonb, 'Giving a full lament and judgment oracle over Babylon after her identification in chapter 17', 'Chapter 17 identifies Babylon symbolically, and chapter 18 expands her judgment in detail (Revelation 18:1-24).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'In the flow of Revelation, what is chapter 18 mainly doing?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 18, 5, 'What larger message does Revelation 18 give about worldly systems opposed to God?', '["They are permanent if wealthy enough", "They may appear glorious, but they are doomed under God''s righteous judgment", "They can avoid judgment through trade", "They are outside God''s concern"]'::jsonb, 'They may appear glorious, but they are doomed under God''s righteous judgment', 'Babylon appears rich and powerful, yet God brings her sudden and complete downfall (Revelation 18:7-8,21-24).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 18
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What larger message does Revelation 18 give about worldly systems opposed to God?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 1, 'According to Revelation 19, what word is shouted repeatedly in heaven at the beginning of the chapter?', '["Amen", "Hallelujah", "Holy", "Worthy"]'::jsonb, 'Hallelujah', 'A great multitude in heaven cries out, ''Hallelujah!'' (Revelation 19:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 19, what word is shouted repeatedly in heaven at the beginning of the chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 1, 'What are ascribed to God in the opening praise of Revelation 19?', '["Wisdom, riches, and might", "Salvation, glory, honor, and power", "Mercy, patience, and peace", "Grace, truth, and light"]'::jsonb, 'Salvation, glory, honor, and power', 'The heavenly multitude says, ''Salvation, power, and glory belong to our God'' (Revelation 19:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What are ascribed to God in the opening praise of Revelation 19?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 1, 'Why is God praised for judging the great prostitute?', '["She built many cities", "She corrupted the earth with sexual immorality", "She destroyed the temple", "She ruled the angels"]'::jsonb, 'She corrupted the earth with sexual immorality', 'God judged the great prostitute who corrupted the earth with her sexual immorality (Revelation 19:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'Why is God praised for judging the great prostitute?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 1, 'What rises forever and ever after Babylon''s judgment?', '["Her smoke", "Her music", "Her glory", "Her merchants"]'::jsonb, 'Her smoke', 'The multitude says, ''Her smoke goes up forever and ever'' (Revelation 19:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What rises forever and ever after Babylon''s judgment?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 1, 'Who fell down and worshiped God after the heavenly multitude praised Him?', '["The kings of the earth", "The twenty-four elders and the four living creatures", "The seven angels", "The martyrs under the altar"]'::jsonb, 'The twenty-four elders and the four living creatures', 'The twenty-four elders and the four living creatures fell down and worshiped God (Revelation 19:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'Who fell down and worshiped God after the heavenly multitude praised Him?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 1, 'What event is announced as having come in Revelation 19?', '["The sealing of the saints", "The marriage of the Lamb", "The fall of Jerusalem", "The rebuilding of the temple"]'::jsonb, 'The marriage of the Lamb', 'The chapter announces that the marriage of the Lamb has come (Revelation 19:7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What event is announced as having come in Revelation 19?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 1, 'What is the bride granted to wear?', '["Purple and scarlet", "Fine linen, bright and pure", "Gold and pearls", "Sackcloth"]'::jsonb, 'Fine linen, bright and pure', 'The bride is clothed in fine linen, bright and pure (Revelation 19:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What is the bride granted to wear?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 1, 'What does the fine linen represent?', '["The wealth of heaven", "The righteous acts of the saints", "The angels'' glory", "The mercy of kings"]'::jsonb, 'The righteous acts of the saints', 'The fine linen stands for the righteous acts of the saints (Revelation 19:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What does the fine linen represent?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 1, 'What title is written on the rider''s robe and thigh?', '["Faithful Prophet", "King of kings and Lord of lords", "Lion of Judah", "Prince of Peace"]'::jsonb, 'King of kings and Lord of lords', 'That title is written on His robe and on His thigh (Revelation 19:16).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What title is written on the rider''s robe and thigh?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 1, 'What happens to the beast and the false prophet at the end of the chapter?', '["They are bound for a thousand years", "They are cast alive into the lake of fire", "They escape into the wilderness", "They are forgiven"]'::jsonb, 'They are cast alive into the lake of fire', 'The beast and the false prophet are thrown alive into the lake of fire that burns with sulfur (Revelation 19:20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What happens to the beast and the false prophet at the end of the chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 2, 'What reason is given for calling God''s judgments true and righteous?', '["He has restored Babylon", "He has judged the prostitute and avenged His servants'' blood", "He has hidden His wrath", "He has crowned the merchants"]'::jsonb, 'He has judged the prostitute and avenged His servants'' blood', 'God''s judgments are praised because He judged the prostitute and avenged the blood of His servants (Revelation 19:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What reason is given for calling God''s judgments true and righteous?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 2, 'What voice comes from the throne in Revelation 19?', '["A call to flee Babylon", "A command to praise God", "A warning to the beast", "A lament for the nations"]'::jsonb, 'A command to praise God', 'A voice from the throne says, ''Give praise to our God, all you his servants'' (Revelation 19:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What voice comes from the throne in Revelation 19?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 2, 'Whose voices does the praise in heaven sound like?', '["A quiet stream", "Many waters and mighty thunders", "Harps only", "A trumpet blast alone"]'::jsonb, 'Many waters and mighty thunders', 'The voice sounded like many waters and mighty thunders (Revelation 19:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Whose voices does the praise in heaven sound like?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 2, 'Why are those invited to the marriage supper called blessed?', '["They own great wealth", "They are invited to the marriage supper of the Lamb", "They escaped the sea", "They rule the earth"]'::jsonb, 'They are invited to the marriage supper of the Lamb', 'Blessed are those who are invited to the marriage supper of the Lamb (Revelation 19:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Why are those invited to the marriage supper called blessed?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 2, 'What did John try to do before the angel stopped him?', '["Open a scroll", "Worship the angel", "Ride the white horse", "Call down fire"]'::jsonb, 'Worship the angel', 'John fell down at the angel''s feet to worship him, but the angel stopped him (Revelation 19:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What did John try to do before the angel stopped him?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 2, 'What does the angel tell John about the testimony of Jesus?', '["It is the law of Moses", "It is the spirit of prophecy", "It is the voice of thunder", "It is the mark of the saints"]'::jsonb, 'It is the spirit of prophecy', 'The angel says, ''The testimony of Jesus is the spirit of prophecy'' (Revelation 19:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What does the angel tell John about the testimony of Jesus?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 2, 'What is the rider on the white horse called?', '["True Witness", "Faithful and True", "Holy One", "Word of Grace"]'::jsonb, 'Faithful and True', 'The rider is called Faithful and True (Revelation 19:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What is the rider on the white horse called?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 2, 'How does the rider judge and make war?', '["With secrecy", "In righteousness", "With cruelty", "By deception"]'::jsonb, 'In righteousness', 'He judges and makes war in righteousness (Revelation 19:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'How does the rider judge and make war?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 2, 'What comes out of the rider''s mouth?', '["A trumpet", "A sharp sword", "A golden scepter", "Fire and smoke"]'::jsonb, 'A sharp sword', 'A sharp sword comes out of His mouth (Revelation 19:15).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What comes out of the rider''s mouth?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 2, 'What are the birds called to gather for?', '["The wedding feast", "The great supper of God", "The harvest of the earth", "The song of Moses"]'::jsonb, 'The great supper of God', 'An angel calls the birds to gather for the great supper of God (Revelation 19:17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What are the birds called to gather for?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 3, 'What does the heavenly ''Hallelujah'' at the start of the chapter emphasize?', '["A private prayer", "Public celebration of God''s victory and justice", "A warning to the churches", "A lament for Babylon"]'::jsonb, 'Public celebration of God''s victory and justice', 'The heavenly multitude praises God for salvation, power, and righteous judgment (Revelation 19:1-3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the heavenly ''Hallelujah'' at the start of the chapter emphasize?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 3, 'Why is the marriage imagery significant in this chapter?', '["It shows a political treaty", "It portrays joyful union between the Lamb and His people", "It describes Babylon''s recovery", "It replaces all judgment scenes"]'::jsonb, 'It portrays joyful union between the Lamb and His people', 'The marriage of the Lamb and His bride presents covenant joy and readiness (Revelation 19:7-8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why is the marriage imagery significant in this chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 3, 'What does the bride''s fine linen suggest about the saints?', '["They trust in wealth", "They are prepared in righteousness", "They are hidden from God", "They avoid all suffering"]'::jsonb, 'They are prepared in righteousness', 'The fine linen is interpreted as the righteous acts of the saints (Revelation 19:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the bride''s fine linen suggest about the saints?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 3, 'Why does the angel refuse John''s worship?', '["Because angels are unworthy of any honor", "Because worship belongs to God alone", "Because John was mistaken about the vision", "Because the marriage supper had begun"]'::jsonb, 'Because worship belongs to God alone', 'The angel tells John, ''Worship God,'' refusing to receive worship himself (Revelation 19:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why does the angel refuse John''s worship?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 3, 'What does the name ''Faithful and True'' communicate about the rider?', '["He is unpredictable", "He is perfectly reliable and just", "He is hidden from history", "He rules only by force"]'::jsonb, 'He is perfectly reliable and just', 'The rider''s name highlights His trustworthiness and righteousness in judgment (Revelation 19:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the name ''Faithful and True'' communicate about the rider?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 3, 'What does the sharp sword from the rider''s mouth symbolize?', '["Military weakness", "The power of His word to judge and rule", "A literal farming tool", "A symbol of trade"]'::jsonb, 'The power of His word to judge and rule', 'The sword from His mouth signifies authoritative judgment over the nations (Revelation 19:15).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the sharp sword from the rider''s mouth symbolize?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 3, 'What is the effect of the rider''s arrival on the beast''s coalition?', '["They make peace immediately", "They are defeated and judged", "They are hidden for a season", "They rebuild Babylon"]'::jsonb, 'They are defeated and judged', 'The beast, false prophet, and their followers are decisively defeated (Revelation 19:19-21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What is the effect of the rider''s arrival on the beast''s coalition?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 3, 'Why are the birds summoned before the battle outcome is described?', '["To predict God''s certain victory", "To create confusion about the ending", "To celebrate Babylon''s trade", "To invite the saints to war"]'::jsonb, 'To predict God''s certain victory', 'The summons to the birds anticipates the defeat of the kings and armies opposed to God (Revelation 19:17-18).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why are the birds summoned before the battle outcome is described?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 3, 'What contrast exists between the marriage supper and the great supper of God?', '["Both celebrate the same event from different angles", "One is blessing for the faithful, the other judgment on God''s enemies", "One is earthly and one is heavenly only", "Both are invitations for merchants"]'::jsonb, 'One is blessing for the faithful, the other judgment on God''s enemies', 'The marriage supper blesses the invited, while the great supper of God is a feast on the defeated wicked (Revelation 19:9,17-18).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What contrast exists between the marriage supper and the great supper of God?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 3, 'What does the many-crowned rider reveal about Christ''s authority?', '["He shares authority equally with the beast", "He possesses supreme royal authority", "He rules only heaven", "He has authority only over Israel"]'::jsonb, 'He possesses supreme royal authority', 'His many diadems and royal title show unmatched kingship (Revelation 19:12,16).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the many-crowned rider reveal about Christ''s authority?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 4, 'How does Revelation 19 answer the laments over Babylon in chapter 18?', '["With silence from heaven", "With heavenly praise over God''s righteous judgment", "With a call to rebuild the city", "With a new lament from the saints"]'::jsonb, 'With heavenly praise over God''s righteous judgment', 'Where earth mourned Babylon''s fall, heaven now erupts in hallelujahs over God''s justice (Revelation 19:1-4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 19 answer the laments over Babylon in chapter 18?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 4, 'What transition does the chapter make after the fall of Babylon?', '["From judgment to covenant celebration and final victory", "From victory back to the seven churches", "From heaven to Egypt", "From prophecy to silence"]'::jsonb, 'From judgment to covenant celebration and final victory', 'The chapter moves from praise for Babylon''s judgment to the marriage of the Lamb and then to the rider''s victory (Revelation 19:1-21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What transition does the chapter make after the fall of Babylon?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 4, 'How do worship and warfare relate in this chapter?', '["They are unrelated scenes", "Heavenly worship frames and interprets Christ''s just victory in battle", "Warfare replaces worship entirely", "Worship belongs only to angels, warfare to saints"]'::jsonb, 'Heavenly worship frames and interprets Christ''s just victory in battle', 'Praise of God''s righteous judgments leads into the appearance of the righteous rider who defeats evil (Revelation 19:1-16).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How do worship and warfare relate in this chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 4, 'Why is the bride''s readiness emphasized before the battle scene?', '["To show the faithful are properly prepared for union with the Lamb before evil is finally crushed", "To delay the story", "To contrast the bride with the elders only", "To show she defeats the beast personally"]'::jsonb, 'To show the faithful are properly prepared for union with the Lamb before evil is finally crushed', 'The chapter presents the bride made ready before moving to Christ''s conquest of His enemies (Revelation 19:7-8,11-21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is the bride''s readiness emphasized before the battle scene?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 4, 'How does the title ''Word of God'' deepen the identity of the rider?', '["It portrays Him as God''s self-expression in action and judgment", "It identifies Him as an angelic messenger only", "It limits Him to spoken prophecy", "It contrasts Him with the Lamb"]'::jsonb, 'It portrays Him as God''s self-expression in action and judgment', 'The rider is called the Word of God, linking His identity and authority to God''s decisive self-revelation (Revelation 19:13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does the title ''Word of God'' deepen the identity of the rider?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 4, 'What is the role of the heavenly armies following the rider?', '["They secure victory apart from Him", "They accompany His victorious advance", "They are defeated by the beast", "They represent the merchants of Babylon"]'::jsonb, 'They accompany His victorious advance', 'The armies of heaven follow Him on white horses, clothed in fine linen (Revelation 19:14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What is the role of the heavenly armies following the rider?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 4, 'How does the chapter portray the fate of deceiving powers?', '["They are given more time to rule", "They are publicly defeated and judged", "They disappear without explanation", "They marry the bride"]'::jsonb, 'They are publicly defeated and judged', 'The beast and false prophet are seized and thrown into the lake of fire (Revelation 19:20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does the chapter portray the fate of deceiving powers?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 4, 'What contrast is created between Babylon''s prostitute imagery and the Lamb''s bride imagery?', '["Corrupt unfaithfulness versus pure covenant faithfulness", "Two equal cities in conflict", "Earthly marriage versus heavenly solitude", "Political defeat versus commercial success"]'::jsonb, 'Corrupt unfaithfulness versus pure covenant faithfulness', 'The prostitute has been judged, and now the pure bride of the Lamb is revealed in contrast (Revelation 19:2,7-8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What contrast is created between Babylon''s prostitute imagery and the Lamb''s bride imagery?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 4, 'Why is the defeat of kings, captains, and mighty men listed so broadly?', '["To show the total reach of Christ''s judgment over all human ranks", "To honor military strength", "To single out merchants only", "To limit judgment to one nation"]'::jsonb, 'To show the total reach of Christ''s judgment over all human ranks', 'The great supper includes kings, captains, mighty men, and others, showing comprehensive judgment (Revelation 19:18).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is the defeat of kings, captains, and mighty men listed so broadly?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 4, 'How does Revelation 19 prepare for the next stage of the book''s finale?', '["It removes all remaining enemies", "It establishes Christ''s victory over beastly powers before the final judgment scenes continue", "It returns to the seven bowls", "It ends with Babylon''s rebuilding"]'::jsonb, 'It establishes Christ''s victory over beastly powers before the final judgment scenes continue', 'The chapter defeats the beast and false prophet, setting up the remaining final events (Revelation 19:19-21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 19 prepare for the next stage of the book''s finale?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 5, 'How does Revelation 19 present divine judgment and salvation together?', '["As separate themes that never meet", "As two sides of God''s righteous victory over evil for the sake of His people", "As conflicting ideas", "As symbols without fulfillment"]'::jsonb, 'As two sides of God''s righteous victory over evil for the sake of His people', 'Heaven praises God for judging the prostitute, the bride is prepared, and Christ defeats evil powers (Revelation 19:1-2,7-8,11-21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does Revelation 19 present divine judgment and salvation together?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 5, 'What theological significance does the marriage supper of the Lamb carry?', '["It marks the consummation of covenant union and joy", "It replaces judgment entirely", "It is only a reward for angels", "It describes political peace among nations"]'::jsonb, 'It marks the consummation of covenant union and joy', 'The marriage supper celebrates the Lamb''s union with His prepared people (Revelation 19:7-9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What theological significance does the marriage supper of the Lamb carry?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 5, 'Why is Christ depicted both as bridegroom and warrior in this chapter?', '["To show His relationship to His people and His triumph over their enemies", "To divide His identity into two unrelated roles", "To compare Him with Babylon", "To make the vision less symbolic"]'::jsonb, 'To show His relationship to His people and His triumph over their enemies', 'The Lamb receives His bride, and the rider on the white horse defeats the beastly coalition (Revelation 19:7-9,11-21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'Why is Christ depicted both as bridegroom and warrior in this chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 5, 'What does the rider treading ''the winepress of the fierceness of the wrath of God'' communicate?', '["A mild warning only", "The full execution of divine wrath against evil", "A harvest festival", "The repentance of Babylon"]'::jsonb, 'The full execution of divine wrath against evil', 'The image portrays Christ carrying out God''s fierce judgment on the nations (Revelation 19:15).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What does the rider treading ''the winepress of the fierceness of the wrath of God'' communicate?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 5, 'How does the chapter reinforce the uniqueness of God''s worship?', '["Angels may be worshiped as representatives", "Only God is to be worshiped, not even glorious heavenly messengers", "Worship belongs equally to saints and angels", "John is praised for worshiping the angel"]'::jsonb, 'Only God is to be worshiped, not even glorious heavenly messengers', 'The angel rejects John''s worship and commands him to worship God (Revelation 19:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does the chapter reinforce the uniqueness of God''s worship?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 5, 'What is the significance of calling the rider ''King of kings and Lord of lords'' in this battle context?', '["It declares His absolute supremacy over every opposing ruler", "It limits His reign to one era", "It describes the beast''s title ironically", "It means the kings will negotiate peace"]'::jsonb, 'It declares His absolute supremacy over every opposing ruler', 'The title presents Christ as supreme over all earthly and spiritual rulers He defeats (Revelation 19:16).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What is the significance of calling the rider ''King of kings and Lord of lords'' in this battle context?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 5, 'How does Revelation 19 function in the flow of Revelation''s final chapters?', '["It gives the celebratory and martial answer to Babylon''s fall before the last enemy scenes continue", "It returns to the opening letters only", "It restarts the seals", "It describes the new Jerusalem in full"]'::jsonb, 'It gives the celebratory and martial answer to Babylon''s fall before the last enemy scenes continue', 'After Babylon''s fall, heaven rejoices, the Lamb''s marriage is announced, and Christ defeats the beast and false prophet (Revelation 19:1-21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does Revelation 19 function in the flow of Revelation''s final chapters?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 5, 'What larger Revelation theme is strengthened by the beast''s defeat here?', '["Evil power can resist forever", "Christ''s victory over deceptive and persecuting powers is certain", "The nations no longer matter", "Babylon was the final enemy"]'::jsonb, 'Christ''s victory over deceptive and persecuting powers is certain', 'The beast and false prophet are decisively judged, confirming the certainty of Christ''s triumph (Revelation 19:20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What larger Revelation theme is strengthened by the beast''s defeat here?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 5, 'Why are both invitation meals in this chapter theologically important?', '["They show the final division between communion with the Lamb and judgment under God''s wrath", "They describe the same blessing twice", "They replace all symbolism with literal eating", "They focus only on angels"]'::jsonb, 'They show the final division between communion with the Lamb and judgment under God''s wrath', 'One meal blesses those invited to the Lamb''s marriage supper, while the other consumes God''s enemies in judgment (Revelation 19:9,17-18).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'Why are both invitation meals in this chapter theologically important?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 19, 5, 'What does Revelation 19 reveal about the end of false religion and false rule?', '["They are gradually reformed", "They are overthrown by God''s righteous action through Christ", "They remain alongside the bride", "They disappear without judgment"]'::jsonb, 'They are overthrown by God''s righteous action through Christ', 'The prostitute has been judged, and the beast and false prophet are captured and thrown into the lake of fire (Revelation 19:2,20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 19
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What does Revelation 19 reveal about the end of false religion and false rule?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 1, 'According to Revelation 20, what did John see coming down out of heaven?', '["A mighty warrior", "An angel with the key of the abyss", "A woman clothed with the sun", "A beast with ten horns"]'::jsonb, 'An angel with the key of the abyss', 'John saw an angel coming down out of heaven, having the key of the abyss and a great chain in his hand (Revelation 20:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 20, what did John see coming down out of heaven?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 1, 'What did the angel have in his hand besides the key of the abyss?', '["A golden bowl", "A sharp sword", "A great chain", "A scroll"]'::jsonb, 'A great chain', 'The angel had a great chain in his hand (Revelation 20:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What did the angel have in his hand besides the key of the abyss?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 1, 'Whom did the angel seize in Revelation 20?', '["The beast", "The false prophet", "The dragon, the ancient serpent, who is the devil and Satan", "Babylon the great"]'::jsonb, 'The dragon, the ancient serpent, who is the devil and Satan', 'The angel seized the dragon, identified as the ancient serpent, the devil, and Satan (Revelation 20:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'Whom did the angel seize in Revelation 20?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 1, 'For how long was Satan bound?', '["Forty-two months", "One hour", "A thousand years", "Seven years"]'::jsonb, 'A thousand years', 'Satan was bound for a thousand years (Revelation 20:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'For how long was Satan bound?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 1, 'Where was Satan thrown after being bound?', '["The lake of fire", "The sea", "The abyss", "The wilderness"]'::jsonb, 'The abyss', 'The angel threw Satan into the abyss (Revelation 20:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'Where was Satan thrown after being bound?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 1, 'Why was Satan shut up in the abyss?', '["So he could rule the nations", "So he would no longer deceive the nations", "So he could judge the saints", "So he could gather kings for battle"]'::jsonb, 'So he would no longer deceive the nations', 'He was shut up so that he should deceive the nations no more until the thousand years were finished (Revelation 20:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'Why was Satan shut up in the abyss?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 1, 'Who lived and reigned with Christ for a thousand years?', '["The merchants of the earth", "Those beheaded for the testimony of Jesus and God''s word", "All the nations", "The kings of the earth"]'::jsonb, 'Those beheaded for the testimony of Jesus and God''s word', 'Those who had been beheaded for the testimony of Jesus and for God''s word lived and reigned with Christ (Revelation 20:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'Who lived and reigned with Christ for a thousand years?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 1, 'What is the name given to the rising of these saints?', '["The great awakening", "The first resurrection", "The marriage supper", "The final trumpet"]'::jsonb, 'The first resurrection', 'Their coming to life is called the first resurrection (Revelation 20:5-6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What is the name given to the rising of these saints?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 1, 'What happens to Satan after the thousand years are finished?', '["He is forgiven", "He is released from prison", "He becomes king", "He enters the temple"]'::jsonb, 'He is released from prison', 'After the thousand years, Satan must be released for a short time (Revelation 20:3,7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What happens to Satan after the thousand years are finished?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 1, 'What is thrown into the lake of fire at the end of the chapter?', '["Only death", "Death and Hades", "The sea and the earth", "The sun and moon"]'::jsonb, 'Death and Hades', 'Death and Hades were thrown into the lake of fire (Revelation 20:14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What is thrown into the lake of fire at the end of the chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 2, 'What happened to the abyss after Satan was thrown into it?', '["It was filled with fire", "It was shut and sealed over him", "It was opened to the nations", "It was destroyed"]'::jsonb, 'It was shut and sealed over him', 'The abyss was shut and sealed over Satan (Revelation 20:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What happened to the abyss after Satan was thrown into it?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 2, 'What were the saints in Revelation 20 rewarded for refusing?', '["To worship the temple", "To receive the beast''s mark", "To follow Moses", "To trade with Babylon"]'::jsonb, 'To receive the beast''s mark', 'They had not worshiped the beast or his image and had not received the mark on their forehead and hand (Revelation 20:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What were the saints in Revelation 20 rewarded for refusing?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 2, 'What authority was given to those seated on thrones?', '["To buy and sell", "To judge", "To wage war with swords", "To rebuild Babylon"]'::jsonb, 'To judge', 'John saw thrones, and judgment was given to those sitting on them (Revelation 20:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What authority was given to those seated on thrones?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 2, 'What is said about the rest of the dead?', '["They reigned with Christ", "They did not live until the thousand years were finished", "They entered the new Jerusalem", "They judged the nations"]'::jsonb, 'They did not live until the thousand years were finished', 'The rest of the dead did not live until the thousand years were completed (Revelation 20:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What is said about the rest of the dead?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 2, 'Who has no power over those in the first resurrection?', '["The beast", "The false prophet", "The second death", "The kings of the earth"]'::jsonb, 'The second death', 'Over these the second death has no power (Revelation 20:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Who has no power over those in the first resurrection?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 2, 'What will those in the first resurrection be to God and Christ?', '["Merchants and rulers", "Priests of God and of Christ", "Angels of judgment", "Builders of the city"]'::jsonb, 'Priests of God and of Christ', 'They will be priests of God and of Christ (Revelation 20:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What will those in the first resurrection be to God and Christ?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 2, 'Whom does Satan go out to deceive after his release?', '["The saints in heaven", "The nations in the four corners of the earth, Gog and Magog", "The twenty-four elders", "The angels at the abyss"]'::jsonb, 'The nations in the four corners of the earth, Gog and Magog', 'Satan goes out to deceive the nations in the four corners of the earth, Gog and Magog (Revelation 20:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Whom does Satan go out to deceive after his release?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 2, 'How large is the number of those gathered by Satan?', '["Like the stars of heaven", "Like the sand of the seashore", "Exactly 144,000", "Ten thousand times ten thousand"]'::jsonb, 'Like the sand of the seashore', 'Their number is like the sand of the seashore (Revelation 20:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'How large is the number of those gathered by Satan?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 2, 'What came down from God out of heaven against the nations?', '["A flood", "Fire", "Hailstones", "Darkness"]'::jsonb, 'Fire', 'Fire came down from God out of heaven and devoured them (Revelation 20:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What came down from God out of heaven against the nations?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 2, 'Where is the devil thrown after the final revolt?', '["Into the abyss again", "Into outer darkness", "Into the lake of fire and sulfur", "Into the sea"]'::jsonb, 'Into the lake of fire and sulfur', 'The devil is thrown into the lake of fire and sulfur, where the beast and false prophet are (Revelation 20:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Where is the devil thrown after the final revolt?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 3, 'What does Satan''s binding accomplish in the chapter?', '["It ends all evil permanently at once", "It restrains his deception of the nations for a set time", "It saves Babylon", "It destroys death immediately"]'::jsonb, 'It restrains his deception of the nations for a set time', 'Satan is bound so that he should deceive the nations no more until the thousand years are finished (Revelation 20:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does Satan''s binding accomplish in the chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 3, 'Why is the first resurrection described as blessed and holy?', '["It guarantees wealth", "It secures life beyond the second death", "It restores earthly trade", "It gives power over angels"]'::jsonb, 'It secures life beyond the second death', 'Those in the first resurrection are blessed and holy because the second death has no power over them (Revelation 20:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why is the first resurrection described as blessed and holy?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 3, 'What does the reign of the martyrs with Christ show?', '["Their witness was honored by God", "They were forgotten by heaven", "They defeated Christ''s enemies alone", "They became beasts"]'::jsonb, 'Their witness was honored by God', 'Those who suffered for Jesus now live and reign with Christ (Revelation 20:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the reign of the martyrs with Christ show?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 3, 'Why is Satan released after the thousand years in the narrative?', '["To gather one final rebellion", "To rebuild the nations", "To restore Babylon", "To judge the saints"]'::jsonb, 'To gather one final rebellion', 'After his release, Satan deceives the nations and gathers them for battle (Revelation 20:7-8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why is Satan released after the thousand years in the narrative?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 3, 'What does the destruction of Gog and Magog by fire suggest?', '["A long drawn-out war", "God''s swift and decisive victory", "A temporary setback", "A human military triumph"]'::jsonb, 'God''s swift and decisive victory', 'Fire from heaven devours them immediately (Revelation 20:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the destruction of Gog and Magog by fire suggest?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 3, 'What does the great white throne scene emphasize?', '["Trade between nations", "Final and universal judgment", "The rebuilding of Jerusalem", "The healing of the sea"]'::jsonb, 'Final and universal judgment', 'The great white throne scene presents the final judgment of the dead (Revelation 20:11-13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the great white throne scene emphasize?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 3, 'Why are books opened at the judgment?', '["To entertain the dead", "To judge according to works", "To reveal the beast''s number", "To list the churches"]'::jsonb, 'To judge according to works', 'The dead are judged from the things written in the books, according to their works (Revelation 20:12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why are books opened at the judgment?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 3, 'What is the role of the book of life in the judgment scene?', '["It records trade goods", "It distinguishes those who belong to life", "It replaces all other books", "It contains only angelic names"]'::jsonb, 'It distinguishes those who belong to life', 'Anyone not found written in the book of life is cast into the lake of fire (Revelation 20:12,15).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What is the role of the book of life in the judgment scene?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 3, 'What does calling the lake of fire ''the second death'' mean in context?', '["It is a second physical ocean", "It is the final state of judgment", "It is the same as martyrdom", "It is the first resurrection"]'::jsonb, 'It is the final state of judgment', 'The lake of fire is explicitly called the second death (Revelation 20:14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does calling the lake of fire ''the second death'' mean in context?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 3, 'What happens to death and Hades in Revelation 20?', '["They rule forever", "They are judged and removed", "They deceive the nations", "They open the abyss"]'::jsonb, 'They are judged and removed', 'Death and Hades are thrown into the lake of fire (Revelation 20:14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What happens to death and Hades in Revelation 20?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 4, 'How does Revelation 20 connect the defeat of the beast with the defeat of Satan?', '["Satan is defeated first, then the beast appears", "After the beast and false prophet are judged, Satan is bound and later finally condemned", "The beast returns to save Satan", "They are never mentioned together"]'::jsonb, 'After the beast and false prophet are judged, Satan is bound and later finally condemned', 'Chapter 19 ends with the beast and false prophet in the lake of fire, and chapter 20 shows Satan bound and then finally thrown there as well (Revelation 19:20; 20:1-3,10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 20 connect the defeat of the beast with the defeat of Satan?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 4, 'What contrast exists between those in the first resurrection and those at the final judgment?', '["One group reigns with Christ, while the dead are later judged according to works", "Both groups receive the beast''s mark", "Neither group faces any judgment", "Both are thrown into the lake of fire"]'::jsonb, 'One group reigns with Christ, while the dead are later judged according to works', 'The saints in the first resurrection reign with Christ, while the dead later stand before the great white throne for judgment (Revelation 20:4-6,12-13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What contrast exists between those in the first resurrection and those at the final judgment?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 4, 'How does the chapter portray the temporary nature of evil''s apparent power?', '["Evil grows stronger forever", "Satan is bound, briefly released, then finally judged", "The nations never rebel", "Death becomes eternal king"]'::jsonb, 'Satan is bound, briefly released, then finally judged', 'The sequence of binding, release, revolt, and condemnation shows that evil is limited and doomed (Revelation 20:2-3,7-10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does the chapter portray the temporary nature of evil''s apparent power?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 4, 'What is the narrative role of Gog and Magog in this chapter?', '["They represent the final gathered rebellion against God''s people", "They rebuild the temple", "They replace the beast and false prophet as rulers forever", "They are part of the first resurrection"]'::jsonb, 'They represent the final gathered rebellion against God''s people', 'Satan deceives Gog and Magog and gathers them against the camp of the saints and the beloved city (Revelation 20:8-9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What is the narrative role of Gog and Magog in this chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 4, 'How does the chapter portray God''s people between persecution and final victory?', '["Forgotten and unnamed", "Vindicated through reign and protected from the second death", "Defeated until the end", "Forced to worship angels"]'::jsonb, 'Vindicated through reign and protected from the second death', 'The martyrs reign with Christ, and the second death has no power over them (Revelation 20:4-6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does the chapter portray God''s people between persecution and final victory?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 4, 'What does the disappearance of earth and heaven before the throne suggest?', '["Creation escapes judgment", "The old order cannot stand before God''s final judgment", "The throne is weak", "The nations become invisible"]'::jsonb, 'The old order cannot stand before God''s final judgment', 'From the face of the One on the throne, earth and heaven flee away, and no place is found for them (Revelation 20:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What does the disappearance of earth and heaven before the throne suggest?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 4, 'Why are both the sea and death and Hades mentioned as giving up the dead?', '["To show the universality of the final judgment", "To limit judgment to sailors", "To describe only believers", "To identify three separate resurrections"]'::jsonb, 'To show the universality of the final judgment', 'The sea, death, and Hades all give up their dead, showing that no one escapes the final judgment (Revelation 20:13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why are both the sea and death and Hades mentioned as giving up the dead?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 4, 'How do thrones in verse 4 relate to the great white throne later in the chapter?', '["They contrast the saints'' vindication with God''s final judgment", "They describe the same seat twice with no difference", "They belong to Babylon''s merchants", "They replace the book of life"]'::jsonb, 'They contrast the saints'' vindication with God''s final judgment', 'Earlier thrones show the saints'' reign and judgment authority, while the great white throne presents God''s final judgment of all the dead (Revelation 20:4,11-13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How do thrones in verse 4 relate to the great white throne later in the chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 4, 'How does Revelation 20 prepare for the new creation that follows?', '["By removing Satan, death, and Hades through final judgment", "By restoring Babylon''s markets", "By crowning the kings of the earth", "By reopening the abyss"]'::jsonb, 'By removing Satan, death, and Hades through final judgment', 'The chapter ends with the final defeat of the devil, death, and Hades, preparing for the new heaven and new earth in the next chapter (Revelation 20:10,14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 20 prepare for the new creation that follows?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 4, 'What larger theme is reinforced by the repeated judgment scenes in Revelation 20?', '["God''s justice is comprehensive and final", "Judgment is uncertain", "Only angels are accountable", "The saints judge God"]'::jsonb, 'God''s justice is comprehensive and final', 'The chapter judges Satan, the rebellious nations, the dead, and even death and Hades themselves (Revelation 20:9-15).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What larger theme is reinforced by the repeated judgment scenes in Revelation 20?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 5, 'How does Revelation 20 present Christ''s triumph over evil in stages?', '["Through binding Satan, vindicating the saints, crushing final rebellion, and executing final judgment", "Through one single battle only", "Through the rebuilding of Babylon", "Through the escape of death and Hades"]'::jsonb, 'Through binding Satan, vindicating the saints, crushing final rebellion, and executing final judgment', 'The chapter moves from Satan''s binding to the saints'' reign, then Satan''s last revolt, and finally the great white throne judgment (Revelation 20:1-15).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does Revelation 20 present Christ''s triumph over evil in stages?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 5, 'What theological point is made by the martyrs reigning with Christ?', '["Their suffering witness is honored and reversed by God''s vindication", "Their deaths were meaningless", "They replace Christ as king", "They avoid all future service"]'::jsonb, 'Their suffering witness is honored and reversed by God''s vindication', 'Those killed for Jesus now live, reign with Him, and serve as priests of God and Christ (Revelation 20:4-6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What theological point is made by the martyrs reigning with Christ?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 5, 'Why is the second death such an important term in Revelation 20?', '["It identifies the final separation under judgment, from which the first resurrection delivers the saints", "It refers only to physical burial", "It is another name for the abyss", "It describes temporary discipline"]'::jsonb, 'It identifies the final separation under judgment, from which the first resurrection delivers the saints', 'The second death is the lake of fire, and it has no power over those in the first resurrection (Revelation 20:6,14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'Why is the second death such an important term in Revelation 20?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 5, 'How does the final judgment scene uphold both accountability and divine knowledge?', '["The dead are judged according to works, and the book of life reveals who belongs to life", "Only the powerful are judged", "The books cancel each other out", "No records are needed"]'::jsonb, 'The dead are judged according to works, and the book of life reveals who belongs to life', 'The books are opened for judgment according to works, and the book of life determines who escapes the lake of fire (Revelation 20:12,15).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does the final judgment scene uphold both accountability and divine knowledge?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 5, 'What does the release of Satan after the thousand years reveal about rebellious humanity?', '["Without Satan no one can ever rebel", "Even after restraint, rebellion still emerges when Satan deceives the nations", "The nations become permanently holy", "All evil was only imaginary"]'::jsonb, 'Even after restraint, rebellion still emerges when Satan deceives the nations', 'After Satan is released, he again deceives the nations and gathers them for rebellion (Revelation 20:7-8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What does the release of Satan after the thousand years reveal about rebellious humanity?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 5, 'How does Revelation 20 portray the end of death itself?', '["Death is tamed but remains in the new world", "Death is judged and thrown into the lake of fire", "Death becomes ruler of Hades", "Death is ignored"]'::jsonb, 'Death is judged and thrown into the lake of fire', 'Death and Hades are thrown into the lake of fire, signaling their final end (Revelation 20:14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does Revelation 20 portray the end of death itself?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 5, 'What is the significance of the beloved city being surrounded but not conquered?', '["It shows God''s people are ultimately preserved by divine intervention", "It proves the city is weak", "It means the nations repent", "It identifies the city as Babylon"]'::jsonb, 'It shows God''s people are ultimately preserved by divine intervention', 'The nations surround the camp of the saints and the beloved city, but fire from heaven destroys the attackers (Revelation 20:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What is the significance of the beloved city being surrounded but not conquered?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 5, 'How does Revelation 20 contribute to the book''s larger message about perseverance?', '["It shows that those faithful to Jesus will be vindicated despite suffering", "It says suffering has no meaning", "It teaches compromise with the beast", "It removes all hope of reward"]'::jsonb, 'It shows that those faithful to Jesus will be vindicated despite suffering', 'The beheaded witnesses reign with Christ, showing the final vindication of those who remained faithful under persecution (Revelation 20:4-6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does Revelation 20 contribute to the book''s larger message about perseverance?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 5, 'In the flow of Revelation, what is the main role of chapter 20?', '["It brings Satan''s doom, the saints'' vindication, and the final judgment before the new creation", "It retells the seven churches", "It rebuilds Babylon", "It focuses only on the marriage supper"]'::jsonb, 'It brings Satan''s doom, the saints'' vindication, and the final judgment before the new creation', 'Revelation 20 binds and condemns Satan, shows the saints reigning, and presents the great white throne judgment before chapter 21''s new creation (Revelation 20:1-15).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'In the flow of Revelation, what is the main role of chapter 20?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 20, 5, 'What larger message does Revelation 20 give about evil powers and God''s rule?', '["Evil can resist God forever", "God limits, judges, and finally abolishes every opposing power", "Only human rulers matter in the end", "Satan escapes final judgment"]'::jsonb, 'God limits, judges, and finally abolishes every opposing power', 'Satan is bound and then condemned, the rebellious nations are destroyed, and even death and Hades are thrown into the lake of fire (Revelation 20:2-3,9-10,14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 20
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What larger message does Revelation 20 give about evil powers and God''s rule?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 1, 'According to Revelation 21, what did John see after the first heaven and earth passed away?', '["A new heaven and a new earth", "A rebuilt Babylon", "A great mountain", "A sea of glass"]'::jsonb, 'A new heaven and a new earth', 'John saw a new heaven and a new earth after the first heaven and the first earth had passed away (Revelation 21:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 21, what did John see after the first heaven and earth passed away?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 1, 'What city did John see coming down out of heaven from God?', '["Babylon the great", "Jerusalem below", "The holy city, new Jerusalem", "Nineveh"]'::jsonb, 'The holy city, new Jerusalem', 'John saw the holy city, new Jerusalem, coming down out of heaven from God (Revelation 21:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What city did John see coming down out of heaven from God?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 1, 'How was the new Jerusalem prepared?', '["Like a warrior for battle", "Like a bride adorned for her husband", "Like a king on a throne", "Like a temple filled with smoke"]'::jsonb, 'Like a bride adorned for her husband', 'The new Jerusalem was prepared as a bride adorned for her husband (Revelation 21:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'How was the new Jerusalem prepared?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 1, 'What loud voice came out of heaven saying?', '["Babylon has fallen", "The tabernacle of God is with men", "Worship the angel", "The beast has risen"]'::jsonb, 'The tabernacle of God is with men', 'A loud voice declared, ''Behold, God''s dwelling is with people'' (Revelation 21:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What loud voice came out of heaven saying?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 1, 'What will God wipe away from His people''s eyes?', '["Dust", "Blood", "Every tear", "Sleep"]'::jsonb, 'Every tear', 'God will wipe away every tear from their eyes (Revelation 21:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What will God wipe away from His people''s eyes?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 1, 'What will no longer exist in the new creation?', '["Light", "Death", "Worship", "Nations"]'::jsonb, 'Death', 'Death shall be no more (Revelation 21:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What will no longer exist in the new creation?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 1, 'Who said, ''Behold, I make all things new''?', '["An angel", "One sitting on the throne", "John", "One of the elders"]'::jsonb, 'One sitting on the throne', 'The One sitting on the throne said, ''Behold, I make all things new'' (Revelation 21:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'Who said, ''Behold, I make all things new''?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 1, 'What title does God use for Himself in Revelation 21?', '["The Beginning and the End", "The Lion and the Lamb", "The Son of David", "The Morning Star"]'::jsonb, 'The Beginning and the End', 'God says, ''I am the Alpha and the Omega, the Beginning and the End'' (Revelation 21:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What title does God use for Himself in Revelation 21?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 1, 'What is promised to the one who is thirsty?', '["Bread from heaven", "Water from the spring of life without payment", "Gold from the city", "A white horse"]'::jsonb, 'Water from the spring of life without payment', 'God gives the thirsty water from the spring of life freely (Revelation 21:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What is promised to the one who is thirsty?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 1, 'What is the final destiny of the cowardly, unbelieving, and other sinners listed in the chapter?', '["The abyss", "The holy city", "The lake burning with fire and sulfur", "The sea of glass"]'::jsonb, 'The lake burning with fire and sulfur', 'Their part is in the lake that burns with fire and sulfur, which is the second death (Revelation 21:8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What is the final destiny of the cowardly, unbelieving, and other sinners listed in the chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 2, 'What former thing is specifically said to have passed away in Revelation 21:1?', '["The temple", "The sea", "The sun", "The throne"]'::jsonb, 'The sea', 'John says that the sea is no more (Revelation 21:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What former thing is specifically said to have passed away in Revelation 21:1?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 2, 'What relationship does God promise to have with His people in the new creation?', '["He will visit them yearly", "He will dwell with them", "He will send angels only", "He will remain hidden"]'::jsonb, 'He will dwell with them', 'God will dwell with them, and they will be His peoples (Revelation 21:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What relationship does God promise to have with His people in the new creation?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 2, 'What will be no more besides death in Revelation 21:4?', '["Mourning, crying, and pain", "Faith, hope, and love", "Kings, merchants, and ships", "Sun, moon, and stars"]'::jsonb, 'Mourning, crying, and pain', 'Mourning, crying, and pain will be no more (Revelation 21:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What will be no more besides death in Revelation 21:4?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 2, 'Why are John''s words to be written down?', '["They are difficult sayings", "They are faithful and true", "They are poetic only", "They are hidden for later"]'::jsonb, 'They are faithful and true', 'John is told to write because these words are faithful and true (Revelation 21:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Why are John''s words to be written down?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 2, 'What inheritance is promised to the one who overcomes?', '["A throne in Babylon", "These things, and God as Father", "A merchant''s reward", "A seat among the kings"]'::jsonb, 'These things, and God as Father', 'The one who overcomes will inherit these things, and God will be his God (Revelation 21:7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What inheritance is promised to the one who overcomes?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 2, 'Who showed John the bride, the wife of the Lamb?', '["The rider on the white horse", "One of the seven angels with the bowls", "The four living creatures", "The dragon"]'::jsonb, 'One of the seven angels with the bowls', 'One of the seven angels who had the seven bowls showed John the bride, the wife of the Lamb (Revelation 21:9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Who showed John the bride, the wife of the Lamb?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 2, 'To where did the angel carry John to see the holy city?', '["A desert", "A great and high mountain", "The sea shore", "The abyss"]'::jsonb, 'A great and high mountain', 'The angel carried John away to a great and high mountain (Revelation 21:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'To where did the angel carry John to see the holy city?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 2, 'What kind of brightness did the city have?', '["Like bronze in fire", "Like a precious stone, clear as crystal", "Like the noon sun only", "Like a lamp in a house"]'::jsonb, 'Like a precious stone, clear as crystal', 'Its light was like a most precious stone, clear as crystal (Revelation 21:11).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What kind of brightness did the city have?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 2, 'How many gates did the city have?', '["Seven", "Twelve", "Ten", "Twenty-four"]'::jsonb, 'Twelve', 'The city had twelve gates (Revelation 21:12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'How many gates did the city have?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 2, 'Whose names were written on the twelve gates?', '["The twelve apostles", "The twelve tribes of the children of Israel", "The seven churches", "The kings of the earth"]'::jsonb, 'The twelve tribes of the children of Israel', 'The names of the twelve tribes of Israel were written on the gates (Revelation 21:12).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Whose names were written on the twelve gates?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 3, 'What does the new Jerusalem descending from heaven suggest about the city?', '["It is built by merchants", "It is a gift from God", "It rises from the sea", "It belongs to Babylon"]'::jsonb, 'It is a gift from God', 'The city comes down out of heaven from God, showing divine origin (Revelation 21:2,10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the new Jerusalem descending from heaven suggest about the city?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 3, 'Why is the bride image fitting for the new Jerusalem?', '["It emphasizes beauty and covenant union", "It suggests military power", "It points to trade wealth", "It replaces God''s presence"]'::jsonb, 'It emphasizes beauty and covenant union', 'The city is prepared as a bride, linking it with the Lamb''s people and covenant joy (Revelation 21:2,9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why is the bride image fitting for the new Jerusalem?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 3, 'What is emphasized by God wiping away every tear?', '["Temporary relief", "Personal comfort and complete restoration", "Judgment on the nations", "The return of Eden''s river only"]'::jsonb, 'Personal comfort and complete restoration', 'The image highlights God''s direct comfort and the removal of sorrow (Revelation 21:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What is emphasized by God wiping away every tear?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 3, 'What does ''I make all things new'' imply?', '["God abandons creation", "God renews and transforms creation fully", "Only the city changes", "Only believers are moved"]'::jsonb, 'God renews and transforms creation fully', 'The statement announces comprehensive renewal under God''s rule (Revelation 21:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does ''I make all things new'' imply?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 3, 'Why is the spring of the water of life offered freely?', '["Because life with God is graciously given", "Because there is no need for righteousness", "Because merchants cannot sell it", "Because angels guard it"]'::jsonb, 'Because life with God is graciously given', 'The thirsty receive this water without payment, emphasizing grace (Revelation 21:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why is the spring of the water of life offered freely?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 3, 'What does the list of excluded sinners highlight in this chapter?', '["That holiness matters in God''s final kingdom", "That no mercy exists", "That only nations are judged", "That sin is now hidden"]'::jsonb, 'That holiness matters in God''s final kingdom', 'The list contrasts the inheritance of the overcomer with the judgment of the unrepentant (Revelation 21:7-8).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the list of excluded sinners highlight in this chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 3, 'What is suggested by the city''s great high wall and gates?', '["Fear of invasion", "Security and ordered holiness", "Isolation from God''s people", "The return of Babylon"]'::jsonb, 'Security and ordered holiness', 'The wall and gates portray the city''s protected and ordered glory (Revelation 21:12-13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What is suggested by the city''s great high wall and gates?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 3, 'Why are both Israel''s tribes and the apostles named in the city?', '["To show God''s people are complete across redemptive history", "To separate old and new covenant believers", "To glorify ethnic pride", "To list two rival groups"]'::jsonb, 'To show God''s people are complete across redemptive history', 'The gates bear the tribes'' names and the foundations the apostles'' names, showing continuity and fullness (Revelation 21:12,14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why are both Israel''s tribes and the apostles named in the city?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 3, 'What does the cube-like measurement of the city imply?', '["It is irregular", "It is vast and perfectly ordered", "It is unfinished", "It is only symbolic of war"]'::jsonb, 'It is vast and perfectly ordered', 'The city is laid out evenly in length, breadth, and height (Revelation 21:16).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the cube-like measurement of the city imply?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 3, 'Why is there no temple in the city?', '["The city rejected worship", "The Lord God Almighty and the Lamb are its temple", "The temple was destroyed", "The apostles replaced it"]'::jsonb, 'The Lord God Almighty and the Lamb are its temple', 'God and the Lamb themselves are the temple of the city (Revelation 21:22).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why is there no temple in the city?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 4, 'How does Revelation 21 answer the curse and sorrow described earlier in the book?', '["By promising a renewed creation without death, mourning, crying, or pain", "By returning the bowls of wrath", "By restoring Babylon''s markets", "By hiding the nations from God"]'::jsonb, 'By promising a renewed creation without death, mourning, crying, or pain', 'The chapter reverses sorrow and death with God''s dwelling and renewal (Revelation 21:3-5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 21 answer the curse and sorrow described earlier in the book?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 4, 'What contrast exists between Babylon and the new Jerusalem?', '["One is a judged prostitute city, the other the holy bride-city of God", "Both are centers of trade", "Both are drunk with blood", "One is earthly and the other also earthly"]'::jsonb, 'One is a judged prostitute city, the other the holy bride-city of God', 'Revelation contrasts Babylon''s corruption with the new Jerusalem''s purity and glory (Revelation 21:2,9-10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What contrast exists between Babylon and the new Jerusalem?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 4, 'How does the city''s lack of a temple fit the chapter''s message?', '["It shows direct, unmediated divine presence", "It means worship has ended", "It proves the city is incomplete", "It separates the Lamb from God"]'::jsonb, 'It shows direct, unmediated divine presence', 'Since God and the Lamb are its temple, His presence fills the city directly (Revelation 21:22).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does the city''s lack of a temple fit the chapter''s message?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 4, 'Why is the city said to need no sun or moon?', '["Because creation is destroyed", "Because God''s glory and the Lamb are its light", "Because it exists only at night", "Because angels provide light instead"]'::jsonb, 'Because God''s glory and the Lamb are its light', 'The city has no need of sun or moon because God''s glory illumines it, and the Lamb is its lamp (Revelation 21:23).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is the city said to need no sun or moon?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 4, 'How do the nations function in relation to the new Jerusalem?', '["They are excluded entirely", "They walk in its light and bring their glory into it", "They destroy its gates", "They rebuild its walls"]'::jsonb, 'They walk in its light and bring their glory into it', 'The nations walk by its light, and the kings bring their glory into it (Revelation 21:24).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How do the nations function in relation to the new Jerusalem?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 4, 'What does the never-shut gate imagery contribute to the city''s picture?', '["It suggests insecurity", "It shows peace, openness, and no threat of night", "It invites impurity", "It restores ancient warfare"]'::jsonb, 'It shows peace, openness, and no threat of night', 'Its gates are never shut by day, and there is no night there (Revelation 21:25).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What does the never-shut gate imagery contribute to the city''s picture?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 4, 'How do purity and access work together in the final verses?', '["Everything enters freely, whether clean or unclean", "Only what is clean enters; impurity is excluded", "Only angels can enter", "Only Israel can enter"]'::jsonb, 'Only what is clean enters; impurity is excluded', 'Nothing unclean enters the city, only those written in the Lamb''s book of life (Revelation 21:27).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How do purity and access work together in the final verses?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 4, 'Why are the foundations described with precious stones?', '["To display the city''s beauty and permanence", "To promote trade", "To show weakness in structure", "To connect it to Babylon''s merchants"]'::jsonb, 'To display the city''s beauty and permanence', 'The jeweled foundations emphasize glory, splendor, and enduring worth (Revelation 21:19-20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why are the foundations described with precious stones?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 4, 'How does the city''s shape and measurements deepen the symbolism of holiness?', '["It reflects divine order and completeness", "It proves the city is small", "It limits entry to apostles only", "It signals coming war"]'::jsonb, 'It reflects divine order and completeness', 'The equal measurements and careful design portray perfection and sacred order (Revelation 21:15-17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does the city''s shape and measurements deepen the symbolism of holiness?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 4, 'What larger transition does Revelation 21 mark in the book?', '["From final judgment to eternal renewal", "From the churches back to the seals", "From Babylon to Egypt", "From heaven to exile"]'::jsonb, 'From final judgment to eternal renewal', 'After the judgments of earlier chapters, Revelation 21 opens the vision of the renewed creation and holy city (Revelation 21:1-5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What larger transition does Revelation 21 mark in the book?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 5, 'How does Revelation 21 portray God''s final goal for His people?', '["Distant rule from heaven", "Permanent dwelling with them in renewed creation", "A temporary kingdom on earth", "A return to the wilderness"]'::jsonb, 'Permanent dwelling with them in renewed creation', 'The chapter centers on God dwelling with His people in the new heaven and new earth (Revelation 21:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does Revelation 21 portray God''s final goal for His people?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 5, 'What theological significance does the absence of death have in this chapter?', '["It signals the complete defeat of the old curse", "It means memory is erased only", "It applies only to angels", "It reverses judgment temporarily"]'::jsonb, 'It signals the complete defeat of the old curse', 'Death is no more, showing the full arrival of God''s restorative victory (Revelation 21:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What theological significance does the absence of death have in this chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 5, 'Why is the city both a place and a bride in Revelation 21?', '["To unite covenant people and covenant dwelling in one image", "To confuse geography", "To describe only architecture", "To replace the Lamb"]'::jsonb, 'To unite covenant people and covenant dwelling in one image', 'The city is shown as the bride, linking redeemed people and their holy dwelling together (Revelation 21:2,9-10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'Why is the city both a place and a bride in Revelation 21?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 5, 'How does Revelation 21 complete the book''s theme of holy versus unholy cities?', '["By replacing both cities with a wilderness", "By setting the new Jerusalem as the final answer to Babylon", "By restoring Babylon to purity", "By merging Babylon and Jerusalem"]'::jsonb, 'By setting the new Jerusalem as the final answer to Babylon', 'The holy bride-city stands as the final opposite of Babylon the corrupt city (Revelation 21:2,9-10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does Revelation 21 complete the book''s theme of holy versus unholy cities?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 5, 'What is the significance of God and the Lamb together being central to the city?', '["They share and display divine rule and presence together", "They divide the city into two halves", "The Lamb replaces God", "God becomes unnecessary"]'::jsonb, 'They share and display divine rule and presence together', 'God and the Lamb together are the city''s temple and source of light (Revelation 21:22-23).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What is the significance of God and the Lamb together being central to the city?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 5, 'How does the city''s light theme relate to the wider message of Revelation?', '["It shows God''s glory finally overcomes darkness entirely", "It means there is no need for holiness", "It is only decorative", "It belongs only to the apostles"]'::jsonb, 'It shows God''s glory finally overcomes darkness entirely', 'The city''s illumination by God''s glory and the Lamb reflects the triumph of divine light over all darkness (Revelation 21:23-25).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does the city''s light theme relate to the wider message of Revelation?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 5, 'Why is access to the city tied to the Lamb''s book of life?', '["Because eternal citizenship depends on belonging to the Lamb", "Because merchants keep a registry", "Because only angels can enter", "Because the gates are symbolic only"]'::jsonb, 'Because eternal citizenship depends on belonging to the Lamb', 'Only those written in the Lamb''s book of life enter the city (Revelation 21:27).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'Why is access to the city tied to the Lamb''s book of life?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 5, 'What does the inclusion of nations and kings bringing glory into the city imply?', '["God''s final kingdom includes redeemed human diversity under His glory", "All nations remain rebellious", "Only political rule matters", "The city depends on earthly wealth"]'::jsonb, 'God''s final kingdom includes redeemed human diversity under His glory', 'The nations walk in its light, and kings bring their glory into it (Revelation 21:24,26).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What does the inclusion of nations and kings bringing glory into the city imply?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 5, 'In the flow of Revelation, what is the main role of chapter 21?', '["It unveils the renewed creation and the holy city after final judgment", "It restarts the bowl judgments", "It focuses on Armageddon again", "It returns to the seven churches"]'::jsonb, 'It unveils the renewed creation and the holy city after final judgment', 'Revelation 21 follows final judgment by showing the new heaven, new earth, and new Jerusalem (Revelation 21:1-27).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'In the flow of Revelation, what is the main role of chapter 21?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 21, 5, 'What larger message does Revelation 21 give about God''s redemption?', '["It is partial and temporary", "It is total, relational, holy, and glorious", "It concerns souls only, not creation", "It ends with distance from God"]'::jsonb, 'It is total, relational, holy, and glorious', 'The chapter presents full renewal, God''s dwelling with people, the removal of sorrow, and the glory of the holy city (Revelation 21:3-5,22-27).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 21
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What larger message does Revelation 21 give about God''s redemption?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 1, 'According to Revelation 22, what did the angel show John flowing from the throne of God and of the Lamb?', '["A river of blood", "A river of the water of life", "A stream of oil", "A sea of glass"]'::jsonb, 'A river of the water of life', 'The angel showed John a river of the water of life flowing from the throne of God and of the Lamb (Revelation 22:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'According to Revelation 22, what did the angel show John flowing from the throne of God and of the Lamb?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 1, 'How is the river of the water of life described in Revelation 22?', '["Dark as night", "Clear as crystal", "Red like blood", "Deep like the sea"]'::jsonb, 'Clear as crystal', 'The river of the water of life is described as bright or clear as crystal (Revelation 22:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'How is the river of the water of life described in Revelation 22?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 1, 'Where is the tree of life located in Revelation 22?', '["On the mountain only", "On this side and that side of the river", "Inside the temple only", "Outside the city gates"]'::jsonb, 'On this side and that side of the river', 'The tree of life is pictured on either side of the river (Revelation 22:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'Where is the tree of life located in Revelation 22?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 1, 'How many kinds of fruit does the tree of life produce?', '["Seven", "Ten", "Twelve", "Twenty-four"]'::jsonb, 'Twelve', 'The tree of life bears twelve kinds of fruit (Revelation 22:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'How many kinds of fruit does the tree of life produce?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 1, 'How often does the tree of life yield its fruit?', '["Once a year", "Every Sabbath", "Every month", "Every day"]'::jsonb, 'Every month', 'The tree yields its fruit every month (Revelation 22:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'How often does the tree of life yield its fruit?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 1, 'What are the leaves of the tree for?', '["For decoration", "For the healing of the nations", "For sacrifice", "For clothing"]'::jsonb, 'For the healing of the nations', 'The leaves of the tree are for the healing of the nations (Revelation 22:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What are the leaves of the tree for?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 1, 'What will no longer exist in the new creation according to Revelation 22?', '["Night", "The throne", "Any curse", "The river"]'::jsonb, 'Any curse', 'There will no longer be any curse (Revelation 22:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What will no longer exist in the new creation according to Revelation 22?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 1, 'Whose throne will be in the city?', '["David''s throne", "The throne of God and of the Lamb", "The elders'' throne", "The apostles'' throne"]'::jsonb, 'The throne of God and of the Lamb', 'The throne of God and of the Lamb will be in the city (Revelation 22:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'Whose throne will be in the city?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 1, 'What will God''s servants do in Revelation 22?', '["Trade in the city", "Serve Him", "Guard the gates", "Sing only at night"]'::jsonb, 'Serve Him', 'His servants will serve Him (Revelation 22:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What will God''s servants do in Revelation 22?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 1, 'What will be on the foreheads of God''s servants?', '["The mark of the beast", "A golden crown", "His name", "A lamp"]'::jsonb, 'His name', 'God''s name will be on their foreheads (Revelation 22:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 1
+    AND q.prompt = 'What will be on the foreheads of God''s servants?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 2, 'What will God''s servants see in Revelation 22?', '["The sea of glass", "His face", "The abyss", "The temple veil"]'::jsonb, 'His face', 'They will see His face (Revelation 22:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What will God''s servants see in Revelation 22?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 2, 'Why will there be no night there?', '["Because the sun is stronger", "Because the Lord God gives them light", "Because angels hold lamps", "Because the moon never sets"]'::jsonb, 'Because the Lord God gives them light', 'There is no night because the Lord God gives them light (Revelation 22:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Why will there be no night there?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 2, 'How long will God''s servants reign?', '["For a thousand years", "Forever and ever", "For one age", "Until the trumpet sounds"]'::jsonb, 'Forever and ever', 'They will reign forever and ever (Revelation 22:5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'How long will God''s servants reign?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 2, 'How are the words of this prophecy described?', '["Hidden and difficult", "Faithful and true", "Old and fading", "Only symbolic"]'::jsonb, 'Faithful and true', 'The angel says these words are faithful and true (Revelation 22:6).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'How are the words of this prophecy described?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 2, 'What does Jesus say He is doing soon?', '["Sending another prophet", "Coming quickly", "Building a temple", "Destroying the city"]'::jsonb, 'Coming quickly', 'Jesus says, ''Behold, I come quickly'' (Revelation 22:7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What does Jesus say He is doing soon?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 2, 'Who is called blessed in Revelation 22:7?', '["The one who trades in the city", "The one who keeps the words of this prophecy", "The one who sees the angel", "The one who measures the temple"]'::jsonb, 'The one who keeps the words of this prophecy', 'Blessed is the one who keeps the words of the prophecy of this book (Revelation 22:7).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Who is called blessed in Revelation 22:7?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 2, 'What did John try to do again before the angel stopped him?', '["Drink from the river", "Worship the angel", "Open the gates", "Write a new scroll"]'::jsonb, 'Worship the angel', 'John fell down to worship before the feet of the angel, but the angel stopped him (Revelation 22:8-9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What did John try to do again before the angel stopped him?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 2, 'What did the angel tell John not to do with the words of the prophecy?', '["Do not read them", "Do not seal them up", "Do not write them", "Do not share them"]'::jsonb, 'Do not seal them up', 'John is told not to seal up the words of the prophecy, because the time is near (Revelation 22:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What did the angel tell John not to do with the words of the prophecy?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 2, 'What title does Jesus use for Himself in Revelation 22:13?', '["The Lion and the Lamb", "The Alpha and the Omega", "The Prince of Peace", "The Son of David"]'::jsonb, 'The Alpha and the Omega', 'Jesus says, ''I am the Alpha and the Omega, the first and the last, the beginning and the end'' (Revelation 22:13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'What title does Jesus use for Himself in Revelation 22:13?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 2, 'Who says, ''Come'' in Revelation 22?', '["Only the angel", "The Spirit and the bride", "Only John", "The kings of the earth"]'::jsonb, 'The Spirit and the bride', 'The Spirit and the bride say, ''Come'' (Revelation 22:17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 2
+    AND q.prompt = 'Who says, ''Come'' in Revelation 22?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 3, 'What does the river of the water of life symbolize in context?', '["A border around the city", "The life-giving fullness that comes from God and the Lamb", "A memory of the flood", "A place of judgment"]'::jsonb, 'The life-giving fullness that comes from God and the Lamb', 'The river flows from the throne of God and of the Lamb, showing divine life flowing outward (Revelation 22:1).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the river of the water of life symbolize in context?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 3, 'Why is the tree of life significant in the final chapter of Revelation?', '["It restores access to life in God''s presence", "It replaces the throne", "It becomes a new law", "It hides the nations"]'::jsonb, 'It restores access to life in God''s presence', 'The tree of life appears in the renewed city as part of the completed restoration (Revelation 22:2,14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why is the tree of life significant in the final chapter of Revelation?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 3, 'What does the removal of the curse indicate?', '["A partial improvement", "The complete reversal of the fall''s effects", "The end of prophecy only", "The closing of the city gates"]'::jsonb, 'The complete reversal of the fall''s effects', 'There is no longer any curse, showing full restoration under God''s reign (Revelation 22:3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the removal of the curse indicate?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 3, 'Why is seeing God''s face so important in Revelation 22?', '["It indicates direct fellowship with God", "It means the servants become angels", "It replaces worship", "It is only for John"]'::jsonb, 'It indicates direct fellowship with God', 'Seeing His face signifies unhindered communion with God (Revelation 22:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why is seeing God''s face so important in Revelation 22?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 3, 'What does the repeated command not to worship the angel teach?', '["Angels are evil", "Worship belongs to God alone", "John is unworthy to worship", "The vision is incomplete"]'::jsonb, 'Worship belongs to God alone', 'The angel identifies himself as a fellow servant and commands John to worship God (Revelation 22:8-9).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does the repeated command not to worship the angel teach?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 3, 'Why are the words of this prophecy not to be sealed?', '["Because the time is near", "Because the book is unfinished", "Because only angels can understand it", "Because it has no warnings"]'::jsonb, 'Because the time is near', 'The angel says not to seal the prophecy because the time is near (Revelation 22:10).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why are the words of this prophecy not to be sealed?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 3, 'What is emphasized by Jesus saying He is coming quickly?', '["The need for readiness", "The exact date of His coming", "The end of all prophecy", "The rebuilding of Jerusalem"]'::jsonb, 'The need for readiness', 'The repeated statement calls readers to watchfulness and obedience (Revelation 22:7,12,20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What is emphasized by Jesus saying He is coming quickly?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 3, 'Why is the invitation to the thirsty important?', '["It shows life is offered freely by grace", "It limits salvation to the wealthy", "It replaces judgment entirely", "It is meant only for angels"]'::jsonb, 'It shows life is offered freely by grace', 'Whoever is thirsty may take the water of life freely (Revelation 22:17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'Why is the invitation to the thirsty important?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 3, 'What does Jesus calling Himself the root and descendant of David suggest?', '["He is both David''s source and promised heir", "He replaces Israel completely", "He is only a human king", "He comes from Babylon"]'::jsonb, 'He is both David''s source and promised heir', 'The title presents Jesus as both origin and fulfillment of the Davidic line (Revelation 22:16).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What does Jesus calling Himself the root and descendant of David suggest?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 3, 'What is conveyed by the title ''bright morning star''?', '["Judgment only", "Hopeful royal brightness and dawning fulfillment", "The end of creation", "The fall of Babylon"]'::jsonb, 'Hopeful royal brightness and dawning fulfillment', 'Jesus identifies Himself as the bright morning star, a title of hope and royal promise (Revelation 22:16).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 3
+    AND q.prompt = 'What is conveyed by the title ''bright morning star''?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 4, 'How does Revelation 22 complete themes introduced earlier in Revelation?', '["It brings together life, presence, purity, and Christ''s return", "It returns to the seven churches only", "It repeats Babylon''s trade list", "It focuses only on earthly politics"]'::jsonb, 'It brings together life, presence, purity, and Christ''s return', 'The final chapter combines the river of life, God''s face, exclusion of evil, and the promise of Jesus'' coming (Revelation 22:1-20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 22 complete themes introduced earlier in Revelation?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 4, 'What contrast exists between those inside and outside the city?', '["Inside are those washed and welcomed; outside are those practicing evil", "Inside are angels only; outside are saints", "Inside are merchants; outside are kings", "Inside are Jews only; outside are Gentiles"]'::jsonb, 'Inside are those washed and welcomed; outside are those practicing evil', 'The chapter contrasts those with right to the tree and city with those outside who love and practice falsehood and evil (Revelation 22:14-15).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What contrast exists between those inside and outside the city?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 4, 'How does the final invitation relate to the rest of the book''s warnings?', '["It shows judgment is the only message", "It balances warning with a genuine offer of life", "It cancels everything before it", "It applies only to John"]'::jsonb, 'It balances warning with a genuine offer of life', 'After many judgments and warnings, the book closes with a gracious invitation to come and receive life (Revelation 22:17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does the final invitation relate to the rest of the book''s warnings?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 4, 'Why is the warning against adding to or taking away from the prophecy important?', '["It protects the integrity of the book''s message", "It forbids all copying", "It applies only to scribes in Asia", "It means no one may teach the book"]'::jsonb, 'It protects the integrity of the book''s message', 'The warning guards the prophecy from distortion by threatening judgment on tampering (Revelation 22:18-19).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'Why is the warning against adding to or taking away from the prophecy important?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 4, 'How does Revelation 22 connect with the new Jerusalem vision in chapter 21?', '["It expands the city''s life, worship, and access imagery", "It removes the city from the story", "It replaces the city with a temple", "It turns the city back into Babylon"]'::jsonb, 'It expands the city''s life, worship, and access imagery', 'Chapter 22 continues the new Jerusalem vision by showing the river, tree, throne, servants, and invitation (Revelation 22:1-5,14,17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 22 connect with the new Jerusalem vision in chapter 21?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 4, 'What role does the throne of God and of the Lamb play in the chapter?', '["It is the source of life and rule in the city", "It is hidden from the servants", "It belongs to the apostles", "It replaces the river"]'::jsonb, 'It is the source of life and rule in the city', 'The river flows from the throne, and God''s servants serve before it, showing central divine authority and life (Revelation 22:1,3).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What role does the throne of God and of the Lamb play in the chapter?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 4, 'How does the chapter portray the future of God''s servants?', '["They remain distant from God", "They serve, see His face, and reign forever", "They return to exile", "They become merchants in the city"]'::jsonb, 'They serve, see His face, and reign forever', 'God''s servants serve Him, see His face, bear His name, and reign forever (Revelation 22:3-5).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does the chapter portray the future of God''s servants?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 4, 'What is the significance of the nations being healed?', '["God''s final kingdom brings wholeness beyond past divisions", "The nations stay hostile forever", "Only Israel receives blessing", "Healing is delayed until later"]'::jsonb, 'God''s final kingdom brings wholeness beyond past divisions', 'The leaves of the tree are for the healing of the nations, showing restored wholeness (Revelation 22:2).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What is the significance of the nations being healed?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 4, 'How does Revelation 22 portray Jesus in relation to prophecy?', '["He ends prophecy by ignoring it", "He authenticates the revelation and stands at its center", "He sends a different message from the angel", "He appears only at the very end with no connection"]'::jsonb, 'He authenticates the revelation and stands at its center', 'Jesus sends His angel, identifies Himself with major messianic titles, and testifies to these things (Revelation 22:16).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'How does Revelation 22 portray Jesus in relation to prophecy?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 4, 'What larger transition does the closing prayer ''Come, Lord Jesus'' create?', '["It turns the vision into ongoing expectation for the church", "It ends all hope", "It shifts back to Babylon", "It removes the need for obedience"]'::jsonb, 'It turns the vision into ongoing expectation for the church', 'The prayer moves readers from the vision into hopeful waiting for Jesus'' promised return (Revelation 22:20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 4
+    AND q.prompt = 'What larger transition does the closing prayer ''Come, Lord Jesus'' create?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 5, 'How does Revelation 22 function as the theological climax of the whole book?', '["It unites God''s presence, restored life, holy worship, final warning, and Christ''s promised return", "It retells the seven seals in order", "It focuses only on John''s personal experience", "It replaces judgment with symbolism only"]'::jsonb, 'It unites God''s presence, restored life, holy worship, final warning, and Christ''s promised return', 'The final chapter gathers the book''s major themes into one ending: life, holiness, invitation, warning, and Jesus'' coming (Revelation 22:1-20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does Revelation 22 function as the theological climax of the whole book?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 5, 'What theological significance does the restored tree of life have in Revelation 22?', '["It shows God''s purpose to restore life fully in His presence", "It is merely decorative scenery", "It replaces the Lamb''s work", "It serves only one tribe"]'::jsonb, 'It shows God''s purpose to restore life fully in His presence', 'The tree of life in the final city signifies the restoration of life once lost under the curse (Revelation 22:2,14).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What theological significance does the restored tree of life have in Revelation 22?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 5, 'Why is direct vision of God''s face so profound in the book''s ending?', '["It marks the fullest possible communion between God and His people", "It makes worship unnecessary", "It applies only to angels", "It replaces resurrection"]'::jsonb, 'It marks the fullest possible communion between God and His people', 'Seeing God''s face signals the complete nearness and fellowship that the redeemed now enjoy (Revelation 22:4).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'Why is direct vision of God''s face so profound in the book''s ending?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 5, 'How does Revelation 22 hold together grace and holiness?', '["It offers free water of life while also excluding impurity and warning against falsehood", "It removes all moral distinctions", "It teaches holiness without grace", "It offers grace only to the already perfect"]'::jsonb, 'It offers free water of life while also excluding impurity and warning against falsehood', 'The chapter invites the thirsty freely, yet also marks out the holy boundaries of the city and warns against evil (Revelation 22:14-17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does Revelation 22 hold together grace and holiness?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 5, 'What does Jesus'' self-identification as Alpha and Omega add to the ending?', '["It places Him within God''s eternal sovereignty over all history", "It limits Him to the churches of Asia", "It describes only His earthly birth", "It separates Him from the throne"]'::jsonb, 'It places Him within God''s eternal sovereignty over all history', 'The title presents Jesus as the one who spans and fulfills the whole story from beginning to end (Revelation 22:13).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What does Jesus'' self-identification as Alpha and Omega add to the ending?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 5, 'How does the final invitation shape the reader''s response to Revelation?', '["It calls the reader to come to Christ in faith and longing", "It asks the reader to decode dates only", "It directs attention only to angels", "It suggests delay has no consequence"]'::jsonb, 'It calls the reader to come to Christ in faith and longing', 'The Spirit, the bride, and the thirsty are all drawn into the cry and response of coming to receive life (Revelation 22:17).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does the final invitation shape the reader''s response to Revelation?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 5, 'Why is the warning against changing the book especially fitting at the end of Revelation?', '["Because the closing vision must remain intact as a complete prophetic witness", "Because no one may copy Scripture by hand", "Because only John may read it", "Because the churches already understood everything perfectly"]'::jsonb, 'Because the closing vision must remain intact as a complete prophetic witness', 'The final warning protects the prophecy from distortion by attaching covenant-like consequences to altering it (Revelation 22:18-19).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'Why is the warning against changing the book especially fitting at the end of Revelation?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 5, 'How does Revelation 22 present the church''s proper posture between Jesus'' promise and His return?', '["Watchful obedience and hopeful longing", "Fearful silence only", "Withdrawal from worship", "Confidence in earthly power"]'::jsonb, 'Watchful obedience and hopeful longing', 'The chapter combines keeping the prophecy, receiving grace, and praying, ''Come, Lord Jesus'' (Revelation 22:7,17,20-21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'How does Revelation 22 present the church''s proper posture between Jesus'' promise and His return?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 5, 'In the flow of Revelation, what is the main role of chapter 22?', '["It concludes the vision with restored life, final exhortation, and the promise of Jesus'' coming", "It returns to the seven bowls", "It restarts Babylon''s judgment", "It focuses only on the apostles"]'::jsonb, 'It concludes the vision with restored life, final exhortation, and the promise of Jesus'' coming', 'Revelation 22 closes the book by completing the new Jerusalem vision and ending with invitation, warning, and promise (Revelation 22:1-21).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'In the flow of Revelation, what is the main role of chapter 22?'
+);
+
+INSERT INTO quiz_question_bank (book_number, chapter, difficulty_stage, prompt, choices_json, correct_answer, explanation)
+SELECT 66, 22, 5, 'What larger message does Revelation 22 leave with the reader?', '["God''s final purpose is life with Him through the Lamb, and the right response is faith, holiness, and longing for Christ''s return", "History ends in uncertainty", "Only judgment matters in the end", "The city belongs only to angels"]'::jsonb, 'God''s final purpose is life with Him through the Lamb, and the right response is faith, holiness, and longing for Christ''s return', 'The chapter ends with life flowing from God and the Lamb, the call to come, and the prayer, ''Come, Lord Jesus'' (Revelation 22:1,17,20).'
+WHERE NOT EXISTS (
+  SELECT 1 FROM quiz_question_bank q
+  WHERE q.book_number = 66
+    AND q.chapter = 22
+    AND q.difficulty_stage = 5
+    AND q.prompt = 'What larger message does Revelation 22 leave with the reader?'
+);
