@@ -1,3 +1,6 @@
+-- Re-seed after duplicate-prompt fix (clears partial rows from skipped INSERTs).
+DELETE FROM quiz_question_bank WHERE book_number = 41;
+
 -- ============================================================================
 -- LOGOS LIGHT — Mark (book 41) quiz questions from quiz-questions/mark.json
 -- ============================================================================

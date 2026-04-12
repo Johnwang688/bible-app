@@ -1,0 +1,548 @@
+[
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 1,
+      "prompt": "According to 2 John 1, how does the elder say grace, mercy, and peace will be with believers?",
+      "choices_json": [
+        "In truth and love",
+        "Through signs and wonders",
+        "By keeping ceremonial washings",
+        "From Jerusalem alone"
+      ],
+      "correct_answer": "In truth and love",
+      "explanation": "The greeting says grace, mercy, and peace will be with believers 'in truth and love' (2 John 1:3)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 1,
+      "prompt": "According to 2 John 1, what does the elder call himself?",
+      "choices_json": [
+        "The apostle",
+        "The elder",
+        "The witness",
+        "The servant in exile"
+      ],
+      "correct_answer": "The elder",
+      "explanation": "The letter opens, 'The elder, to the chosen lady and her children' (2 John 1:1)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 1,
+      "prompt": "According to 2 John 1, what commandment had the readers heard from the beginning?",
+      "choices_json": [
+        "That they should love one another",
+        "That they should rebuild the temple",
+        "That they should appoint kings",
+        "That they should travel to Rome"
+      ],
+      "correct_answer": "That they should love one another",
+      "explanation": "The elder writes that this is the commandment they heard from the beginning: 'that we should walk in it,' namely love (2 John 1:5-6)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 1,
+      "prompt": "According to 2 John 1, what had some of the lady’s children been found doing?",
+      "choices_json": [
+        "Walking in truth",
+        "Serving in the temple",
+        "Hiding from persecution",
+        "Teaching in Athens"
+      ],
+      "correct_answer": "Walking in truth",
+      "explanation": "The elder rejoices that he found some of her children 'walking in truth' (2 John 1:4)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 1,
+      "prompt": "According to 2 John 1, what is love defined as?",
+      "choices_json": [
+        "That we walk according to his commandments",
+        "That we feel affection for everyone",
+        "That we avoid all suffering",
+        "That we speak in unknown tongues"
+      ],
+      "correct_answer": "That we walk according to his commandments",
+      "explanation": "The elder states, 'This is love, that we should walk according to his commandments' (2 John 1:6)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 1,
+      "prompt": "According to 2 John 1, what should believers not lose?",
+      "choices_json": [
+        "What they have accomplished",
+        "Their ancestral lands",
+        "Their freedom to travel",
+        "Their reputation in the city"
+      ],
+      "correct_answer": "What they have accomplished",
+      "explanation": "The elder says, 'Watch yourselves, that we don't lose the things which we have accomplished' (2 John 1:8)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 1,
+      "prompt": "According to 2 John 1, who sends greetings at the end of the letter?",
+      "choices_json": [
+        "The children of your chosen sister",
+        "The churches of Galatia",
+        "John Mark and Silas",
+        "The elders in Jerusalem"
+      ],
+      "correct_answer": "The children of your chosen sister",
+      "explanation": "The letter closes, 'The children of your chosen sister greet you. Amen' (2 John 1:13)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 2,
+      "prompt": "According to 2 John 1, why does the elder rejoice over some of the lady’s children?",
+      "choices_json": [
+        "Because they were walking in truth as commanded by the Father",
+        "Because they had moved to Jerusalem for worship",
+        "Because they had become wealthy through trade",
+        "Because they had defeated false teachers in debate"
+      ],
+      "correct_answer": "Because they were walking in truth as commanded by the Father",
+      "explanation": "He rejoices because he found some of her children 'walking in truth, even as we have been commanded by the Father' (2 John 1:4)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 2,
+      "prompt": "According to 2 John 1, why should believers watch themselves?",
+      "choices_json": [
+        "So they will not lose what they accomplished and may receive a full reward",
+        "So they can avoid paying tribute to Rome",
+        "So they can gain control over other churches quickly",
+        "So they can learn secret teachings from travelers"
+      ],
+      "correct_answer": "So they will not lose what they accomplished and may receive a full reward",
+      "explanation": "The elder tells them to watch themselves so they do not lose what was accomplished but receive a full reward (2 John 1:8)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 2,
+      "prompt": "How does 2 John 1 describe many deceivers?",
+      "choices_json": [
+        "As those who don't confess Jesus Christ as coming in the flesh",
+        "As those who reject David as king of Israel",
+        "As those who refuse to keep the Passover feast",
+        "As those who deny that Moses wrote the law"
+      ],
+      "correct_answer": "As those who don't confess Jesus Christ as coming in the flesh",
+      "explanation": "The elder says many deceivers have gone out into the world, namely those who do not confess Jesus Christ as coming in the flesh (2 John 1:7)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 2,
+      "prompt": "How does the elder describe the command to love in 2 John 1?",
+      "choices_json": [
+        "As not a new commandment, but one they had from the beginning",
+        "As a law given first through Roman governors",
+        "As a hidden truth for mature believers only",
+        "As a temporary rule for times of persecution"
+      ],
+      "correct_answer": "As not a new commandment, but one they had from the beginning",
+      "explanation": "He says he is not writing a new commandment, but one they had from the beginning, that they love one another (2 John 1:5)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 2,
+      "prompt": "In 2 John 1, what does the elder say he hopes to do instead of writing everything with paper and ink?",
+      "choices_json": [
+        "Come and speak face to face",
+        "Send the message through merchants",
+        "Write a longer scroll to the synagogue",
+        "Wait for an angelic revelation"
+      ],
+      "correct_answer": "Come and speak face to face",
+      "explanation": "He says he does not want to write with paper and ink, but hopes to come and speak face to face (2 John 1:12)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 2,
+      "prompt": "In 2 John 1, what happens to someone who remains in the teaching of Christ?",
+      "choices_json": [
+        "He has both the Father and the Son",
+        "He becomes free from every trial",
+        "He receives authority over angels",
+        "He no longer needs instruction"
+      ],
+      "correct_answer": "He has both the Father and the Son",
+      "explanation": "The elder says the one who remains in the teaching has both the Father and the Son (2 John 1:9)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 2,
+      "prompt": "In 2 John 1, what should believers do if someone does not bring the teaching of Christ?",
+      "choices_json": [
+        "Do not receive him into the house or give him greeting",
+        "Give him food and send him to the next town",
+        "Invite him to teach once and then correct him",
+        "Allow him to stay if he seems sincere"
+      ],
+      "correct_answer": "Do not receive him into the house or give him greeting",
+      "explanation": "The elder warns that if anyone does not bring this teaching, they should not receive him into the house or greet him (2 John 1:10)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 2,
+      "prompt": "In 2 John 1, who loves the chosen lady and her children in truth besides the elder?",
+      "choices_json": [
+        "All those who know the truth",
+        "Only the apostles in Jerusalem",
+        "The rulers of the synagogues",
+        "A few unnamed prophets"
+      ],
+      "correct_answer": "All those who know the truth",
+      "explanation": "The elder says not only he loves them in truth, but also 'all those who know the truth' (2 John 1:1)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 3,
+      "prompt": "According to 2 John 1, how are truth and love meant to relate to one another?",
+      "choices_json": [
+        "They belong together in Christian life and greeting",
+        "Love should replace truth when conflict appears",
+        "Truth matters, but love is mainly optional",
+        "They refer to separate groups in the church"
+      ],
+      "correct_answer": "They belong together in Christian life and greeting",
+      "explanation": "The letter repeatedly joins truth and love together in its greeting, exhortation, and warning (2 John 1:1-3, 5-6)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 3,
+      "prompt": "According to 2 John 1, what does the warning about greeting false teachers imply?",
+      "choices_json": [
+        "Showing support to their work shares in their evil works",
+        "Hospitality is always wrong in times of doctrinal conflict",
+        "Only church leaders may speak to strangers",
+        "Traveling teachers are never to be trusted"
+      ],
+      "correct_answer": "Showing support to their work shares in their evil works",
+      "explanation": "The elder says whoever greets such a person participates in his evil works, implying that support can mean complicity (2 John 1:11)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 3,
+      "prompt": "According to 2 John 1, what is the likely point of saying truth 'remains in us and will be with us forever'?",
+      "choices_json": [
+        "Truth is enduring and personal among believers",
+        "Truth changes with each new teacher",
+        "Truth is found only in written scrolls",
+        "Truth belongs only to one family line"
+      ],
+      "correct_answer": "Truth is enduring and personal among believers",
+      "explanation": "The elder speaks of truth as something that remains in believers and will be with them forever, emphasizing its enduring presence (2 John 1:2)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 3,
+      "prompt": "In 2 John 1, what does 'this is love, that we should walk according to his commandments' suggest about love?",
+      "choices_json": [
+        "Love is shown in obedient living, not only in feeling",
+        "Love is mostly private emotion without visible action",
+        "Love means lowering every doctrinal boundary",
+        "Love is limited to caring for relatives"
+      ],
+      "correct_answer": "Love is shown in obedient living, not only in feeling",
+      "explanation": "The elder defines love by walking according to God's commandments, making love active and obedient (2 John 1:6)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 3,
+      "prompt": "In 2 John 1, what is emphasized by calling the deceiver 'the antichrist'?",
+      "choices_json": [
+        "The denial of Christ's true coming is spiritually serious",
+        "Every mistaken teacher is beyond repentance",
+        "The term applies only to political rulers",
+        "The problem is mainly poor manners toward churches"
+      ],
+      "correct_answer": "The denial of Christ's true coming is spiritually serious",
+      "explanation": "The elder identifies the deceiver and the antichrist with those who do not confess Jesus Christ coming in the flesh, showing the seriousness of that denial (2 John 1:7)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 3,
+      "prompt": "In 2 John 1, what is implied by 'goes onward and doesn't remain in the teaching of Christ'?",
+      "choices_json": [
+        "Not all religious progress is faithful progress",
+        "Believers should never grow in understanding",
+        "The teaching of Christ is too simple to leave behind",
+        "Leaving one's hometown is spiritually dangerous"
+      ],
+      "correct_answer": "Not all religious progress is faithful progress",
+      "explanation": "The warning suggests that moving beyond Christ's teaching can actually mean departure from truth, not advancement (2 John 1:9)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 3,
+      "prompt": "What theme is highlighted by the elder's joy over children walking in truth?",
+      "choices_json": [
+        "Faithfulness is seen in daily conduct",
+        "Children should replace elders as teachers",
+        "Truth is measured by public fame",
+        "Only younger believers can obey well"
+      ],
+      "correct_answer": "Faithfulness is seen in daily conduct",
+      "explanation": "The elder rejoices not merely in knowledge but in children 'walking in truth,' showing truth expressed in conduct (2 John 1:4)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 3,
+      "prompt": "Why does 2 John 1 connect abiding in Christ's teaching with having both the Father and the Son?",
+      "choices_json": [
+        "Because right teaching about Christ is tied to true fellowship with God",
+        "Because the Father and Son are mentioned only in greetings",
+        "Because every teacher represents both persons equally well",
+        "Because doctrine matters less than family heritage"
+      ],
+      "correct_answer": "Because right teaching about Christ is tied to true fellowship with God",
+      "explanation": "The elder says the one who remains in Christ's teaching has both the Father and the Son, linking doctrine and fellowship with God (2 John 1:9)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 4,
+      "prompt": "How do 2 John 1:4-6 and 2 John 1:7-11 work together in the flow of the letter?",
+      "choices_json": [
+        "The call to love is paired with a warning to guard the truth",
+        "The first part rejects love, while the second restores it",
+        "Both sections mainly explain travel plans in detail",
+        "The second section cancels the first section completely"
+      ],
+      "correct_answer": "The call to love is paired with a warning to guard the truth",
+      "explanation": "The elder first urges love and obedience, then warns against deceivers, showing that Christian love and doctrinal guard belong together (2 John 1:4-11)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 4,
+      "prompt": "How does the opening blessing of 2 John 1 anticipate the concerns of the whole letter?",
+      "choices_json": [
+        "It introduces truth and love, which shape both the encouragement and the warning",
+        "It predicts a famine that explains the travel plans",
+        "It announces a coming collection for Jerusalem",
+        "It explains that miracles will confirm every teacher"
+      ],
+      "correct_answer": "It introduces truth and love, which shape both the encouragement and the warning",
+      "explanation": "The greeting centers on truth and love, themes that govern the call to love and the warning against false teaching throughout the letter (2 John 1:1-3, 5-11)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 4,
+      "prompt": "How does the statement about a 'full reward' function within the warning section of 2 John 1?",
+      "choices_json": [
+        "It motivates vigilance so believers persevere in what they have received",
+        "It promises wealth to those who refuse hospitality",
+        "It shifts the letter away from doctrine to politics",
+        "It suggests salvation depends on writing letters"
+      ],
+      "correct_answer": "It motivates vigilance so believers persevere in what they have received",
+      "explanation": "The call to watch themselves and receive a full reward encourages perseverance and carefulness in the face of deceivers (2 John 1:8)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 4,
+      "prompt": "In 2 John 1, how does the elder's preference for face-to-face speech affect the tone of the letter?",
+      "choices_json": [
+        "It shows the letter is pastoral and relational, not merely formal correction",
+        "It shows he no longer cares whether they obey",
+        "It means the written message should be ignored",
+        "It proves the warning about deceivers was uncertain"
+      ],
+      "correct_answer": "It shows the letter is pastoral and relational, not merely formal correction",
+      "explanation": "His desire to come and speak face to face so that joy may be made full adds warmth and pastoral concern to the brief written warning (2 John 1:12)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 4,
+      "prompt": "In 2 John 1, why is it significant that the command to love is said to be from the beginning?",
+      "choices_json": [
+        "It presents love as original apostolic teaching rather than a later innovation",
+        "It means only the oldest believers must obey it",
+        "It shows the command was temporary for the first church",
+        "It indicates the readers had forgotten all other commands"
+      ],
+      "correct_answer": "It presents love as original apostolic teaching rather than a later innovation",
+      "explanation": "By saying it is not new but from the beginning, the elder roots love in the original Christian message they received (2 John 1:5-6)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 4,
+      "prompt": "What larger contrast shapes 2 John 1 from start to finish?",
+      "choices_json": [
+        "Abiding in truth and love versus departing into deceptive teaching",
+        "Jerusalem versus Samaria in missionary strategy",
+        "Jewish customs versus Roman citizenship rights",
+        "Private prayer versus public worship rules"
+      ],
+      "correct_answer": "Abiding in truth and love versus departing into deceptive teaching",
+      "explanation": "The letter contrasts remaining in truth, love, and Christ's teaching with deceivers who depart from that teaching (2 John 1:1-3, 5-11)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 4,
+      "prompt": "What role does hospitality appear to play in the argument of 2 John 1?",
+      "choices_json": [
+        "It becomes a concrete setting where loyalty to truth must be practiced",
+        "It replaces preaching as the church's main mission",
+        "It is described as unnecessary for Christian fellowship",
+        "It is treated as a civil duty owed to every traveler equally"
+      ],
+      "correct_answer": "It becomes a concrete setting where loyalty to truth must be practiced",
+      "explanation": "The elder's command not to receive or greet certain teachers shows that hospitality is one place where truth and obedience must be applied (2 John 1:10-11)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 4,
+      "prompt": "Why does 2 John 1 likely mention both the Father and the Son in the greeting and again in the teaching section?",
+      "choices_json": [
+        "To frame the letter's concerns around real fellowship with the true God revealed in Christ",
+        "To suggest two separate messages are being combined",
+        "To focus the letter mainly on temple rituals",
+        "To show that greetings are more important than doctrine"
+      ],
+      "correct_answer": "To frame the letter's concerns around real fellowship with the true God revealed in Christ",
+      "explanation": "The mention of the Father and the Son in both sections ties the whole letter to genuine relationship with God through right confession of Christ (2 John 1:3, 9)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 5,
+      "prompt": "According to 2 John 1, which doctrinal test most clearly marks the deceivers?",
+      "choices_json": [
+        "Their refusal to confess Jesus Christ as coming in the flesh",
+        "Their rejection of the Sabbath calendar",
+        "Their denial of angelic beings",
+        "Their refusal to read the prophets publicly"
+      ],
+      "correct_answer": "Their refusal to confess Jesus Christ as coming in the flesh",
+      "explanation": "The elder identifies the deceivers by their failure to confess Jesus Christ as coming in the flesh (2 John 1:7)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 5,
+      "prompt": "How does 2 John 1 present continuity with the beginning as a safeguard against error?",
+      "choices_json": [
+        "By anchoring love and obedience in what was heard from the beginning",
+        "By teaching that every new doctrine must be welcomed first",
+        "By advising churches to follow the most gifted speaker",
+        "By replacing commandments with spontaneous impressions"
+      ],
+      "correct_answer": "By anchoring love and obedience in what was heard from the beginning",
+      "explanation": "The elder appeals to what they had from the beginning, presenting original apostolic teaching as protection against deception (2 John 1:5-6)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 5,
+      "prompt": "In 2 John 1, what is the theological danger of not remaining in the teaching of Christ?",
+      "choices_json": [
+        "Such a person does not have God",
+        "Such a person loses the ability to read Scripture",
+        "Such a person can no longer pray privately",
+        "Such a person is barred from every human friendship"
+      ],
+      "correct_answer": "Such a person does not have God",
+      "explanation": "The elder says whoever goes onward and does not remain in Christ's teaching 'doesn't have God' (2 John 1:9)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 5,
+      "prompt": "In 2 John 1, why is the phrase 'coming in the flesh' especially important for the letter's theology?",
+      "choices_json": [
+        "It protects a true confession of the real incarnation of Jesus Christ",
+        "It mainly explains why Jesus traveled often",
+        "It points to Christ's return only and not his earthly life",
+        "It refers to believers taking communion together"
+      ],
+      "correct_answer": "It protects a true confession of the real incarnation of Jesus Christ",
+      "explanation": "The letter treats denial that Jesus Christ came in the flesh as the mark of deceivers, making the true incarnation central to its theology (2 John 1:7)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 5,
+      "prompt": "What does 2 John 1 suggest about the relationship between Christology and fellowship?",
+      "choices_json": [
+        "Confessing Christ truly is essential to sharing in the fellowship of the Father and the Son",
+        "Fellowship depends only on kindness, not on belief",
+        "Christology matters only for public teachers, not ordinary believers",
+        "Fellowship is secured by ancestry rather than doctrine"
+      ],
+      "correct_answer": "Confessing Christ truly is essential to sharing in the fellowship of the Father and the Son",
+      "explanation": "The letter links remaining in Christ's teaching with having both the Father and the Son, tying fellowship to true confession of Christ (2 John 1:7-9)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 5,
+      "prompt": "What is the most careful reading of the elder's refusal to receive certain teachers into the house?",
+      "choices_json": [
+        "He forbids actions that endorse false teaching, not love of truth itself",
+        "He rejects all contact with outsiders in every circumstance",
+        "He abolishes hospitality as a Christian virtue permanently",
+        "He commands civil punishment for doctrinal error"
+      ],
+      "correct_answer": "He forbids actions that endorse false teaching, not love of truth itself",
+      "explanation": "The reason given is that greeting such a person shares in his evil works, so the focus is on refusing endorsement and partnership in error (2 John 1:10-11)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 5,
+      "prompt": "Why is it significant that 2 John 1 joins 'commandment,' 'truth,' and 'love' instead of setting them against one another?",
+      "choices_json": [
+        "It shows Christian faithfulness is doctrinally true, morally obedient, and lovingly expressed at once",
+        "It shows commandments belong to the old covenant only",
+        "It suggests truth should be softened whenever love is mentioned",
+        "It teaches love is higher than obedience and can replace it"
+      ],
+      "correct_answer": "It shows Christian faithfulness is doctrinally true, morally obedient, and lovingly expressed at once",
+      "explanation": "The letter weaves together truth, love, and commandments, presenting them as united features of faithful Christian living (2 John 1:1-6)."
+    },
+    {
+      "book_number": 63,
+      "chapter": 1,
+      "difficulty_stage": 5,
+      "prompt": "Why might 2 John 1 be especially useful for testing claims of 'advanced' teaching?",
+      "choices_json": [
+        "Because it warns that going beyond Christ's teaching can mean losing God rather than gaining insight",
+        "Because it tells believers never to evaluate teachers at all",
+        "Because it says deeper teaching is always meant for private elites",
+        "Because it teaches that maturity requires leaving the apostolic message behind"
+      ],
+      "correct_answer": "Because it warns that going beyond Christ's teaching can mean losing God rather than gaining insight",
+      "explanation": "The elder warns that the one who 'goes onward' and does not remain in Christ's teaching does not have God, challenging claims of superior teaching detached from Christ (2 John 1:9)."
+    }
+  ]

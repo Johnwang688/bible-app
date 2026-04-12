@@ -1,3 +1,6 @@
+-- Re-seed 1 Corinthians after duplicate-prompt fix (clears partial rows from skipped INSERTs).
+DELETE FROM quiz_question_bank WHERE book_number = 46;
+
 -- ============================================================================
 -- LOGOS LIGHT — 1 Corinthians (book 46) quiz questions from quiz-questions/1corinthians.json
 -- ============================================================================

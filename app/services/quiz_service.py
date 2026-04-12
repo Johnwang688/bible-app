@@ -46,6 +46,9 @@ CURRENCY_MASTERY_MILESTONE: dict[int, int] = {
     5: 20,
 }
 
+# PostgREST returns at most ~1000 rows per request unless paged.
+_POSTGREST_PAGE_SIZE = 1000
+
 # One-time bonuses when every quizzable chapter in a scope is fully mastered (stage 5).
 COINS_BOOK_COMPLETE = 500
 COINS_SECTION_COMPLETE = 3000
@@ -350,31 +353,50 @@ def get_wallet(user_id: str) -> WalletOut:
 
 
 def _quizzable_chapters_stage1(db) -> set[tuple[int, int]]:
-    """Chapters that have enough stage-1 questions to start a quiz (same bar as get_chapter_progress)."""
-    result = (
-        db.table("quiz_question_bank")
-        .select("book_number, chapter")
-        .eq("difficulty_stage", 1)
-        .execute()
-    )
-    counts: dict[tuple[int, int], int] = {}
-    for row in result.data or []:
-        key = (int(row["book_number"]), int(row["chapter"]))
-        counts[key] = counts.get(key, 0) + 1
-    return {k for k, c in counts.items() if c >= 5}
+    """Chapters that have enough stage-1 questions to start a quiz (same bar as get_chapter_progress).
+
+    Uses DB view ``quizzable_chapters_stage1`` (GROUP BY + HAVING) so we do not rely on
+    scanning every question row in Python — PostgREST returns at most ~1000 rows per call
+    and OFFSET without ORDER can skip rows when aggregating from the base table.
+    """
+    out: set[tuple[int, int]] = set()
+    offset = 0
+    while True:
+        result = (
+            db.table("quizzable_chapters_stage1")
+            .select("book_number, chapter")
+            .order("book_number")
+            .order("chapter")
+            .range(offset, offset + _POSTGREST_PAGE_SIZE - 1)
+            .execute()
+        )
+        batch = result.data or []
+        for row in batch:
+            out.add((int(row["book_number"]), int(row["chapter"])))
+        if len(batch) < _POSTGREST_PAGE_SIZE:
+            break
+        offset += _POSTGREST_PAGE_SIZE
+    return out
 
 
 def _user_progress_map(db, user_id: str) -> dict[tuple[int, int], dict]:
-    result = (
-        db.table("user_chapter_progress")
-        .select("book_number, chapter, mastery_percent, is_mastered")
-        .eq("user_id", user_id)
-        .execute()
-    )
     out: dict[tuple[int, int], dict] = {}
-    for row in result.data or []:
-        key = (int(row["book_number"]), int(row["chapter"]))
-        out[key] = row
+    offset = 0
+    while True:
+        result = (
+            db.table("user_chapter_progress")
+            .select("book_number, chapter, mastery_percent, is_mastered")
+            .eq("user_id", user_id)
+            .range(offset, offset + _POSTGREST_PAGE_SIZE - 1)
+            .execute()
+        )
+        batch = result.data or []
+        for row in batch:
+            key = (int(row["book_number"]), int(row["chapter"]))
+            out[key] = row
+        if len(batch) < _POSTGREST_PAGE_SIZE:
+            break
+        offset += _POSTGREST_PAGE_SIZE
     return out
 
 
