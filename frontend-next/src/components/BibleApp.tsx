@@ -11,6 +11,7 @@ import AiSidebar, {
 } from './AiSidebar';
 import { STORAGE_KEYS } from '@/lib/storageKeys';
 import AuthPanel from './AuthPanel';
+import CurrencyIcon from '@/components/CurrencyIcon';
 import ChapterQuiz, { MasteryStrip } from './ChapterQuiz';
 import MasteryOverviewPanel from './MasteryOverviewPanel';
 import {
@@ -41,7 +42,8 @@ import {
   type WalletOut,
 } from '@/lib/quiz';
 import { parseReferenceLabel, sortBookNamesForMatching } from '@/lib/scriptureReference';
-import { resetDevShopAfterAuth } from '@/lib/shopInventory';
+import { APP_THEMES, normalizeThemeId, type AppThemeDef } from '@/lib/themes';
+import { resetDevShopAfterAuth } from '../lib/shopInventory';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 interface BookInfo {
@@ -78,13 +80,6 @@ interface CommentaryEntry {
   place_tags?: SummaryEntityTag[] | null;
 }
 interface CommentarySource { id: string; name: string; }
-interface ThemeDef {
-  id: string;
-  name: string;
-  swatches: string[];
-  /** Matches `--logo-color` in globals.css: white logo file on dark UIs, dark logo file on light UIs. */
-  logoColor: 'white' | 'dark';
-}
 interface SearchResult { verse: { book: string; chapter: number; verse: number; text: string; translation: string; }; relevance: number | null; }
 interface SearchSuggestion {
   id: string;
@@ -293,33 +288,7 @@ type SidePanelMode = 'none' | 'commentary' | 'ai' | 'study';
 type SidePanelPosition = 'left' | 'right';
 
 // ── Constants ──────────────────────────────────────────────────────────────────
-const THEMES: ThemeDef[] = [
-  { id: 'default',   name: 'Default',         swatches: ['#faf7f0', '#efdfcb', '#6d4c31', '#221d16'], logoColor: 'dark' },
-  { id: 'dark',      name: 'Dark',            swatches: ['#16130f', '#342618', '#c9956a', '#ede8df'], logoColor: 'white' },
-  { id: 'dynamic',   name: 'Dynamic',         swatches: ['#FBDED8', '#FBF8D8', '#E1F8D8', '#E1F8F2', '#E1DEF2', '#FBDEF2'], logoColor: 'dark' },
-  { id: 'pink',      name: 'Pastel Pink',     swatches: ['#ffe4eb', '#ffd4e0', '#c01848', '#14060c'], logoColor: 'dark' },
-  { id: 'blue',      name: 'Pastel Blue',     swatches: ['#d9e7f5', '#cddff2', '#185088', '#040a14'], logoColor: 'dark' },
-  { id: 'green',     name: 'Pastel Green',    swatches: ['#e1f9e1', '#cbf5cb', '#0c5c0c', '#030c04'], logoColor: 'dark' },
-  { id: 'yellow',    name: 'Pastel Yellow',   swatches: ['#faf8e4', '#fff2c4', '#886000', '#181400'], logoColor: 'dark' },
-  { id: 'purple',    name: 'Pastel Purple',   swatches: ['#e8e1f1', '#dacfe9', '#5c2888', '#0c0418'], logoColor: 'dark' },
-  { id: 'orange',    name: 'Pastel Orange',   swatches: ['#fcefe3', '#ffe1cc', '#a84018', '#140802'], logoColor: 'dark' },
-  { id: 'gold',      name: 'Gold & Silver',   swatches: ['#c9a84c', '#b89030', '#5c3e08', '#5a6068'], logoColor: 'dark' },
-  { id: 'midnight',  name: 'Midnight Blue',   swatches: ['#003366', '#002b55', '#4d9fe0', '#f5f5f5'], logoColor: 'white' },
-  { id: 'rebecca',   name: 'Indigo',          swatches: ['#3c3c8c', '#2e2e72', '#9fa8ff', '#f5f5f5'], logoColor: 'white' },
-  { id: 'galaxy',    name: 'Galaxy',          swatches: ['#301058', '#9a90b0', '#e8c478', '#f4f0ff'], logoColor: 'white' },
-  { id: 'parchment', name: 'Parchment Gold',  swatches: ['#f5e7a1', '#edd878', '#5a4200', '#3a3a3a'], logoColor: 'dark' },
-  { id: 'teal',      name: 'Deep Teal',       swatches: ['#0f4c5c', '#0a3848', '#5ee8f0', '#d9f3f4'], logoColor: 'white' },
-  { id: 'forest',    name: 'Forest Rose',     swatches: ['#283618', '#1e2a12', '#FFB5A7', '#ffd6cc'], logoColor: 'white' },
-  { id: 'magenta',   name: 'Magenta Aqua',    swatches: ['#4A1942', '#5c2254', '#48cae4', '#90E0EF'], logoColor: 'white' },
-  { id: 'emerald',   name: 'Emerald Gold',    swatches: ['#0B3D2E', '#144d3a', '#f0c040', '#F4D35E'], logoColor: 'white' },
-  { id: 'canyon',    name: 'Canyon Mint',     swatches: ['#4C1D06', '#5e2608', '#8ee8cc', '#B8F2E6'], logoColor: 'white' },
-  { id: 'neonrose',  name: 'Pink',            swatches: ['#000000', '#F77FBE', '#FF71CD', '#FF71CD'], logoColor: 'white' },
-];
-
-const LEGACY_THEME_ID_MAP: Record<string, string> = {
-  'Galaxy Metallic': 'galaxy',
-  'galaxy metallic': 'galaxy',
-};
+const THEMES: AppThemeDef[] = APP_THEMES;
 const THEME_GRID_PREVIEW_COUNT = 5;
 const LAST_POSITION_STORAGE_KEY = STORAGE_KEYS.LAST_POSITION;
 const RECENT_PASSAGES_STORAGE_KEY = STORAGE_KEYS.RECENT_PASSAGES;
@@ -348,12 +317,12 @@ const COMMENTARY_SYNC_THROTTLE_MS = 120;
 const DAILY_VERSE_POOL: DailyVerse[] = [
   { book: 'Psalms', chapter: 23, verse: 1, text: 'The LORD is my shepherd: I shall lack nothing.' },
   { book: 'Proverbs', chapter: 3, verse: 5, text: 'Trust in Yahweh with all your heart, and do not lean on your own understanding.' },
-  { book: 'Isaiah', chapter: 41, verse: 10, text: 'Don’t be afraid, for I am with you. Don’t be dismayed, for I am your God.' },
+  { book: 'Isaiah', chapter: 41, verse: 10, text: "Don't be afraid, for I am with you. Don't be dismayed, for I am your God." },
   { book: 'Matthew', chapter: 11, verse: 28, text: 'Come to me, all you who labor and are heavily burdened, and I will give you rest.' },
   { book: 'John', chapter: 14, verse: 27, text: 'Peace I leave with you. My peace I give to you; not as the world gives, give I to you.' },
   { book: 'Romans', chapter: 8, verse: 28, text: 'We know that all things work together for good for those who love God, to those who are called according to his purpose.' },
   { book: '2 Corinthians', chapter: 5, verse: 7, text: 'For we walk by faith, not by sight.' },
-  { book: 'Galatians', chapter: 6, verse: 9, text: 'Let’s not be weary in doing good, for we will reap in due season, if we don’t give up.' },
+  { book: 'Galatians', chapter: 6, verse: 9, text: "Let's not be weary in doing good, for we will reap in due season, if we don't give up." },
   { book: 'Philippians', chapter: 4, verse: 6, text: 'In nothing be anxious, but in everything, by prayer and petition with thanksgiving, let your requests be made known to God.' },
   { book: 'Hebrews', chapter: 11, verse: 1, text: 'Now faith is assurance of things hoped for, proof of things not seen.' },
   { book: '1 Peter', chapter: 5, verse: 7, text: 'Casting all your worries on him, because he cares for you.' },
@@ -372,14 +341,8 @@ const DEFAULT_READER_SETTINGS: ReaderSettings = {
   graphicsMode: 'auto',
 };
 
-function normalizeThemeId(rawTheme: string | null | undefined) {
-  if (!rawTheme) return 'default';
-  const mappedTheme = LEGACY_THEME_ID_MAP[rawTheme] ?? rawTheme;
-  return THEMES.some(theme => theme.id === mappedTheme) ? mappedTheme : 'default';
-}
-
 /** When collapsed, show the first N themes; if the active theme is not among them, swap it in so selection stays visible. */
-function themesForCollapsedPicker(currentThemeId: string, previewCount: number): ThemeDef[] {
+function themesForCollapsedPicker(currentThemeId: string, previewCount: number): AppThemeDef[] {
   const preview = THEMES.slice(0, previewCount);
   if (preview.some(t => t.id === currentThemeId)) return preview;
   const current = THEMES.find(t => t.id === currentThemeId);
@@ -676,7 +639,7 @@ function chapterEvidenceQualifies(evidence: ChapterReadEvidence, totalVerses: nu
   return evidence.furthestVerse >= requiredVerse && evidence.engagedMs >= requiredMs;
 }
 
-function getThemeCardStyle(theme: ThemeDef): CSSProperties {
+function getThemeCardStyle(theme: AppThemeDef): CSSProperties {
   const [bg, border, accent, text] = theme.id === 'dynamic'
     ? [DYNAMIC_PREVIEW_BG, DYNAMIC_PREVIEW_BORDER, DYNAMIC_PREVIEW_ACCENT, '#221d16']
     : theme.swatches;
@@ -995,14 +958,14 @@ function buildExplainVersePrompt(refLabel: string | undefined, selectedText: str
   const intro = 'Explain what this passage means.\n\n';
   const refLine = refLabel ? `Reference: ${refLabel}\n\n` : '';
   const normalized = selectedText.replace(/\s+/g, ' ').trim();
-  const quoted = `“${normalized}”`;
+  const quoted = `"${normalized}"`;
   let full = intro + refLine + quoted;
   if (full.length <= MAX_MESSAGE_CHARS) return full;
   const overhead = intro.length + refLine.length + 4;
   const budget = MAX_MESSAGE_CHARS - overhead;
   const inner =
     normalized.length > budget ? `${normalized.slice(0, Math.max(0, budget - 1))}…` : normalized;
-  return intro + refLine + `“${inner}”`;
+  return intro + refLine + `"${inner}"`;
 }
 
 function DailyTasksList({
@@ -1040,7 +1003,7 @@ function DailyTasksList({
             </span>
             <span className="daily-task-label">{row.label}</span>
             <span className="daily-task-coins" aria-label="+10 coins">
-              {row.done ? '🪙' : '🪙 +10'}
+              <><CurrencyIcon className="daily-task-coins-icon" size={14} />{!row.done ? ' +10' : null}</>
             </span>
           </div>
         </li>
@@ -1064,9 +1027,7 @@ function DailyTasksList({
                 {tasksBonusClaiming ? '…' : 'Claim +20'}
               </button>
             ) : (
-              <span className="daily-task-coins daily-task-coins--bonus" aria-label="+20 bonus coins">
-                🪙 +20
-              </span>
+              <span className="daily-task-coins daily-task-coins--bonus" aria-label="+20 bonus coins"><CurrencyIcon className="daily-task-coins-icon" size={14} /> +20</span>
             )}
           </div>
           {!signedIn && (
@@ -1105,7 +1066,7 @@ export default function BibleApp({
   const [commentaryEntries, setCommentaryEntries] = useState<CommentaryEntry[]>([]);
   const [commentaryLoading, setCommentaryLoading] = useState(false);
   const [commentaryError, setCommentaryError]     = useState(false);
-  const [commentarySource, setCommentarySource]   = useState('matthew_henry');
+  const [commentarySource, setCommentarySource]   = useState('summary');
   const [commentarySourceNames, setCommentarySourceNames] = useState<Record<string, string>>({
     matthew_henry: 'Matthew Henry Commentary',
     summary: 'Chapter Summaries',
@@ -1238,7 +1199,7 @@ export default function BibleApp({
   const translationRef         = useRef('WEB');
   const sidePanelModeRef       = useRef<SidePanelMode>('none');
   const sidePanelPositionRef   = useRef<SidePanelPosition>('right');
-  const commentarySourceRef    = useRef('matthew_henry');
+  const commentarySourceRef    = useRef('summary');
   const commentarySourceNamesRef = useRef<Record<string, string>>({
     matthew_henry: 'Matthew Henry Commentary',
     summary: 'Chapter Summaries',
@@ -1994,10 +1955,10 @@ export default function BibleApp({
         'The homepage is your launchpad: verse of the day, your streak and daily goal, and Continue where you left off—together in one view.',
       tips: [
         'Verse of the day: tap the reference to open that passage in the reader.',
-        'Your streak card shows your rhythm and how many chapters you’ve read toward today’s goal.',
+        "Your streak card shows your rhythm and how many chapters you've read toward today's goal.",
         currentBook
           ? `Continue where you left off jumps back to ${currentBook.name} ${chapter}.`
-          : 'Continue where you left off appears once you’ve opened a passage.',
+          : "Continue where you left off appears once you've opened a passage.",
       ],
       actionLabel: 'Replay example',
     },
@@ -2036,12 +1997,12 @@ export default function BibleApp({
     },
     {
       id: 'commentary',
-      title: 'Open Commentary',
-      description: 'This step opens commentary beside John 3 so the user can see the side-by-side reading setup.',
+      title: 'Open Resources',
+      description: 'This step opens the resources panel beside John 3 so the user can see the side-by-side reading setup.',
       tips: [
-        'Use the taskbar Commentary button to open or close the side panel.',
-        'Switch commentary sources from the dropdown at the top of the panel.',
-        'When commentary sync is active, the panel follows the verse area you are reading.',
+        'Use the taskbar Resources button to open or close the side panel.',
+        'Switch resource types from the dropdown at the top of the panel.',
+        'When sync is active, the panel follows the verse area you are reading.',
       ],
       actionLabel: 'Replay example',
     },
@@ -2112,12 +2073,12 @@ export default function BibleApp({
     {
       id: 'verse-tools',
       title: 'Verse Tools',
-      instruction: `John 3:${TUTORIAL_VERSE_TOOLS_VERSE} is outlined below—tap it to open the study card. Use the preview buttons to see what each tool does (they won’t run until you open the card).`,
+      instruction: `John 3:${TUTORIAL_VERSE_TOOLS_VERSE} is outlined below—tap it to open the study card. Use the preview buttons to see what each tool does (they won't run until you open the card).`,
     },
     {
       id: 'commentary',
-      title: 'Commentary',
-      instruction: 'Use this side panel to read commentary beside the chapter without losing your place.',
+      title: 'Resources',
+      instruction: 'Use this side panel for chapter summaries and other resources beside the chapter without losing your place.',
     },
     {
       id: 'ai',
@@ -2276,7 +2237,7 @@ export default function BibleApp({
     if (observeTarget && ro) ro.observe(observeTarget);
     const pane = sidePaneRef.current;
     window.addEventListener('resize', measure);
-    window.addEventListener('scroll', measure, true);
+    window.addEventListener('scroll', measure, { passive: true, capture: true });
     pane?.addEventListener('transitionend', measure);
 
     return () => {
@@ -4139,7 +4100,6 @@ export default function BibleApp({
     if (!ctx) return;
 
     let zones = getZones(window.innerWidth, window.innerHeight);
-    let lastDrawAt = 0;
 
     function resize() {
       if (!canvas) return;
@@ -4356,12 +4316,6 @@ export default function BibleApp({
       const h = canvas.height;
       const scrollActive = scrollEffectsDowngradedRef.current;
 
-      if (scrollActive && now - lastDrawAt < 32) {
-        cometRafRef.current = requestAnimationFrame(draw);
-        return;
-      }
-      lastDrawAt = now;
-
       ctx!.clearRect(0, 0, w, h);
 
       ctx!.save();
@@ -4371,20 +4325,23 @@ export default function BibleApp({
 
       // ── Nebula orbs (drawn first, behind comets) ─────────────────────────────
       if (isGalaxyTheme) {
-        const orbLimit = scrollActive ? Math.min(2, orbs.length) : orbs.length;
-        for (let i = 0; i < orbLimit; i++) {
+        for (let i = 0; i < orbs.length; i++) {
         const o = orbs[i];
         o.phase += o.phaseSpeed;
         const breathe = 0.65 + 0.35 * Math.sin(o.phase);
         const a = o.baseAlpha * breathe;
 
-        const grd = ctx!.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.radius);
-        grd.addColorStop(0,    `rgba(${o.r}, ${o.g}, ${o.b}, ${(a * 1.6).toFixed(3)})`);
-        grd.addColorStop(0.45, `rgba(${o.r}, ${o.g}, ${o.b}, ${(a * 0.8).toFixed(3)})`);
-        grd.addColorStop(1,    `rgba(${o.r}, ${o.g}, ${o.b}, 0)`);
         ctx!.beginPath();
         ctx!.arc(o.x, o.y, o.radius, 0, Math.PI * 2);
-        ctx!.fillStyle = grd;
+        if (scrollActive) {
+          ctx!.fillStyle = `rgba(${o.r}, ${o.g}, ${o.b}, ${(a * 0.5).toFixed(3)})`;
+        } else {
+          const grd = ctx!.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.radius);
+          grd.addColorStop(0,    `rgba(${o.r}, ${o.g}, ${o.b}, ${(a * 1.6).toFixed(3)})`);
+          grd.addColorStop(0.45, `rgba(${o.r}, ${o.g}, ${o.b}, ${(a * 0.8).toFixed(3)})`);
+          grd.addColorStop(1,    `rgba(${o.r}, ${o.g}, ${o.b}, 0)`);
+          ctx!.fillStyle = grd;
+        }
         ctx!.fill();
 
         o.x += o.vx;
@@ -4406,8 +4363,7 @@ export default function BibleApp({
           }
         }
 
-        const cometLimit = scrollActive ? Math.max(3, Math.ceil(comets.length * 0.5)) : comets.length;
-        for (let i = 0; i < cometLimit; i++) {
+        for (let i = 0; i < comets.length; i++) {
           const c = comets[i];
 
           if (c.dead) {
@@ -4419,32 +4375,34 @@ export default function BibleApp({
           c.tail.push([c.x, c.y]);
           if (c.tail.length > c.maxTail) c.tail.shift();
 
+          if (!scrollActive) {
         // tail: fading, tapering line segments from base → head
-          for (let j = 1; j < c.tail.length; j++) {
-            const t  = j / c.tail.length; // 0 = oldest, 1 = near-head
-            const [px, py] = c.tail[j - 1];
-            const [cx, cy] = c.tail[j];
-            ctx!.beginPath();
-            ctx!.moveTo(px, py);
-            ctx!.lineTo(cx, cy);
-            ctx!.strokeStyle = `rgba(255, 210, 60, ${c.alpha * t * 0.85})`;
-            ctx!.lineWidth   = Math.max(0.3, c.size * t * 1.4);
-            ctx!.lineCap     = 'round';
-            ctx!.stroke();
-          }
+            for (let j = 1; j < c.tail.length; j++) {
+              const t  = j / c.tail.length; // 0 = oldest, 1 = near-head
+              const [px, py] = c.tail[j - 1];
+              const [cx, cy] = c.tail[j];
+              ctx!.beginPath();
+              ctx!.moveTo(px, py);
+              ctx!.lineTo(cx, cy);
+              ctx!.strokeStyle = `rgba(255, 210, 60, ${c.alpha * t * 0.85})`;
+              ctx!.lineWidth   = Math.max(0.3, c.size * t * 1.4);
+              ctx!.lineCap     = 'round';
+              ctx!.stroke();
+            }
 
         // outer glow
-          const grd = ctx!.createRadialGradient(c.x, c.y, 0, c.x, c.y, c.size * 5);
-          grd.addColorStop(0,    `rgba(255, 248, 180, ${c.alpha})`);
-          grd.addColorStop(0.35, `rgba(255, 210, 60,  ${c.alpha * 0.6})`);
-          grd.addColorStop(0.7,  `rgba(200, 150, 0,   ${c.alpha * 0.2})`);
-          grd.addColorStop(1,    'rgba(180, 120, 0, 0)');
-          ctx!.beginPath();
-          ctx!.arc(c.x, c.y, c.size * 5, 0, Math.PI * 2);
-          ctx!.fillStyle = grd;
-          ctx!.fill();
+            const grd = ctx!.createRadialGradient(c.x, c.y, 0, c.x, c.y, c.size * 5);
+            grd.addColorStop(0,    `rgba(255, 248, 180, ${c.alpha})`);
+            grd.addColorStop(0.35, `rgba(255, 210, 60,  ${c.alpha * 0.6})`);
+            grd.addColorStop(0.7,  `rgba(200, 150, 0,   ${c.alpha * 0.2})`);
+            grd.addColorStop(1,    'rgba(180, 120, 0, 0)');
+            ctx!.beginPath();
+            ctx!.arc(c.x, c.y, c.size * 5, 0, Math.PI * 2);
+            ctx!.fillStyle = grd;
+            ctx!.fill();
+          }
 
-        // bright core
+        // bright core (always drawn)
           ctx!.beginPath();
           ctx!.arc(c.x, c.y, c.size, 0, Math.PI * 2);
           ctx!.fillStyle = `rgba(255, 255, 230, ${c.alpha})`;
@@ -4463,8 +4421,7 @@ export default function BibleApp({
       }
 
       if (isPinkTheme) {
-        const heartLimit = scrollActive ? Math.max(4, Math.ceil(hearts.length * 0.5)) : hearts.length;
-        for (let i = 0; i < heartLimit; i++) {
+        for (let i = 0; i < hearts.length; i++) {
           const heart = hearts[i];
 
           if (heart.dead) {
@@ -4473,21 +4430,23 @@ export default function BibleApp({
             continue;
           }
 
-          const glow = ctx!.createRadialGradient(
-            heart.x,
-            heart.y + heart.size * 0.45,
-            0,
-            heart.x,
-            heart.y + heart.size * 0.45,
-            heart.size * 2.3,
-          );
-          glow.addColorStop(0, `rgba(255, 228, 240, ${heart.alpha * 0.55})`);
-          glow.addColorStop(0.45, `rgba(255, 170, 205, ${heart.alpha * 0.24})`);
-          glow.addColorStop(1, 'rgba(255, 150, 195, 0)');
-          ctx!.beginPath();
-          ctx!.arc(heart.x, heart.y + heart.size * 0.45, heart.size * 2.3, 0, Math.PI * 2);
-          ctx!.fillStyle = glow;
-          ctx!.fill();
+          if (!scrollActive) {
+            const glow = ctx!.createRadialGradient(
+              heart.x,
+              heart.y + heart.size * 0.45,
+              0,
+              heart.x,
+              heart.y + heart.size * 0.45,
+              heart.size * 2.3,
+            );
+            glow.addColorStop(0, `rgba(255, 228, 240, ${heart.alpha * 0.55})`);
+            glow.addColorStop(0.45, `rgba(255, 170, 205, ${heart.alpha * 0.24})`);
+            glow.addColorStop(1, 'rgba(255, 150, 195, 0)');
+            ctx!.beginPath();
+            ctx!.arc(heart.x, heart.y + heart.size * 0.45, heart.size * 2.3, 0, Math.PI * 2);
+            ctx!.fillStyle = glow;
+            ctx!.fill();
+          }
 
           drawHeart(ctx!, heart.x, heart.y, heart.size, `rgba(255, 188, 216, ${heart.alpha})`);
           drawHeart(ctx!, heart.x, heart.y, heart.size * 0.62, `rgba(255, 238, 244, ${heart.alpha * 0.72})`);
@@ -4720,7 +4679,7 @@ export default function BibleApp({
        only so init hydration and token refresh do not cancel this effect mid-flight (fixes sign-in
        from /signin when a stored session is restored on first /app load). */
     // eslint-disable-next-line react-hooks/exhaustive-deps -- see above
-  }, [authSession?.user?.id, books.length]);
+  }, [authSession?.userId, books.length]);
 
   useEffect(() => {
     if (!authSession || !syncReadyRef.current || hydratingAccountRef.current || books.length === 0) return;
@@ -5074,7 +5033,7 @@ export default function BibleApp({
             <div className="reader-dashboard-metrics">
               <span className="reader-pill">{currentTranslationLabel}</span>
               <span className="reader-pill">{commentarySourceNames[commentarySource] ?? commentarySource}</span>
-              <span className="reader-pill">{sidePanelMode === 'none' ? 'Reader focus' : `Open: ${sidePanelMode === 'ai' ? 'AI' : 'Commentary'}`}</span>
+              <span className="reader-pill">{sidePanelMode === 'none' ? 'Reader focus' : `Open: ${sidePanelMode === 'ai' ? 'AI' : 'Resources'}`}</span>
             </div>
             {recentPassages.length > 0 && (
               <div className="reader-recent-row">
@@ -5480,12 +5439,12 @@ export default function BibleApp({
       return (
         <div className="state-msg">
           <span className="spinner" />
-          <div>Loading commentary...</div>
+          <div>Loading…</div>
         </div>
       );
     }
-    if (commentaryError) return <div className="state-msg">Commentary unavailable.</div>;
-    if (!commentaryEntries.length) return <div className="state-msg">No commentary for this chapter.</div>;
+    if (commentaryError) return <div className="state-msg">Unable to load this content.</div>;
+    if (!commentaryEntries.length) return <div className="state-msg">No content for this chapter.</div>;
 
     if (commentarySource === 'summary') {
       const bookForEntityNav = currentBook?.name ?? chapterData?.book ?? '';
@@ -5677,10 +5636,14 @@ export default function BibleApp({
   const selectedVerseHighlighted = selectedVerseKey ? highlightedVerses.includes(selectedVerseKey) : false;
   const selectedVerseBookmarked = selectedVerseKey ? bookmarkedVerses.includes(selectedVerseKey) : false;
   const availableCommentarySources = commentarySources.length > 0
-    ? commentarySources
+    ? [...commentarySources].sort((a, b) => {
+        if (a.id === 'summary') return -1;
+        if (b.id === 'summary') return 1;
+        return 0;
+      })
     : [
-        { id: 'matthew_henry', name: 'Matthew Henry Commentary' },
         { id: 'summary', name: 'Chapter Summaries' },
+        { id: 'matthew_henry', name: 'Matthew Henry Commentary' },
       ];
 
   const renderStudyContent = () => {
@@ -5959,19 +5922,19 @@ export default function BibleApp({
               <div className="home-header-actions">
                 {authSession ? (
                   <Link href="/app/shop" className="home-header-coins-chip" aria-label={`${coinBalance != null ? coinBalance.toLocaleString() : '…'} coins — open shop`}>
-                    <span aria-hidden="true">🪙</span>
+                    <CurrencyIcon className="home-header-coins-icon" size={16} />
                     <span className="home-header-coins-amount" aria-live="polite">
                       {coinBalance != null ? coinBalance.toLocaleString() : '…'}
                     </span>
                   </Link>
                 ) : null}
-                <span className="topbar-tooltip-wrap" data-tooltip="My stuff">
+                <span className="topbar-tooltip-wrap" data-tooltip="Profile">
                   <button
                     className={`nav-btn nav-btn-icon-only${sidePanelMode === 'study' ? ' active' : ''}`}
                     type="button"
-                    aria-label="My stuff"
+                    aria-label="Open profile"
                     aria-expanded={sidePanelMode === 'study'}
-                    aria-controls="home-mystuff-panel"
+                    aria-controls="home-profile-panel"
                     onClick={() => toggleStudyPanel()}
                   >
                     <svg className="nav-search-icon" viewBox="0 0 24 24" width={20} height={20} aria-hidden="true">
@@ -5998,7 +5961,13 @@ export default function BibleApp({
                   <p className={`home-daily-verse-reward-hint${dailyRewardsStatus?.verse_claimed ? ' home-daily-verse-reward-hint--done' : ''}`}>
                     {dailyRewardsStatus?.verse_claimed
                       ? 'Daily verse reward claimed'
-                      : 'Tap for +10 coins (once per day)'}
+                      : (
+                        <span className="home-daily-verse-reward-inline">
+                          <span>Tap</span>
+                          <CurrencyIcon size={14} decorative className="home-daily-verse-reward-inline-icon" />
+                          <span>10</span>
+                        </span>
+                      )}
                   </p>
                 ) : (
                   <p className="home-daily-verse-reward-hint">Sign in to earn coins when you open today&apos;s verse.</p>
@@ -6085,7 +6054,7 @@ export default function BibleApp({
                     <div className="tutorial-home-copy">
                       <h2 id="home-tutorial-heading" className="reader-dashboard-label">Guided tour</h2>
                       <p className="tutorial-home-title">Learn every feature in a few quick steps.</p>
-                      <p className="home-screen-card-caption">Walk through reading, search, verse tools, commentary, AI, My Stuff, and settings without leaving the app.</p>
+                      <p className="home-screen-card-caption">Walk through reading, search, verse tools, resources, AI, My Stuff, and settings without leaving the app.</p>
                     </div>
                     <div className="tutorial-home-actions">
                       <button
@@ -6125,25 +6094,31 @@ export default function BibleApp({
           {sidePanelMode === 'study' && (
             <aside
               className="home-study-pane"
-              id="home-mystuff-panel"
+              id="home-profile-panel"
               role="dialog"
-              aria-label="My Stuff"
+              aria-modal="true"
+              aria-label="Profile"
             >
-              <div className="side-header">
-                <div className="side-close-row">
-                  <button
-                    type="button"
-                    className="side-close-btn"
-                    aria-label="Close My Stuff sidebar"
-                    onClick={closeSidePanel}
-                  >
-                    ×
-                  </button>
+              <div className="home-study-pane-panel">
+                <div className="side-header home-study-pane-header">
+                  <div className="home-study-pane-kicker">Profile</div>
+                  <div className="side-close-row">
+                    <div>
+                      <div className="side-title">{sidePanelTitle()}</div>
+                      <div className="side-subtitle">{sidePanelContext}</div>
+                    </div>
+                    <button
+                      type="button"
+                      className="side-close-btn"
+                      aria-label="Close profile page"
+                      onClick={closeSidePanel}
+                    >
+                      Close
+                    </button>
+                  </div>
                 </div>
-                <div className="side-title">{sidePanelTitle()}</div>
-                <div className="side-subtitle">{sidePanelContext}</div>
+                <div className="side-scroll home-study-pane-scroll">{renderStudyContent()}</div>
               </div>
-              <div className="side-scroll home-study-pane-scroll">{renderStudyContent()}</div>
             </aside>
           )}
         </div>
@@ -6534,12 +6509,12 @@ export default function BibleApp({
                       <button
                         type="button"
                         className="side-close-btn"
-                        aria-label="Close commentary sidebar"
+                        aria-label="Close resources sidebar"
                         onClick={closeSidePanel}
                       >
                         ×
                       </button>
-                      <span className="side-eyebrow">Commentary</span>
+                      <span className="side-eyebrow">Resources</span>
                     </div>
                   )}
                   {sidePanelMode !== 'commentary' && (
@@ -6575,7 +6550,7 @@ export default function BibleApp({
                     </span>
                     <span className="commentary-source-chevron" aria-hidden="true" />
                   </button>
-                  <div className="commentary-source-menu" role="listbox" aria-label="Commentary source">
+                  <div className="commentary-source-menu" role="listbox" aria-label="Resource type">
                     {availableCommentarySources.map(source => (
                       <button
                         key={source.id}
@@ -6874,12 +6849,12 @@ export default function BibleApp({
 
         <span
           className="taskbar-tooltip-wrap"
-          data-tooltip="Commentary"
+          data-tooltip="Resources"
         >
           <button
             className={`taskbar-btn${!homeScreenActive && sidePanelMode === 'commentary' ? ' active' : ''}`}
             type="button"
-            aria-label="Commentary"
+            aria-label="Resources"
             onClick={() => (homeScreenActive ? openReaderFromHome('commentary') : toggleCommentary())}
           >
             <span className="taskbar-icon" aria-hidden="true">
@@ -7161,7 +7136,7 @@ export default function BibleApp({
             </div>
             <p className="tutorial-description">
               {tutorialStep.id === 'verse-tools' && tutorialVerseToolsStudyOpen
-                ? 'The study card is highlighted. Try Highlight (hover for colors), Share, Notes, and Save. Ask AI won’t leave this step during the tour—hover it to read what it does.'
+                ? "The study card is highlighted. Try Highlight (hover for colors), Share, Notes, and Save. Ask AI won't leave this step during the tour—hover it to read what it does."
                 : tutorialStep.instruction}
             </p>
             {tutorialStep.id === 'verse-tools' && !tutorialVerseToolsStudyOpen && (

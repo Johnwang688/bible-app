@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import type { AuthSession } from '@/lib/account';
+import CurrencyIcon from '@/components/CurrencyIcon';
 import {
   type ChapterProgressOut,
   type ChapterQuizOut,
@@ -433,7 +434,7 @@ export default function ChapterQuiz({
 
               {/* Coins */}
               <div className="quiz-coins">
-                <span className="quiz-coins-icon">🪙</span>
+                <CurrencyIcon className="quiz-coins-icon" size={16} />
                 <span className="quiz-coins-amount">
                   +
                   {result.currency_awarded +
@@ -499,3 +500,5 @@ export default function ChapterQuiz({
     </div>
   );
 }
+
+

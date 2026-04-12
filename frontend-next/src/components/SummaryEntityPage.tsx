@@ -79,11 +79,11 @@ function buildEntityChapterSpotlightPrompt(
     + 'Ground your answer in the events of that chapter only. Use flowing prose, no bullet points, no title line, no verse-reference lists.';
   if (entityKind === 'place') {
     return (
-      `${budget} Describe how the place "${label}" functions in ${book} chapter ${chapter}: what happens there, who is present, and why that setting matters in the chapter’s story.`
+      `${budget} Describe how the place "${label}" functions in ${book} chapter ${chapter}: what happens there, who is present, and why that setting matters in the chapter's story.`
     );
   }
   return (
-    `${budget} Describe what "${label}" does in ${book} chapter ${chapter} and their significance in that chapter’s narrative.`
+    `${budget} Describe what "${label}" does in ${book} chapter ${chapter} and their significance in that chapter's narrative.`
   );
 }
 
@@ -202,7 +202,7 @@ export default function SummaryEntityPage({
   const [description, setDescription] = useState('');
   const [descLoading, setDescLoading] = useState(false);
 
-  // Person / place: AI “opened from chapter” spotlight (when navigated from reader with returnTo)
+  // Person / place: AI "opened from chapter" spotlight (when navigated from reader with returnTo)
   const [chapterSpotlightBlurb, setChapterSpotlightBlurb] = useState('');
   const [chapterSpotlightLoading, setChapterSpotlightLoading] = useState(false);
 

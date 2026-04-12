@@ -20,7 +20,7 @@
   --accent: #6d4c31;
   --accent-soft: #efdfcb;
   --topbar: 56px;
-  --taskbar: 58px;
+  --taskbar: calc(50px + 4vh);
   --side-width: 38%;
   --ui: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
   --serif: Georgia, "Times New Roman", serif;
@@ -348,6 +348,12 @@ html:has(.side-pane.open:hover) .ch-nav {
 .home-header-coins-amount {
   color: var(--accent);
 }
+.home-header-coins-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
 /* 2-column card grid */
 .home-cards-grid {
   display: grid;
@@ -616,37 +622,61 @@ html:has(.side-pane.open:hover) .ch-nav {
   text-overflow: ellipsis;
 }
 
-/* My Stuff sidebar on home (reader shell stays hidden; panel is fixed above home layer) */
+/* Full-screen profile page on home */
 .home-study-pane {
   position: fixed;
-  top: 0;
-  right: 0;
-  bottom: var(--taskbar);
+  inset: 0;
   z-index: calc(var(--z-chrome-bar) - 2);
-  width: min(38vw, 400px);
-  max-width: 100%;
   display: flex;
-  flex-direction: column;
-  background: var(--bg);
-  border-left: 1px solid var(--line-soft);
-  box-shadow: -12px 0 40px rgba(0, 0, 0, 0.14);
+  align-items: stretch;
+  justify-content: stretch;
+  padding: 20px 20px calc(var(--taskbar) + 20px);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--bg) 90%, var(--panel) 10%), color-mix(in srgb, var(--panel) 92%, var(--accent) 8%));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
   animation: home-study-pane-in 0.28s ease;
 }
 @keyframes home-study-pane-in {
   from {
-    transform: translateX(100%);
-    opacity: 0.92;
+    transform: translateY(18px);
+    opacity: 0;
   }
   to {
-    transform: translateX(0);
+    transform: translateY(0);
     opacity: 1;
   }
+}
+.home-study-pane-panel {
+  flex: 1;
+  min-height: 0;
+  width: min(100%, 980px);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--line) 82%, var(--accent) 18%);
+  border-radius: 30px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--panel) 96%, white 4%), color-mix(in srgb, var(--panel) 98%, var(--accent) 2%));
+  box-shadow: 0 24px 60px rgba(26, 20, 12, 0.18);
+}
+.home-study-pane-header {
+  gap: 14px;
+}
+.home-study-pane-kicker {
+  font-family: var(--ui);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
 }
 .home-study-pane-scroll {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  padding-bottom: 10px;
 }
 .home-screen-sub {
   margin: 10px 0 0;
@@ -1168,6 +1198,14 @@ html:has(.side-pane.open:hover) .ch-nav {
   font-size: 12px;
   line-height: 1.4;
   color: var(--muted);
+}
+.home-daily-verse-reward-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.home-daily-verse-reward-inline-icon {
+  flex: 0 0 auto;
 }
 .home-daily-verse-reward-hint--done {
   color: color-mix(in srgb, var(--accent) 70%, var(--muted) 30%);
@@ -3316,11 +3354,20 @@ select.ai-add-chapter-input optgroup {
 .daily-task-coins {
   flex-shrink: 0;
   margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   font-family: var(--ui);
   font-size: 12px;
   font-weight: 700;
   color: var(--accent);
   opacity: 0.85;
+}
+.daily-task-coins-icon {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 .daily-task--done .daily-task-coins {
   opacity: 0.5;
@@ -4322,11 +4369,14 @@ select.ai-add-chapter-input optgroup {
   align-items: center;
   justify-content: center;
   gap: 0;
-  min-width: 48px;
+  width: calc(var(--taskbar) * 0.55);
+  height: calc(var(--taskbar) * 0.55);
+  min-width: calc(var(--taskbar) * 0.55);
+  min-height: calc(var(--taskbar) * 0.55);
   border: none;
   background: transparent;
-  padding: 10px 8px;
-  border-radius: 16px;
+  padding: 0;
+  border-radius: calc(var(--taskbar) * 0.28);
   cursor: pointer;
   color: var(--muted);
   font-family: var(--ui);
@@ -4348,11 +4398,11 @@ a.taskbar-btn:visited {
   color: var(--text);
 }
 .taskbar-icon {
-  width: 34px;
-  height: 34px;
+  width: 100%;
+  height: 100%;
   display: grid;
   place-items: center;
-  border-radius: 12px;
+  border-radius: calc(var(--taskbar) * 0.2);
   border: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.8);
 }
@@ -5501,6 +5551,7 @@ a.taskbar-btn:visited {
   z-index: 1;
   pointer-events: none;
   overflow: hidden;
+  transition: opacity 150ms ease;
 }
 @keyframes galaxy-sparkle-twinkle-a {
   0%, 100% { opacity: 0.22; filter: brightness(0.8);  }
@@ -5820,32 +5871,29 @@ a.taskbar-btn:visited {
   -webkit-backdrop-filter: blur(5px) saturate(1.08);
   border-color: rgba(255,255,255,0.14);
 }
+/* Fix 1: freeze animations at their current frame instead of killing them (avoids frame-0 snap on resume) */
 html[data-scroll-active="1"][data-theme="galaxy"] .content-shell::before,
 html[data-scroll-active="1"][data-theme="galaxy"] .content-shell::after,
 html[data-scroll-active="1"][data-theme="galaxy"] #wave-bg::before,
 html[data-scroll-active="1"][data-theme="galaxy"] #wave-bg::after,
-html[data-scroll-active="1"][data-theme="galaxy"] #wave-bg,
-html[data-scroll-active="1"][data-theme="galaxy"] .galaxy-sparkles,
 html[data-scroll-active="1"][data-theme="galaxy"] .galaxy-sparkles::before,
 html[data-scroll-active="1"][data-theme="galaxy"] .galaxy-sparkles::after,
 html[data-scroll-active="1"][data-theme="galaxy"] .topbar,
 html[data-scroll-active="1"][data-theme="galaxy"] .taskbar {
-  animation: none;
+  animation-play-state: paused;
 }
+/* Fix 2: hide decorative layers with opacity so animation state is preserved for smooth resume */
 html[data-scroll-active="1"][data-theme="galaxy"] #wave-bg,
-html[data-scroll-active="1"][data-theme="galaxy"] .galaxy-sparkles,
-html[data-scroll-active="1"][data-theme="galaxy"] .theme-comet-canvas {
-  display: none !important;
+html[data-scroll-active="1"][data-theme="galaxy"] .galaxy-sparkles {
+  opacity: 0;
+  pointer-events: none;
 }
 html[data-scroll-active="1"][data-theme="galaxy"] .content-shell::before,
 html[data-scroll-active="1"][data-theme="galaxy"] .content-shell::after {
   opacity: 0.06;
   mix-blend-mode: normal;
 }
-html[data-scroll-active="1"][data-theme="galaxy"] .galaxy-sparkles::before,
-html[data-scroll-active="1"][data-theme="galaxy"] .galaxy-sparkles::after {
-  opacity: 0.24;
-}
+/* Fix 2: remove backdrop-filter during scroll — biggest GPU repaint cost per scroll frame */
 html[data-scroll-active="1"][data-theme="galaxy"] .topbar,
 html[data-scroll-active="1"][data-theme="galaxy"] .taskbar,
 html[data-scroll-active="1"][data-theme="galaxy"] .nav-btn,
@@ -5855,18 +5903,19 @@ html[data-scroll-active="1"][data-theme="galaxy"] .version-panel,
 html[data-scroll-active="1"][data-theme="galaxy"] .side-header,
 html[data-scroll-active="1"][data-theme="galaxy"] .ch-nav-btn,
 html[data-scroll-active="1"][data-theme="galaxy"] .taskbar-icon {
-  backdrop-filter: blur(4px) saturate(1.02);
-  -webkit-backdrop-filter: blur(4px) saturate(1.02);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
+/* Fix 1: pink theme — same freeze-in-place approach */
 html[data-scroll-active="1"][data-theme="pink"] .content-shell::before,
 html[data-scroll-active="1"][data-theme="pink"] .pink-hearts::before,
 html[data-scroll-active="1"][data-theme="pink"] .pink-hearts::after {
-  animation: none;
+  animation-play-state: paused;
   opacity: 0.12;
 }
-html[data-scroll-active="1"][data-theme="pink"] .pink-hearts,
-html[data-scroll-active="1"][data-theme="pink"] .theme-comet-canvas {
-  display: none !important;
+html[data-scroll-active="1"][data-theme="pink"] .pink-hearts {
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* Galaxy: animated aurora behind the glass bars */
@@ -6239,7 +6288,9 @@ html[data-dynamic-wave="1"] .side-pane {
 }
 .auth-coins-icon {
   flex-shrink: 0;
-  line-height: 1;
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
 }
 a.auth-shop-pill {
   flex-shrink: 0;
@@ -6478,7 +6529,6 @@ a.auth-shop-pill:hover {
 @media (max-width: 700px) {
   :root {
     --topbar: 60px;
-    --taskbar: 60px;
     --side-width: 52%;
   }
   .topbar { padding: 10px 12px; }
@@ -6558,9 +6608,10 @@ a.auth-shop-pill:hover {
     gap: 8px;
   }
   .taskbar-btn {
-    min-width: 44px;
-    padding-left: 4px;
-    padding-right: 4px;
+    width: calc(var(--taskbar) * 0.8);
+    height: calc(var(--taskbar) * 0.8);
+    min-width: calc(var(--taskbar) * 0.8);
+    min-height: calc(var(--taskbar) * 0.8);
   }
   .tutorial-overlay {
     padding: 12px;
@@ -6587,6 +6638,16 @@ a.auth-shop-pill:hover {
   }
   .study-panel-content .search-panel {
     padding: 14px;
+  }
+  .home-study-pane {
+    padding: 0 0 var(--taskbar);
+  }
+  .home-study-pane-panel {
+    width: 100%;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-top: none;
   }
 }
 
@@ -6877,6 +6938,7 @@ html[data-reduced-motion="1"] .pink-hearts {
   z-index: 2;
   pointer-events: none;
   overflow: hidden;
+  transition: opacity 150ms ease;
 }
 .wave-svg {
   position: absolute;
@@ -7388,8 +7450,10 @@ html[data-reduced-motion="1"] .pink-hearts {
   line-height: 1;
 }
 .mastery-overview-reward-icon {
-  font-size: 13px;
-  line-height: 1;
+  width: 13px;
+  height: 13px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 .mastery-overview-reward-amount {
   font-variant-numeric: tabular-nums;
@@ -7969,7 +8033,10 @@ html[data-reduced-motion="1"] .pink-hearts {
   color: var(--accent);
 }
 .quiz-coins-icon {
-  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 .quiz-coins-amount {
   font-weight: 700;
@@ -8041,11 +8108,22 @@ html[data-reduced-motion="1"] .pink-hearts {
 /* ── Balance display ─────────────────────────────────────────────────────── */
 .sp-balance {
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   gap: 5px;
   font-family: var(--ui);
 }
-.sp-balance-coin { font-size: 1.2rem; }
+.sp-balance-coin {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.sp-inline-coin {
+  display: inline-block;
+  vertical-align: text-bottom;
+  object-fit: contain;
+  flex-shrink: 0;
+}
 .sp-balance-amount {
   font-size: 1.3rem;
   font-weight: 700;

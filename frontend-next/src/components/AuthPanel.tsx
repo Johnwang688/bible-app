@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import CoinBoostControls from '@/components/CoinBoostControls';
+import CurrencyIcon from '@/components/CurrencyIcon';
 
 type AuthMode = 'signin' | 'signup';
 
@@ -53,9 +54,7 @@ export default function AuthPanel({
           </div>
           <div className="auth-coins-row">
             <p className="auth-coins-amount" aria-live="polite">
-              <span className="auth-coins-icon" aria-hidden="true">
-                🪙
-              </span>
+              <CurrencyIcon className="auth-coins-icon" size={16} />
               {coinBalance != null ? `${coinBalance.toLocaleString()} coins` : '…'}
             </p>
             <Link href="/app/shop" className="auth-shop-pill" aria-label="Open shop">
@@ -134,3 +133,5 @@ export default function AuthPanel({
     </div>
   );
 }
+
+

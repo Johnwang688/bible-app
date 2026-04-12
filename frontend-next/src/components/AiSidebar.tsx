@@ -30,7 +30,7 @@ function removeLegacyAiStorageKeys() {
     /* ignore */
   }
 }
-/** Exported for reader “Ask from selection” prompt length (must match server expectations). */
+/** Exported for reader "Ask from selection" prompt length (must match server expectations). */
 export const MAX_MESSAGE_CHARS = 1500;
 const TYPEWRITER_SPEED_MS = 12; // ms per step (2 chars per step)
 const THINKING_VERB_INTERVAL_MS = 2400;
@@ -168,7 +168,7 @@ export interface AiSidebarProps {
   bibleBooks: Array<{ name: string; total_chapters: number }>;
   onNavigate: (params: AIActionParams) => void;
   onOpenCommentary: (source?: string) => void;
-  /** When `id` changes, replaces the composer draft and focuses the textarea (e.g. “ask from selection”). */
+  /** When `id` changes, replaces the composer draft and focuses the textarea (e.g. "ask from selection"). */
   composerSeed?: { id: number; text: string };
   /** Fired once when the user sends a message to the assistant (daily task / analytics). */
   onUserMessageSent?: () => void;
@@ -595,7 +595,7 @@ export default function AiSidebar({
     return () => window.clearInterval(id);
   }, [isLoading]);
 
-  // Scroll so the assistant’s current reply (thinking state or latest message) starts in view
+  // Scroll so the assistant's current reply (thinking state or latest message) starts in view
   useEffect(() => {
     const id = requestAnimationFrame(() => {
       const el = assistantReplyTopRef.current;

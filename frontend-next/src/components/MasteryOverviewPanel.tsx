@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import type { AuthSession } from '@/lib/account';
+import CurrencyIcon from '@/components/CurrencyIcon';
 import {
   formatMasteryRewardCoins,
   MASTERY_REWARD_BOOK,
@@ -51,9 +52,7 @@ function MasteryRewardBadge({ coins, scopeLabel }: { coins: number; scopeLabel: 
   const shown = formatMasteryRewardCoins(coins);
   return (
     <span className="mastery-overview-reward" title={tip} aria-label={tip}>
-      <span className="mastery-overview-reward-icon" aria-hidden="true">
-        🪙
-      </span>
+      <CurrencyIcon className="mastery-overview-reward-icon" size={13} />
       <span className="mastery-overview-reward-amount" aria-hidden="true">
         {shown}
       </span>
@@ -422,3 +421,5 @@ function BookBlock({
     </div>
   );
 }
+
+

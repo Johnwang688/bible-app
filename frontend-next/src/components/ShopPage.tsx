@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import CurrencyIcon from '@/components/CurrencyIcon';
 import {
   persistAuthSession,
   refreshSession,
@@ -72,7 +73,7 @@ type ConfirmDialog = {
 function CoinDisplay({ balance }: { balance: number | null }) {
   return (
     <div className="sp-balance">
-      <span className="sp-balance-coin" aria-hidden="true">🪙</span>
+      <CurrencyIcon className="sp-balance-coin" size={20} />
       <span className="sp-balance-amount">
         {balance != null ? balance.toLocaleString() : '—'}
       </span>
@@ -111,9 +112,7 @@ function PriceTag({ price, owned, canAfford }: { price: number; owned?: boolean;
   if (owned) return <span className="sp-price sp-price--owned">✓ Owned</span>;
   if (price === 0) return <span className="sp-price sp-price--free">Free</span>;
   return (
-    <span className={`sp-price${canAfford === false ? ' sp-price--locked' : ''}`}>
-      🪙 {price.toLocaleString()}
-    </span>
+    <span className={`sp-price${canAfford === false ? ' sp-price--locked' : ''}`}><CurrencyIcon className="sp-inline-coin" size={15} /> {price.toLocaleString()}</span>
   );
 }
 
@@ -567,11 +566,9 @@ function CharacterCardsTab({
                 >
                   <span className="sp-scroll-btn-prices">
                     {scroll.compareAtPrice != null && (
-                      <span className="sp-scroll-price-was" aria-hidden="true">
-                        🪙 {scroll.compareAtPrice.toLocaleString()}
-                      </span>
+                      <span className="sp-scroll-price-was" aria-hidden="true"><CurrencyIcon className="sp-inline-coin" size={14} /> {scroll.compareAtPrice.toLocaleString()}</span>
                     )}
-                    <span>🪙 {scroll.price.toLocaleString()}</span>
+                    <span><CurrencyIcon className="sp-inline-coin" size={14} /> {scroll.price.toLocaleString()}</span>
                   </span>
                   <span className="sp-scroll-btn-label">{scroll.pulls > 1 ? `×${scroll.pulls}` : 'Summon'}</span>
                 </button>
@@ -737,7 +734,7 @@ function BoostsTab({
                   onClick={() => onRequestPurchase(boost.id, boost.price)}
                   disabled={balance == null || !affordable}
                 >
-                  🪙 {boost.price.toLocaleString()}
+                  <CurrencyIcon className="sp-inline-coin" size={15} /> {boost.price.toLocaleString()}
                 </button>
               </div>
             );
@@ -868,14 +865,14 @@ export default function ShopPage() {
       }
       setConfirm({
         title: 'Buy theme?',
-        message: `Buy “${theme.name}” for ${theme.price.toLocaleString()} coins?`,
+        message: `Buy "${theme.name}" for ${theme.price.toLocaleString()} coins?`,
         onConfirm: () => handleThemePurchase(theme),
       });
       return;
     }
     setConfirm({
       title: 'Unlock theme?',
-      message: `Unlock “${theme.name}” for free?`,
+      message: `Unlock "${theme.name}" for free?`,
       onConfirm: () => handleThemePurchase(theme),
     });
   };
@@ -901,7 +898,7 @@ export default function ShopPage() {
     const boost = SHOP_BOOSTS.find(b => b.id === boostId);
     setConfirm({
       title: 'Buy power-up?',
-      message: `Buy “${boost?.name ?? 'power-up'}” for ${price.toLocaleString()} coins?`,
+      message: `Buy "${boost?.name ?? 'power-up'}" for ${price.toLocaleString()} coins?`,
       onConfirm: () => handleBoostPurchase(boostId, price),
     });
   };
@@ -1072,3 +1069,9 @@ export default function ShopPage() {
     </div>
   );
 }
+
+
+
+
+
+
