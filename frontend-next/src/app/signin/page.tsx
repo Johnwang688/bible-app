@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import SiteLogo from '@/components/SiteLogo';
 import { useState } from 'react';
 import { persistAuthSession, signIn, signUp } from '@/lib/account';
-import { resetDevShopAfterAuth } from '@/lib/shopInventory';
 
 type Mode = 'signin' | 'signup';
 
@@ -28,7 +27,6 @@ export default function SignInPage() {
         mode === 'signin'
           ? await signIn(email.trim(), password)
           : await signUp(email.trim(), password, displayName.trim() || undefined);
-      resetDevShopAfterAuth();
       persistAuthSession(session);
       router.replace('/app');
     } catch (err) {

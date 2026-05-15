@@ -33,6 +33,23 @@ def make_payload(message: str) -> dict:
     }
 
 
+def test_build_guided_sections_from_mh_fills_gaps_between_mh_blocks() -> None:
+    from app.services.ai_service import build_guided_sections_from_mh
+
+    assert build_guided_sections_from_mh([(1, 8), (16, 21)], 36) == [
+        (1, 8),
+        (9, 15),
+        (16, 21),
+        (22, 36),
+    ]
+
+
+def test_build_guided_sections_from_mh_whole_chapter_when_no_mh() -> None:
+    from app.services.ai_service import build_guided_sections_from_mh
+
+    assert build_guided_sections_from_mh([], 12) == [(1, 12)]
+
+
 def test_load_prompt_bundle_uses_lexical_order() -> None:
     class FakeFile:
         def __init__(self, name: str, text: str):

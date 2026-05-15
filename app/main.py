@@ -22,7 +22,17 @@ from app.schemas.account import (
     UserSignIn,
     UserSignUp,
 )
-from app.schemas.ai import AIChatRequest, AIChatResponse, EntityContentRequest, EntityContentResponse
+from app.schemas.ai import (
+    AIChatRequest,
+    AIChatResponse,
+    EntityContentRequest,
+    EntityContentResponse,
+    GuidedChapterAction,
+    GuidedChapterRequest,
+    GuidedChapterResponse,
+    GuidedChapterSectionsOut,
+    GuidedVerseRange,
+)
 from app.schemas.bible import BookInfo, ChapterOut, SearchRequest, SearchResult, VerseOut
 from app.schemas.commentary import CommentaryEntry, SummaryEntityListItemOut, SummaryEntityPageOut
 from app.services.account_service import (
@@ -48,8 +58,10 @@ from app.services.ai_service import (
     RateLimitExceeded,
     chat_with_ai,
     check_rate_limit,
+    compute_guided_chapter_sections,
     generate_entity_text,
     get_request_identity,
+    run_guided_chapter_step,
 )
 from app.services.bible_service import (
     get_chapter,
@@ -376,6 +388,51 @@ async def put_user_settings(
     current_user: dict = Depends(get_current_user),
 ) -> UserSettingsOut:
     return upsert_user_settings(current_user["id"], payload)
+
+
+@app.get("/api/v1/ai/guided-chapter/sections", response_model=GuidedChapterSectionsOut, tags=["ai"])
+async def read_guided_chapter_sections(
+    request: Request,
+    book: str = Query(..., min_length=1),
+    chapter: int = Query(..., ge=1),
+    translation: str = Query("WEB"),
+) -> GuidedChapterSectionsOut:
+    try:
+        check_rate_limit(get_request_identity(request))
+        raw = await compute_guided_chapter_sections(book.strip(), chapter, translation.strip() or "WEB")
+        return GuidedChapterSectionsOut(
+            sections=[GuidedVerseRange(verse_start=s["verse_start"], verse_end=s["verse_end"]) for s in raw],
+        )
+    except RateLimitExceeded as exc:
+        raise HTTPException(
+            status_code=429,
+            detail=exc.message,
+            headers={"Retry-After": str(exc.retry_after_seconds)},
+        ) from exc
+    except AIServiceUnavailable as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+
+
+@app.post("/api/v1/ai/guided-chapter", response_model=GuidedChapterResponse, tags=["ai"])
+async def post_guided_chapter(request: Request, payload: GuidedChapterRequest) -> GuidedChapterResponse:
+    if payload.verse_start < 1 or payload.verse_end < payload.verse_start:
+        raise HTTPException(status_code=400, detail="Invalid verse range.")
+    if payload.action == GuidedChapterAction.DIVE_DEEPER and len(payload.section_summary_text.strip()) < 12:
+        raise HTTPException(
+            status_code=400,
+            detail="section_summary_text is required for dive_deeper (paste the section walkthrough).",
+        )
+    try:
+        check_rate_limit(get_request_identity(request))
+        return await run_guided_chapter_step(payload)
+    except RateLimitExceeded as exc:
+        raise HTTPException(
+            status_code=429,
+            detail=exc.message,
+            headers={"Retry-After": str(exc.retry_after_seconds)},
+        ) from exc
+    except AIServiceUnavailable as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
 
 
 @app.post("/api/v1/ai/chat", response_model=AIChatResponse, tags=["ai"])

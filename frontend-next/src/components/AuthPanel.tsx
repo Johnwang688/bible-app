@@ -1,8 +1,6 @@
 'use client';
 
-import Link from 'next/link';
 import { useState } from 'react';
-import CoinBoostControls from '@/components/CoinBoostControls';
 import CurrencyIcon from '@/components/CurrencyIcon';
 
 type AuthMode = 'signin' | 'signup';
@@ -57,12 +55,8 @@ export default function AuthPanel({
               <CurrencyIcon className="auth-coins-icon" size={16} />
               {coinBalance != null ? `${coinBalance.toLocaleString()} coins` : '…'}
             </p>
-            <Link href="/app/shop" className="auth-shop-pill" aria-label="Open shop">
-              Shop
-            </Link>
           </div>
         </div>
-        <CoinBoostControls compact />
       </div>
     );
   }

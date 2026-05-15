@@ -23,8 +23,12 @@ from app.schemas.ai import (
     AIContext,
     AIHistoryMessage,
     AIModelResponse,
+    GuidedChapterAction,
+    GuidedChapterRequest,
+    GuidedChapterResponse,
 )
 from app.services.bible_service import BOOK_DATA, get_chapter, get_verse_range, resolve_book
+from app.services.commentary_service import get_commentary
 
 PROMPTS_DIR = Path(__file__).resolve().parents[1] / "prompts" / "ai"
 MAX_HISTORY_MESSAGES = 8
@@ -35,6 +39,195 @@ RATE_LIMIT_REQUESTS = 20
 RATE_LIMIT_WINDOW_SECONDS = 300
 DEFAULT_COMMENTARY_SOURCE = "matthew_henry"
 MAX_SUPPLEMENTARY_PASSAGES = 3
+GUIDED_SECTION_MAX_TOKENS = 900
+GUIDED_DIVE_MAX_TOKENS = 520
+GUIDED_MH_EXCERPT_MAX_CHARS = 9000
+
+
+def merge_overlapping_verse_intervals(intervals: list[tuple[int, int]]) -> list[tuple[int, int]]:
+    """Merge only overlapping verse ranges (adjacent blocks stay separate)."""
+    if not intervals:
+        return []
+    cleaned = [(min(a, b), max(a, b)) for a, b in intervals]
+    cleaned.sort()
+    out: list[tuple[int, int]] = [cleaned[0]]
+    for a, b in cleaned[1:]:
+        la, lb = out[-1]
+        if a <= lb:
+            out[-1] = (la, max(lb, b))
+        else:
+            out.append((a, b))
+    return out
+
+
+def fill_verse_gaps(intervals: list[tuple[int, int]], max_verse: int) -> list[tuple[int, int]]:
+    """Cover every verse 1..max_verse: keep each supplied interval and insert gaps as their own sections."""
+    if max_verse < 1:
+        return []
+    if not intervals:
+        return [(1, max_verse)]
+    out: list[tuple[int, int]] = []
+    cur = 1
+    for vs, ve in intervals:
+        vs = max(1, min(vs, max_verse))
+        ve = max(vs, min(ve, max_verse))
+        if cur < vs:
+            out.append((cur, vs - 1))
+        out.append((vs, ve))
+        cur = ve + 1
+    if cur <= max_verse:
+        out.append((cur, max_verse))
+    return out
+
+
+def build_guided_sections_from_mh(mh_intervals: list[tuple[int, int]], max_verse: int) -> list[tuple[int, int]]:
+    merged = merge_overlapping_verse_intervals(mh_intervals)
+    return fill_verse_gaps(merged, max_verse)
+
+
+async def compute_guided_chapter_sections(book: str, chapter: int, translation: str) -> list[dict[str, int]]:
+    resolved = resolve_book(book)
+    if not resolved:
+        return []
+    canon = resolved["name"]
+    ch = await get_chapter(canon, chapter, translation)
+    if not ch or not ch.verses:
+        return []
+    max_v = max(v.verse for v in ch.verses)
+    entries = await get_commentary(canon, chapter, source=DEFAULT_COMMENTARY_SOURCE)
+    mh_intervals: list[tuple[int, int]] = []
+    for e in entries:
+        vs = e.verse_start
+        ve = e.verse_end if e.verse_end is not None else e.verse_start
+        mh_intervals.append((vs, ve))
+    ranges = build_guided_sections_from_mh(mh_intervals, max_v)
+    return [{"verse_start": a, "verse_end": b} for a, b in ranges]
+
+
+async def guided_chapter_plain_completion(
+    *,
+    system: str,
+    user: str,
+    max_tokens: int,
+    context: AIContext,
+) -> str:
+    client = get_openai_client()
+    settings = get_settings()
+    clamped = min(max(200, max_tokens), MAX_ENTITY_CONTENT_TOKENS)
+    completion = await client.chat.completions.create(
+        model=settings.openai_model,
+        messages=[
+            {"role": "system", "content": system},
+            {"role": "user", "content": user},
+        ],
+        max_completion_tokens=clamped,
+        reasoning_effort="low",
+        store=False,
+        user=format_context_label(context),
+    )
+    return (completion.choices[0].message.content or "").strip()
+
+
+async def run_guided_chapter_step(payload: GuidedChapterRequest) -> GuidedChapterResponse:
+    resolved = resolve_book(payload.context.book)
+    if not resolved:
+        raise AIServiceUnavailable("Unknown book.")
+    canon_book = resolved["name"]
+    ctx = payload.context.model_copy(update={"book": canon_book})
+    vs, ve = payload.verse_start, payload.verse_end
+    if vs < 1 or ve < vs:
+        raise AIServiceUnavailable("Invalid verse range.")
+
+    verses = await get_verse_range(canon_book, ctx.chapter, vs, ve, ctx.translation)
+    if not verses:
+        raise AIServiceUnavailable("Could not load verses for that range.")
+    scripture = format_verse_lines(verses)
+    passage_ref = (
+        f"{canon_book} {ctx.chapter}:{vs}" if vs == ve else f"{canon_book} {ctx.chapter}:{vs}-{ve}"
+    )
+
+    entries = await get_commentary(canon_book, ctx.chapter, source=DEFAULT_COMMENTARY_SOURCE)
+    mh_parts: list[str] = []
+    for e in entries:
+        evs = e.verse_start
+        eve = e.verse_end if e.verse_end is not None else e.verse_start
+        if eve < vs or evs > ve:
+            continue
+        label = f"{evs}-{eve}" if eve != evs else f"{evs}"
+        mh_parts.append(f"[Matthew Henry on verses {label}]\n{e.content.strip()}")
+    mh_block = "\n\n".join(mh_parts).strip()
+    if len(mh_block) > GUIDED_MH_EXCERPT_MAX_CHARS:
+        mh_block = mh_block[:GUIDED_MH_EXCERPT_MAX_CHARS] + "\n…"
+
+    tone = PERSONALITY_TONES.get(payload.personality, PERSONALITY_TONES["jessica"])
+
+    if payload.action == GuidedChapterAction.SECTION_SUMMARY:
+        system = (
+            f"{tone}\n\n"
+            "You are helping a young adult read the Bible one section at a time.\n"
+            "Matthew Henry's commentary splits are used to divide the chapter; use the Matthew Henry excerpts below "
+            "only as light structure or theme hints. Your verse lines must come from the Scripture wording, not from "
+            "copying Henry's prose.\n\n"
+            "Output rules:\n"
+            "- Plain text only. No Markdown, no bullet asterisks, no em dash characters.\n"
+            "- For each verse in order, one line: Verse N: then a tiny phrase (aim about 6 to 10 words, one clear idea). "
+            "No second sentence on the same line. No fancy vocabulary.\n"
+            "- Then exactly one line: Section summary: followed by one simple sentence of about 15 words (12 to 18 words is fine). "
+            "It should sound like something you could say out loud. No semicolons, no stacked clauses, no jargon.\n"
+            "- Stay close to the verses; do not invent details.\n"
+        )
+        user_msg = (
+            f"Passage: {passage_ref} ({ctx.translation}).\n\n"
+            f"SCRIPTURE:\n{scripture}\n\n"
+        )
+        if mh_block:
+            user_msg += f"MATTHEW HENRY (Concise) excerpts overlapping this range:\n{mh_block}\n"
+        else:
+            user_msg += "No Matthew Henry excerpt overlapped this range; rely on the verses only.\n"
+        text = await guided_chapter_plain_completion(
+            system=system,
+            user=user_msg,
+            max_tokens=GUIDED_SECTION_MAX_TOKENS,
+            context=ctx,
+        )
+    else:
+        summary = payload.section_summary_text.strip()
+        if len(summary) > 10_000:
+            summary = summary[:10_000] + "…"
+        system = (
+            f"{tone}\n\n"
+            "You help teens and young adults connect this passage to real life. Be brief: people skim long blocks.\n\n"
+            "Output rules:\n"
+            "- Plain text only. No Markdown, no em dashes, no numbered sub-lists under each point, no Examples: blocks.\n"
+            "- Use headings Truths: and Applications: on their own lines.\n"
+            "- Truths: Give exactly 2 or 3 items. Number them 1) 2) 3). Each truth must be one sentence (about 18 words max) "
+            "that names something a person can notice, choose, pray, say, or do because of this passage. "
+            "Avoid abstract slogans like God is sovereign with no hook to daily life. Tie each line lightly to the passage "
+            "in plain words, no second paragraph.\n"
+            "- Applications: Give exactly 2 or 3 items matching the truths. Number them 1) 2) 3). Each is one sentence "
+            "(about 22 words max) describing one concrete situation this week (school, work, friends, family, money, "
+            "health, phone habits, church). Say what to try, not a lecture.\n"
+            "- Keep the whole reply under about 180 words. Do not pad.\n"
+            "- Do not end with questions, invitations to reply, or offers to tune for an audience. "
+            "Do not ask who the reader is or mention high school, college, or early-career in the closing lines.\n"
+        )
+        user_msg = (
+            f"Biblical passage: {passage_ref}.\n\n"
+            "Here is the section walkthrough you already gave the reader:\n\n"
+            f"{summary}\n"
+        )
+        text = await guided_chapter_plain_completion(
+            system=system,
+            user=user_msg,
+            max_tokens=GUIDED_DIVE_MAX_TOKENS,
+            context=ctx,
+        )
+
+    if not text:
+        text = (
+            "I could not generate that section just now. Try again, or narrow to a smaller passage."
+        )
+    return GuidedChapterResponse(message=text, references=[passage_ref])
 
 PERSONALITY_TONES: dict[str, str] = {
     "jessica": (

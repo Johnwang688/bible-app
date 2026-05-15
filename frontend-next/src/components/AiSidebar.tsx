@@ -141,6 +141,13 @@ interface AIUserEntry {
   displayContent?: string;
 }
 
+/** Shown after a guided-mode section summary: Dive deeper (once) and Move on. */
+interface AIGuidedPills {
+  verseStart: number;
+  verseEnd: number;
+  variant: 'both' | 'move_on_only';
+}
+
 interface AIAssistantEntry {
   id: string;
   kind: 'assistant';
@@ -149,6 +156,7 @@ interface AIAssistantEntry {
   actions: AIAction[];
   suggestedFollowUps: string[];
   contextLabel: string;
+  guidedPills?: AIGuidedPills;
 }
 
 interface AIContextEntry {
@@ -214,12 +222,46 @@ function getContextLabel(book: string | null, chapter: number, translation: stri
   return book ? `${book} ${chapter} (${translation})` : '';
 }
 
-function getStarterPrompts(book: string | null, chapter: number) {
+type StarterPrompt =
+  | { id: string; kind: 'send'; label: string; message: string }
+  | { id: string; kind: 'guided_chapter'; label: string };
+
+function getStarterPrompts(book: string | null, chapter: number): StarterPrompt[] {
   if (!book) return [];
   return [
-    `Summarize ${book} ${chapter} for me.`,
-    `What does ${book} ${chapter} teach about God?`,
+    {
+      id: 'summarize-chapter',
+      kind: 'send',
+      label: 'Summarize this chapter',
+      message: `Please summarize ${book} ${chapter}.`,
+    },
+    {
+      id: 'guide-chapter',
+      kind: 'guided_chapter',
+      label: 'Guide me through this chapter',
+    },
+    {
+      id: 'surprise',
+      kind: 'send',
+      label: 'Surprise me!',
+      message: 'Surprise me!',
+    },
   ];
+}
+
+interface GuidedChapterState {
+  book: string;
+  chapter: number;
+  sections: Array<{ verse_start: number; verse_end: number }>;
+  sectionIndex: number;
+}
+
+function stripGuidedPillsFromEntries(entries: AITranscriptEntry[]): AITranscriptEntry[] {
+  return entries.map(e => {
+    if (e.kind !== 'assistant' || !e.guidedPills) return e;
+    const { guidedPills: _, ...rest } = e;
+    return rest as AIAssistantEntry;
+  });
 }
 
 function wrapFollowUpSelection(suggestion: string): string {
@@ -246,13 +288,27 @@ function isTranscriptEntry(value: unknown): value is AITranscriptEntry {
   if (entry.kind === 'user') return typeof (entry as Partial<AIUserEntry>).content === 'string';
   if (entry.kind === 'assistant') {
     const assistant = entry as Partial<AIAssistantEntry>;
-    return (
-      typeof assistant.content === 'string' &&
-      Array.isArray(assistant.references) &&
-      Array.isArray(assistant.actions) &&
-      Array.isArray(assistant.suggestedFollowUps) &&
-      typeof assistant.contextLabel === 'string'
-    );
+    if (
+      typeof assistant.content !== 'string' ||
+      !Array.isArray(assistant.references) ||
+      !Array.isArray(assistant.actions) ||
+      !Array.isArray(assistant.suggestedFollowUps) ||
+      typeof assistant.contextLabel !== 'string'
+    ) {
+      return false;
+    }
+    if (assistant.guidedPills != null) {
+      const gp = assistant.guidedPills;
+      if (
+        typeof gp !== 'object' ||
+        typeof gp.verseStart !== 'number' ||
+        typeof gp.verseEnd !== 'number' ||
+        (gp.variant !== 'both' && gp.variant !== 'move_on_only')
+      ) {
+        return false;
+      }
+    }
+    return true;
   }
   return false;
 }
@@ -526,6 +582,7 @@ export default function AiSidebar({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [thinkingVerbIndex, setThinkingVerbIndex] = useState(0);
+  const [guidedChapter, setGuidedChapter] = useState<GuidedChapterState | null>(null);
 
   const personality = PERSONALITIES.find(p => p.id === personalityId) ?? PERSONALITIES[0];
   const composerTextareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -623,6 +680,234 @@ export default function AiSidebar({
     });
   }, [currentContextLabel]);
 
+  // Exit guided walkthrough when the reader navigates to another chapter.
+  useEffect(() => {
+    if (!guidedChapter) return;
+    if (guidedChapter.book !== currentBookName || guidedChapter.chapter !== chapter) {
+      setGuidedChapter(null);
+      setEntries(prev => stripGuidedPillsFromEntries(prev));
+    }
+  }, [chapter, currentBookName, guidedChapter]);
+
+  const appendGuidedSectionSummary = useCallback(
+    async (
+      sectionIndex: number,
+      sections: GuidedChapterState['sections'],
+      book: string,
+      ch: number,
+    ) => {
+      const sec = sections[sectionIndex];
+      if (!sec) return;
+      setIsLoading(true);
+      setError(null);
+      try {
+        const response = await fetch('/api/v1/ai/guided-chapter', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            context: { book, chapter: ch, translation },
+            personality: personalityId,
+            action: 'section_summary',
+            verse_start: sec.verse_start,
+            verse_end: sec.verse_end,
+          }),
+        });
+        const payload = (await response.json().catch(() => null)) as
+          | { message?: string; references?: string[]; detail?: string }
+          | null;
+        if (!response.ok) {
+          throw new Error(
+            payload && 'detail' in payload && payload.detail
+              ? String(payload.detail)
+              : 'Could not generate this section.',
+          );
+        }
+        if (!payload?.message) {
+          throw new Error('Unexpected response from guided chapter.');
+        }
+        const assistantEntry: AIAssistantEntry = {
+          id: createId('assistant'),
+          kind: 'assistant',
+          content: payload.message,
+          references: payload.references ?? [],
+          actions: [],
+          suggestedFollowUps: [],
+          contextLabel: getContextLabel(book, ch, translation),
+          guidedPills: {
+            verseStart: sec.verse_start,
+            verseEnd: sec.verse_end,
+            variant: 'both',
+          },
+        };
+        newestAssistantId.current = assistantEntry.id;
+        setAnimatedIds(prev => new Set([...prev, assistantEntry.id]));
+        setEntries(prev => [...prev, assistantEntry]);
+      } catch (caught) {
+        const messageText =
+          caught instanceof Error ? caught.message : 'The guided walkthrough could not continue.';
+        setError(messageText);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [personalityId, translation],
+  );
+
+  const startGuidedChapterFlow = useCallback(async () => {
+    if (!currentBookName || isLoading) return;
+    setError(null);
+    setIsLoading(true);
+    try {
+      const url = `/api/v1/ai/guided-chapter/sections?book=${encodeURIComponent(currentBookName)}&chapter=${chapter}&translation=${encodeURIComponent(translation)}`;
+      const res = await fetch(url);
+      const data = (await res.json().catch(() => null)) as {
+        sections?: Array<{ verse_start: number; verse_end: number }>;
+        detail?: string;
+      } | null;
+      if (!res.ok) {
+        throw new Error(
+          data?.detail && typeof data.detail === 'string' ? data.detail : 'Could not load chapter sections.',
+        );
+      }
+      const sections = data?.sections ?? [];
+      if (!sections.length) {
+        throw new Error('No sections found for this chapter. Try another chapter.');
+      }
+      setGuidedChapter({ book: currentBookName, chapter, sections, sectionIndex: 0 });
+      setEntries(prev => [
+        ...prev,
+        { id: createId('user'), kind: 'user', content: 'Guide me through this chapter.' },
+      ]);
+      await appendGuidedSectionSummary(0, sections, currentBookName, chapter);
+    } catch (caught) {
+      const messageText = caught instanceof Error ? caught.message : 'Could not start guided mode.';
+      setError(messageText);
+      setGuidedChapter(null);
+      setIsLoading(false);
+    }
+  }, [appendGuidedSectionSummary, chapter, currentBookName, isLoading, translation]);
+
+  const handleGuidedDiveDeeper = useCallback(
+    async (anchorId: string, summaryText: string, verseStart: number, verseEnd: number) => {
+      if (!guidedChapter || isLoading || !currentBookName) return;
+      const { sections, sectionIndex, book: gcBook, chapter: gcChapter } = guidedChapter;
+      if (gcBook !== currentBookName || gcChapter !== chapter) return;
+      const sec = sections[sectionIndex];
+      if (!sec || sec.verse_start !== verseStart || sec.verse_end !== verseEnd) return;
+
+      setIsLoading(true);
+      setError(null);
+      try {
+        const response = await fetch('/api/v1/ai/guided-chapter', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            context: { book: currentBookName, chapter, translation },
+            personality: personalityId,
+            action: 'dive_deeper',
+            verse_start: sec.verse_start,
+            verse_end: sec.verse_end,
+            section_summary_text: summaryText,
+          }),
+        });
+        const payload = (await response.json().catch(() => null)) as
+          | { message?: string; references?: string[]; detail?: string }
+          | null;
+        if (!response.ok) {
+          throw new Error(
+            payload && 'detail' in payload && payload.detail
+              ? String(payload.detail)
+              : 'Could not generate a deeper look.',
+          );
+        }
+        if (!payload?.message) {
+          throw new Error('Unexpected response.');
+        }
+        const diveEntry: AIAssistantEntry = {
+          id: createId('assistant'),
+          kind: 'assistant',
+          content: payload.message,
+          references: payload.references ?? [],
+          actions: [],
+          suggestedFollowUps: [],
+          contextLabel: currentContextLabel,
+        };
+        newestAssistantId.current = diveEntry.id;
+        setAnimatedIds(prev => new Set([...prev, diveEntry.id]));
+        setEntries(prev => {
+          const mapped = prev.map(e => {
+            if (e.id === anchorId && e.kind === 'assistant' && e.guidedPills) {
+              return {
+                ...e,
+                guidedPills: { ...e.guidedPills, variant: 'move_on_only' as const },
+              };
+            }
+            return e;
+          });
+          return [...mapped, diveEntry];
+        });
+      } catch (caught) {
+        const messageText = caught instanceof Error ? caught.message : 'The AI could not respond right now.';
+        setError(messageText);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [chapter, currentBookName, currentContextLabel, guidedChapter, isLoading, personalityId, translation],
+  );
+
+  const handleGuidedMoveOn = useCallback(async () => {
+    if (!guidedChapter || isLoading) return;
+    const { sections, sectionIndex, book: gcBook, chapter: gcChapter } = guidedChapter;
+    if (gcBook !== currentBookName || gcChapter !== chapter) return;
+
+    setIsLoading(true);
+    setError(null);
+    try {
+      setEntries(prev =>
+        prev.map(e => {
+          if (e.kind === 'assistant' && e.guidedPills) {
+            const { guidedPills: _, ...rest } = e;
+            return rest as AIAssistantEntry;
+          }
+          return e;
+        }),
+      );
+      const nextIndex = sectionIndex + 1;
+      if (nextIndex >= sections.length) {
+        setGuidedChapter(null);
+        const done: AIAssistantEntry = {
+          id: createId('assistant'),
+          kind: 'assistant',
+          content:
+            "You've reached the end of this chapter. Ask me anything else, or pick another chapter when you're ready.",
+          references: [],
+          actions: [],
+          suggestedFollowUps: [],
+          contextLabel: currentContextLabel,
+        };
+        newestAssistantId.current = done.id;
+        setAnimatedIds(prev => new Set([...prev, done.id]));
+        setEntries(prev => [...prev, done]);
+        return;
+      }
+      setGuidedChapter({ ...guidedChapter, sectionIndex: nextIndex });
+      await appendGuidedSectionSummary(nextIndex, sections, gcBook, gcChapter);
+    } catch (caught) {
+      const messageText = caught instanceof Error ? caught.message : 'Could not continue.';
+      setError(messageText);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [
+    appendGuidedSectionSummary,
+    chapter,
+    currentBookName,
+    currentContextLabel,
+    guidedChapter,
+    isLoading,
+  ]);
+
   async function sendMessage(
     rawMessage: string,
     options?: { fromFollowUpSuggestion?: boolean; displayAs?: string },
@@ -639,6 +924,8 @@ export default function AiSidebar({
       return;
     }
 
+    setGuidedChapter(null);
+
     const history = toHistory(entries);
     const userEntry: AIUserEntry = {
       id: createId('user'),
@@ -649,7 +936,7 @@ export default function AiSidebar({
         : {}),
     };
     newestAssistantId.current = null; // loading bubble is the scroll target until the reply arrives
-    setEntries(prev => [...prev, userEntry]);
+    setEntries(prev => [...stripGuidedPillsFromEntries(prev), userEntry]);
     setDraft('');
     setError(null);
     setIsLoading(true);
@@ -716,6 +1003,7 @@ export default function AiSidebar({
     setEntries([]);
     setDraft('');
     setError(null);
+    setGuidedChapter(null);
     if (typeof window !== 'undefined') {
       window.localStorage.removeItem(AI_SIDEBAR_STORAGE_KEY);
       window.sessionStorage.removeItem(AI_SIDEBAR_STORAGE_KEY);
@@ -737,12 +1025,15 @@ export default function AiSidebar({
             <div className="ai-starter-grid">
               {starterPrompts.map(prompt => (
                 <button
-                  key={prompt}
+                  key={prompt.id}
                   className="ai-starter-btn"
                   type="button"
-                  onClick={() => void sendMessage(prompt)}
+                  onClick={() => {
+                    if (prompt.kind === 'send') void sendMessage(prompt.message);
+                    else if (prompt.kind === 'guided_chapter') void startGuidedChapterFlow();
+                  }}
                 >
-                  {prompt}
+                  {prompt.label}
                 </button>
               ))}
             </div>
@@ -848,6 +1139,35 @@ export default function AiSidebar({
                       {prompt}
                     </button>
                   ))}
+                </div>
+              )}
+              {entry.guidedPills && (
+                <div className="ai-guided-pill-row" role="group" aria-label="Guided chapter options">
+                  {entry.guidedPills.variant === 'both' && (
+                    <button
+                      type="button"
+                      className="ai-guided-pill ai-guided-pill-dive"
+                      disabled={isLoading}
+                      onClick={() =>
+                        void handleGuidedDiveDeeper(
+                          entry.id,
+                          entry.content,
+                          entry.guidedPills!.verseStart,
+                          entry.guidedPills!.verseEnd,
+                        )
+                      }
+                    >
+                      Dive deeper
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    className={`ai-guided-pill ai-guided-pill-moveon${entry.guidedPills.variant === 'move_on_only' ? ' ai-guided-pill-moveon-wide' : ''}`}
+                    disabled={isLoading}
+                    onClick={() => void handleGuidedMoveOn()}
+                  >
+                    Move on
+                  </button>
                 </div>
               )}
             </article>

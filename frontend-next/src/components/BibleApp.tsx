@@ -43,7 +43,6 @@ import {
 } from '@/lib/quiz';
 import { parseReferenceLabel, sortBookNamesForMatching } from '@/lib/scriptureReference';
 import { APP_THEMES, normalizeThemeId, type AppThemeDef } from '@/lib/themes';
-import { resetDevShopAfterAuth } from '../lib/shopInventory';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 interface BookInfo {
@@ -3474,7 +3473,6 @@ export default function BibleApp({
     setAuthError(null);
     try {
       const session = await signIn(email, password);
-      resetDevShopAfterAuth();
       accountBootstrapRef.current = true;
       persistAuthSession(session);
       setAuthSession(session);
@@ -3491,7 +3489,6 @@ export default function BibleApp({
     setAuthError(null);
     try {
       const session = await signUp(email, password, displayName);
-      resetDevShopAfterAuth();
       accountBootstrapRef.current = true;
       persistAuthSession(session);
       setAuthSession(session);
@@ -5921,12 +5918,12 @@ export default function BibleApp({
               </div>
               <div className="home-header-actions">
                 {authSession ? (
-                  <Link href="/app/shop" className="home-header-coins-chip" aria-label={`${coinBalance != null ? coinBalance.toLocaleString() : '…'} coins — open shop`}>
+                  <span className="home-header-coins-chip" aria-label={`${coinBalance != null ? coinBalance.toLocaleString() : '…'} coins`}>
                     <CurrencyIcon className="home-header-coins-icon" size={16} />
                     <span className="home-header-coins-amount" aria-live="polite">
                       {coinBalance != null ? coinBalance.toLocaleString() : '…'}
                     </span>
-                  </Link>
+                  </span>
                 ) : null}
                 <span className="topbar-tooltip-wrap" data-tooltip="Profile">
                   <button
@@ -6886,23 +6883,6 @@ export default function BibleApp({
           </button>
         </span>
 
-        <span
-          className="taskbar-tooltip-wrap"
-          data-tooltip="Shop"
-        >
-          <Link
-            href="/app/shop"
-            className="taskbar-btn"
-            aria-label="Shop"
-          >
-            <span className="taskbar-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24">
-                <path d="M9 11V8a3 3 0 0 1 6 0v3" />
-                <path d="M5.5 10h13l-1.1 9.5a1 1 0 0 1-1 .5H7.6a1 1 0 0 1-1-.5L5.5 10Z" />
-              </svg>
-            </span>
-          </Link>
-        </span>
       </div>
 
       {/* Settings panel */}

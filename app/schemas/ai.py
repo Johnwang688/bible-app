@@ -68,3 +68,32 @@ class EntityContentRequest(BaseModel):
 
 class EntityContentResponse(BaseModel):
     content: str
+
+
+class GuidedChapterAction(str, Enum):
+    SECTION_SUMMARY = "section_summary"
+    DIVE_DEEPER = "dive_deeper"
+
+
+class GuidedChapterRequest(BaseModel):
+    context: AIContext
+    personality: str = "jessica"
+    action: GuidedChapterAction
+    verse_start: int
+    verse_end: int
+    """Visible section summary from the assistant (required for dive_deeper)."""
+    section_summary_text: str = ""
+
+
+class GuidedChapterResponse(BaseModel):
+    message: str
+    references: list[str] = Field(default_factory=list)
+
+
+class GuidedVerseRange(BaseModel):
+    verse_start: int
+    verse_end: int
+
+
+class GuidedChapterSectionsOut(BaseModel):
+    sections: list[GuidedVerseRange]
