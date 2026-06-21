@@ -72,7 +72,7 @@ const OPENBIBLE_LOGO_AVATAR = '/logo/openbible-logo.png';
 export const PERSONALITIES: Personality[] = [
   {
     id: 'jessica',
-    name: 'Jessica',
+    name: 'Ruth',
     tagline: 'Warm & casual',
     avatarBg: '#c07858',
     avatarInner: '#e8a880',
@@ -80,7 +80,7 @@ export const PERSONALITIES: Personality[] = [
   },
   {
     id: 'john',
-    name: 'John',
+    name: 'Daniel',
     tagline: 'Direct & grounded',
     avatarBg: '#4878a0',
     avatarInner: '#80b0d0',
@@ -88,7 +88,7 @@ export const PERSONALITIES: Personality[] = [
   },
   {
     id: 'girl2',
-    name: 'Girl 2',
+    name: 'Mary',
     tagline: 'Heart-focused',
     avatarBg: '#8858a8',
     avatarInner: '#c090d8',
@@ -96,7 +96,7 @@ export const PERSONALITIES: Personality[] = [
   },
   {
     id: 'boy2',
-    name: 'Boy 2',
+    name: 'Samuel',
     tagline: 'Classic & wise',
     avatarBg: '#7a6038',
     avatarInner: '#b89058',

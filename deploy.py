@@ -112,6 +112,8 @@ def main() -> int:
                 [
                     "builds",
                     "submit",
+                    "--project",
+                    args.project,
                     "--tag",
                     api_image,
                     ".",
@@ -149,6 +151,8 @@ def main() -> int:
                 [
                     "builds",
                     "submit",
+                    "--project",
+                    args.project,
                     "--config",
                     "cloudbuild.yaml",
                     f"--substitutions={subs}",

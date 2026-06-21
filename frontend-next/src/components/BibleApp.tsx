@@ -2010,7 +2010,7 @@ export default function BibleApp({
       title: 'Ask the AI Assistant',
       description: 'This step opens the AI sidebar on John 3 and preloads an example question so the user sees how to start.',
       tips: [
-        `Open AI from the taskbar and ask a question about the current chapter in ${PERSONALITIES.find(p => p.id === personalityId)?.name ?? 'Jessica'}.`,
+        `Open AI from the taskbar and ask a question about the current chapter in ${PERSONALITIES.find(p => p.id === personalityId)?.name ?? 'Ruth'}.`,
         'Use the suggested follow-up buttons to keep exploring without retyping.',
         'From the verse study card, use Ask AI to send the selected verses directly into the chat.',
       ],
@@ -2082,7 +2082,7 @@ export default function BibleApp({
     {
       id: 'ai',
       title: 'Ask AI',
-      instruction: `Ask ${PERSONALITIES.find(p => p.id === personalityId)?.name ?? 'Jessica'} about the chapter, or use Ask AI from a selected verse.`,
+      instruction: `Ask ${PERSONALITIES.find(p => p.id === personalityId)?.name ?? 'Ruth'} about the chapter, or use Ask AI from a selected verse.`,
     },
     {
       id: 'study',
@@ -2822,7 +2822,7 @@ export default function BibleApp({
     window.getSelection()?.removeAllRanges();
   }, [openSidePanel, clearReaderAskBubble]);
 
-  const currentAgentName = PERSONALITIES.find(p => p.id === personalityId)?.name ?? 'Jessica';
+  const currentAgentName = PERSONALITIES.find(p => p.id === personalityId)?.name ?? 'Ruth';
   const selectedVerseKey = currentBook && selectedVerse != null
     ? verseStorageKey(currentBook.name, chapter, selectedVerse)
     : null;
@@ -6470,7 +6470,7 @@ export default function BibleApp({
                       onClick={() => setAgentMenuOpen(v => !v)}
                     >
                       <span className="commentary-source-select-label">
-                        {PERSONALITIES.find(p => p.id === personalityId)?.name ?? 'Jessica'}
+                        {PERSONALITIES.find(p => p.id === personalityId)?.name ?? 'Ruth'}
                       </span>
                       <span className="commentary-source-chevron" aria-hidden="true" />
                     </button>
