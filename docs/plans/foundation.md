@@ -32,13 +32,18 @@ Put the app on a base that new features (AI study partner, Greek/Hebrew, Togethe
 - **Content tables:** `translations`, `books`, `verses`, `commentary_sources`, `commentaries`, `cross_references`, `summary_entities`, `commentary_entity_mentions`, `quiz_question_bank`, plus the view `quizzable_chapters_stage1` and the functions `get_passage`, `search_bible`, `search_commentary`.
 - **User tables:** `profiles`, `user_settings`, `study_items`, `highlights` (older, superseded by `study_items`), `reading_progress`, `user_chapter_progress`, `quiz_attempts`, `user_wallet`, `user_mastery_scope_rewards`.
 - **User data already points at content by natural keys** (`translation`, `book_number`, `chapter`, `verse_start`), not row IDs. That makes the split safe. The one exception: quiz submit and hint use `quiz_question_bank.id` (a BIGSERIAL), `app/services/quiz_service.py:240` and `:392`.
-- **Some content only exists in Supabase.** There's no source file in the repo for WEB, KJV, BSB or CUNP text, Matthew Henry, or TSK. `scripts/load_mhcc.py` survives only as a `.pyc` in `scripts/__pycache__`. **The Supabase export in step W0.1 is the only copy. Do it first.**
+- **Some content only exists in Supabase.** There's no source file in the repo for the WEB text or Matthew Henry. `scripts/load_mhcc.py` survives only as a `.pyc` in `scripts/__pycache__`. **The Supabase export in step W0.1 is the only copy. Do it first.**
+- **What's actually in Supabase (checked 2026-10-29):**
+  - **Translations:** 6 are listed (KJV, WEB, BSB, CUV, CUV-SIMP, ASV), but only 4 have verse text: WEB, ASV, CUV, CUV-SIMP (124,405 verses). KJV and BSB are empty, which is why the picker hides them. There is no CUNP.
+  - **Commentary:** `cross_references` is empty, so the TSK cross-references were never loaded. `commentaries` has 4,553 rows (Matthew Henry, TSK notes, and the chapter summaries).
+  - **Quizzes:** 22,715 questions.
+  - **Users:** only 4 profiles, 2 study items and 32 quiz attempts, so these are probably test accounts.
 - The frontend never talks to Supabase directly; everything goes through `/api` on the backend.
 - **Auth:** the backend validates Supabase JWTs in `app/core/security.py` and exposes `/api/v1/auth/{signup,signin,refresh,signout}`. `AuthPanel.tsx` calls those endpoints.
 - **Wallet race:** the wallet update in quiz submit is read-modify-write without a transaction (`quiz_service.py:345`), so two submits at once can lose coins.
 - **Rate limiter:** the AI rate limiter is in memory (`ai_service.py:315`), so it doesn't work across multiple Cloud Run instances.
 - **AI calls:** the AI uses OpenAI (`gpt-5.4-nano`), one non-streaming JSON request per message, with regex heuristics to guess which passages to fetch.
-- **Tests:** 25 tests in `tests/` (23 for the AI service, 2 for summary entities). No frontend tests.
+- **Tests:** 27 tests in `tests/`, almost all for the AI service. No frontend tests.
 - **Junk in git:** `tmp-eng-asv.zefania.xml` (5 MB) and `zip/bible-app-files.zip` are committed.
 
 ## Workstreams
