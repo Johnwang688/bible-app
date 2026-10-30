@@ -65,6 +65,14 @@ Order: **W0 → (W1 ∥ W4) → W2 → W3 → W5.** W1 and W4 touch different fi
 
 ### W1: Content as a SQLite file
 
+> **Changed during implementation (2026-10-30):**
+> - **Source of truth:** `content/source/*.jsonl` (the W0 export) is the build input. The authored `commentary/`, `quiz-questions/` and `people/places` JSON stay as authoring inputs and get reconciled later.
+> - **Quiz IDs:** the exported numeric IDs are already permanent, because content is no longer reloaded into a database. So no string IDs are needed and the quiz API is unchanged.
+> - **Quiz question reads move to W2.** They sit in the same functions as quiz user-data writes, and no golden test covers them because they need sign-in.
+> - **Search:** FTS5 `verses_fts_en` (porter) and `verses_fts_zh` (trigram) as external-content tables. Ranked by bm25, ties broken by book/chapter/verse. Chinese terms of 1–2 characters use substring match. Match sets are checked against Postgres's recorded full match sets (`tests/content/search_parity.json`, Jaccard ≥ 0.95).
+> - **Intended golden changes:** the 7 `search_*` fixtures (rank floats and tie order), `entities_theme` (the old list was cut off at 1,000 rows by PostgREST), and `verse_missing` (500 becomes 404).
+> - **No build timestamp** in `meta`, so builds are reproducible.
+
 1. **Source layout.** `content/source/` holds the W0 exports plus the existing authored files, moved in: `commentary/*.json` (summaries), `quiz-questions/*.json`, `people/people.json`, `places/places.json`.
 2. **Stable quiz IDs.** Give every question in `quiz-questions/*.json` a permanent `id` field such as `john-3-s2-04` (book slug, chapter, stage, index), written into the JSON once. Never regenerate it. Quiz submit and hint switch from integer IDs to these strings.
 3. **Build script.** `scripts/build_content.py` turns `content/source/` into `build/content.sqlite`:
