@@ -1,0 +1,77 @@
+{
+  "exported_at": "2026-10-30T04:47:48.214899+00:00",
+  "files": {
+    "books.jsonl": {
+      "rows": 66,
+      "sha256": "2bf5b49ea916c042efb79cf622efe83af78e4d22c9e04899207f7c9ade6b83d0",
+      "table": "books"
+    },
+    "commentaries.jsonl": {
+      "rows": 4553,
+      "sha256": "9fab240aa66c2fb53870f272fdaa769b68a9a5ee22fdb8c090a5355d1821b5c9",
+      "table": "commentaries"
+    },
+    "commentary_entity_mentions.jsonl": {
+      "rows": 9083,
+      "sha256": "c128a9d8c9e6b52bb54c75f040c75fe2a6ac176d11929cb82200aa7a788938e0",
+      "table": "commentary_entity_mentions"
+    },
+    "commentary_sources.jsonl": {
+      "rows": 3,
+      "sha256": "9cb554548538f0627c886fa576dc3058d1fdcb3a2c452b01956880e03d64e4c6",
+      "table": "commentary_sources"
+    },
+    "cross_references.jsonl": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "table": "cross_references"
+    },
+    "quiz_question_bank.jsonl": {
+      "rows": 22715,
+      "sha256": "312f2de57c6743968fd41c29c016eb23249bc3ac4b7f34e7146bbded515826b1",
+      "table": "quiz_question_bank"
+    },
+    "summary_entities.jsonl": {
+      "rows": 4071,
+      "sha256": "1c212c0d48764637022bec03200775df81d1820fcd74febda3eacff7980a61eb",
+      "table": "summary_entities"
+    },
+    "translations.jsonl": {
+      "rows": 6,
+      "sha256": "ed3ed2ba36a0834c6e799cadb85c867b83f53f6f0f1eb9691d7930eb60c38e52",
+      "table": "translations"
+    },
+    "verses/ASV.jsonl": {
+      "rows": 31102,
+      "sha256": "d3d56061f8e5d75a3dc06bc74f36bc7c63b6336fd9a5df46e17724ef093c5aaf",
+      "table": "verses"
+    },
+    "verses/CUV-SIMP.jsonl": {
+      "rows": 31100,
+      "sha256": "d63906a2f268186c600ddc82769bed9f824d446125b4ca3f76442ff6b07bc2fb",
+      "table": "verses"
+    },
+    "verses/CUV.jsonl": {
+      "rows": 31100,
+      "sha256": "60e420979a9533f4f6e1824e1cd31f26369a3932a1224c585bd99b909f012f03",
+      "table": "verses"
+    },
+    "verses/WEB.jsonl": {
+      "rows": 31103,
+      "sha256": "88bb107c9c7a88f3b0aa55c9b7bb32032bcc5a75201b731462febb8ccb6f7def",
+      "table": "verses"
+    }
+  },
+  "supabase_project_ref": "sgiwrkhaeihhbifjcsjw",
+  "tables": {
+    "books": 66,
+    "commentaries": 4553,
+    "commentary_entity_mentions": 9083,
+    "commentary_sources": 3,
+    "cross_references": 0,
+    "quiz_question_bank": 22715,
+    "summary_entities": 4071,
+    "translations": 6,
+    "verses": 124405
+  }
+}
