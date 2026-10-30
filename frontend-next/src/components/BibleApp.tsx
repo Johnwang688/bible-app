@@ -49,7 +49,7 @@ import { DYNAMIC_BASE_THEME, DYNAMIC_COLORS, DYNAMIC_CYCLE_MS, hexToRgb, logoSrc
 import { SEARCH_SUGGESTION_LIMIT, clampChapterForBook, compactSearchText, extractLooseReferenceParts, formatSearchSuggestionLabel, getBookPopularityScore, normalizeReferenceSpacing, normalizeSearchText, scoreBookMatch } from '@/features/search/search';
 import { TUTORIAL_VERSE_TOOLS_VERSE, boundsToTutorialRect } from '@/features/onboarding/tutorial';
 import { buildExplainVersePrompt } from '@/features/ai/prompts';
-import { safelyParseJson } from '@/lib/json';
+import { asPassageArray, asPlainObject, asStringArray, safelyParseJson } from '@/lib/json';
 import BookPanel from '@/features/reader/BookPanel';
 import VersionPanel from '@/features/reader/VersionPanel';
 import SearchPanel from '@/features/search/SearchPanel';
@@ -3565,10 +3565,10 @@ export default function BibleApp({
       localStorage.getItem(LAST_POSITION_STORAGE_KEY),
       null,
     );
-    const storedHighlights = safelyParseJson<string[]>(localStorage.getItem(HIGHLIGHTS_STORAGE_KEY), []);
-    const storedBookmarks = safelyParseJson<string[]>(localStorage.getItem(BOOKMARKS_STORAGE_KEY), []);
-    const storedNotes = safelyParseJson<Record<string, VerseNote>>(localStorage.getItem(NOTES_STORAGE_KEY), {});
-    const storedRecent = safelyParseJson<SavedPassage[]>(localStorage.getItem(RECENT_PASSAGES_STORAGE_KEY), []);
+    const storedHighlights = asStringArray(safelyParseJson<unknown>(localStorage.getItem(HIGHLIGHTS_STORAGE_KEY), []));
+    const storedBookmarks = asStringArray(safelyParseJson<unknown>(localStorage.getItem(BOOKMARKS_STORAGE_KEY), []));
+    const storedNotes = asPlainObject<Record<string, VerseNote>>(safelyParseJson<unknown>(localStorage.getItem(NOTES_STORAGE_KEY), {}));
+    const storedRecent = asPassageArray<SavedPassage>(safelyParseJson<unknown>(localStorage.getItem(RECENT_PASSAGES_STORAGE_KEY), []));
     const storedProgress = normalizeReadingProgress(
       safelyParseJson<unknown>(localStorage.getItem(READING_PROGRESS_STORAGE_KEY), null),
     );
