@@ -8,7 +8,7 @@ The backend and internal docs use the name **Logos Light**.
 
 - **Reader** — Multiple translations, typography controls, page-flip navigation, highlights, and reading progress
 - **AI assistant** — Chat grounded in Scripture and commentary; guided chapter study; entity overviews for themes, people, and places
-- **Commentary** — Matthew Henry, Treasury of Scripture Knowledge cross-references, and authored chapter summaries
+- **Commentary** — Matthew Henry and authored chapter summaries (Treasury of Scripture Knowledge cross-references are planned; the data is not loaded yet)
 - **Quizzes & mastery** — Chapter quizzes with hints, rewards, and progress tracking
 - **Entity pages** — Browse themes, people, and places linked from chapter summaries
 
@@ -16,11 +16,11 @@ The backend and internal docs use the name **Logos Light**.
 
 | Layer      | Technology                                      |
 | ---------- | ----------------------------------------------- |
-| Backend    | Python 3.14 + FastAPI                           |
+| Backend    | Python 3.12+ + FastAPI (the Docker image uses 3.12) |
 | Frontend   | Next.js 15 (React 19, TypeScript, Turbopack)    |
 | Content    | SQLite file built from `content/source/` (FTS5 search) |
 | User data  | Supabase (PostgreSQL + Row Level Security), moving to Firestore |
-| Auth       | Supabase Auth (email; Google OAuth supported), moving to Firebase Auth |
+| Auth       | Supabase Auth (email and password; Google sign-in is not implemented yet), moving to Firebase Auth |
 | AI         | OpenAI (default) or Claude Haiku 5.5 via `AI_PROVIDER` |
 | Deployment | Google Cloud Run (`deploy.py`)                  |
 
@@ -52,10 +52,10 @@ bible-app/
 
 ### Prerequisites
 
-- Python 3.14+
+- Python 3.12+
 - Node.js 20+
 - A [Supabase](https://supabase.com) project
-- An [OpenAI API key](https://platform.openai.com) (for AI features)
+- For AI features, depending on `AI_PROVIDER`: an [OpenAI API key](https://platform.openai.com) (`openai`, the default), an Anthropic API key (`anthropic`), or Google Cloud Application Default Credentials (`vertex`: `gcloud auth application-default login`)
 
 ### 1. Backend
 
@@ -78,7 +78,9 @@ Build the content database (Bible text, commentary, summaries, entities, quiz qu
 python scripts/build_content.py
 ```
 
-User data, auth and quizzes still use Supabase for now: apply `supabase/migrations/` to your project.
+User data, auth and quiz progress still use Supabase for now: apply `supabase/migrations/` to your project.
+
+**Changing content** (summaries, quiz questions, translations): the app serves what is in `content/source/`, not what is in Supabase. The old loaders (`scripts/load_summary.py`, `scripts/load_usfx_translation.py`) still write to Supabase, so after loading, re-export with `python scripts/export_supabase.py --content-only` (updates `content/source/` and its manifest) and rebuild with `python scripts/build_content.py`. A direct authoring path into `content/source/` is planned.
 
 Start the API:
 
@@ -103,7 +105,7 @@ The frontend rewrites `/api/*` to the backend. Override with `BACKEND_URL` if ne
 ### 3. Run both (Unix)
 
 ```bash
-./start.sh
+bash start.sh
 ```
 
 ## Environment variables
@@ -120,7 +122,7 @@ Copy `.env.example` to `.env` at the repo root.
 | `OPENAI_MODEL` | No | Defaults to `gpt-5.4-nano` |
 | `ANTHROPIC_API_KEY` | For `anthropic` | Claude API key |
 | `CLAUDE_MODEL` | No | Defaults to `claude-haiku-5-5` |
-| `VERTEX_PROJECT_ID`, `VERTEX_REGION` | For `vertex` | Claude on Google Cloud (region defaults to `global`) |
+| `VERTEX_PROJECT_ID`, `VERTEX_REGION` | For `vertex` | Claude on Google Cloud (region defaults to `global`); credentials come from Application Default Credentials |
 | `AI_MAX_INPUT_TOKENS`, `AI_MAX_TOOL_ROUNDS` | No | Claude request budget (defaults 100000 and 6) |
 | `CONTENT_DB_PATH` | No | Defaults to `build/content.sqlite` |
 | `APP_ENV` | No | `development` or production |
@@ -142,7 +144,7 @@ MVP uses public-domain and openly licensed sources:
 
 - **Matthew Henry's Concise Commentary**
 - **Treasury of Scripture Knowledge** (cross-references): listed as a source, but the cross-reference data has not been loaded yet
-- **Chapter summaries** — authored in `commentary/` and loaded via `scripts/load_summary.py`
+- **Chapter summaries** — authored in `commentary/`; served from `content/source/commentaries.jsonl` (see "Changing content" above)
 
 > Dr. Constable's Expository Notes are not redistributable without permission and are not included.
 
@@ -188,7 +190,10 @@ Requires an authenticated `gcloud` CLI. The backend image builds `content.sqlite
 ## Tests
 
 ```bash
-pytest                                   # backend, including golden API responses (offline)
-cd frontend-next && npm run test:e2e     # Playwright smoke suite (no backend needed: recorded API)
-cd frontend-next && npm run test:unit    # small component tests
+pytest                 # backend, including golden API responses (offline)
+cd frontend-next
+npm run test:e2e       # Playwright smoke suite (no backend needed: recorded API)
+npm run test:unit      # small component tests
 ```
+
+`tests/content/test_docker_image.py` builds the backend image and serves content from a read-only container; it is skipped unless a Docker daemon is running.
