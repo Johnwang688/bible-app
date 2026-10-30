@@ -3637,6 +3637,8 @@ export default function BibleApp({
             setSidePanelMode(d);
           }
           setCurrentBook(bookFromUrl);
+          // Without this, the top bar and verse popup show chapter 1 and highlights/notes are keyed to chapter 1.
+          setChapter(Math.min(urlChapterNum, bookFromUrl.total_chapters));
           loadChapter(
             bookFromUrl,
             Math.min(urlChapterNum, bookFromUrl.total_chapters),
