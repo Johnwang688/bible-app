@@ -256,6 +256,7 @@ export default function BibleApp({
   const syncReadyRef        = useRef(false);
   const hydratingAccountRef = useRef(false);
   const accountBootstrapRef = useRef(false);
+  const localStateLoadedRef = useRef(false);
   const chapterEngagementRef = useRef<{ key: string; lastInteractionAt: number | null }>({
     key: '',
     lastInteractionAt: null,
@@ -473,32 +474,32 @@ export default function BibleApp({
   }, [chapter, currentBook, selectedVerse, verseNotes]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !localStateLoadedRef.current) return;
     window.localStorage.setItem(HIGHLIGHTS_STORAGE_KEY, JSON.stringify(highlightedVerses));
   }, [highlightedVerses]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !localStateLoadedRef.current) return;
     window.localStorage.setItem(BOOKMARKS_STORAGE_KEY, JSON.stringify(bookmarkedVerses));
   }, [bookmarkedVerses]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !localStateLoadedRef.current) return;
     window.localStorage.setItem(NOTES_STORAGE_KEY, JSON.stringify(verseNotes));
   }, [verseNotes]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !localStateLoadedRef.current) return;
     window.localStorage.setItem(RECENT_PASSAGES_STORAGE_KEY, JSON.stringify(recentPassages));
   }, [recentPassages]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !localStateLoadedRef.current) return;
     window.localStorage.setItem(READING_PROGRESS_STORAGE_KEY, JSON.stringify(readingProgress));
   }, [readingProgress]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !localStateLoadedRef.current) return;
     window.localStorage.setItem(DAILY_GOAL_MINUTES_STORAGE_KEY, String(dailyGoalMinutes));
   }, [dailyGoalMinutes]);
 
@@ -511,7 +512,7 @@ export default function BibleApp({
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    window.localStorage.setItem(READER_SETTINGS_STORAGE_KEY, JSON.stringify(readerSettings));
+    if (localStateLoadedRef.current) window.localStorage.setItem(READER_SETTINGS_STORAGE_KEY, JSON.stringify(readerSettings));
     document.documentElement.dataset.readerScale = readerSettings.fontScale;
     document.documentElement.dataset.readerLineHeight = readerSettings.lineHeight;
     document.documentElement.dataset.readerFont = readerSettings.readerFont;
@@ -3575,6 +3576,7 @@ export default function BibleApp({
     const storedReaderSettings = normalizeReaderSettings(
       safelyParseJson<Partial<ReaderSettings> | null>(localStorage.getItem(READER_SETTINGS_STORAGE_KEY), null),
     );
+    localStateLoadedRef.current = true;
     setCurrentTheme(saved);
     localStorage.setItem('theme', saved);
     setAuthSession(storedSession);
@@ -3651,6 +3653,8 @@ export default function BibleApp({
           setTranslation(initialTranslation);
           setCurrentBook(initialBook);
           if (initialBook) {
+            // Without this, chapter stays 1 and the last-position effect overwrites the saved chapter with 1.
+            setChapter(Math.min(initialChapter, initialBook.total_chapters));
             loadChapter(initialBook, Math.min(initialChapter, initialBook.total_chapters), initialTranslation);
             if (storedReaderSettings.defaultPanel !== 'none') {
               setSidePanelMode(storedReaderSettings.defaultPanel);
@@ -3666,7 +3670,12 @@ export default function BibleApp({
       }
     }
     init();
-    return () => stopDynamicTheme();
+    // Strict Mode unmounts and remounts effects on first mount without re-rendering. Clearing the flag here
+    // stops the persist effects from writing default state over storage before this effect reads it again.
+    return () => {
+      localStateLoadedRef.current = false;
+      stopDynamicTheme();
+    };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
