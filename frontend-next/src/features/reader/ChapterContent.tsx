@@ -9,14 +9,12 @@ import { useReaderSettings } from '@/features/settings/ReaderSettingsContext';
 import { useAuth } from '@/features/account/AuthContext';
 import { useStudyItems } from '@/features/study/StudyItemsContext';
 import { buildExplainVersePrompt } from '@/features/ai/prompts';
+import { useReaderPosition } from '@/features/reader/ReaderPositionContext';
 
 export interface ChapterContentProps {
   chapterLoading: boolean;
   chapterError: boolean;
   chapterData: ChapterData | null;
-  chapter: number;
-  translation: string;
-  currentBook: BookInfo | null;
   chapterBookLabel: string;
   pagedPageSlices: VerseData[][] | null;
   chapterSpreadIndex: number;
@@ -73,9 +71,6 @@ export default function ChapterContent({
   chapterLoading,
   chapterError,
   chapterData,
-  chapter,
-  translation,
-  currentBook,
   chapterBookLabel,
   pagedPageSlices,
   chapterSpreadIndex,
@@ -127,6 +122,7 @@ export default function ChapterContent({
   readerPassagesRef,
   verseStudyPopupRef,
 }: ChapterContentProps) {
+  const { currentBook, chapter, translation } = useReaderPosition();
   const { readerSettings, setReaderSettings } = useReaderSettings();
   const { authSession } = useAuth();
   const { highlightedVerses, bookmarkedVerses, verseNotes, setVerseNotes } = useStudyItems();

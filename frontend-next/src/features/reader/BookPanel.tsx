@@ -1,34 +1,28 @@
 'use client';
 
 import type { Dispatch, SetStateAction } from 'react';
-import type { BookInfo, Translation } from '@/features/reader/types';
+import type { Translation } from '@/features/reader/types';
 import { getLocalizedBookName } from '@/features/reader/translations';
+import { useReaderPosition } from '@/features/reader/ReaderPositionContext';
 
 export interface BookPanelProps {
-  books: BookInfo[];
   expandedBook: number | null;
   setExpandedBook: Dispatch<SetStateAction<number | null>>;
   bookPopupOpen: boolean;
   setBookPopupOpen: Dispatch<SetStateAction<boolean>>;
-  translation: string;
   translationsById: Map<string, Translation>;
-  currentBook: BookInfo | null;
-  chapter: number;
   pickChapter: (bookNumber: number, ch: number) => void;
 }
 
 export default function BookPanel({
-  books,
   expandedBook,
   setExpandedBook,
   bookPopupOpen,
   setBookPopupOpen,
-  translation,
   translationsById,
-  currentBook,
-  chapter,
   pickChapter,
 }: BookPanelProps) {
+  const { books, currentBook, chapter, translation } = useReaderPosition();
   return (
     <div
       className={`popup-overlay${bookPopupOpen ? ' open' : ''}`}

@@ -1,17 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import type { BookInfo, ChapterData, CommentaryEntry } from '@/features/reader/types';
+import type { ChapterData, CommentaryEntry } from '@/features/reader/types';
 import { isSkipLabel, isSkipPlaceLabel, parseSummaryContent, slugifyEntityLabel } from '@/features/commentary/summary';
+import { useReaderPosition } from '@/features/reader/ReaderPositionContext';
 
 export interface CommentaryContentProps {
   commentaryLoading: boolean;
   commentaryError: boolean;
   commentaryEntries: CommentaryEntry[];
   commentarySource: string;
-  currentBook: BookInfo | null;
   chapterData: ChapterData | null;
-  chapter: number;
   syncedVerseStart: number | null;
 }
 
@@ -20,11 +19,10 @@ export default function CommentaryContent({
   commentaryError,
   commentaryEntries,
   commentarySource,
-  currentBook,
   chapterData,
-  chapter,
   syncedVerseStart,
 }: CommentaryContentProps) {
+  const { currentBook, chapter } = useReaderPosition();
   if (commentaryLoading) {
     return (
       <div className="state-msg">
