@@ -2,8 +2,9 @@
 Record golden API responses for the request set in tests/golden/requests.py.
 
 Each request is replayed in-process against app.main:app (no server needed).
-Every request runs twice; if the two runs disagree on status or JSON body the
-request is unstable and nothing is written.
+Every request runs twice; if the two runs disagree on status or JSON body (including
+JSON types, so 1 vs 1.0 vs true counts as a change) the request is unstable and
+nothing is written.
 
 Usage:
     python scripts/record_golden.py                  # record all requests
@@ -49,6 +50,21 @@ def run_once(client: TestClient, entry: dict) -> tuple[int, object]:
     return response.status_code, body
 
 
+def same_json(a: object, b: object) -> bool:
+    # Python's == treats 1, 1.0 and True as equal, so compare JSON types too.
+    if type(a) is not type(b):
+        return False
+    if isinstance(a, dict):
+        return a.keys() == b.keys() and all(same_json(a[key], b[key]) for key in a)
+    if isinstance(a, list):
+        return len(a) == len(b) and all(same_json(x, y) for x, y in zip(a, b))
+    return a == b
+
+
+def same_run(first: tuple[int, object], second: tuple[int, object]) -> bool:
+    return first[0] == second[0] and same_json(first[1], second[1])
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--only", action="append", metavar="NAME", help="record only this request (repeatable)")
@@ -69,7 +85,7 @@ def main(argv: list[str] | None = None) -> int:
     first = {entry["name"]: run_once(client, entry) for entry in selected}
     second = {entry["name"]: run_once(client, entry) for entry in selected}
 
-    unstable = [entry["name"] for entry in selected if first[entry["name"]] != second[entry["name"]]]
+    unstable = [entry["name"] for entry in selected if not same_run(first[entry["name"]], second[entry["name"]])]
     if unstable:
         print("unstable requests (differ between two runs):")
         for name in unstable:
