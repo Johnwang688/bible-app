@@ -183,17 +183,30 @@ def _clean_term(term: str, keep: str = "") -> str:
     return "".join(ch for ch in term if ch.isalnum() or ch in keep)
 
 
-def _query_terms(query: str) -> list[str]:
-    """Split a raw query into at most _MAX_QUERY_TERMS terms, ignoring control characters and input past _MAX_QUERY_CHARS."""
+def _normalize_term(term: str, language: str | None) -> str:
+    """A term's comparison form, or "" when it should be dropped."""
+    if language == "en":
+        term = _clean_term(term, _EN_TERM_PUNCTUATION).casefold()
+        if not any(ch.isalnum() for ch in term) or term in _EN_STOP_WORDS:
+            return ""
+        return term
+    if language and language.startswith("zh"):
+        return _clean_term(term).casefold()
+    return term.casefold()
+
+
+def _query_terms(query: str, language: str | None) -> list[str]:
+    """
+    The required (AND) terms of a raw query, used by both the FTS path and the substring fallback:
+    truncate to _MAX_QUERY_CHARS, control characters -> spaces, split on whitespace, normalise,
+    de-duplicate (first occurrence wins), keep at most _MAX_QUERY_TERMS.
+    """
     text = "".join(
-        ch if ch.isspace() or unicodedata.category(ch) != "Cc" else ""
-        for ch in query
+        " " if unicodedata.category(ch) == "Cc" else ch
+        for ch in query[:_MAX_QUERY_CHARS]
     )
-    return text[:_MAX_QUERY_CHARS].split()
-
-
-def _bounded_distinct(terms: list[str]) -> list[str]:
-    return list(dict.fromkeys(terms))[:_MAX_QUERY_TERMS]
+    normalized = (_normalize_term(t, language) for t in text.split())
+    return list(dict.fromkeys(t for t in normalized if t))[:_MAX_QUERY_TERMS]
 
 
 def _translation_language(translation: str) -> str | None:
@@ -201,22 +214,16 @@ def _translation_language(translation: str) -> str | None:
     return row["language"] if row else None
 
 
-def _fts_plan(query: str, language: str | None) -> tuple[str, str] | None:
-    """Return (fts table, MATCH expression) for the query, or None when it needs the substring path."""
-    terms = _query_terms(query)
+def _fts_plan(terms: list[str], language: str | None) -> tuple[str, str] | None:
+    """Return (fts table, MATCH expression) for terms from _query_terms, or None when they need the substring path."""
+    if not terms:
+        return None
     if language == "en":
-        cleaned = [_clean_term(t, _EN_TERM_PUNCTUATION) for t in terms]
-        words = _bounded_distinct(
-            [t for t in cleaned if any(ch.isalnum() for ch in t) and t.casefold() not in _EN_STOP_WORDS]
-        )
-        if not words:
-            return None
-        return "verses_fts_en", " AND ".join(f'"{w}"' for w in words)
+        return "verses_fts_en", " AND ".join(f'"{w}"' for w in terms)
     if language and language.startswith("zh"):
-        words = _bounded_distinct([t for t in (_clean_term(t) for t in terms) if t])
-        if not words or any(len(w) < _ZH_MIN_FTS_CHARS for w in words):
+        if any(len(w) < _ZH_MIN_FTS_CHARS for w in terms):
             return None
-        return "verses_fts_zh", " AND ".join(f'"{w}"' for w in words)
+        return "verses_fts_zh", " AND ".join(f'"{w}"' for w in terms)
     return None
 
 
@@ -252,7 +259,8 @@ def find_verse_matches(
     query: str, translation: str, book_number: int | None = None
 ) -> list[tuple[int, int, int]]:
     """Every verse matching the full-text query as sorted (book, chapter, verse); no limit, no substring fallback."""
-    plan = _fts_plan(query, _translation_language(translation))
+    language = _translation_language(translation)
+    plan = _fts_plan(_query_terms(query, language), language)
     if plan is None:
         return []
     fts, match = plan
@@ -271,9 +279,8 @@ def find_verse_matches(
 def _substring_search(
     terms: list[str], translation: str, book_number: int | None, limit: int
 ) -> list[SearchResult]:
-    """Every term must occur in the verse; matching is Unicode case-insensitive (casefold), done in Python."""
-    folded = _bounded_distinct([t.casefold() for t in terms])
-    if not folded:
+    """Every (casefolded) term must occur in the verse; matching is Unicode case-insensitive (casefold), done in Python."""
+    if not terms:
         return []
     sql = "SELECT * FROM verses WHERE translation = ?"
     params: list = [translation]
@@ -284,7 +291,7 @@ def _substring_search(
     results: list[SearchResult] = []
     for row in fetch_all(sql, tuple(params)):
         text = (row["text"] or "").casefold()
-        if all(term in text for term in folded):
+        if all(term in text for term in terms):
             results.append(SearchResult(verse=VerseOut(**row), relevance=None))
             if len(results) >= limit:
                 break
@@ -297,16 +304,16 @@ async def search_verses(
     """
     Full-text search across verses ranked by bm25, with a substring fallback.
     """
-    terms = _query_terms(query)
+    language = _translation_language(translation)
+    terms = _query_terms(query, language)
     if not terms:
         return []
-    trimmed_query = " ".join(terms)
 
     safe_limit = max(1, min(limit, 50))
     book_info = resolve_book(book) if book else None
     book_number = book_info["number"] if book_info else None
 
-    plan = _fts_plan(trimmed_query, _translation_language(translation))
+    plan = _fts_plan(terms, language)
     if plan is not None:
         fts, match = plan
         ranked_rows = _fts_rows(
