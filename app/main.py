@@ -5,8 +5,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from app.core.config import get_settings
+from app.core.content_db import fetch_all
 from app.core.security import get_current_user
-from app.core.supabase_client import get_supabase
 from app.schemas.account import (
     AuthResponse as AccountAuthResponse,
     ReadingProgressIn,
@@ -146,9 +146,7 @@ async def health_check() -> dict[str, object]:
 @app.get("/api/v1/translations", tags=["bible"])
 async def get_translations(response: Response) -> list[dict]:
     response.headers["Cache-Control"] = "public, max-age=86400"
-    db = get_supabase()
-    result = db.table("translations").select("id, name, language, license").order("id").execute()
-    return result.data or []
+    return fetch_all("SELECT id, name, language, license FROM translations ORDER BY id")
 
 
 @app.get("/api/v1/books", response_model=list[BookInfo], tags=["bible"])

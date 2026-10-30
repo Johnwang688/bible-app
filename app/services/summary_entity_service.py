@@ -10,7 +10,8 @@ import re
 
 from app.core.book_catalog import BOOK_BY_NUMBER
 from app.core.slugify import slugify_label
-from app.core.supabase_client import get_supabase, get_supabase_admin
+from app.core.content_db import fetch_all, fetch_one
+from app.core.supabase_client import get_supabase_admin
 
 logger = logging.getLogger(__name__)
 
@@ -234,22 +235,10 @@ def _build_place_fallback_index() -> tuple[list[dict[str, Any]], dict[str, dict[
     Build place entities directly from summary commentary text.
     Used when _PLACE_ENTITY_INDEXING_ENABLED is False (no place rows in summary_entities).
     """
-    db = get_supabase()
-    rows: list[dict[str, Any]] = []
-    offset = 0
-    while True:
-        res = (
-            db.table("commentaries")
-            .select("id, book_number, chapter, content, source")
-            .eq("source", SUMMARY_SOURCE)
-            .range(offset, offset + _ENTITY_PAGE_SIZE - 1)
-            .execute()
-        )
-        batch = res.data or []
-        rows.extend(batch)
-        if len(batch) < _ENTITY_PAGE_SIZE:
-            break
-        offset += _ENTITY_PAGE_SIZE
+    rows = fetch_all(
+        "SELECT id, book_number, chapter, content, source FROM commentaries WHERE source = ? ORDER BY id",
+        (SUMMARY_SOURCE,),
+    )
 
     by_slug: dict[str, dict[str, Any]] = {}
     for row in rows:
@@ -607,31 +596,27 @@ def fetch_tags_for_commentary_ids(commentary_ids: list[int]) -> dict[int, dict[s
     """
     if not commentary_ids:
         return {}
-    db = get_supabase()
-    mres = (
-        db.table("commentary_entity_mentions")
-        .select("commentary_id, entity_id, sort_order")
-        .in_("commentary_id", commentary_ids)
-        .execute()
-    )
-    rows = mres.data or []
+    rows: list[dict[str, Any]] = []
+    for i in range(0, len(commentary_ids), _ID_CHUNK):
+        chunk = commentary_ids[i : i + _ID_CHUNK]
+        rows.extend(
+            fetch_all(
+                "SELECT m.commentary_id, m.sort_order, e.kind, e.slug, e.label "
+                "FROM commentary_entity_mentions m JOIN summary_entities e ON e.id = m.entity_id "
+                f"WHERE m.commentary_id IN ({','.join('?' * len(chunk))}) "
+                "ORDER BY m.commentary_id, m.sort_order, m.entity_id",
+                tuple(chunk),
+            )
+        )
     if not rows:
         return {cid: {"theme_tags": [], "people_tags": []} for cid in commentary_ids}
 
-    entity_ids = list({int(r["entity_id"]) for r in rows})
-    eres = db.table("summary_entities").select("id, kind, slug, label").in_("id", entity_ids).execute()
-    ent_map = {int(e["id"]): e for e in (eres.data or [])}
-
-    by_cid: dict[int, list[tuple[int, dict[str, str]]]] = {cid: [] for cid in commentary_ids}
+    by_cid: dict[int, list[tuple[int, str, dict[str, str]]]] = {cid: [] for cid in commentary_ids}
     for r in rows:
-        cid = int(r["commentary_id"])
-        eid = int(r["entity_id"])
-        ent = ent_map.get(eid)
-        if not ent:
-            continue
-        kind = str(ent.get("kind") or "")
-        tag = {"slug": str(ent["slug"]), "label": str(ent["label"])}
-        by_cid.setdefault(cid, []).append((int(r.get("sort_order") or 0), kind, tag))
+        tag = {"slug": str(r["slug"]), "label": str(r["label"])}
+        by_cid.setdefault(int(r["commentary_id"]), []).append(
+            (int(r.get("sort_order") or 0), str(r.get("kind") or ""), tag)
+        )
 
     out: dict[int, dict[str, list[dict[str, str]]]] = {}
     for cid in commentary_ids:
@@ -647,6 +632,33 @@ def fetch_tags_for_commentary_ids(commentary_ids: list[int]) -> dict[int, dict[s
     return out
 
 
+# Punctuation in Postgres collation order (space first); everything else sorts digits, then letters.
+_COLLATION_PUNCTUATION = " _-,;:!?.'\"()[]{}@*/\\&#%`^+<=>|~$"
+_COLLATION_ALIASES = {
+    "‘": "'",
+    "’": "'",
+    "“": '"',
+    "”": '"',
+    "–": "-",
+    "—": "-",
+}
+
+
+def _label_sort_key(label: str) -> list[tuple[int, int]]:
+    """Order labels the way the Postgres database did: case-insensitive, punctuation before digits before letters."""
+    key: list[tuple[int, int]] = []
+    for ch in label:
+        ch = _COLLATION_ALIASES.get(ch, ch)
+        rank = _COLLATION_PUNCTUATION.find(ch)
+        if rank >= 0:
+            key.append((0, rank))
+        elif ch.isdigit():
+            key.append((1, ord(ch)))
+        else:
+            key.append((2, ord(ch.casefold()[0])))
+    return key
+
+
 def list_summary_entities(kind: str) -> list[dict[str, Any]]:
     """Return all summary entities of the given kind, sorted alphabetically by label."""
     if kind not in ("theme", "person", "place"):
@@ -654,15 +666,8 @@ def list_summary_entities(kind: str) -> list[dict[str, Any]]:
     if kind == "place" and not _PLACE_ENTITY_INDEXING_ENABLED:
         items, _ = _build_place_fallback_index()
         return items
-    db = get_supabase()
-    res = (
-        db.table("summary_entities")
-        .select("id, kind, slug, label")
-        .eq("kind", kind)
-        .order("label")
-        .execute()
-    )
-    rows = res.data or []
+    rows = fetch_all("SELECT id, kind, slug, label FROM summary_entities WHERE kind = ?", (kind,))
+    rows.sort(key=lambda r: (_label_sort_key(r["label"]), r["label"], r["id"]))
     if kind == "person":
         return [r for r in rows if _is_valid_person_label(str(r.get("label") or ""))]
     if kind == "place":
@@ -677,45 +682,29 @@ def get_summary_entity_page(kind: str, slug: str) -> dict[str, Any] | None:
     if kind == "place" and not _PLACE_ENTITY_INDEXING_ENABLED:
         _, index = _build_place_fallback_index()
         return index.get(slug)
-    db = get_supabase()
-    # One round trip: entity row + mentions + joined commentaries (filter summary source in Python).
-    eres = (
-        db.table("summary_entities")
-        .select(
-            "id, kind, slug, label, profile, "
-            "commentary_entity_mentions(commentary_id, commentaries(id, book_number, chapter, source))"
-        )
-        .eq("kind", kind)
-        .eq("slug", slug)
-        .limit(1)
-        .execute()
+    ent = fetch_one(
+        "SELECT id, kind, slug, label, profile FROM summary_entities WHERE kind = ? AND slug = ?",
+        (kind, slug),
     )
-    ents = eres.data or []
-    if not ents:
+    if not ent:
         return None
-    ent = ents[0]
 
+    mentioned = fetch_all(
+        "SELECT DISTINCT c.id, c.book_number, c.chapter "
+        "FROM commentary_entity_mentions m JOIN commentaries c ON c.id = m.commentary_id "
+        "WHERE m.entity_id = ? AND c.source = ? ORDER BY c.id",
+        (ent["id"], SUMMARY_SOURCE),
+    )
     references: list[dict[str, Any]] = []
-    seen_cid: set[int] = set()
-    for mrow in ent.get("commentary_entity_mentions") or []:
-        comm = mrow.get("commentaries")
-        if not isinstance(comm, dict):
-            continue
-        if str(comm.get("source") or "") != SUMMARY_SOURCE:
-            continue
-        cid = int(comm["id"])
-        if cid in seen_cid:
-            continue
-        seen_cid.add(cid)
+    for comm in mentioned:
         bn = int(comm["book_number"])
-        ch = int(comm["chapter"])
         book = BOOK_BY_NUMBER.get(bn)
         references.append(
             {
-                "commentary_id": cid,
+                "commentary_id": int(comm["id"]),
                 "book_number": bn,
                 "book_name": book["name"] if book else str(bn),
-                "chapter": ch,
+                "chapter": int(comm["chapter"]),
             }
         )
 

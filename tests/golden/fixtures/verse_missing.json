@@ -1,5 +1,7 @@
 {
-  "body": "Internal Server Error",
+  "body": {
+    "detail": "Verse not found"
+  },
   "request": {
     "method": "GET",
     "name": "verse_missing",
@@ -8,5 +10,5 @@
     },
     "path": "/api/v1/verses/John/3/99"
   },
-  "status": 500
+  "status": 404
 }
