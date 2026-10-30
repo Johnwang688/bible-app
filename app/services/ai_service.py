@@ -42,6 +42,7 @@ MAX_SUPPLEMENTARY_PASSAGES = 3
 GUIDED_SECTION_MAX_TOKENS = 900
 GUIDED_DIVE_MAX_TOKENS = 520
 GUIDED_MH_EXCERPT_MAX_CHARS = 9000
+CLAUDE_PROVIDERS = ("anthropic", "vertex")
 
 
 def merge_overlapping_verse_intervals(intervals: list[tuple[int, int]]) -> list[tuple[int, int]]:
@@ -111,9 +112,13 @@ async def guided_chapter_plain_completion(
     max_tokens: int,
     context: AIContext,
 ) -> str:
-    client = get_openai_client()
     settings = get_settings()
     clamped = min(max(200, max_tokens), MAX_ENTITY_CONTENT_TOKENS)
+    if settings.ai_provider in CLAUDE_PROVIDERS:
+        from app.services import claude_agent
+
+        return await claude_agent.complete_text(system, user, clamped)
+    client = get_openai_client()
     completion = await client.chat.completions.create(
         model=settings.openai_model,
         messages=[
@@ -964,20 +969,22 @@ async def generate_entity_text(prompt: str, max_tokens: int = MAX_ENTITY_CONTENT
     Uses no structured output schema so the model can return raw JSON timelines
     or prose descriptions without being shoehorned into the chat response schema.
     """
-    client = get_openai_client()
     settings = get_settings()
     clamped = min(max(100, max_tokens), MAX_ENTITY_CONTENT_TOKENS)
+    system = (
+        "You are a knowledgeable biblical scholar. "
+        "Follow the user's instructions exactly, including output format. "
+        "Be specific, detailed, and grounded in Scripture."
+    )
+    if settings.ai_provider in CLAUDE_PROVIDERS:
+        from app.services import claude_agent
+
+        return await claude_agent.complete_text(system, prompt, clamped)
+    client = get_openai_client()
     completion = await client.chat.completions.create(
         model=settings.openai_model,
         messages=[
-            {
-                "role": "system",
-                "content": (
-                    "You are a knowledgeable biblical scholar. "
-                    "Follow the user's instructions exactly, including output format. "
-                    "Be specific, detailed, and grounded in Scripture."
-                ),
-            },
+            {"role": "system", "content": system},
             {"role": "user", "content": prompt},
         ],
         max_completion_tokens=clamped,
@@ -988,10 +995,14 @@ async def generate_entity_text(prompt: str, max_tokens: int = MAX_ENTITY_CONTENT
 
 async def chat_with_ai(payload: AIChatRequest) -> AIChatResponse:
     settings = get_settings()
-    client = get_openai_client()
     history = trim_history(payload.conversation_history)
     if asks_for_disallowed_roleplay(payload.message):
         return roleplay_refusal_response(payload.context)
+    if settings.ai_provider in CLAUDE_PROVIDERS:
+        from app.services import claude_agent
+
+        return await claude_agent.chat(payload)
+    client = get_openai_client()
     scripture = await build_scripture_payload(
         payload.context,
         payload.message,
