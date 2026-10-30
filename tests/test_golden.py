@@ -2,14 +2,14 @@
 Golden-response tests (W0.2): replay tests/golden/requests.py against app.main:app
 and compare status + JSON body with the recorded fixtures.
 
-Fixtures come from scripts/record_golden.py. These tests need live content data,
-so they only run when RUN_GOLDEN=1.
+Fixtures come from scripts/record_golden.py. Since W1 the content endpoints read
+build/content.sqlite, so these run offline in the default suite (the DB is built
+from content/source if missing).
 """
 
 from __future__ import annotations
 
 import json
-import os
 from pathlib import Path
 
 import pytest
@@ -19,13 +19,17 @@ import app.main as app_main
 from app.services import ai_service
 from tests.golden.requests import REQUESTS
 
-
-pytestmark = pytest.mark.skipif(
-    os.environ.get("RUN_GOLDEN") != "1",
-    reason="golden tests need live content data; set RUN_GOLDEN=1 to run",
-)
-
 FIXTURES_DIR = Path(__file__).parent / "golden" / "fixtures"
+_REPO = Path(__file__).resolve().parents[1]
+
+
+@pytest.fixture(scope="module", autouse=True)
+def _content_db():
+    db = _REPO / "build" / "content.sqlite"
+    if not db.exists():
+        from scripts.build_content import build
+
+        build(_REPO / "content" / "source", db)
 
 
 def first_difference(expected: object, actual: object, path: str = "body") -> str | None:

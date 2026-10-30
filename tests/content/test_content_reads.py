@@ -117,6 +117,9 @@ def test_theme_list_is_complete_and_keeps_postgres_order(client):
     import sqlite3
 
     fx = _fixture("entities_theme")
+    # The first 1000 rows exactly as Postgres returned them (frozen before the fixture was re-recorded).
+    postgres_first_1000 = json.loads(
+        (REPO / "tests" / "content" / "entities_theme_postgres_first1000.json").read_text(encoding="utf-8"))["body"]
     status, body = _send(client, fx["request"])
     assert status == 200
     con = sqlite3.connect(DB_PATH)
@@ -124,7 +127,9 @@ def test_theme_list_is_complete_and_keeps_postgres_order(client):
     assert total > 1000
     assert len(body) == total
     # The capped Postgres list was the first 1000 rows in label order: same collation, same prefix.
-    assert body[:1000] == fx["body"]
+    assert len(postgres_first_1000) == 1000
+    assert body[:1000] == postgres_first_1000
+    assert body == fx["body"]
 
 
 def _refs(results):
