@@ -78,7 +78,8 @@ def test_english_fts_stems_and_only_indexes_english(built):
     n_en = con.execute(
         "SELECT COUNT(*) FROM verses v JOIN translations t ON t.id = v.translation WHERE t.language = 'en'"
     ).fetchone()[0]
-    assert con.execute("SELECT COUNT(*) FROM verses_fts_en").fetchone()[0] == n_en
+    # External-content FTS: COUNT(*) on the FTS table reads through to verses; count indexed docs instead.
+    assert con.execute("SELECT COUNT(*) FROM verses_fts_en_docsize").fetchone()[0] == n_en
 
 
 def test_chinese_trigram_fts(built):
@@ -92,7 +93,7 @@ def test_chinese_trigram_fts(built):
         "SELECT COUNT(*) FROM verses v JOIN translations t ON t.id = v.translation WHERE t.language LIKE 'zh%'"
     ).fetchone()[0]
     assert n_zh > 0
-    assert con.execute("SELECT COUNT(*) FROM verses_fts_zh").fetchone()[0] == n_zh
+    assert con.execute("SELECT COUNT(*) FROM verses_fts_zh_docsize").fetchone()[0] == n_zh
 
 
 def test_build_is_reproducible(built, tmp_path):
