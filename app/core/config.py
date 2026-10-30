@@ -5,7 +5,8 @@ from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # Always load repo-root `.env` (not cwd-dependent when uvicorn/cron uses another cwd).
-_ENV_FILE = Path(__file__).resolve().parents[2] / ".env"
+_REPO_ROOT = Path(__file__).resolve().parents[2]
+_ENV_FILE = _REPO_ROOT / ".env"
 
 
 class Settings(BaseSettings):
@@ -39,6 +40,11 @@ class Settings(BaseSettings):
 
     # Bible
     default_translation: str = Field(default="WEB", alias="DEFAULT_TRANSLATION")
+    # Read-only content database built by scripts/build_content.py (relative paths resolve against the repo root).
+    content_db_path: str = Field(
+        default=str(_REPO_ROOT / "build" / "content.sqlite"),
+        alias="CONTENT_DB_PATH",
+    )
 
     @property
     def cors_origin_list(self) -> list[str]:
