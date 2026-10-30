@@ -1,0 +1,6 @@
+{"created_at":"2026-04-08T03:27:46.811518+00:00","description":"American Standard Version 1901 loaded from the public-domain open-bibles Zefania source.","id":"ASV","language":"en","license":"Public Domain","name":"American Standard Version (1901)"}
+{"created_at":"2026-04-02T03:33:13.077344+00:00","description":"A modern, accurate translation with open licensing.","id":"BSB","language":"en","license":"Free Use (see berean.bible)","name":"Berean Standard Bible"}
+{"created_at":"2026-04-02T03:33:13.077344+00:00","description":"Traditional Chinese CUV 1919 loaded from the public-domain open-bibles USFX source.","id":"CUV","language":"zh","license":"Public Domain","name":"CUV Traditional (1919)"}
+{"created_at":"2026-04-07T23:35:18.44775+00:00","description":"Simplified Chinese CUV 1919 loaded from the public-domain open-bibles USFX source.","id":"CUV-SIMP","language":"zh","license":"Public Domain","name":"CUV Simplified (1919)"}
+{"created_at":"2026-04-02T03:33:13.077344+00:00","description":"The classic 1611 English translation, widely used for over 400 years.","id":"KJV","language":"en","license":"Public Domain","name":"King James Version"}
+{"created_at":"2026-04-02T03:33:13.077344+00:00","description":"A modern public domain translation based on the ASV.","id":"WEB","language":"en","license":"Public Domain","name":"World English Bible"}
