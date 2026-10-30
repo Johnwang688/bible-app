@@ -44,12 +44,12 @@ import { filterTranslationsForPicker, getLocalizedBookName, getLocalizedBookName
 import { DEFAULT_READER_SETTINGS, applyReaderHighlightVars, detectGraphicsCapability, isPagedReadingMode, normalizeReaderSettings } from '@/features/reader/settings';
 import { biblePaneScrollDepthRatio, chapterStorageKey, closestVerseLine, formatVerseGroupRef, scrollVerseLineIntoBiblePaneCenter, sliceVersesIntoPages, verseStorageKey } from '@/features/reader/layout';
 import { computeChapterQuizRequiredDwellMs, getChapterQuizVisibleMs } from '@/features/quiz/dwell';
-import { BOOKMARKS_STORAGE_KEY, COMMENTARY_SYNC_THROTTLE_MS, DAILY_GOAL_MINUTES_STORAGE_KEY, DEFAULT_DAILY_GOAL_MINUTES, ENGAGEMENT_COMMIT_MS, HIGHLIGHTS_STORAGE_KEY, LAST_POSITION_STORAGE_KEY, MAX_ENGAGEMENT_GAP_MS, MAX_RECENT_PASSAGES, NOTES_STORAGE_KEY, ONBOARDING_STORAGE_KEY, READER_SETTINGS_STORAGE_KEY, READING_PROGRESS_STORAGE_KEY, RECENT_PASSAGES_STORAGE_KEY, SCROLL_ACTIVE_HOLD_MS, chapterEvidenceQualifies, computeTodayIso, normalizeDailyGoalMinutes, normalizeReadingProgress, rollReadingProgressToToday, selectDailyVerse, syncGoalCompletion, timeOfDayGreeting } from '@/features/progress/progress';
+import { BOOKMARKS_STORAGE_KEY, COMMENTARY_SYNC_THROTTLE_MS, DAILY_GOAL_MINUTES_STORAGE_KEY, DEFAULT_DAILY_GOAL_MINUTES, ENGAGEMENT_COMMIT_MS, HIGHLIGHTS_STORAGE_KEY, LAST_POSITION_STORAGE_KEY, MAX_ENGAGEMENT_GAP_MS, MAX_RECENT_PASSAGES, NOTES_STORAGE_KEY, ONBOARDING_STORAGE_KEY, READER_SETTINGS_STORAGE_KEY, READING_PROGRESS_STORAGE_KEY, RECENT_PASSAGES_STORAGE_KEY, SCROLL_ACTIVE_HOLD_MS, chapterEvidenceQualifies, computeTodayIso, normalizeReadingProgress, rollReadingProgressToToday, selectDailyVerse, syncGoalCompletion, timeOfDayGreeting } from '@/features/progress/progress';
 import { DYNAMIC_BASE_THEME, DYNAMIC_COLORS, DYNAMIC_CYCLE_MS, hexToRgb, logoSrcForTheme } from '@/features/settings/themeHelpers';
 import { SEARCH_SUGGESTION_LIMIT, clampChapterForBook, compactSearchText, extractLooseReferenceParts, formatSearchSuggestionLabel, getBookPopularityScore, normalizeReferenceSpacing, normalizeSearchText, scoreBookMatch } from '@/features/search/search';
 import { TUTORIAL_VERSE_TOOLS_VERSE, boundsToTutorialRect } from '@/features/onboarding/tutorial';
 import { buildExplainVersePrompt } from '@/features/ai/prompts';
-import { safelyParseJson } from '@/lib/json';
+import { readStoredBookmarks, readStoredDailyGoalMinutes, readStoredHighlights, readStoredLastPosition, readStoredNotes, readStoredReaderSettings, readStoredReadingProgress, readStoredRecentPassages } from '@/lib/localState';
 import BookPanel from '@/features/reader/BookPanel';
 import VersionPanel from '@/features/reader/VersionPanel';
 import SearchPanel from '@/features/search/SearchPanel';
@@ -256,6 +256,7 @@ export default function BibleApp({
   const syncReadyRef        = useRef(false);
   const hydratingAccountRef = useRef(false);
   const accountBootstrapRef = useRef(false);
+  const localStateLoadedRef = useRef(false);
   const chapterEngagementRef = useRef<{ key: string; lastInteractionAt: number | null }>({
     key: '',
     lastInteractionAt: null,
@@ -473,32 +474,32 @@ export default function BibleApp({
   }, [chapter, currentBook, selectedVerse, verseNotes]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !localStateLoadedRef.current) return;
     window.localStorage.setItem(HIGHLIGHTS_STORAGE_KEY, JSON.stringify(highlightedVerses));
   }, [highlightedVerses]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !localStateLoadedRef.current) return;
     window.localStorage.setItem(BOOKMARKS_STORAGE_KEY, JSON.stringify(bookmarkedVerses));
   }, [bookmarkedVerses]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !localStateLoadedRef.current) return;
     window.localStorage.setItem(NOTES_STORAGE_KEY, JSON.stringify(verseNotes));
   }, [verseNotes]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !localStateLoadedRef.current) return;
     window.localStorage.setItem(RECENT_PASSAGES_STORAGE_KEY, JSON.stringify(recentPassages));
   }, [recentPassages]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !localStateLoadedRef.current) return;
     window.localStorage.setItem(READING_PROGRESS_STORAGE_KEY, JSON.stringify(readingProgress));
   }, [readingProgress]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !localStateLoadedRef.current) return;
     window.localStorage.setItem(DAILY_GOAL_MINUTES_STORAGE_KEY, String(dailyGoalMinutes));
   }, [dailyGoalMinutes]);
 
@@ -511,7 +512,7 @@ export default function BibleApp({
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    window.localStorage.setItem(READER_SETTINGS_STORAGE_KEY, JSON.stringify(readerSettings));
+    if (localStateLoadedRef.current) window.localStorage.setItem(READER_SETTINGS_STORAGE_KEY, JSON.stringify(readerSettings));
     document.documentElement.dataset.readerScale = readerSettings.fontScale;
     document.documentElement.dataset.readerLineHeight = readerSettings.lineHeight;
     document.documentElement.dataset.readerFont = readerSettings.readerFont;
@@ -3560,21 +3561,15 @@ export default function BibleApp({
     // Read theme from localStorage (inline script already applied it to the DOM)
     const saved = normalizeThemeId(localStorage.getItem('theme'));
     const storedSession = restoreAuthSession();
-    const storedLastPosition = safelyParseJson<{ book?: string; chapter?: number; translation?: string } | null>(
-      localStorage.getItem(LAST_POSITION_STORAGE_KEY),
-      null,
-    );
-    const storedHighlights = safelyParseJson<string[]>(localStorage.getItem(HIGHLIGHTS_STORAGE_KEY), []);
-    const storedBookmarks = safelyParseJson<string[]>(localStorage.getItem(BOOKMARKS_STORAGE_KEY), []);
-    const storedNotes = safelyParseJson<Record<string, VerseNote>>(localStorage.getItem(NOTES_STORAGE_KEY), {});
-    const storedRecent = safelyParseJson<SavedPassage[]>(localStorage.getItem(RECENT_PASSAGES_STORAGE_KEY), []);
-    const storedProgress = normalizeReadingProgress(
-      safelyParseJson<unknown>(localStorage.getItem(READING_PROGRESS_STORAGE_KEY), null),
-    );
-    const storedDailyGoal = normalizeDailyGoalMinutes(localStorage.getItem(DAILY_GOAL_MINUTES_STORAGE_KEY));
-    const storedReaderSettings = normalizeReaderSettings(
-      safelyParseJson<Partial<ReaderSettings> | null>(localStorage.getItem(READER_SETTINGS_STORAGE_KEY), null),
-    );
+    const storedLastPosition = readStoredLastPosition();
+    const storedHighlights = readStoredHighlights();
+    const storedBookmarks = readStoredBookmarks();
+    const storedNotes = readStoredNotes();
+    const storedRecent = readStoredRecentPassages();
+    const storedProgress = readStoredReadingProgress();
+    const storedDailyGoal = readStoredDailyGoalMinutes();
+    const storedReaderSettings = readStoredReaderSettings();
+    localStateLoadedRef.current = true;
     setCurrentTheme(saved);
     localStorage.setItem('theme', saved);
     setAuthSession(storedSession);
@@ -3635,6 +3630,8 @@ export default function BibleApp({
             setSidePanelMode(d);
           }
           setCurrentBook(bookFromUrl);
+          // Without this, the top bar and verse popup show chapter 1 and highlights/notes are keyed to chapter 1.
+          setChapter(Math.min(urlChapterNum, bookFromUrl.total_chapters));
           loadChapter(
             bookFromUrl,
             Math.min(urlChapterNum, bookFromUrl.total_chapters),
@@ -3651,6 +3648,8 @@ export default function BibleApp({
           setTranslation(initialTranslation);
           setCurrentBook(initialBook);
           if (initialBook) {
+            // Without this, chapter stays 1 and the last-position effect overwrites the saved chapter with 1.
+            setChapter(Math.min(initialChapter, initialBook.total_chapters));
             loadChapter(initialBook, Math.min(initialChapter, initialBook.total_chapters), initialTranslation);
             if (storedReaderSettings.defaultPanel !== 'none') {
               setSidePanelMode(storedReaderSettings.defaultPanel);
@@ -3666,7 +3665,12 @@ export default function BibleApp({
       }
     }
     init();
-    return () => stopDynamicTheme();
+    // Strict Mode unmounts and remounts effects on first mount without re-rendering. Clearing the flag here
+    // stops the persist effects from writing default state over storage before this effect reads it again.
+    return () => {
+      localStateLoadedRef.current = false;
+      stopDynamicTheme();
+    };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

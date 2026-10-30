@@ -83,12 +83,6 @@ test.describe('reader', () => {
   });
 
   test('4b. font size survives a reload', async ({ page }) => {
-    test.fail(
-      true,
-      'KNOWN APP BUG: on mount the persist effects in BibleApp.tsx run before the init effect reads ' +
-        'localStorage, so every reload resets reader settings, highlights and notes to defaults. ' +
-        'Remove this annotation when that is fixed.',
-    );
     await openReaderAt(page, 'John', 3);
     await setTextSize(page, '28');
     await expect(verse(page, 16)).toHaveCSS('font-size', '28px');
@@ -134,11 +128,6 @@ test.describe('reader', () => {
   });
 
   test('5b. highlight and note survive a reload', async ({ page }) => {
-    test.fail(
-      true,
-      'KNOWN APP BUG: same root cause as 4b - a reload wipes highlights and notes from localStorage. ' +
-        'Remove this annotation when that is fixed.',
-    );
     await openReaderAt(page, 'John', 3);
     await verse(page, 16).click();
     await page.getByRole('button', { name: 'Highlight', exact: true }).click();
