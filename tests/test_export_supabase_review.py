@@ -68,3 +68,34 @@ def test_real_postgrest_ordering():
         client.session.close()
 
     assert offsets == [0, 2]
+
+
+def test_collision_prevents_all_verse_writes(monkeypatch):
+    tables = {table: [] for table, _ in export.CONTENT_TABLES}
+    tables["verses"] = [
+        {"id": 1, "translation": "WEB"},
+        {"id": 2, "translation": "web"},
+    ]
+    writes = []
+    manifests = []
+
+    monkeypatch.setattr(export, "_admin_client", lambda: object())
+    monkeypatch.setattr(export, "_project_ref", lambda: "review")
+    monkeypatch.setattr(
+        export, "fetch_all_rows",
+        lambda client, table, order_by: tables[table],
+    )
+    monkeypatch.setattr(
+        export, "write_jsonl",
+        lambda path, rows: writes.append(path) or "unused",
+    )
+    monkeypatch.setattr(
+        export, "_write_manifest",
+        lambda *args: manifests.append(args),
+    )
+
+    assert export.main(
+        ["--content-only", "--out-root", "unused"]
+    ) == 1
+    assert not any(path.parent.name == "verses" for path in writes)
+    assert not manifests
