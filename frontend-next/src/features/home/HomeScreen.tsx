@@ -6,7 +6,8 @@ import CurrencyIcon from '@/components/CurrencyIcon';
 import MasteryOverviewPanel from '@/components/MasteryOverviewPanel';
 import { useAuth } from '@/features/account/AuthContext';
 import { useStudyItems } from '@/features/study/StudyItemsContext';
-import type { BookInfo, ChapterData, DailyVerse, SidePanelMode } from '@/features/reader/types';
+import { useReaderPosition } from '@/features/reader/ReaderPositionContext';
+import type { ChapterData, DailyVerse, SidePanelMode } from '@/features/reader/types';
 import { DailyTasksList } from '@/features/progress/DailyTasksList';
 import { logoSrcForTheme } from '@/features/settings/themeHelpers';
 
@@ -28,13 +29,10 @@ export interface HomeScreenProps {
   tasksBonusClaiming: boolean;
   chapterLoading: boolean;
   chapterData: ChapterData | null;
-  currentBook: BookInfo | null;
   openReaderFromHome: (panel: SidePanelMode) => void;
   currentBookLabel: string;
-  chapter: number;
   currentTranslationLabel: string;
   openTutorial: (startIndex?: number) => void;
-  translation: string;
   sidePanelTitle: () => string;
   sidePanelContext: string;
   closeSidePanel: () => void;
@@ -59,18 +57,16 @@ export default function HomeScreen({
   tasksBonusClaiming,
   chapterLoading,
   chapterData,
-  currentBook,
   openReaderFromHome,
   currentBookLabel,
-  chapter,
   currentTranslationLabel,
   openTutorial,
-  translation,
   sidePanelTitle,
   sidePanelContext,
   closeSidePanel,
   studyContent,
 }: HomeScreenProps) {
+  const { currentBook, chapter, translation } = useReaderPosition();
   const { authSession } = useAuth();
   const { readingProgress, dailyGoalMinutes } = useStudyItems();
   return (

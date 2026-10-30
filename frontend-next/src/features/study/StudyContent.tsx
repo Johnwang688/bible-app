@@ -6,16 +6,13 @@ import AuthPanel from '@/components/AuthPanel';
 import MasteryOverviewPanel from '@/components/MasteryOverviewPanel';
 import { useAuth } from '@/features/account/AuthContext';
 import { useStudyItems } from '@/features/study/StudyItemsContext';
-import type { BookInfo, ChapterData, SidePanelMode } from '@/features/reader/types';
+import { useReaderPosition } from '@/features/reader/ReaderPositionContext';
+import type { ChapterData, SidePanelMode } from '@/features/reader/types';
 import { DailyTasksList } from '@/features/progress/DailyTasksList';
 import { MAX_DAILY_GOAL_MINUTES, MIN_DAILY_GOAL_MINUTES, normalizeDailyGoalMinutes } from '@/features/progress/progress';
 
 export interface StudyContentProps {
-  currentBook: BookInfo | null;
-  chapter: number;
   chapterData: ChapterData | null;
-  books: BookInfo[];
-  translation: string;
   handleAuthSignIn: (email: string, password: string) => Promise<void>;
   handleAuthSignUp: (email: string, password: string, displayName: string) => Promise<void>;
   handleAuthSignOut: () => Promise<void>;
@@ -38,11 +35,7 @@ export interface StudyContentProps {
 }
 
 export default function StudyContent({
-  currentBook,
-  chapter,
   chapterData,
-  books,
-  translation,
   handleAuthSignIn,
   handleAuthSignUp,
   handleAuthSignOut,
@@ -63,6 +56,7 @@ export default function StudyContent({
   openReaderFromHome,
   closeSidePanel,
 }: StudyContentProps) {
+  const { books, currentBook, chapter, translation } = useReaderPosition();
   const { authSession, accountProfile, authBusy, authError, authMode, setAuthMode } = useAuth();
   const { highlightedVerses, verseNotes, dailyGoalMinutes, setDailyGoalMinutes, readingProgress, recentPassages } = useStudyItems();
   const highlightEntries = [...highlightedVerses]
