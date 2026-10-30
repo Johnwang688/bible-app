@@ -1,0 +1,43 @@
+{
+  "book_number": 43,
+  "chapter": 3,
+  "stage": 1,
+  "stage_label": "Stage 1",
+  "questions": [
+    {
+      "id": 9001,
+      "prompt": "Who came to Jesus by night?",
+      "choices_json": ["Nicodemus", "Peter", "Pilate", "Zacchaeus"],
+      "source_verse_start": 1,
+      "source_verse_end": 2
+    },
+    {
+      "id": 9002,
+      "prompt": "What must a person be to see God's Kingdom?",
+      "choices_json": ["Born anew", "Baptized twice", "Wealthy", "A Pharisee"],
+      "source_verse_start": 3,
+      "source_verse_end": 3
+    },
+    {
+      "id": 9003,
+      "prompt": "Whom does Jesus say the Spirit is compared to?",
+      "choices_json": ["The wind", "A river", "A lamp", "A vine"],
+      "source_verse_start": 8,
+      "source_verse_end": 8
+    },
+    {
+      "id": 9004,
+      "prompt": "What did Moses lift up in the wilderness?",
+      "choices_json": ["The serpent", "The tablets", "The staff", "The lamb"],
+      "source_verse_start": 14,
+      "source_verse_end": 14
+    },
+    {
+      "id": 9005,
+      "prompt": "Where was John baptizing?",
+      "choices_json": ["Jericho", "Aenon near Salim", "Capernaum", "Bethany"],
+      "source_verse_start": 23,
+      "source_verse_end": 23
+    }
+  ]
+}
