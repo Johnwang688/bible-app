@@ -3,9 +3,10 @@
 import type { Dispatch, RefObject, SetStateAction } from 'react';
 import { MasteryStrip } from '@/components/ChapterQuiz';
 import type { AuthSession } from '@/lib/account';
-import type { BookInfo, ChapterData, ReaderSettings, SidePanelMode, VerseData, VerseNote } from '@/features/reader/types';
+import type { BookInfo, ChapterData, SidePanelMode, VerseData, VerseNote } from '@/features/reader/types';
 import { READER_HIGHLIGHT_PRESETS, isPagedReadingMode } from '@/features/reader/settings';
 import { formatVerseGroupRef, splitVersesForBookMode, verseStorageKey } from '@/features/reader/layout';
+import { useReaderSettings } from '@/features/settings/ReaderSettingsContext';
 import { buildExplainVersePrompt } from '@/features/ai/prompts';
 
 export interface ChapterContentProps {
@@ -16,8 +17,6 @@ export interface ChapterContentProps {
   translation: string;
   currentBook: BookInfo | null;
   chapterBookLabel: string;
-  readerSettings: ReaderSettings;
-  setReaderSettings: Dispatch<SetStateAction<ReaderSettings>>;
   pagedPageSlices: VerseData[][] | null;
   chapterSpreadIndex: number;
   animClass: string;
@@ -82,8 +81,6 @@ export default function ChapterContent({
   translation,
   currentBook,
   chapterBookLabel,
-  readerSettings,
-  setReaderSettings,
   pagedPageSlices,
   chapterSpreadIndex,
   animClass,
@@ -139,6 +136,7 @@ export default function ChapterContent({
   readerPassagesRef,
   verseStudyPopupRef,
 }: ChapterContentProps) {
+  const { readerSettings, setReaderSettings } = useReaderSettings();
   if (chapterLoading) {
     return (
       <div className="state-msg">
