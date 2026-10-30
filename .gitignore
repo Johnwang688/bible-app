@@ -68,3 +68,15 @@ out/
 # vscode settings
 .vscode/
 
+
+# W0 cleanup
+__pycache__/
+*.pyc
+.pytest_cache/
+build/
+data/export/
+tmp/
+zip/
+tmp-eng-asv.zefania.xml
+frontend-next/test-results/
+frontend-next/playwright-report/
