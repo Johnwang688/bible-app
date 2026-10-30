@@ -183,6 +183,30 @@ test.describe('read aloud', () => {
     expect(log.speak[0].text).toContain('神愛世人');
     expect(log.speak[0]).toMatchObject({ lang: 'zh-TW', voiceURI: 'zh-c' });
   });
+  // Verifier review (W0.5): every verse is spoken, in order.
+  test('speaks every verse in chapter order', async ({ page }) => {
+    await openReaderAt(page, 'John', 3);
+    await expect(page.locator('.verse-line')).toHaveCount(36);
+
+    const expected = await page.locator('.verse-line').evaluateAll(
+      elements => elements.map(element => {
+        const copy = element.cloneNode(true) as HTMLElement;
+        copy.querySelector('.vnum')?.remove();
+        return `${element.getAttribute('data-verse')}. ${
+          copy.textContent!.trim()
+        }`;
+      }).join('  '),
+    );
+
+    await revealTaskbar(page);
+    await page.locator('.tts-play-btn').click();
+    await expect(page.locator('.tts-play-btn'))
+      .toHaveAccessibleName('Stop reading');
+
+    const log = await readTts(page);
+    expect(log.speak).toHaveLength(1);
+    expect(log.speak[0].text).toBe(expected);
+  });
 });
 
 test.describe('tutorial', () => {
@@ -403,4 +427,41 @@ test.describe('guided chapter study', () => {
     expect(guidedBodies).toHaveLength(3);
     expect(sectionRequests).toHaveLength(1);
   });
+});
+
+// Verifier review (W0.5): guided-study requests keep their context.
+test('guided actions preserve context', async ({ page }) => {
+  const bodies: Array<Record<string, unknown>> = [];
+
+  await page.route('**/api/v1/ai/guided-chapter', async route => {
+    bodies.push(route.request().postDataJSON());
+    await route.fulfill({
+      json: { message: `Reply ${bodies.length}`, references: [] },
+    });
+  });
+
+  await openReaderAt(page, 'John', 3);
+  await revealTaskbar(page);
+  await page.getByRole('button', { name: 'AI assistant' }).click();
+  await page.getByRole('button', {
+    name: 'Guide me through this chapter',
+  }).click();
+  await expect(page.getByText('Reply 1', { exact: true })).toBeVisible();
+
+  const pills = page.getByRole('group', {
+    name: 'Guided chapter options',
+  });
+  await pills.getByRole('button', { name: 'Dive deeper' }).click();
+  await expect(page.getByText('Reply 2', { exact: true })).toBeVisible();
+
+  await pills.getByRole('button', { name: 'Move on' }).click();
+  await expect(page.getByText('Reply 3', { exact: true })).toBeVisible();
+
+  expect(bodies.map(({ context, personality }) => ({
+    context,
+    personality,
+  }))).toEqual(Array.from({ length: 3 }, () => ({
+    context: { book: 'John', chapter: 3, translation: 'WEB' },
+    personality: 'jessica',
+  })));
 });
