@@ -1,4 +1,4 @@
-from app.core.supabase_client import get_supabase
+from app.core.content_db import fetch_all
 from app.schemas.commentary import CommentaryEntry, SummaryEntityTag
 from app.services.bible_service import resolve_book
 from app.services.summary_entity_service import SUMMARY_SOURCE, fetch_tags_for_commentary_ids
@@ -18,27 +18,20 @@ async def get_commentary(
     if not book_info:
         return []
 
-    db = get_supabase()
-    q = (
-        db.table("commentaries")
-        .select("*")
-        .eq("book_number", book_info["number"])
-        .eq("chapter", chapter)
-    )
-
+    sql = "SELECT * FROM commentaries WHERE book_number = ? AND chapter = ?"
+    params: list = [book_info["number"], chapter]
     if verse is not None:
-        # Get commentaries that cover this verse (range-aware)
-        q = q.lte("verse_start", verse)
-        # verse_end might be null (single-verse commentary)
-        # We handle this in application logic below
-
+        # Commentaries starting at or before this verse; ranges are checked against verse_end below.
+        sql += " AND verse_start <= ?"
+        params.append(verse)
     if source:
-        q = q.eq("source", source)
-
-    result = q.order("verse_start").execute()
+        sql += " AND source = ?"
+        params.append(source)
+    sql += " ORDER BY verse_start, id"
+    rows = fetch_all(sql, tuple(params))
 
     entries = []
-    for row in result.data or []:
+    for row in rows:
         entry = CommentaryEntry(**row)
         # Filter: if verse requested and entry has a range, check it covers the verse
         if verse is not None and entry.verse_end is not None:
@@ -77,11 +70,4 @@ async def get_commentary(
 
 async def list_commentary_sources() -> list[dict]:
     """Return available commentary sources from the database."""
-    db = get_supabase()
-    result = (
-        db.table("commentary_sources")
-        .select("id, name, license, description")
-        .order("name")
-        .execute()
-    )
-    return result.data or []
+    return fetch_all("SELECT id, name, license, description FROM commentary_sources ORDER BY name")
