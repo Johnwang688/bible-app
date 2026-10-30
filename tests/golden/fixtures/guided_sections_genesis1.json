@@ -1,0 +1,48 @@
+{
+  "body": {
+    "sections": [
+      {
+        "verse_end": 2,
+        "verse_start": 1
+      },
+      {
+        "verse_end": 5,
+        "verse_start": 3
+      },
+      {
+        "verse_end": 13,
+        "verse_start": 6
+      },
+      {
+        "verse_end": 19,
+        "verse_start": 14
+      },
+      {
+        "verse_end": 25,
+        "verse_start": 20
+      },
+      {
+        "verse_end": 28,
+        "verse_start": 26
+      },
+      {
+        "verse_end": 30,
+        "verse_start": 29
+      },
+      {
+        "verse_end": 31,
+        "verse_start": 31
+      }
+    ]
+  },
+  "request": {
+    "method": "GET",
+    "name": "guided_sections_genesis1",
+    "params": {
+      "book": "Genesis",
+      "chapter": 1
+    },
+    "path": "/api/v1/ai/guided-chapter/sections"
+  },
+  "status": 200
+}

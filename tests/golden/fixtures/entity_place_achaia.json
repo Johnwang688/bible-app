@@ -1,0 +1,86 @@
+{
+  "body": {
+    "kind": "place",
+    "label": "Achaia",
+    "overview": "Achaia was a prominent Roman province encompassing the southern part of modern-day Greece, with its capital at the cosmopolitan city of Corinth. In the New Testament, it is a significant region for the expansion of the early church, particularly through the extensive missionary labors of the Apostle Paul. The 'churches of Achaia' were noted for their spiritual gifts but also for their internal conflicts and their eventual sacrificial generosity toward the suffering believers in Jerusalem. Achaia represents the intellectual and cultural heart of the Greek world where the Gospel successfully engaged with Western philosophy and commerce. Its leaders, such as Stephanas, were among the first European converts.",
+    "references": [
+      {
+        "book_name": "Acts",
+        "book_number": 44,
+        "chapter": 18,
+        "commentary_id": 11960
+      }
+    ],
+    "slug": "achaia",
+    "timeline": {
+      "events": [
+        {
+          "developments": [
+            "Paul leaves Athens and enters Corinth, the seat of the Achaian government (Acts 18:1)",
+            "He meets Aquila and Priscilla, who had recently arrived from Rome (Acts 18:2)",
+            "He reasons in the synagogue every Sabbath until the Jews oppose him (Acts 18:4-6)",
+            "The Lord tells Paul in a vision: 'I have many in this city who are my people' (Acts 18:9-10)"
+          ],
+          "era": "Acts 18",
+          "significance": "The establishment of the Corinthian church made Achaia a primary hub for the Gospel in Europe.",
+          "summary": "The Apostle Paul enters Achaia to begin an eighteen-month ministry in its capital city.",
+          "title": "Paul's Arrival in the Province"
+        },
+        {
+          "developments": [
+            "Gallio becomes the proconsul of Achaia (Acts 18:12)",
+            "The Jews make a united attack on Paul and bring him to the tribunal (Acts 18:12)",
+            "Gallio refuses to judge a matter of 'words and names' regarding Jewish law (Acts 18:14-15)",
+            "He drives the accusers from the tribunal, effectively granting the church legal protection (Acts 18:16)"
+          ],
+          "era": "Acts 18",
+          "significance": "Gallio’s decision established a precedent of Roman indifference/tolerance that benefited the early mission.",
+          "summary": "The legal status of Christianity in the province is tested before the Roman proconsul.",
+          "title": "The Tribunal of Gallio"
+        },
+        {
+          "developments": [
+            "Apollos expresses a desire to cross from Ephesus to Achaia (Acts 18:27)",
+            "The Ephesian brothers write to the Achaian disciples to welcome him (Acts 18:27)",
+            "He arrives and greatly helps those who had believed through grace (Acts 18:27)",
+            "He powerfully confutes the Jews in public, proving Jesus is the Christ (Acts 18:28)"
+          ],
+          "era": "Acts 18 / 19",
+          "significance": "Achaia became a center for high-level theological debate and apologetics.",
+          "summary": "The province receives a powerful new teacher who strengthens the existing work.",
+          "title": "The Mission of Apollos"
+        },
+        {
+          "developments": [
+            "The household of Stephanas is named the 'firstfruits of Achaia' (1 Corinthians 16:15)",
+            "They devoted themselves to the service of the saints (1 Corinthians 16:15)",
+            "Paul urges the church to be subject to such leaders (1 Corinthians 16:16)",
+            "Their conversion provided the stable domestic foundation for the province's churches (1 Corinthians 1:16)"
+          ],
+          "era": "1 Corinthians 16",
+          "significance": "The early converts in Achaia set the model for household-based leadership.",
+          "summary": "Paul identifies the first family in Achaia to embrace the Gospel and lead the community.",
+          "title": "The Firstfruits of the Province"
+        },
+        {
+          "developments": [
+            "Achaia and Macedonia make a contribution for the poor in Jerusalem (Romans 15:26)",
+            "Paul boasts to the Macedonians that 'Achaia has been ready since last year' (2 Corinthians 9:2)",
+            "Their zeal stirred up most of the other contributors (2 Corinthians 9:2)",
+            "The gift was a sign of the unity between Gentile and Jewish believers (Romans 15:27)"
+          ],
+          "era": "Romans 15 / 2 Corinthians 9",
+          "significance": "Achaia demonstrated the Gospel's power to create financial and spiritual bonds across ethnic lines.",
+          "summary": "The Achaian churches participate in an international relief effort for the Jerusalem church.",
+          "title": "Sacrificial Generosity"
+        }
+      ]
+    }
+  },
+  "request": {
+    "method": "GET",
+    "name": "entity_place_achaia",
+    "path": "/api/v1/summary-entities/place/achaia"
+  },
+  "status": 200
+}

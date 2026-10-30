@@ -1,0 +1,40 @@
+{
+  "body": [
+    {
+      "book": null,
+      "book_number": 43,
+      "chapter": 3,
+      "id": 26137,
+      "text": "For God so loved the world, that he gave his one and only Son, that whoever believes in him should not perish, but have eternal life.",
+      "translation": "WEB",
+      "verse": 16
+    },
+    {
+      "book": null,
+      "book_number": 43,
+      "chapter": 3,
+      "id": 26138,
+      "text": "For God didn’t send his Son into the world to judge the world, but that the world should be saved through him.",
+      "translation": "WEB",
+      "verse": 17
+    },
+    {
+      "book": null,
+      "book_number": 43,
+      "chapter": 3,
+      "id": 26139,
+      "text": "He who believes in him is not judged. He who doesn’t believe has been judged already, because he has not believed in the name of the one and only Son of God.",
+      "translation": "WEB",
+      "verse": 18
+    }
+  ],
+  "request": {
+    "method": "GET",
+    "name": "verse_range_john3_16_18",
+    "params": {
+      "translation": "WEB"
+    },
+    "path": "/api/v1/verses/John/3/16/18"
+  },
+  "status": 200
+}

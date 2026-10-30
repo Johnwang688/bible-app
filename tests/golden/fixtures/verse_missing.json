@@ -1,0 +1,12 @@
+{
+  "body": "Internal Server Error",
+  "request": {
+    "method": "GET",
+    "name": "verse_missing",
+    "params": {
+      "translation": "WEB"
+    },
+    "path": "/api/v1/verses/John/3/99"
+  },
+  "status": 500
+}
