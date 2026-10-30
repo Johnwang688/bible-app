@@ -1,0 +1,20 @@
+{
+  "body": {
+    "book": null,
+    "book_number": 43,
+    "chapter": 3,
+    "id": 57238,
+    "text": "神愛世人，甚至將他的獨生子賜給他們，叫一切信他的，不至滅亡，反得永生。",
+    "translation": "CUV",
+    "verse": 16
+  },
+  "request": {
+    "method": "GET",
+    "name": "verse_john3_16_cuv",
+    "params": {
+      "translation": "CUV"
+    },
+    "path": "/api/v1/verses/John/3/16"
+  },
+  "status": 200
+}

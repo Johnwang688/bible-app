@@ -1,0 +1,11 @@
+{
+  "body": {
+    "detail": "Unknown entity kind"
+  },
+  "request": {
+    "method": "GET",
+    "name": "entity_bad_kind",
+    "path": "/api/v1/summary-entities/animal/lion"
+  },
+  "status": 404
+}

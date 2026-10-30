@@ -1,0 +1,11 @@
+{
+  "body": {
+    "detail": "Entity not found"
+  },
+  "request": {
+    "method": "GET",
+    "name": "entity_missing",
+    "path": "/api/v1/summary-entities/person/not-a-real-slug"
+  },
+  "status": 404
+}

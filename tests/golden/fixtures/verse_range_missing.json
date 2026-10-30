@@ -1,0 +1,14 @@
+{
+  "body": {
+    "detail": "Verse range not found"
+  },
+  "request": {
+    "method": "GET",
+    "name": "verse_range_missing",
+    "params": {
+      "translation": "WEB"
+    },
+    "path": "/api/v1/verses/John/3/40/45"
+  },
+  "status": 404
+}

@@ -1,0 +1,14 @@
+{
+  "body": [],
+  "request": {
+    "json": {
+      "limit": 20,
+      "query": "xyzzyqq",
+      "translation": "WEB"
+    },
+    "method": "POST",
+    "name": "search_no_results",
+    "path": "/api/v1/search"
+  },
+  "status": 200
+}

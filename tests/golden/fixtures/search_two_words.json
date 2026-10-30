@@ -1,0 +1,147 @@
+{
+  "body": [
+    {
+      "relevance": 0.0991032,
+      "verse": {
+        "book": "1 Corinthians",
+        "book_number": 46,
+        "chapter": 13,
+        "id": 46013013,
+        "text": "But now faith, hope, and love remain—these three. The greatest of these is love.",
+        "translation": "WEB",
+        "verse": 13
+      }
+    },
+    {
+      "relevance": 0.0985009,
+      "verse": {
+        "book": "1 Peter",
+        "book_number": 60,
+        "chapter": 1,
+        "id": 60001021,
+        "text": "who through him are believers in God, who raised him from the dead, and gave him glory, so that your faith and hope might be in God.",
+        "translation": "WEB",
+        "verse": 21
+      }
+    },
+    {
+      "relevance": 0.095243,
+      "verse": {
+        "book": "2 Corinthians",
+        "book_number": 47,
+        "chapter": 10,
+        "id": 47010015,
+        "text": "not boasting beyond proper limits in other men’s labors, but having hope that as your faith grows, we will be abundantly enlarged by you in our sphere of influence,",
+        "translation": "WEB",
+        "verse": 15
+      }
+    },
+    {
+      "relevance": 0.095243,
+      "verse": {
+        "book": "Galatians",
+        "book_number": 48,
+        "chapter": 5,
+        "id": 48005005,
+        "text": "For we, through the Spirit, by faith wait for the hope of righteousness.",
+        "translation": "WEB",
+        "verse": 5
+      }
+    },
+    {
+      "relevance": 0.09149,
+      "verse": {
+        "book": "Hebrews",
+        "book_number": 58,
+        "chapter": 11,
+        "id": 58011001,
+        "text": "Now faith is assurance of things hoped for, proof of things not seen.",
+        "translation": "WEB",
+        "verse": 1
+      }
+    },
+    {
+      "relevance": 0.0644614,
+      "verse": {
+        "book": "1 Thessalonians",
+        "book_number": 52,
+        "chapter": 1,
+        "id": 52001003,
+        "text": "remembering without ceasing your work of faith and labor of love and perseverance of hope in our Lord Jesus Christ, before our God and Father.",
+        "translation": "WEB",
+        "verse": 3
+      }
+    },
+    {
+      "relevance": 0.0644614,
+      "verse": {
+        "book": "1 Thessalonians",
+        "book_number": 52,
+        "chapter": 5,
+        "id": 52005008,
+        "text": "But since we belong to the day, let’s be sober, putting on the breastplate of faith and love, and for a helmet, the hope of salvation.",
+        "translation": "WEB",
+        "verse": 8
+      }
+    },
+    {
+      "relevance": 0.0644614,
+      "verse": {
+        "book": "Hebrews",
+        "book_number": 58,
+        "chapter": 10,
+        "id": 58010023,
+        "text": "let’s hold fast the confession of our hope without wavering; for he who promised is faithful.",
+        "translation": "WEB",
+        "verse": 23
+      }
+    },
+    {
+      "relevance": 0.0397712,
+      "verse": {
+        "book": "Colossians",
+        "book_number": 51,
+        "chapter": 1,
+        "id": 51001023,
+        "text": "if it is so that you continue in the faith, grounded and steadfast, and not moved away from the hope of the Good News which you heard, which is being proclaimed in all creation under heaven, of which I, Paul, was made a servant.",
+        "translation": "WEB",
+        "verse": 23
+      }
+    },
+    {
+      "relevance": 0.0296678,
+      "verse": {
+        "book": "Romans",
+        "book_number": 45,
+        "chapter": 5,
+        "id": 45005002,
+        "text": "through whom we also have our access by faith into this grace in which we stand. We rejoice in hope of the glory of God.",
+        "translation": "WEB",
+        "verse": 2
+      }
+    },
+    {
+      "relevance": 0.000794272,
+      "verse": {
+        "book": "Hebrews",
+        "book_number": 58,
+        "chapter": 3,
+        "id": 58003006,
+        "text": "but Christ is faithful as a Son over his house. We are his house, if we hold fast our confidence and the glorying of our hope firm to the end.",
+        "translation": "WEB",
+        "verse": 6
+      }
+    }
+  ],
+  "request": {
+    "json": {
+      "limit": 20,
+      "query": "faith hope",
+      "translation": "WEB"
+    },
+    "method": "POST",
+    "name": "search_two_words",
+    "path": "/api/v1/search"
+  },
+  "status": 200
+}
