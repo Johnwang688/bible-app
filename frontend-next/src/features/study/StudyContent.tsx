@@ -4,7 +4,7 @@ import type { Dispatch, SetStateAction } from 'react';
 import Link from 'next/link';
 import AuthPanel from '@/components/AuthPanel';
 import MasteryOverviewPanel from '@/components/MasteryOverviewPanel';
-import type { AccountProfile, AuthSession } from '@/lib/account';
+import { useAuth } from '@/features/account/AuthContext';
 import type { BookInfo, ChapterData, ReadingProgress, SavedPassage, SidePanelMode, VerseNote } from '@/features/reader/types';
 import { DailyTasksList } from '@/features/progress/DailyTasksList';
 import { MAX_DAILY_GOAL_MINUTES, MIN_DAILY_GOAL_MINUTES, normalizeDailyGoalMinutes } from '@/features/progress/progress';
@@ -17,12 +17,6 @@ export interface StudyContentProps {
   chapterData: ChapterData | null;
   books: BookInfo[];
   translation: string;
-  accountProfile: AccountProfile | null;
-  authSession: AuthSession | null;
-  authBusy: boolean;
-  authError: string | null;
-  authMode: 'signin' | 'signup';
-  setAuthMode: Dispatch<SetStateAction<'signin' | 'signup'>>;
   handleAuthSignIn: (email: string, password: string) => Promise<void>;
   handleAuthSignUp: (email: string, password: string, displayName: string) => Promise<void>;
   handleAuthSignOut: () => Promise<void>;
@@ -56,12 +50,6 @@ export default function StudyContent({
   chapterData,
   books,
   translation,
-  accountProfile,
-  authSession,
-  authBusy,
-  authError,
-  authMode,
-  setAuthMode,
   handleAuthSignIn,
   handleAuthSignUp,
   handleAuthSignOut,
@@ -86,6 +74,7 @@ export default function StudyContent({
   openReaderFromHome,
   closeSidePanel,
 }: StudyContentProps) {
+  const { authSession, accountProfile, authBusy, authError, authMode, setAuthMode } = useAuth();
   const highlightEntries = [...highlightedVerses]
     .map(key => {
       const [book, chStr, vStr] = key.split('::');
