@@ -34,6 +34,16 @@ class Settings(BaseSettings):
     openai_api_key: str = Field(default="", alias="OPENAI_API_KEY")
     openai_model: str = Field(default="gpt-5.4-nano", alias="OPENAI_MODEL")
 
+    # AI provider: "openai" (default), "anthropic" (Claude API key) or "vertex" (Claude on Vertex AI)
+    ai_provider: str = Field(default="openai", alias="AI_PROVIDER")
+    anthropic_api_key: str = Field(default="", alias="ANTHROPIC_API_KEY")
+    claude_model: str = Field(default="claude-haiku-5-5", alias="CLAUDE_MODEL")
+    vertex_project_id: str = Field(default="", alias="VERTEX_PROJECT_ID")
+    vertex_region: str = Field(default="global", alias="VERTEX_REGION")
+    # Claude chat: stop calling tools and answer once a request nears this many input tokens or tool rounds.
+    ai_max_input_tokens: int = Field(default=100_000, alias="AI_MAX_INPUT_TOKENS")
+    ai_max_tool_rounds: int = Field(default=6, alias="AI_MAX_TOOL_ROUNDS")
+
     # Google OAuth
     google_client_id: str = Field(default="", alias="GOOGLE_CLIENT_ID")
     google_client_secret: str = Field(default="", alias="GOOGLE_CLIENT_SECRET")
