@@ -5,7 +5,8 @@ import Link from 'next/link';
 import CurrencyIcon from '@/components/CurrencyIcon';
 import MasteryOverviewPanel from '@/components/MasteryOverviewPanel';
 import { useAuth } from '@/features/account/AuthContext';
-import type { BookInfo, ChapterData, DailyVerse, ReadingProgress, SidePanelMode } from '@/features/reader/types';
+import { useStudyItems } from '@/features/study/StudyItemsContext';
+import type { BookInfo, ChapterData, DailyVerse, SidePanelMode } from '@/features/reader/types';
 import { DailyTasksList } from '@/features/progress/DailyTasksList';
 import { logoSrcForTheme } from '@/features/settings/themeHelpers';
 
@@ -19,9 +20,7 @@ export interface HomeScreenProps {
   dailyVerse: DailyVerse;
   handleDailyVerseRefClick: () => Promise<void>;
   dailyRewardsStatus: { verse_claimed: boolean; tasks_claimed: boolean } | null;
-  readingProgress: ReadingProgress;
   minutesTowardGoal: number;
-  dailyGoalMinutes: number;
   taskChapterDone: boolean;
   taskAiDone: boolean;
   taskMinutesDone: boolean;
@@ -52,9 +51,7 @@ export default function HomeScreen({
   dailyVerse,
   handleDailyVerseRefClick,
   dailyRewardsStatus,
-  readingProgress,
   minutesTowardGoal,
-  dailyGoalMinutes,
   taskChapterDone,
   taskAiDone,
   taskMinutesDone,
@@ -75,6 +72,7 @@ export default function HomeScreen({
   studyContent,
 }: HomeScreenProps) {
   const { authSession } = useAuth();
+  const { readingProgress, dailyGoalMinutes } = useStudyItems();
   return (
     <div className="home-screen" role="region" aria-label="Home">
       <div className="home-screen-inner">
