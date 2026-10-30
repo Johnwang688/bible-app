@@ -43,20 +43,23 @@ import {
 import { parseReferenceLabel, sortBookNamesForMatching } from '@/lib/scriptureReference';
 import { normalizeThemeId } from '@/lib/themes';
 
-import { READER_FONT_PX_OPTIONS, READER_LINE_HEIGHT_OPTIONS } from '@/features/reader/types';
-import type { BookInfo, ChapterData, ChapterQuizVisitState, ChapterReadEvidence, CommentaryEntry, CommentarySource, DailyVerse, GraphicsMode, ReaderFontId, ReaderFontPx, ReaderLineHeightOption, ReaderReadingMode, ReaderSettings, ReadingProgress, SavedPassage, SearchResult, SearchSuggestion, SidePanelMode, SidePanelPosition, Translation, TutorialRect, TutorialStep, VerseData, VerseNote } from '@/features/reader/types';
+import type { BookInfo, ChapterData, ChapterQuizVisitState, ChapterReadEvidence, CommentaryEntry, CommentarySource, DailyVerse, ReaderSettings, ReadingProgress, SavedPassage, SearchResult, SearchSuggestion, SidePanelMode, SidePanelPosition, Translation, TutorialRect, TutorialStep, VerseData, VerseNote } from '@/features/reader/types';
 import { filterTranslationsForPicker, getLocalizedBookName, getLocalizedBookNameFromRaw, getTranslationDisplayId, getTranslationDisplayName, normalizeTranslationChoice } from '@/features/reader/translations';
 import { DEFAULT_READER_SETTINGS, READER_HIGHLIGHT_PRESETS, applyReaderHighlightVars, detectGraphicsCapability, isPagedReadingMode, normalizeReaderSettings } from '@/features/reader/settings';
 import { biblePaneScrollDepthRatio, chapterStorageKey, closestVerseLine, formatVerseGroupRef, scrollVerseLineIntoBiblePaneCenter, sliceVersesIntoPages, splitVersesForBookMode, verseStorageKey } from '@/features/reader/layout';
 import { computeChapterQuizRequiredDwellMs, getChapterQuizVisibleMs } from '@/features/quiz/dwell';
 import { BOOKMARKS_STORAGE_KEY, COMMENTARY_SYNC_THROTTLE_MS, DAILY_GOAL_MINUTES_STORAGE_KEY, DEFAULT_DAILY_GOAL_MINUTES, ENGAGEMENT_COMMIT_MS, HIGHLIGHTS_STORAGE_KEY, LAST_POSITION_STORAGE_KEY, MAX_DAILY_GOAL_MINUTES, MAX_ENGAGEMENT_GAP_MS, MAX_RECENT_PASSAGES, MIN_DAILY_GOAL_MINUTES, NOTES_STORAGE_KEY, ONBOARDING_STORAGE_KEY, READER_SETTINGS_STORAGE_KEY, READING_PROGRESS_STORAGE_KEY, RECENT_PASSAGES_STORAGE_KEY, SCROLL_ACTIVE_HOLD_MS, chapterEvidenceQualifies, computeTodayIso, normalizeDailyGoalMinutes, normalizeReadingProgress, rollReadingProgressToToday, selectDailyVerse, syncGoalCompletion, timeOfDayGreeting } from '@/features/progress/progress';
 import { DailyTasksList } from '@/features/progress/DailyTasksList';
-import { DYNAMIC_BASE_THEME, DYNAMIC_COLORS, DYNAMIC_CYCLE_MS, THEMES, THEME_GRID_PREVIEW_COUNT, getThemeCardStyle, hexToRgb, logoSrcForTheme, themesForCollapsedPicker } from '@/features/settings/themeHelpers';
+import { DYNAMIC_BASE_THEME, DYNAMIC_COLORS, DYNAMIC_CYCLE_MS, hexToRgb, logoSrcForTheme } from '@/features/settings/themeHelpers';
 import { SEARCH_SUGGESTION_LIMIT, clampChapterForBook, compactSearchText, extractLooseReferenceParts, formatSearchSuggestionLabel, getBookPopularityScore, normalizeReferenceSpacing, normalizeSearchText, scoreBookMatch } from '@/features/search/search';
 import { isSkipLabel, isSkipPlaceLabel, parseSummaryContent, slugifyEntityLabel } from '@/features/commentary/summary';
 import { TUTORIAL_VERSE_TOOLS_VERSE, boundsToTutorialRect } from '@/features/onboarding/tutorial';
 import { buildExplainVersePrompt } from '@/features/ai/prompts';
 import { safelyParseJson } from '@/lib/json';
+import BookPanel from '@/features/reader/BookPanel';
+import VersionPanel from '@/features/reader/VersionPanel';
+import SearchPanel from '@/features/search/SearchPanel';
+import SettingsPanel from '@/features/settings/SettingsPanel';
 // ── Main Component ─────────────────────────────────────────────────────────────
 export default function BibleApp({
   initialReader = null,
@@ -5225,183 +5228,49 @@ export default function BibleApp({
 
       {/* Book popup */}
       {!homeScreenActive && (
-      <div
-        className={`popup-overlay${bookPopupOpen ? ' open' : ''}`}
-        onClick={e => { if (e.target === e.currentTarget) setBookPopupOpen(false); }}
-      >
-        <div className="book-panel">
-          {books.length === 0 ? (
-            <div className="state-msg"><span className="spinner" /><div>Loading...</div></div>
-          ) : (
-            <>
-              {(['OT', 'NT'] as const).map(testament => (
-                <div key={testament}>
-                  <div className="testament-label">{testament === 'OT' ? 'Old Testament' : 'New Testament'}</div>
-                  {books.filter(b => b.testament === testament).map(book => (
-                    <div key={book.book_number} className="book-row">
-                      <button
-                        className={`book-btn${expandedBook === book.book_number ? ' expanded' : ''}`}
-                        type="button"
-                        onClick={() => setExpandedBook(v => v === book.book_number ? null : book.book_number)}
-                      >
-                        <span>{getLocalizedBookName(book, translation, translationsById)}</span>
-                        <span className="expand-arrow" aria-hidden="true" />
-                      </button>
-                      <div className={`chapter-picker${expandedBook === book.book_number ? ' open' : ''}`}>
-                        {Array.from({ length: book.total_chapters }, (_, i) => i + 1).map(ch => (
-                          <button
-                            key={ch}
-                            className={`ch-btn${currentBook?.book_number === book.book_number && chapter === ch ? ' current' : ''}`}
-                            type="button"
-                            onClick={e => { e.stopPropagation(); pickChapter(book.book_number, ch); }}
-                          >
-                            {ch}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </>
-          )}
-        </div>
-      </div>
+      <BookPanel
+        books={books}
+        expandedBook={expandedBook}
+        setExpandedBook={setExpandedBook}
+        bookPopupOpen={bookPopupOpen}
+        setBookPopupOpen={setBookPopupOpen}
+        translation={translation}
+        translationsById={translationsById}
+        currentBook={currentBook}
+        chapter={chapter}
+        pickChapter={pickChapter}
+      />
       )}
 
       {/* Version popup */}
       {!homeScreenActive && (
-      <div
-        className={`popup-overlay${versionPopupOpen ? ' open' : ''}`}
-        onClick={e => { if (e.target === e.currentTarget) setVersionPopupOpen(false); }}
-      >
-        <div className="version-panel" style={{ left: `${versionPanelLeft}px` }}>
-          <div className="version-header">Translation</div>
-          {translations.map(t => (
-            <button
-              key={t.id}
-              className={`version-item${t.id === translation ? ' selected' : ''}`}
-              type="button"
-              onClick={() => pickTranslation(t.id)}
-            >
-              <span className="v-abbr">{getTranslationDisplayId(t.id)}</span>
-              <span className="v-name">{getTranslationDisplayName(t.id, t.name)}</span>
-              {t.id === translation && <span className="v-check">✓</span>}
-            </button>
-          ))}
-        </div>
-      </div>
+      <VersionPanel
+        translations={translations}
+        translation={translation}
+        versionPopupOpen={versionPopupOpen}
+        setVersionPopupOpen={setVersionPopupOpen}
+        versionPanelLeft={versionPanelLeft}
+        pickTranslation={pickTranslation}
+      />
       )}
 
       {!homeScreenActive && (
-      <div
-        className={`popup-overlay${searchOpen ? ' open' : ''}`}
-        onClick={e => { if (e.target === e.currentTarget) setSearchOpen(false); }}
-      >
-        <div ref={searchPanelRef} className="search-panel search-dropdown-panel" id="nav-search-panel">
-          <form
-            className="search-form"
-            onSubmit={event => {
-              event.preventDefault();
-              void runSearch();
-            }}
-          >
-            <input
-              ref={searchInputRef}
-              className="search-input"
-              type="search"
-              value={searchQuery}
-              placeholder="John 3, Romans 8:28, or a phrase…"
-              onChange={event => setSearchQuery(event.target.value)}
-              autoComplete="off"
-            />
-            <button
-              className="search-submit search-submit-icon-only"
-              type="submit"
-              disabled={searchLoading}
-              aria-label={searchLoading ? 'Searching' : 'Search'}
-            >
-              {searchLoading ? (
-                <span className="spinner search-submit-spinner" aria-hidden />
-              ) : (
-                <svg className="search-submit-icon" viewBox="0 0 24 24" width={20} height={20} aria-hidden="true">
-                  <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" strokeWidth="2" />
-                  <path d="M20 20 16.5 16.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                </svg>
-              )}
-            </button>
-          </form>
-          {searchSuggestions.length > 0 && (
-            <div className="search-section search-section--compact">
-              <div className="search-section-title">
-                {searchQuery.trim() ? 'Suggestions' : 'Popular & recent'}
-              </div>
-              <div className="search-suggestion-list" role="listbox" aria-label="Search suggestions">
-                {searchSuggestions.map(suggestion => (
-                  <button
-                    key={suggestion.id}
-                    className="search-suggestion"
-                    type="button"
-                    onClick={() => applySearchSuggestion(suggestion)}
-                  >
-                    <div className="search-suggestion-top">
-                      <span className={`search-suggestion-badge search-suggestion-badge--${suggestion.source}`}>
-                        {suggestion.source === 'typo'
-                          ? 'Typo match'
-                          : suggestion.source === 'recent'
-                            ? 'Recent'
-                            : suggestion.source === 'direct'
-                              ? 'Go to'
-                              : 'Popular'}
-                      </span>
-                      <span className="search-suggestion-arrow" aria-hidden="true">&gt;</span>
-                    </div>
-                    <div className="search-suggestion-title">{suggestion.label}</div>
-                    <div className="search-suggestion-subtitle">{suggestion.hint}</div>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-          {!searchQuery.trim() && recentPassages.length > 0 && searchSuggestions.length === 0 && (
-            <div className="search-section search-section--compact">
-              <div className="search-chip-row" aria-label="Recent passages">
-                {recentPassages.slice(0, 6).map(entry => (
-                  <button
-                    key={`${entry.book}-${entry.chapter}-${entry.translation}`}
-                    className="search-chip"
-                    type="button"
-                    onClick={() => navigateToPassage(entry.book, entry.chapter, entry.translation)}
-                  >
-                    {entry.book} {entry.chapter}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-          {searchError && <div className="search-empty">{searchError}</div>}
-          {searchResults.length > 0 && (
-            <div className="search-results">
-              {searchResults.map(result => (
-                <button
-                  key={`${result.verse.book}-${result.verse.chapter}-${result.verse.verse}-${result.verse.translation}`}
-                  className="search-result"
-                  type="button"
-                  onClick={() => {
-                    navigateToPassage(result.verse.book, result.verse.chapter, result.verse.translation, result.verse.verse);
-                    setSearchOpen(false);
-                  }}
-                >
-                  <div className="search-result-ref">
-                    {result.verse.book} {result.verse.chapter}:{result.verse.verse} ({result.verse.translation})
-                  </div>
-                  <div className="search-result-text">{result.verse.text}</div>
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
+      <SearchPanel
+        searchOpen={searchOpen}
+        setSearchOpen={setSearchOpen}
+        searchPanelRef={searchPanelRef}
+        searchInputRef={searchInputRef}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        searchLoading={searchLoading}
+        searchError={searchError}
+        searchSuggestions={searchSuggestions}
+        searchResults={searchResults}
+        recentPassages={recentPassages}
+        runSearch={runSearch}
+        applySearchSuggestion={applySearchSuggestion}
+        navigateToPassage={navigateToPassage}
+      />
       )}
 
       {/* Content shell */}
@@ -5905,163 +5774,19 @@ export default function BibleApp({
       </div>
 
       {/* Settings panel */}
-      <div
-        className={`settings-overlay${settingsOpen ? ' open' : ''}`}
-        onClick={e => { if (e.target === e.currentTarget) { setSettingsOpen(false); if (settingsOpenedFromHomeRef.current) setHomeScreenActive(true); } }}
-      >
-        <div ref={settingsPanelRef} className="settings-panel">
-          <div className="settings-header">
-            <span className="settings-title">Settings</span>
-            <button className="settings-close" type="button" aria-label="Close settings" onClick={() => { setSettingsOpen(false); if (settingsOpenedFromHomeRef.current) setHomeScreenActive(true); }}>✕</button>
-          </div>
-          <div className="settings-body">
-            <div className="settings-section-label">Appearance</div>
-            <div className="theme-grid">
-              {(themePickerExpanded ? THEMES : themesForCollapsedPicker(currentTheme, THEME_GRID_PREVIEW_COUNT)).map(theme => (
-                <div
-                  key={theme.id}
-                  className={`theme-card${currentTheme === theme.id ? ' selected' : ''}`}
-                  style={getThemeCardStyle(theme)}
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => applyTheme(theme.id)}
-                  onKeyDown={e => e.key === 'Enter' && applyTheme(theme.id)}
-                >
-                  <div className="theme-swatches">
-                    {theme.swatches.map((color, i) => (
-                      <span key={i} style={{ background: color }} />
-                    ))}
-                  </div>
-                  <div className="theme-name">{theme.name}</div>
-                  <span className="theme-check" aria-hidden="true">✓</span>
-                </div>
-              ))}
-            </div>
-            {THEMES.length > THEME_GRID_PREVIEW_COUNT && (
-              <button
-                type="button"
-                className="settings-theme-expand"
-                onClick={() => setThemePickerExpanded(exp => !exp)}
-              >
-                {themePickerExpanded ? 'See less' : 'See more'}
-              </button>
-            )}
-            <div className="settings-section-label">Reading</div>
-            <div className="settings-controls">
-              <label className="settings-field">
-                <span>Text size</span>
-                <span className="settings-select-wrap">
-                  <select
-                    value={readerSettings.fontScale}
-                    onChange={event => setReaderSettings(prev => ({ ...prev, fontScale: event.target.value as ReaderFontPx }))}
-                  >
-                    {READER_FONT_PX_OPTIONS.map(px => (
-                      <option key={px} value={px}>{px}px</option>
-                    ))}
-                  </select>
-                </span>
-              </label>
-              <label className="settings-field">
-                <span>Reading font</span>
-                <span className="settings-select-wrap">
-                  <select
-                    value={readerSettings.readerFont}
-                    onChange={event => setReaderSettings(prev => ({
-                      ...prev,
-                      readerFont: event.target.value as ReaderFontId,
-                    }))}
-                  >
-                    <option value="georgia">Georgia (default)</option>
-                    <option value="charter">Charter</option>
-                    <option value="palatino">Palatino</option>
-                    <option value="garamond">Garamond style</option>
-                    <option value="times">Times New Roman</option>
-                    <option value="sans">Sans (UI)</option>
-                    <option value="openSans">Open Sans</option>
-                    <option value="dyslexie">Dyslexie</option>
-                  </select>
-                </span>
-              </label>
-              <label className="settings-field">
-                <span>Reading mode</span>
-                <span className="settings-select-wrap">
-                  <select
-                    value={readerSettings.readingMode}
-                    onChange={event => setReaderSettings(prev => ({
-                      ...prev,
-                      readingMode: event.target.value as ReaderReadingMode,
-                    }))}
-                  >
-                    <option value="single">Scroll — single column</option>
-                    <option value="book">Scroll — two columns</option>
-                    <option value="paged-single">Pages — single page (no scroll)</option>
-                    <option value="paged-double">Pages — two pages (spread)</option>
-                  </select>
-                </span>
-              </label>
-              <label className="settings-field">
-                <span>Line spacing</span>
-                <span className="settings-select-wrap">
-                  <select
-                    value={readerSettings.lineHeight}
-                    onChange={event => setReaderSettings(prev => ({ ...prev, lineHeight: event.target.value as ReaderLineHeightOption }))}
-                  >
-                    {READER_LINE_HEIGHT_OPTIONS.map(opt => (
-                      <option key={opt} value={opt}>
-                        {opt === '2' ? '2.0' : opt}
-                      </option>
-                    ))}
-                  </select>
-                </span>
-              </label>
-              <label className="settings-field">
-                <span>Side panel position</span>
-                <span className="settings-select-wrap">
-                  <select
-                    value={readerSettings.sidePanelPosition}
-                    onChange={event => setReaderSettings(prev => ({ ...prev, sidePanelPosition: event.target.value as SidePanelPosition }))}
-                  >
-                    <option value="left">Left side</option>
-                    <option value="right">Right side</option>
-                  </select>
-                </span>
-              </label>
-            </div>
-            <div className="settings-section-label">Graphics</div>
-            <div className="settings-controls">
-              <label className="settings-field">
-                <span>Graphics mode</span>
-                <span className="settings-select-wrap">
-                  <select
-                    value={readerSettings.graphicsMode}
-                    onChange={event => setReaderSettings(prev => ({ ...prev, graphicsMode: event.target.value as GraphicsMode }))}
-                  >
-                    <option value="auto">Auto (recommended)</option>
-                    <option value="performance">Performance — full effects</option>
-                    <option value="efficiency">Efficiency — reduced while scrolling</option>
-                  </select>
-                </span>
-              </label>
-              <label className="settings-toggle">
-                <input
-                  type="checkbox"
-                  checked={readerSettings.specialEffects}
-                  onChange={event => setReaderSettings(prev => ({ ...prev, specialEffects: event.target.checked }))}
-                />
-                <span>Special effects</span>
-              </label>
-              <label className="settings-toggle">
-                <input
-                  type="checkbox"
-                  checked={readerSettings.pageFlipEnabled}
-                  onChange={event => setReaderSettings(prev => ({ ...prev, pageFlipEnabled: event.target.checked }))}
-                />
-                <span>Page flip animation</span>
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
+      <SettingsPanel
+        settingsOpen={settingsOpen}
+        setSettingsOpen={setSettingsOpen}
+        settingsPanelRef={settingsPanelRef}
+        settingsOpenedFromHomeRef={settingsOpenedFromHomeRef}
+        setHomeScreenActive={setHomeScreenActive}
+        themePickerExpanded={themePickerExpanded}
+        setThemePickerExpanded={setThemePickerExpanded}
+        currentTheme={currentTheme}
+        applyTheme={applyTheme}
+        readerSettings={readerSettings}
+        setReaderSettings={setReaderSettings}
+      />
 
       {/* Galaxy comet canvas — fixed overlay, clips to toolbar/gutter zones only */}
       {tutorialOpen && tutorialStep && (
