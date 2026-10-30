@@ -2,6 +2,7 @@ import type { Page, Request } from '@playwright/test';
 import aiChat from './ai-chat.json';
 import aiEntityContent from './ai-entity-content.json';
 import aiGuidedChapter from './ai-guided-chapter.json';
+import aiGuidedSections from './ai-guided-sections.json';
 import authSession from './auth-session.json';
 import me from './me.json';
 import quizJohn3 from './quiz-john-3.json';
@@ -52,14 +53,15 @@ function resolve(req: Request, calls: MockCalls): Fulfill | null {
   const method = req.method();
   const path = new URL(req.url()).pathname.replace(/^\/api\/v1/, '');
 
-  // ── AI: every endpoint except guided-chapter/sections (that one is replayed from the HAR) ──
+  // ── AI ──
   if (path === '/ai/chat' && method === 'POST') {
     calls.aiChat.push(bodyOf(req) as MockCalls['aiChat'][number]);
     return { json: aiChat };
   }
   if (path === '/ai/guided-chapter' && method === 'POST') return { json: aiGuidedChapter };
+  if (path === '/ai/guided-chapter/sections' && method === 'GET') return { json: aiGuidedSections };
   if (path === '/ai/entity-content' && method === 'POST') return { json: aiEntityContent };
-  if (path.startsWith('/ai/') && path !== '/ai/guided-chapter/sections') {
+  if (path.startsWith('/ai/')) {
     return { status: 404, json: { detail: `e2e: no mock for ${method} /api/v1${path}` } };
   }
 
