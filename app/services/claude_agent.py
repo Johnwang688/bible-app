@@ -12,6 +12,7 @@ import anthropic
 from anthropic import AsyncAnthropic, AsyncAnthropicVertex
 
 from app.core.config import get_settings
+from app.core.content_db import fetch_one
 from app.core.slugify import slugify_label
 from app.schemas.ai import (
     AIAction,
@@ -188,9 +189,10 @@ def reset_claude_client() -> None:
 
 @dataclass
 class ToolRunner:
-    """Per-request tool state: the reader's translation and the buttons offered so far."""
+    """Per-request tool state: the reader's translation, open passage and the buttons offered so far."""
 
     translation: str
+    active: tuple[str, int] | None = None  # (book name, chapter) the reader has open
     actions: list[AIAction] = field(default_factory=list)
 
     async def run(self, name: str, tool_input: Any) -> tuple[str, bool]:
@@ -301,6 +303,7 @@ class ToolRunner:
         verse_start = _optional_int(args, "verse_start")
         verse_end = _optional_int(args, "verse_end")
         label = _required_str(args, "label")
+        _check_target(book, chapter, verse_start, verse_end)
         self._offer(
             AIAction(
                 type=AIActionType.NAVIGATE,
@@ -314,13 +317,21 @@ class ToolRunner:
         book = _resolved_book(args)
         chapter = _required_int(args, "chapter")
         label = _required_str(args, "label")
-        self._offer(
-            AIAction(
+        _check_target(book, chapter, None, None)
+        if self.active is not None and self.active != (book, chapter):
+            # The commentary button only works on the open chapter, so send the reader there instead.
+            action = AIAction(
+                type=AIActionType.NAVIGATE,
+                label=label,
+                params=AIActionParams(book=book, chapter=chapter),
+            )
+        else:
+            action = AIAction(
                 type=AIActionType.OPEN_COMMENTARY,
                 label=label,
                 params=AIActionParams(book=book, chapter=chapter, source=DEFAULT_COMMENTARY_SOURCE),
             )
-        )
+        self._offer(action)
         return OFFERED_MESSAGE
 
     def _offer(self, action: AIAction) -> None:
@@ -359,6 +370,27 @@ def _resolved_book(args: dict[str, Any]) -> str:
     if not resolved:
         raise ToolError(f"Unknown book: {book}")
     return resolved["name"]
+
+
+def _check_target(book: str, chapter: int, verse_start: int | None, verse_end: int | None) -> None:
+    """Reject references that do not exist (book is already resolved to its canonical name)."""
+    info = resolve_book(book)
+    if not info or not 1 <= chapter <= info["chapters"]:
+        raise ToolError(f"{book} has no chapter {chapter}.")
+    if verse_start is None and verse_end is None:
+        return
+    if verse_start is None:
+        raise ToolError("verse_end needs a verse_start.")
+    end = verse_start if verse_end is None else verse_end
+    row = fetch_one(
+        "SELECT MAX(verse) AS last FROM verses WHERE book_number = ? AND chapter = ?",
+        (info["number"], chapter),
+    )
+    last = row["last"] if row else None
+    if last is None:
+        raise ToolError(f"{book} {chapter} was not found.")
+    if not 1 <= verse_start <= end <= last:
+        raise ToolError(f"{book} {chapter} has verses 1-{last}; {verse_start}-{end} is not a valid range.")
 
 
 # ── Request building ─────────────────────────────────────────────────────────
@@ -467,7 +499,7 @@ def parse_final(content: list[Any], actions: list[AIAction]) -> AIModelResponse 
     if not texts:
         return None
     try:
-        data = json.loads(texts[-1].text)
+        data = json.loads("".join(block.text for block in texts))
         if not isinstance(data, dict):
             return None
         return AIModelResponse(
@@ -480,13 +512,21 @@ def parse_final(content: list[Any], actions: list[AIAction]) -> AIModelResponse 
         return None
 
 
+def _with_notice(message: dict[str, Any]) -> dict[str, Any]:
+    return {**message, "content": message["content"] + "\n\n" + FINAL_ROUND_NOTICE}
+
+
 async def chat(payload: AIChatRequest) -> AIChatResponse:
     settings = get_settings()
     client = get_claude_client()
     history = trim_history(payload.conversation_history)
     system = await build_system(payload, history)
     messages = build_messages(history, payload.message)
-    runner = ToolRunner(translation=payload.context.translation)
+    active_book = resolve_book(payload.context.book)
+    runner = ToolRunner(
+        translation=payload.context.translation,
+        active=(active_book["name"], payload.context.chapter) if active_book else None,
+    )
     usage = Usage()
     max_calls = settings.ai_max_tool_rounds + 1
 
@@ -499,12 +539,14 @@ async def chat(payload: AIChatRequest) -> AIChatResponse:
     }
 
     response: Any = None
-    final_round = False
+    final_round = max_calls <= 1
     try:
         while True:
             call = dict(request, messages=messages)
             if final_round:
                 call["tool_choice"] = {"type": "none"}
+                if usage.rounds == 0:
+                    call["messages"] = [*messages[:-1], _with_notice(messages[-1])]
             response = await client.messages.create(**call)
             usage.add(response.usage)
 
