@@ -56,7 +56,9 @@ CACHE_READ_FACTOR = 0.10
 CACHE_WRITE_FACTOR = 1.25
 
 # Quoted spans may run over several lines; non-greedy so two quotes on one line stay two spans.
-QUOTE_RE = re.compile(r'"([^"]+?)"|“([^”]+?)”|「([^」]+?)」|『([^』]+?)』')
+# Span length is capped at 2,000 characters so an unmatched opener scans a bounded window,
+# keeping the total scan linear on pathological input (e.g. many unmatched “ with no closer).
+QUOTE_RE = re.compile(r'"([^"]{1,2000}?)"|“([^”]{1,2000}?)”|「([^」]{1,2000}?)」|『([^』]{1,2000}?)』')
 MIN_QUOTE_WORDS = 5
 MIN_QUOTE_CJK = 8
 MIN_CJK_SHARE = 0.30
