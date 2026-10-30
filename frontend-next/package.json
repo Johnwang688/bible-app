@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:unit": "node --test \"review-tests/**/*.test.cjs\""
   },
   "dependencies": {
     "@fontsource/opendyslexic": "^5.2.5",
