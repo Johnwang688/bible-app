@@ -1,5 +1,6 @@
 import logging
 import sqlite3
+import unicodedata
 
 from app.core.book_catalog import BOOK_BY_NUMBER, BOOK_DATA
 from app.core.content_db import fetch_all, fetch_one
@@ -173,12 +174,26 @@ _EN_STOP_WORDS = frozenset(
 )
 _EN_TERM_PUNCTUATION = "'’-"  # kept inside English terms; the tokenizer treats them as separators
 _ZH_MIN_FTS_CHARS = 3  # the trigram index cannot match anything shorter
-_SQL_LIKE_ESCAPE = "\\"
+_MAX_QUERY_CHARS = 512
+_MAX_QUERY_TERMS = 32
 
 
 def _clean_term(term: str, keep: str = "") -> str:
     """Drop everything except letters, digits and `keep`, so no FTS5 syntax can survive in a term."""
     return "".join(ch for ch in term if ch.isalnum() or ch in keep)
+
+
+def _query_terms(query: str) -> list[str]:
+    """Split a raw query into at most _MAX_QUERY_TERMS terms, ignoring control characters and input past _MAX_QUERY_CHARS."""
+    text = "".join(
+        ch if ch.isspace() or unicodedata.category(ch) != "Cc" else ""
+        for ch in query
+    )
+    return text[:_MAX_QUERY_CHARS].split()
+
+
+def _bounded_distinct(terms: list[str]) -> list[str]:
+    return list(dict.fromkeys(terms))[:_MAX_QUERY_TERMS]
 
 
 def _translation_language(translation: str) -> str | None:
@@ -188,15 +203,17 @@ def _translation_language(translation: str) -> str | None:
 
 def _fts_plan(query: str, language: str | None) -> tuple[str, str] | None:
     """Return (fts table, MATCH expression) for the query, or None when it needs the substring path."""
-    terms = query.split()
+    terms = _query_terms(query)
     if language == "en":
         cleaned = [_clean_term(t, _EN_TERM_PUNCTUATION) for t in terms]
-        words = [t for t in cleaned if any(ch.isalnum() for ch in t) and t.casefold() not in _EN_STOP_WORDS]
+        words = _bounded_distinct(
+            [t for t in cleaned if any(ch.isalnum() for ch in t) and t.casefold() not in _EN_STOP_WORDS]
+        )
         if not words:
             return None
         return "verses_fts_en", " AND ".join(f'"{w}"' for w in words)
     if language and language.startswith("zh"):
-        words = [t for t in (_clean_term(t) for t in terms) if t]
+        words = _bounded_distinct([t for t in (_clean_term(t) for t in terms) if t])
         if not words or any(len(w) < _ZH_MIN_FTS_CHARS for w in words):
             return None
         return "verses_fts_zh", " AND ".join(f'"{w}"' for w in words)
@@ -254,22 +271,24 @@ def find_verse_matches(
 def _substring_search(
     terms: list[str], translation: str, book_number: int | None, limit: int
 ) -> list[SearchResult]:
+    """Every term must occur in the verse; matching is Unicode case-insensitive (casefold), done in Python."""
+    folded = _bounded_distinct([t.casefold() for t in terms])
+    if not folded:
+        return []
     sql = "SELECT * FROM verses WHERE translation = ?"
     params: list = [translation]
     if book_number is not None:
         sql += " AND book_number = ?"
         params.append(book_number)
-    for term in terms:
-        escaped = (
-            term.replace(_SQL_LIKE_ESCAPE, _SQL_LIKE_ESCAPE * 2)
-            .replace("%", _SQL_LIKE_ESCAPE + "%")
-            .replace("_", _SQL_LIKE_ESCAPE + "_")
-        )
-        sql += f" AND text LIKE ? ESCAPE '{_SQL_LIKE_ESCAPE}'"
-        params.append(f"%{escaped}%")
-    sql += " ORDER BY book_number, chapter, verse LIMIT ?"
-    params.append(limit)
-    return [SearchResult(verse=VerseOut(**row), relevance=None) for row in fetch_all(sql, tuple(params))]
+    sql += " ORDER BY book_number, chapter, verse"
+    results: list[SearchResult] = []
+    for row in fetch_all(sql, tuple(params)):
+        text = (row["text"] or "").casefold()
+        if all(term in text for term in folded):
+            results.append(SearchResult(verse=VerseOut(**row), relevance=None))
+            if len(results) >= limit:
+                break
+    return results
 
 
 async def search_verses(
@@ -278,9 +297,10 @@ async def search_verses(
     """
     Full-text search across verses ranked by bm25, with a substring fallback.
     """
-    trimmed_query = query.strip()
-    if not trimmed_query:
+    terms = _query_terms(query)
+    if not terms:
         return []
+    trimmed_query = " ".join(terms)
 
     safe_limit = max(1, min(limit, 50))
     book_info = resolve_book(book) if book else None
@@ -318,4 +338,4 @@ async def search_verses(
         if results:
             return results
 
-    return _substring_search(trimmed_query.split(), translation, book_number, safe_limit)
+    return _substring_search(terms, translation, book_number, safe_limit)
