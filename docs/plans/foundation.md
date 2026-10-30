@@ -1,6 +1,24 @@
 # Foundation plan: GCP-lean rework
 
-_Status: draft, 2026-10-29. Phase 0 of the rework. Nothing here is implemented yet._
+_Status: in progress. Updated 2026-10-30 after the first overnight run._
+
+## Progress (2026-10-30)
+
+| Workstream | Status | Notes |
+|---|---|---|
+| W0 safety net | **Done** | Content export in `content/source/`, 44 golden responses, Playwright smoke suite, git cleanup |
+| W1 content SQLite | **Done** | `scripts/build_content.py`; content endpoints read SQLite, with no Supabase calls for content. FTS5 search matches Postgres's match sets ≥ 95% (17 queries). Quiz question reads moved to W2. |
+| W2 Firestore + Firebase Auth | Not started | Needs a Firebase project and John's decisions |
+| W3 Claude | **W3-A and W3-E done** | Claude chat path behind `AI_PROVIDER` (default `openai`); live eval harness with 30 cases. The live eval needs an API key. W3-B (streaming) not started. |
+| W4 frontend split | **W4-1 to W4-5 done** | `BibleApp.tsx` went from 7,253 to 4,680 lines: module-level code, 9 presentational components, dead code removed. Hooks and state (the contexts-vs-Zustand choice) are not started. |
+| W5 deploy | Partly | The Docker image now builds `content.sqlite` (two-stage build). GCP setup not started. |
+| Bug fixes | **Done** | A reload no longer wipes signed-out data; deep links and saved positions set the chapter state; values read back from storage are validated |
+
+Tests: 255 backend (golden responses run offline in the default suite), 29 Playwright e2e, 2 Node unit tests, and a Docker image test that skips without a daemon.
+
+**Found and still open:**
+- **Quiz bank drift.** The served bank does not match `quiz-questions/*.json`. 1/2 Samuel and Joshua serve template-generated questions, while better authored ones go unused. Genesis serves 178 of 2,500 authored questions; Proverbs, 2 Kings and 1 Chronicles serve none. The un-timestamped migrations `039_` to `061_` were probably never applied.
+- **Missing content.** TSK cross-references were never loaded, and KJV/BSB have no text.
 
 ## Goal
 
