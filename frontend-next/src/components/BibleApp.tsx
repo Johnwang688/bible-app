@@ -44,12 +44,12 @@ import { filterTranslationsForPicker, getLocalizedBookName, getLocalizedBookName
 import { DEFAULT_READER_SETTINGS, applyReaderHighlightVars, detectGraphicsCapability, isPagedReadingMode, normalizeReaderSettings } from '@/features/reader/settings';
 import { biblePaneScrollDepthRatio, chapterStorageKey, closestVerseLine, formatVerseGroupRef, scrollVerseLineIntoBiblePaneCenter, sliceVersesIntoPages, verseStorageKey } from '@/features/reader/layout';
 import { computeChapterQuizRequiredDwellMs, getChapterQuizVisibleMs } from '@/features/quiz/dwell';
-import { BOOKMARKS_STORAGE_KEY, COMMENTARY_SYNC_THROTTLE_MS, DAILY_GOAL_MINUTES_STORAGE_KEY, DEFAULT_DAILY_GOAL_MINUTES, ENGAGEMENT_COMMIT_MS, HIGHLIGHTS_STORAGE_KEY, LAST_POSITION_STORAGE_KEY, MAX_ENGAGEMENT_GAP_MS, MAX_RECENT_PASSAGES, NOTES_STORAGE_KEY, ONBOARDING_STORAGE_KEY, READER_SETTINGS_STORAGE_KEY, READING_PROGRESS_STORAGE_KEY, RECENT_PASSAGES_STORAGE_KEY, SCROLL_ACTIVE_HOLD_MS, chapterEvidenceQualifies, computeTodayIso, normalizeDailyGoalMinutes, normalizeReadingProgress, rollReadingProgressToToday, selectDailyVerse, syncGoalCompletion, timeOfDayGreeting } from '@/features/progress/progress';
+import { BOOKMARKS_STORAGE_KEY, COMMENTARY_SYNC_THROTTLE_MS, DAILY_GOAL_MINUTES_STORAGE_KEY, DEFAULT_DAILY_GOAL_MINUTES, ENGAGEMENT_COMMIT_MS, HIGHLIGHTS_STORAGE_KEY, LAST_POSITION_STORAGE_KEY, MAX_ENGAGEMENT_GAP_MS, MAX_RECENT_PASSAGES, NOTES_STORAGE_KEY, ONBOARDING_STORAGE_KEY, READER_SETTINGS_STORAGE_KEY, READING_PROGRESS_STORAGE_KEY, RECENT_PASSAGES_STORAGE_KEY, SCROLL_ACTIVE_HOLD_MS, chapterEvidenceQualifies, computeTodayIso, normalizeReadingProgress, rollReadingProgressToToday, selectDailyVerse, syncGoalCompletion, timeOfDayGreeting } from '@/features/progress/progress';
 import { DYNAMIC_BASE_THEME, DYNAMIC_COLORS, DYNAMIC_CYCLE_MS, hexToRgb, logoSrcForTheme } from '@/features/settings/themeHelpers';
 import { SEARCH_SUGGESTION_LIMIT, clampChapterForBook, compactSearchText, extractLooseReferenceParts, formatSearchSuggestionLabel, getBookPopularityScore, normalizeReferenceSpacing, normalizeSearchText, scoreBookMatch } from '@/features/search/search';
 import { TUTORIAL_VERSE_TOOLS_VERSE, boundsToTutorialRect } from '@/features/onboarding/tutorial';
 import { buildExplainVersePrompt } from '@/features/ai/prompts';
-import { asPassageArray, asPlainObject, asStringArray, safelyParseJson } from '@/lib/json';
+import { readStoredBookmarks, readStoredDailyGoalMinutes, readStoredHighlights, readStoredLastPosition, readStoredNotes, readStoredReaderSettings, readStoredReadingProgress, readStoredRecentPassages } from '@/lib/localState';
 import BookPanel from '@/features/reader/BookPanel';
 import VersionPanel from '@/features/reader/VersionPanel';
 import SearchPanel from '@/features/search/SearchPanel';
@@ -3561,21 +3561,14 @@ export default function BibleApp({
     // Read theme from localStorage (inline script already applied it to the DOM)
     const saved = normalizeThemeId(localStorage.getItem('theme'));
     const storedSession = restoreAuthSession();
-    const storedLastPosition = safelyParseJson<{ book?: string; chapter?: number; translation?: string } | null>(
-      localStorage.getItem(LAST_POSITION_STORAGE_KEY),
-      null,
-    );
-    const storedHighlights = asStringArray(safelyParseJson<unknown>(localStorage.getItem(HIGHLIGHTS_STORAGE_KEY), []));
-    const storedBookmarks = asStringArray(safelyParseJson<unknown>(localStorage.getItem(BOOKMARKS_STORAGE_KEY), []));
-    const storedNotes = asPlainObject<Record<string, VerseNote>>(safelyParseJson<unknown>(localStorage.getItem(NOTES_STORAGE_KEY), {}));
-    const storedRecent = asPassageArray<SavedPassage>(safelyParseJson<unknown>(localStorage.getItem(RECENT_PASSAGES_STORAGE_KEY), []));
-    const storedProgress = normalizeReadingProgress(
-      safelyParseJson<unknown>(localStorage.getItem(READING_PROGRESS_STORAGE_KEY), null),
-    );
-    const storedDailyGoal = normalizeDailyGoalMinutes(localStorage.getItem(DAILY_GOAL_MINUTES_STORAGE_KEY));
-    const storedReaderSettings = normalizeReaderSettings(
-      safelyParseJson<Partial<ReaderSettings> | null>(localStorage.getItem(READER_SETTINGS_STORAGE_KEY), null),
-    );
+    const storedLastPosition = readStoredLastPosition();
+    const storedHighlights = readStoredHighlights();
+    const storedBookmarks = readStoredBookmarks();
+    const storedNotes = readStoredNotes();
+    const storedRecent = readStoredRecentPassages();
+    const storedProgress = readStoredReadingProgress();
+    const storedDailyGoal = readStoredDailyGoalMinutes();
+    const storedReaderSettings = readStoredReaderSettings();
     localStateLoadedRef.current = true;
     setCurrentTheme(saved);
     localStorage.setItem('theme', saved);
