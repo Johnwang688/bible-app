@@ -2,11 +2,11 @@
 
 import type { Dispatch, RefObject, SetStateAction } from 'react';
 import { MasteryStrip } from '@/components/ChapterQuiz';
-import type { AuthSession } from '@/lib/account';
 import type { BookInfo, ChapterData, SidePanelMode, VerseData, VerseNote } from '@/features/reader/types';
 import { READER_HIGHLIGHT_PRESETS, isPagedReadingMode } from '@/features/reader/settings';
 import { formatVerseGroupRef, splitVersesForBookMode, verseStorageKey } from '@/features/reader/layout';
 import { useReaderSettings } from '@/features/settings/ReaderSettingsContext';
+import { useAuth } from '@/features/account/AuthContext';
 import { buildExplainVersePrompt } from '@/features/ai/prompts';
 
 export interface ChapterContentProps {
@@ -52,7 +52,6 @@ export interface ChapterContentProps {
   openSidePanel: (mode: Exclude<SidePanelMode, 'none'>) => void;
   setAiComposerSeed: Dispatch<SetStateAction<{ id: number; text: string } | undefined>>;
   recordChapterEngagement: (bookName: string, currentChapter: number, currentTranslation: string, furthestVerse: number, totalVerses: number) => void;
-  authSession: AuthSession | null;
   chapterQuizGate: { met: boolean; hint: string | null };
   quizTakenThisChapterVisit: boolean;
   setQuizOpen: Dispatch<SetStateAction<boolean>>;
@@ -116,7 +115,6 @@ export default function ChapterContent({
   openSidePanel,
   setAiComposerSeed,
   recordChapterEngagement,
-  authSession,
   chapterQuizGate,
   quizTakenThisChapterVisit,
   setQuizOpen,
@@ -137,6 +135,7 @@ export default function ChapterContent({
   verseStudyPopupRef,
 }: ChapterContentProps) {
   const { readerSettings, setReaderSettings } = useReaderSettings();
+  const { authSession } = useAuth();
   if (chapterLoading) {
     return (
       <div className="state-msg">

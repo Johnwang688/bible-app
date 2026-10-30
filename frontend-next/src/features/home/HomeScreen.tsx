@@ -4,7 +4,7 @@ import type { ReactNode, RefObject } from 'react';
 import Link from 'next/link';
 import CurrencyIcon from '@/components/CurrencyIcon';
 import MasteryOverviewPanel from '@/components/MasteryOverviewPanel';
-import type { AuthSession } from '@/lib/account';
+import { useAuth } from '@/features/account/AuthContext';
 import type { BookInfo, ChapterData, DailyVerse, ReadingProgress, SidePanelMode } from '@/features/reader/types';
 import { DailyTasksList } from '@/features/progress/DailyTasksList';
 import { logoSrcForTheme } from '@/features/settings/themeHelpers';
@@ -12,7 +12,6 @@ import { logoSrcForTheme } from '@/features/settings/themeHelpers';
 export interface HomeScreenProps {
   currentTheme: string;
   homeTimeGreeting: string;
-  authSession: AuthSession | null;
   coinBalance: number | null;
   sidePanelMode: SidePanelMode;
   toggleStudyPanel: () => void;
@@ -46,7 +45,6 @@ export interface HomeScreenProps {
 export default function HomeScreen({
   currentTheme,
   homeTimeGreeting,
-  authSession,
   coinBalance,
   sidePanelMode,
   toggleStudyPanel,
@@ -76,6 +74,7 @@ export default function HomeScreen({
   closeSidePanel,
   studyContent,
 }: HomeScreenProps) {
+  const { authSession } = useAuth();
   return (
     <div className="home-screen" role="region" aria-label="Home">
       <div className="home-screen-inner">
