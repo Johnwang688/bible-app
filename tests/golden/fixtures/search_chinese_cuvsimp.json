@@ -1,0 +1,27 @@
+{
+  "body": [
+    {
+      "relevance": 0.0607927,
+      "verse": {
+        "book": "John",
+        "book_number": 43,
+        "chapter": 3,
+        "id": 43003016,
+        "text": "神爱世人，甚至将他的独生子赐给他们，叫一切信他的，不至灭亡，反得永生。",
+        "translation": "CUV-SIMP",
+        "verse": 16
+      }
+    }
+  ],
+  "request": {
+    "json": {
+      "limit": 10,
+      "query": "神爱世人",
+      "translation": "CUV-SIMP"
+    },
+    "method": "POST",
+    "name": "search_chinese_cuvsimp",
+    "path": "/api/v1/search"
+  },
+  "status": 200
+}

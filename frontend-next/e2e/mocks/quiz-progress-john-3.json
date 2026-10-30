@@ -1,0 +1,14 @@
+{
+  "book_number": 43,
+  "chapter": 3,
+  "mastery_stage": 0,
+  "mastery_percent": 0,
+  "next_stage": 1,
+  "has_quiz": true,
+  "total_attempts": 0,
+  "total_passes": 0,
+  "highest_score": 0,
+  "is_completed": false,
+  "is_mastered": false,
+  "last_attempt_at": null
+}

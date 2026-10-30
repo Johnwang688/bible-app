@@ -1,0 +1,28 @@
+{
+  "body": [
+    {
+      "description": "Imported from the CCEL ThML edition of Matthew Henry's Concise Commentary on the Whole Bible.",
+      "id": "matthew_henry",
+      "license": "Public Domain",
+      "name": "Matthew Henry's Concise Commentary"
+    },
+    {
+      "description": "Chapter-level summaries with themes, key people, key points, and supporting verses.",
+      "id": "summary",
+      "license": "Public Domain",
+      "name": "Summary"
+    },
+    {
+      "description": "Over 500,000 cross-references linking related Bible passages.",
+      "id": "treasury_scripture",
+      "license": "Public Domain",
+      "name": "Treasury of Scripture Knowledge"
+    }
+  ],
+  "request": {
+    "method": "GET",
+    "name": "commentary_sources",
+    "path": "/api/v1/commentary/sources"
+  },
+  "status": 200
+}

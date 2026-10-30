@@ -1,0 +1,15 @@
+{
+  "user_id": "00000000-0000-4000-8000-000000000001",
+  "theme": "default",
+  "font_scale": "20",
+  "line_height": "2",
+  "reduced_motion": false,
+  "page_flip_enabled": true,
+  "default_panel": "none",
+  "side_panel_position": "right",
+  "reader_font": "georgia",
+  "highlight_color": "yellow",
+  "reading_mode": "single",
+  "recent_passages": [],
+  "updated_at": null
+}

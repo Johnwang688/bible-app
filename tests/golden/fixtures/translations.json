@@ -1,0 +1,46 @@
+{
+  "body": [
+    {
+      "id": "ASV",
+      "language": "en",
+      "license": "Public Domain",
+      "name": "American Standard Version (1901)"
+    },
+    {
+      "id": "BSB",
+      "language": "en",
+      "license": "Free Use (see berean.bible)",
+      "name": "Berean Standard Bible"
+    },
+    {
+      "id": "CUV",
+      "language": "zh",
+      "license": "Public Domain",
+      "name": "CUV Traditional (1919)"
+    },
+    {
+      "id": "CUV-SIMP",
+      "language": "zh",
+      "license": "Public Domain",
+      "name": "CUV Simplified (1919)"
+    },
+    {
+      "id": "KJV",
+      "language": "en",
+      "license": "Public Domain",
+      "name": "King James Version"
+    },
+    {
+      "id": "WEB",
+      "language": "en",
+      "license": "Public Domain",
+      "name": "World English Bible"
+    }
+  ],
+  "request": {
+    "method": "GET",
+    "name": "translations",
+    "path": "/api/v1/translations"
+  },
+  "status": 200
+}

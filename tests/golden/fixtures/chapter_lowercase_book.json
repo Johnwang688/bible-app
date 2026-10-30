@@ -1,0 +1,344 @@
+{
+  "body": {
+    "book": "John",
+    "book_number": 43,
+    "chapter": 3,
+    "total_verses": 36,
+    "translation": "WEB",
+    "verses": [
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26122,
+        "text": "Now there was a man of the Pharisees named Nicodemus, a ruler of the Jews.",
+        "translation": "WEB",
+        "verse": 1
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26123,
+        "text": "The same came to him by night, and said to him, “Rabbi, we know that you are a teacher come from God, for no one can do these signs that you do, unless God is with him.”",
+        "translation": "WEB",
+        "verse": 2
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26124,
+        "text": "Jesus answered him, “Most certainly, I tell you, unless one is born anew,  he can’t see God’s Kingdom.”",
+        "translation": "WEB",
+        "verse": 3
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26125,
+        "text": "Nicodemus said to him, “How can a man be born when he is old? Can he enter a second time into his mother’s womb, and be born?”",
+        "translation": "WEB",
+        "verse": 4
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26126,
+        "text": "Jesus answered, “Most certainly I tell you, unless one is born of water and spirit, he can’t enter into God’s Kingdom.",
+        "translation": "WEB",
+        "verse": 5
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26127,
+        "text": "That which is born of the flesh is flesh. That which is born of the Spirit is spirit.",
+        "translation": "WEB",
+        "verse": 6
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26128,
+        "text": "Don’t marvel that I said to you, ‘You must be born anew.’",
+        "translation": "WEB",
+        "verse": 7
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26129,
+        "text": "The wind blows where it wants to, and you hear its sound, but don’t know where it comes from and where it is going. So is everyone who is born of the Spirit.”",
+        "translation": "WEB",
+        "verse": 8
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26130,
+        "text": "Nicodemus answered him, “How can these things be?”",
+        "translation": "WEB",
+        "verse": 9
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26131,
+        "text": "Jesus answered him, “Are you the teacher of Israel, and don’t understand these things?",
+        "translation": "WEB",
+        "verse": 10
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26132,
+        "text": "Most certainly I tell you, we speak that which we know, and testify of that which we have seen, and you don’t receive our witness.",
+        "translation": "WEB",
+        "verse": 11
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26133,
+        "text": "If I told you earthly things and you don’t believe, how will you believe if I tell you heavenly things?",
+        "translation": "WEB",
+        "verse": 12
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26134,
+        "text": "No one has ascended into heaven but he who descended out of heaven, the Son of Man, who is in heaven.",
+        "translation": "WEB",
+        "verse": 13
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26135,
+        "text": "As Moses lifted up the serpent in the wilderness, even so must the Son of Man be lifted up,",
+        "translation": "WEB",
+        "verse": 14
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26136,
+        "text": "that whoever believes in him should not perish, but have eternal life.",
+        "translation": "WEB",
+        "verse": 15
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26137,
+        "text": "For God so loved the world, that he gave his one and only Son, that whoever believes in him should not perish, but have eternal life.",
+        "translation": "WEB",
+        "verse": 16
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26138,
+        "text": "For God didn’t send his Son into the world to judge the world, but that the world should be saved through him.",
+        "translation": "WEB",
+        "verse": 17
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26139,
+        "text": "He who believes in him is not judged. He who doesn’t believe has been judged already, because he has not believed in the name of the one and only Son of God.",
+        "translation": "WEB",
+        "verse": 18
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26140,
+        "text": "This is the judgment, that the light has come into the world, and men loved the darkness rather than the light; for their works were evil.",
+        "translation": "WEB",
+        "verse": 19
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26141,
+        "text": "For everyone who does evil hates the light, and doesn’t come to the light, lest his works would be exposed.",
+        "translation": "WEB",
+        "verse": 20
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26142,
+        "text": "But he who does the truth comes to the light, that his works may be revealed, that they have been done in God.”",
+        "translation": "WEB",
+        "verse": 21
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26143,
+        "text": "After these things, Jesus came with his disciples into the land of Judea. He stayed there with them and baptized.",
+        "translation": "WEB",
+        "verse": 22
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26144,
+        "text": "John also was baptizing in Enon near Salim, because there was much water there. They came, and were baptized;",
+        "translation": "WEB",
+        "verse": 23
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26145,
+        "text": "for John was not yet thrown into prison.",
+        "translation": "WEB",
+        "verse": 24
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26146,
+        "text": "Therefore a dispute arose on the part of John’s disciples with some Jews about purification.",
+        "translation": "WEB",
+        "verse": 25
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26147,
+        "text": "They came to John and said to him, “Rabbi, he who was with you beyond the Jordan, to whom you have testified, behold, he baptizes, and everyone is coming to him.”",
+        "translation": "WEB",
+        "verse": 26
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26148,
+        "text": "John answered, “A man can receive nothing unless it has been given him from heaven.",
+        "translation": "WEB",
+        "verse": 27
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26149,
+        "text": "You yourselves testify that I said, ‘I am not the Christ,’ but, ‘I have been sent before him.’",
+        "translation": "WEB",
+        "verse": 28
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26150,
+        "text": "He who has the bride is the bridegroom; but the friend of the bridegroom, who stands and hears him, rejoices greatly because of the bridegroom’s voice. This, my joy, therefore is made full.",
+        "translation": "WEB",
+        "verse": 29
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26151,
+        "text": "He must increase, but I must decrease.",
+        "translation": "WEB",
+        "verse": 30
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26152,
+        "text": "He who comes from above is above all. He who is from the earth belongs to the earth and speaks of the earth. He who comes from heaven is above all.",
+        "translation": "WEB",
+        "verse": 31
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26153,
+        "text": "What he has seen and heard, of that he testifies; and no one receives his witness.",
+        "translation": "WEB",
+        "verse": 32
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26154,
+        "text": "He who has received his witness has set his seal to this, that God is true.",
+        "translation": "WEB",
+        "verse": 33
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26155,
+        "text": "For he whom God has sent speaks the words of God; for God gives the Spirit without measure.",
+        "translation": "WEB",
+        "verse": 34
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26156,
+        "text": "The Father loves the Son, and has given all things into his hand.",
+        "translation": "WEB",
+        "verse": 35
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 26157,
+        "text": "One who believes in the Son has eternal life, but one who disobeys  the Son won’t see life, but the wrath of God remains on him.”",
+        "translation": "WEB",
+        "verse": 36
+      }
+    ]
+  },
+  "request": {
+    "method": "GET",
+    "name": "chapter_lowercase_book",
+    "params": {
+      "translation": "WEB"
+    },
+    "path": "/api/v1/chapters/john/3"
+  },
+  "status": 200
+}

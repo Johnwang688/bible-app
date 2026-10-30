@@ -1,0 +1,374 @@
+{
+  "body": [
+    {
+      "label": "Achaia",
+      "slug": "achaia"
+    },
+    {
+      "label": "Ai",
+      "slug": "ai"
+    },
+    {
+      "label": "Antioch",
+      "slug": "antioch"
+    },
+    {
+      "label": "Arabia",
+      "slug": "arabia"
+    },
+    {
+      "label": "Aram",
+      "slug": "aram"
+    },
+    {
+      "label": "Armageddon",
+      "slug": "armageddon"
+    },
+    {
+      "label": "Assyria",
+      "slug": "assyria"
+    },
+    {
+      "label": "Babylon",
+      "slug": "babylon"
+    },
+    {
+      "label": "Bethany",
+      "slug": "bethany"
+    },
+    {
+      "label": "Bethel",
+      "slug": "bethel"
+    },
+    {
+      "label": "Bethlehem",
+      "slug": "bethlehem"
+    },
+    {
+      "label": "Bethsaida",
+      "slug": "bethsaida"
+    },
+    {
+      "label": "Caesarea",
+      "slug": "caesarea"
+    },
+    {
+      "label": "Canaan",
+      "slug": "canaan"
+    },
+    {
+      "label": "Capernaum",
+      "slug": "capernaum"
+    },
+    {
+      "label": "Carmel",
+      "slug": "carmel"
+    },
+    {
+      "label": "Chorazin",
+      "slug": "chorazin"
+    },
+    {
+      "label": "Corinth",
+      "slug": "corinth"
+    },
+    {
+      "label": "Crete",
+      "slug": "crete"
+    },
+    {
+      "label": "Cyprus",
+      "slug": "cyprus"
+    },
+    {
+      "label": "Damascus",
+      "slug": "damascus"
+    },
+    {
+      "label": "Dead Sea",
+      "slug": "dead-sea"
+    },
+    {
+      "label": "Decapolis",
+      "slug": "decapolis"
+    },
+    {
+      "label": "Edom",
+      "slug": "edom"
+    },
+    {
+      "label": "Egypt",
+      "slug": "egypt"
+    },
+    {
+      "label": "Elam",
+      "slug": "elam"
+    },
+    {
+      "label": "Emmaus",
+      "slug": "emmaus"
+    },
+    {
+      "label": "Ephesus",
+      "slug": "ephesus"
+    },
+    {
+      "label": "Euphrates",
+      "slug": "euphrates"
+    },
+    {
+      "label": "Galilee",
+      "slug": "galilee"
+    },
+    {
+      "label": "Gethsemane",
+      "slug": "gethsemane"
+    },
+    {
+      "label": "Gibeah",
+      "slug": "gibeah"
+    },
+    {
+      "label": "Gibeon",
+      "slug": "gibeon"
+    },
+    {
+      "label": "Gilgal",
+      "slug": "gilgal"
+    },
+    {
+      "label": "Golgotha",
+      "slug": "golgotha"
+    },
+    {
+      "label": "Goshen",
+      "slug": "goshen"
+    },
+    {
+      "label": "Haran",
+      "slug": "haran"
+    },
+    {
+      "label": "Hebron",
+      "slug": "hebron"
+    },
+    {
+      "label": "Horeb",
+      "slug": "horeb"
+    },
+    {
+      "label": "Israel",
+      "slug": "israel"
+    },
+    {
+      "label": "Jericho",
+      "slug": "jericho"
+    },
+    {
+      "label": "Jerusalem",
+      "slug": "jerusalem"
+    },
+    {
+      "label": "Joppa",
+      "slug": "joppa"
+    },
+    {
+      "label": "Jordan",
+      "slug": "jordan"
+    },
+    {
+      "label": "Jordan River",
+      "slug": "jordan-river"
+    },
+    {
+      "label": "Judah",
+      "slug": "judah"
+    },
+    {
+      "label": "Judea",
+      "slug": "judea"
+    },
+    {
+      "label": "Kidron",
+      "slug": "kidron"
+    },
+    {
+      "label": "Land of Edom",
+      "slug": "land-of-edom"
+    },
+    {
+      "label": "Land of Egypt",
+      "slug": "land-of-egypt"
+    },
+    {
+      "label": "Land of Gilead",
+      "slug": "land-of-gilead"
+    },
+    {
+      "label": "Land of Goshen",
+      "slug": "land-of-goshen"
+    },
+    {
+      "label": "Land of Jazer",
+      "slug": "land-of-jazer"
+    },
+    {
+      "label": "Land of Magog",
+      "slug": "land-of-magog"
+    },
+    {
+      "label": "Land of Moab",
+      "slug": "land-of-moab"
+    },
+    {
+      "label": "Land of Shinar",
+      "slug": "land-of-shinar"
+    },
+    {
+      "label": "Land of Sihon",
+      "slug": "land-of-sihon"
+    },
+    {
+      "label": "Land of Uz",
+      "slug": "land-of-uz"
+    },
+    {
+      "label": "Lydda",
+      "slug": "lydda"
+    },
+    {
+      "label": "Macedonia",
+      "slug": "macedonia"
+    },
+    {
+      "label": "Malta",
+      "slug": "malta"
+    },
+    {
+      "label": "Midian",
+      "slug": "midian"
+    },
+    {
+      "label": "Moab",
+      "slug": "moab"
+    },
+    {
+      "label": "Moriah",
+      "slug": "moriah"
+    },
+    {
+      "label": "Mount Moriah",
+      "slug": "mount-moriah"
+    },
+    {
+      "label": "Mount Nebo",
+      "slug": "mount-nebo"
+    },
+    {
+      "label": "Mount of Olives",
+      "slug": "mount-of-olives"
+    },
+    {
+      "label": "Mount Sinai",
+      "slug": "mount-sinai"
+    },
+    {
+      "label": "Mount Zion",
+      "slug": "mount-zion"
+    },
+    {
+      "label": "Nazareth",
+      "slug": "nazareth"
+    },
+    {
+      "label": "Nebo",
+      "slug": "nebo"
+    },
+    {
+      "label": "Nineveh",
+      "slug": "nineveh"
+    },
+    {
+      "label": "Patmos",
+      "slug": "patmos"
+    },
+    {
+      "label": "Persia",
+      "slug": "persia"
+    },
+    {
+      "label": "Philippi",
+      "slug": "philippi"
+    },
+    {
+      "label": "Ramah",
+      "slug": "ramah"
+    },
+    {
+      "label": "Red Sea",
+      "slug": "red-sea"
+    },
+    {
+      "label": "Rome",
+      "slug": "rome"
+    },
+    {
+      "label": "Samaria",
+      "slug": "samaria"
+    },
+    {
+      "label": "Sea of Galilee",
+      "slug": "sea-of-galilee"
+    },
+    {
+      "label": "Sea of Tiberias",
+      "slug": "sea-of-tiberias"
+    },
+    {
+      "label": "Shechem",
+      "slug": "shechem"
+    },
+    {
+      "label": "Shiloh",
+      "slug": "shiloh"
+    },
+    {
+      "label": "Sidon",
+      "slug": "sidon"
+    },
+    {
+      "label": "Siloam",
+      "slug": "siloam"
+    },
+    {
+      "label": "Sinai",
+      "slug": "sinai"
+    },
+    {
+      "label": "Susa",
+      "slug": "susa"
+    },
+    {
+      "label": "Thessalonica",
+      "slug": "thessalonica"
+    },
+    {
+      "label": "Tyre",
+      "slug": "tyre"
+    },
+    {
+      "label": "Ur",
+      "slug": "ur"
+    },
+    {
+      "label": "Zion",
+      "slug": "zion"
+    }
+  ],
+  "request": {
+    "method": "GET",
+    "name": "entities_place",
+    "path": "/api/v1/summary-entities/list/place"
+  },
+  "status": 200
+}

@@ -1,0 +1,30 @@
+{
+  "score": 4,
+  "total_questions": 5,
+  "passed": true,
+  "stage_attempted": 1,
+  "mastery_before": 0,
+  "mastery_after": 50,
+  "currency_awarded": 8,
+  "perfect_score_bonus": 0,
+  "mastery_completion_bonus": 5,
+  "scope_completion_bonus_total": 0,
+  "scope_completion_bonuses": [],
+  "is_mastered": false,
+  "correct_answers": {
+    "9001": "Nicodemus",
+    "9002": "Born anew",
+    "9003": "The wind",
+    "9004": "The serpent",
+    "9005": "Aenon near Salim"
+  },
+  "explanations": {
+    "9001": "Nicodemus, a Pharisee, came to Jesus by night (John 3:1-2).",
+    "9002": "Jesus said no one can see God's Kingdom unless born anew (John 3:3).",
+    "9003": "The wind blows where it wants, so is everyone born of the Spirit (John 3:8).",
+    "9004": "As Moses lifted up the serpent, so the Son of Man must be lifted up (John 3:14).",
+    "9005": "John was baptizing at Aenon near Salim (John 3:23)."
+  },
+  "grace_shield_applied": false,
+  "coin_multiplier_applied": "none"
+}

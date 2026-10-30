@@ -1,0 +1,116 @@
+{
+  "body": {
+    "kind": "place",
+    "label": "Antioch",
+    "overview": "Antioch in Syria was the third-largest city in the Roman Empire and became the pivotal headquarters for the early Christian mission to the Gentiles. It was here that the first major multi-ethnic church was established and where the disciples were first called 'Christians.' Antioch served as the sending base for the Apostle Paul’s three missionary journeys and hosted the first high-level theological dispute regarding the inclusion of Gentiles without the Mosaic Law. In the New Testament, Antioch represents the transition of the church from a localized Jewish community to an international, diverse movement. It remained a primary center of Christian thought and leadership for centuries.",
+    "references": [
+      {
+        "book_name": "Acts",
+        "book_number": 44,
+        "chapter": 11,
+        "commentary_id": 11953
+      },
+      {
+        "book_name": "Acts",
+        "book_number": 44,
+        "chapter": 13,
+        "commentary_id": 11955
+      },
+      {
+        "book_name": "Acts",
+        "book_number": 44,
+        "chapter": 14,
+        "commentary_id": 11956
+      },
+      {
+        "book_name": "Acts",
+        "book_number": 44,
+        "chapter": 18,
+        "commentary_id": 11960
+      }
+    ],
+    "slug": "antioch",
+    "timeline": {
+      "events": [
+        {
+          "developments": [
+            "Some men from Cyprus and Cyrene begin speaking to the Hellenists (Acts 11:20)",
+            "A great number of people believe and turn to the Lord (Acts 11:21)",
+            "The Jerusalem church sends Barnabas to investigate the new work (Acts 11:22)",
+            "Barnabas finds Saul in Tarsus and brings him to teach in Antioch (Acts 11:25-26)"
+          ],
+          "era": "Acts 11",
+          "significance": "Antioch was the site of the first successful large-scale Gentile evangelism.",
+          "summary": "Believers scattered by the persecution of Stephen bring the Gospel to the Greeks in Antioch.",
+          "title": "Birth of the Multi-Ethnic Church"
+        },
+        {
+          "developments": [
+            "Saul and Barnabas meet with the church for a whole year (Acts 11:26)",
+            "They teach a large number of people during this intensive period (Acts 11:26)",
+            "The text notes: 'in Antioch the disciples were first called Christians' (Acts 11:26)",
+            "The name likely began as a public designation for this new 'Christ-focused' group (Acts 11:26)"
+          ],
+          "era": "Acts 11",
+          "significance": "The naming of 'Christians' signaled that the movement was no longer viewed merely as a Jewish sect.",
+          "summary": "The distinct identity of the followers of Jesus is first recognized and named by the public.",
+          "title": "The First 'Christians'"
+        },
+        {
+          "developments": [
+            "The prophet Agabus predicts a great famine over all the world (Acts 11:28)",
+            "The disciples determine to send relief according to their ability (Acts 11:29)",
+            "They send their gift to the elders by the hand of Barnabas and Saul (Acts 11:30)",
+            "This was the first recorded act of inter-church charitable aid (Acts 11:27-30)"
+          ],
+          "era": "Acts 11",
+          "significance": "Antioch provided the model for the Gentile churches' responsibility to the mother church.",
+          "summary": "The church in Antioch demonstrates their unity with the Jerusalem church through financial support.",
+          "title": "The Famine Relief"
+        },
+        {
+          "developments": [
+            "The church leaders fast and worship (Acts 13:1-2)",
+            "The Spirit says: 'Set apart for me Barnabas and Saul' (Acts 13:2)",
+            "They lay hands on them and send them off from the port of Seleucia (Acts 13:3-4)",
+            "The team returns to Antioch to report all that God had done (Acts 14:26-28)"
+          ],
+          "era": "Acts 13",
+          "significance": "Antioch became the 'home base' for the evangelization of the Roman Empire.",
+          "summary": "The Holy Spirit commissions the first organized international mission from the Antiochian leadership.",
+          "title": "The Sending Base"
+        },
+        {
+          "developments": [
+            "Men from Judea arrive teaching that circumcision is necessary (Acts 15:1)",
+            "Paul and Barnabas have 'no small dissension' with them (Acts 15:2)",
+            "Paul publicly rebukes Peter in Antioch for withdrawing from Gentile table-fellowship (Galatians 2:11-14)",
+            "The church sends a delegation to Jerusalem to resolve the matter (Acts 15:2-3)"
+          ],
+          "era": "Acts 15 / Galatians 2",
+          "significance": "Antioch was the testing ground for the theological boundaries of the New Covenant.",
+          "summary": "Antioch becomes the setting for a major debate over the requirements for Gentile salvation.",
+          "title": "The Conflict of Inclusivity"
+        },
+        {
+          "developments": [
+            "Paul preaches his first major recorded sermon in the synagogue there (Acts 13:14-41)",
+            "The whole city gathers to hear the word the next Sabbath (Acts 13:44)",
+            "The Jews incite a persecution and drive Paul out of the district (Acts 13:50)",
+            "Paul returns to strengthen the disciples despite the danger (Acts 14:21-22)"
+          ],
+          "era": "Acts 13 / 14",
+          "significance": "This 'other' Antioch represented the challenges of the interior mission in Galatia.",
+          "summary": "A second, distinct Antioch in central Asia Minor becomes a site of intense ministry and persecution.",
+          "title": "Antioch in Pisidia"
+        }
+      ]
+    }
+  },
+  "request": {
+    "method": "GET",
+    "name": "entity_place_antioch",
+    "path": "/api/v1/summary-entities/place/antioch"
+  },
+  "status": 200
+}

@@ -1,0 +1,14 @@
+{
+  "body": {
+    "detail": "Chapter not found"
+  },
+  "request": {
+    "method": "GET",
+    "name": "chapter_unknown_book",
+    "params": {
+      "translation": "WEB"
+    },
+    "path": "/api/v1/chapters/Hezekiah/1"
+  },
+  "status": 404
+}
