@@ -65,6 +65,22 @@ JSONL_TABLES = [
     "quiz_question_bank",
 ]
 
+# Rows are inserted in this key order, whatever order the files list them in.
+SORT_KEYS = {
+    "translations": ("id",),
+    "books": ("book_number",),
+    "verses": ("id",),
+    "commentary_sources": ("id",),
+    "commentaries": ("id",),
+    "cross_references": ("id",),
+    "summary_entities": ("id",),
+    "commentary_entity_mentions": ("commentary_id", "entity_id"),
+    "quiz_question_bank": ("id",),
+}
+
+# Always stored as JSON text (even for scalars), so the column never holds a raw Python value.
+JSON_TEXT_COLUMNS = {"choices_json", "profile"}
+
 FTS_TABLES = {
     # fts table -> SQL filter on translations.language for the verses it indexes
     "verses_fts_en": "t.language = 'en'",
@@ -84,13 +100,39 @@ def _sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _inside(path: Path, root: Path) -> bool:
+    """True if path, after resolving symlinks and '..', is root or lies beneath it."""
+    try:
+        path.resolve().relative_to(root)
+    except ValueError:
+        return False
+    return True
+
+
 def _verify_source(source_dir: Path) -> str:
-    """Check every manifest file's sha256. Return the source_sha256 recorded in meta."""
+    """Check every manifest file's sha256. Return the source_sha256 recorded in meta.
+
+    Every file the build reads must be listed, and every listed path must stay inside source_dir.
+    """
     manifest_path = source_dir / "MANIFEST.json"
     try:
         files = json.loads(manifest_path.read_text(encoding="utf-8"))["files"]
     except (OSError, ValueError, KeyError) as exc:
         raise BuildError(f"MANIFEST.json: cannot read manifest ({exc})") from exc
+    if not isinstance(files, dict):
+        raise BuildError("MANIFEST.json: 'files' must be an object")
+
+    root = source_dir.resolve()
+    for relative in files:
+        if Path(relative).is_absolute() or not _inside(source_dir / relative, root):
+            raise BuildError(f"{relative}: manifest path escapes {source_dir}")
+
+    # Table files are always read; verse files are whatever sits in verses/.
+    read = [f"{table}.jsonl" for table in JSONL_TABLES]
+    read += [f"verses/{path.name}" for path in sorted((source_dir / "verses").glob("*.jsonl"))]
+    for relative in read:
+        if relative not in files:
+            raise BuildError(f"{relative}: not listed in MANIFEST.json")
 
     for relative, entry in files.items():
         path = source_dir / relative
@@ -105,9 +147,11 @@ def _verify_source(source_dir: Path) -> str:
     ).hexdigest()
 
 
-def _sql_value(value):
-    """Store JSON lists and dicts as canonical JSON text; pass scalars and None through."""
-    if isinstance(value, (list, dict)):
+def _sql_value(column: str, value):
+    """Canonical JSON text for JSON columns and for lists/dicts; None (SQL NULL) and other scalars pass through."""
+    if value is None:
+        return None
+    if column in JSON_TEXT_COLUMNS or isinstance(value, (list, dict)):
         return json.dumps(value, ensure_ascii=False, sort_keys=True)
     return value
 
@@ -117,24 +161,28 @@ def _columns(con: sqlite3.Connection, table: str) -> list[str]:
 
 
 def _insert_jsonl(con: sqlite3.Connection, table: str, paths: list[Path]) -> int:
-    """Stream rows from one or more JSONL files into table. Return the number of rows loaded."""
+    """Load rows from one or more JSONL files into table, sorted by SORT_KEYS. Return the number of rows loaded."""
     columns = _columns(con, table)
     sql = f"INSERT INTO {table} ({', '.join(columns)}) VALUES ({', '.join('?' * len(columns))})"
-    count = 0
 
-    def rows():
-        nonlocal count
-        for path in paths:
-            with open(path, encoding="utf-8") as f:
-                for line in f:
-                    if not line.strip():
-                        continue
-                    record = json.loads(line)
-                    count += 1
-                    yield tuple(_sql_value(record.get(column)) for column in columns)
+    records = []
+    for path in paths:
+        with open(path, encoding="utf-8") as f:
+            for line in f:
+                if line.strip():
+                    records.append(json.loads(line))
 
-    con.executemany(sql, rows())
-    return count
+    keys = SORT_KEYS[table]
+    try:
+        records.sort(key=lambda record: tuple(record.get(key) for key in keys))
+    except TypeError as exc:
+        raise BuildError(f"{table}: primary key values are not comparable ({exc})") from exc
+
+    con.executemany(
+        sql,
+        (tuple(_sql_value(column, record.get(column)) for column in columns) for record in records),
+    )
+    return len(records)
 
 
 def _write_database(source_dir: Path, db_path: Path, source_sha256: str) -> dict[str, int]:
