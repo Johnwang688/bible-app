@@ -269,6 +269,7 @@ function BibleAppInner({
   const syncReadyRef        = useRef(false);
   const hydratingAccountRef = useRef(false);
   const accountBootstrapRef = useRef(false);
+  const initStartedRef = useRef(false);
   const chapterEngagementRef = useRef<{ key: string; lastInteractionAt: number | null }>({
     key: '',
     lastInteractionAt: null,
@@ -3513,7 +3514,12 @@ function BibleAppInner({
         setChapterError(true);
       }
     }
-    init();
+    // Strict Mode runs this effect twice on the same instance. Refs survive that, so the fetch runs once and a
+    // late duplicate response can't reload the chapter (and close an open note editor) after the user starts.
+    if (!initStartedRef.current) {
+      initStartedRef.current = true;
+      init();
+    }
     // Strict Mode unmounts and remounts effects on first mount without re-rendering; stop the dynamic
     // theme timer and animation here so the remount starts them fresh instead of doubling up.
     return () => {
