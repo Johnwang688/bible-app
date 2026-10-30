@@ -179,6 +179,15 @@ def _export_content(client, root: Path, project_ref: str) -> None:
         if not _SAFE_TRANSLATION.match(translation):
             raise ExportError(f"verses: unsafe translation code {translation!r}")
         by_translation.setdefault(translation, []).append(row)
+    # Case-insensitive filesystems (Windows, macOS) would map these to one file.
+    seen: dict[str, str] = {}
+    for translation in sorted(by_translation):
+        folded = translation.casefold()
+        if folded in seen:
+            raise ExportError(
+                f"verses: translation ids {seen[folded]!r} and {translation!r} differ only by case"
+            )
+        seen[folded] = translation
     parts = [
         (f"verses/{translation}.jsonl", by_translation[translation])
         for translation in sorted(by_translation)
