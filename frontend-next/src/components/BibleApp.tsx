@@ -1,6 +1,6 @@
 'use client';
 
-import type { CSSProperties, Dispatch, SetStateAction } from 'react';
+import type { CSSProperties } from 'react';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import AiSidebar, {
   PERSONALITIES,
@@ -39,7 +39,7 @@ import {
 import { parseReferenceLabel, sortBookNamesForMatching } from '@/lib/scriptureReference';
 import { normalizeThemeId } from '@/lib/themes';
 
-import type { BookInfo, ChapterData, ChapterQuizVisitState, ChapterReadEvidence, CommentaryEntry, CommentarySource, DailyVerse, ReaderSettings, ReadingProgress, SavedPassage, SearchResult, SearchSuggestion, SidePanelMode, SidePanelPosition, Translation, TutorialRect, TutorialStep, VerseData, VerseNote } from '@/features/reader/types';
+import type { BookInfo, ChapterData, ChapterQuizVisitState, ChapterReadEvidence, CommentaryEntry, CommentarySource, ReaderSettings, ReadingProgress, SavedPassage, SearchResult, SearchSuggestion, SidePanelMode, SidePanelPosition, Translation, TutorialStep, VerseData, VerseNote } from '@/features/reader/types';
 import { filterTranslationsForPicker, getLocalizedBookName, getLocalizedBookNameFromRaw, getTranslationDisplayId, getTranslationDisplayName, normalizeTranslationChoice } from '@/features/reader/translations';
 import { DEFAULT_READER_SETTINGS, applyReaderHighlightVars, detectGraphicsCapability, isPagedReadingMode, normalizeReaderSettings } from '@/features/reader/settings';
 import { biblePaneScrollDepthRatio, chapterStorageKey, closestVerseLine, formatVerseGroupRef, scrollVerseLineIntoBiblePaneCenter, sliceVersesIntoPages, verseStorageKey } from '@/features/reader/layout';
@@ -143,7 +143,7 @@ export default function BibleApp({
   const [chapterSpreadIndex, setChapterSpreadIndex] = useState(0);
   /** Chapter-internal page flip (separate from chapter-load flip on reader-page-transition). */
   const [pagedFlipAnim, setPagedFlipAnim] = useState('');
-  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [, setShowOnboarding] = useState(false);
   const [currentNoteDraft, setCurrentNoteDraft] = useState('');
   const [showVerseNoteEditor, setShowVerseNoteEditor] = useState(false);
   const [authSession, setAuthSession]       = useState<AuthSession | null>(null);
@@ -795,10 +795,6 @@ export default function BibleApp({
     return true;
   }, [loadChapter]);
 
-  const toggleStoredVerse = useCallback((storageKey: string, setter: Dispatch<SetStateAction<string[]>>) => {
-    setter(prev => prev.includes(storageKey) ? prev.filter(item => item !== storageKey) : [...prev, storageKey]);
-  }, []);
-
   // ── Side panel ────────────────────────────────────────────────────────────────
   const openSidePanel = useCallback((mode: Exclude<SidePanelMode, 'none'>) => {
     lastSidePanelModeRef.current = mode;
@@ -967,112 +963,6 @@ export default function BibleApp({
       preferredDefault === 'none' ? lastSidePanelModeRef.current : preferredDefault;
     openSidePanel(preferred);
   }, [openSidePanel]);
-
-  const tutorialStepsContent = useMemo<TutorialStep[]>(() => [
-    {
-      id: 'home',
-      title: 'Start from Home',
-      description:
-        'The homepage is your launchpad: verse of the day, your streak and daily goal, and Continue where you left off—together in one view.',
-      tips: [
-        'Verse of the day: tap the reference to open that passage in the reader.',
-        "Your streak card shows your rhythm and how many chapters you've read toward today's goal.",
-        currentBook
-          ? `Continue where you left off jumps back to ${currentBook.name} ${chapter}.`
-          : "Continue where you left off appears once you've opened a passage.",
-      ],
-      actionLabel: 'Replay example',
-    },
-    {
-      id: 'reader',
-      title: 'Read in the Bible Reader',
-      description: 'This step opens a live reading example in John 3 so the user can see the main reader workspace in action.',
-      tips: [
-        'Use the top-left book picker to choose any book and chapter.',
-        `The translation button next to it switches versions (for example ${getTranslationDisplayId(translation)}).`,
-        'Use the bottom chapter arrows to move forward or backward quickly.',
-      ],
-      actionLabel: 'Replay example',
-    },
-    {
-      id: 'search',
-      title: 'Find Passages Fast',
-      description: 'This step opens Search and loads a sample reference so the user can see the suggestion flow before navigating.',
-      tips: [
-        'Try references like John 3, Romans 8:28, or Psalm 23.',
-        'You can also search by phrase when you remember words but not the reference.',
-        recentPassages.length > 0 ? `Recent passages are built in, and you currently have ${recentPassages.length} saved.` : 'Recent passages will start appearing here once you navigate a few chapters.',
-      ],
-      actionLabel: 'Replay example',
-    },
-    {
-      id: 'verse-tools',
-      title: 'Study a Verse',
-      description: `This step opens John 3 and spotlights verse ${TUTORIAL_VERSE_TOOLS_VERSE} so you can see exactly which line to tap.`,
-      tips: [
-        'Tap a verse to open the study card for that verse.',
-        'Tap the same verse again to close the card, or tap another verse to add to your selection.',
-        `Your saved items currently total ${highlightedVerses.length + bookmarkedVerses.length + Object.keys(verseNotes).length}. Highlights, bookmarks, and notes all show up in My Stuff.`,
-      ],
-      actionLabel: 'Replay example',
-    },
-    {
-      id: 'commentary',
-      title: 'Open Resources',
-      description: 'This step opens the resources panel beside John 3 so the user can see the side-by-side reading setup.',
-      tips: [
-        'Use the taskbar Resources button to open or close the side panel.',
-        'Switch resource types from the dropdown at the top of the panel.',
-        'When sync is active, the panel follows the verse area you are reading.',
-      ],
-      actionLabel: 'Replay example',
-    },
-    {
-      id: 'ai',
-      title: 'Ask the AI Assistant',
-      description: 'This step opens the AI sidebar on John 3 and preloads an example question so the user sees how to start.',
-      tips: [
-        `Open AI from the taskbar and ask a question about the current chapter in ${PERSONALITIES.find(p => p.id === personalityId)?.name ?? 'Ruth'}.`,
-        'Use the suggested follow-up buttons to keep exploring without retyping.',
-        'From the verse study card, use Ask AI to send the selected verses directly into the chat.',
-      ],
-      actionLabel: 'Replay example',
-    },
-    {
-      id: 'study',
-      title: 'Review My Stuff',
-      description: 'This step opens My Stuff so the user can see where account controls, reading rhythm, and saved items live.',
-      tips: [
-        'Saved lists highlights, bookmarks, and notes so you can jump back to any passage.',
-        'Reading rhythm tracks your streak and daily chapter goal in one place.',
-        accountProfile
-          ? `Profile: ${accountProfile.display_name || accountProfile.email}.`
-          : 'Account sync keeps study data across devices when you use the same profile.',
-      ],
-      actionLabel: 'Replay example',
-    },
-    {
-      id: 'settings',
-      title: 'Make the App Yours',
-      description: 'This step opens Settings so the user can see where to customize theme, text, layout, and effects.',
-      tips: [
-        'Use themes to change the overall visual style of the app.',
-        'Adjust text size, font, line spacing, and side panel position for comfort.',
-        'Graphics mode and motion options help balance visual richness and performance.',
-      ],
-      actionLabel: 'Replay example',
-    },
-  ], [
-    accountProfile,
-    bookmarkedVerses.length,
-    chapter,
-    currentBook,
-    highlightedVerses.length,
-    personalityId,
-    recentPassages.length,
-    translation,
-    verseNotes,
-  ]);
 
   const tutorialSteps = useMemo<TutorialStep[]>(() => ([
     {
@@ -1866,7 +1756,6 @@ export default function BibleApp({
   const taskChapterDone = chaptersToday >= 1;
   const taskAiDone = isProgressToday && Boolean(readingProgress.todaySpokeToAi);
   const taskMinutesDone = activeLearningMsToday >= dailyGoalMs;
-  const savedVerseCount = highlightedVerses.length + bookmarkedVerses.length + Object.keys(verseNotes).length;
 
   const handleDailyVerseRefClick = async () => {
     if (authSession) {
@@ -2246,11 +2135,6 @@ export default function BibleApp({
         : [...new Set([...prev, ...groupKeys])]
     );
   }, [chapter, currentBook, highlightedVerses, selectedVerseGroup, selectedVerseKey]);
-
-  const toggleVerseBookmark = useCallback(() => {
-    if (!selectedVerseKey) return;
-    toggleStoredVerse(selectedVerseKey, setBookmarkedVerses);
-  }, [selectedVerseKey, toggleStoredVerse]);
 
   const saveVerseNote = useCallback(() => {
     if (!selectedVerseKey || !currentBook || selectedVerse == null) return;
@@ -3329,7 +3213,7 @@ export default function BibleApp({
         })
       : [];
 
-    function draw(now: number) {
+    function draw() {
       if (!canvas) return;
       const w = canvas.width;
       const h = canvas.height;
@@ -3921,7 +3805,6 @@ export default function BibleApp({
   const readerNavNextDisabled =
     !currentBook || (!!isLastChapter() && readerAtLastSpread);
   const selectedVerseHighlighted = selectedVerseKey ? highlightedVerses.includes(selectedVerseKey) : false;
-  const selectedVerseBookmarked = selectedVerseKey ? bookmarkedVerses.includes(selectedVerseKey) : false;
   const availableCommentarySources = commentarySources.length > 0
     ? [...commentarySources].sort((a, b) => {
         if (a.id === 'summary') return -1;
@@ -4295,7 +4178,7 @@ export default function BibleApp({
                 isPagedReadingMode(readerSettings.readingMode) ? ' reader-wrap--paged' : ''
               }${!sideOpen ? ' reader-wrap--full' : ''}`}
             >
-              {<ChapterContent chapterLoading={chapterLoading} chapterError={chapterError} chapterData={chapterData} chapter={chapter} translation={translation} currentBook={currentBook} chapterBookLabel={chapterBookLabel} readerSettings={readerSettings} setReaderSettings={setReaderSettings} pagedPageSlices={pagedPageSlices} chapterSpreadIndex={chapterSpreadIndex} animClass={animClass} setAnimClass={setAnimClass} setChapterData={setChapterData} setChapterLoading={setChapterLoading} pagedFlipAnim={pagedFlipAnim} setPagedFlipAnim={setPagedFlipAnim} aiNavHighlight={aiNavHighlight} highlightedVerses={highlightedVerses} bookmarkedVerses={bookmarkedVerses} verseNotes={verseNotes} setVerseNotes={setVerseNotes} selectedVerse={selectedVerse} setSelectedVerse={setSelectedVerse} selectedVerseGroup={selectedVerseGroup} setSelectedVerseGroup={setSelectedVerseGroup} selectedVerseData={selectedVerseData} selectedVerseKey={selectedVerseKey} selectedVerseNote={selectedVerseNote} selectedVerseHighlighted={selectedVerseHighlighted} versePopupPos={versePopupPos} setVersePopupPos={setVersePopupPos} showVerseNoteEditor={showVerseNoteEditor} setShowVerseNoteEditor={setShowVerseNoteEditor} currentNoteDraft={currentNoteDraft} setCurrentNoteDraft={setCurrentNoteDraft} closeVerseStudyPopup={closeVerseStudyPopup} toggleVerseHighlight={toggleVerseHighlight} saveVerseNote={saveVerseNote} copySelectedVerse={copySelectedVerse} tutorialVerseToolsNavBlocked={tutorialVerseToolsNavBlocked} openSidePanel={openSidePanel} setAiComposerSeed={setAiComposerSeed} recordChapterEngagement={recordChapterEngagement} authSession={authSession} chapterQuizGate={chapterQuizGate} quizTakenThisChapterVisit={quizTakenThisChapterVisit} setQuizOpen={setQuizOpen} topVisibleVerseRef={topVisibleVerseRef} exitAnimDoneRef={exitAnimDoneRef} pendingFlipDataRef={pendingFlipDataRef} biblePaneRef={biblePaneRef} sidePanelModeRef={sidePanelModeRef} currentBookRef={currentBookRef} chapterRef={chapterRef} commentarySourceRef={commentarySourceRef} loadCommentaryData={loadCommentaryData} pagedContentRef={pagedContentRef} pagedMeasureRef={pagedMeasureRef} pagedFlipAnimRef={pagedFlipAnimRef} pagedFlipPendingRef={pagedFlipPendingRef} readerPassagesRef={readerPassagesRef} verseStudyPopupRef={verseStudyPopupRef} readingRhythmTitle={readingRhythmTitle} readingProgress={readingProgress} recentPassages={recentPassages} savedVerseCount={savedVerseCount} currentTranslationLabel={currentTranslationLabel} commentarySource={commentarySource} commentarySourceNames={commentarySourceNames} sidePanelMode={sidePanelMode} navigateToPassage={navigateToPassage} showOnboarding={showOnboarding} setShowOnboarding={setShowOnboarding} />}
+              {<ChapterContent chapterLoading={chapterLoading} chapterError={chapterError} chapterData={chapterData} chapter={chapter} translation={translation} currentBook={currentBook} chapterBookLabel={chapterBookLabel} readerSettings={readerSettings} setReaderSettings={setReaderSettings} pagedPageSlices={pagedPageSlices} chapterSpreadIndex={chapterSpreadIndex} animClass={animClass} setAnimClass={setAnimClass} setChapterData={setChapterData} setChapterLoading={setChapterLoading} pagedFlipAnim={pagedFlipAnim} setPagedFlipAnim={setPagedFlipAnim} aiNavHighlight={aiNavHighlight} highlightedVerses={highlightedVerses} bookmarkedVerses={bookmarkedVerses} verseNotes={verseNotes} setVerseNotes={setVerseNotes} selectedVerse={selectedVerse} setSelectedVerse={setSelectedVerse} selectedVerseGroup={selectedVerseGroup} setSelectedVerseGroup={setSelectedVerseGroup} selectedVerseData={selectedVerseData} selectedVerseKey={selectedVerseKey} selectedVerseNote={selectedVerseNote} selectedVerseHighlighted={selectedVerseHighlighted} versePopupPos={versePopupPos} setVersePopupPos={setVersePopupPos} showVerseNoteEditor={showVerseNoteEditor} setShowVerseNoteEditor={setShowVerseNoteEditor} currentNoteDraft={currentNoteDraft} setCurrentNoteDraft={setCurrentNoteDraft} closeVerseStudyPopup={closeVerseStudyPopup} toggleVerseHighlight={toggleVerseHighlight} saveVerseNote={saveVerseNote} copySelectedVerse={copySelectedVerse} tutorialVerseToolsNavBlocked={tutorialVerseToolsNavBlocked} openSidePanel={openSidePanel} setAiComposerSeed={setAiComposerSeed} recordChapterEngagement={recordChapterEngagement} authSession={authSession} chapterQuizGate={chapterQuizGate} quizTakenThisChapterVisit={quizTakenThisChapterVisit} setQuizOpen={setQuizOpen} topVisibleVerseRef={topVisibleVerseRef} exitAnimDoneRef={exitAnimDoneRef} pendingFlipDataRef={pendingFlipDataRef} biblePaneRef={biblePaneRef} sidePanelModeRef={sidePanelModeRef} currentBookRef={currentBookRef} chapterRef={chapterRef} commentarySourceRef={commentarySourceRef} loadCommentaryData={loadCommentaryData} pagedContentRef={pagedContentRef} pagedMeasureRef={pagedMeasureRef} pagedFlipAnimRef={pagedFlipAnimRef} pagedFlipPendingRef={pagedFlipPendingRef} readerPassagesRef={readerPassagesRef} verseStudyPopupRef={verseStudyPopupRef} />}
             </div>
             <div
               className={`ch-nav ch-nav-prev${chromeBottomVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}${sideOpen && !sidePaneOnRight ? ' side-pane-open' : ''}`}

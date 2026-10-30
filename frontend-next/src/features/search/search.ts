@@ -1,4 +1,3 @@
-import type { SearchSuggestion } from '@/features/reader/types';
 import type { BookInfo } from '@/features/reader/types';
 
 export const SEARCH_SUGGESTION_LIMIT = 7;

@@ -3,10 +3,9 @@
 import type { Dispatch, RefObject, SetStateAction } from 'react';
 import { MasteryStrip } from '@/components/ChapterQuiz';
 import type { AuthSession } from '@/lib/account';
-import type { BookInfo, ChapterData, ReaderSettings, ReadingProgress, SavedPassage, SidePanelMode, VerseData, VerseNote } from '@/features/reader/types';
+import type { BookInfo, ChapterData, ReaderSettings, SidePanelMode, VerseData, VerseNote } from '@/features/reader/types';
 import { READER_HIGHLIGHT_PRESETS, isPagedReadingMode } from '@/features/reader/settings';
 import { formatVerseGroupRef, splitVersesForBookMode, verseStorageKey } from '@/features/reader/layout';
-import { ONBOARDING_STORAGE_KEY } from '@/features/progress/progress';
 import { buildExplainVersePrompt } from '@/features/ai/prompts';
 
 export interface ChapterContentProps {
@@ -73,17 +72,6 @@ export interface ChapterContentProps {
   pagedFlipPendingRef: RefObject<(() => void) | null>;
   readerPassagesRef: RefObject<HTMLDivElement | null>;
   verseStudyPopupRef: RefObject<HTMLElement | null>;
-  readingRhythmTitle: string;
-  readingProgress: ReadingProgress;
-  recentPassages: SavedPassage[];
-  savedVerseCount: number;
-  currentTranslationLabel: string;
-  commentarySource: string;
-  commentarySourceNames: Record<string, string>;
-  sidePanelMode: SidePanelMode;
-  navigateToPassage: (bookName: string | null | undefined, nextChapter: number, nextTranslation?: string, verseNumber?: number) => boolean;
-  showOnboarding: boolean;
-  setShowOnboarding: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function ChapterContent({
@@ -150,17 +138,6 @@ export default function ChapterContent({
   pagedFlipPendingRef,
   readerPassagesRef,
   verseStudyPopupRef,
-  readingRhythmTitle,
-  readingProgress,
-  recentPassages,
-  savedVerseCount,
-  currentTranslationLabel,
-  commentarySource,
-  commentarySourceNames,
-  sidePanelMode,
-  navigateToPassage,
-  showOnboarding,
-  setShowOnboarding,
 }: ChapterContentProps) {
   if (chapterLoading) {
     return (
@@ -320,73 +297,6 @@ export default function ChapterContent({
         }
       }}
     >
-      {false && (
-        <section className="reader-dashboard">
-        <div className="reader-dashboard-card">
-          <div className="reader-dashboard-label">Study rhythm</div>
-          <div className="reader-dashboard-title">{readingRhythmTitle}</div>
-          <div className="reader-dashboard-metrics">
-            <span className="reader-pill">{readingProgress.streak} day streak</span>
-            <span className="reader-pill">{recentPassages.length} recent passages</span>
-            <span className="reader-pill">{savedVerseCount} saved study items</span>
-          </div>
-        </div>
-        <div className="reader-dashboard-card">
-          <div className="reader-dashboard-label">Current context</div>
-          <div className="reader-dashboard-metrics">
-            <span className="reader-pill">{currentTranslationLabel}</span>
-            <span className="reader-pill">{commentarySourceNames[commentarySource] ?? commentarySource}</span>
-            <span className="reader-pill">{sidePanelMode === 'none' ? 'Reader focus' : `Open: ${sidePanelMode === 'ai' ? 'AI' : 'Resources'}`}</span>
-          </div>
-          {recentPassages.length > 0 && (
-            <div className="reader-recent-row">
-              {recentPassages.slice(0, 3).map(entry => (
-                <button
-                  key={`${entry.book}-${entry.chapter}-${entry.translation}`}
-                  className="reader-recent-btn"
-                  type="button"
-                  onClick={() => navigateToPassage(entry.book, entry.chapter, entry.translation)}
-                >
-                  {entry.book} {entry.chapter}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-        </section>
-      )}
-      {false && showOnboarding && (
-        <section className="reader-onboarding">
-          <div className="reader-dashboard-label">Welcome</div>
-          <div className="reader-dashboard-title">Read, open commentary, or ask AI from the same workspace.</div>
-          <p className="reader-onboarding-copy">
-            Tap any verse to highlight it, bookmark it, or add a note. Use Search to jump straight to a passage or find a phrase.
-          </p>
-          <div className="reader-onboarding-actions">
-            <button
-              className="reader-onboarding-btn"
-              type="button"
-              onClick={() => {
-                setShowOnboarding(false);
-                localStorage.setItem(ONBOARDING_STORAGE_KEY, '1');
-              }}
-            >
-              Start reading
-            </button>
-            <button
-              className="reader-onboarding-btn secondary"
-              type="button"
-              onClick={() => {
-                openSidePanel('ai');
-                setShowOnboarding(false);
-                localStorage.setItem(ONBOARDING_STORAGE_KEY, '1');
-              }}
-            >
-              Show me AI
-            </button>
-          </div>
-        </section>
-      )}
       <div className="reader-book">{chapterBookLabel}</div>
       <div className="reader-chapter">{chapterData.chapter}</div>
       {isPaged ? (
