@@ -192,7 +192,7 @@ class ToolRunner:
     """Per-request tool state: the reader's translation, open passage and the buttons offered so far."""
 
     translation: str
-    active: tuple[str, int] | None = None  # (book name, chapter) the reader has open
+    active: tuple[int, int] | None = None  # (book number, chapter) the reader has open
     actions: list[AIAction] = field(default_factory=list)
 
     async def run(self, name: str, tool_input: Any) -> tuple[str, bool]:
@@ -298,41 +298,69 @@ class ToolRunner:
         return "\n".join(lines)
 
     async def _navigate(self, args: dict[str, Any]) -> str:
-        book = _resolved_book(args)
-        chapter = _required_int(args, "chapter")
-        verse_start = _optional_int(args, "verse_start")
-        verse_end = _optional_int(args, "verse_end")
+        book, chapter, verse_start, verse_end = self._target(args, with_verses=True)
         label = _required_str(args, "label")
-        _check_target(book, chapter, verse_start, verse_end)
         self._offer(
             AIAction(
                 type=AIActionType.NAVIGATE,
                 label=label,
-                params=AIActionParams(book=book, chapter=chapter, verse_start=verse_start, verse_end=verse_end),
+                params=AIActionParams(book=book["name"], chapter=chapter, verse_start=verse_start, verse_end=verse_end),
             )
         )
         return OFFERED_MESSAGE
 
     async def _open_commentary(self, args: dict[str, Any]) -> str:
-        book = _resolved_book(args)
-        chapter = _required_int(args, "chapter")
+        book, chapter, _, _ = self._target(args, with_verses=False)
         label = _required_str(args, "label")
-        _check_target(book, chapter, None, None)
-        if self.active is not None and self.active != (book, chapter):
+        if self.active is not None and self.active != (book["number"], chapter):
             # The commentary button only works on the open chapter, so send the reader there instead.
             action = AIAction(
                 type=AIActionType.NAVIGATE,
                 label=label,
-                params=AIActionParams(book=book, chapter=chapter),
+                params=AIActionParams(book=book["name"], chapter=chapter),
             )
         else:
             action = AIAction(
                 type=AIActionType.OPEN_COMMENTARY,
                 label=label,
-                params=AIActionParams(book=book, chapter=chapter, source=DEFAULT_COMMENTARY_SOURCE),
+                params=AIActionParams(book=book["name"], chapter=chapter, source=DEFAULT_COMMENTARY_SOURCE),
             )
         self._offer(action)
         return OFFERED_MESSAGE
+
+    def _target(
+        self, args: dict[str, Any], *, with_verses: bool
+    ) -> tuple[dict[str, Any], int, int | None, int | None]:
+        """Validate a button target against the reader's translation: (book info, chapter, verse_start, verse_end)."""
+        name = _required_str(args, "book")
+        book = resolve_book(name)
+        if not book:
+            raise ToolError(f"Unknown book: {name}")
+        chapter = _required_int(args, "chapter")
+        if not 1 <= chapter <= book["chapters"]:
+            raise ToolError(f"{book['name']} has no chapter {chapter}.")
+        row = fetch_one(
+            "SELECT MAX(verse) AS last FROM verses WHERE translation = ? AND book_number = ? AND chapter = ?",
+            (self.translation, book["number"], chapter),
+        )
+        last = row["last"] if row else None
+        if last is None:
+            raise ToolError(f"{book['name']} {chapter} is not available in {self.translation}.")
+        if not with_verses:
+            return book, chapter, None, None
+        verse_start = _optional_int(args, "verse_start")
+        verse_end = _optional_int(args, "verse_end")
+        if verse_start is None and verse_end is None:
+            return book, chapter, None, None
+        if verse_start is None:
+            raise ToolError("verse_end needs a verse_start.")
+        end = verse_start if verse_end is None else verse_end
+        if not 1 <= verse_start <= end <= last:
+            raise ToolError(
+                f"{book['name']} {chapter} has verses 1-{last} in {self.translation}; "
+                f"{verse_start}-{end} is not a valid range."
+            )
+        return book, chapter, verse_start, verse_end
 
     def _offer(self, action: AIAction) -> None:
         key = (action.type, action.params)
@@ -362,35 +390,6 @@ def _required_int(args: dict[str, Any], key: str) -> int:
     if isinstance(value, bool) or not isinstance(value, int):
         raise ToolError(f"{key} must be an integer.")
     return value
-
-
-def _resolved_book(args: dict[str, Any]) -> str:
-    book = _required_str(args, "book")
-    resolved = resolve_book(book)
-    if not resolved:
-        raise ToolError(f"Unknown book: {book}")
-    return resolved["name"]
-
-
-def _check_target(book: str, chapter: int, verse_start: int | None, verse_end: int | None) -> None:
-    """Reject references that do not exist (book is already resolved to its canonical name)."""
-    info = resolve_book(book)
-    if not info or not 1 <= chapter <= info["chapters"]:
-        raise ToolError(f"{book} has no chapter {chapter}.")
-    if verse_start is None and verse_end is None:
-        return
-    if verse_start is None:
-        raise ToolError("verse_end needs a verse_start.")
-    end = verse_start if verse_end is None else verse_end
-    row = fetch_one(
-        "SELECT MAX(verse) AS last FROM verses WHERE book_number = ? AND chapter = ?",
-        (info["number"], chapter),
-    )
-    last = row["last"] if row else None
-    if last is None:
-        raise ToolError(f"{book} {chapter} was not found.")
-    if not 1 <= verse_start <= end <= last:
-        raise ToolError(f"{book} {chapter} has verses 1-{last}; {verse_start}-{end} is not a valid range.")
 
 
 # ── Request building ─────────────────────────────────────────────────────────
@@ -525,7 +524,7 @@ async def chat(payload: AIChatRequest) -> AIChatResponse:
     active_book = resolve_book(payload.context.book)
     runner = ToolRunner(
         translation=payload.context.translation,
-        active=(active_book["name"], payload.context.chapter) if active_book else None,
+        active=(active_book["number"], payload.context.chapter) if active_book else None,
     )
     usage = Usage()
     max_calls = settings.ai_max_tool_rounds + 1
