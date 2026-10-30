@@ -2,7 +2,8 @@
 
 import type { Dispatch, RefObject, SetStateAction } from 'react';
 import { READER_FONT_PX_OPTIONS, READER_LINE_HEIGHT_OPTIONS } from '@/features/reader/types';
-import type { GraphicsMode, ReaderFontId, ReaderFontPx, ReaderLineHeightOption, ReaderReadingMode, ReaderSettings, SidePanelPosition } from '@/features/reader/types';
+import type { GraphicsMode, ReaderFontId, ReaderFontPx, ReaderLineHeightOption, ReaderReadingMode, SidePanelPosition } from '@/features/reader/types';
+import { useReaderSettings } from '@/features/settings/ReaderSettingsContext';
 import { THEMES, THEME_GRID_PREVIEW_COUNT, getThemeCardStyle, themesForCollapsedPicker } from '@/features/settings/themeHelpers';
 
 export interface SettingsPanelProps {
@@ -15,8 +16,6 @@ export interface SettingsPanelProps {
   setThemePickerExpanded: Dispatch<SetStateAction<boolean>>;
   currentTheme: string;
   applyTheme: (id: string) => void;
-  readerSettings: ReaderSettings;
-  setReaderSettings: Dispatch<SetStateAction<ReaderSettings>>;
 }
 
 export default function SettingsPanel({
@@ -29,9 +28,8 @@ export default function SettingsPanel({
   setThemePickerExpanded,
   currentTheme,
   applyTheme,
-  readerSettings,
-  setReaderSettings,
 }: SettingsPanelProps) {
+  const { readerSettings, setReaderSettings } = useReaderSettings();
   return (
     <div
       className={`settings-overlay${settingsOpen ? ' open' : ''}`}
