@@ -7,6 +7,7 @@ import { READER_HIGHLIGHT_PRESETS, isPagedReadingMode } from '@/features/reader/
 import { formatVerseGroupRef, splitVersesForBookMode, verseStorageKey } from '@/features/reader/layout';
 import { useReaderSettings } from '@/features/settings/ReaderSettingsContext';
 import { useAuth } from '@/features/account/AuthContext';
+import { useStudyItems } from '@/features/study/StudyItemsContext';
 import { buildExplainVersePrompt } from '@/features/ai/prompts';
 
 export interface ChapterContentProps {
@@ -26,10 +27,6 @@ export interface ChapterContentProps {
   pagedFlipAnim: string;
   setPagedFlipAnim: Dispatch<SetStateAction<string>>;
   aiNavHighlight: { start: number; end: number } | null;
-  highlightedVerses: string[];
-  bookmarkedVerses: string[];
-  verseNotes: Record<string, VerseNote>;
-  setVerseNotes: Dispatch<SetStateAction<Record<string, VerseNote>>>;
   selectedVerse: number | null;
   setSelectedVerse: Dispatch<SetStateAction<number | null>>;
   selectedVerseGroup: number[];
@@ -89,10 +86,6 @@ export default function ChapterContent({
   pagedFlipAnim,
   setPagedFlipAnim,
   aiNavHighlight,
-  highlightedVerses,
-  bookmarkedVerses,
-  verseNotes,
-  setVerseNotes,
   selectedVerse,
   setSelectedVerse,
   selectedVerseGroup,
@@ -136,6 +129,7 @@ export default function ChapterContent({
 }: ChapterContentProps) {
   const { readerSettings, setReaderSettings } = useReaderSettings();
   const { authSession } = useAuth();
+  const { highlightedVerses, bookmarkedVerses, verseNotes, setVerseNotes } = useStudyItems();
   if (chapterLoading) {
     return (
       <div className="state-msg">
