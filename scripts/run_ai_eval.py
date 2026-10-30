@@ -55,7 +55,8 @@ LONG_CONTEXT_TOKENS = 100_000
 CACHE_READ_FACTOR = 0.10
 CACHE_WRITE_FACTOR = 1.25
 
-QUOTE_RE = re.compile(r'"([^"\n]+)"|“([^”\n]+)”|「([^」\n]+)」|『([^』\n]+)』')
+# Quoted spans may run over several lines; non-greedy so two quotes on one line stay two spans.
+QUOTE_RE = re.compile(r'"([^"]+?)"|“([^”]+?)”|「([^」]+?)」|『([^』]+?)』')
 MIN_QUOTE_WORDS = 5
 MIN_QUOTE_CJK = 8
 MIN_CJK_SHARE = 0.30
@@ -67,8 +68,18 @@ DRY_RUN_JSON = json.dumps({"message": "Dry run.", "references": [], "suggested_f
 
 # ── Pure checks (imported by tests/test_ai_eval_runner.py) ───────────────────
 
+_CJK_RANGES = (
+    ("㐀", "䶿"),          # Extension A
+    ("一", "鿿"),          # Unified Ideographs
+    ("豈", "﫿"),          # Compatibility Ideographs
+    ("\U00020000", "\U0003134F"),  # Extensions B–G
+    ("\U00031350", "\U000323AF"),  # Extension H
+    ("\U0002F800", "\U0002FA1F"),  # Compatibility Supplement
+)
+
+
 def _is_cjk(ch: str) -> bool:
-    return "㐀" <= ch <= "䶿" or "一" <= ch <= "鿿"
+    return any(low <= ch <= high for low, high in _CJK_RANGES)
 
 
 def is_mostly_cjk(text: str) -> bool:
