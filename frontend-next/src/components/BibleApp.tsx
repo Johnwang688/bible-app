@@ -10,7 +10,6 @@ import AiSidebar, {
 } from './AiSidebar';
 import { STORAGE_KEYS } from '@/lib/storageKeys';
 import AuthPanel from './AuthPanel';
-import CurrencyIcon from '@/components/CurrencyIcon';
 import ChapterQuiz, { MasteryStrip } from './ChapterQuiz';
 import MasteryOverviewPanel from './MasteryOverviewPanel';
 import {
@@ -52,7 +51,6 @@ import { BOOKMARKS_STORAGE_KEY, COMMENTARY_SYNC_THROTTLE_MS, DAILY_GOAL_MINUTES_
 import { DailyTasksList } from '@/features/progress/DailyTasksList';
 import { DYNAMIC_BASE_THEME, DYNAMIC_COLORS, DYNAMIC_CYCLE_MS, hexToRgb, logoSrcForTheme } from '@/features/settings/themeHelpers';
 import { SEARCH_SUGGESTION_LIMIT, clampChapterForBook, compactSearchText, extractLooseReferenceParts, formatSearchSuggestionLabel, getBookPopularityScore, normalizeReferenceSpacing, normalizeSearchText, scoreBookMatch } from '@/features/search/search';
-import { isSkipLabel, isSkipPlaceLabel, parseSummaryContent, slugifyEntityLabel } from '@/features/commentary/summary';
 import { TUTORIAL_VERSE_TOOLS_VERSE, boundsToTutorialRect } from '@/features/onboarding/tutorial';
 import { buildExplainVersePrompt } from '@/features/ai/prompts';
 import { safelyParseJson } from '@/lib/json';
@@ -60,6 +58,9 @@ import BookPanel from '@/features/reader/BookPanel';
 import VersionPanel from '@/features/reader/VersionPanel';
 import SearchPanel from '@/features/search/SearchPanel';
 import SettingsPanel from '@/features/settings/SettingsPanel';
+import HomeScreen from '@/features/home/HomeScreen';
+import TopBar from '@/features/reader/TopBar';
+import CommentaryContent from '@/features/commentary/CommentaryContent';
 // ── Main Component ─────────────────────────────────────────────────────────────
 export default function BibleApp({
   initialReader = null,
@@ -4453,165 +4454,6 @@ export default function BibleApp({
     );
   };
 
-  const renderCommentaryContent = () => {
-    if (commentaryLoading) {
-      return (
-        <div className="state-msg">
-          <span className="spinner" />
-          <div>Loading…</div>
-        </div>
-      );
-    }
-    if (commentaryError) return <div className="state-msg">Unable to load this content.</div>;
-    if (!commentaryEntries.length) return <div className="state-msg">No content for this chapter.</div>;
-
-    if (commentarySource === 'summary') {
-      const bookForEntityNav = currentBook?.name ?? chapterData?.book ?? '';
-      const entityNavSuffix =
-        bookForEntityNav !== ''
-          ? `?returnTo=${encodeURIComponent(
-              `/app?book=${encodeURIComponent(bookForEntityNav)}&chapter=${chapter}&panel=commentary&source=${encodeURIComponent(commentarySource)}`,
-            )}`
-          : '';
-      return commentaryEntries.map((entry, i) => {
-        const start = Number(entry.verse_start);
-        const end   = entry.verse_end == null ? start : Number(entry.verse_end);
-        const p     = parseSummaryContent(entry.content);
-        const isSynced = syncedVerseStart === entry.verse_start;
-        return (
-          <section
-            key={i}
-            className={`commentary-entry${isSynced ? ' synced' : ''}`}
-            data-verse-start={start}
-            data-verse-end={end}
-          >
-            {p.title  && <div className="summary-chapter-title">{p.title}</div>}
-            {p.summary && <div className="summary-text">{p.summary}</div>}
-            {p.points.length > 0 && (
-              <div className="summary-section">
-                <div className="summary-section-label">Key Points</div>
-                <ul className="summary-points">{p.points.map((pt, j) => <li key={j}>{pt}</li>)}</ul>
-              </div>
-            )}
-            {p.themes.length > 0 && (
-              <div className="summary-section">
-                <div className="summary-section-label">
-                  Themes
-                  <Link href={`/themes/bank${entityNavSuffix}`} className="summary-section-bank-link">Browse all</Link>
-                </div>
-                <div className="summary-tags">
-                  {entry.theme_tags && entry.theme_tags.length > 0
-                    ? entry.theme_tags.map((tag, j) => (
-                        <Link
-                          key={j}
-                          href={`/themes/${encodeURIComponent(tag.slug)}${entityNavSuffix}`}
-                          className="summary-tag summary-tag-link"
-                        >
-                          {tag.label}
-                        </Link>
-                      ))
-                    : p.themes.map((t, j) => (
-                        <span key={j} className="summary-tag">{t}</span>
-                      ))}
-                </div>
-              </div>
-            )}
-            {(() => {
-              const filteredPeopleTags = entry.people_tags?.filter(t => !isSkipLabel(t.label)) ?? [];
-              const filteredPeople = p.people.filter(t => !isSkipLabel(t));
-              return (filteredPeopleTags.length > 0 || filteredPeople.length > 0) && (
-                <div className="summary-section">
-                  <div className="summary-section-label">
-                    People
-                    <Link href={`/people/bank${entityNavSuffix}`} className="summary-section-bank-link">Browse all</Link>
-                  </div>
-                  <div className="summary-tags">
-                    {filteredPeopleTags.length > 0
-                      ? filteredPeopleTags.map((tag, j) => (
-                          <Link
-                            key={j}
-                            href={`/people/${encodeURIComponent(tag.slug)}${entityNavSuffix}`}
-                            className="summary-tag summary-tag-link"
-                          >
-                            {tag.label}
-                          </Link>
-                        ))
-                      : filteredPeople.map((t, j) => (
-                          <span key={j} className="summary-tag">{t}</span>
-                        ))}
-                  </div>
-                </div>
-              );
-            })()}
-            {(() => {
-              const filteredPlaceTags = entry.place_tags?.filter(t => !isSkipPlaceLabel(t.label)) ?? [];
-              const filteredPlaces = p.places.filter(t => !isSkipPlaceLabel(t));
-              const hasPlaces = filteredPlaceTags.length > 0 || filteredPlaces.length > 0;
-              return (
-                <div className="summary-section">
-                  <div className="summary-section-label">
-                    Places
-                    <Link href={`/places/bank${entityNavSuffix}`} className="summary-section-bank-link">Browse all</Link>
-                  </div>
-                  <div className="summary-tags">
-                    {hasPlaces ? (
-                      filteredPlaceTags.length > 0
-                        ? filteredPlaceTags.map((tag, j) => (
-                            <Link
-                              key={j}
-                              href={`/places/${encodeURIComponent(tag.slug)}${entityNavSuffix}`}
-                              className="summary-tag summary-tag-link summary-tag-place"
-                            >
-                              {tag.label}
-                            </Link>
-                          ))
-                        : filteredPlaces.map((t, j) => (
-                            <Link
-                              key={j}
-                              href={`/places/${encodeURIComponent(slugifyEntityLabel(t))}${entityNavSuffix}`}
-                              className="summary-tag summary-tag-link summary-tag-place"
-                            >
-                              {t}
-                            </Link>
-                          ))
-                    ) : (
-                      <span className="summary-empty-note">No specific places in this chapter summary.</span>
-                    )}
-                  </div>
-                </div>
-              );
-            })()}
-            {p.verses.length > 0 && (
-              <div className="summary-section summary-section-refs">
-                <div className="summary-section-label">References</div>
-                <div className="summary-tags">{p.verses.map((v, j) => <span key={j} className="summary-ref-tag">{v}</span>)}</div>
-              </div>
-            )}
-          </section>
-        );
-      });
-    }
-
-    // Standard (Matthew Henry style) commentary
-    return commentaryEntries.map((entry, i) => {
-      const start   = Number(entry.verse_start);
-      const end     = entry.verse_end == null ? start : Number(entry.verse_end);
-      const label   = end > start ? `Verses ${start}–${end}` : `Verse ${start}`;
-      const isSynced = syncedVerseStart === entry.verse_start;
-      return (
-        <section
-          key={i}
-          className={`commentary-entry${isSynced ? ' synced' : ''}`}
-          data-verse-start={start}
-          data-verse-end={end}
-        >
-          <div className="commentary-label">{label}</div>
-          <div className="commentary-text">{entry.content}</div>
-        </section>
-      );
-    });
-  };
-
   const sidePanelTitle = () => {
     if (sidePanelMode === 'commentary')  return commentarySourceNames[commentarySource] ?? commentarySource;
     if (sidePanelMode === 'study') return 'My Stuff';
@@ -4924,306 +4766,64 @@ export default function BibleApp({
       </div>
 
       {homeScreenActive && (
-        <div className="home-screen" role="region" aria-label="Home">
-          <div className="home-screen-inner">
-            <header className="home-screen-header">
-              <div className="home-screen-title-row">
-                <img
-                  className="home-screen-logo"
-                  src={logoSrcForTheme(currentTheme)}
-                  alt=""
-                  width={40}
-                  height={40}
-                  aria-hidden="true"
-                />
-                <h1 className="home-screen-title">{homeTimeGreeting || 'Welcome'}</h1>
-              </div>
-              <div className="home-header-actions">
-                {authSession ? (
-                  <span className="home-header-coins-chip" aria-label={`${coinBalance != null ? coinBalance.toLocaleString() : '…'} coins`}>
-                    <CurrencyIcon className="home-header-coins-icon" size={16} />
-                    <span className="home-header-coins-amount" aria-live="polite">
-                      {coinBalance != null ? coinBalance.toLocaleString() : '…'}
-                    </span>
-                  </span>
-                ) : null}
-                <span className="topbar-tooltip-wrap" data-tooltip="Profile">
-                  <button
-                    className={`nav-btn nav-btn-icon-only${sidePanelMode === 'study' ? ' active' : ''}`}
-                    type="button"
-                    aria-label="Open profile"
-                    aria-expanded={sidePanelMode === 'study'}
-                    aria-controls="home-profile-panel"
-                    onClick={() => toggleStudyPanel()}
-                  >
-                    <svg className="nav-search-icon" viewBox="0 0 24 24" width={20} height={20} aria-hidden="true">
-                      <circle cx="12" cy="9" r="3.25" />
-                      <path d="M5 20.5v-.35c0-3.2 2.85-5.65 7-5.65s7 2.45 7 5.65v.35" />
-                    </svg>
-                  </button>
-                </span>
-              </div>
-            </header>
-            <div ref={tutorialHomeSpotRef} className="home-cards-grid">
-              {/* Verse of the day — full width */}
-              <section className="home-screen-card reader-dashboard-card home-daily-verse-card home-grid-full" aria-labelledby="home-daily-verse-heading">
-                <h2 id="home-daily-verse-heading" className="reader-dashboard-label">Verse of the day</h2>
-                <p className="home-daily-verse-text">{dailyVerse.text}</p>
-                <button
-                  type="button"
-                  className="home-daily-verse-ref"
-                  onClick={() => void handleDailyVerseRefClick()}
-                >
-                  {dailyVerse.book} {dailyVerse.chapter}:{dailyVerse.verse}
-                </button>
-                {authSession ? (
-                  <p className={`home-daily-verse-reward-hint${dailyRewardsStatus?.verse_claimed ? ' home-daily-verse-reward-hint--done' : ''}`}>
-                    {dailyRewardsStatus?.verse_claimed
-                      ? 'Daily verse reward claimed'
-                      : (
-                        <span className="home-daily-verse-reward-inline">
-                          <span>Tap</span>
-                          <CurrencyIcon size={14} decorative className="home-daily-verse-reward-inline-icon" />
-                          <span>10</span>
-                        </span>
-                      )}
-                  </p>
-                ) : (
-                  <p className="home-daily-verse-reward-hint">Sign in to earn coins when you open today&apos;s verse.</p>
-                )}
-              </section>
-              {/* Streak (left) | Continue 1/3 + Tutorial 2/3 stacked (right) */}
-              <div className="home-grid-full home-streak-right-col-row">
-                {/* ── Streak card ── */}
-                <section
-                  className="home-screen-card reader-dashboard-card home-streak-card"
-                  aria-labelledby="home-streak-heading"
-                >
-                  <h2 id="home-streak-heading" className="reader-dashboard-label">Your streak</h2>
-                  <div className="home-streak-flame-row">
-                    <p className="reader-dashboard-title home-streak-number">{readingProgress.streak}</p>
-                    <span className="home-streak-days-label">day streak</span>
-                  </div>
-                  <div className="reader-dashboard-metrics" style={{ marginTop: 6 }}>
-                    <span className="reader-pill">
-                      {minutesTowardGoal}/{dailyGoalMinutes} min active today
-                    </span>
-                  </div>
-                  <div className="home-streak-7days" aria-label="Last 7 days">
-                    {Array.from({ length: 7 }, (_, i) => {
-                      const d = new Date(readingProgress.todayIso);
-                      d.setDate(d.getDate() - (6 - i));
-                      const iso = d.toISOString().slice(0, 10);
-                      const isToday = iso === readingProgress.todayIso;
-                      const met = readingProgress.goalMetDays.includes(iso);
-                      const dayLabel = ['S', 'M', 'T', 'W', 'T', 'F', 'S'][d.getDay()];
-                      return (
-                        <div key={iso} className={`home-streak-dot-col${isToday ? ' today' : ''}`}>
-                          <div className={`home-streak-dot${met ? ' met' : ''}${isToday ? ' today' : ''}`} aria-label={met ? 'Goal met' : 'Missed'} />
-                          <span className="home-streak-dot-label">{dayLabel}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                  <div className="home-streak-tasks-section">
-                    <p className="home-daily-tasks-summary">Daily tasks</p>
-                    <DailyTasksList
-                      taskChapterDone={taskChapterDone}
-                      taskAiDone={taskAiDone}
-                      taskMinutesDone={taskMinutesDone}
-                      dailyGoalMinutes={dailyGoalMinutes}
-                      signedIn={Boolean(authSession)}
-                      tasksBonusClaimed={Boolean(dailyRewardsStatus?.tasks_claimed)}
-                      onClaimTasksBonus={handleClaimDailyTasksBonus}
-                      tasksBonusClaiming={tasksBonusClaiming}
-                    />
-                  </div>
-                </section>
-                {/* ── Right column: Continue (1/3 height) stacked above Tutorial (2/3 height) ── */}
-                <div className="home-right-col">
-                  <section
-                    className="home-screen-card reader-dashboard-card home-continue-card"
-                    aria-labelledby="home-continue-heading"
-                  >
-                    <h2 id="home-continue-heading" className="reader-dashboard-label">Continue reading</h2>
-                    <div className="home-continue-half-body">
-                      {chapterLoading && !chapterData ? (
-                        <div className="home-continue-loading">
-                          <span className="spinner" aria-hidden="true" />
-                          <span>Loading…</span>
-                        </div>
-                      ) : currentBook ? (
-                        <button
-                          type="button"
-                          className="home-continue-btn"
-                          onClick={() => openReaderFromHome('none')}
-                        >
-                          <span className="home-continue-ref">{currentBookLabel} {chapter}</span>
-                          <span className="home-continue-meta">{currentTranslationLabel}</span>
-                        </button>
-                      ) : (
-                        <p className="home-continue-empty">Pick a book to get started.</p>
-                      )}
-                    </div>
-                  </section>
-                  <section
-                    className="home-screen-card tutorial-home-card home-tutorial-card"
-                    aria-labelledby="home-tutorial-heading"
-                  >
-                    <div className="tutorial-home-copy">
-                      <h2 id="home-tutorial-heading" className="reader-dashboard-label">Guided tour</h2>
-                      <p className="tutorial-home-title">Learn every feature in a few quick steps.</p>
-                      <p className="home-screen-card-caption">Walk through reading, search, verse tools, resources, AI, My Stuff, and settings without leaving the app.</p>
-                    </div>
-                    <div className="tutorial-home-actions">
-                      <button
-                        type="button"
-                        className="tutorial-home-btn"
-                        onClick={() => openTutorial(0)}
-                      >
-                        Start tutorial
-                      </button>
-                      <button
-                        type="button"
-                        className="tutorial-home-btn tutorial-home-btn-secondary"
-                        onClick={() => openTutorial(2)}
-                      >
-                        Jump to features
-                      </button>
-                    </div>
-                  </section>
-                </div>
-              </div>
-              {/* Mastery — full width */}
-              <Link
-                href="/app/mastery"
-                className="home-screen-card reader-dashboard-card home-mastery-card home-mastery-card--link home-grid-full"
-                aria-labelledby="home-mastery-heading"
-              >
-                <h2 id="home-mastery-heading" className="reader-dashboard-label">Mastery</h2>
-                <MasteryOverviewPanel
-                  variant="teaser"
-                  showTitle={false}
-                  session={authSession}
-                  translation={translation}
-                />
-              </Link>
-            </div>
-          </div>
-          {sidePanelMode === 'study' && (
-            <aside
-              className="home-study-pane"
-              id="home-profile-panel"
-              role="dialog"
-              aria-modal="true"
-              aria-label="Profile"
-            >
-              <div className="home-study-pane-panel">
-                <div className="side-header home-study-pane-header">
-                  <div className="home-study-pane-kicker">Profile</div>
-                  <div className="side-close-row">
-                    <div>
-                      <div className="side-title">{sidePanelTitle()}</div>
-                      <div className="side-subtitle">{sidePanelContext}</div>
-                    </div>
-                    <button
-                      type="button"
-                      className="side-close-btn"
-                      aria-label="Close profile page"
-                      onClick={closeSidePanel}
-                    >
-                      Close
-                    </button>
-                  </div>
-                </div>
-                <div className="side-scroll home-study-pane-scroll">{renderStudyContent()}</div>
-              </div>
-            </aside>
-          )}
-        </div>
+        <HomeScreen
+          currentTheme={currentTheme}
+          homeTimeGreeting={homeTimeGreeting}
+          authSession={authSession}
+          coinBalance={coinBalance}
+          sidePanelMode={sidePanelMode}
+          toggleStudyPanel={toggleStudyPanel}
+          tutorialHomeSpotRef={tutorialHomeSpotRef}
+          dailyVerse={dailyVerse}
+          handleDailyVerseRefClick={handleDailyVerseRefClick}
+          dailyRewardsStatus={dailyRewardsStatus}
+          readingProgress={readingProgress}
+          minutesTowardGoal={minutesTowardGoal}
+          dailyGoalMinutes={dailyGoalMinutes}
+          taskChapterDone={taskChapterDone}
+          taskAiDone={taskAiDone}
+          taskMinutesDone={taskMinutesDone}
+          handleClaimDailyTasksBonus={handleClaimDailyTasksBonus}
+          tasksBonusClaiming={tasksBonusClaiming}
+          chapterLoading={chapterLoading}
+          chapterData={chapterData}
+          currentBook={currentBook}
+          openReaderFromHome={openReaderFromHome}
+          currentBookLabel={currentBookLabel}
+          chapter={chapter}
+          currentTranslationLabel={currentTranslationLabel}
+          openTutorial={openTutorial}
+          translation={translation}
+          sidePanelTitle={sidePanelTitle}
+          sidePanelContext={sidePanelContext}
+          closeSidePanel={closeSidePanel}
+          studyContent={renderStudyContent()}
+        />
       )}
 
       {/* Topbar */}
       {!homeScreenActive && (
-      <nav
-        className={`topbar${chromeTopVisible ? '' : ' chrome-hide-top'}`}
-        onPointerDown={bumpChromeScrollInteraction}
-        onFocusCapture={bumpChromeScrollInteraction}
-        onMouseEnter={() => {
-          topChromeHoverRef.current = true;
-          setChromeTopShown(true);
-        }}
-        onMouseLeave={() => {
-          topChromeHoverRef.current = false;
-          if (chromeScrollRevealActiveRef.current) return;
-          const h = typeof window !== 'undefined' ? window.innerHeight : 0;
-          if (h === 0) return;
-          const topZone = h * 0.2;
-          if (lastPointerYRef.current > topZone) setChromeTopShown(false);
-        }}
-      >
-        <div className="nav-left">
-          <button
-            className={`nav-btn nav-btn-book${bookPopupOpen ? ' active' : ''}`}
-            type="button"
-            onClick={e => { e.stopPropagation(); setSearchOpen(false); setVersionPopupOpen(false); setBookPopupOpen(v => !v); }}
-          >
-            <span className="nav-btn-label" title={navLabel}>{navLabel}</span>
-            <span className="chevron" aria-hidden="true" />
-          </button>
-          <button
-            ref={versionBtnRef}
-            className={`nav-btn nav-btn-version${versionPopupOpen ? ' active' : ''}`}
-            type="button"
-            onClick={e => { e.stopPropagation(); setBookPopupOpen(false); versionPopupOpen ? setVersionPopupOpen(false) : openVersionPopup(); }}
-          >
-            <span className="nav-btn-label" title={currentTranslationTitle}>{currentTranslationLabel}</span>
-            <span className="chevron" aria-hidden="true" />
-          </button>
-        </div>
-        <div className="nav-right">
-          <span className="topbar-tooltip-wrap" data-tooltip="Search">
-            <button
-              className={`nav-btn nav-btn-icon-only${searchOpen ? ' active' : ''}`}
-              type="button"
-              aria-label="Open search"
-              aria-expanded={searchOpen}
-              aria-controls="nav-search-panel"
-              onClick={e => {
-                e.stopPropagation();
-                setBookPopupOpen(false);
-                setVersionPopupOpen(false);
-                setSearchOpen(v => !v);
-              }}
-            >
-              <svg className="nav-search-icon" viewBox="0 0 24 24" width={20} height={20} aria-hidden="true">
-                <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" strokeWidth="2" />
-                <path d="M20 20 16.5 16.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-              </svg>
-            </button>
-          </span>
-          <span className="topbar-tooltip-wrap" data-tooltip="Account">
-            <button
-              className={`nav-btn nav-btn-icon-only${sidePanelMode === 'study' ? ' active' : ''}`}
-              type="button"
-              aria-label="My stuff"
-              aria-expanded={sidePanelMode === 'study'}
-              onClick={e => {
-                e.stopPropagation();
-                setBookPopupOpen(false);
-                setVersionPopupOpen(false);
-                setSearchOpen(false);
-                toggleStudyPanel();
-              }}
-            >
-              <svg className="nav-search-icon" viewBox="0 0 24 24" width={20} height={20} aria-hidden="true">
-                <circle cx="12" cy="9" r="3.25" />
-                <path d="M5 20.5v-.35c0-3.2 2.85-5.65 7-5.65s7 2.45 7 5.65v.35" />
-              </svg>
-            </button>
-          </span>
-        </div>
-      </nav>
+      <TopBar
+        chromeTopVisible={chromeTopVisible}
+        bumpChromeScrollInteraction={bumpChromeScrollInteraction}
+        topChromeHoverRef={topChromeHoverRef}
+        setChromeTopShown={setChromeTopShown}
+        chromeScrollRevealActiveRef={chromeScrollRevealActiveRef}
+        lastPointerYRef={lastPointerYRef}
+        bookPopupOpen={bookPopupOpen}
+        setBookPopupOpen={setBookPopupOpen}
+        setSearchOpen={setSearchOpen}
+        setVersionPopupOpen={setVersionPopupOpen}
+        navLabel={navLabel}
+        versionBtnRef={versionBtnRef}
+        versionPopupOpen={versionPopupOpen}
+        openVersionPopup={openVersionPopup}
+        currentTranslationTitle={currentTranslationTitle}
+        currentTranslationLabel={currentTranslationLabel}
+        searchOpen={searchOpen}
+        sidePanelMode={sidePanelMode}
+        toggleStudyPanel={toggleStudyPanel}
+      />
       )}
 
       {/* Book popup */}
@@ -5459,7 +5059,7 @@ export default function BibleApp({
               )}
             </div>
             <div className="side-scroll" ref={sideScrollRef}>
-              {sidePanelMode === 'commentary' && renderCommentaryContent()}
+              {sidePanelMode === 'commentary' && <CommentaryContent commentaryLoading={commentaryLoading} commentaryError={commentaryError} commentaryEntries={commentaryEntries} commentarySource={commentarySource} currentBook={currentBook} chapterData={chapterData} chapter={chapter} syncedVerseStart={syncedVerseStart} />}
               {sidePanelMode === 'study' && !homeScreenActive && renderStudyContent()}
               {sidePanelMode === 'ai' && (
                 <AiSidebar
