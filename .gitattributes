@@ -1,0 +1,5 @@
+# Data files are hashed byte-for-byte: never convert line endings.
+*.jsonl text eol=lf
+content/source/MANIFEST.json text eol=lf
+tests/golden/fixtures/*.json text eol=lf
+*.har -text
