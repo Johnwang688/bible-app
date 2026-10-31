@@ -1,0 +1,133 @@
+{
+ "strongs": "G0025",
+ "language": "greek",
+ "lemma": "ἀγαπάω",
+ "translit": "agapaō",
+ "gloss": "to love",
+ "definition": "ἀγαπάω, -ῶ,\n[in LXX chiefly for אהב ;]\nto love, to feel and exhibit esteem and goodwill to a person, to prize and delight in a thing.\n1. Of human affection, to men: τ. πλησίον, Mat.5:43; τ. ἐχθρούς, ib. 44; to Christ, Jhn.8:42; to God, Mat.22:37; with accusative of thing(s), Luk.11:43, Jhn.12:43, Eph.5:25, II Tim 4:8, 10, Heb.1:9, 1Pe.2:17, 3:10, 2Pe.2:15, 1Jn.2:15, Rev.12:11.\n2. Of divine love;\n(a) God's love: to men, Rom.8:37; to Christ, Jhn.3:35;\n(b) Christ's love: to men, Mrk.10:21; to God, Jhn.14:31; with cogn. accusative, Jhn.17:26, Eph.2:4.\nSYN.: φιλέω. From its supposed etymology (Thayer, LS; but see also Boisacq) ἀ. is commonly understood properly to denote love based on esteem (diligo), as distinct from that expressed by φιλέω (amo), spontaneous natural affection, emotional and unreasoning. If this distinction holds, ἀ. is fitly used in NT of Christian love to God and man, the spiritual affection which follows the direction of the will, and which, therefore, unlike that feeling which is instinctive and unreasoned, can be commanded as a duty. (Cf. ἀγάπη, and v. Tr., Syn. §xii; Cremer, 9, 592; and esp. MM, VGT, see word) (AS)",
+ "occurrences": 143,
+ "verse_count": 110,
+ "references": [
+  {
+   "book": "Matthew",
+   "book_number": 40,
+   "chapter": 5,
+   "verse": 43
+  },
+  {
+   "book": "Matthew",
+   "book_number": 40,
+   "chapter": 5,
+   "verse": 44
+  },
+  {
+   "book": "Matthew",
+   "book_number": 40,
+   "chapter": 5,
+   "verse": 46
+  },
+  {
+   "book": "Matthew",
+   "book_number": 40,
+   "chapter": 6,
+   "verse": 24
+  },
+  {
+   "book": "Matthew",
+   "book_number": 40,
+   "chapter": 19,
+   "verse": 19
+  },
+  {
+   "book": "Matthew",
+   "book_number": 40,
+   "chapter": 22,
+   "verse": 37
+  },
+  {
+   "book": "Matthew",
+   "book_number": 40,
+   "chapter": 22,
+   "verse": 39
+  },
+  {
+   "book": "Mark",
+   "book_number": 41,
+   "chapter": 10,
+   "verse": 21
+  },
+  {
+   "book": "Mark",
+   "book_number": 41,
+   "chapter": 12,
+   "verse": 30
+  },
+  {
+   "book": "Mark",
+   "book_number": 41,
+   "chapter": 12,
+   "verse": 31
+  },
+  {
+   "book": "Mark",
+   "book_number": 41,
+   "chapter": 12,
+   "verse": 33
+  },
+  {
+   "book": "Luke",
+   "book_number": 42,
+   "chapter": 6,
+   "verse": 27
+  },
+  {
+   "book": "Luke",
+   "book_number": 42,
+   "chapter": 6,
+   "verse": 32
+  },
+  {
+   "book": "Luke",
+   "book_number": 42,
+   "chapter": 6,
+   "verse": 35
+  },
+  {
+   "book": "Luke",
+   "book_number": 42,
+   "chapter": 7,
+   "verse": 5
+  },
+  {
+   "book": "Luke",
+   "book_number": 42,
+   "chapter": 7,
+   "verse": 42
+  },
+  {
+   "book": "Luke",
+   "book_number": 42,
+   "chapter": 7,
+   "verse": 47
+  },
+  {
+   "book": "Luke",
+   "book_number": 42,
+   "chapter": 10,
+   "verse": 27
+  },
+  {
+   "book": "Luke",
+   "book_number": 42,
+   "chapter": 11,
+   "verse": 43
+  },
+  {
+   "book": "Luke",
+   "book_number": 42,
+   "chapter": 16,
+   "verse": 13
+  }
+ ],
+ "source": "STEP Bible brief lexicon (STEPBible.org, CC BY 4.0)"
+}

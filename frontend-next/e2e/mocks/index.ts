@@ -4,6 +4,8 @@ import aiEntityContent from './ai-entity-content.json';
 import aiGuidedChapter from './ai-guided-chapter.json';
 import aiGuidedSections from './ai-guided-sections.json';
 import authSession from './auth-session.json';
+import chapterGenesis1Bsb from './chapter-genesis-1-bsb.json';
+import chapterJohn3Bsb from './chapter-john-3-bsb.json';
 import me from './me.json';
 import quizJohn3 from './quiz-john-3.json';
 import quizMasteryOverview from './quiz-mastery-overview.json';
@@ -13,6 +15,10 @@ import userSettings from './user-settings.json';
 import walletClaim from './wallet-claim.json';
 import walletDailyRewards from './wallet-daily-rewards.json';
 import wallet from './wallet.json';
+import lexiconG0025 from './lexicon-G0025.json';
+import lexiconH1254 from './lexicon-H1254.json';
+import words1_1_1 from './words-1-1-1.json';
+import words43_3_16 from './words-43-3-16.json';
 
 export const MOCK_USER = { email: 'e2e@example.com', password: 'e2e-password-1' };
 
@@ -93,6 +99,15 @@ function resolve(req: Request, calls: MockCalls): Fulfill | null {
     return { json: userSettings };
   }
 
+  // ── BSB chapters (HG-3b): recorded with the real backend; the HAR has only WEB ──
+  const chapterMatch = /^\/chapters\/([^/]+)\/(\d+)$/.exec(path);
+  if (chapterMatch && method === 'GET' && new URL(req.url()).searchParams.get('translation') === 'BSB') {
+    const book = decodeURIComponent(chapterMatch[1]);
+    const chapter = Number(chapterMatch[2]);
+    if (book === 'Genesis' && chapter === 1) return { json: chapterGenesis1Bsb };
+    if (book === 'John' && chapter === 3) return { json: chapterJohn3Bsb };
+  }
+
   // ── Quiz + wallet ──
   if (path === '/wallet') return { json: wallet };
   if (path === '/wallet/daily-rewards') return { json: walletDailyRewards };
@@ -108,6 +123,15 @@ function resolve(req: Request, calls: MockCalls): Fulfill | null {
   const progress = /^\/quiz\/progress\/(\d+)\/(\d+)$/.exec(path);
   if (progress) return { json: progressFor(Number(progress[1]), Number(progress[2])) };
   if (path === '/quiz/43/3') return { json: quizJohn3 };
+
+  // ── Original words (HG-3a): recorded fixtures; anything else is a 404, never the HAR ──
+  if (path === '/words/43/3/16') return { json: words43_3_16 };
+  if (path === '/words/1/1/1') return { json: words1_1_1 };
+  if (path === '/lexicon/G0025') return { json: lexiconG0025 };
+  if (path === '/lexicon/H1254') return { json: lexiconH1254 };
+  if (path.startsWith('/words/') || path.startsWith('/lexicon/')) {
+    return { status: 404, json: { detail: 'Not found' } };
+  }
 
   return null;
 }

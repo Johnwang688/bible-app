@@ -45,6 +45,6 @@ class SearchResult(BaseModel):
 
 class SearchRequest(BaseModel):
     query: str
-    translation: str = "WEB"
+    translation: str = "BSB"
     book: str | None = None
     limit: int = 20

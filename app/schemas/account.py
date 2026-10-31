@@ -42,7 +42,7 @@ class UserProfile(BaseModel):
     email: str
     display_name: str | None = None
     avatar_url: str | None = None
-    preferred_translation: str = "WEB"
+    preferred_translation: str = "BSB"
     preferred_language: str = "en"
 
 

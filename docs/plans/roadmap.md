@@ -27,7 +27,13 @@ In progress. After HG-3:
 - "every verse with this word".
 
 ### 2. Commentary
-Next after Hebrew and Greek; not yet scoped.
+Scoped 2026-10-31 in `docs/plans/commentary.md`:
+- fill in Matthew Henry, and add a second classic (JFB)
+- load the Treasury of Scripture Knowledge (TSK) cross-references
+- rebuild the people, places and themes pages from the curated lists
+- rewrite every chapter summary with Claude, after a pilot and John's review.
+
+Not started: John is working on it.
 
 ### 3. App UI and performance
 Includes VI-2 and the responsive and mobile layout pass. The mobile app work in track 4 depends on it.

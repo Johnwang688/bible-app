@@ -1,0 +1,133 @@
+{
+ "strongs": "H1254",
+ "language": "hebrew",
+ "lemma": "בָּרָא",
+ "translit": "ba.ra",
+ "gloss": "to create",
+ "definition": "1) to create, shape, form\n1a) (Qal) to shape, fashion, create (always with God as subject)\n1a1) of heaven and earth\n1a2) of individual man\n1a3) of new conditions and circumstances\n1a4) of transformations\n1b) (Niphal) to be created\n1b1) of heaven and earth\n1b2) of birth\n1b3) of something new\n1b4) of miracles\n1c) (Piel)\n1c1) to cut down\n1c2) to cut out",
+ "occurrences": 55,
+ "verse_count": 47,
+ "references": [
+  {
+   "book": "Genesis",
+   "book_number": 1,
+   "chapter": 1,
+   "verse": 1
+  },
+  {
+   "book": "Genesis",
+   "book_number": 1,
+   "chapter": 1,
+   "verse": 21
+  },
+  {
+   "book": "Genesis",
+   "book_number": 1,
+   "chapter": 1,
+   "verse": 27
+  },
+  {
+   "book": "Genesis",
+   "book_number": 1,
+   "chapter": 2,
+   "verse": 3
+  },
+  {
+   "book": "Genesis",
+   "book_number": 1,
+   "chapter": 2,
+   "verse": 4
+  },
+  {
+   "book": "Genesis",
+   "book_number": 1,
+   "chapter": 5,
+   "verse": 1
+  },
+  {
+   "book": "Genesis",
+   "book_number": 1,
+   "chapter": 5,
+   "verse": 2
+  },
+  {
+   "book": "Genesis",
+   "book_number": 1,
+   "chapter": 6,
+   "verse": 7
+  },
+  {
+   "book": "Exodus",
+   "book_number": 2,
+   "chapter": 34,
+   "verse": 10
+  },
+  {
+   "book": "Numbers",
+   "book_number": 4,
+   "chapter": 16,
+   "verse": 30
+  },
+  {
+   "book": "Deuteronomy",
+   "book_number": 5,
+   "chapter": 4,
+   "verse": 32
+  },
+  {
+   "book": "Joshua",
+   "book_number": 6,
+   "chapter": 17,
+   "verse": 15
+  },
+  {
+   "book": "Joshua",
+   "book_number": 6,
+   "chapter": 17,
+   "verse": 18
+  },
+  {
+   "book": "1 Samuel",
+   "book_number": 9,
+   "chapter": 2,
+   "verse": 29
+  },
+  {
+   "book": "2 Samuel",
+   "book_number": 10,
+   "chapter": 12,
+   "verse": 17
+  },
+  {
+   "book": "Psalms",
+   "book_number": 19,
+   "chapter": 51,
+   "verse": 10
+  },
+  {
+   "book": "Psalms",
+   "book_number": 19,
+   "chapter": 89,
+   "verse": 12
+  },
+  {
+   "book": "Psalms",
+   "book_number": 19,
+   "chapter": 89,
+   "verse": 47
+  },
+  {
+   "book": "Psalms",
+   "book_number": 19,
+   "chapter": 102,
+   "verse": 18
+  },
+  {
+   "book": "Psalms",
+   "book_number": 19,
+   "chapter": 104,
+   "verse": 30
+  }
+ ],
+ "source": "STEP Bible brief lexicon (STEPBible.org, CC BY 4.0)"
+}

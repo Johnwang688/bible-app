@@ -38,7 +38,7 @@ import { parseReferenceLabel, sortBookNamesForMatching } from '@/lib/scriptureRe
 import { normalizeThemeId } from '@/lib/themes';
 
 import type { BookInfo, ChapterData, ChapterQuizVisitState, ChapterReadEvidence, CommentaryEntry, CommentarySource, ReaderSettings, SavedPassage, SearchResult, SearchSuggestion, SidePanelMode, SidePanelPosition, Translation, TutorialStep, VerseData, VerseNote } from '@/features/reader/types';
-import { filterTranslationsForPicker, getLocalizedBookName, getLocalizedBookNameFromRaw, getTranslationDisplayId, getTranslationDisplayName, normalizeTranslationChoice } from '@/features/reader/translations';
+import { DEFAULT_TRANSLATION, filterTranslationsForPicker, getLocalizedBookName, getLocalizedBookNameFromRaw, getTranslationDisplayId, getTranslationDisplayName, normalizeTranslationChoice } from '@/features/reader/translations';
 import { DEFAULT_READER_SETTINGS, applyReaderHighlightVars, detectGraphicsCapability, isPagedReadingMode, normalizeReaderSettings } from '@/features/reader/settings';
 import { biblePaneScrollDepthRatio, chapterStorageKey, closestVerseLine, formatVerseGroupRef, scrollVerseLineIntoBiblePaneCenter, sliceVersesIntoPages, verseStorageKey } from '@/features/reader/layout';
 import { computeChapterQuizRequiredDwellMs, getChapterQuizVisibleMs } from '@/features/quiz/dwell';
@@ -58,7 +58,9 @@ import HomeScreen from '@/features/home/HomeScreen';
 import TopBar from '@/features/reader/TopBar';
 import CommentaryContent from '@/features/commentary/CommentaryContent';
 import ChapterContent from '@/features/reader/ChapterContent';
+import type { VersePopupPlacement } from '@/features/reader/popupPlacement';
 import StudyContent from '@/features/study/StudyContent';
+import WordsPanel, { type WordsTarget } from '@/features/words/WordsPanel';
 import { ReaderPositionProvider, useReaderPosition } from '@/features/reader/ReaderPositionContext';
 import { StudyItemsProvider, useStudyItems } from '@/features/study/StudyItemsContext';
 type BibleAppProps = {
@@ -144,7 +146,8 @@ function BibleAppInner({
   const [aiComposerSeed, setAiComposerSeed] = useState<{ id: number; text: string } | undefined>();
   const [selectedVerse, setSelectedVerse]   = useState<number | null>(null);
   const [selectedVerseGroup, setSelectedVerseGroup] = useState<number[]>([]);
-  const [versePopupPos, setVersePopupPos]   = useState<{ top: number; left: number } | null>(null);
+  const [wordsTarget, setWordsTarget] = useState<WordsTarget | null>(null);
+  const [versePopupPos, setVersePopupPos]   = useState<VersePopupPlacement | null>(null);
   const [searchQuery, setSearchQuery]       = useState('');
   const [searchResults, setSearchResults]   = useState<SearchResult[]>([]);
   const [searchLoading, setSearchLoading]   = useState(false);
@@ -234,7 +237,7 @@ function BibleAppInner({
   const booksRef               = useRef<BookInfo[]>([]);
   const currentBookRef         = useRef<BookInfo | null>(null);
   const chapterRef             = useRef(1);
-  const translationRef         = useRef('WEB');
+  const translationRef         = useRef(DEFAULT_TRANSLATION);
   const sidePanelModeRef       = useRef<SidePanelMode>('none');
   const sidePanelPositionRef   = useRef<SidePanelPosition>('right');
   const commentarySourceRef    = useRef('summary');
@@ -274,6 +277,9 @@ function BibleAppInner({
   const syncReadyRef        = useRef(false);
   const hydratingAccountRef = useRef(false);
   const accountBootstrapRef = useRef(false);
+  // Whether this device had a saved reading position when the app started (set once by the init effect).
+  // The position effect writes one on every change, so "has one now" cannot tell a new device apart.
+  const startedWithSavedPositionRef = useRef(false);
   const initStartedRef = useRef(false);
   const chapterEngagementRef = useRef<{ key: string; lastInteractionAt: number | null }>({
     key: '',
@@ -792,6 +798,23 @@ function BibleAppInner({
     }
   }, [loadCommentaryData]);
 
+  const closeVerseStudyPopup = useCallback(() => {
+    setSelectedVerse(null);
+    setSelectedVerseGroup([]);
+    setVersePopupPos(null);
+    setShowVerseNoteEditor(false);
+  }, []);
+
+  const openOriginalWords = useCallback((verse: number) => {
+    const book = currentBookRef.current;
+    if (!book) return;
+    setWordsTarget({ bookNumber: book.book_number, bookName: book.name, chapter: chapterRef.current, verse });
+    // Close the floating verse card and clear the selection: the next tap starts a fresh
+    // single-verse selection, positioned with the pane already open. The panel keeps its own target.
+    closeVerseStudyPopup();
+    openSidePanel('words');
+  }, [closeVerseStudyPopup, openSidePanel]);
+
   const closeSidePanel = useCallback(() => {
     setSidePanelMode('none');
     setSyncedVerseStart(null);
@@ -1216,11 +1239,11 @@ function BibleAppInner({
         goToHome();
         break;
       case 'reader':
-        navigateToPassage('John', 3, 'WEB');
+        navigateToPassage('John', 3, translationRef.current);
         openReaderFromHome('none');
         break;
       case 'verse-tools':
-        navigateToPassage('John', 3, 'WEB', TUTORIAL_VERSE_TOOLS_VERSE);
+        navigateToPassage('John', 3, translationRef.current, TUTORIAL_VERSE_TOOLS_VERSE);
         openReaderFromHome('none');
         setSelectedVerse(null);
         setSelectedVerseGroup([]);
@@ -1231,11 +1254,11 @@ function BibleAppInner({
         openSearchFromTutorial();
         break;
       case 'commentary':
-        navigateToPassage('John', 3, 'WEB', TUTORIAL_VERSE_TOOLS_VERSE);
+        navigateToPassage('John', 3, translationRef.current, TUTORIAL_VERSE_TOOLS_VERSE);
         openReaderFromHome('commentary');
         break;
       case 'ai':
-        navigateToPassage('John', 3, 'WEB', TUTORIAL_VERSE_TOOLS_VERSE);
+        navigateToPassage('John', 3, translationRef.current, TUTORIAL_VERSE_TOOLS_VERSE);
         openReaderFromHome('ai');
         setAiComposerSeed({
           id: Date.now(),
@@ -1243,7 +1266,7 @@ function BibleAppInner({
         });
         break;
       case 'study':
-        navigateToPassage('John', 3, 'WEB', TUTORIAL_VERSE_TOOLS_VERSE);
+        navigateToPassage('John', 3, translationRef.current, TUTORIAL_VERSE_TOOLS_VERSE);
         openStudyFromTutorial();
         break;
       case 'settings':
@@ -2105,13 +2128,6 @@ function BibleAppInner({
     await runPhraseSearch(trimmed, { showEmptyError: true });
   }, [applySearchSuggestion, runPhraseSearch, searchLooksLikeNavigation, searchQuery, topSearchSuggestion]);
 
-  const closeVerseStudyPopup = useCallback(() => {
-    setSelectedVerse(null);
-    setSelectedVerseGroup([]);
-    setVersePopupPos(null);
-    setShowVerseNoteEditor(false);
-  }, []);
-
   const toggleVerseHighlight = useCallback(() => {
     if (!selectedVerseKey || !currentBook) return;
     const isCurrentlyHighlighted = highlightedVerses.includes(selectedVerseKey);
@@ -2298,22 +2314,38 @@ function BibleAppInner({
       sidePanelPosition: settings.side_panel_position ?? prev.sidePanelPosition,
       graphicsMode: prev.graphicsMode,
     }));
+    const restorePosition = (
+      book: BookInfo | undefined,
+      chapterNumber: number,
+      translationId: string,
+    ) => {
+      if (!book) return;
+      const t = normalizeTranslationChoice(translationId);
+      setCurrentBook(book);
+      setChapter(chapterNumber);
+      setTranslation(t);
+      void loadChapter(book, chapterNumber, t);
+    };
+    const recentPassage = settings.recent_passages?.[0];
     if (progressItems.length > 0) {
       const latest = progressItems[0];
-      const book = booksByNumber.get(latest.book_number);
-      if (book) {
-        const t = normalizeTranslationChoice(latest.translation);
-        setCurrentBook(book);
-        setChapter(latest.chapter);
-        setTranslation(t);
-        void loadChapter(book, latest.chapter, t);
-      }
+      restorePosition(booksByNumber.get(latest.book_number), latest.chapter, latest.translation);
+    } else if (recentPassage && !startedWithSavedPositionRef.current) {
+      // Only a device that started without its own saved position adopts synced history.
+      const bookName = recentPassage.book.toLowerCase();
+      restorePosition(
+        booksByName.get(bookName) ?? books.find(b =>
+          b.name_zh?.toLowerCase() === bookName
+          || b.name_zh_simplified?.toLowerCase() === bookName),
+        recentPassage.chapter,
+        recentPassage.translation,
+      );
     }
     queueMicrotask(() => {
       hydratingAccountRef.current = false;
       syncReadyRef.current = true;
     });
-  }, [booksByNumber, loadChapter]);
+  }, [books, booksByName, booksByNumber, loadChapter]);
 
   const syncAccountState = useCallback(async (session: AuthSession) => {
     if (!books.length) return;
@@ -3432,6 +3464,7 @@ function BibleAppInner({
     // Read theme from localStorage (inline script already applied it to the DOM)
     const saved = normalizeThemeId(localStorage.getItem('theme'));
     const storedLastPosition = readStoredLastPosition();
+    startedWithSavedPositionRef.current = storedLastPosition !== null;
     const storedReaderSettings = readStoredReaderSettings();
     setCurrentTheme(saved);
     localStorage.setItem('theme', saved);
@@ -3446,7 +3479,7 @@ function BibleAppInner({
       try {
         const [booksData, translationsData, sourcesData] = await Promise.all([
           fetch('/api/v1/books').then(r => r.json()) as Promise<BookInfo[]>,
-          fetch('/api/v1/translations').then(r => r.json()).catch(() => [{ id: 'WEB', name: 'World English Bible' }]) as Promise<Translation[]>,
+          fetch('/api/v1/translations').then(r => r.json()).catch(() => [{ id: DEFAULT_TRANSLATION, name: 'Berean Standard Bible' }]) as Promise<Translation[]>,
           fetch('/api/v1/commentary/sources').then(r => r.json()).catch(() => []) as Promise<CommentarySource[]>,
         ]);
         setBooks(booksData);
@@ -3459,7 +3492,7 @@ function BibleAppInner({
             return next;
           });
         }
-        const initialTranslation = normalizeTranslationChoice(storedLastPosition?.translation ?? 'WEB');
+        const initialTranslation = normalizeTranslationChoice(storedLastPosition?.translation ?? DEFAULT_TRANSLATION);
         const urlBookName = initialReader?.book?.trim();
         const urlChapter = initialReader?.chapter;
         const urlChapterNum =
@@ -3742,6 +3775,7 @@ function BibleAppInner({
   const sidePanelTitle = () => {
     if (sidePanelMode === 'commentary')  return commentarySourceNames[commentarySource] ?? commentarySource;
     if (sidePanelMode === 'study') return 'My Stuff';
+    if (sidePanelMode === 'words') return 'Original words';
     return 'Bible Companion';
   };
   const currentBookLabel = currentBook
@@ -4107,6 +4141,7 @@ function BibleAppInner({
             <div className="side-scroll" ref={sideScrollRef}>
               {sidePanelMode === 'commentary' && <CommentaryContent commentaryLoading={commentaryLoading} commentaryError={commentaryError} commentaryEntries={commentaryEntries} commentarySource={commentarySource} chapterData={chapterData} syncedVerseStart={syncedVerseStart} />}
               {sidePanelMode === 'study' && !homeScreenActive && <StudyContent chapterData={chapterData} handleAuthSignIn={handleAuthSignIn} handleAuthSignUp={handleAuthSignUp} handleAuthSignOut={handleAuthSignOut} coinBalance={coinBalance} readingGoalEditing={readingGoalEditing} setReadingGoalEditing={setReadingGoalEditing} readingRhythmTitle={readingRhythmTitle} dailyGoalsExpanded={dailyGoalsExpanded} setDailyGoalsExpanded={setDailyGoalsExpanded} taskChapterDone={taskChapterDone} taskAiDone={taskAiDone} taskMinutesDone={taskMinutesDone} dailyRewardsStatus={dailyRewardsStatus} handleClaimDailyTasksBonus={handleClaimDailyTasksBonus} tasksBonusClaiming={tasksBonusClaiming} navigateToPassage={navigateToPassage} homeScreenActive={homeScreenActive} openReaderFromHome={openReaderFromHome} closeSidePanel={closeSidePanel} />}
+              {sidePanelMode === 'words' && <WordsPanel target={wordsTarget} translation={translation} navigateToPassage={navigateToPassage} />}
               {sidePanelMode === 'ai' && (
                 <AiSidebar
                   currentBookName={currentBook?.name ?? null}
@@ -4141,7 +4176,7 @@ function BibleAppInner({
                 isPagedReadingMode(readerSettings.readingMode) ? ' reader-wrap--paged' : ''
               }${!sideOpen ? ' reader-wrap--full' : ''}`}
             >
-              {<ChapterContent chapterLoading={chapterLoading} chapterError={chapterError} chapterData={chapterData} chapterBookLabel={chapterBookLabel} pagedPageSlices={pagedPageSlices} chapterSpreadIndex={chapterSpreadIndex} animClass={animClass} setAnimClass={setAnimClass} setChapterData={setChapterData} setChapterLoading={setChapterLoading} pagedFlipAnim={pagedFlipAnim} setPagedFlipAnim={setPagedFlipAnim} aiNavHighlight={aiNavHighlight} selectedVerse={selectedVerse} setSelectedVerse={setSelectedVerse} selectedVerseGroup={selectedVerseGroup} setSelectedVerseGroup={setSelectedVerseGroup} selectedVerseData={selectedVerseData} selectedVerseKey={selectedVerseKey} selectedVerseNote={selectedVerseNote} selectedVerseHighlighted={selectedVerseHighlighted} versePopupPos={versePopupPos} setVersePopupPos={setVersePopupPos} showVerseNoteEditor={showVerseNoteEditor} setShowVerseNoteEditor={setShowVerseNoteEditor} currentNoteDraft={currentNoteDraft} setCurrentNoteDraft={setCurrentNoteDraft} closeVerseStudyPopup={closeVerseStudyPopup} toggleVerseHighlight={toggleVerseHighlight} saveVerseNote={saveVerseNote} copySelectedVerse={copySelectedVerse} tutorialVerseToolsNavBlocked={tutorialVerseToolsNavBlocked} openSidePanel={openSidePanel} setAiComposerSeed={setAiComposerSeed} recordChapterEngagement={recordChapterEngagement} chapterQuizGate={chapterQuizGate} quizTakenThisChapterVisit={quizTakenThisChapterVisit} setQuizOpen={setQuizOpen} topVisibleVerseRef={topVisibleVerseRef} exitAnimDoneRef={exitAnimDoneRef} pendingFlipDataRef={pendingFlipDataRef} biblePaneRef={biblePaneRef} sidePanelModeRef={sidePanelModeRef} currentBookRef={currentBookRef} chapterRef={chapterRef} commentarySourceRef={commentarySourceRef} loadCommentaryData={loadCommentaryData} pagedContentRef={pagedContentRef} pagedMeasureRef={pagedMeasureRef} pagedFlipAnimRef={pagedFlipAnimRef} pagedFlipPendingRef={pagedFlipPendingRef} readerPassagesRef={readerPassagesRef} verseStudyPopupRef={verseStudyPopupRef} />}
+              {<ChapterContent chapterLoading={chapterLoading} chapterError={chapterError} chapterData={chapterData} chapterBookLabel={chapterBookLabel} pagedPageSlices={pagedPageSlices} chapterSpreadIndex={chapterSpreadIndex} animClass={animClass} setAnimClass={setAnimClass} setChapterData={setChapterData} setChapterLoading={setChapterLoading} pagedFlipAnim={pagedFlipAnim} setPagedFlipAnim={setPagedFlipAnim} aiNavHighlight={aiNavHighlight} selectedVerse={selectedVerse} setSelectedVerse={setSelectedVerse} selectedVerseGroup={selectedVerseGroup} setSelectedVerseGroup={setSelectedVerseGroup} selectedVerseData={selectedVerseData} selectedVerseKey={selectedVerseKey} selectedVerseNote={selectedVerseNote} selectedVerseHighlighted={selectedVerseHighlighted} versePopupPos={versePopupPos} setVersePopupPos={setVersePopupPos} showVerseNoteEditor={showVerseNoteEditor} setShowVerseNoteEditor={setShowVerseNoteEditor} currentNoteDraft={currentNoteDraft} setCurrentNoteDraft={setCurrentNoteDraft} closeVerseStudyPopup={closeVerseStudyPopup} toggleVerseHighlight={toggleVerseHighlight} saveVerseNote={saveVerseNote} copySelectedVerse={copySelectedVerse} tutorialVerseToolsNavBlocked={tutorialVerseToolsNavBlocked} openSidePanel={openSidePanel} openOriginalWords={openOriginalWords} setAiComposerSeed={setAiComposerSeed} recordChapterEngagement={recordChapterEngagement} chapterQuizGate={chapterQuizGate} quizTakenThisChapterVisit={quizTakenThisChapterVisit} setQuizOpen={setQuizOpen} topVisibleVerseRef={topVisibleVerseRef} exitAnimDoneRef={exitAnimDoneRef} pendingFlipDataRef={pendingFlipDataRef} biblePaneRef={biblePaneRef} sidePanelModeRef={sidePanelModeRef} currentBookRef={currentBookRef} chapterRef={chapterRef} commentarySourceRef={commentarySourceRef} loadCommentaryData={loadCommentaryData} pagedContentRef={pagedContentRef} pagedMeasureRef={pagedMeasureRef} pagedFlipAnimRef={pagedFlipAnimRef} pagedFlipPendingRef={pagedFlipPendingRef} readerPassagesRef={readerPassagesRef} verseStudyPopupRef={verseStudyPopupRef} />}
             </div>
             <div
               className={`ch-nav ch-nav-prev${chromeBottomVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}${sideOpen && !sidePaneOnRight ? ' side-pane-open' : ''}`}

@@ -24,7 +24,9 @@ export function ReaderPositionProvider({ children }: { children: ReactNode }) {
   const [translations, setTranslations] = useState<Translation[]>([]);
   const [currentBook, setCurrentBook] = useState<BookInfo | null>(null);
   const [chapter, setChapter]         = useState(1);
-  const [translation, setTranslation] = useState('WEB');
+  // Must equal DEFAULT_TRANSLATION (features/reader/translations.ts). Not imported: review-tests/w4-6d loads
+  // this file in a bare vm whose require cannot resolve the '@/' alias for value imports.
+  const [translation, setTranslation] = useState('BSB');
 
   const value = useMemo(
     () => ({
