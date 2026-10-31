@@ -1,7 +1,7 @@
 {
   "body": [
     {
-      "relevance": 7.142554880856507,
+      "relevance": 6.9783423407438585,
       "verse": {
         "book": "Luke",
         "book_number": 42,
@@ -13,7 +13,7 @@
       }
     },
     {
-      "relevance": 6.987793277010225,
+      "relevance": 6.827257320186988,
       "verse": {
         "book": "John",
         "book_number": 43,
@@ -25,7 +25,7 @@
       }
     },
     {
-      "relevance": 6.978235022592272,
+      "relevance": 6.822731788482646,
       "verse": {
         "book": "1 John",
         "book_number": 62,
@@ -37,7 +37,7 @@
       }
     },
     {
-      "relevance": 6.9232297607803,
+      "relevance": 6.7631757515893876,
       "verse": {
         "book": "1 Corinthians",
         "book_number": 46,
@@ -49,7 +49,7 @@
       }
     },
     {
-      "relevance": 6.617517922401759,
+      "relevance": 6.460003386230155,
       "verse": {
         "book": "Ephesians",
         "book_number": 49,
@@ -61,7 +61,7 @@
       }
     },
     {
-      "relevance": 6.608945171184223,
+      "relevance": 6.455951492510582,
       "verse": {
         "book": "Genesis",
         "book_number": 1,
@@ -73,7 +73,7 @@
       }
     },
     {
-      "relevance": 6.608945171184223,
+      "relevance": 6.455951492510582,
       "verse": {
         "book": "Proverbs",
         "book_number": 20,
@@ -85,7 +85,7 @@
       }
     },
     {
-      "relevance": 6.559587058113529,
+      "relevance": 6.402601599182971,
       "verse": {
         "book": "John",
         "book_number": 43,
@@ -97,7 +97,7 @@
       }
     },
     {
-      "relevance": 6.559587058113529,
+      "relevance": 6.402601599182971,
       "verse": {
         "book": "1 John",
         "book_number": 62,
@@ -109,7 +109,7 @@
       }
     },
     {
-      "relevance": 6.535183441885275,
+      "relevance": 6.3762559416365585,
       "verse": {
         "book": "Hosea",
         "book_number": 28,
@@ -121,7 +121,7 @@
       }
     },
     {
-      "relevance": 6.522650123542827,
+      "relevance": 6.3703364499950945,
       "verse": {
         "book": "Proverbs",
         "book_number": 20,
@@ -133,7 +133,7 @@
       }
     },
     {
-      "relevance": 6.522650123542827,
+      "relevance": 6.3703364499950945,
       "verse": {
         "book": "1 John",
         "book_number": 62,
@@ -145,7 +145,7 @@
       }
     },
     {
-      "relevance": 6.502661664811422,
+      "relevance": 6.346210940052067,
       "verse": {
         "book": "1 Samuel",
         "book_number": 9,
@@ -157,7 +157,7 @@
       }
     },
     {
-      "relevance": 6.502661664811422,
+      "relevance": 6.346210940052067,
       "verse": {
         "book": "Jeremiah",
         "book_number": 24,
@@ -169,7 +169,7 @@
       }
     },
     {
-      "relevance": 6.450791605899105,
+      "relevance": 6.292727929817986,
       "verse": {
         "book": "John",
         "book_number": 43,
@@ -181,7 +181,7 @@
       }
     },
     {
-      "relevance": 6.446715790682412,
+      "relevance": 6.290804925679989,
       "verse": {
         "book": "1 John",
         "book_number": 62,
@@ -193,7 +193,7 @@
       }
     },
     {
-      "relevance": 6.446715790682412,
+      "relevance": 6.290804925679989,
       "verse": {
         "book": "1 John",
         "book_number": 62,
@@ -205,7 +205,7 @@
       }
     },
     {
-      "relevance": 6.4385795921261035,
+      "relevance": 6.286962441172586,
       "verse": {
         "book": "Psalms",
         "book_number": 19,
@@ -217,7 +217,7 @@
       }
     },
     {
-      "relevance": 6.4385795921261035,
+      "relevance": 6.286962441172586,
       "verse": {
         "book": "Proverbs",
         "book_number": 20,
@@ -229,7 +229,7 @@
       }
     },
     {
-      "relevance": 6.4385795921261035,
+      "relevance": 6.286962441172586,
       "verse": {
         "book": "Proverbs",
         "book_number": 20,

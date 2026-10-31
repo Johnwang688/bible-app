@@ -6,6 +6,11 @@
       "sha256": "2bf5b49ea916c042efb79cf622efe83af78e4d22c9e04899207f7c9ade6b83d0",
       "table": "books"
     },
+    "bsb_words.jsonl.gz": {
+      "rows": 443625,
+      "sha256": "95822a38eb01091b3ed2457ff795416ca61dc1edc5d71078d22116db4b94ebc7",
+      "table": "bsb_words"
+    },
     "commentaries.jsonl": {
       "rows": 4553,
       "sha256": "9fab240aa66c2fb53870f272fdaa769b68a9a5ee22fdb8c090a5355d1821b5c9",
@@ -26,6 +31,11 @@
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "table": "cross_references"
     },
+    "lexicon.jsonl": {
+      "rows": 18085,
+      "sha256": "cdb92d8b72c01a2cf87d5bc588d21e12310a595d865225b199d3d60c862a365f",
+      "table": "lexicon"
+    },
     "quiz_question_bank.jsonl": {
       "rows": 22715,
       "sha256": "312f2de57c6743968fd41c29c016eb23249bc3ac4b7f34e7146bbded515826b1",
@@ -38,12 +48,17 @@
     },
     "translations.jsonl": {
       "rows": 6,
-      "sha256": "ed3ed2ba36a0834c6e799cadb85c867b83f53f6f0f1eb9691d7930eb60c38e52",
+      "sha256": "efe2f1fddd1b6f2d20f067848df47e78c5da1bdd3e104edd81d810556ad2b724",
       "table": "translations"
     },
     "verses/ASV.jsonl": {
       "rows": 31102,
       "sha256": "d3d56061f8e5d75a3dc06bc74f36bc7c63b6336fd9a5df46e17724ef093c5aaf",
+      "table": "verses"
+    },
+    "verses/BSB.jsonl": {
+      "rows": 31086,
+      "sha256": "dd7d0953c6dbcb278df0dc612714f637197a3f7d5bb15287283ac4b7015f39fa",
       "table": "verses"
     },
     "verses/CUV-SIMP.jsonl": {
@@ -65,13 +80,15 @@
   "supabase_project_ref": "sgiwrkhaeihhbifjcsjw",
   "tables": {
     "books": 66,
+    "bsb_words": 443625,
     "commentaries": 4553,
     "commentary_entity_mentions": 9083,
     "commentary_sources": 3,
     "cross_references": 0,
+    "lexicon": 18085,
     "quiz_question_bank": 22715,
     "summary_entities": 4071,
     "translations": 6,
-    "verses": 124405
+    "verses": 155491
   }
 }

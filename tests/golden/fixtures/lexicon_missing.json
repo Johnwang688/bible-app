@@ -1,0 +1,11 @@
+{
+  "body": {
+    "detail": "Lexicon entry not found"
+  },
+  "request": {
+    "method": "GET",
+    "name": "lexicon_missing",
+    "path": "/api/v1/lexicon/X0025"
+  },
+  "status": 404
+}

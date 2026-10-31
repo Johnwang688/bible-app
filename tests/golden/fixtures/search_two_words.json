@@ -1,7 +1,7 @@
 {
   "body": [
     {
-      "relevance": 12.270849014825696,
+      "relevance": 12.088775481683612,
       "verse": {
         "book": "Galatians",
         "book_number": 48,
@@ -13,7 +13,7 @@
       }
     },
     {
-      "relevance": 12.270849014825696,
+      "relevance": 12.088775481683612,
       "verse": {
         "book": "Hebrews",
         "book_number": 58,
@@ -25,7 +25,7 @@
       }
     },
     {
-      "relevance": 11.789068698135855,
+      "relevance": 11.607853914327158,
       "verse": {
         "book": "1 Corinthians",
         "book_number": 46,
@@ -37,7 +37,7 @@
       }
     },
     {
-      "relevance": 11.343690642895918,
+      "relevance": 11.1637328447148,
       "verse": {
         "book": "Hebrews",
         "book_number": 58,
@@ -49,7 +49,7 @@
       }
     },
     {
-      "relevance": 9.854519056831446,
+      "relevance": 9.681986373443724,
       "verse": {
         "book": "Romans",
         "book_number": 45,
@@ -61,7 +61,7 @@
       }
     },
     {
-      "relevance": 9.854519056831446,
+      "relevance": 9.681986373443724,
       "verse": {
         "book": "1 Thessalonians",
         "book_number": 52,
@@ -73,7 +73,7 @@
       }
     },
     {
-      "relevance": 9.541376977799029,
+      "relevance": 9.371035307778637,
       "verse": {
         "book": "1 Thessalonians",
         "book_number": 52,
@@ -85,7 +85,7 @@
       }
     },
     {
-      "relevance": 9.541376977799029,
+      "relevance": 9.371035307778637,
       "verse": {
         "book": "1 Peter",
         "book_number": 60,
@@ -97,7 +97,7 @@
       }
     },
     {
-      "relevance": 9.10728077971299,
+      "relevance": 8.940337410965292,
       "verse": {
         "book": "2 Corinthians",
         "book_number": 47,
@@ -109,7 +109,7 @@
       }
     },
     {
-      "relevance": 9.10728077971299,
+      "relevance": 8.940337410965292,
       "verse": {
         "book": "Hebrews",
         "book_number": 58,
@@ -121,7 +121,7 @@
       }
     },
     {
-      "relevance": 7.512302492989278,
+      "relevance": 7.361437539729884,
       "verse": {
         "book": "Colossians",
         "book_number": 51,
