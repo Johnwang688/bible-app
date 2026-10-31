@@ -1,0 +1,14 @@
+{
+  "body": {
+    "detail": "Verse not found"
+  },
+  "request": {
+    "method": "GET",
+    "name": "verse_missing",
+    "params": {
+      "translation": "WEB"
+    },
+    "path": "/api/v1/verses/John/3/99"
+  },
+  "status": 404
+}

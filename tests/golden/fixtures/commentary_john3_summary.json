@@ -1,0 +1,82 @@
+{
+  "body": [
+    {
+      "book_number": 43,
+      "chapter": 3,
+      "content": "TITLE::Born anew, God’s Son, and John’s joy\n\nNicodemus comes by night; Jesus teaches that one must be born anew of water and Spirit to enter God’s Kingdom and compares the Spirit to the wind. Jesus speaks of the Son of Man lifted up like Moses’s serpent, God’s love and sending of the Son for eternal life, and light versus darkness. Jesus then baptizes in Judea while John baptizes near Salim; John’s disciples question Jesus’s popularity, and John insists he must decrease while the one from heaven must increase, ending with belief in the Son and warning of God’s wrath on the disobedient.\n\nThemes: Night visit of Nicodemus · Born anew · Water and Spirit · Son of Man lifted up · God’s love for the world · Light and darkness · John’s humility · Eternal life and wrath\n\nKey People: Nicodemus · Jesus · John · John’s disciples · Moses\n\nKey Places: Judea\n\nKey Points:\n• Nicodemus said no one could do Jesus’s signs unless God were with him.\n• Jesus said one must be born anew to see God’s Kingdom and be born of water and Spirit to enter it.\n• Jesus compared the Spirit’s working to the wind’s unseen coming and going.\n• The Son of Man must be lifted up so believers may have eternal life.\n• God loved the world and gave his one and only Son so believers would not perish.\n• People loved darkness rather than light because their works were evil.\n• A dispute arose between John’s disciples and some Jews about purification.\n• John said he must decrease and Christ must increase; belief in the Son brings eternal life.\n\nSupporting Verses: John 3:2 · John 3:3 · John 3:5 · John 3:8 · John 3:14 · John 3:16 · John 3:19 · John 3:25 · John 3:30 · John 3:36",
+      "id": 11924,
+      "people_tags": [
+        {
+          "label": "Nicodemus",
+          "slug": "nicodemus"
+        },
+        {
+          "label": "Jesus",
+          "slug": "jesus"
+        },
+        {
+          "label": "John",
+          "slug": "john"
+        },
+        {
+          "label": "Moses",
+          "slug": "moses"
+        }
+      ],
+      "place_tags": [
+        {
+          "label": "Judea",
+          "slug": "judea"
+        }
+      ],
+      "source": "summary",
+      "theme_tags": [
+        {
+          "label": "Night visit of Nicodemus",
+          "slug": "night-visit-of-nicodemus"
+        },
+        {
+          "label": "Born anew",
+          "slug": "born-anew"
+        },
+        {
+          "label": "Water and Spirit",
+          "slug": "water-and-spirit"
+        },
+        {
+          "label": "Son of Man lifted up",
+          "slug": "son-of-man-lifted-up"
+        },
+        {
+          "label": "God’s love for the world",
+          "slug": "god-s-love-for-the-world"
+        },
+        {
+          "label": "Light and darkness",
+          "slug": "light-and-darkness"
+        },
+        {
+          "label": "John’s humility",
+          "slug": "john-s-humility"
+        },
+        {
+          "label": "Eternal life and wrath",
+          "slug": "eternal-life-and-wrath"
+        }
+      ],
+      "verse_end": null,
+      "verse_start": 1
+    }
+  ],
+  "request": {
+    "method": "GET",
+    "name": "commentary_john3_summary",
+    "params": {
+      "book": "John",
+      "chapter": 3,
+      "source": "summary"
+    },
+    "path": "/api/v1/commentary"
+  },
+  "status": 200
+}

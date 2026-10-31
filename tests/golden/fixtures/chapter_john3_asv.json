@@ -1,0 +1,344 @@
+{
+  "body": {
+    "book": "John",
+    "book_number": 43,
+    "chapter": 3,
+    "total_verses": 36,
+    "translation": "ASV",
+    "verses": [
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119425,
+        "text": "Now there was a man of the Pharisees, named Nicodemus, a ruler of the Jews:",
+        "translation": "ASV",
+        "verse": 1
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119426,
+        "text": "the same came unto him by night, and said to him, Rabbi, we know that thou art a teacher come from God; for no one can do these signs that thou doest, except God be with him.",
+        "translation": "ASV",
+        "verse": 2
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119427,
+        "text": "Jesus answered and said unto him, Verily, verily, I say unto thee, Except one be born anew, he cannot see the kingdom of God.",
+        "translation": "ASV",
+        "verse": 3
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119428,
+        "text": "Nicodemus saith unto him, How can a man be born when he is old? can he enter a second time into his mother`s womb, and be born?",
+        "translation": "ASV",
+        "verse": 4
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119429,
+        "text": "Jesus answered, Verily, verily, I say unto thee, Except one be born of water and the Spirit, he cannot enter into the kingdom of God!",
+        "translation": "ASV",
+        "verse": 5
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119430,
+        "text": "That which is born of the flesh is flesh; and that which is born of the Spirit is spirit.",
+        "translation": "ASV",
+        "verse": 6
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119431,
+        "text": "Marvel not that I said unto thee, Ye must be born anew.",
+        "translation": "ASV",
+        "verse": 7
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119432,
+        "text": "The wind bloweth where it will, and thou hearest the voice thereof, but knowest not whence it cometh, and whither it goeth: so is every one that is born of the Spirit.",
+        "translation": "ASV",
+        "verse": 8
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119433,
+        "text": "Nicodemus answered and said unto him, How can these things be?",
+        "translation": "ASV",
+        "verse": 9
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119434,
+        "text": "Jesus answered and said unto him, Art thou the teacher of Israel, and understandest not these things?",
+        "translation": "ASV",
+        "verse": 10
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119435,
+        "text": "Verily, verily, I say unto thee, We speak that which we know, and bear witness of that which we have seen; and ye receive not our witness.",
+        "translation": "ASV",
+        "verse": 11
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119436,
+        "text": "If I told you earthly things and ye believe not, how shall ye believe if I tell you heavenly things?",
+        "translation": "ASV",
+        "verse": 12
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119437,
+        "text": "And no one hath ascended into heaven, but he that descended out of heaven, [even] the Son of man, who is in heaven.",
+        "translation": "ASV",
+        "verse": 13
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119438,
+        "text": "And as Moses lifted up the serpent in the wilderness, even so must the Son of man be lifted up;",
+        "translation": "ASV",
+        "verse": 14
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119439,
+        "text": "that whosoever believeth may in him have eternal life.",
+        "translation": "ASV",
+        "verse": 15
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119440,
+        "text": "For God so loved the world, that he gave his only begotten Son, that whosoever believeth on him should not perish, but have eternal life.",
+        "translation": "ASV",
+        "verse": 16
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119441,
+        "text": "For God sent not the Son into the world to judge the world; but that the world should be saved through him.",
+        "translation": "ASV",
+        "verse": 17
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119442,
+        "text": "He that believeth on him is not judged: he that believeth not hath been judged already, because he hath not believed on the name of the only begotten Son of God.",
+        "translation": "ASV",
+        "verse": 18
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119443,
+        "text": "And this is the judgment, that the light is come into the world, and men loved the darkness rather than the light; for their works were evil.",
+        "translation": "ASV",
+        "verse": 19
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119444,
+        "text": "For every one that doeth evil hateth the light, and cometh not to the light, lest his works should be reproved.",
+        "translation": "ASV",
+        "verse": 20
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119445,
+        "text": "But he that doeth the truth cometh to the light, that his works may be made manifest, that they have been wrought in God.",
+        "translation": "ASV",
+        "verse": 21
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119446,
+        "text": "After these things came Jesus and his disciples into the land of Judea; and there he tarried with them, and baptized.",
+        "translation": "ASV",
+        "verse": 22
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119447,
+        "text": "And John also was baptizing in Enon near to Salim, because there was much water there: and they came, and were baptized.",
+        "translation": "ASV",
+        "verse": 23
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119448,
+        "text": "For John was not yet cast into prison.",
+        "translation": "ASV",
+        "verse": 24
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119449,
+        "text": "There arose therefore a questioning on the part of John`s disciples with a Jew about purifying.",
+        "translation": "ASV",
+        "verse": 25
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119450,
+        "text": "And they came unto John, and said to him, Rabbi, he that was with thee beyond the Jordan, to whom thou hast borne witness, behold, the same baptizeth, and all men come to him.",
+        "translation": "ASV",
+        "verse": 26
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119451,
+        "text": "John answered and said, A man can receive nothing, except it have been given him from heaven.",
+        "translation": "ASV",
+        "verse": 27
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119452,
+        "text": "Ye yourselves bear me witness, that I said, I am not the Christ, but, that I am sent before him.",
+        "translation": "ASV",
+        "verse": 28
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119453,
+        "text": "He that hath the bride is the bridegroom: but the friend of the bridegroom, that standeth and heareth him, rejoiceth greatly because of the bridegroom`s voice: this my joy therefore is made full.",
+        "translation": "ASV",
+        "verse": 29
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119454,
+        "text": "He must increase, but I must decrease.",
+        "translation": "ASV",
+        "verse": 30
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119455,
+        "text": "He that cometh from above is above all: he that is of the earth is of the earth, and of the earth he speaketh: he that cometh from heaven is above all.",
+        "translation": "ASV",
+        "verse": 31
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119456,
+        "text": "What he hath seen and heard, of that he beareth witness; and no man receiveth his witness.",
+        "translation": "ASV",
+        "verse": 32
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119457,
+        "text": "He that hath received his witness hath set his seal to [this], that God is true.",
+        "translation": "ASV",
+        "verse": 33
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119458,
+        "text": "For he whom God hath sent speaketh the words of God: for he giveth not the Spirit by measure.",
+        "translation": "ASV",
+        "verse": 34
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119459,
+        "text": "The Father loveth the Son, and hath given all things into his hand.",
+        "translation": "ASV",
+        "verse": 35
+      },
+      {
+        "book": null,
+        "book_number": 43,
+        "chapter": 3,
+        "id": 119460,
+        "text": "He that believeth on the Son hath eternal life; but he that obeyeth not the Son shall not see life, but the wrath of God abideth on him.",
+        "translation": "ASV",
+        "verse": 36
+      }
+    ]
+  },
+  "request": {
+    "method": "GET",
+    "name": "chapter_john3_asv",
+    "params": {
+      "translation": "ASV"
+    },
+    "path": "/api/v1/chapters/John/3"
+  },
+  "status": 200
+}

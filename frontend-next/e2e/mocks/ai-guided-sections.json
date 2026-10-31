@@ -1,0 +1,8 @@
+{
+  "book": "John",
+  "chapter": 3,
+  "sections": [
+    { "verse_start": 1, "verse_end": 21 },
+    { "verse_start": 22, "verse_end": 36 }
+  ]
+}

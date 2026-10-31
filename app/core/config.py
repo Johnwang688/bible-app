@@ -5,7 +5,8 @@ from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # Always load repo-root `.env` (not cwd-dependent when uvicorn/cron uses another cwd).
-_ENV_FILE = Path(__file__).resolve().parents[2] / ".env"
+_REPO_ROOT = Path(__file__).resolve().parents[2]
+_ENV_FILE = _REPO_ROOT / ".env"
 
 
 class Settings(BaseSettings):
@@ -33,12 +34,27 @@ class Settings(BaseSettings):
     openai_api_key: str = Field(default="", alias="OPENAI_API_KEY")
     openai_model: str = Field(default="gpt-5.4-nano", alias="OPENAI_MODEL")
 
+    # AI provider: "openai" (default), "anthropic" (Claude API key) or "vertex" (Claude on Vertex AI)
+    ai_provider: str = Field(default="openai", alias="AI_PROVIDER")
+    anthropic_api_key: str = Field(default="", alias="ANTHROPIC_API_KEY")
+    claude_model: str = Field(default="claude-haiku-5-5", alias="CLAUDE_MODEL")
+    vertex_project_id: str = Field(default="", alias="VERTEX_PROJECT_ID")
+    vertex_region: str = Field(default="global", alias="VERTEX_REGION")
+    # Claude chat: stop calling tools and answer once a request nears this many input tokens or tool rounds.
+    ai_max_input_tokens: int = Field(default=100_000, alias="AI_MAX_INPUT_TOKENS")
+    ai_max_tool_rounds: int = Field(default=6, alias="AI_MAX_TOOL_ROUNDS")
+
     # Google OAuth
     google_client_id: str = Field(default="", alias="GOOGLE_CLIENT_ID")
     google_client_secret: str = Field(default="", alias="GOOGLE_CLIENT_SECRET")
 
     # Bible
     default_translation: str = Field(default="WEB", alias="DEFAULT_TRANSLATION")
+    # Read-only content database built by scripts/build_content.py (relative paths resolve against the repo root).
+    content_db_path: str = Field(
+        default=str(_REPO_ROOT / "build" / "content.sqlite"),
+        alias="CONTENT_DB_PATH",
+    )
 
     @property
     def cors_origin_list(self) -> list[str]:

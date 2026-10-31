@@ -1,0 +1,66 @@
+{"abbreviation":"Gen","book_number":1,"name_en":"Genesis","name_zh":"创世记","testament":"OT","total_chapters":50}
+{"abbreviation":"Exo","book_number":2,"name_en":"Exodus","name_zh":"出埃及记","testament":"OT","total_chapters":40}
+{"abbreviation":"Lev","book_number":3,"name_en":"Leviticus","name_zh":"利未记","testament":"OT","total_chapters":27}
+{"abbreviation":"Num","book_number":4,"name_en":"Numbers","name_zh":"民数记","testament":"OT","total_chapters":36}
+{"abbreviation":"Deu","book_number":5,"name_en":"Deuteronomy","name_zh":"申命记","testament":"OT","total_chapters":34}
+{"abbreviation":"Jos","book_number":6,"name_en":"Joshua","name_zh":"约书亚记","testament":"OT","total_chapters":24}
+{"abbreviation":"Jdg","book_number":7,"name_en":"Judges","name_zh":"士师记","testament":"OT","total_chapters":21}
+{"abbreviation":"Rut","book_number":8,"name_en":"Ruth","name_zh":"路得记","testament":"OT","total_chapters":4}
+{"abbreviation":"1Sa","book_number":9,"name_en":"1 Samuel","name_zh":"撒母耳记上","testament":"OT","total_chapters":31}
+{"abbreviation":"2Sa","book_number":10,"name_en":"2 Samuel","name_zh":"撒母耳记下","testament":"OT","total_chapters":24}
+{"abbreviation":"1Ki","book_number":11,"name_en":"1 Kings","name_zh":"列王纪上","testament":"OT","total_chapters":22}
+{"abbreviation":"2Ki","book_number":12,"name_en":"2 Kings","name_zh":"列王纪下","testament":"OT","total_chapters":25}
+{"abbreviation":"1Ch","book_number":13,"name_en":"1 Chronicles","name_zh":"历代志上","testament":"OT","total_chapters":29}
+{"abbreviation":"2Ch","book_number":14,"name_en":"2 Chronicles","name_zh":"历代志下","testament":"OT","total_chapters":36}
+{"abbreviation":"Ezr","book_number":15,"name_en":"Ezra","name_zh":"以斯拉记","testament":"OT","total_chapters":10}
+{"abbreviation":"Neh","book_number":16,"name_en":"Nehemiah","name_zh":"尼希米记","testament":"OT","total_chapters":13}
+{"abbreviation":"Est","book_number":17,"name_en":"Esther","name_zh":"以斯帖记","testament":"OT","total_chapters":10}
+{"abbreviation":"Job","book_number":18,"name_en":"Job","name_zh":"约伯记","testament":"OT","total_chapters":42}
+{"abbreviation":"Psa","book_number":19,"name_en":"Psalms","name_zh":"诗篇","testament":"OT","total_chapters":150}
+{"abbreviation":"Pro","book_number":20,"name_en":"Proverbs","name_zh":"箴言","testament":"OT","total_chapters":31}
+{"abbreviation":"Ecc","book_number":21,"name_en":"Ecclesiastes","name_zh":"传道书","testament":"OT","total_chapters":12}
+{"abbreviation":"Sng","book_number":22,"name_en":"Song of Solomon","name_zh":"雅歌","testament":"OT","total_chapters":8}
+{"abbreviation":"Isa","book_number":23,"name_en":"Isaiah","name_zh":"以赛亚书","testament":"OT","total_chapters":66}
+{"abbreviation":"Jer","book_number":24,"name_en":"Jeremiah","name_zh":"耶利米书","testament":"OT","total_chapters":52}
+{"abbreviation":"Lam","book_number":25,"name_en":"Lamentations","name_zh":"耶利米哀歌","testament":"OT","total_chapters":5}
+{"abbreviation":"Ezk","book_number":26,"name_en":"Ezekiel","name_zh":"以西结书","testament":"OT","total_chapters":48}
+{"abbreviation":"Dan","book_number":27,"name_en":"Daniel","name_zh":"但以理书","testament":"OT","total_chapters":12}
+{"abbreviation":"Hos","book_number":28,"name_en":"Hosea","name_zh":"何西阿书","testament":"OT","total_chapters":14}
+{"abbreviation":"Jol","book_number":29,"name_en":"Joel","name_zh":"约珥书","testament":"OT","total_chapters":3}
+{"abbreviation":"Amo","book_number":30,"name_en":"Amos","name_zh":"阿摩司书","testament":"OT","total_chapters":9}
+{"abbreviation":"Oba","book_number":31,"name_en":"Obadiah","name_zh":"俄巴底亚书","testament":"OT","total_chapters":1}
+{"abbreviation":"Jon","book_number":32,"name_en":"Jonah","name_zh":"约拿书","testament":"OT","total_chapters":4}
+{"abbreviation":"Mic","book_number":33,"name_en":"Micah","name_zh":"弥迦书","testament":"OT","total_chapters":7}
+{"abbreviation":"Nam","book_number":34,"name_en":"Nahum","name_zh":"那鸿书","testament":"OT","total_chapters":3}
+{"abbreviation":"Hab","book_number":35,"name_en":"Habakkuk","name_zh":"哈巴谷书","testament":"OT","total_chapters":3}
+{"abbreviation":"Zep","book_number":36,"name_en":"Zephaniah","name_zh":"西番雅书","testament":"OT","total_chapters":3}
+{"abbreviation":"Hag","book_number":37,"name_en":"Haggai","name_zh":"哈该书","testament":"OT","total_chapters":2}
+{"abbreviation":"Zec","book_number":38,"name_en":"Zechariah","name_zh":"撒迦利亚书","testament":"OT","total_chapters":14}
+{"abbreviation":"Mal","book_number":39,"name_en":"Malachi","name_zh":"玛拉基书","testament":"OT","total_chapters":4}
+{"abbreviation":"Mat","book_number":40,"name_en":"Matthew","name_zh":"马太福音","testament":"NT","total_chapters":28}
+{"abbreviation":"Mrk","book_number":41,"name_en":"Mark","name_zh":"马可福音","testament":"NT","total_chapters":16}
+{"abbreviation":"Luk","book_number":42,"name_en":"Luke","name_zh":"路加福音","testament":"NT","total_chapters":24}
+{"abbreviation":"Jhn","book_number":43,"name_en":"John","name_zh":"约翰福音","testament":"NT","total_chapters":21}
+{"abbreviation":"Act","book_number":44,"name_en":"Acts","name_zh":"使徒行传","testament":"NT","total_chapters":28}
+{"abbreviation":"Rom","book_number":45,"name_en":"Romans","name_zh":"罗马书","testament":"NT","total_chapters":16}
+{"abbreviation":"1Co","book_number":46,"name_en":"1 Corinthians","name_zh":"哥林多前书","testament":"NT","total_chapters":16}
+{"abbreviation":"2Co","book_number":47,"name_en":"2 Corinthians","name_zh":"哥林多后书","testament":"NT","total_chapters":13}
+{"abbreviation":"Gal","book_number":48,"name_en":"Galatians","name_zh":"加拉太书","testament":"NT","total_chapters":6}
+{"abbreviation":"Eph","book_number":49,"name_en":"Ephesians","name_zh":"以弗所书","testament":"NT","total_chapters":6}
+{"abbreviation":"Php","book_number":50,"name_en":"Philippians","name_zh":"腓立比书","testament":"NT","total_chapters":4}
+{"abbreviation":"Col","book_number":51,"name_en":"Colossians","name_zh":"歌罗西书","testament":"NT","total_chapters":4}
+{"abbreviation":"1Th","book_number":52,"name_en":"1 Thessalonians","name_zh":"帖撒罗尼迦前书","testament":"NT","total_chapters":5}
+{"abbreviation":"2Th","book_number":53,"name_en":"2 Thessalonians","name_zh":"帖撒罗尼迦后书","testament":"NT","total_chapters":3}
+{"abbreviation":"1Ti","book_number":54,"name_en":"1 Timothy","name_zh":"提摩太前书","testament":"NT","total_chapters":6}
+{"abbreviation":"2Ti","book_number":55,"name_en":"2 Timothy","name_zh":"提摩太后书","testament":"NT","total_chapters":4}
+{"abbreviation":"Tit","book_number":56,"name_en":"Titus","name_zh":"提多书","testament":"NT","total_chapters":3}
+{"abbreviation":"Phm","book_number":57,"name_en":"Philemon","name_zh":"腓利门书","testament":"NT","total_chapters":1}
+{"abbreviation":"Heb","book_number":58,"name_en":"Hebrews","name_zh":"希伯来书","testament":"NT","total_chapters":13}
+{"abbreviation":"Jas","book_number":59,"name_en":"James","name_zh":"雅各书","testament":"NT","total_chapters":5}
+{"abbreviation":"1Pe","book_number":60,"name_en":"1 Peter","name_zh":"彼得前书","testament":"NT","total_chapters":5}
+{"abbreviation":"2Pe","book_number":61,"name_en":"2 Peter","name_zh":"彼得后书","testament":"NT","total_chapters":3}
+{"abbreviation":"1Jn","book_number":62,"name_en":"1 John","name_zh":"约翰一书","testament":"NT","total_chapters":5}
+{"abbreviation":"2Jn","book_number":63,"name_en":"2 John","name_zh":"约翰二书","testament":"NT","total_chapters":1}
+{"abbreviation":"3Jn","book_number":64,"name_en":"3 John","name_zh":"约翰三书","testament":"NT","total_chapters":1}
+{"abbreviation":"Jud","book_number":65,"name_en":"Jude","name_zh":"犹大书","testament":"NT","total_chapters":1}
+{"abbreviation":"Rev","book_number":66,"name_en":"Revelation","name_zh":"启示录","testament":"NT","total_chapters":22}

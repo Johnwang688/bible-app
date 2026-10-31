@@ -1,19 +1,14 @@
 'use client';
 
-import type { CSSProperties, Dispatch, MutableRefObject, SetStateAction } from 'react';
-import Link from 'next/link';
+import type { CSSProperties } from 'react';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import AiSidebar, {
-  MAX_MESSAGE_CHARS,
   PERSONALITIES,
   restorePersonalityId,
   type AIActionParams,
 } from './AiSidebar';
 import { STORAGE_KEYS } from '@/lib/storageKeys';
-import AuthPanel from './AuthPanel';
-import CurrencyIcon from '@/components/CurrencyIcon';
-import ChapterQuiz, { MasteryStrip } from './ChapterQuiz';
-import MasteryOverviewPanel from './MasteryOverviewPanel';
+import ChapterQuiz from './ChapterQuiz';
 import {
   type AccountProfile,
   type AuthSession,
@@ -42,1002 +37,28 @@ import {
   type WalletOut,
 } from '@/lib/quiz';
 import { parseReferenceLabel, sortBookNamesForMatching } from '@/lib/scriptureReference';
-import { APP_THEMES, normalizeThemeId, type AppThemeDef } from '@/lib/themes';
-
-// ── Types ──────────────────────────────────────────────────────────────────────
-interface BookInfo {
-  book_number: number;
-  name: string;
-  name_zh?: string | null;
-  name_zh_simplified?: string | null;
-  testament: 'OT' | 'NT';
-  total_chapters: number;
-}
-interface Translation { id: string; name: string; language?: string; }
-
-/** Not offered in the translation picker (may still appear in stored history / API). */
-const TRANSLATION_PICKER_EXCLUDED_IDS = new Set(['KJV', 'BSB']);
-
-function filterTranslationsForPicker(list: Translation[]): Translation[] {
-  return list.filter(t => !TRANSLATION_PICKER_EXCLUDED_IDS.has(t.id.toUpperCase()));
-}
-
-function normalizeTranslationChoice(id: string): string {
-  return TRANSLATION_PICKER_EXCLUDED_IDS.has(id.toUpperCase()) ? 'WEB' : id;
-}
-interface VerseData   { verse: number; text: string; }
-interface ChapterData { book: string; chapter: number; translation: string; verses: VerseData[]; }
-interface SummaryEntityTag { slug: string; label: string; }
-interface CommentaryEntry {
-  id?: number;
-  source?: string;
-  verse_start: number;
-  verse_end: number | null;
-  content: string;
-  theme_tags?: SummaryEntityTag[] | null;
-  people_tags?: SummaryEntityTag[] | null;
-  place_tags?: SummaryEntityTag[] | null;
-}
-interface CommentarySource { id: string; name: string; }
-interface SearchResult { verse: { book: string; chapter: number; verse: number; text: string; translation: string; }; relevance: number | null; }
-interface SearchSuggestion {
-  id: string;
-  label: string;
-  hint: string;
-  book: string;
-  chapter: number;
-  verseStart?: number;
-  verseEnd?: number;
-  translation?: string;
-  score: number;
-  source: 'direct' | 'recent' | 'popular' | 'typo';
-}
-interface SavedPassage { book: string; chapter: number; translation: string; savedAt: number; }
-interface VerseNote { key: string; book: string; chapter: number; verse: number; text: string; updatedAt: number; }
-interface TutorialStep {
-  id: string;
-  title: string;
-  instruction?: string;
-  description?: string;
-  tips?: string[];
-  actionLabel?: string;
-}
-interface TutorialRect {
-  top: string;
-  left: string;
-  width: string;
-  height: string;
-}
-interface DailyVerse {
-  book: string;
-  chapter: number;
-  verse: number;
-  text: string;
-}
-interface ChapterReadEvidence {
-  furthestVerse: number;
-  engagedMs: number;
-}
-interface ReadingProgress {
-  streak: number;
-  goalMetDays: string[];
-  todayIso: string;
-  todayChapters: string[];
-  todayChapterEvidence: Record<string, ChapterReadEvidence>;
-  /** Cumulative engaged time today while reading Bible, commentary, or AI (ms). */
-  todayActiveLearningMs: number;
-  /** User sent at least one message to the AI assistant today (daily task). */
-  todaySpokeToAi: boolean;
-}
-const READER_FONT_PX_OPTIONS = ['8', '10', '12', '14', '16', '18', '20', '22', '24', '26', '28', '30'] as const;
-type ReaderFontPx = (typeof READER_FONT_PX_OPTIONS)[number];
-const READER_LINE_HEIGHT_OPTIONS = ['1.5', '2', '2.5'] as const;
-type ReaderLineHeightOption = (typeof READER_LINE_HEIGHT_OPTIONS)[number];
-const READER_FONT_IDS = ['georgia', 'charter', 'palatino', 'garamond', 'times', 'sans', 'openSans', 'dyslexie'] as const;
-type ReaderFontId = (typeof READER_FONT_IDS)[number];
-const HIGHLIGHT_COLOR_IDS = ['yellow', 'amber', 'green', 'blue', 'pink', 'lavender', 'mint'] as const;
-type ReaderHighlightColorId = (typeof HIGHLIGHT_COLOR_IDS)[number];
-const READING_MODE_IDS = ['single', 'book', 'paged-single', 'paged-double'] as const;
-type ReaderReadingMode = (typeof READING_MODE_IDS)[number];
-
-function isPagedReadingMode(mode: ReaderReadingMode): boolean {
-  return mode === 'paged-single' || mode === 'paged-double';
-}
-
-/** Minimum visible time on a chapter before quiz; scales 20s–60s by verse count. */
-const CHAPTER_QUIZ_MIN_DWELL_MS = 20_000;
-const CHAPTER_QUIZ_MAX_DWELL_MS = 60_000;
-const CHAPTER_QUIZ_DWELL_VERSE_FLOOR = 30;
-const CHAPTER_QUIZ_DWELL_VERSE_CEIL = 150;
-
-function computeChapterQuizRequiredDwellMs(verseCount: number): number {
-  if (verseCount <= CHAPTER_QUIZ_DWELL_VERSE_FLOOR) return CHAPTER_QUIZ_MIN_DWELL_MS;
-  if (verseCount >= CHAPTER_QUIZ_DWELL_VERSE_CEIL) return CHAPTER_QUIZ_MAX_DWELL_MS;
-  const t =
-    (verseCount - CHAPTER_QUIZ_DWELL_VERSE_FLOOR) /
-    (CHAPTER_QUIZ_DWELL_VERSE_CEIL - CHAPTER_QUIZ_DWELL_VERSE_FLOOR);
-  return Math.round(CHAPTER_QUIZ_MIN_DWELL_MS + t * (CHAPTER_QUIZ_MAX_DWELL_MS - CHAPTER_QUIZ_MIN_DWELL_MS));
-}
-
-function biblePaneScrollDepthRatio(pane: HTMLElement): number {
-  const sh = pane.scrollHeight;
-  const ch = pane.clientHeight;
-  if (sh <= ch + 2) return 1;
-  return Math.min(1, (pane.scrollTop + ch) / sh);
-}
-
-type ChapterQuizVisitState = { visibleAccumMs: number; visibleStartedAt: number | null };
-
-function getChapterQuizVisibleMs(visitRef: MutableRefObject<ChapterQuizVisitState>): number {
-  const v = visitRef.current;
-  let ms = v.visibleAccumMs;
-  if (v.visibleStartedAt != null) ms += Date.now() - v.visibleStartedAt;
-  return ms;
-}
-
-/** Build paginated slices by filling a measurement div until scrollHeight exceeds pageHeight. */
-function sliceVersesIntoPages(
-  verses: VerseData[],
-  measurer: HTMLDivElement,
-  pageWidth: number,
-  pageHeight: number,
-): VerseData[][] {
-  if (verses.length === 0 || pageWidth < 64 || pageHeight < 64) return [];
-  measurer.innerHTML = '';
-  measurer.style.width = `${Math.floor(pageWidth)}px`;
-  const pages: VerseData[][] = [];
-  let idx = 0;
-  while (idx < verses.length) {
-    measurer.innerHTML = '';
-    const page: VerseData[] = [];
-    let j = idx;
-    while (j < verses.length) {
-      const span = document.createElement('span');
-      span.className = 'verse-line';
-      const sup = document.createElement('sup');
-      sup.className = 'vnum';
-      sup.textContent = String(verses[j].verse);
-      span.appendChild(sup);
-      span.appendChild(document.createTextNode(`${verses[j].text} `));
-      measurer.appendChild(span);
-      if (measurer.scrollHeight > pageHeight) {
-        if (page.length === 0) {
-          page.push(verses[j]);
-          j++;
-        }
-        break;
-      }
-      page.push(verses[j]);
-      j++;
-    }
-    pages.push(page);
-    idx = j;
-  }
-  measurer.innerHTML = '';
-  return pages;
-}
-
-const READER_HIGHLIGHT_PRESETS: Record<
-  ReaderHighlightColorId,
-  { light: string; dark: string; darkText: string }
-> = {
-  yellow: { light: '#ffe066', dark: '#c9a800', darkText: '#fff' },
-  amber: { light: '#ffcc80', dark: '#b07d00', darkText: '#fff' },
-  green: { light: '#b8e6b8', dark: '#2e7d32', darkText: '#fff' },
-  blue: { light: '#a8c8ff', dark: '#1565c0', darkText: '#fff' },
-  pink: { light: '#ffc1e0', dark: '#ad1457', darkText: '#fff' },
-  lavender: { light: '#d4c4ff', dark: '#5e35b1', darkText: '#fff' },
-  mint: { light: '#a8ede4', dark: '#00897b', darkText: '#fff' },
-};
-
-function applyReaderHighlightVars(id: ReaderHighlightColorId) {
-  if (typeof document === 'undefined') return;
-  const p = READER_HIGHLIGHT_PRESETS[id];
-  const root = document.documentElement;
-  root.style.setProperty('--reader-highlight-bg', p.light);
-  root.style.setProperty('--reader-highlight-bg-dark', p.dark);
-  root.style.setProperty('--reader-highlight-fg-dark', p.darkText);
-}
-
-const LEGACY_READER_FONT: Record<string, ReaderFontPx> = {
-  comfortable: '16',
-  large: '18',
-  xlarge: '24',
-};
-const LEGACY_READER_LINE_HEIGHT: Record<string, ReaderLineHeightOption> = {
-  relaxed: '1.5',
-  airy: '2',
-  '1': '1.5',
-  '1.15': '1.5',
-  '1.25': '1.5',
-};
-
-/** Morning / afternoon / evening from local clock (`getHours` uses the device timezone). */
-function timeOfDayGreeting(now: Date): string {
-  const h = now.getHours();
-  if (h >= 5 && h < 12) return 'Good morning';
-  if (h >= 12 && h < 17) return 'Good afternoon';
-  return 'Good evening';
-}
-
-type GraphicsMode = 'auto' | 'performance' | 'efficiency';
-
-interface ReaderSettings {
-  fontScale: ReaderFontPx;
-  lineHeight: ReaderLineHeightOption;
-  readerFont: ReaderFontId;
-  highlightColor: ReaderHighlightColorId;
-  readingMode: ReaderReadingMode;
-  specialEffects: boolean;
-  pageFlipEnabled: boolean;
-  defaultPanel: SidePanelMode;
-  sidePanelPosition: SidePanelPosition;
-  graphicsMode: GraphicsMode;
-}
-
-/** API / JSON may use plain `string`; runtime checks narrow to `ReaderSettings` literals. */
-type ReaderSettingsNormalizeInput = {
-  [K in keyof ReaderSettings]?:
-    ReaderSettings[K] extends string ? ReaderSettings[K] | string : ReaderSettings[K];
-} & {
-  /** Legacy persisted flag; inverted when mapping to `specialEffects`. */
-  reducedMotion?: boolean;
-};
-type SidePanelMode = 'none' | 'commentary' | 'ai' | 'study';
-type SidePanelPosition = 'left' | 'right';
-
-// ── Constants ──────────────────────────────────────────────────────────────────
-const THEMES: AppThemeDef[] = APP_THEMES;
-const THEME_GRID_PREVIEW_COUNT = 5;
-const LAST_POSITION_STORAGE_KEY = STORAGE_KEYS.LAST_POSITION;
-const RECENT_PASSAGES_STORAGE_KEY = STORAGE_KEYS.RECENT_PASSAGES;
-const HIGHLIGHTS_STORAGE_KEY = STORAGE_KEYS.HIGHLIGHTS;
-const BOOKMARKS_STORAGE_KEY = STORAGE_KEYS.BOOKMARKS;
-const NOTES_STORAGE_KEY = STORAGE_KEYS.NOTES;
-const READING_PROGRESS_STORAGE_KEY = STORAGE_KEYS.READING_PROGRESS;
-const DAILY_GOAL_MINUTES_STORAGE_KEY = STORAGE_KEYS.DAILY_GOAL;
-const DEFAULT_DAILY_GOAL_MINUTES = 10;
-const MIN_DAILY_GOAL_MINUTES = 5;
-const MAX_DAILY_GOAL_MINUTES = 120;
-const READER_SETTINGS_STORAGE_KEY = STORAGE_KEYS.READER_SETTINGS;
-const ONBOARDING_STORAGE_KEY = STORAGE_KEYS.ONBOARDING;
-/** Verse Tools tutorial always uses John 3 and this verse for the spotlight (same passage every time). */
-const TUTORIAL_VERSE_TOOLS_VERSE = 16;
-const MAX_RECENT_PASSAGES = 8;
-const MIN_CHAPTER_PROGRESS_RATIO = 0.5;
-const MIN_CHAPTER_PROGRESS_VERSES = 3;
-const MIN_CHAPTER_READ_MS = 20_000;
-const MAX_CHAPTER_READ_MS = 75_000;
-const CHAPTER_READ_MS_PER_VERSE = 1_500;
-const MAX_ENGAGEMENT_GAP_MS = 15_000;
-const SCROLL_ACTIVE_HOLD_MS = 220;
-const ENGAGEMENT_COMMIT_MS = 240;
-const COMMENTARY_SYNC_THROTTLE_MS = 120;
-const DAILY_VERSE_POOL: DailyVerse[] = [
-  { book: 'Psalms', chapter: 23, verse: 1, text: 'The LORD is my shepherd: I shall lack nothing.' },
-  { book: 'Proverbs', chapter: 3, verse: 5, text: 'Trust in Yahweh with all your heart, and do not lean on your own understanding.' },
-  { book: 'Isaiah', chapter: 41, verse: 10, text: "Don't be afraid, for I am with you. Don't be dismayed, for I am your God." },
-  { book: 'Matthew', chapter: 11, verse: 28, text: 'Come to me, all you who labor and are heavily burdened, and I will give you rest.' },
-  { book: 'John', chapter: 14, verse: 27, text: 'Peace I leave with you. My peace I give to you; not as the world gives, give I to you.' },
-  { book: 'Romans', chapter: 8, verse: 28, text: 'We know that all things work together for good for those who love God, to those who are called according to his purpose.' },
-  { book: '2 Corinthians', chapter: 5, verse: 7, text: 'For we walk by faith, not by sight.' },
-  { book: 'Galatians', chapter: 6, verse: 9, text: "Let's not be weary in doing good, for we will reap in due season, if we don't give up." },
-  { book: 'Philippians', chapter: 4, verse: 6, text: 'In nothing be anxious, but in everything, by prayer and petition with thanksgiving, let your requests be made known to God.' },
-  { book: 'Hebrews', chapter: 11, verse: 1, text: 'Now faith is assurance of things hoped for, proof of things not seen.' },
-  { book: '1 Peter', chapter: 5, verse: 7, text: 'Casting all your worries on him, because he cares for you.' },
-  { book: 'Lamentations', chapter: 3, verse: 23, text: 'They are new every morning; great is your faithfulness.' },
-];
-const DEFAULT_READER_SETTINGS: ReaderSettings = {
-  fontScale: '20',
-  lineHeight: '2',
-  readerFont: 'georgia',
-  highlightColor: 'yellow',
-  readingMode: 'single',
-  specialEffects: true,
-  pageFlipEnabled: true,
-  defaultPanel: 'none',
-  sidePanelPosition: 'right',
-  graphicsMode: 'auto',
-};
-
-/** When collapsed, show the first N themes; if the active theme is not among them, swap it in so selection stays visible. */
-function themesForCollapsedPicker(currentThemeId: string, previewCount: number): AppThemeDef[] {
-  const preview = THEMES.slice(0, previewCount);
-  if (preview.some(t => t.id === currentThemeId)) return preview;
-  const current = THEMES.find(t => t.id === currentThemeId);
-  if (!current) return preview;
-  const rest = THEMES.filter(t => t.id !== currentThemeId).slice(0, previewCount - 1);
-  return [current, ...rest];
-}
-
-function safelyParseJson<T>(raw: string | null, fallback: T): T {
-  if (!raw) return fallback;
-  try {
-    return JSON.parse(raw) as T;
-  } catch {
-    return fallback;
-  }
-}
-
-function verseStorageKey(book: string, chapter: number, verse: number) {
-  return `${book}::${chapter}::${verse}`.toLowerCase();
-}
-
-function formatVerseGroupRef(book: string, chapter: number, verses: number[]): string {
-  if (verses.length === 0) return '';
-  const sorted = [...verses].sort((a, b) => a - b);
-  const parts: string[] = [];
-  let start = sorted[0];
-  let end = sorted[0];
-  for (let i = 1; i <= sorted.length; i++) {
-    if (i < sorted.length && sorted[i] === end + 1) {
-      end = sorted[i];
-    } else {
-      if (end === start) parts.push(`${start}`);
-      else if (end === start + 1) parts.push(`${start}, ${end}`);
-      else parts.push(`${start}\u2013${end}`);
-      if (i < sorted.length) { start = sorted[i]; end = sorted[i]; }
-    }
-  }
-  return `${book} ${chapter}:${parts.join(', ')}`;
-}
-
-function chapterStorageKey(book: string, chapter: number, translation: string) {
-  return `${book}::${chapter}::${translation}`.toLowerCase();
-}
-
-function normalizeReaderSettings(raw: ReaderSettingsNormalizeInput | null | undefined): ReaderSettings {
-  const rawFont = raw?.fontScale;
-  let fontScale: ReaderFontPx = DEFAULT_READER_SETTINGS.fontScale;
-  if (typeof rawFont === 'string') {
-    if ((READER_FONT_PX_OPTIONS as readonly string[]).includes(rawFont)) fontScale = rawFont as ReaderFontPx;
-    else if (rawFont in LEGACY_READER_FONT) fontScale = LEGACY_READER_FONT[rawFont];
-  }
-  const rawLh = raw?.lineHeight;
-  let lineHeight: ReaderLineHeightOption = DEFAULT_READER_SETTINGS.lineHeight;
-  if (typeof rawLh === 'string') {
-    if ((READER_LINE_HEIGHT_OPTIONS as readonly string[]).includes(rawLh)) lineHeight = rawLh as ReaderLineHeightOption;
-    else if (rawLh in LEGACY_READER_LINE_HEIGHT) lineHeight = LEGACY_READER_LINE_HEIGHT[rawLh];
-  }
-  const rawRf = raw?.readerFont;
-  let readerFont: ReaderFontId = DEFAULT_READER_SETTINGS.readerFont;
-  if (typeof rawRf === 'string' && (READER_FONT_IDS as readonly string[]).includes(rawRf)) {
-    readerFont = rawRf as ReaderFontId;
-  }
-  const rawHc = raw?.highlightColor;
-  let highlightColor: ReaderHighlightColorId = DEFAULT_READER_SETTINGS.highlightColor;
-  if (typeof rawHc === 'string' && (HIGHLIGHT_COLOR_IDS as readonly string[]).includes(rawHc)) {
-    highlightColor = rawHc as ReaderHighlightColorId;
-  }
-  const rawReadingMode = raw?.readingMode;
-  let readingMode: ReaderReadingMode = DEFAULT_READER_SETTINGS.readingMode;
-  if (typeof rawReadingMode === 'string' && (READING_MODE_IDS as readonly string[]).includes(rawReadingMode)) {
-    readingMode = rawReadingMode as ReaderReadingMode;
-  }
-  let specialEffects = DEFAULT_READER_SETTINGS.specialEffects;
-  if (raw && typeof raw['specialEffects'] === 'boolean') {
-    specialEffects = raw['specialEffects'];
-  } else if (raw && typeof raw['reducedMotion'] === 'boolean') {
-    specialEffects = !raw['reducedMotion'];
-  }
-  return {
-    fontScale,
-    lineHeight,
-    readerFont,
-    highlightColor,
-    readingMode,
-    specialEffects,
-    pageFlipEnabled: typeof raw?.['pageFlipEnabled'] === 'boolean' ? raw['pageFlipEnabled'] : true,
-    defaultPanel:
-      raw?.['defaultPanel'] === 'ai' || raw?.['defaultPanel'] === 'commentary' || raw?.['defaultPanel'] === 'study'
-        ? raw['defaultPanel'] as 'ai' | 'commentary' | 'study'
-        : 'none',
-    sidePanelPosition: raw?.['sidePanelPosition'] === 'left' ? 'left' : 'right',
-    graphicsMode:
-      raw?.['graphicsMode'] === 'performance' || raw?.['graphicsMode'] === 'efficiency'
-        ? raw['graphicsMode'] as 'performance' | 'efficiency'
-        : 'auto',
-  };
-}
-
-function detectGraphicsCapability(): 'performance' | 'efficiency' {
-  if (typeof window === 'undefined') return 'efficiency';
-  if (/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)) return 'efficiency';
-  const cores = navigator.hardwareConcurrency ?? 2;
-  const mem = (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 2;
-  if (cores >= 4 && mem >= 4) return 'performance';
-  return 'efficiency';
-}
-
-function computeTodayIso() {
-  return new Date().toISOString().slice(0, 10);
-}
-
-function selectDailyVerse(todayIso: string): DailyVerse {
-  const seed = todayIso.replace(/-/g, '').split('').reduce((sum, digit) => sum + Number(digit), 0);
-  return DAILY_VERSE_POOL[seed % DAILY_VERSE_POOL.length];
-}
-
-function normalizeDailyGoalMinutes(raw: string | null): number {
-  const n = raw ? Number.parseInt(raw, 10) : NaN;
-  if (!Number.isFinite(n)) return DEFAULT_DAILY_GOAL_MINUTES;
-  const stepped = Math.round(n / 5) * 5;
-  return Math.min(MAX_DAILY_GOAL_MINUTES, Math.max(MIN_DAILY_GOAL_MINUTES, stepped));
-}
-
-function boundsToTutorialRect(b: { top: number; left: number; width: number; height: number }): TutorialRect {
-  return {
-    top: `${Math.max(0, b.top)}px`,
-    left: `${Math.max(0, b.left)}px`,
-    width: `${Math.max(0, b.width)}px`,
-    height: `${Math.max(0, b.height)}px`,
-  };
-}
-
-/**
- * Centers a verse line in the reader scroll container. `scrollIntoView({ block: 'center' })` often scrolls the
- * window or the wrong ancestor when the real scroller is `.bible-pane` or a nested overflow region (e.g. paged).
- */
-function scrollVerseLineIntoBiblePaneCenter(verseEl: HTMLElement, biblePane: HTMLElement | null) {
-  const pickScrollParent = (): HTMLElement | null => {
-    if (biblePane && biblePane.scrollHeight > biblePane.clientHeight + 2) {
-      return biblePane;
-    }
-    let p: HTMLElement | null = verseEl.parentElement;
-    while (p) {
-      const st = window.getComputedStyle(p);
-      const oy = st.overflowY;
-      if (
-        (oy === 'auto' || oy === 'scroll' || oy === 'overlay') &&
-        p.scrollHeight > p.clientHeight + 2
-      ) {
-        return p;
-      }
-      p = p.parentElement;
-    }
-    return biblePane;
-  };
-
-  const pane = pickScrollParent();
-  if (!pane) {
-    verseEl.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'smooth' });
-    return;
-  }
-  const paneRect = pane.getBoundingClientRect();
-  const verseRect = verseEl.getBoundingClientRect();
-  const yInContent = verseRect.top - paneRect.top + pane.scrollTop;
-  const target = yInContent - pane.clientHeight / 2 + verseRect.height / 2;
-  const maxScroll = Math.max(0, pane.scrollHeight - pane.clientHeight);
-  pane.scrollTo({ top: Math.min(maxScroll, Math.max(0, target)), behavior: 'smooth' });
-}
-
-function normalizeReadingProgress(raw: unknown): ReadingProgress {
-  const today = computeTodayIso();
-  if (raw && typeof raw === 'object') {
-    const o = raw as Record<string, unknown>;
-    if (Array.isArray(o.goalMetDays) && typeof o.todayIso === 'string' && Array.isArray(o.todayChapters)) {
-      const rawEvidence = o.todayChapterEvidence;
-      const todayChapterEvidence: Record<string, ChapterReadEvidence> = {};
-      if (rawEvidence && typeof rawEvidence === 'object') {
-        Object.entries(rawEvidence as Record<string, unknown>).forEach(([key, value]) => {
-          if (!value || typeof value !== 'object') return;
-          const furthestVerse = Number((value as Record<string, unknown>).furthestVerse);
-          const engagedMs = Number((value as Record<string, unknown>).engagedMs);
-          todayChapterEvidence[key] = {
-            furthestVerse: Number.isFinite(furthestVerse) ? Math.max(0, Math.floor(furthestVerse)) : 0,
-            engagedMs: Number.isFinite(engagedMs) ? Math.max(0, Math.floor(engagedMs)) : 0,
-          };
-        });
-      }
-      const rawActive = o.todayActiveLearningMs;
-      const legacyAiMs = o.todayAiEngagedMs;
-      const spoke =
-        typeof o.todaySpokeToAi === 'boolean'
-          ? o.todaySpokeToAi
-          : typeof legacyAiMs === 'number' && Number.isFinite(legacyAiMs) && legacyAiMs > 0;
-      return {
-        streak: typeof o.streak === 'number' && o.streak >= 0 ? o.streak : 0,
-        goalMetDays: o.goalMetDays.filter((d): d is string => typeof d === 'string'),
-        todayIso: o.todayIso,
-        todayChapters: o.todayChapters.filter((k): k is string => typeof k === 'string'),
-        todayChapterEvidence,
-        todayActiveLearningMs:
-          typeof rawActive === 'number' && Number.isFinite(rawActive) ? Math.max(0, Math.floor(rawActive)) : 0,
-        todaySpokeToAi: spoke,
-      };
-    }
-    const legacyDays = Array.isArray(o.days) ? o.days.filter((d): d is string => typeof d === 'string') : [];
-    const legacyStreak = typeof o.streak === 'number' && o.streak >= 0 ? o.streak : 0;
-    return {
-      streak: legacyStreak,
-      goalMetDays: legacyDays,
-      todayIso: today,
-      todayChapters: [],
-      todayChapterEvidence: {},
-      todayActiveLearningMs: 0,
-      todaySpokeToAi: false,
-    };
-  }
-  return {
-    streak: 0,
-    goalMetDays: [],
-    todayIso: today,
-    todayChapters: [],
-    todayChapterEvidence: {},
-    todayActiveLearningMs: 0,
-    todaySpokeToAi: false,
-  };
-}
-
-function rollReadingProgressToToday(p: ReadingProgress): ReadingProgress {
-  const today = computeTodayIso();
-  if (p.todayIso === today) return p;
-  return {
-    ...p,
-    todayIso: today,
-    todayChapters: [],
-    todayChapterEvidence: {},
-    todayActiveLearningMs: 0,
-    todaySpokeToAi: false,
-  };
-}
-
-/** Consecutive days ending today (or yesterday if today not logged yet) where the daily minute goal was met. */
-function computeGoalStreak(goalMetDays: string[], today: string): number {
-  const set = new Set(goalMetDays);
-  let streak = 0;
-  const cursor = new Date(`${today}T00:00:00`);
-  if (!set.has(today)) {
-    cursor.setDate(cursor.getDate() - 1);
-  }
-  for (;;) {
-    const iso = cursor.toISOString().slice(0, 10);
-    if (set.has(iso)) {
-      streak += 1;
-      cursor.setDate(cursor.getDate() - 1);
-    } else {
-      break;
-    }
-  }
-  return streak;
-}
-
-function syncGoalCompletion(progress: ReadingProgress, dailyGoalMinutes: number, today: string): ReadingProgress {
-  const goalMs = dailyGoalMinutes * 60 * 1000;
-  const activeMs = progress.todayIso === today ? (progress.todayActiveLearningMs ?? 0) : 0;
-  const goalMet = progress.todayIso === today && activeMs >= goalMs;
-  let goalMetDays = [...progress.goalMetDays];
-  if (goalMet) {
-    if (!goalMetDays.includes(today)) goalMetDays = [...goalMetDays, today];
-  } else {
-    goalMetDays = goalMetDays.filter(d => d !== today);
-  }
-  const streak = computeGoalStreak(goalMetDays, today);
-  const unchanged =
-    streak === progress.streak &&
-    goalMetDays.length === progress.goalMetDays.length &&
-    goalMetDays.every((d, i) => d === progress.goalMetDays[i]);
-  if (unchanged) return progress;
-  return { ...progress, goalMetDays, streak };
-}
-
-function getChapterCreditThreshold(totalVerses: number) {
-  const requiredVerse = Math.min(
-    totalVerses,
-    Math.max(MIN_CHAPTER_PROGRESS_VERSES, Math.ceil(totalVerses * MIN_CHAPTER_PROGRESS_RATIO)),
-  );
-  const requiredMs = Math.min(
-    MAX_CHAPTER_READ_MS,
-    Math.max(MIN_CHAPTER_READ_MS, totalVerses * CHAPTER_READ_MS_PER_VERSE),
-  );
-  return { requiredVerse, requiredMs };
-}
-
-function chapterEvidenceQualifies(evidence: ChapterReadEvidence, totalVerses: number) {
-  const { requiredVerse, requiredMs } = getChapterCreditThreshold(totalVerses);
-  return evidence.furthestVerse >= requiredVerse && evidence.engagedMs >= requiredMs;
-}
-
-function getThemeCardStyle(theme: AppThemeDef): CSSProperties {
-  const [bg, border, accent, text] = theme.id === 'dynamic'
-    ? [DYNAMIC_PREVIEW_BG, DYNAMIC_PREVIEW_BORDER, DYNAMIC_PREVIEW_ACCENT, '#221d16']
-    : theme.swatches;
-  return {
-    '--theme-card-bg': bg,
-    '--theme-card-border': border,
-    '--theme-card-hover': accent,
-    '--theme-card-accent': accent,
-    '--theme-card-text': text,
-  } as CSSProperties;
-}
-
-function splitVersesForBookMode(verses: VerseData[]) {
-  const midpoint = Math.ceil(verses.length / 2);
-  return [verses.slice(0, midpoint), verses.slice(midpoint)];
-}
-
-const DYNAMIC_BASE_THEME    = 'default';
-
-const THEME_LOGO_SRC: Record<'white' | 'dark', string> = {
-  white: '/logo/openbible-logo-white.png',
-  dark: '/logo/openbible-logo-black.png',
-};
-
-function logoSrcForTheme(themeId: string): string {
-  const id = themeId === 'dynamic' ? DYNAMIC_BASE_THEME : themeId;
-  const def = THEMES.find(t => t.id === id);
-  return THEME_LOGO_SRC[def?.logoColor ?? 'dark'];
-}
-const DYNAMIC_COLORS        = ['#FF0000', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#FF00FF'];
-const DYNAMIC_FADE_MS       = 3000;
-const DYNAMIC_CYCLE_MS      = DYNAMIC_FADE_MS * 2;
-const DYNAMIC_PREVIEW_BG    = '#f7f7f7';
-const DYNAMIC_PREVIEW_BORDER = '#ddd2c3';
-const DYNAMIC_PREVIEW_ACCENT = '#d8cce8';
-const SEARCH_SUGGESTION_LIMIT = 7;
-const BOOK_POPULARITY_SCORES: Record<string, number> = {
-  John: 120,
-  Psalms: 118,
-  Genesis: 114,
-  Romans: 110,
-  Matthew: 108,
-  Proverbs: 106,
-  Isaiah: 102,
-  Luke: 100,
-  Acts: 98,
-  Revelation: 96,
-  '1 Corinthians': 94,
-  Ephesians: 92,
-  James: 90,
-  Hebrews: 88,
-  Philippians: 86,
-  '1 John': 84,
-  Exodus: 82,
-  Mark: 80,
-  Galatians: 78,
-  Daniel: 76,
-};
-
-// ── Helpers ────────────────────────────────────────────────────────────────────
-function hexToRgb(hex: string) {
-  const n = parseInt(hex.replace('#', ''), 16);
-  return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
-}
-
-function normalizeSearchText(value: string) {
-  return value
-    .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
-
-function compactSearchText(value: string) {
-  return normalizeSearchText(value).replace(/\s+/g, '');
-}
-
-function normalizeReferenceSpacing(value: string) {
-  return value
-    .replace(/([A-Za-z])(\d)/g, '$1 $2')
-    .replace(/(\d)([A-Za-z])/g, '$1 $2')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
-
-function levenshteinDistance(a: string, b: string) {
-  if (a === b) return 0;
-  if (!a.length) return b.length;
-  if (!b.length) return a.length;
-  const prev = Array.from({ length: b.length + 1 }, (_, i) => i);
-  const curr = new Array<number>(b.length + 1).fill(0);
-  for (let i = 0; i < a.length; i += 1) {
-    curr[0] = i + 1;
-    for (let j = 0; j < b.length; j += 1) {
-      const cost = a[i] === b[j] ? 0 : 1;
-      curr[j + 1] = Math.min(
-        curr[j] + 1,
-        prev[j + 1] + 1,
-        prev[j] + cost,
-      );
-    }
-    for (let j = 0; j < prev.length; j += 1) prev[j] = curr[j];
-  }
-  return prev[b.length];
-}
-
-function extractLooseReferenceParts(query: string) {
-  const spaced = normalizeReferenceSpacing(query);
-  if (!spaced) {
-    return { bookPart: '', chapter: undefined, verseStart: undefined, verseEnd: undefined };
-  }
-  const match = spaced.match(/^(.+?)(?:\s+(\d+)(?::(\d+)(?:\s*[–-]\s*(\d+))?)?)?$/u);
-  if (!match) {
-    return { bookPart: spaced, chapter: undefined, verseStart: undefined, verseEnd: undefined };
-  }
-  const chapter = match[2] ? Number.parseInt(match[2], 10) : undefined;
-  const verseStart = match[3] ? Number.parseInt(match[3], 10) : undefined;
-  const verseEnd = match[4] ? Number.parseInt(match[4], 10) : undefined;
-  return {
-    bookPart: match[1]?.trim() ?? spaced,
-    chapter: Number.isFinite(chapter) ? chapter : undefined,
-    verseStart: Number.isFinite(verseStart) ? verseStart : undefined,
-    verseEnd: Number.isFinite(verseEnd) ? verseEnd : undefined,
-  };
-}
-
-function getBookPopularityScore(book: BookInfo) {
-  return BOOK_POPULARITY_SCORES[book.name] ?? Math.max(22, 70 - book.book_number);
-}
-
-function scoreBookMatch(query: string, book: BookInfo) {
-  const normalizedQuery = normalizeSearchText(query);
-  const compactQuery = compactSearchText(query);
-  if (!normalizedQuery || compactQuery.length < 2) return Number.NEGATIVE_INFINITY;
-
-  const normalizedBook = normalizeSearchText(book.name);
-  const compactBook = compactSearchText(book.name);
-  let score = Number.NEGATIVE_INFINITY;
-
-  if (compactBook === compactQuery) score = 560;
-  if (compactBook.startsWith(compactQuery)) {
-    score = Math.max(score, 500 - Math.max(0, compactBook.length - compactQuery.length) * 4);
-  }
-
-  const wordIndex = normalizedBook.indexOf(normalizedQuery);
-  if (wordIndex >= 0) score = Math.max(score, 430 - wordIndex * 18);
-
-  const compactIndex = compactBook.indexOf(compactQuery);
-  if (compactIndex >= 0) score = Math.max(score, 390 - compactIndex * 14);
-
-  const prefixSlice = compactBook.slice(
-    0,
-    Math.min(compactBook.length, Math.max(compactQuery.length, compactQuery.length + 2)),
-  );
-  const distance = Math.min(
-    levenshteinDistance(compactQuery, compactBook),
-    levenshteinDistance(compactQuery, prefixSlice),
-  );
-  const maxDistance = compactQuery.length <= 4 ? 1 : compactQuery.length <= 8 ? 2 : 3;
-  if (distance <= maxDistance) {
-    score = Math.max(
-      score,
-      350 - distance * 52 - Math.abs(compactBook.length - compactQuery.length) * 7,
-    );
-  }
-
-  return score;
-}
-
-function clampChapterForBook(book: BookInfo, chapter?: number) {
-  if (!chapter || chapter < 1) return 1;
-  return Math.min(book.total_chapters, chapter);
-}
-
-function formatSearchSuggestionLabel(
-  book: string,
-  chapter: number,
-  verseStart?: number,
-  verseEnd?: number,
-) {
-  const verseLabel = verseStart == null
-    ? ''
-    : verseEnd != null && verseEnd !== verseStart
-      ? `:${verseStart}-${verseEnd}`
-      : `:${verseStart}`;
-  return `${book} ${chapter}${verseLabel}`;
-}
-
-function getChineseBookNameVariant(
-  translationId: string,
-  translationsById: Map<string, Translation>,
-) {
-  const upperId = translationId.toUpperCase();
-  const language = translationsById.get(translationId)?.language;
-  const upperName = translationsById.get(translationId)?.name.toUpperCase() ?? '';
-  if (upperId.includes('SIMP') || upperName.includes('SIMPLIFIED')) return 'simplified';
-  if (language === 'zh' || upperId === 'CUV' || upperId.includes('TRAD') || upperName.includes('TRADITIONAL')) {
-    return 'traditional';
-  }
-  return null;
-}
-
-function getTranslationDisplayId(translationId: string) {
-  const upperId = translationId.toUpperCase();
-  if (upperId === 'CUV' || upperId === 'CUV-TRAD' || upperId === 'CUV-SIMP') return 'CUV';
-  return translationId;
-}
-
-/** Strips publication-year suffix from display where we prefer a shorter label (e.g. ASV). */
-function getTranslationDisplayName(translationId: string, name: string) {
-  if (translationId.toUpperCase() !== 'ASV') return name;
-  return name.replace(/\s*\(1901\)\s*$/i, '').replace(/\s+1901\s*$/i, '').trim();
-}
-
-function getLocalizedBookName(
-  book: Pick<BookInfo, 'name' | 'name_zh' | 'name_zh_simplified'> | null | undefined,
-  translationId: string,
-  translationsById: Map<string, Translation>,
-) {
-  if (!book) return '';
-  const variant = getChineseBookNameVariant(translationId, translationsById);
-  if (variant === 'simplified') return book.name_zh_simplified ?? book.name_zh ?? book.name;
-  if (variant === 'traditional') return book.name_zh ?? book.name;
-  return book.name;
-}
-
-function getLocalizedBookNameFromRaw(
-  rawBookName: string | null | undefined,
-  translationId: string,
-  booksByName: Map<string, BookInfo>,
-  translationsById: Map<string, Translation>,
-) {
-  if (!rawBookName) return '';
-  const book = booksByName.get(rawBookName.toLowerCase());
-  return getLocalizedBookName(book ?? { name: rawBookName }, translationId, translationsById);
-}
-
-/**
- * Labels that should be silently dropped from people/place tags —
- * abstract nouns and natural phenomena that crept into AI-generated key_people lists.
- */
-const ENTITY_SKIP_LABELS = new Set([
-  'light', 'darkness', 'earth', 'heavens', 'heaven', 'waters', 'water', 'land',
-  'the land', 'firmament', 'void', 'sky', 'deep', 'the deep', 'fire', 'night',
-  'day', 'breath', 'clay', 'chaos', 'sea', 'clouds', 'cloud', 'storm', 'rain',
-  'wind', 'dust', 'shadow', 'glory', 'spirit', 'the spirit',
-]);
-
-// Additional abstract/generic geographic words that aren't proper place names.
-// Compound names containing these words (e.g. "Wilderness of Sinai", "Mount Moriah")
-// are kept because they won't match this exact set.
-const PLACE_ABSTRACT_LABELS = new Set([
-  'wilderness', 'the wilderness', 'mountain', 'mountains', 'the mountain',
-  'valley', 'the valley', 'river', 'the river', 'desert', 'the desert',
-  'field', 'fields', 'the field', 'city', 'the city', 'town', 'the town',
-  'forest', 'the forest', 'cave', 'the cave', 'hill', 'the hill', 'hills',
-  'plain', 'the plain', 'shore', 'coast', 'border', 'gate', 'the gate',
-  'road', 'the road', 'way', 'the way', 'path', 'the path',
-  'camp', 'the camp', 'palace', 'the palace', 'house', 'the house',
-  'land of canaan', 'the land of canaan',
-]);
-
-function isSkipLabel(label: string): boolean {
-  return ENTITY_SKIP_LABELS.has(label.toLowerCase().trim());
-}
-
-function isSkipPlaceLabel(label: string): boolean {
-  const l = label.toLowerCase().trim();
-  return ENTITY_SKIP_LABELS.has(l) || PLACE_ABSTRACT_LABELS.has(l);
-}
-
-function slugifyEntityLabel(label: string): string {
-  return label
-    .normalize('NFKD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .replace(/-{2,}/g, '-');
-}
-
-function parseSummaryContent(content: string) {
-  const result = {
-    title: '', summary: '',
-    themes: [] as string[], people: [] as string[], places: [] as string[],
-    points: [] as string[], verses: [] as string[],
-  };
-  const titleMatch = content.match(/^TITLE::(.+)/m);
-  if (titleMatch) result.title = titleMatch[1].trim();
-  let rest = content.replace(/^TITLE::.+\n?/, '').trim();
-  const themesMatch = rest.match(/^Themes:\s*(.+)$/m);
-  if (themesMatch) result.themes = themesMatch[1].split(' · ').map(s => s.trim()).filter(Boolean);
-  const peopleMatch = rest.match(/^Key People:\s*(.+)$/m);
-  if (peopleMatch) result.people = peopleMatch[1].split(' · ').map(s => s.trim()).filter(Boolean);
-  const placesMatch = rest.match(/^Key Places:\s*(.+)$/m);
-  if (placesMatch) result.places = placesMatch[1].split(' · ').map(s => s.trim()).filter(Boolean);
-  const versesMatch = rest.match(/^Supporting Verses:\s*(.+)$/m);
-  if (versesMatch) result.verses = versesMatch[1].split(' · ').map(s => s.trim()).filter(Boolean);
-  const pointsMatch = rest.match(/^Key Points:\n([\s\S]+?)(?=\n\n[A-Z]|$)/m);
-  if (pointsMatch) {
-    result.points = pointsMatch[1].split('\n').map(l => l.replace(/^• /, '').trim()).filter(Boolean);
-  }
-  const sectionStart = rest.search(/^(Themes:|Key People:|Key Places:|Key Points:|Supporting Verses:)/m);
-  result.summary = (sectionStart > 0 ? rest.slice(0, sectionStart) : rest).trim();
-  return result;
-}
-
-function closestVerseLine(node: Node | null): HTMLElement | null {
-  let n: Node | null = node;
-  if (n?.nodeType === Node.TEXT_NODE) n = n.parentElement;
-  const el = n as Element | null;
-  return el?.closest?.('.verse-line[data-verse]') ?? null;
-}
-
-function buildExplainVersePrompt(refLabel: string | undefined, selectedText: string): string {
-  const intro = 'Explain what this passage means.\n\n';
-  const refLine = refLabel ? `Reference: ${refLabel}\n\n` : '';
-  const normalized = selectedText.replace(/\s+/g, ' ').trim();
-  const quoted = `"${normalized}"`;
-  let full = intro + refLine + quoted;
-  if (full.length <= MAX_MESSAGE_CHARS) return full;
-  const overhead = intro.length + refLine.length + 4;
-  const budget = MAX_MESSAGE_CHARS - overhead;
-  const inner =
-    normalized.length > budget ? `${normalized.slice(0, Math.max(0, budget - 1))}…` : normalized;
-  return intro + refLine + `"${inner}"`;
-}
-
-function DailyTasksList({
-  taskChapterDone,
-  taskAiDone,
-  taskMinutesDone,
-  dailyGoalMinutes,
-  signedIn,
-  tasksBonusClaimed,
-  onClaimTasksBonus,
-  tasksBonusClaiming,
-}: {
-  taskChapterDone: boolean;
-  taskAiDone: boolean;
-  taskMinutesDone: boolean;
-  dailyGoalMinutes: number;
-  signedIn?: boolean;
-  tasksBonusClaimed?: boolean;
-  onClaimTasksBonus?: () => void;
-  tasksBonusClaiming?: boolean;
-}) {
-  const rows = [
-    { done: taskAiDone, label: 'Talk to the AI assistant once' },
-    { done: taskChapterDone, label: 'Read one chapter of the Bible' },
-    { done: taskMinutesDone, label: `Reach your daily active learning goal (${dailyGoalMinutes} min)` },
-  ];
-  const allDone = rows.every(r => r.done);
-  return (
-    <ul className="daily-goals-list" aria-label="Daily tasks">
-      {rows.map((row, i) => (
-        <li key={i} className={`daily-task${row.done ? ' daily-task--done' : ''}`}>
-          <div className="daily-task-row">
-            <span className="daily-task-check" aria-hidden="true">
-              {row.done ? '✓' : '○'}
-            </span>
-            <span className="daily-task-label">{row.label}</span>
-            <span className="daily-task-coins" aria-label="+10 coins">
-              <><CurrencyIcon className="daily-task-coins-icon" size={14} />{!row.done ? ' +10' : null}</>
-            </span>
-          </div>
-        </li>
-      ))}
-      {allDone && (
-        <li className={`daily-task daily-task--bonus${tasksBonusClaimed ? ' daily-task--done' : ''}`}>
-          <div className="daily-task-row daily-task-row--bonus">
-            <span className="daily-task-check" aria-hidden="true">★</span>
-            <span className="daily-task-label">All tasks complete</span>
-            {tasksBonusClaimed ? (
-              <span className="daily-task-coins daily-task-coins--bonus" aria-label="Bonus claimed">
-                Claimed
-              </span>
-            ) : signedIn && onClaimTasksBonus ? (
-              <button
-                type="button"
-                className="daily-task-claim-btn"
-                disabled={tasksBonusClaiming}
-                onClick={onClaimTasksBonus}
-              >
-                {tasksBonusClaiming ? '…' : 'Claim +20'}
-              </button>
-            ) : (
-              <span className="daily-task-coins daily-task-coins--bonus" aria-label="+20 bonus coins"><CurrencyIcon className="daily-task-coins-icon" size={14} /> +20</span>
-            )}
-          </div>
-          {!signedIn && (
-            <p className="daily-task-bonus-hint">Sign in to claim your +20 coin bonus.</p>
-          )}
-        </li>
-      )}
-    </ul>
-  );
-}
-
+import { normalizeThemeId } from '@/lib/themes';
+
+import type { BookInfo, ChapterData, ChapterQuizVisitState, ChapterReadEvidence, CommentaryEntry, CommentarySource, ReaderSettings, ReadingProgress, SavedPassage, SearchResult, SearchSuggestion, SidePanelMode, SidePanelPosition, Translation, TutorialStep, VerseData, VerseNote } from '@/features/reader/types';
+import { filterTranslationsForPicker, getLocalizedBookName, getLocalizedBookNameFromRaw, getTranslationDisplayId, getTranslationDisplayName, normalizeTranslationChoice } from '@/features/reader/translations';
+import { DEFAULT_READER_SETTINGS, applyReaderHighlightVars, detectGraphicsCapability, isPagedReadingMode, normalizeReaderSettings } from '@/features/reader/settings';
+import { biblePaneScrollDepthRatio, chapterStorageKey, closestVerseLine, formatVerseGroupRef, scrollVerseLineIntoBiblePaneCenter, sliceVersesIntoPages, verseStorageKey } from '@/features/reader/layout';
+import { computeChapterQuizRequiredDwellMs, getChapterQuizVisibleMs } from '@/features/quiz/dwell';
+import { BOOKMARKS_STORAGE_KEY, COMMENTARY_SYNC_THROTTLE_MS, DAILY_GOAL_MINUTES_STORAGE_KEY, DEFAULT_DAILY_GOAL_MINUTES, ENGAGEMENT_COMMIT_MS, HIGHLIGHTS_STORAGE_KEY, LAST_POSITION_STORAGE_KEY, MAX_ENGAGEMENT_GAP_MS, MAX_RECENT_PASSAGES, NOTES_STORAGE_KEY, ONBOARDING_STORAGE_KEY, READER_SETTINGS_STORAGE_KEY, READING_PROGRESS_STORAGE_KEY, RECENT_PASSAGES_STORAGE_KEY, SCROLL_ACTIVE_HOLD_MS, chapterEvidenceQualifies, computeTodayIso, normalizeReadingProgress, rollReadingProgressToToday, selectDailyVerse, syncGoalCompletion, timeOfDayGreeting } from '@/features/progress/progress';
+import { DYNAMIC_BASE_THEME, DYNAMIC_COLORS, DYNAMIC_CYCLE_MS, hexToRgb, logoSrcForTheme } from '@/features/settings/themeHelpers';
+import { SEARCH_SUGGESTION_LIMIT, clampChapterForBook, compactSearchText, extractLooseReferenceParts, formatSearchSuggestionLabel, getBookPopularityScore, normalizeReferenceSpacing, normalizeSearchText, scoreBookMatch } from '@/features/search/search';
+import { TUTORIAL_VERSE_TOOLS_VERSE, boundsToTutorialRect } from '@/features/onboarding/tutorial';
+import { buildExplainVersePrompt } from '@/features/ai/prompts';
+import { readStoredBookmarks, readStoredDailyGoalMinutes, readStoredHighlights, readStoredLastPosition, readStoredNotes, readStoredReaderSettings, readStoredReadingProgress, readStoredRecentPassages } from '@/lib/localState';
+import BookPanel from '@/features/reader/BookPanel';
+import VersionPanel from '@/features/reader/VersionPanel';
+import SearchPanel from '@/features/search/SearchPanel';
+import SettingsPanel from '@/features/settings/SettingsPanel';
+import HomeScreen from '@/features/home/HomeScreen';
+import TopBar from '@/features/reader/TopBar';
+import CommentaryContent from '@/features/commentary/CommentaryContent';
+import ChapterContent from '@/features/reader/ChapterContent';
+import StudyContent from '@/features/study/StudyContent';
 // ── Main Component ─────────────────────────────────────────────────────────────
 export default function BibleApp({
   initialReader = null,
@@ -1122,7 +143,7 @@ export default function BibleApp({
   const [chapterSpreadIndex, setChapterSpreadIndex] = useState(0);
   /** Chapter-internal page flip (separate from chapter-load flip on reader-page-transition). */
   const [pagedFlipAnim, setPagedFlipAnim] = useState('');
-  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [, setShowOnboarding] = useState(false);
   const [currentNoteDraft, setCurrentNoteDraft] = useState('');
   const [showVerseNoteEditor, setShowVerseNoteEditor] = useState(false);
   const [authSession, setAuthSession]       = useState<AuthSession | null>(null);
@@ -1235,6 +256,7 @@ export default function BibleApp({
   const syncReadyRef        = useRef(false);
   const hydratingAccountRef = useRef(false);
   const accountBootstrapRef = useRef(false);
+  const localStateLoadedRef = useRef(false);
   const chapterEngagementRef = useRef<{ key: string; lastInteractionAt: number | null }>({
     key: '',
     lastInteractionAt: null,
@@ -1452,32 +474,32 @@ export default function BibleApp({
   }, [chapter, currentBook, selectedVerse, verseNotes]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !localStateLoadedRef.current) return;
     window.localStorage.setItem(HIGHLIGHTS_STORAGE_KEY, JSON.stringify(highlightedVerses));
   }, [highlightedVerses]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !localStateLoadedRef.current) return;
     window.localStorage.setItem(BOOKMARKS_STORAGE_KEY, JSON.stringify(bookmarkedVerses));
   }, [bookmarkedVerses]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !localStateLoadedRef.current) return;
     window.localStorage.setItem(NOTES_STORAGE_KEY, JSON.stringify(verseNotes));
   }, [verseNotes]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !localStateLoadedRef.current) return;
     window.localStorage.setItem(RECENT_PASSAGES_STORAGE_KEY, JSON.stringify(recentPassages));
   }, [recentPassages]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !localStateLoadedRef.current) return;
     window.localStorage.setItem(READING_PROGRESS_STORAGE_KEY, JSON.stringify(readingProgress));
   }, [readingProgress]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !localStateLoadedRef.current) return;
     window.localStorage.setItem(DAILY_GOAL_MINUTES_STORAGE_KEY, String(dailyGoalMinutes));
   }, [dailyGoalMinutes]);
 
@@ -1490,7 +512,7 @@ export default function BibleApp({
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    window.localStorage.setItem(READER_SETTINGS_STORAGE_KEY, JSON.stringify(readerSettings));
+    if (localStateLoadedRef.current) window.localStorage.setItem(READER_SETTINGS_STORAGE_KEY, JSON.stringify(readerSettings));
     document.documentElement.dataset.readerScale = readerSettings.fontScale;
     document.documentElement.dataset.readerLineHeight = readerSettings.lineHeight;
     document.documentElement.dataset.readerFont = readerSettings.readerFont;
@@ -1773,10 +795,6 @@ export default function BibleApp({
     return true;
   }, [loadChapter]);
 
-  const toggleStoredVerse = useCallback((storageKey: string, setter: Dispatch<SetStateAction<string[]>>) => {
-    setter(prev => prev.includes(storageKey) ? prev.filter(item => item !== storageKey) : [...prev, storageKey]);
-  }, []);
-
   // ── Side panel ────────────────────────────────────────────────────────────────
   const openSidePanel = useCallback((mode: Exclude<SidePanelMode, 'none'>) => {
     lastSidePanelModeRef.current = mode;
@@ -1945,112 +963,6 @@ export default function BibleApp({
       preferredDefault === 'none' ? lastSidePanelModeRef.current : preferredDefault;
     openSidePanel(preferred);
   }, [openSidePanel]);
-
-  const tutorialStepsContent = useMemo<TutorialStep[]>(() => [
-    {
-      id: 'home',
-      title: 'Start from Home',
-      description:
-        'The homepage is your launchpad: verse of the day, your streak and daily goal, and Continue where you left off—together in one view.',
-      tips: [
-        'Verse of the day: tap the reference to open that passage in the reader.',
-        "Your streak card shows your rhythm and how many chapters you've read toward today's goal.",
-        currentBook
-          ? `Continue where you left off jumps back to ${currentBook.name} ${chapter}.`
-          : "Continue where you left off appears once you've opened a passage.",
-      ],
-      actionLabel: 'Replay example',
-    },
-    {
-      id: 'reader',
-      title: 'Read in the Bible Reader',
-      description: 'This step opens a live reading example in John 3 so the user can see the main reader workspace in action.',
-      tips: [
-        'Use the top-left book picker to choose any book and chapter.',
-        `The translation button next to it switches versions (for example ${getTranslationDisplayId(translation)}).`,
-        'Use the bottom chapter arrows to move forward or backward quickly.',
-      ],
-      actionLabel: 'Replay example',
-    },
-    {
-      id: 'search',
-      title: 'Find Passages Fast',
-      description: 'This step opens Search and loads a sample reference so the user can see the suggestion flow before navigating.',
-      tips: [
-        'Try references like John 3, Romans 8:28, or Psalm 23.',
-        'You can also search by phrase when you remember words but not the reference.',
-        recentPassages.length > 0 ? `Recent passages are built in, and you currently have ${recentPassages.length} saved.` : 'Recent passages will start appearing here once you navigate a few chapters.',
-      ],
-      actionLabel: 'Replay example',
-    },
-    {
-      id: 'verse-tools',
-      title: 'Study a Verse',
-      description: `This step opens John 3 and spotlights verse ${TUTORIAL_VERSE_TOOLS_VERSE} so you can see exactly which line to tap.`,
-      tips: [
-        'Tap a verse to open the study card for that verse.',
-        'Tap the same verse again to close the card, or tap another verse to add to your selection.',
-        `Your saved items currently total ${highlightedVerses.length + bookmarkedVerses.length + Object.keys(verseNotes).length}. Highlights, bookmarks, and notes all show up in My Stuff.`,
-      ],
-      actionLabel: 'Replay example',
-    },
-    {
-      id: 'commentary',
-      title: 'Open Resources',
-      description: 'This step opens the resources panel beside John 3 so the user can see the side-by-side reading setup.',
-      tips: [
-        'Use the taskbar Resources button to open or close the side panel.',
-        'Switch resource types from the dropdown at the top of the panel.',
-        'When sync is active, the panel follows the verse area you are reading.',
-      ],
-      actionLabel: 'Replay example',
-    },
-    {
-      id: 'ai',
-      title: 'Ask the AI Assistant',
-      description: 'This step opens the AI sidebar on John 3 and preloads an example question so the user sees how to start.',
-      tips: [
-        `Open AI from the taskbar and ask a question about the current chapter in ${PERSONALITIES.find(p => p.id === personalityId)?.name ?? 'Ruth'}.`,
-        'Use the suggested follow-up buttons to keep exploring without retyping.',
-        'From the verse study card, use Ask AI to send the selected verses directly into the chat.',
-      ],
-      actionLabel: 'Replay example',
-    },
-    {
-      id: 'study',
-      title: 'Review My Stuff',
-      description: 'This step opens My Stuff so the user can see where account controls, reading rhythm, and saved items live.',
-      tips: [
-        'Saved lists highlights, bookmarks, and notes so you can jump back to any passage.',
-        'Reading rhythm tracks your streak and daily chapter goal in one place.',
-        accountProfile
-          ? `Profile: ${accountProfile.display_name || accountProfile.email}.`
-          : 'Account sync keeps study data across devices when you use the same profile.',
-      ],
-      actionLabel: 'Replay example',
-    },
-    {
-      id: 'settings',
-      title: 'Make the App Yours',
-      description: 'This step opens Settings so the user can see where to customize theme, text, layout, and effects.',
-      tips: [
-        'Use themes to change the overall visual style of the app.',
-        'Adjust text size, font, line spacing, and side panel position for comfort.',
-        'Graphics mode and motion options help balance visual richness and performance.',
-      ],
-      actionLabel: 'Replay example',
-    },
-  ], [
-    accountProfile,
-    bookmarkedVerses.length,
-    chapter,
-    currentBook,
-    highlightedVerses.length,
-    personalityId,
-    recentPassages.length,
-    translation,
-    verseNotes,
-  ]);
 
   const tutorialSteps = useMemo<TutorialStep[]>(() => ([
     {
@@ -2844,7 +1756,6 @@ export default function BibleApp({
   const taskChapterDone = chaptersToday >= 1;
   const taskAiDone = isProgressToday && Boolean(readingProgress.todaySpokeToAi);
   const taskMinutesDone = activeLearningMsToday >= dailyGoalMs;
-  const savedVerseCount = highlightedVerses.length + bookmarkedVerses.length + Object.keys(verseNotes).length;
 
   const handleDailyVerseRefClick = async () => {
     if (authSession) {
@@ -3224,11 +2135,6 @@ export default function BibleApp({
         : [...new Set([...prev, ...groupKeys])]
     );
   }, [chapter, currentBook, highlightedVerses, selectedVerseGroup, selectedVerseKey]);
-
-  const toggleVerseBookmark = useCallback(() => {
-    if (!selectedVerseKey) return;
-    toggleStoredVerse(selectedVerseKey, setBookmarkedVerses);
-  }, [selectedVerseKey, toggleStoredVerse]);
 
   const saveVerseNote = useCallback(() => {
     if (!selectedVerseKey || !currentBook || selectedVerse == null) return;
@@ -4307,7 +3213,7 @@ export default function BibleApp({
         })
       : [];
 
-    function draw(now: number) {
+    function draw() {
       if (!canvas) return;
       const w = canvas.width;
       const h = canvas.height;
@@ -4539,21 +3445,15 @@ export default function BibleApp({
     // Read theme from localStorage (inline script already applied it to the DOM)
     const saved = normalizeThemeId(localStorage.getItem('theme'));
     const storedSession = restoreAuthSession();
-    const storedLastPosition = safelyParseJson<{ book?: string; chapter?: number; translation?: string } | null>(
-      localStorage.getItem(LAST_POSITION_STORAGE_KEY),
-      null,
-    );
-    const storedHighlights = safelyParseJson<string[]>(localStorage.getItem(HIGHLIGHTS_STORAGE_KEY), []);
-    const storedBookmarks = safelyParseJson<string[]>(localStorage.getItem(BOOKMARKS_STORAGE_KEY), []);
-    const storedNotes = safelyParseJson<Record<string, VerseNote>>(localStorage.getItem(NOTES_STORAGE_KEY), {});
-    const storedRecent = safelyParseJson<SavedPassage[]>(localStorage.getItem(RECENT_PASSAGES_STORAGE_KEY), []);
-    const storedProgress = normalizeReadingProgress(
-      safelyParseJson<unknown>(localStorage.getItem(READING_PROGRESS_STORAGE_KEY), null),
-    );
-    const storedDailyGoal = normalizeDailyGoalMinutes(localStorage.getItem(DAILY_GOAL_MINUTES_STORAGE_KEY));
-    const storedReaderSettings = normalizeReaderSettings(
-      safelyParseJson<Partial<ReaderSettings> | null>(localStorage.getItem(READER_SETTINGS_STORAGE_KEY), null),
-    );
+    const storedLastPosition = readStoredLastPosition();
+    const storedHighlights = readStoredHighlights();
+    const storedBookmarks = readStoredBookmarks();
+    const storedNotes = readStoredNotes();
+    const storedRecent = readStoredRecentPassages();
+    const storedProgress = readStoredReadingProgress();
+    const storedDailyGoal = readStoredDailyGoalMinutes();
+    const storedReaderSettings = readStoredReaderSettings();
+    localStateLoadedRef.current = true;
     setCurrentTheme(saved);
     localStorage.setItem('theme', saved);
     setAuthSession(storedSession);
@@ -4614,6 +3514,8 @@ export default function BibleApp({
             setSidePanelMode(d);
           }
           setCurrentBook(bookFromUrl);
+          // Without this, the top bar and verse popup show chapter 1 and highlights/notes are keyed to chapter 1.
+          setChapter(Math.min(urlChapterNum, bookFromUrl.total_chapters));
           loadChapter(
             bookFromUrl,
             Math.min(urlChapterNum, bookFromUrl.total_chapters),
@@ -4630,6 +3532,8 @@ export default function BibleApp({
           setTranslation(initialTranslation);
           setCurrentBook(initialBook);
           if (initialBook) {
+            // Without this, chapter stays 1 and the last-position effect overwrites the saved chapter with 1.
+            setChapter(Math.min(initialChapter, initialBook.total_chapters));
             loadChapter(initialBook, Math.min(initialChapter, initialBook.total_chapters), initialTranslation);
             if (storedReaderSettings.defaultPanel !== 'none') {
               setSidePanelMode(storedReaderSettings.defaultPanel);
@@ -4645,7 +3549,12 @@ export default function BibleApp({
       }
     }
     init();
-    return () => stopDynamicTheme();
+    // Strict Mode unmounts and remounts effects on first mount without re-rendering. Clearing the flag here
+    // stops the persist effects from writing default state over storage before this effect reads it again.
+    return () => {
+      localStateLoadedRef.current = false;
+      stopDynamicTheme();
+    };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -4855,741 +3764,6 @@ export default function BibleApp({
   ]);
 
   // ── Render helpers ────────────────────────────────────────────────────────────
-  const renderChapterContent = () => {
-    if (chapterLoading) {
-      return (
-        <div className="state-msg">
-          <span className="spinner" />
-          <div>Loading chapter...</div>
-        </div>
-      );
-    }
-    if (chapterError || !chapterData) {
-      return <div className="state-msg">Could not load this chapter.</div>;
-    }
-    const isBookMode = readerSettings.readingMode === 'book';
-    const isPaged = isPagedReadingMode(readerSettings.readingMode);
-    const isPagedDouble = readerSettings.readingMode === 'paged-double';
-    const pagedSpreadCount =
-      isPaged && pagedPageSlices?.length
-        ? readerSettings.readingMode === 'paged-double'
-          ? Math.ceil(pagedPageSlices.length / 2)
-          : pagedPageSlices.length
-        : 0;
-    const [leftPageVerses, rightPageVerses] = splitVersesForBookMode(chapterData.verses);
-    const renderVerse = (v: VerseData) => {
-      const inAiNav =
-        aiNavHighlight != null && v.verse >= aiNavHighlight.start && v.verse <= aiNavHighlight.end;
-      const verseKey = verseStorageKey(chapterData.book, chapterData.chapter, v.verse);
-      const isHighlighted = highlightedVerses.includes(verseKey);
-      const isBookmarked = bookmarkedVerses.includes(verseKey);
-      const hasNote = Boolean(verseNotes[verseKey]);
-      return (
-        <span
-          key={v.verse}
-          className={`verse-line${inAiNav ? ' verse-line--ai-nav' : ''}${selectedVerseGroup.includes(v.verse) ? ' verse-line--selected' : ''}${isHighlighted ? ' verse-line--highlighted' : ''}${isBookmarked ? ' verse-line--bookmarked' : ''}${hasNote ? ' verse-line--noted' : ''}`}
-          data-verse={v.verse}
-          onClick={(e) => {
-            topVisibleVerseRef.current = v.verse;
-            recordChapterEngagement(chapterData.book, chapterData.chapter, translation, v.verse, chapterData.verses.length);
-            if (selectedVerse !== null && v.verse !== selectedVerse) {
-              setSelectedVerseGroup(prev =>
-                prev.includes(v.verse)
-                  ? prev.filter(n => n !== v.verse)
-                  : [...prev, v.verse].sort((a, b) => a - b)
-              );
-              return;
-            }
-            const isDeselecting = selectedVerse === v.verse;
-            if (isDeselecting) {
-              setSelectedVerse(null);
-              setSelectedVerseGroup([]);
-              setVersePopupPos(null);
-            } else {
-              const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-              const popupWidth = 268;
-              const margin = 14;
-              let left = rect.right + margin;
-              if (left + popupWidth > window.innerWidth - 8) {
-                left = Math.max(8, rect.left - popupWidth - margin);
-              }
-              const top = Math.min(rect.top, window.innerHeight - 60);
-              setSelectedVerse(v.verse);
-              setSelectedVerseGroup([v.verse]);
-              setVersePopupPos({ top, left });
-            }
-            setShowVerseNoteEditor(false);
-          }}
-        >
-          <sup className="vnum">{v.verse}</sup>{v.text}{' '}
-        </span>
-      );
-    };
-    const pagedLastSliceIndex =
-      isPaged && pagedPageSlices?.length ? pagedPageSlices.length - 1 : -1;
-    const showMasteryPagedSingle =
-      isPaged &&
-      !isPagedDouble &&
-      pagedLastSliceIndex >= 0 &&
-      chapterSpreadIndex === pagedLastSliceIndex;
-    const showMasteryPagedLeft =
-      isPaged &&
-      isPagedDouble &&
-      pagedLastSliceIndex >= 0 &&
-      chapterSpreadIndex * 2 === pagedLastSliceIndex;
-    const showMasteryPagedRight =
-      isPaged &&
-      isPagedDouble &&
-      pagedLastSliceIndex >= 0 &&
-      chapterSpreadIndex * 2 + 1 === pagedLastSliceIndex;
-    const masteryQuizBlocked = quizTakenThisChapterVisit;
-    const masteryQuizGateMet = chapterQuizGate.met && !masteryQuizBlocked;
-    const masteryQuizHint = masteryQuizBlocked
-      ? 'Leave this chapter and come back to take the quiz again.'
-      : chapterQuizGate.hint;
-
-    const readerMasteryBlockScroll =
-      authSession && currentBook && !chapterLoading && !chapterError ? (
-        <div className="reader-mastery-anchor reader-mastery-anchor--scroll">
-          <MasteryStrip
-            bookNumber={currentBook.book_number}
-            chapter={chapter}
-            session={authSession}
-            quizGateMet={masteryQuizGateMet}
-            quizGateHint={masteryQuizHint}
-            onTakeQuiz={() => {
-              if (chapterQuizGate.met && !quizTakenThisChapterVisit) setQuizOpen(true);
-            }}
-          />
-          <div className="reader-mastery-scroll-pad" aria-hidden />
-        </div>
-      ) : null;
-    const readerMasteryBlockPaged =
-      authSession && currentBook && !chapterLoading && !chapterError ? (
-        <div className="reader-mastery-anchor reader-mastery-anchor--paged">
-          <MasteryStrip
-            bookNumber={currentBook.book_number}
-            chapter={chapter}
-            session={authSession}
-            quizGateMet={masteryQuizGateMet}
-            quizGateHint={masteryQuizHint}
-            onTakeQuiz={() => {
-              if (chapterQuizGate.met && !quizTakenThisChapterVisit) setQuizOpen(true);
-            }}
-          />
-        </div>
-      ) : null;
-    return (
-      <>
-      <div
-        className={`reader-page-transition${(isBookMode || isPagedDouble) ? ' reader-page-transition--book' : ''}${isPagedDouble ? ' reader-paged-flip-shell' : ''}${animClass ? ` ${animClass}` : ''}`}
-        onAnimationEnd={(e) => {
-          // For paged-double, wait for the flipping column's animation to end,
-          // not the static column's shorter bookPageStay.
-          if (isPagedDouble && animClass) {
-            const t = e.target as HTMLElement;
-            const isFlipping = animClass.includes('next')
-              ? t.classList.contains('reader-paged-column--double-right')
-              : t.classList.contains('reader-paged-column--double-left');
-            if (!isFlipping) return;
-          }
-          if (animClass.includes('exit')) {
-            exitAnimDoneRef.current = true;
-            const pending = pendingFlipDataRef.current;
-            if (pending) {
-              pendingFlipDataRef.current = null;
-              setChapterData(pending.data);
-              setAnimClass(pending.direction === 'next' ? 'page-flip-enter-next' : 'page-flip-enter-prev');
-              if (biblePaneRef.current) biblePaneRef.current.scrollTop = 0;
-              if (sidePanelModeRef.current === 'commentary') {
-                loadCommentaryData(currentBookRef.current!, chapterRef.current, commentarySourceRef.current);
-              }
-            } else {
-              // Data not ready yet — show loading spinner until it arrives
-              setAnimClass('');
-              setChapterLoading(true);
-            }
-          } else {
-            setAnimClass('');
-          }
-        }}
-      >
-        {false && (
-          <section className="reader-dashboard">
-          <div className="reader-dashboard-card">
-            <div className="reader-dashboard-label">Study rhythm</div>
-            <div className="reader-dashboard-title">{readingRhythmTitle}</div>
-            <div className="reader-dashboard-metrics">
-              <span className="reader-pill">{readingProgress.streak} day streak</span>
-              <span className="reader-pill">{recentPassages.length} recent passages</span>
-              <span className="reader-pill">{savedVerseCount} saved study items</span>
-            </div>
-          </div>
-          <div className="reader-dashboard-card">
-            <div className="reader-dashboard-label">Current context</div>
-            <div className="reader-dashboard-metrics">
-              <span className="reader-pill">{currentTranslationLabel}</span>
-              <span className="reader-pill">{commentarySourceNames[commentarySource] ?? commentarySource}</span>
-              <span className="reader-pill">{sidePanelMode === 'none' ? 'Reader focus' : `Open: ${sidePanelMode === 'ai' ? 'AI' : 'Resources'}`}</span>
-            </div>
-            {recentPassages.length > 0 && (
-              <div className="reader-recent-row">
-                {recentPassages.slice(0, 3).map(entry => (
-                  <button
-                    key={`${entry.book}-${entry.chapter}-${entry.translation}`}
-                    className="reader-recent-btn"
-                    type="button"
-                    onClick={() => navigateToPassage(entry.book, entry.chapter, entry.translation)}
-                  >
-                    {entry.book} {entry.chapter}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-          </section>
-        )}
-        {false && showOnboarding && (
-          <section className="reader-onboarding">
-            <div className="reader-dashboard-label">Welcome</div>
-            <div className="reader-dashboard-title">Read, open commentary, or ask AI from the same workspace.</div>
-            <p className="reader-onboarding-copy">
-              Tap any verse to highlight it, bookmark it, or add a note. Use Search to jump straight to a passage or find a phrase.
-            </p>
-            <div className="reader-onboarding-actions">
-              <button
-                className="reader-onboarding-btn"
-                type="button"
-                onClick={() => {
-                  setShowOnboarding(false);
-                  localStorage.setItem(ONBOARDING_STORAGE_KEY, '1');
-                }}
-              >
-                Start reading
-              </button>
-              <button
-                className="reader-onboarding-btn secondary"
-                type="button"
-                onClick={() => {
-                  openSidePanel('ai');
-                  setShowOnboarding(false);
-                  localStorage.setItem(ONBOARDING_STORAGE_KEY, '1');
-                }}
-              >
-                Show me AI
-              </button>
-            </div>
-          </section>
-        )}
-        <div className="reader-book">{chapterBookLabel}</div>
-        <div className="reader-chapter">{chapterData.chapter}</div>
-        {isPaged ? (
-          <div className="reader-paged-viewport">
-            {!isPagedDouble ? (
-              <header
-                className="reader-paged-context"
-                aria-label={`${chapterBookLabel} ${chapterData.chapter}`}
-              >
-                <span className="reader-paged-context-book">{chapterBookLabel}</span>
-                <span className="reader-paged-context-sep" aria-hidden>
-                  ·
-                </span>
-                <span className="reader-paged-context-chapter">{chapterData.chapter}</span>
-              </header>
-            ) : null}
-            <div ref={pagedContentRef} className="reader-paged-content">
-              <div
-                ref={pagedMeasureRef}
-                className="reader-paged-hidden-measure reader-passages"
-                aria-hidden
-              />
-              {!pagedPageSlices ? (
-                <div className="state-msg reader-paged-measuring">
-                  <span className="spinner" aria-hidden />
-                  <div>Laying out pages…</div>
-                </div>
-              ) : (
-                <div
-                  className={`reader-paged-flip-shell reader-page-transition${readerSettings.readingMode === 'paged-double' ? ' reader-page-transition--book' : ''}${pagedFlipAnim ? ` ${pagedFlipAnim}` : ''}`}
-                  onAnimationEnd={(e) => {
-                    const cur = pagedFlipAnimRef.current;
-                    const shell = e.currentTarget as HTMLElement;
-                    const spread = shell.querySelector('.reader-paged-spread--double');
-                    if (readerSettings.readingMode === 'paged-double' && spread) {
-                      const t = e.target as HTMLElement;
-                      const pageCol = spread.querySelector('.reader-paged-column--double-right');
-                      const pageColLeft = spread.querySelector('.reader-paged-column--double-left');
-                      if (!t.classList.contains('reader-paged-column') || t.parentElement !== spread) return;
-                      if (cur.includes('next') && t !== pageCol) return;
-                      if (cur.includes('prev') && t !== pageColLeft) return;
-                    } else if (e.target !== e.currentTarget) {
-                      return;
-                    }
-                    if (cur.includes('exit')) {
-                      const fn = pagedFlipPendingRef.current;
-                      pagedFlipPendingRef.current = null;
-                      fn?.();
-                    } else if (cur.includes('enter')) {
-                      setPagedFlipAnim('');
-                    }
-                  }}
-                >
-                  <div ref={readerPassagesRef} className="reader-paged-verse-root">
-                    {readerSettings.readingMode === 'paged-double' ? (
-                      <div className="reader-paged-spread reader-paged-spread--double">
-                        {pagedPageSlices[chapterSpreadIndex * 2]?.length ? (
-                          <div
-                            className="reader-paged-double-context-left"
-                            aria-label={`${chapterBookLabel} ${chapterData.chapter}`}
-                          >
-                            <div className="reader-book">{chapterBookLabel}</div>
-                            <div className="reader-chapter">{chapterData.chapter}</div>
-                          </div>
-                        ) : (
-                          <div className="reader-paged-double-context-left reader-paged-double-context-left--empty" aria-hidden />
-                        )}
-                        <div className="reader-paged-double-context-right" aria-hidden />
-                        <div className="reader-paged-column reader-paged-column--double-page reader-paged-column--double-left">
-                          {pagedPageSlices[chapterSpreadIndex * 2]?.length ? (
-                            <>
-                              <div className="reader-paged-sheet">
-                                <div className="reader-passages reader-paged-passages">
-                                  {pagedPageSlices[chapterSpreadIndex * 2].map(renderVerse)}
-                                </div>
-                              </div>
-                              {showMasteryPagedLeft ? readerMasteryBlockPaged : null}
-                              <div className="reader-paged-tail" aria-hidden />
-                              <div className="reader-paged-col-footer">
-                                <span className="reader-paged-col-pagenum">
-                                  {chapterSpreadIndex * 2 + 1} / {pagedPageSlices.length}
-                                </span>
-                              </div>
-                            </>
-                          ) : (
-                            <div className="reader-paged-full" aria-hidden />
-                          )}
-                        </div>
-                        <div className="reader-paged-column reader-paged-column--double-page reader-paged-column--double-right">
-                          {pagedPageSlices[chapterSpreadIndex * 2 + 1]?.length ? (
-                            <>
-                              <div className="reader-paged-sheet">
-                                <div className="reader-passages reader-paged-passages">
-                                  {pagedPageSlices[chapterSpreadIndex * 2 + 1].map(renderVerse)}
-                                </div>
-                              </div>
-                              {showMasteryPagedRight ? readerMasteryBlockPaged : null}
-                              <div className="reader-paged-tail" aria-hidden />
-                              <div className="reader-paged-col-footer">
-                                <span className="reader-paged-col-pagenum">
-                                  {chapterSpreadIndex * 2 + 2} / {pagedPageSlices.length}
-                                </span>
-                              </div>
-                            </>
-                          ) : (
-                            <div className="reader-paged-full" aria-hidden />
-                          )}
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="reader-paged-spread reader-paged-spread--single">
-                        <div className="reader-paged-column">
-                          <div className="reader-paged-sheet">
-                            <div className="reader-passages reader-paged-passages">
-                              {pagedPageSlices[chapterSpreadIndex]?.map(renderVerse)}
-                            </div>
-                          </div>
-                          {showMasteryPagedSingle ? readerMasteryBlockPaged : null}
-                          <div className="reader-paged-tail" aria-hidden />
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
-            {pagedSpreadCount > 0 && !isPagedDouble ? (
-              <footer
-                className="reader-paged-pagebar"
-                aria-live="polite"
-                aria-label={`Page ${chapterSpreadIndex + 1} of ${pagedSpreadCount} in this chapter`}
-              >
-                <span aria-hidden className="reader-paged-pagebar-fraction">
-                  {chapterSpreadIndex + 1} / {pagedSpreadCount}
-                </span>
-              </footer>
-            ) : null}
-          </div>
-        ) : isBookMode ? (
-          <>
-            <div className="reader-book-spread" ref={readerPassagesRef}>
-              <section className="reader-book-page reader-book-page--left" aria-label="Left page">
-                <div className="reader-passages reader-passages--book">
-                  {leftPageVerses.map(renderVerse)}
-                </div>
-              </section>
-              <section className="reader-book-page reader-book-page--right" aria-label="Right page">
-                <div className="reader-passages reader-passages--book">
-                  {rightPageVerses.map(renderVerse)}
-                </div>
-              </section>
-            </div>
-            {readerMasteryBlockScroll}
-          </>
-        ) : (
-          <div className="reader-passages" ref={readerPassagesRef}>
-          {chapterData.verses.map(v => {
-            const inAiNav =
-              aiNavHighlight != null && v.verse >= aiNavHighlight.start && v.verse <= aiNavHighlight.end;
-            const verseKey = verseStorageKey(chapterData.book, chapterData.chapter, v.verse);
-            const isHighlighted = highlightedVerses.includes(verseKey);
-            const isBookmarked = bookmarkedVerses.includes(verseKey);
-            const hasNote = Boolean(verseNotes[verseKey]);
-            return (
-              <span
-                key={v.verse}
-                className={`verse-line${inAiNav ? ' verse-line--ai-nav' : ''}${selectedVerseGroup.includes(v.verse) ? ' verse-line--selected' : ''}${isHighlighted ? ' verse-line--highlighted' : ''}${isBookmarked ? ' verse-line--bookmarked' : ''}${hasNote ? ' verse-line--noted' : ''}`}
-                data-verse={v.verse}
-                onClick={(e) => {
-                  topVisibleVerseRef.current = v.verse;
-                  recordChapterEngagement(chapterData.book, chapterData.chapter, translation, v.verse, chapterData.verses.length);
-                  // Popup open + clicking a different verse → add/remove from group
-                  if (selectedVerse !== null && v.verse !== selectedVerse) {
-                    setSelectedVerseGroup(prev =>
-                      prev.includes(v.verse)
-                        ? prev.filter(n => n !== v.verse)
-                        : [...prev, v.verse].sort((a, b) => a - b)
-                    );
-                    return;
-                  }
-                  // Clicking anchor verse again → close popup
-                  const isDeselecting = selectedVerse === v.verse;
-                  if (isDeselecting) {
-                    setSelectedVerse(null);
-                    setSelectedVerseGroup([]);
-                    setVersePopupPos(null);
-                  } else {
-                    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-                    const popupWidth = 268;
-                    const margin = 14;
-                    let left = rect.right + margin;
-                    if (left + popupWidth > window.innerWidth - 8) {
-                      left = Math.max(8, rect.left - popupWidth - margin);
-                    }
-                    const top = Math.min(rect.top, window.innerHeight - 60);
-                    setSelectedVerse(v.verse);
-                    setSelectedVerseGroup([v.verse]);
-                    setVersePopupPos({ top, left });
-                  }
-                  setShowVerseNoteEditor(false);
-                }}
-              >
-                <sup className="vnum">{v.verse}</sup>{v.text}{' '}
-              </span>
-            );
-          })}
-          {readerMasteryBlockScroll}
-          </div>
-        )}
-      </div>
-      {selectedVerseData && currentBook && versePopupPos && (
-        <section
-          ref={verseStudyPopupRef}
-          className="verse-study-card verse-study-popup"
-          style={{ top: versePopupPos.top, left: versePopupPos.left }}
-        >
-          <div className="verse-study-header">
-            <div>
-              <div className="reader-dashboard-label">
-                {selectedVerseGroup.length > 1 ? `${selectedVerseGroup.length} verses` : 'Selected verse'}
-              </div>
-              <div className="verse-study-title">
-                {formatVerseGroupRef(currentBook.name, chapter, selectedVerseGroup)}
-              </div>
-            </div>
-            <button className="verse-study-close" type="button" aria-label="Close" onClick={closeVerseStudyPopup}>
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M6 6l12 12M18 6 6 18" />
-              </svg>
-            </button>
-          </div>
-          <div className="verse-study-actions">
-            <div className="verse-highlight-row">
-              <button
-                className={`verse-action-btn${selectedVerseHighlighted ? ' active' : ''}`}
-                type="button"
-                title="Add or remove a highlight in your preset color. Hover this row to pick a different highlight color."
-                onClick={toggleVerseHighlight}
-              >
-                Highlight
-              </button>
-              <div className="verse-color-strip" role="group" aria-label="Highlight color">
-                {(['yellow', 'amber', 'green', 'blue', 'pink'] as const).map(colorId => (
-                  <button
-                    key={colorId}
-                    type="button"
-                    aria-label={colorId}
-                    className={`verse-color-dot${readerSettings.highlightColor === colorId ? ' active' : ''}`}
-                    style={{ background: READER_HIGHLIGHT_PRESETS[colorId].light }}
-                    onClick={() => setReaderSettings(prev => ({ ...prev, highlightColor: colorId }))}
-                  />
-                ))}
-              </div>
-            </div>
-            <button
-              className="verse-action-btn"
-              type="button"
-              title={
-                tutorialVerseToolsNavBlocked
-                  ? 'Copy verse text to the clipboard or use your device share sheet.'
-                  : undefined
-              }
-              onClick={copySelectedVerse}
-            >
-              <span className="verse-action-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
-                  <path d="m16 6-4-4-4 4" />
-                  <path d="M12 2v15" />
-                </svg>
-              </span>
-              Share
-            </button>
-            <button
-              className={`verse-action-btn${showVerseNoteEditor || selectedVerseNote ? ' active' : ''}`}
-              type="button"
-              title="Add or edit a note for this verse. Save when you are done."
-              onClick={() => setShowVerseNoteEditor(true)}
-            >
-              <span className="verse-action-icon verse-action-icon--fill" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M19 21 12 16.89 5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16Z" />
-                </svg>
-              </span>
-              Notes
-            </button>
-            <button
-              className="verse-action-btn"
-              type="button"
-              aria-disabled={tutorialVerseToolsNavBlocked}
-              title={
-                tutorialVerseToolsNavBlocked
-                  ? 'Opens the AI assistant with your selected verse text. Disabled during the guided tour so you can explore the rest of this card first.'
-                  : undefined
-              }
-              onClick={() => {
-                if (tutorialVerseToolsNavBlocked) return;
-                openSidePanel('ai');
-                const sorted = [...selectedVerseGroup].sort((a, b) => a - b);
-                const verseTexts = sorted
-                  .map(vn => chapterData?.verses.find(v => v.verse === vn))
-                  .filter(Boolean)
-                  .map(v => v!.text)
-                  .join(' ');
-                const ref = formatVerseGroupRef(currentBook.name, chapter, sorted);
-                setAiComposerSeed({ id: Date.now(), text: buildExplainVersePrompt(ref, verseTexts) });
-              }}
-            >
-              <span className="verse-action-icon verse-action-icon--taskbar" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M12 3.5 13.9 8l4.6 1.9-4.6 1.9-1.9 4.7-1.9-4.7L5.5 9.9 10.1 8 12 3.5Z" className="icon-solid" />
-                  <path d="M18 14.5 18.9 16.6 21 17.5l-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9.9-2.1Z" className="icon-solid" />
-                  <path d="M6.5 15.5 7.2 17l1.5.7-1.5.7-.7 1.6-.7-1.6-1.6-.7 1.6-.7.7-1.5Z" className="icon-solid" />
-                </svg>
-              </span>
-              Ask AI
-            </button>
-          </div>
-          {(showVerseNoteEditor || selectedVerseNote) && (
-            <div className="verse-note-editor">
-              <textarea
-                className="verse-note-input"
-                value={currentNoteDraft}
-                rows={3}
-                placeholder="Add a note (optional)..."
-                onChange={event => setCurrentNoteDraft(event.target.value)}
-              />
-              <div className="verse-note-actions">
-                <button className="verse-action-btn active" type="button" onClick={saveVerseNote}>
-                  <span className="verse-action-icon verse-action-icon--fill" aria-hidden="true">
-                    <svg viewBox="0 0 24 24">
-                      <path d="M19 21 12 16.89 5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16Z" />
-                    </svg>
-                  </span>
-                  Save
-                </button>
-                {selectedVerseNote && (
-                  <button className="verse-action-btn" type="button" onClick={() => { setCurrentNoteDraft(''); setVerseNotes(prev => { const next = { ...prev }; if (selectedVerseKey) delete next[selectedVerseKey]; return next; }); }}>
-                    Remove note
-                  </button>
-                )}
-              </div>
-            </div>
-          )}
-        </section>
-      )}
-    </>
-    );
-  };
-
-  const renderCommentaryContent = () => {
-    if (commentaryLoading) {
-      return (
-        <div className="state-msg">
-          <span className="spinner" />
-          <div>Loading…</div>
-        </div>
-      );
-    }
-    if (commentaryError) return <div className="state-msg">Unable to load this content.</div>;
-    if (!commentaryEntries.length) return <div className="state-msg">No content for this chapter.</div>;
-
-    if (commentarySource === 'summary') {
-      const bookForEntityNav = currentBook?.name ?? chapterData?.book ?? '';
-      const entityNavSuffix =
-        bookForEntityNav !== ''
-          ? `?returnTo=${encodeURIComponent(
-              `/app?book=${encodeURIComponent(bookForEntityNav)}&chapter=${chapter}&panel=commentary&source=${encodeURIComponent(commentarySource)}`,
-            )}`
-          : '';
-      return commentaryEntries.map((entry, i) => {
-        const start = Number(entry.verse_start);
-        const end   = entry.verse_end == null ? start : Number(entry.verse_end);
-        const p     = parseSummaryContent(entry.content);
-        const isSynced = syncedVerseStart === entry.verse_start;
-        return (
-          <section
-            key={i}
-            className={`commentary-entry${isSynced ? ' synced' : ''}`}
-            data-verse-start={start}
-            data-verse-end={end}
-          >
-            {p.title  && <div className="summary-chapter-title">{p.title}</div>}
-            {p.summary && <div className="summary-text">{p.summary}</div>}
-            {p.points.length > 0 && (
-              <div className="summary-section">
-                <div className="summary-section-label">Key Points</div>
-                <ul className="summary-points">{p.points.map((pt, j) => <li key={j}>{pt}</li>)}</ul>
-              </div>
-            )}
-            {p.themes.length > 0 && (
-              <div className="summary-section">
-                <div className="summary-section-label">
-                  Themes
-                  <Link href={`/themes/bank${entityNavSuffix}`} className="summary-section-bank-link">Browse all</Link>
-                </div>
-                <div className="summary-tags">
-                  {entry.theme_tags && entry.theme_tags.length > 0
-                    ? entry.theme_tags.map((tag, j) => (
-                        <Link
-                          key={j}
-                          href={`/themes/${encodeURIComponent(tag.slug)}${entityNavSuffix}`}
-                          className="summary-tag summary-tag-link"
-                        >
-                          {tag.label}
-                        </Link>
-                      ))
-                    : p.themes.map((t, j) => (
-                        <span key={j} className="summary-tag">{t}</span>
-                      ))}
-                </div>
-              </div>
-            )}
-            {(() => {
-              const filteredPeopleTags = entry.people_tags?.filter(t => !isSkipLabel(t.label)) ?? [];
-              const filteredPeople = p.people.filter(t => !isSkipLabel(t));
-              return (filteredPeopleTags.length > 0 || filteredPeople.length > 0) && (
-                <div className="summary-section">
-                  <div className="summary-section-label">
-                    People
-                    <Link href={`/people/bank${entityNavSuffix}`} className="summary-section-bank-link">Browse all</Link>
-                  </div>
-                  <div className="summary-tags">
-                    {filteredPeopleTags.length > 0
-                      ? filteredPeopleTags.map((tag, j) => (
-                          <Link
-                            key={j}
-                            href={`/people/${encodeURIComponent(tag.slug)}${entityNavSuffix}`}
-                            className="summary-tag summary-tag-link"
-                          >
-                            {tag.label}
-                          </Link>
-                        ))
-                      : filteredPeople.map((t, j) => (
-                          <span key={j} className="summary-tag">{t}</span>
-                        ))}
-                  </div>
-                </div>
-              );
-            })()}
-            {(() => {
-              const filteredPlaceTags = entry.place_tags?.filter(t => !isSkipPlaceLabel(t.label)) ?? [];
-              const filteredPlaces = p.places.filter(t => !isSkipPlaceLabel(t));
-              const hasPlaces = filteredPlaceTags.length > 0 || filteredPlaces.length > 0;
-              return (
-                <div className="summary-section">
-                  <div className="summary-section-label">
-                    Places
-                    <Link href={`/places/bank${entityNavSuffix}`} className="summary-section-bank-link">Browse all</Link>
-                  </div>
-                  <div className="summary-tags">
-                    {hasPlaces ? (
-                      filteredPlaceTags.length > 0
-                        ? filteredPlaceTags.map((tag, j) => (
-                            <Link
-                              key={j}
-                              href={`/places/${encodeURIComponent(tag.slug)}${entityNavSuffix}`}
-                              className="summary-tag summary-tag-link summary-tag-place"
-                            >
-                              {tag.label}
-                            </Link>
-                          ))
-                        : filteredPlaces.map((t, j) => (
-                            <Link
-                              key={j}
-                              href={`/places/${encodeURIComponent(slugifyEntityLabel(t))}${entityNavSuffix}`}
-                              className="summary-tag summary-tag-link summary-tag-place"
-                            >
-                              {t}
-                            </Link>
-                          ))
-                    ) : (
-                      <span className="summary-empty-note">No specific places in this chapter summary.</span>
-                    )}
-                  </div>
-                </div>
-              );
-            })()}
-            {p.verses.length > 0 && (
-              <div className="summary-section summary-section-refs">
-                <div className="summary-section-label">References</div>
-                <div className="summary-tags">{p.verses.map((v, j) => <span key={j} className="summary-ref-tag">{v}</span>)}</div>
-              </div>
-            )}
-          </section>
-        );
-      });
-    }
-
-    // Standard (Matthew Henry style) commentary
-    return commentaryEntries.map((entry, i) => {
-      const start   = Number(entry.verse_start);
-      const end     = entry.verse_end == null ? start : Number(entry.verse_end);
-      const label   = end > start ? `Verses ${start}–${end}` : `Verse ${start}`;
-      const isSynced = syncedVerseStart === entry.verse_start;
-      return (
-        <section
-          key={i}
-          className={`commentary-entry${isSynced ? ' synced' : ''}`}
-          data-verse-start={start}
-          data-verse-end={end}
-        >
-          <div className="commentary-label">{label}</div>
-          <div className="commentary-text">{entry.content}</div>
-        </section>
-      );
-    });
-  };
-
   const sidePanelTitle = () => {
     if (sidePanelMode === 'commentary')  return commentarySourceNames[commentarySource] ?? commentarySource;
     if (sidePanelMode === 'study') return 'My Stuff';
@@ -5631,7 +3805,6 @@ export default function BibleApp({
   const readerNavNextDisabled =
     !currentBook || (!!isLastChapter() && readerAtLastSpread);
   const selectedVerseHighlighted = selectedVerseKey ? highlightedVerses.includes(selectedVerseKey) : false;
-  const selectedVerseBookmarked = selectedVerseKey ? bookmarkedVerses.includes(selectedVerseKey) : false;
   const availableCommentarySources = commentarySources.length > 0
     ? [...commentarySources].sort((a, b) => {
         if (a.id === 'summary') return -1;
@@ -5642,232 +3815,6 @@ export default function BibleApp({
         { id: 'summary', name: 'Chapter Summaries' },
         { id: 'matthew_henry', name: 'Matthew Henry Commentary' },
       ];
-
-  const renderStudyContent = () => {
-    const highlightEntries = [...highlightedVerses]
-      .map(key => {
-        const [book, chStr, vStr] = key.split('::');
-        const ch = Number(chStr);
-        const verse = Number(vStr);
-        const verseText = (() => {
-          if (currentBook?.name.toLowerCase() === book && chapter === ch) {
-            return chapterData?.verses.find(v => v.verse === verse)?.text ?? '';
-          }
-          return '';
-        })();
-        return { key, book, chapter: ch, verse, verseText };
-      })
-      .sort((a, b) => a.book.localeCompare(b.book) || a.chapter - b.chapter || a.verse - b.verse);
-
-    type SavedEntry = {
-      key: string;
-      book: string;
-      chapter: number;
-      verse: number;
-      verseText: string;
-      noteText: string;
-    };
-
-    const savedByKey = new Map<string, SavedEntry>();
-
-    for (const entry of highlightEntries) {
-      savedByKey.set(entry.key, {
-        key: entry.key,
-        book: entry.book,
-        chapter: entry.chapter,
-        verse: entry.verse,
-        verseText: entry.verseText,
-        noteText: '',
-      });
-    }
-    for (const note of Object.values(verseNotes)) {
-      const existing = savedByKey.get(note.key);
-      if (existing) {
-        existing.noteText = note.text;
-        if (!existing.verseText) {
-          const [b, chStr, vStr] = note.key.split('::');
-          const ch = Number(chStr);
-          const v = Number(vStr);
-          if (currentBook?.name.toLowerCase() === b && chapter === ch) {
-            existing.verseText = chapterData?.verses.find(x => x.verse === v)?.text ?? '';
-          }
-        }
-      } else {
-        const [b, chStr, vStr] = note.key.split('::');
-        const ch = Number(chStr);
-        const v = Number(vStr);
-        const verseText = (() => {
-          if (currentBook?.name.toLowerCase() === b && chapter === ch) {
-            return chapterData?.verses.find(x => x.verse === v)?.text ?? '';
-          }
-          return '';
-        })();
-        savedByKey.set(note.key, {
-          key: note.key,
-          book: b,
-          chapter: ch,
-          verse: v,
-          verseText,
-          noteText: note.text,
-        });
-      }
-    }
-
-    const savedEntries = [...savedByKey.values()].sort(
-      (a, b) => a.book.localeCompare(b.book) || a.chapter - b.chapter || a.verse - b.verse,
-    );
-
-    // Capitalize first letter of book name (keys are lowercase)
-    const displayBook = (raw: string) =>
-      books.find(b => b.name.toLowerCase() === raw.toLowerCase())?.name ?? raw;
-
-    return (
-      <div className="study-panel-content">
-        <section className="mystuff-section mystuff-account-section">
-          <div className="mystuff-section-label">Account</div>
-          {!accountProfile && (
-            <>
-              <div className="reader-dashboard-title">Guest study mode</div>
-              <p className="reader-onboarding-copy">
-                Highlights, notes, bookmarks, streak, and recent passages stay on this device until you sign in.
-              </p>
-            </>
-          )}
-          <AuthPanel
-            isBusy={authBusy}
-            error={authError}
-            mode={authMode}
-            profile={
-              accountProfile
-                ? {
-                    email: accountProfile.email ?? '',
-                    display_name: accountProfile.display_name ?? null,
-                  }
-                : null
-            }
-            coinBalance={accountProfile ? coinBalance : null}
-            onModeChange={setAuthMode}
-            onSignIn={handleAuthSignIn}
-            onSignUp={handleAuthSignUp}
-            onSignOut={handleAuthSignOut}
-          />
-        </section>
-
-        {/* Reading rhythm */}
-        <section className="reader-dashboard">
-          <div className="reader-dashboard-card">
-            <div className="reader-goal-header">
-              <div className="reader-dashboard-label">Reading rhythm</div>
-              <button
-                type="button"
-                className="reader-goal-edit-btn"
-                onClick={() => setReadingGoalEditing(v => !v)}
-              >
-                {readingGoalEditing ? 'Done' : 'Edit goal'}
-              </button>
-            </div>
-            <div className="reader-dashboard-title">{readingRhythmTitle}</div>
-            {readingGoalEditing && (
-              <div className="reader-goal-panel reader-goal-panel--slider">
-                <span className="reader-goal-panel-label">Active learning minutes per day</span>
-                <div className="reader-goal-slider-wrap">
-                  <input
-                    type="range"
-                    className="reader-goal-range"
-                    min={MIN_DAILY_GOAL_MINUTES}
-                    max={MAX_DAILY_GOAL_MINUTES}
-                    step={5}
-                    value={dailyGoalMinutes}
-                    aria-label="Daily active learning goal in minutes"
-                    onChange={e => setDailyGoalMinutes(normalizeDailyGoalMinutes(e.target.value))}
-                  />
-                  <span className="reader-goal-slider-value" aria-live="polite">
-                    {dailyGoalMinutes} min
-                  </span>
-                </div>
-              </div>
-            )}
-            <div className="reader-dashboard-metrics">
-              <span className="reader-pill">{readingProgress.streak} day streak</span>
-              <span className="reader-pill">{recentPassages.length} recent</span>
-            </div>
-            <div className="daily-goals-block">
-              <button
-                type="button"
-                className="daily-goals-toggle"
-                aria-expanded={dailyGoalsExpanded}
-                onClick={() => setDailyGoalsExpanded(v => !v)}
-              >
-                Daily tasks
-                <span className="daily-goals-toggle-chevron" aria-hidden="true">
-                  {dailyGoalsExpanded ? '▼' : '▶'}
-                </span>
-              </button>
-              {dailyGoalsExpanded && (
-                <DailyTasksList
-                  taskChapterDone={taskChapterDone}
-                  taskAiDone={taskAiDone}
-                  taskMinutesDone={taskMinutesDone}
-                  dailyGoalMinutes={dailyGoalMinutes}
-                  signedIn={Boolean(authSession)}
-                  tasksBonusClaimed={Boolean(dailyRewardsStatus?.tasks_claimed)}
-                  onClaimTasksBonus={handleClaimDailyTasksBonus}
-                  tasksBonusClaiming={tasksBonusClaiming}
-                />
-              )}
-            </div>
-          </div>
-        </section>
-
-        <section className="mystuff-section mystuff-mastery-section">
-          <Link
-            href="/app/mastery"
-            className="reader-dashboard-card mastery-overview-card mastery-overview-card--link"
-          >
-            <MasteryOverviewPanel variant="teaser" session={authSession} translation={translation} />
-          </Link>
-        </section>
-
-        {/* Saved (highlights + notes) */}
-        <section className="mystuff-section">
-          <div className="mystuff-section-label">Saved ({savedEntries.length})</div>
-          {savedEntries.length === 0 ? (
-            <div className="mystuff-empty">Nothing saved yet. Tap a verse and choose Highlight or Note.</div>
-          ) : (
-            savedEntries.map(entry => (
-              <div
-                key={entry.key}
-                className="mystuff-item"
-                role="button"
-                tabIndex={0}
-                onClick={() => {
-                  navigateToPassage(displayBook(entry.book), entry.chapter, translation, entry.verse);
-                  if (homeScreenActive) openReaderFromHome('none');
-                  else closeSidePanel();
-                }}
-                onKeyDown={e => {
-                  if (e.key !== 'Enter') return;
-                  navigateToPassage(displayBook(entry.book), entry.chapter, translation, entry.verse);
-                  if (homeScreenActive) openReaderFromHome('none');
-                  else closeSidePanel();
-                }}
-              >
-                <span className="mystuff-item-ref">{displayBook(entry.book)} {entry.chapter}:{entry.verse}</span>
-                {entry.verseText && <span className="mystuff-item-text">{entry.verseText}</span>}
-                {entry.noteText && <span className="mystuff-item-note">{entry.noteText}</span>}
-              </div>
-            ))
-          )}
-        </section>
-
-        {/* Study plans */}
-        <section className="mystuff-section">
-          <div className="mystuff-section-label">Study plans</div>
-          <div className="mystuff-empty">Bible study plans coming soon.</div>
-        </section>
-      </div>
-    );
-  };
 
   const chromeOverlaysOpen =
     bookPopupOpen || versionPopupOpen || searchOpen || settingsOpen;
@@ -5902,487 +3849,111 @@ export default function BibleApp({
       </div>
 
       {homeScreenActive && (
-        <div className="home-screen" role="region" aria-label="Home">
-          <div className="home-screen-inner">
-            <header className="home-screen-header">
-              <div className="home-screen-title-row">
-                <img
-                  className="home-screen-logo"
-                  src={logoSrcForTheme(currentTheme)}
-                  alt=""
-                  width={40}
-                  height={40}
-                  aria-hidden="true"
-                />
-                <h1 className="home-screen-title">{homeTimeGreeting || 'Welcome'}</h1>
-              </div>
-              <div className="home-header-actions">
-                {authSession ? (
-                  <span className="home-header-coins-chip" aria-label={`${coinBalance != null ? coinBalance.toLocaleString() : '…'} coins`}>
-                    <CurrencyIcon className="home-header-coins-icon" size={16} />
-                    <span className="home-header-coins-amount" aria-live="polite">
-                      {coinBalance != null ? coinBalance.toLocaleString() : '…'}
-                    </span>
-                  </span>
-                ) : null}
-                <span className="topbar-tooltip-wrap" data-tooltip="Profile">
-                  <button
-                    className={`nav-btn nav-btn-icon-only${sidePanelMode === 'study' ? ' active' : ''}`}
-                    type="button"
-                    aria-label="Open profile"
-                    aria-expanded={sidePanelMode === 'study'}
-                    aria-controls="home-profile-panel"
-                    onClick={() => toggleStudyPanel()}
-                  >
-                    <svg className="nav-search-icon" viewBox="0 0 24 24" width={20} height={20} aria-hidden="true">
-                      <circle cx="12" cy="9" r="3.25" />
-                      <path d="M5 20.5v-.35c0-3.2 2.85-5.65 7-5.65s7 2.45 7 5.65v.35" />
-                    </svg>
-                  </button>
-                </span>
-              </div>
-            </header>
-            <div ref={tutorialHomeSpotRef} className="home-cards-grid">
-              {/* Verse of the day — full width */}
-              <section className="home-screen-card reader-dashboard-card home-daily-verse-card home-grid-full" aria-labelledby="home-daily-verse-heading">
-                <h2 id="home-daily-verse-heading" className="reader-dashboard-label">Verse of the day</h2>
-                <p className="home-daily-verse-text">{dailyVerse.text}</p>
-                <button
-                  type="button"
-                  className="home-daily-verse-ref"
-                  onClick={() => void handleDailyVerseRefClick()}
-                >
-                  {dailyVerse.book} {dailyVerse.chapter}:{dailyVerse.verse}
-                </button>
-                {authSession ? (
-                  <p className={`home-daily-verse-reward-hint${dailyRewardsStatus?.verse_claimed ? ' home-daily-verse-reward-hint--done' : ''}`}>
-                    {dailyRewardsStatus?.verse_claimed
-                      ? 'Daily verse reward claimed'
-                      : (
-                        <span className="home-daily-verse-reward-inline">
-                          <span>Tap</span>
-                          <CurrencyIcon size={14} decorative className="home-daily-verse-reward-inline-icon" />
-                          <span>10</span>
-                        </span>
-                      )}
-                  </p>
-                ) : (
-                  <p className="home-daily-verse-reward-hint">Sign in to earn coins when you open today&apos;s verse.</p>
-                )}
-              </section>
-              {/* Streak (left) | Continue 1/3 + Tutorial 2/3 stacked (right) */}
-              <div className="home-grid-full home-streak-right-col-row">
-                {/* ── Streak card ── */}
-                <section
-                  className="home-screen-card reader-dashboard-card home-streak-card"
-                  aria-labelledby="home-streak-heading"
-                >
-                  <h2 id="home-streak-heading" className="reader-dashboard-label">Your streak</h2>
-                  <div className="home-streak-flame-row">
-                    <p className="reader-dashboard-title home-streak-number">{readingProgress.streak}</p>
-                    <span className="home-streak-days-label">day streak</span>
-                  </div>
-                  <div className="reader-dashboard-metrics" style={{ marginTop: 6 }}>
-                    <span className="reader-pill">
-                      {minutesTowardGoal}/{dailyGoalMinutes} min active today
-                    </span>
-                  </div>
-                  <div className="home-streak-7days" aria-label="Last 7 days">
-                    {Array.from({ length: 7 }, (_, i) => {
-                      const d = new Date(readingProgress.todayIso);
-                      d.setDate(d.getDate() - (6 - i));
-                      const iso = d.toISOString().slice(0, 10);
-                      const isToday = iso === readingProgress.todayIso;
-                      const met = readingProgress.goalMetDays.includes(iso);
-                      const dayLabel = ['S', 'M', 'T', 'W', 'T', 'F', 'S'][d.getDay()];
-                      return (
-                        <div key={iso} className={`home-streak-dot-col${isToday ? ' today' : ''}`}>
-                          <div className={`home-streak-dot${met ? ' met' : ''}${isToday ? ' today' : ''}`} aria-label={met ? 'Goal met' : 'Missed'} />
-                          <span className="home-streak-dot-label">{dayLabel}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                  <div className="home-streak-tasks-section">
-                    <p className="home-daily-tasks-summary">Daily tasks</p>
-                    <DailyTasksList
-                      taskChapterDone={taskChapterDone}
-                      taskAiDone={taskAiDone}
-                      taskMinutesDone={taskMinutesDone}
-                      dailyGoalMinutes={dailyGoalMinutes}
-                      signedIn={Boolean(authSession)}
-                      tasksBonusClaimed={Boolean(dailyRewardsStatus?.tasks_claimed)}
-                      onClaimTasksBonus={handleClaimDailyTasksBonus}
-                      tasksBonusClaiming={tasksBonusClaiming}
-                    />
-                  </div>
-                </section>
-                {/* ── Right column: Continue (1/3 height) stacked above Tutorial (2/3 height) ── */}
-                <div className="home-right-col">
-                  <section
-                    className="home-screen-card reader-dashboard-card home-continue-card"
-                    aria-labelledby="home-continue-heading"
-                  >
-                    <h2 id="home-continue-heading" className="reader-dashboard-label">Continue reading</h2>
-                    <div className="home-continue-half-body">
-                      {chapterLoading && !chapterData ? (
-                        <div className="home-continue-loading">
-                          <span className="spinner" aria-hidden="true" />
-                          <span>Loading…</span>
-                        </div>
-                      ) : currentBook ? (
-                        <button
-                          type="button"
-                          className="home-continue-btn"
-                          onClick={() => openReaderFromHome('none')}
-                        >
-                          <span className="home-continue-ref">{currentBookLabel} {chapter}</span>
-                          <span className="home-continue-meta">{currentTranslationLabel}</span>
-                        </button>
-                      ) : (
-                        <p className="home-continue-empty">Pick a book to get started.</p>
-                      )}
-                    </div>
-                  </section>
-                  <section
-                    className="home-screen-card tutorial-home-card home-tutorial-card"
-                    aria-labelledby="home-tutorial-heading"
-                  >
-                    <div className="tutorial-home-copy">
-                      <h2 id="home-tutorial-heading" className="reader-dashboard-label">Guided tour</h2>
-                      <p className="tutorial-home-title">Learn every feature in a few quick steps.</p>
-                      <p className="home-screen-card-caption">Walk through reading, search, verse tools, resources, AI, My Stuff, and settings without leaving the app.</p>
-                    </div>
-                    <div className="tutorial-home-actions">
-                      <button
-                        type="button"
-                        className="tutorial-home-btn"
-                        onClick={() => openTutorial(0)}
-                      >
-                        Start tutorial
-                      </button>
-                      <button
-                        type="button"
-                        className="tutorial-home-btn tutorial-home-btn-secondary"
-                        onClick={() => openTutorial(2)}
-                      >
-                        Jump to features
-                      </button>
-                    </div>
-                  </section>
-                </div>
-              </div>
-              {/* Mastery — full width */}
-              <Link
-                href="/app/mastery"
-                className="home-screen-card reader-dashboard-card home-mastery-card home-mastery-card--link home-grid-full"
-                aria-labelledby="home-mastery-heading"
-              >
-                <h2 id="home-mastery-heading" className="reader-dashboard-label">Mastery</h2>
-                <MasteryOverviewPanel
-                  variant="teaser"
-                  showTitle={false}
-                  session={authSession}
-                  translation={translation}
-                />
-              </Link>
-            </div>
-          </div>
-          {sidePanelMode === 'study' && (
-            <aside
-              className="home-study-pane"
-              id="home-profile-panel"
-              role="dialog"
-              aria-modal="true"
-              aria-label="Profile"
-            >
-              <div className="home-study-pane-panel">
-                <div className="side-header home-study-pane-header">
-                  <div className="home-study-pane-kicker">Profile</div>
-                  <div className="side-close-row">
-                    <div>
-                      <div className="side-title">{sidePanelTitle()}</div>
-                      <div className="side-subtitle">{sidePanelContext}</div>
-                    </div>
-                    <button
-                      type="button"
-                      className="side-close-btn"
-                      aria-label="Close profile page"
-                      onClick={closeSidePanel}
-                    >
-                      Close
-                    </button>
-                  </div>
-                </div>
-                <div className="side-scroll home-study-pane-scroll">{renderStudyContent()}</div>
-              </div>
-            </aside>
-          )}
-        </div>
+        <HomeScreen
+          currentTheme={currentTheme}
+          homeTimeGreeting={homeTimeGreeting}
+          authSession={authSession}
+          coinBalance={coinBalance}
+          sidePanelMode={sidePanelMode}
+          toggleStudyPanel={toggleStudyPanel}
+          tutorialHomeSpotRef={tutorialHomeSpotRef}
+          dailyVerse={dailyVerse}
+          handleDailyVerseRefClick={handleDailyVerseRefClick}
+          dailyRewardsStatus={dailyRewardsStatus}
+          readingProgress={readingProgress}
+          minutesTowardGoal={minutesTowardGoal}
+          dailyGoalMinutes={dailyGoalMinutes}
+          taskChapterDone={taskChapterDone}
+          taskAiDone={taskAiDone}
+          taskMinutesDone={taskMinutesDone}
+          handleClaimDailyTasksBonus={handleClaimDailyTasksBonus}
+          tasksBonusClaiming={tasksBonusClaiming}
+          chapterLoading={chapterLoading}
+          chapterData={chapterData}
+          currentBook={currentBook}
+          openReaderFromHome={openReaderFromHome}
+          currentBookLabel={currentBookLabel}
+          chapter={chapter}
+          currentTranslationLabel={currentTranslationLabel}
+          openTutorial={openTutorial}
+          translation={translation}
+          sidePanelTitle={sidePanelTitle}
+          sidePanelContext={sidePanelContext}
+          closeSidePanel={closeSidePanel}
+          studyContent={<StudyContent highlightedVerses={highlightedVerses} verseNotes={verseNotes} currentBook={currentBook} chapter={chapter} chapterData={chapterData} books={books} translation={translation} accountProfile={accountProfile} authSession={authSession} authBusy={authBusy} authError={authError} authMode={authMode} setAuthMode={setAuthMode} handleAuthSignIn={handleAuthSignIn} handleAuthSignUp={handleAuthSignUp} handleAuthSignOut={handleAuthSignOut} coinBalance={coinBalance} readingGoalEditing={readingGoalEditing} setReadingGoalEditing={setReadingGoalEditing} readingRhythmTitle={readingRhythmTitle} dailyGoalMinutes={dailyGoalMinutes} setDailyGoalMinutes={setDailyGoalMinutes} readingProgress={readingProgress} recentPassages={recentPassages} dailyGoalsExpanded={dailyGoalsExpanded} setDailyGoalsExpanded={setDailyGoalsExpanded} taskChapterDone={taskChapterDone} taskAiDone={taskAiDone} taskMinutesDone={taskMinutesDone} dailyRewardsStatus={dailyRewardsStatus} handleClaimDailyTasksBonus={handleClaimDailyTasksBonus} tasksBonusClaiming={tasksBonusClaiming} navigateToPassage={navigateToPassage} homeScreenActive={homeScreenActive} openReaderFromHome={openReaderFromHome} closeSidePanel={closeSidePanel} />}
+        />
       )}
 
       {/* Topbar */}
       {!homeScreenActive && (
-      <nav
-        className={`topbar${chromeTopVisible ? '' : ' chrome-hide-top'}`}
-        onPointerDown={bumpChromeScrollInteraction}
-        onFocusCapture={bumpChromeScrollInteraction}
-        onMouseEnter={() => {
-          topChromeHoverRef.current = true;
-          setChromeTopShown(true);
-        }}
-        onMouseLeave={() => {
-          topChromeHoverRef.current = false;
-          if (chromeScrollRevealActiveRef.current) return;
-          const h = typeof window !== 'undefined' ? window.innerHeight : 0;
-          if (h === 0) return;
-          const topZone = h * 0.2;
-          if (lastPointerYRef.current > topZone) setChromeTopShown(false);
-        }}
-      >
-        <div className="nav-left">
-          <button
-            className={`nav-btn nav-btn-book${bookPopupOpen ? ' active' : ''}`}
-            type="button"
-            onClick={e => { e.stopPropagation(); setSearchOpen(false); setVersionPopupOpen(false); setBookPopupOpen(v => !v); }}
-          >
-            <span className="nav-btn-label" title={navLabel}>{navLabel}</span>
-            <span className="chevron" aria-hidden="true" />
-          </button>
-          <button
-            ref={versionBtnRef}
-            className={`nav-btn nav-btn-version${versionPopupOpen ? ' active' : ''}`}
-            type="button"
-            onClick={e => { e.stopPropagation(); setBookPopupOpen(false); versionPopupOpen ? setVersionPopupOpen(false) : openVersionPopup(); }}
-          >
-            <span className="nav-btn-label" title={currentTranslationTitle}>{currentTranslationLabel}</span>
-            <span className="chevron" aria-hidden="true" />
-          </button>
-        </div>
-        <div className="nav-right">
-          <span className="topbar-tooltip-wrap" data-tooltip="Search">
-            <button
-              className={`nav-btn nav-btn-icon-only${searchOpen ? ' active' : ''}`}
-              type="button"
-              aria-label="Open search"
-              aria-expanded={searchOpen}
-              aria-controls="nav-search-panel"
-              onClick={e => {
-                e.stopPropagation();
-                setBookPopupOpen(false);
-                setVersionPopupOpen(false);
-                setSearchOpen(v => !v);
-              }}
-            >
-              <svg className="nav-search-icon" viewBox="0 0 24 24" width={20} height={20} aria-hidden="true">
-                <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" strokeWidth="2" />
-                <path d="M20 20 16.5 16.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-              </svg>
-            </button>
-          </span>
-          <span className="topbar-tooltip-wrap" data-tooltip="Account">
-            <button
-              className={`nav-btn nav-btn-icon-only${sidePanelMode === 'study' ? ' active' : ''}`}
-              type="button"
-              aria-label="My stuff"
-              aria-expanded={sidePanelMode === 'study'}
-              onClick={e => {
-                e.stopPropagation();
-                setBookPopupOpen(false);
-                setVersionPopupOpen(false);
-                setSearchOpen(false);
-                toggleStudyPanel();
-              }}
-            >
-              <svg className="nav-search-icon" viewBox="0 0 24 24" width={20} height={20} aria-hidden="true">
-                <circle cx="12" cy="9" r="3.25" />
-                <path d="M5 20.5v-.35c0-3.2 2.85-5.65 7-5.65s7 2.45 7 5.65v.35" />
-              </svg>
-            </button>
-          </span>
-        </div>
-      </nav>
+      <TopBar
+        chromeTopVisible={chromeTopVisible}
+        bumpChromeScrollInteraction={bumpChromeScrollInteraction}
+        topChromeHoverRef={topChromeHoverRef}
+        setChromeTopShown={setChromeTopShown}
+        chromeScrollRevealActiveRef={chromeScrollRevealActiveRef}
+        lastPointerYRef={lastPointerYRef}
+        bookPopupOpen={bookPopupOpen}
+        setBookPopupOpen={setBookPopupOpen}
+        setSearchOpen={setSearchOpen}
+        setVersionPopupOpen={setVersionPopupOpen}
+        navLabel={navLabel}
+        versionBtnRef={versionBtnRef}
+        versionPopupOpen={versionPopupOpen}
+        openVersionPopup={openVersionPopup}
+        currentTranslationTitle={currentTranslationTitle}
+        currentTranslationLabel={currentTranslationLabel}
+        searchOpen={searchOpen}
+        sidePanelMode={sidePanelMode}
+        toggleStudyPanel={toggleStudyPanel}
+      />
       )}
 
       {/* Book popup */}
       {!homeScreenActive && (
-      <div
-        className={`popup-overlay${bookPopupOpen ? ' open' : ''}`}
-        onClick={e => { if (e.target === e.currentTarget) setBookPopupOpen(false); }}
-      >
-        <div className="book-panel">
-          {books.length === 0 ? (
-            <div className="state-msg"><span className="spinner" /><div>Loading...</div></div>
-          ) : (
-            <>
-              {(['OT', 'NT'] as const).map(testament => (
-                <div key={testament}>
-                  <div className="testament-label">{testament === 'OT' ? 'Old Testament' : 'New Testament'}</div>
-                  {books.filter(b => b.testament === testament).map(book => (
-                    <div key={book.book_number} className="book-row">
-                      <button
-                        className={`book-btn${expandedBook === book.book_number ? ' expanded' : ''}`}
-                        type="button"
-                        onClick={() => setExpandedBook(v => v === book.book_number ? null : book.book_number)}
-                      >
-                        <span>{getLocalizedBookName(book, translation, translationsById)}</span>
-                        <span className="expand-arrow" aria-hidden="true" />
-                      </button>
-                      <div className={`chapter-picker${expandedBook === book.book_number ? ' open' : ''}`}>
-                        {Array.from({ length: book.total_chapters }, (_, i) => i + 1).map(ch => (
-                          <button
-                            key={ch}
-                            className={`ch-btn${currentBook?.book_number === book.book_number && chapter === ch ? ' current' : ''}`}
-                            type="button"
-                            onClick={e => { e.stopPropagation(); pickChapter(book.book_number, ch); }}
-                          >
-                            {ch}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </>
-          )}
-        </div>
-      </div>
+      <BookPanel
+        books={books}
+        expandedBook={expandedBook}
+        setExpandedBook={setExpandedBook}
+        bookPopupOpen={bookPopupOpen}
+        setBookPopupOpen={setBookPopupOpen}
+        translation={translation}
+        translationsById={translationsById}
+        currentBook={currentBook}
+        chapter={chapter}
+        pickChapter={pickChapter}
+      />
       )}
 
       {/* Version popup */}
       {!homeScreenActive && (
-      <div
-        className={`popup-overlay${versionPopupOpen ? ' open' : ''}`}
-        onClick={e => { if (e.target === e.currentTarget) setVersionPopupOpen(false); }}
-      >
-        <div className="version-panel" style={{ left: `${versionPanelLeft}px` }}>
-          <div className="version-header">Translation</div>
-          {translations.map(t => (
-            <button
-              key={t.id}
-              className={`version-item${t.id === translation ? ' selected' : ''}`}
-              type="button"
-              onClick={() => pickTranslation(t.id)}
-            >
-              <span className="v-abbr">{getTranslationDisplayId(t.id)}</span>
-              <span className="v-name">{getTranslationDisplayName(t.id, t.name)}</span>
-              {t.id === translation && <span className="v-check">✓</span>}
-            </button>
-          ))}
-        </div>
-      </div>
+      <VersionPanel
+        translations={translations}
+        translation={translation}
+        versionPopupOpen={versionPopupOpen}
+        setVersionPopupOpen={setVersionPopupOpen}
+        versionPanelLeft={versionPanelLeft}
+        pickTranslation={pickTranslation}
+      />
       )}
 
       {!homeScreenActive && (
-      <div
-        className={`popup-overlay${searchOpen ? ' open' : ''}`}
-        onClick={e => { if (e.target === e.currentTarget) setSearchOpen(false); }}
-      >
-        <div ref={searchPanelRef} className="search-panel search-dropdown-panel" id="nav-search-panel">
-          <form
-            className="search-form"
-            onSubmit={event => {
-              event.preventDefault();
-              void runSearch();
-            }}
-          >
-            <input
-              ref={searchInputRef}
-              className="search-input"
-              type="search"
-              value={searchQuery}
-              placeholder="John 3, Romans 8:28, or a phrase…"
-              onChange={event => setSearchQuery(event.target.value)}
-              autoComplete="off"
-            />
-            <button
-              className="search-submit search-submit-icon-only"
-              type="submit"
-              disabled={searchLoading}
-              aria-label={searchLoading ? 'Searching' : 'Search'}
-            >
-              {searchLoading ? (
-                <span className="spinner search-submit-spinner" aria-hidden />
-              ) : (
-                <svg className="search-submit-icon" viewBox="0 0 24 24" width={20} height={20} aria-hidden="true">
-                  <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" strokeWidth="2" />
-                  <path d="M20 20 16.5 16.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                </svg>
-              )}
-            </button>
-          </form>
-          {searchSuggestions.length > 0 && (
-            <div className="search-section search-section--compact">
-              <div className="search-section-title">
-                {searchQuery.trim() ? 'Suggestions' : 'Popular & recent'}
-              </div>
-              <div className="search-suggestion-list" role="listbox" aria-label="Search suggestions">
-                {searchSuggestions.map(suggestion => (
-                  <button
-                    key={suggestion.id}
-                    className="search-suggestion"
-                    type="button"
-                    onClick={() => applySearchSuggestion(suggestion)}
-                  >
-                    <div className="search-suggestion-top">
-                      <span className={`search-suggestion-badge search-suggestion-badge--${suggestion.source}`}>
-                        {suggestion.source === 'typo'
-                          ? 'Typo match'
-                          : suggestion.source === 'recent'
-                            ? 'Recent'
-                            : suggestion.source === 'direct'
-                              ? 'Go to'
-                              : 'Popular'}
-                      </span>
-                      <span className="search-suggestion-arrow" aria-hidden="true">&gt;</span>
-                    </div>
-                    <div className="search-suggestion-title">{suggestion.label}</div>
-                    <div className="search-suggestion-subtitle">{suggestion.hint}</div>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-          {!searchQuery.trim() && recentPassages.length > 0 && searchSuggestions.length === 0 && (
-            <div className="search-section search-section--compact">
-              <div className="search-chip-row" aria-label="Recent passages">
-                {recentPassages.slice(0, 6).map(entry => (
-                  <button
-                    key={`${entry.book}-${entry.chapter}-${entry.translation}`}
-                    className="search-chip"
-                    type="button"
-                    onClick={() => navigateToPassage(entry.book, entry.chapter, entry.translation)}
-                  >
-                    {entry.book} {entry.chapter}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-          {searchError && <div className="search-empty">{searchError}</div>}
-          {searchResults.length > 0 && (
-            <div className="search-results">
-              {searchResults.map(result => (
-                <button
-                  key={`${result.verse.book}-${result.verse.chapter}-${result.verse.verse}-${result.verse.translation}`}
-                  className="search-result"
-                  type="button"
-                  onClick={() => {
-                    navigateToPassage(result.verse.book, result.verse.chapter, result.verse.translation, result.verse.verse);
-                    setSearchOpen(false);
-                  }}
-                >
-                  <div className="search-result-ref">
-                    {result.verse.book} {result.verse.chapter}:{result.verse.verse} ({result.verse.translation})
-                  </div>
-                  <div className="search-result-text">{result.verse.text}</div>
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
+      <SearchPanel
+        searchOpen={searchOpen}
+        setSearchOpen={setSearchOpen}
+        searchPanelRef={searchPanelRef}
+        searchInputRef={searchInputRef}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        searchLoading={searchLoading}
+        searchError={searchError}
+        searchSuggestions={searchSuggestions}
+        searchResults={searchResults}
+        recentPassages={recentPassages}
+        runSearch={runSearch}
+        applySearchSuggestion={applySearchSuggestion}
+        navigateToPassage={navigateToPassage}
+      />
       )}
 
       {/* Content shell */}
@@ -6571,8 +4142,8 @@ export default function BibleApp({
               )}
             </div>
             <div className="side-scroll" ref={sideScrollRef}>
-              {sidePanelMode === 'commentary' && renderCommentaryContent()}
-              {sidePanelMode === 'study' && !homeScreenActive && renderStudyContent()}
+              {sidePanelMode === 'commentary' && <CommentaryContent commentaryLoading={commentaryLoading} commentaryError={commentaryError} commentaryEntries={commentaryEntries} commentarySource={commentarySource} currentBook={currentBook} chapterData={chapterData} chapter={chapter} syncedVerseStart={syncedVerseStart} />}
+              {sidePanelMode === 'study' && !homeScreenActive && <StudyContent highlightedVerses={highlightedVerses} verseNotes={verseNotes} currentBook={currentBook} chapter={chapter} chapterData={chapterData} books={books} translation={translation} accountProfile={accountProfile} authSession={authSession} authBusy={authBusy} authError={authError} authMode={authMode} setAuthMode={setAuthMode} handleAuthSignIn={handleAuthSignIn} handleAuthSignUp={handleAuthSignUp} handleAuthSignOut={handleAuthSignOut} coinBalance={coinBalance} readingGoalEditing={readingGoalEditing} setReadingGoalEditing={setReadingGoalEditing} readingRhythmTitle={readingRhythmTitle} dailyGoalMinutes={dailyGoalMinutes} setDailyGoalMinutes={setDailyGoalMinutes} readingProgress={readingProgress} recentPassages={recentPassages} dailyGoalsExpanded={dailyGoalsExpanded} setDailyGoalsExpanded={setDailyGoalsExpanded} taskChapterDone={taskChapterDone} taskAiDone={taskAiDone} taskMinutesDone={taskMinutesDone} dailyRewardsStatus={dailyRewardsStatus} handleClaimDailyTasksBonus={handleClaimDailyTasksBonus} tasksBonusClaiming={tasksBonusClaiming} navigateToPassage={navigateToPassage} homeScreenActive={homeScreenActive} openReaderFromHome={openReaderFromHome} closeSidePanel={closeSidePanel} />}
               {sidePanelMode === 'ai' && (
                 <AiSidebar
                   currentBookName={currentBook?.name ?? null}
@@ -6607,7 +4178,7 @@ export default function BibleApp({
                 isPagedReadingMode(readerSettings.readingMode) ? ' reader-wrap--paged' : ''
               }${!sideOpen ? ' reader-wrap--full' : ''}`}
             >
-              {renderChapterContent()}
+              {<ChapterContent chapterLoading={chapterLoading} chapterError={chapterError} chapterData={chapterData} chapter={chapter} translation={translation} currentBook={currentBook} chapterBookLabel={chapterBookLabel} readerSettings={readerSettings} setReaderSettings={setReaderSettings} pagedPageSlices={pagedPageSlices} chapterSpreadIndex={chapterSpreadIndex} animClass={animClass} setAnimClass={setAnimClass} setChapterData={setChapterData} setChapterLoading={setChapterLoading} pagedFlipAnim={pagedFlipAnim} setPagedFlipAnim={setPagedFlipAnim} aiNavHighlight={aiNavHighlight} highlightedVerses={highlightedVerses} bookmarkedVerses={bookmarkedVerses} verseNotes={verseNotes} setVerseNotes={setVerseNotes} selectedVerse={selectedVerse} setSelectedVerse={setSelectedVerse} selectedVerseGroup={selectedVerseGroup} setSelectedVerseGroup={setSelectedVerseGroup} selectedVerseData={selectedVerseData} selectedVerseKey={selectedVerseKey} selectedVerseNote={selectedVerseNote} selectedVerseHighlighted={selectedVerseHighlighted} versePopupPos={versePopupPos} setVersePopupPos={setVersePopupPos} showVerseNoteEditor={showVerseNoteEditor} setShowVerseNoteEditor={setShowVerseNoteEditor} currentNoteDraft={currentNoteDraft} setCurrentNoteDraft={setCurrentNoteDraft} closeVerseStudyPopup={closeVerseStudyPopup} toggleVerseHighlight={toggleVerseHighlight} saveVerseNote={saveVerseNote} copySelectedVerse={copySelectedVerse} tutorialVerseToolsNavBlocked={tutorialVerseToolsNavBlocked} openSidePanel={openSidePanel} setAiComposerSeed={setAiComposerSeed} recordChapterEngagement={recordChapterEngagement} authSession={authSession} chapterQuizGate={chapterQuizGate} quizTakenThisChapterVisit={quizTakenThisChapterVisit} setQuizOpen={setQuizOpen} topVisibleVerseRef={topVisibleVerseRef} exitAnimDoneRef={exitAnimDoneRef} pendingFlipDataRef={pendingFlipDataRef} biblePaneRef={biblePaneRef} sidePanelModeRef={sidePanelModeRef} currentBookRef={currentBookRef} chapterRef={chapterRef} commentarySourceRef={commentarySourceRef} loadCommentaryData={loadCommentaryData} pagedContentRef={pagedContentRef} pagedMeasureRef={pagedMeasureRef} pagedFlipAnimRef={pagedFlipAnimRef} pagedFlipPendingRef={pagedFlipPendingRef} readerPassagesRef={readerPassagesRef} verseStudyPopupRef={verseStudyPopupRef} />}
             </div>
             <div
               className={`ch-nav ch-nav-prev${chromeBottomVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}${sideOpen && !sidePaneOnRight ? ' side-pane-open' : ''}`}
@@ -6886,163 +4457,19 @@ export default function BibleApp({
       </div>
 
       {/* Settings panel */}
-      <div
-        className={`settings-overlay${settingsOpen ? ' open' : ''}`}
-        onClick={e => { if (e.target === e.currentTarget) { setSettingsOpen(false); if (settingsOpenedFromHomeRef.current) setHomeScreenActive(true); } }}
-      >
-        <div ref={settingsPanelRef} className="settings-panel">
-          <div className="settings-header">
-            <span className="settings-title">Settings</span>
-            <button className="settings-close" type="button" aria-label="Close settings" onClick={() => { setSettingsOpen(false); if (settingsOpenedFromHomeRef.current) setHomeScreenActive(true); }}>✕</button>
-          </div>
-          <div className="settings-body">
-            <div className="settings-section-label">Appearance</div>
-            <div className="theme-grid">
-              {(themePickerExpanded ? THEMES : themesForCollapsedPicker(currentTheme, THEME_GRID_PREVIEW_COUNT)).map(theme => (
-                <div
-                  key={theme.id}
-                  className={`theme-card${currentTheme === theme.id ? ' selected' : ''}`}
-                  style={getThemeCardStyle(theme)}
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => applyTheme(theme.id)}
-                  onKeyDown={e => e.key === 'Enter' && applyTheme(theme.id)}
-                >
-                  <div className="theme-swatches">
-                    {theme.swatches.map((color, i) => (
-                      <span key={i} style={{ background: color }} />
-                    ))}
-                  </div>
-                  <div className="theme-name">{theme.name}</div>
-                  <span className="theme-check" aria-hidden="true">✓</span>
-                </div>
-              ))}
-            </div>
-            {THEMES.length > THEME_GRID_PREVIEW_COUNT && (
-              <button
-                type="button"
-                className="settings-theme-expand"
-                onClick={() => setThemePickerExpanded(exp => !exp)}
-              >
-                {themePickerExpanded ? 'See less' : 'See more'}
-              </button>
-            )}
-            <div className="settings-section-label">Reading</div>
-            <div className="settings-controls">
-              <label className="settings-field">
-                <span>Text size</span>
-                <span className="settings-select-wrap">
-                  <select
-                    value={readerSettings.fontScale}
-                    onChange={event => setReaderSettings(prev => ({ ...prev, fontScale: event.target.value as ReaderFontPx }))}
-                  >
-                    {READER_FONT_PX_OPTIONS.map(px => (
-                      <option key={px} value={px}>{px}px</option>
-                    ))}
-                  </select>
-                </span>
-              </label>
-              <label className="settings-field">
-                <span>Reading font</span>
-                <span className="settings-select-wrap">
-                  <select
-                    value={readerSettings.readerFont}
-                    onChange={event => setReaderSettings(prev => ({
-                      ...prev,
-                      readerFont: event.target.value as ReaderFontId,
-                    }))}
-                  >
-                    <option value="georgia">Georgia (default)</option>
-                    <option value="charter">Charter</option>
-                    <option value="palatino">Palatino</option>
-                    <option value="garamond">Garamond style</option>
-                    <option value="times">Times New Roman</option>
-                    <option value="sans">Sans (UI)</option>
-                    <option value="openSans">Open Sans</option>
-                    <option value="dyslexie">Dyslexie</option>
-                  </select>
-                </span>
-              </label>
-              <label className="settings-field">
-                <span>Reading mode</span>
-                <span className="settings-select-wrap">
-                  <select
-                    value={readerSettings.readingMode}
-                    onChange={event => setReaderSettings(prev => ({
-                      ...prev,
-                      readingMode: event.target.value as ReaderReadingMode,
-                    }))}
-                  >
-                    <option value="single">Scroll — single column</option>
-                    <option value="book">Scroll — two columns</option>
-                    <option value="paged-single">Pages — single page (no scroll)</option>
-                    <option value="paged-double">Pages — two pages (spread)</option>
-                  </select>
-                </span>
-              </label>
-              <label className="settings-field">
-                <span>Line spacing</span>
-                <span className="settings-select-wrap">
-                  <select
-                    value={readerSettings.lineHeight}
-                    onChange={event => setReaderSettings(prev => ({ ...prev, lineHeight: event.target.value as ReaderLineHeightOption }))}
-                  >
-                    {READER_LINE_HEIGHT_OPTIONS.map(opt => (
-                      <option key={opt} value={opt}>
-                        {opt === '2' ? '2.0' : opt}
-                      </option>
-                    ))}
-                  </select>
-                </span>
-              </label>
-              <label className="settings-field">
-                <span>Side panel position</span>
-                <span className="settings-select-wrap">
-                  <select
-                    value={readerSettings.sidePanelPosition}
-                    onChange={event => setReaderSettings(prev => ({ ...prev, sidePanelPosition: event.target.value as SidePanelPosition }))}
-                  >
-                    <option value="left">Left side</option>
-                    <option value="right">Right side</option>
-                  </select>
-                </span>
-              </label>
-            </div>
-            <div className="settings-section-label">Graphics</div>
-            <div className="settings-controls">
-              <label className="settings-field">
-                <span>Graphics mode</span>
-                <span className="settings-select-wrap">
-                  <select
-                    value={readerSettings.graphicsMode}
-                    onChange={event => setReaderSettings(prev => ({ ...prev, graphicsMode: event.target.value as GraphicsMode }))}
-                  >
-                    <option value="auto">Auto (recommended)</option>
-                    <option value="performance">Performance — full effects</option>
-                    <option value="efficiency">Efficiency — reduced while scrolling</option>
-                  </select>
-                </span>
-              </label>
-              <label className="settings-toggle">
-                <input
-                  type="checkbox"
-                  checked={readerSettings.specialEffects}
-                  onChange={event => setReaderSettings(prev => ({ ...prev, specialEffects: event.target.checked }))}
-                />
-                <span>Special effects</span>
-              </label>
-              <label className="settings-toggle">
-                <input
-                  type="checkbox"
-                  checked={readerSettings.pageFlipEnabled}
-                  onChange={event => setReaderSettings(prev => ({ ...prev, pageFlipEnabled: event.target.checked }))}
-                />
-                <span>Page flip animation</span>
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
+      <SettingsPanel
+        settingsOpen={settingsOpen}
+        setSettingsOpen={setSettingsOpen}
+        settingsPanelRef={settingsPanelRef}
+        settingsOpenedFromHomeRef={settingsOpenedFromHomeRef}
+        setHomeScreenActive={setHomeScreenActive}
+        themePickerExpanded={themePickerExpanded}
+        setThemePickerExpanded={setThemePickerExpanded}
+        currentTheme={currentTheme}
+        applyTheme={applyTheme}
+        readerSettings={readerSettings}
+        setReaderSettings={setReaderSettings}
+      />
 
       {/* Galaxy comet canvas — fixed overlay, clips to toolbar/gutter zones only */}
       {tutorialOpen && tutorialStep && (

@@ -1,0 +1,75 @@
+{
+  "body": [
+    {
+      "relevance": 5.292103339379999,
+      "verse": {
+        "book": "Isaiah",
+        "book_number": 23,
+        "chapter": 52,
+        "id": 23052009,
+        "text": "Break forth into joy, sing together, ye waste places of Jerusalem; for Jehovah hath comforted his people, he hath redeemed Jerusalem.",
+        "translation": "ASV",
+        "verse": 9
+      }
+    },
+    {
+      "relevance": 5.292103339379999,
+      "verse": {
+        "book": "Acts",
+        "book_number": 44,
+        "chapter": 1,
+        "id": 44001012,
+        "text": "Then returned they unto Jerusalem from the mount called Olivet, which is nigh unto Jerusalem, a Sabbath day`s journey off.",
+        "translation": "ASV",
+        "verse": 12
+      }
+    },
+    {
+      "relevance": 5.169863326581697,
+      "verse": {
+        "book": "Ezra",
+        "book_number": 15,
+        "chapter": 10,
+        "id": 15010007,
+        "text": "And they made proclamation throughout Judah and Jerusalem unto all the children of the captivity, that they should gather themselves together unto Jerusalem;",
+        "translation": "ASV",
+        "verse": 7
+      }
+    },
+    {
+      "relevance": 4.996737113011983,
+      "verse": {
+        "book": "1 Kings",
+        "book_number": 11,
+        "chapter": 15,
+        "id": 11015004,
+        "text": "Nevertheless for David`s sake did Jehovah his God give him a lamp in Jerusalem, to set up his son after him, and to establish Jerusalem;",
+        "translation": "ASV",
+        "verse": 4
+      }
+    },
+    {
+      "relevance": 4.980406148524809,
+      "verse": {
+        "book": "Psalms",
+        "book_number": 19,
+        "chapter": 122,
+        "id": 19122002,
+        "text": "Our feet are standing Within thy gates, O Jerusalem,",
+        "translation": "ASV",
+        "verse": 2
+      }
+    }
+  ],
+  "request": {
+    "json": {
+      "limit": 5,
+      "query": "Jerusalem",
+      "translation": "ASV"
+    },
+    "method": "POST",
+    "name": "search_jerusalem_asv",
+    "path": "/api/v1/search"
+  },
+  "status": 200
+}
