@@ -16,7 +16,9 @@ from app.services.bible_service import resolve_book
 
 LEXICON_SOURCE = "STEP Bible brief lexicon (STEPBible.org, CC BY 4.0)"
 _REFERENCE_LIMIT = 20
-_STRONGS_RE = re.compile(r"^([HGhg])0*(\d{1,4})([A-Za-z]?)$")
+_STRONGS_RE = re.compile(r"([HGhg])0*(\d{1,4})([A-Za-z]?)")
+_MAX_BOOK_DIGITS = 3
+_MAX_COORD = 999
 
 # ── Plain-English grammar ────────────────────────────────────────────────────
 
@@ -61,6 +63,7 @@ _HEB_ASPECTS = {
     "Imperfect Jussive": "let it happen",
     "Imperfect Cohortative": "let me/us",
     "Conjunctive imperfect Cohortative": "let me/us",
+    "Conjunctive imperfect Jussive": "let it happen",
     "Infinitive construct": "“to” form",
     "Infinitive absolute": "emphatic form",
     "Participle": "“-ing” form",
@@ -120,6 +123,11 @@ _GK_PERSON = {
 _GK_PERSON_RE = re.compile(r"\b(1st|2nd|3rd) Person (Singular|Plural)\b")
 _GK_CASE_RE = re.compile(r"\b(Nominative|Genitive|Dative|Accusative|Vocative)\b")
 _GK_NUMBER_RE = re.compile(r"\b(Singular|Plural)\b")
+_GK_AGREEMENT_RE = re.compile(
+    r"(?:Nominative|Genitive|Dative|Accusative|Vocative|Masculine|Feminine|Neuter|Singular|Plural"
+    r"|[123](?:st|nd|rd) Person)(?: (?:Nominative|Genitive|Dative|Accusative|Vocative|Masculine|Feminine"
+    r"|Neuter|Singular|Plural|[123](?:st|nd|rd) Person))*"
+)
 _GK_TENSES = ("Pluperfect", "Imperfect", "Present", "Future", "Aorist", "Perfect")
 _GK_MOODS = ("Indicative", "Subjunctive", "Optative", "Imperative", "Infinitive", "Participle")
 
@@ -233,6 +241,11 @@ def _heb_segment(seg: str) -> str:
     if head in _HEB_POS:
         feats = [_HEB_POS[head]]
         for tok in tokens[1:]:
+            if head == "Pronoun":
+                subject = _heb_subject(tok)
+                if subject:
+                    feats.append(subject)
+                    continue
             nf = _number_features(tok)
             if nf is None and _person_parts(tok):
                 continue  # pronoun person: the number alone is shown
@@ -259,10 +272,15 @@ def _gk_verb(tokens: list[str]) -> str:
         feats.append(_GK_MOOD[mood])
     if voice and voice != "Active":
         feats.append(_GK_VOICE.get(voice) or _lower(voice))
-    if mood not in ("Participle", "Infinitive"):
-        for tok in tokens[2:]:
-            m = _GK_PERSON_RE.fullmatch(tok)
-            feats.append(_GK_PERSON[(m.group(1), m.group(2))] if m else _lower(tok))
+    nonfinite = mood in ("Participle", "Infinitive")
+    for tok in tokens[2:]:
+        if nonfinite:
+            # case, gender, number and subject are omitted; anything else is kept
+            if not _GK_AGREEMENT_RE.fullmatch(tok):
+                feats.append(_lower(tok))
+            continue
+        m = _GK_PERSON_RE.fullmatch(tok)
+        feats.append(_GK_PERSON[(m.group(1), m.group(2))] if m else _lower(tok))
     return _SEP.join(feats)
 
 
@@ -322,7 +340,18 @@ def plain_grammar(language: str, parsing: str | None) -> str | None:
 # ── Queries ──────────────────────────────────────────────────────────────────
 
 def get_verse_words(book: str, chapter: int, verse: int) -> VerseWordsOut | None:
-    book_info = resolve_book(int(book) if book.strip().isdecimal() else book)
+    if not (1 <= chapter <= _MAX_COORD and 1 <= verse <= _MAX_COORD):
+        return None
+    key = book.strip()
+    if key.isdecimal():
+        if len(key) > _MAX_BOOK_DIGITS:
+            return None
+        try:
+            book_info = resolve_book(int(key))
+        except ValueError:
+            return None
+    else:
+        book_info = resolve_book(book)
     if not book_info:
         return None
     number = book_info["number"]
@@ -357,7 +386,7 @@ def get_verse_words(book: str, chapter: int, verse: int) -> VerseWordsOut | None
 
 
 def normalize_strongs(raw: str) -> str | None:
-    m = _STRONGS_RE.match(raw) if raw else None
+    m = _STRONGS_RE.fullmatch(raw) if raw else None
     if not m:
         return None
     return f"{m.group(1).upper()}{int(m.group(2)):04d}"
