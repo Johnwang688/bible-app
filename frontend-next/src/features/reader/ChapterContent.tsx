@@ -45,6 +45,7 @@ export interface ChapterContentProps {
   copySelectedVerse: () => Promise<void>;
   tutorialVerseToolsNavBlocked: boolean;
   openSidePanel: (mode: Exclude<SidePanelMode, 'none'>) => void;
+  openOriginalWords: (verse: number) => void;
   setAiComposerSeed: Dispatch<SetStateAction<{ id: number; text: string } | undefined>>;
   recordChapterEngagement: (bookName: string, currentChapter: number, currentTranslation: string, furthestVerse: number, totalVerses: number) => void;
   chapterQuizGate: { met: boolean; hint: string | null };
@@ -101,6 +102,7 @@ export default function ChapterContent({
   copySelectedVerse,
   tutorialVerseToolsNavBlocked,
   openSidePanel,
+  openOriginalWords,
   setAiComposerSeed,
   recordChapterEngagement,
   chapterQuizGate,
@@ -600,6 +602,32 @@ export default function ChapterContent({
               </svg>
             </span>
             Ask AI
+          </button>
+          <button
+            className="verse-action-btn"
+            type="button"
+            aria-disabled={tutorialVerseToolsNavBlocked}
+            title={
+              tutorialVerseToolsNavBlocked
+                ? 'Shows the Hebrew or Greek words behind this verse. Disabled during the guided tour so you can explore the rest of this card first.'
+                : undefined
+            }
+            onClick={() => {
+              if (tutorialVerseToolsNavBlocked) return;
+              if (selectedVerseGroup.length === 0) return;
+              openOriginalWords(Math.min(...selectedVerseGroup));
+            }}
+          >
+            <span className="verse-action-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M3 19 8.5 5 14 19" />
+                <path d="M5 14.5h7" />
+                <path d="M16 8h5" />
+                <path d="M18.5 8v3.5c0 2.5-1.2 4.2-3 5" />
+                <path d="M18.5 11.5c0 2 1.2 3.6 3 4.5" />
+              </svg>
+            </span>
+            Original words
           </button>
         </div>
         {(showVerseNoteEditor || selectedVerseNote) && (
