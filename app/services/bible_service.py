@@ -100,7 +100,7 @@ def list_books() -> list[BookInfo]:
 
 
 async def get_chapter(
-    book: str, chapter: int, translation: str = "WEB"
+    book: str, chapter: int, translation: str = "BSB"
 ) -> ChapterOut | None:
     """Fetch all verses for a given chapter."""
     book_info = resolve_book(book)
@@ -126,7 +126,7 @@ async def get_chapter(
 
 
 async def get_verse(
-    book: str, chapter: int, verse: int, translation: str = "WEB"
+    book: str, chapter: int, verse: int, translation: str = "BSB"
 ) -> VerseOut | None:
     """Fetch a single verse."""
     book_info = resolve_book(book)
@@ -145,7 +145,7 @@ async def get_verse_range(
     chapter: int,
     verse_start: int,
     verse_end: int,
-    translation: str = "WEB",
+    translation: str = "BSB",
 ) -> list[VerseOut]:
     """Fetch a range of verses (e.g., John 3:16-18)."""
     book_info = resolve_book(book)
@@ -299,7 +299,7 @@ def _substring_search(
 
 
 async def search_verses(
-    query: str, translation: str = "WEB", book: str | None = None, limit: int = 20
+    query: str, translation: str = "BSB", book: str | None = None, limit: int = 20
 ) -> list[SearchResult]:
     """
     Full-text search across verses ranked by bm25, with a substring fallback.

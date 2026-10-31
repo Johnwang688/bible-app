@@ -49,7 +49,7 @@ class Settings(BaseSettings):
     google_client_secret: str = Field(default="", alias="GOOGLE_CLIENT_SECRET")
 
     # Bible
-    default_translation: str = Field(default="WEB", alias="DEFAULT_TRANSLATION")
+    default_translation: str = Field(default="BSB", alias="DEFAULT_TRANSLATION")
     # Read-only content database built by scripts/build_content.py (relative paths resolve against the repo root).
     content_db_path: str = Field(
         default=str(_REPO_ROOT / "build" / "content.sqlite"),

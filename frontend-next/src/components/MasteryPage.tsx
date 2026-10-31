@@ -5,10 +5,11 @@ import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import MasteryOverviewPanel from '@/components/MasteryOverviewPanel';
 import { restoreAuthSession, type AuthSession } from '@/lib/account';
+import { DEFAULT_TRANSLATION } from '@/features/reader/translations';
 import { STORAGE_KEYS } from '@/lib/storageKeys';
 
 function usePreferredTranslation(): string {
-  const [t, setT] = useState('WEB');
+  const [t, setT] = useState(DEFAULT_TRANSLATION);
   useEffect(() => {
     try {
       const raw = typeof window !== 'undefined' ? window.localStorage.getItem(STORAGE_KEYS.LAST_POSITION) : null;

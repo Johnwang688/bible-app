@@ -415,11 +415,11 @@ async def read_guided_chapter_sections(
     request: Request,
     book: str = Query(..., min_length=1),
     chapter: int = Query(..., ge=1),
-    translation: str = Query("WEB"),
+    translation: str = Query("BSB"),
 ) -> GuidedChapterSectionsOut:
     try:
         check_rate_limit(get_request_identity(request))
-        raw = await compute_guided_chapter_sections(book.strip(), chapter, translation.strip() or "WEB")
+        raw = await compute_guided_chapter_sections(book.strip(), chapter, translation.strip() or "BSB")
         return GuidedChapterSectionsOut(
             sections=[GuidedVerseRange(verse_start=s["verse_start"], verse_end=s["verse_end"]) for s in raw],
         )
