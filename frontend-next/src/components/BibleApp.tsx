@@ -794,14 +794,22 @@ function BibleAppInner({
     }
   }, [loadCommentaryData]);
 
+  const closeVerseStudyPopup = useCallback(() => {
+    setSelectedVerse(null);
+    setSelectedVerseGroup([]);
+    setVersePopupPos(null);
+    setShowVerseNoteEditor(false);
+  }, []);
+
   const openOriginalWords = useCallback((verse: number) => {
     const book = currentBookRef.current;
     if (!book) return;
     setWordsTarget({ bookNumber: book.book_number, bookName: book.name, chapter: chapterRef.current, verse });
-    // Hide the floating verse card so it does not cover the panel; the verse selection itself is left alone.
-    setVersePopupPos(null);
+    // Close the floating verse card and clear the selection: the next tap starts a fresh
+    // single-verse selection, positioned with the pane already open. The panel keeps its own target.
+    closeVerseStudyPopup();
     openSidePanel('words');
-  }, [openSidePanel]);
+  }, [closeVerseStudyPopup, openSidePanel]);
 
   const closeSidePanel = useCallback(() => {
     setSidePanelMode('none');
@@ -2115,13 +2123,6 @@ function BibleAppInner({
     }
     await runPhraseSearch(trimmed, { showEmptyError: true });
   }, [applySearchSuggestion, runPhraseSearch, searchLooksLikeNavigation, searchQuery, topSearchSuggestion]);
-
-  const closeVerseStudyPopup = useCallback(() => {
-    setSelectedVerse(null);
-    setSelectedVerseGroup([]);
-    setVersePopupPos(null);
-    setShowVerseNoteEditor(false);
-  }, []);
 
   const toggleVerseHighlight = useCallback(() => {
     if (!selectedVerseKey || !currentBook) return;

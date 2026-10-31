@@ -68,6 +68,33 @@ export interface ChapterContentProps {
   verseStudyPopupRef: RefObject<HTMLElement | null>;
 }
 
+/**
+ * Horizontal bounds for the floating verse card: the reader area as it will be once the side pane
+ * has finished opening (the pane's width animates, so its current rect can't be trusted).
+ */
+function popupBounds(reader: HTMLElement | null): { min: number; max: number } {
+  let min = 8;
+  let max = window.innerWidth - 8;
+  const area = reader?.parentElement;
+  const side = area?.querySelector<HTMLElement>('.side-pane.open');
+  if (!area || !side) return { min, max };
+  const areaRect = area.getBoundingClientRect();
+  const raw = getComputedStyle(document.documentElement).getPropertyValue('--side-width').trim() || '38%';
+  const width = Math.max(220, raw.endsWith('%') ? (areaRect.width * parseFloat(raw)) / 100 : parseFloat(raw) || 0);
+  if (area.classList.contains('side-pane-right')) max = Math.min(max, areaRect.right - width - 8);
+  else min = Math.max(min, areaRect.left + width + 8);
+  return { min, max };
+}
+
+/** Top edge for the floating verse card: the verse's top, but low enough to stay clear of the bottom taskbar. */
+function popupTop(verseTop: number): number {
+  const popupHeight = 210; // default card height (note editor closed)
+  // offsetTop ignores the taskbar's slide-away transform (it hides while the pointer is over the side pane).
+  const taskbarTop = document.querySelector<HTMLElement>('.taskbar')?.offsetTop ?? window.innerHeight;
+  const floor = Math.min(window.innerHeight, taskbarTop) - popupHeight;
+  return Math.min(verseTop, Math.max(8, floor));
+}
+
 export default function ChapterContent({
   chapterLoading,
   chapterError,
@@ -181,11 +208,14 @@ export default function ChapterContent({
             const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
             const popupWidth = 268;
             const margin = 14;
+            // Keep the popup inside the reader area so it never covers the side pane.
+            const bounds = popupBounds(biblePaneRef.current);
             let left = rect.right + margin;
-            if (left + popupWidth > window.innerWidth - 8) {
-              left = Math.max(8, rect.left - popupWidth - margin);
+            if (left + popupWidth > bounds.max) {
+              left = rect.left - popupWidth - margin;
             }
-            const top = Math.min(rect.top, window.innerHeight - 60);
+            left = Math.max(bounds.min, Math.min(left, bounds.max - popupWidth));
+            const top = popupTop(rect.top);
             setSelectedVerse(v.verse);
             setSelectedVerseGroup([v.verse]);
             setVersePopupPos({ top, left });
@@ -476,11 +506,14 @@ export default function ChapterContent({
                   const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
                   const popupWidth = 268;
                   const margin = 14;
+                  // Keep the popup inside the reader area so it never covers the side pane.
+                  const bounds = popupBounds(biblePaneRef.current);
                   let left = rect.right + margin;
-                  if (left + popupWidth > window.innerWidth - 8) {
-                    left = Math.max(8, rect.left - popupWidth - margin);
+                  if (left + popupWidth > bounds.max) {
+                    left = rect.left - popupWidth - margin;
                   }
-                  const top = Math.min(rect.top, window.innerHeight - 60);
+                  left = Math.max(bounds.min, Math.min(left, bounds.max - popupWidth));
+                  const top = popupTop(rect.top);
                   setSelectedVerse(v.verse);
                   setSelectedVerseGroup([v.verse]);
                   setVersePopupPos({ top, left });

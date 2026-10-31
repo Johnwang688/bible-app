@@ -80,6 +80,13 @@ function useCachedJson<T>(url: string | null, cache: Cache<T>): FetchState<T> & 
   const [failedUrl, setFailedUrl] = useState<string | null>(null);
   const [, setLoadedTick] = useState(0);
   const [attempt, setAttempt] = useState(0);
+  const [seenUrl, setSeenUrl] = useState<string | null>(url);
+
+  // A new url forgets the previous failure, so revisiting a target that failed shows Loading, not the old error.
+  if (seenUrl !== url) {
+    setSeenUrl(url);
+    setFailedUrl(null);
+  }
 
   useEffect(() => {
     if (!url || cache.current.has(url)) return;
@@ -306,7 +313,13 @@ export default function WordsPanel({ target, translation, navigateToPassage }: W
 
   const targetKey = target ? `${target.bookNumber}/${target.chapter}/${target.verse}` : null;
   const [open, setOpen] = useState<{ targetKey: string; index: number } | null>(null);
-  const openIndex = open && open.targetKey === targetKey ? open.index : null;
+  const [seenTargetKey, setSeenTargetKey] = useState<string | null>(targetKey);
+  // A new target discards any open card (which unmounts it and aborts its request).
+  if (seenTargetKey !== targetKey) {
+    setSeenTargetKey(targetKey);
+    setOpen(null);
+  }
+  const openIndex = open && open.targetKey === targetKey && seenTargetKey === targetKey ? open.index : null;
 
   const words = useCachedJson<WordsResponse>(targetKey ? `/api/v1/words/${targetKey}` : null, wordsCache);
 
