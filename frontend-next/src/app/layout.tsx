@@ -1,13 +1,30 @@
 import type { Metadata } from 'next';
-import { Open_Sans } from 'next/font/google';
+import { Open_Sans, Noto_Serif_Hebrew, Gentium_Book_Plus } from 'next/font/google';
 import '@fontsource/opendyslexic/400.css';
 import '@fontsource/opendyslexic/700.css';
 import './globals.css';
+import '../styles/tokens.css';
 
 const openSans = Open_Sans({
   subsets: ['latin'],
   variable: '--font-open-sans',
   display: 'swap',
+});
+
+// Original-language fonts: loaded only when a Hebrew or Greek glyph is rendered.
+const notoSerifHebrew = Noto_Serif_Hebrew({
+  subsets: ['hebrew'],
+  variable: '--font-hebrew-face',
+  display: 'swap',
+  preload: false,
+});
+
+const gentiumBookPlus = Gentium_Book_Plus({
+  subsets: ['greek', 'greek-ext', 'latin'],
+  weight: ['400', '700'],
+  variable: '--font-greek-face',
+  display: 'swap',
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -22,7 +39,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={openSans.variable} suppressHydrationWarning>
+    <html lang="en" className={`${openSans.variable} ${notoSerifHebrew.variable} ${gentiumBookPlus.variable}`} suppressHydrationWarning>
       <head>
         {/* Apply saved theme before first paint to prevent flash */}
         <script
