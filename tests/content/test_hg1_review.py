@@ -46,11 +46,15 @@ def test_reject_missing_declared_word_sources(tmp_path):
     assert output.read_bytes() == b"old output"
 
 
+@pytest.mark.skipif(
+    not (Path(__file__).resolve().parents[2] / "build" / "upstream" / "bsb_tables.tsv").exists(),
+    reason="upstream files not downloaded",
+)
 @pytest.mark.parametrize(
     "name", ["bsb.txt", "bsb_tables.tsv", "tbesh.txt", "tbesg.txt"]
 )
 def test_each_upstream_checksum_is_required(monkeypatch, name):
-    upstream = Path.cwd() / "build" / "upstream"
+    upstream = Path(__file__).resolve().parents[2] / "build" / "upstream"
     target = (upstream / name).resolve()
     read_bytes = Path.read_bytes
 
