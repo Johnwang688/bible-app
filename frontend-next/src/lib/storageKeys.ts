@@ -14,6 +14,7 @@ export const STORAGE_KEYS = {
   ONBOARDING:        'bible-app-onboarding-complete',
   AI_SIDEBAR:        'bible-app-ai-sidebar',
   AI_PERSONALITY:    'bible-app-ai-personality',
+  CHAPTERS_READ:     'bible-app-chapters-read',
 } as const;
 
 export type StorageKey = typeof STORAGE_KEYS[keyof typeof STORAGE_KEYS];

@@ -5,6 +5,7 @@
 
 import {
   BOOKMARKS_STORAGE_KEY,
+  CHAPTERS_READ_STORAGE_KEY,
   DAILY_GOAL_MINUTES_STORAGE_KEY,
   HIGHLIGHTS_STORAGE_KEY,
   LAST_POSITION_STORAGE_KEY,
@@ -128,4 +129,10 @@ export function readStoredDailyGoalMinutes(): number {
 export function readStoredReaderSettings(): ReaderSettings {
   const raw = readJson(READER_SETTINGS_STORAGE_KEY);
   return normalizeReaderSettings(isPlainObject(raw) ? (raw as Partial<ReaderSettings>) : null);
+}
+
+/** All-time record of chapters read: `book_number:chapter` keys. Invalid entries are dropped, duplicates collapse. */
+export function readStoredChaptersRead(): Set<string> {
+  const raw = readJson(CHAPTERS_READ_STORAGE_KEY);
+  return new Set(asStringArray(raw).filter(key => /^\d+:\d+$/.test(key)));
 }

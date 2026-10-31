@@ -42,6 +42,7 @@ import { DEFAULT_TRANSLATION, filterTranslationsForPicker, getLocalizedBookName,
 import { DEFAULT_READER_SETTINGS, applyReaderHighlightVars, detectGraphicsCapability, isPagedReadingMode, normalizeReaderSettings } from '@/features/reader/settings';
 import { biblePaneScrollDepthRatio, chapterStorageKey, closestVerseLine, formatVerseGroupRef, scrollVerseLineIntoBiblePaneCenter, sliceVersesIntoPages, verseStorageKey } from '@/features/reader/layout';
 import { computeChapterQuizRequiredDwellMs, getChapterQuizVisibleMs } from '@/features/quiz/dwell';
+import { chapterReadKey, pickSurpriseChapter } from '@/features/progress/surprise';
 import { COMMENTARY_SYNC_THROTTLE_MS, ENGAGEMENT_COMMIT_MS, LAST_POSITION_STORAGE_KEY, MAX_ENGAGEMENT_GAP_MS, MAX_RECENT_PASSAGES, ONBOARDING_STORAGE_KEY, SCROLL_ACTIVE_HOLD_MS, chapterEvidenceQualifies, computeTodayIso, selectDailyVerse, syncGoalCompletion, timeOfDayGreeting } from '@/features/progress/progress';
 import { DYNAMIC_BASE_THEME, DYNAMIC_COLORS, DYNAMIC_CYCLE_MS, hexToRgb, logoSrcForTheme } from '@/features/settings/themeHelpers';
 import { SEARCH_SUGGESTION_LIMIT, clampChapterForBook, compactSearchText, extractLooseReferenceParts, formatSearchSuggestionLabel, getBookPopularityScore, normalizeReferenceSpacing, normalizeSearchText, scoreBookMatch } from '@/features/search/search';
@@ -159,6 +160,7 @@ function BibleAppInner({
     verseNotes, setVerseNotes,
     readingProgress, setReadingProgress,
     dailyGoalMinutes, setDailyGoalMinutes,
+    chaptersRead, setChaptersRead,
   } = useStudyItems();
   const [readingGoalEditing, setReadingGoalEditing] = useState(false);
   const [dailyGoalsExpanded, setDailyGoalsExpanded] = useState(false);
@@ -1385,6 +1387,24 @@ function BibleAppInner({
     () => new Map(books.map(book => [book.name.toLowerCase(), book])),
     [books],
   );
+  // All-time record for "Surprise me": every chapter credited today, whatever the translation, is remembered by
+  // book number. Runs as an effect on the credited list, not inside the progress updater.
+  useEffect(() => {
+    if (!books.length || readingProgress.todayChapters.length === 0) return;
+    const keys: string[] = [];
+    for (const credited of readingProgress.todayChapters) {
+      const [bookName, chapterText] = credited.split('::');
+      const book = booksByName.get(bookName ?? '');
+      const chapterNumber = Number(chapterText);
+      if (!book || !Number.isInteger(chapterNumber) || chapterNumber < 1 || chapterNumber > book.total_chapters) continue;
+      keys.push(chapterReadKey(book.book_number, chapterNumber));
+    }
+    // Same set back when nothing is new, so React skips the update and nothing is written.
+    setChaptersRead(prev => {
+      const missing = keys.filter(key => !prev.has(key));
+      return missing.length === 0 ? prev : new Set([...prev, ...missing]);
+    });
+  }, [setChaptersRead, books.length, booksByName, readingProgress.todayChapters]);
   const bibleBooksForAi = useMemo(
     () => books.map(b => ({ name: b.name, total_chapters: b.total_chapters })),
     [books],
@@ -1787,6 +1807,14 @@ function BibleAppInner({
     }
     const didNavigate = navigateToPassage(dailyVerse.book, dailyVerse.chapter, translation, dailyVerse.verse);
     if (didNavigate) openReaderFromHome('none');
+  };
+
+  const handleSurpriseMe = () => {
+    const current = currentBook ? { book_number: currentBook.book_number, chapter } : null;
+    const pick = pickSurpriseChapter(books, chaptersRead, current, Math.random);
+    const book = booksByNumber.get(pick.book_number);
+    if (!book) return;
+    if (navigateToPassage(book.name, pick.chapter, translation)) openReaderFromHome('none');
   };
 
   const persistRecentPassage = useCallback((bookName: string, currentChapter: number, currentTranslation: string) => {
@@ -3867,6 +3895,7 @@ function BibleAppInner({
           tutorialHomeSpotRef={tutorialHomeSpotRef}
           dailyVerse={dailyVerse}
           handleDailyVerseRefClick={handleDailyVerseRefClick}
+          handleSurpriseMe={handleSurpriseMe}
           dailyRewardsStatus={dailyRewardsStatus}
           minutesTowardGoal={minutesTowardGoal}
           taskChapterDone={taskChapterDone}

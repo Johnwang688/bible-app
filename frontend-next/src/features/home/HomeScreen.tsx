@@ -8,8 +8,10 @@ import { useAuth } from '@/features/account/AuthContext';
 import { useStudyItems } from '@/features/study/StudyItemsContext';
 import { useReaderPosition } from '@/features/reader/ReaderPositionContext';
 import type { ChapterData, DailyVerse, SidePanelMode } from '@/features/reader/types';
+import { chapterReadKey } from '@/features/progress/surprise';
 import { DailyTasksList } from '@/features/progress/DailyTasksList';
 import { logoSrcForTheme } from '@/features/settings/themeHelpers';
+import styles from '@/features/home/HomeScreen.module.css';
 
 export interface HomeScreenProps {
   currentTheme: string;
@@ -20,6 +22,7 @@ export interface HomeScreenProps {
   tutorialHomeSpotRef: RefObject<HTMLDivElement | null>;
   dailyVerse: DailyVerse;
   handleDailyVerseRefClick: () => Promise<void>;
+  handleSurpriseMe: () => void;
   dailyRewardsStatus: { verse_claimed: boolean; tasks_claimed: boolean } | null;
   minutesTowardGoal: number;
   taskChapterDone: boolean;
@@ -48,6 +51,7 @@ export default function HomeScreen({
   tutorialHomeSpotRef,
   dailyVerse,
   handleDailyVerseRefClick,
+  handleSurpriseMe,
   dailyRewardsStatus,
   minutesTowardGoal,
   taskChapterDone,
@@ -66,9 +70,15 @@ export default function HomeScreen({
   closeSidePanel,
   studyContent,
 }: HomeScreenProps) {
-  const { currentBook, chapter, translation } = useReaderPosition();
+  const { books, currentBook, chapter, translation } = useReaderPosition();
   const { authSession } = useAuth();
-  const { readingProgress, dailyGoalMinutes } = useStudyItems();
+  const { readingProgress, dailyGoalMinutes, chaptersRead } = useStudyItems();
+  const totalChapters = books.reduce((sum, book) => sum + book.total_chapters, 0);
+  // Only chapters in the catalog count, so a stale or hand-edited record cannot push N past T.
+  const exploredChapters = books.reduce((sum, book) => {
+    for (let c = 1; c <= book.total_chapters; c++) if (chaptersRead.has(chapterReadKey(book.book_number, c))) sum++;
+    return sum;
+  }, 0);
   return (
     <div className="home-screen" role="region" aria-label="Home">
       <div className="home-screen-inner">
@@ -137,6 +147,18 @@ export default function HomeScreen({
             ) : (
               <p className="home-daily-verse-reward-hint">Sign in to earn coins when you open today&apos;s verse.</p>
             )}
+          </section>
+          {/* Surprise me: full width */}
+          <section className={`home-screen-card reader-dashboard-card home-grid-full ${styles.surpriseCard}`} aria-labelledby="home-surprise-heading">
+            <div className={styles.surpriseCopy}>
+              <h2 id="home-surprise-heading" className="reader-dashboard-label">Surprise me</h2>
+              <p className={styles.surpriseExplored}>
+                {exploredChapters.toLocaleString('en-US')} of {totalChapters.toLocaleString('en-US')} chapters explored
+              </p>
+            </div>
+            <button type="button" className={styles.surpriseButton} onClick={handleSurpriseMe}>
+              Surprise me
+            </button>
           </section>
           {/* Streak (left) | Continue 1/3 + Tutorial 2/3 stacked (right) */}
           <div className="home-grid-full home-streak-right-col-row">
