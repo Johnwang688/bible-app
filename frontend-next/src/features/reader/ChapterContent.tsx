@@ -1,5 +1,6 @@
 'use client';
 
+import { useLayoutEffect, useRef } from 'react';
 import type { Dispatch, RefObject, SetStateAction } from 'react';
 import { MasteryStrip } from '@/components/ChapterQuiz';
 import type { BookInfo, ChapterData, SidePanelMode, VerseData, VerseNote } from '@/features/reader/types';
@@ -10,6 +11,15 @@ import { useAuth } from '@/features/account/AuthContext';
 import { useStudyItems } from '@/features/study/StudyItemsContext';
 import { buildExplainVersePrompt } from '@/features/ai/prompts';
 import { useReaderPosition } from '@/features/reader/ReaderPositionContext';
+import {
+  DOCKED_CLASS,
+  VERSE_GAP,
+  measurePopup,
+  measureReaderArea,
+  placeVersePopup,
+  samePlacement,
+  type VersePopupPlacement,
+} from '@/features/reader/popupPlacement';
 
 export interface ChapterContentProps {
   chapterLoading: boolean;
@@ -33,8 +43,8 @@ export interface ChapterContentProps {
   selectedVerseKey: string | null;
   selectedVerseNote: VerseNote | undefined;
   selectedVerseHighlighted: boolean;
-  versePopupPos: { top: number; left: number } | null;
-  setVersePopupPos: Dispatch<SetStateAction<{ top: number; left: number } | null>>;
+  versePopupPos: VersePopupPlacement | null;
+  setVersePopupPos: Dispatch<SetStateAction<VersePopupPlacement | null>>;
   showVerseNoteEditor: boolean;
   setShowVerseNoteEditor: Dispatch<SetStateAction<boolean>>;
   currentNoteDraft: string;
@@ -66,33 +76,6 @@ export interface ChapterContentProps {
   pagedFlipPendingRef: RefObject<(() => void) | null>;
   readerPassagesRef: RefObject<HTMLDivElement | null>;
   verseStudyPopupRef: RefObject<HTMLElement | null>;
-}
-
-/**
- * Horizontal bounds for the floating verse card: the reader area as it will be once the side pane
- * has finished opening (the pane's width animates, so its current rect can't be trusted).
- */
-function popupBounds(reader: HTMLElement | null): { min: number; max: number } {
-  let min = 8;
-  let max = window.innerWidth - 8;
-  const area = reader?.parentElement;
-  const side = area?.querySelector<HTMLElement>('.side-pane.open');
-  if (!area || !side) return { min, max };
-  const areaRect = area.getBoundingClientRect();
-  const raw = getComputedStyle(document.documentElement).getPropertyValue('--side-width').trim() || '38%';
-  const width = Math.max(220, raw.endsWith('%') ? (areaRect.width * parseFloat(raw)) / 100 : parseFloat(raw) || 0);
-  if (area.classList.contains('side-pane-right')) max = Math.min(max, areaRect.right - width - 8);
-  else min = Math.max(min, areaRect.left + width + 8);
-  return { min, max };
-}
-
-/** Top edge for the floating verse card: the verse's top, but low enough to stay clear of the bottom taskbar. */
-function popupTop(verseTop: number): number {
-  const popupHeight = 210; // default card height (note editor closed)
-  // offsetTop ignores the taskbar's slide-away transform (it hides while the pointer is over the side pane).
-  const taskbarTop = document.querySelector<HTMLElement>('.taskbar')?.offsetTop ?? window.innerHeight;
-  const floor = Math.min(window.innerHeight, taskbarTop) - popupHeight;
-  return Math.min(verseTop, Math.max(8, floor));
 }
 
 export default function ChapterContent({
@@ -155,6 +138,80 @@ export default function ChapterContent({
   const { readerSettings, setReaderSettings } = useReaderSettings();
   const { authSession } = useAuth();
   const { highlightedVerses, bookmarkedVerses, verseNotes, setVerseNotes } = useStudyItems();
+
+  // ── Verse card placement ──────────────────────────────────────────────────────
+  /** The verse line the open card describes (the element that was clicked). */
+  const popupAnchorRef = useRef<HTMLElement | null>(null);
+  const popupOpen = selectedVerse !== null && versePopupPos !== null;
+  const sidePanelPosition = readerSettings.sidePanelPosition;
+
+  const openVersePopup = (verseNumber: number, verseEl: HTMLElement) => {
+    popupAnchorRef.current = verseEl;
+    const rect = verseEl.getBoundingClientRect();
+    setSelectedVerse(verseNumber);
+    setSelectedVerseGroup([verseNumber]);
+    // Provisional spot: the layout effect below measures the rendered card and places it before paint.
+    setVersePopupPos({ top: rect.bottom + VERSE_GAP, left: rect.left, docked: false });
+  };
+
+  useLayoutEffect(() => {
+    if (!popupOpen || selectedVerse === null) return;
+
+    const findAnchor = (): HTMLElement | null => {
+      const anchor = popupAnchorRef.current;
+      if (anchor?.isConnected && anchor.dataset.verse === String(selectedVerse)) return anchor;
+      // The clicked line was re-rendered (e.g. a page flip): use the visible line for the same verse.
+      const lines = biblePaneRef.current?.querySelectorAll<HTMLElement>(`.verse-line[data-verse="${selectedVerse}"]`);
+      for (const line of Array.from(lines ?? [])) {
+        if (pagedMeasureRef.current?.contains(line)) continue;
+        if (line.getClientRects().length === 0) continue;
+        popupAnchorRef.current = line;
+        return line;
+      }
+      return null;
+    };
+
+    let frame = 0;
+    const place = () => {
+      frame = 0;
+      const popupEl = verseStudyPopupRef.current;
+      const verseEl = findAnchor();
+      if (!popupEl || !verseEl) return;
+      const next = placeVersePopup(
+        verseEl.getBoundingClientRect(),
+        measurePopup(popupEl),
+        measureReaderArea(biblePaneRef.current),
+      );
+      setVersePopupPos(prev => (prev === null || samePlacement(prev, next) ? prev : next));
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(place);
+    };
+    const onScroll = (e: Event) => {
+      // The card scrolling its own content doesn't move anything.
+      if (e.target !== verseStudyPopupRef.current) schedule();
+    };
+
+    place();
+    window.addEventListener('resize', schedule);
+    window.addEventListener('scroll', onScroll, { capture: true, passive: true });
+    // Pane divider drags and the pane opening or closing resize the reader; the card resizes as its
+    // content changes (note editor, multi-verse title).
+    const observer = new ResizeObserver(schedule);
+    const pane = biblePaneRef.current;
+    if (pane) observer.observe(pane);
+    const side = pane?.parentElement?.querySelector<HTMLElement>('.side-pane');
+    if (side) observer.observe(side);
+    if (verseStudyPopupRef.current) observer.observe(verseStudyPopupRef.current);
+    return () => {
+      if (frame) cancelAnimationFrame(frame);
+      window.removeEventListener('resize', schedule);
+      window.removeEventListener('scroll', onScroll, { capture: true });
+      observer.disconnect();
+    };
+    // sidePanelPosition: switching the pane's side moves the reader without resizing it.
+  }, [popupOpen, selectedVerse, sidePanelPosition, biblePaneRef, pagedMeasureRef, verseStudyPopupRef, setVersePopupPos]);
+
   if (chapterLoading) {
     return (
       <div className="state-msg">
@@ -205,20 +262,7 @@ export default function ChapterContent({
             setSelectedVerseGroup([]);
             setVersePopupPos(null);
           } else {
-            const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-            const popupWidth = 268;
-            const margin = 14;
-            // Keep the popup inside the reader area so it never covers the side pane.
-            const bounds = popupBounds(biblePaneRef.current);
-            let left = rect.right + margin;
-            if (left + popupWidth > bounds.max) {
-              left = rect.left - popupWidth - margin;
-            }
-            left = Math.max(bounds.min, Math.min(left, bounds.max - popupWidth));
-            const top = popupTop(rect.top);
-            setSelectedVerse(v.verse);
-            setSelectedVerseGroup([v.verse]);
-            setVersePopupPos({ top, left });
+            openVersePopup(v.verse, e.currentTarget as HTMLElement);
           }
           setShowVerseNoteEditor(false);
         }}
@@ -503,20 +547,7 @@ export default function ChapterContent({
                   setSelectedVerseGroup([]);
                   setVersePopupPos(null);
                 } else {
-                  const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-                  const popupWidth = 268;
-                  const margin = 14;
-                  // Keep the popup inside the reader area so it never covers the side pane.
-                  const bounds = popupBounds(biblePaneRef.current);
-                  let left = rect.right + margin;
-                  if (left + popupWidth > bounds.max) {
-                    left = rect.left - popupWidth - margin;
-                  }
-                  left = Math.max(bounds.min, Math.min(left, bounds.max - popupWidth));
-                  const top = popupTop(rect.top);
-                  setSelectedVerse(v.verse);
-                  setSelectedVerseGroup([v.verse]);
-                  setVersePopupPos({ top, left });
+                  openVersePopup(v.verse, e.currentTarget as HTMLElement);
                 }
                 setShowVerseNoteEditor(false);
               }}
@@ -532,8 +563,13 @@ export default function ChapterContent({
     {selectedVerseData && currentBook && versePopupPos && (
       <section
         ref={verseStudyPopupRef}
-        className="verse-study-card verse-study-popup"
-        style={{ top: versePopupPos.top, left: versePopupPos.left }}
+        className={`verse-study-card verse-study-popup${versePopupPos.docked ? ` ${DOCKED_CLASS}` : ''}`}
+        style={{
+          top: versePopupPos.top,
+          left: versePopupPos.left,
+          width: versePopupPos.width,
+          maxHeight: versePopupPos.maxHeight,
+        }}
       >
         <div className="verse-study-header">
           <div>

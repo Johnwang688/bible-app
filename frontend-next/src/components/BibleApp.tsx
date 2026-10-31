@@ -58,6 +58,7 @@ import HomeScreen from '@/features/home/HomeScreen';
 import TopBar from '@/features/reader/TopBar';
 import CommentaryContent from '@/features/commentary/CommentaryContent';
 import ChapterContent from '@/features/reader/ChapterContent';
+import type { VersePopupPlacement } from '@/features/reader/popupPlacement';
 import StudyContent from '@/features/study/StudyContent';
 import WordsPanel, { type WordsTarget } from '@/features/words/WordsPanel';
 import { ReaderPositionProvider, useReaderPosition } from '@/features/reader/ReaderPositionContext';
@@ -146,7 +147,7 @@ function BibleAppInner({
   const [selectedVerse, setSelectedVerse]   = useState<number | null>(null);
   const [selectedVerseGroup, setSelectedVerseGroup] = useState<number[]>([]);
   const [wordsTarget, setWordsTarget] = useState<WordsTarget | null>(null);
-  const [versePopupPos, setVersePopupPos]   = useState<{ top: number; left: number } | null>(null);
+  const [versePopupPos, setVersePopupPos]   = useState<VersePopupPlacement | null>(null);
   const [searchQuery, setSearchQuery]       = useState('');
   const [searchResults, setSearchResults]   = useState<SearchResult[]>([]);
   const [searchLoading, setSearchLoading]   = useState(false);
