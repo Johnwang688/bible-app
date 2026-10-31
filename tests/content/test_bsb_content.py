@@ -140,7 +140,7 @@ def test_word_coverage_and_languages(con):
     assert 440_000 <= total <= 446_000  # 443,625 data rows upstream; blanks dropped
     langs = {r[0]: r[1] for r in con.execute("SELECT language, COUNT(*) FROM bsb_words GROUP BY language")}
     assert set(langs) == {"hebrew", "aramaic", "greek"}
-    assert langs["aramaic"] > 5000
+    assert langs["aramaic"] > 4500  # 4,826 non-blank Aramaic rows upstream (Daniel, Ezra, Jeremiah 10:11)
     verses = con.execute("SELECT COUNT(DISTINCT book_number*1000000+chapter*1000+verse) FROM bsb_words").fetchone()[0]
     assert verses == 31085  # Nehemiah 7:68 is English-only in BSB (no Hebrew words under it)
     assert not _words(con, 16, 7, 68)
