@@ -4,8 +4,8 @@
 //
 // A "colour literal" is a hex colour (#rgb, #rgba, #rrggbb, #rrggbbaa) or an
 // rgb()/rgba()/hsl()/hsla() call (any case) whose first argument is a literal (optionally
-// signed) number. Hex values that are URL fragments in href/to/src/id/xlinkHref/action
-// attributes are not colours.
+// signed) number. Every hex in code or a CSS declaration value counts, even one inside an
+// href/id attribute: a rare false positive is better than a hidden colour.
 // var(...) references and color-mix() over vars are not literals.
 // Components must use the --color-* tokens from src/styles/tokens.css instead.
 import fs from 'node:fs';
@@ -20,9 +20,6 @@ export const BASELINE_PATH = path.join(ROOT, 'review-tests', 'color-literals-bas
 // `rgb(var(--x) / 50%)` does not match because the first argument is not a number.
 // Case-insensitive (RGB(, Hsl() and the number may be signed (hsl(-30 …), hsl(+30 …)).
 const FUNC_RE = /\b(?:rgba?|hsla?)\(\s*[+-]?[\d.][^)\n]*\)?/gi;
-// A hex that starts a JSX/HTML attribute value naming a URL fragment (href="#abc", to={'#top'},
-// src, id, xlinkHref, action) is not a colour. Tested against the text just before the '#'.
-const FRAGMENT_ATTR_RE = /\b(?:href|to|src|id|xlinkHref|action)\s*=\s*(?:\{\s*)?['"`]$/;
 // Hex colour: 3, 4, 6 or 8 digits, not followed by more word characters.
 // The preceding character must not be a word char, '/', '&', '.', '-' or '%' (rules out
 // URL fragments like "page.html#abc", "/#abc" and HTML entities like "&#123;").
@@ -76,17 +73,15 @@ function lineOf(text, index) {
   return line;
 }
 
-function scan(text, regions, { skipFragmentAttrs = false } = {}) {
+function scan(text, regions) {
   const found = [];
   for (const [start, end] of regions) {
     const slice = text.slice(start, end);
     for (const re of [HEX_RE, FUNC_RE]) {
       re.lastIndex = 0;
       for (let m; (m = re.exec(slice)); ) {
-        const at = start + m.index;
-        if (skipFragmentAttrs && re === HEX_RE && FRAGMENT_ATTR_RE.test(text.slice(Math.max(0, at - 40), at))) continue;
         const literal = re === FUNC_RE ? m[0].replace(/\s+/g, ' ') : m[0];
-        found.push({ index: at, literal });
+        found.push({ index: start + m.index, literal });
       }
     }
   }
@@ -120,7 +115,7 @@ export function findInCss(source) {
 /** TS/TSX: colours live in string literals and template strings, so scan everything but comments. */
 export function findInScript(source) {
   const text = strip(source, { lineComments: true, maskStrings: false });
-  return scan(text, [[0, text.length]], { skipFragmentAttrs: true });
+  return scan(text, [[0, text.length]]);
 }
 
 /** Returns [{ line, literal }] for one file's source, chosen by extension. */
