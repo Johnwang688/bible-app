@@ -37,7 +37,7 @@
 - Naming and a logo or wordmark, and the app's voice for teens.
 
 ## Token reference (VI-1)
-Tokens live in `frontend-next/src/styles/tokens.css`, declared on `:root`. In VI-1 each colour token is a bridge to today's legacy theme variable, so it resolves correctly in all 20 themes. VI-2 replaces the bridge values with the new identity; the names stay.
+Tokens live in `frontend-next/src/styles/tokens.css`. Colour and font tokens are declared on every element (`:root, *, *::before, *::after`), so they follow per-element legacy overrides. Radius and space tokens are on `:root`. In VI-1 each colour token is a bridge to today's legacy theme variable, so it resolves correctly in all 20 themes. VI-2 replaces the bridge values with the new identity; the names stay.
 
 **Rule:** new components use only `--color-*`, `--font-*`, `--radius-*` and `--space-*`. No colour literals: `review-tests/color-literals.test.cjs` blocks new ones and any increase over `review-tests/color-literals-baseline.json`.
 
