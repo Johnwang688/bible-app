@@ -58,7 +58,9 @@ import HomeScreen from '@/features/home/HomeScreen';
 import TopBar from '@/features/reader/TopBar';
 import CommentaryContent from '@/features/commentary/CommentaryContent';
 import ChapterContent from '@/features/reader/ChapterContent';
+import type { VersePopupPlacement } from '@/features/reader/popupPlacement';
 import StudyContent from '@/features/study/StudyContent';
+import WordsPanel, { type WordsTarget } from '@/features/words/WordsPanel';
 import { ReaderPositionProvider, useReaderPosition } from '@/features/reader/ReaderPositionContext';
 import { StudyItemsProvider, useStudyItems } from '@/features/study/StudyItemsContext';
 type BibleAppProps = {
@@ -144,7 +146,8 @@ function BibleAppInner({
   const [aiComposerSeed, setAiComposerSeed] = useState<{ id: number; text: string } | undefined>();
   const [selectedVerse, setSelectedVerse]   = useState<number | null>(null);
   const [selectedVerseGroup, setSelectedVerseGroup] = useState<number[]>([]);
-  const [versePopupPos, setVersePopupPos]   = useState<{ top: number; left: number } | null>(null);
+  const [wordsTarget, setWordsTarget] = useState<WordsTarget | null>(null);
+  const [versePopupPos, setVersePopupPos]   = useState<VersePopupPlacement | null>(null);
   const [searchQuery, setSearchQuery]       = useState('');
   const [searchResults, setSearchResults]   = useState<SearchResult[]>([]);
   const [searchLoading, setSearchLoading]   = useState(false);
@@ -791,6 +794,23 @@ function BibleAppInner({
       if (book) loadCommentaryData(book, chapterRef.current, commentarySourceRef.current);
     }
   }, [loadCommentaryData]);
+
+  const closeVerseStudyPopup = useCallback(() => {
+    setSelectedVerse(null);
+    setSelectedVerseGroup([]);
+    setVersePopupPos(null);
+    setShowVerseNoteEditor(false);
+  }, []);
+
+  const openOriginalWords = useCallback((verse: number) => {
+    const book = currentBookRef.current;
+    if (!book) return;
+    setWordsTarget({ bookNumber: book.book_number, bookName: book.name, chapter: chapterRef.current, verse });
+    // Close the floating verse card and clear the selection: the next tap starts a fresh
+    // single-verse selection, positioned with the pane already open. The panel keeps its own target.
+    closeVerseStudyPopup();
+    openSidePanel('words');
+  }, [closeVerseStudyPopup, openSidePanel]);
 
   const closeSidePanel = useCallback(() => {
     setSidePanelMode('none');
@@ -2104,13 +2124,6 @@ function BibleAppInner({
     }
     await runPhraseSearch(trimmed, { showEmptyError: true });
   }, [applySearchSuggestion, runPhraseSearch, searchLooksLikeNavigation, searchQuery, topSearchSuggestion]);
-
-  const closeVerseStudyPopup = useCallback(() => {
-    setSelectedVerse(null);
-    setSelectedVerseGroup([]);
-    setVersePopupPos(null);
-    setShowVerseNoteEditor(false);
-  }, []);
 
   const toggleVerseHighlight = useCallback(() => {
     if (!selectedVerseKey || !currentBook) return;
@@ -3742,6 +3755,7 @@ function BibleAppInner({
   const sidePanelTitle = () => {
     if (sidePanelMode === 'commentary')  return commentarySourceNames[commentarySource] ?? commentarySource;
     if (sidePanelMode === 'study') return 'My Stuff';
+    if (sidePanelMode === 'words') return 'Original words';
     return 'Bible Companion';
   };
   const currentBookLabel = currentBook
@@ -4107,6 +4121,7 @@ function BibleAppInner({
             <div className="side-scroll" ref={sideScrollRef}>
               {sidePanelMode === 'commentary' && <CommentaryContent commentaryLoading={commentaryLoading} commentaryError={commentaryError} commentaryEntries={commentaryEntries} commentarySource={commentarySource} chapterData={chapterData} syncedVerseStart={syncedVerseStart} />}
               {sidePanelMode === 'study' && !homeScreenActive && <StudyContent chapterData={chapterData} handleAuthSignIn={handleAuthSignIn} handleAuthSignUp={handleAuthSignUp} handleAuthSignOut={handleAuthSignOut} coinBalance={coinBalance} readingGoalEditing={readingGoalEditing} setReadingGoalEditing={setReadingGoalEditing} readingRhythmTitle={readingRhythmTitle} dailyGoalsExpanded={dailyGoalsExpanded} setDailyGoalsExpanded={setDailyGoalsExpanded} taskChapterDone={taskChapterDone} taskAiDone={taskAiDone} taskMinutesDone={taskMinutesDone} dailyRewardsStatus={dailyRewardsStatus} handleClaimDailyTasksBonus={handleClaimDailyTasksBonus} tasksBonusClaiming={tasksBonusClaiming} navigateToPassage={navigateToPassage} homeScreenActive={homeScreenActive} openReaderFromHome={openReaderFromHome} closeSidePanel={closeSidePanel} />}
+              {sidePanelMode === 'words' && <WordsPanel target={wordsTarget} translation={translation} navigateToPassage={navigateToPassage} />}
               {sidePanelMode === 'ai' && (
                 <AiSidebar
                   currentBookName={currentBook?.name ?? null}
@@ -4141,7 +4156,7 @@ function BibleAppInner({
                 isPagedReadingMode(readerSettings.readingMode) ? ' reader-wrap--paged' : ''
               }${!sideOpen ? ' reader-wrap--full' : ''}`}
             >
-              {<ChapterContent chapterLoading={chapterLoading} chapterError={chapterError} chapterData={chapterData} chapterBookLabel={chapterBookLabel} pagedPageSlices={pagedPageSlices} chapterSpreadIndex={chapterSpreadIndex} animClass={animClass} setAnimClass={setAnimClass} setChapterData={setChapterData} setChapterLoading={setChapterLoading} pagedFlipAnim={pagedFlipAnim} setPagedFlipAnim={setPagedFlipAnim} aiNavHighlight={aiNavHighlight} selectedVerse={selectedVerse} setSelectedVerse={setSelectedVerse} selectedVerseGroup={selectedVerseGroup} setSelectedVerseGroup={setSelectedVerseGroup} selectedVerseData={selectedVerseData} selectedVerseKey={selectedVerseKey} selectedVerseNote={selectedVerseNote} selectedVerseHighlighted={selectedVerseHighlighted} versePopupPos={versePopupPos} setVersePopupPos={setVersePopupPos} showVerseNoteEditor={showVerseNoteEditor} setShowVerseNoteEditor={setShowVerseNoteEditor} currentNoteDraft={currentNoteDraft} setCurrentNoteDraft={setCurrentNoteDraft} closeVerseStudyPopup={closeVerseStudyPopup} toggleVerseHighlight={toggleVerseHighlight} saveVerseNote={saveVerseNote} copySelectedVerse={copySelectedVerse} tutorialVerseToolsNavBlocked={tutorialVerseToolsNavBlocked} openSidePanel={openSidePanel} setAiComposerSeed={setAiComposerSeed} recordChapterEngagement={recordChapterEngagement} chapterQuizGate={chapterQuizGate} quizTakenThisChapterVisit={quizTakenThisChapterVisit} setQuizOpen={setQuizOpen} topVisibleVerseRef={topVisibleVerseRef} exitAnimDoneRef={exitAnimDoneRef} pendingFlipDataRef={pendingFlipDataRef} biblePaneRef={biblePaneRef} sidePanelModeRef={sidePanelModeRef} currentBookRef={currentBookRef} chapterRef={chapterRef} commentarySourceRef={commentarySourceRef} loadCommentaryData={loadCommentaryData} pagedContentRef={pagedContentRef} pagedMeasureRef={pagedMeasureRef} pagedFlipAnimRef={pagedFlipAnimRef} pagedFlipPendingRef={pagedFlipPendingRef} readerPassagesRef={readerPassagesRef} verseStudyPopupRef={verseStudyPopupRef} />}
+              {<ChapterContent chapterLoading={chapterLoading} chapterError={chapterError} chapterData={chapterData} chapterBookLabel={chapterBookLabel} pagedPageSlices={pagedPageSlices} chapterSpreadIndex={chapterSpreadIndex} animClass={animClass} setAnimClass={setAnimClass} setChapterData={setChapterData} setChapterLoading={setChapterLoading} pagedFlipAnim={pagedFlipAnim} setPagedFlipAnim={setPagedFlipAnim} aiNavHighlight={aiNavHighlight} selectedVerse={selectedVerse} setSelectedVerse={setSelectedVerse} selectedVerseGroup={selectedVerseGroup} setSelectedVerseGroup={setSelectedVerseGroup} selectedVerseData={selectedVerseData} selectedVerseKey={selectedVerseKey} selectedVerseNote={selectedVerseNote} selectedVerseHighlighted={selectedVerseHighlighted} versePopupPos={versePopupPos} setVersePopupPos={setVersePopupPos} showVerseNoteEditor={showVerseNoteEditor} setShowVerseNoteEditor={setShowVerseNoteEditor} currentNoteDraft={currentNoteDraft} setCurrentNoteDraft={setCurrentNoteDraft} closeVerseStudyPopup={closeVerseStudyPopup} toggleVerseHighlight={toggleVerseHighlight} saveVerseNote={saveVerseNote} copySelectedVerse={copySelectedVerse} tutorialVerseToolsNavBlocked={tutorialVerseToolsNavBlocked} openSidePanel={openSidePanel} openOriginalWords={openOriginalWords} setAiComposerSeed={setAiComposerSeed} recordChapterEngagement={recordChapterEngagement} chapterQuizGate={chapterQuizGate} quizTakenThisChapterVisit={quizTakenThisChapterVisit} setQuizOpen={setQuizOpen} topVisibleVerseRef={topVisibleVerseRef} exitAnimDoneRef={exitAnimDoneRef} pendingFlipDataRef={pendingFlipDataRef} biblePaneRef={biblePaneRef} sidePanelModeRef={sidePanelModeRef} currentBookRef={currentBookRef} chapterRef={chapterRef} commentarySourceRef={commentarySourceRef} loadCommentaryData={loadCommentaryData} pagedContentRef={pagedContentRef} pagedMeasureRef={pagedMeasureRef} pagedFlipAnimRef={pagedFlipAnimRef} pagedFlipPendingRef={pagedFlipPendingRef} readerPassagesRef={readerPassagesRef} verseStudyPopupRef={verseStudyPopupRef} />}
             </div>
             <div
               className={`ch-nav ch-nav-prev${chromeBottomVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}${sideOpen && !sidePaneOnRight ? ' side-pane-open' : ''}`}

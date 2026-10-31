@@ -13,6 +13,10 @@ import userSettings from './user-settings.json';
 import walletClaim from './wallet-claim.json';
 import walletDailyRewards from './wallet-daily-rewards.json';
 import wallet from './wallet.json';
+import lexiconG0025 from './lexicon-G0025.json';
+import lexiconH1254 from './lexicon-H1254.json';
+import words1_1_1 from './words-1-1-1.json';
+import words43_3_16 from './words-43-3-16.json';
 
 export const MOCK_USER = { email: 'e2e@example.com', password: 'e2e-password-1' };
 
@@ -108,6 +112,15 @@ function resolve(req: Request, calls: MockCalls): Fulfill | null {
   const progress = /^\/quiz\/progress\/(\d+)\/(\d+)$/.exec(path);
   if (progress) return { json: progressFor(Number(progress[1]), Number(progress[2])) };
   if (path === '/quiz/43/3') return { json: quizJohn3 };
+
+  // ── Original words (HG-3a): recorded fixtures; anything else is a 404, never the HAR ──
+  if (path === '/words/43/3/16') return { json: words43_3_16 };
+  if (path === '/words/1/1/1') return { json: words1_1_1 };
+  if (path === '/lexicon/G0025') return { json: lexiconG0025 };
+  if (path === '/lexicon/H1254') return { json: lexiconH1254 };
+  if (path.startsWith('/words/') || path.startsWith('/lexicon/')) {
+    return { status: 404, json: { detail: 'Not found' } };
+  }
 
   return null;
 }

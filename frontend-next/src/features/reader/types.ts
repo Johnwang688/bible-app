@@ -95,7 +95,7 @@ export interface ReaderSettings {
   readingMode: ReaderReadingMode;
   specialEffects: boolean;
   pageFlipEnabled: boolean;
-  defaultPanel: SidePanelMode;
+  defaultPanel: Exclude<SidePanelMode, 'words'>;
   sidePanelPosition: SidePanelPosition;
   graphicsMode: GraphicsMode;
 }
@@ -108,5 +108,5 @@ export type ReaderSettingsNormalizeInput = {
   /** Legacy persisted flag; inverted when mapping to `specialEffects`. */
   reducedMotion?: boolean;
 };
-export type SidePanelMode = 'none' | 'commentary' | 'ai' | 'study';
+export type SidePanelMode = 'none' | 'commentary' | 'ai' | 'study' | 'words';
 export type SidePanelPosition = 'left' | 'right';
