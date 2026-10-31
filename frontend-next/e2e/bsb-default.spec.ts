@@ -1,6 +1,6 @@
 // Acceptance test for HG-3b (BSB becomes the default translation). Owned by the orchestrator: do not edit.
 // These specs opt out of the suite's saved-WEB-position seed, so they see what a brand-new reader sees.
-import { expect, revealTaskbar, test, verse } from './fixtures';
+import { expect, revealTaskbar, revealTopBar, test, verse } from './fixtures';
 
 test.use({ seedWebPosition: false });
 
@@ -35,6 +35,7 @@ test('the version picker offers the BSB (and still hides the KJV, which has no t
   await page.goto('/app');
   await page.getByRole('button', { name: 'Bible reader' }).click();
   await expect(verse(page, 2)).toContainText('formless and void');
+  await revealTopBar(page);
   await page.getByRole('button', { name: 'BSB' }).click();
   const panel = page.locator('.version-panel');
   await expect(panel).toContainText('Berean Standard Bible');
