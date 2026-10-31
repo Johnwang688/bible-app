@@ -9,12 +9,14 @@ _Status: in progress. Updated 2026-10-30 after the first overnight run._
 | W0 safety net | **Done** | Content export in `content/source/`, 44 golden responses, Playwright smoke suite, git cleanup |
 | W1 content SQLite | **Done** | `scripts/build_content.py`; content endpoints read SQLite, with no Supabase calls for content. FTS5 search matches Postgres's match sets ≥ 95% (17 queries). Quiz question reads moved to W2. |
 | W2 Firestore + Firebase Auth | Not started | Needs a Firebase project and John's decisions |
-| W3 Claude | **W3-A and W3-E done** | Claude chat path behind `AI_PROVIDER` (default `openai`); live eval harness with 30 cases. The live eval needs an API key. W3-B (streaming) not started. |
-| W4 frontend split | **W4-1 to W4-5 done** | `BibleApp.tsx` went from 7,253 to 4,680 lines: module-level code, 9 presentational components, dead code removed. Hooks and state not started. **Decided (John, 2026-10-30): React contexts, not Zustand.** |
+| W3 Claude | **W3-A and W3-E done; rest deferred** | Claude chat path behind `AI_PROVIDER` (default `openai`, unchanged); 30-case eval harness. First live eval (2026-10-30, Haiku 5.5, $0.014): 23/30. Failures: no navigate button when promised, English reply to a Chinese question, a non-existent verse (John 3:45) not flagged, two cross-passage answers from memory without fetching, Jesus roleplay reaching the model, and one false positive in the eval's CJK quote check. **Deferred (John, 2026-10-30):** the agent will be rebuilt with a new system prompt and a fuller tool set, after Hebrew/Greek, commentary, and app UI and performance. Unverified partial fixes are on local branch `fix-claude-eval`. W3-B (streaming) not started. |
+| W4 frontend split | **W4-1 to W4-6 done** | `BibleApp.tsx` went from 7,253 to 4,641 lines. W4-6 (React contexts, John 2026-10-30) moved reader settings, auth, study items and reader position into four providers: 80 → 63 `useState`s. PR #2, stacked on PR #1. Handlers and account sync are still in `BibleApp`. |
 | W5 deploy | Partly | The Docker image now builds `content.sqlite` (two-stage build). GCP setup not started. |
-| Bug fixes | **Done** | A reload no longer wipes signed-out data; deep links and saved positions set the chapter state; values read back from storage are validated |
+| Bug fixes | **Done** | A reload no longer wipes signed-out data; deep links and saved positions set the chapter state; values read back from storage are validated; a late duplicate startup no longer wipes note drafts in dev |
 
-Tests: 255 backend (golden responses run offline in the default suite), 36 Playwright e2e, 2 Node unit tests, and a Docker image test that skips without a daemon.
+Tests: 255 backend (golden responses run offline in the default suite), 39 Playwright e2e, 10 Node unit tests, and a Docker image test that skips without a daemon.
+
+**Next (John, 2026-10-30):** Hebrew and Greek, commentary, app UI and performance; then the agent rework (W3).
 
 **Found and still open:**
 - **Quiz bank drift.** The served bank does not match `quiz-questions/*.json`. 1/2 Samuel and Joshua serve template-generated questions, while better authored ones go unused. Genesis serves 178 of 2,500 authored questions; Proverbs, 2 Kings and 1 Chronicles serve none. The un-timestamped migrations `039_` to `061_` were probably never applied. **Deferred (John, 2026-10-30):** the authored questions were bulk-generated without QA and most are poor, so the quiz bank is revisited after the other core features, not rebuilt from the JSON now.
