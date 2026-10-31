@@ -2,9 +2,10 @@
 Build the read-only content SQLite file from the committed export in content/source/.
 
 Verifies every file listed in MANIFEST.json, then writes one SQLite database with
-the content tables, two FTS5 indexes over verses (English: porter, Chinese: trigram)
-and a meta table. The output is written to a temp file and atomically swapped in,
-so readers only ever see the old file or the complete new one.
+the content tables (including the BSB word alignment and the lexicon), two FTS5 indexes
+over verses (English: porter, Chinese: trigram) and a meta table. The output is written
+to a temp file and atomically swapped in, so readers only ever see the old file or the
+complete new one.
 
 Usage:
     python scripts/build_content.py
@@ -16,6 +17,7 @@ Standard library only. Re-running on the same source produces the same database.
 from __future__ import annotations
 
 import argparse
+import gzip
 import hashlib
 import json
 import os
@@ -38,6 +40,10 @@ CREATE TABLE translations (id TEXT PRIMARY KEY, name TEXT, language TEXT, licens
 CREATE TABLE books (book_number INTEGER PRIMARY KEY, name_en TEXT, name_zh TEXT, abbreviation TEXT, testament TEXT, total_chapters INTEGER);
 CREATE TABLE verses (id INTEGER PRIMARY KEY, translation TEXT, book_number INTEGER, chapter INTEGER, verse INTEGER, text TEXT);
 CREATE UNIQUE INDEX verses_ref ON verses(translation, book_number, chapter, verse);
+CREATE TABLE bsb_words (id INTEGER PRIMARY KEY, book_number INTEGER, chapter INTEGER, verse INTEGER, english_order INTEGER, original_order INTEGER, language TEXT, original TEXT, translit TEXT, parsing_code TEXT, parsing TEXT, strongs TEXT, english TEXT, english_kind TEXT, footnote TEXT);
+CREATE INDEX bsb_words_ref ON bsb_words(book_number, chapter, verse);
+CREATE INDEX bsb_words_strongs ON bsb_words(strongs);
+CREATE TABLE lexicon (strongs TEXT PRIMARY KEY, language TEXT, lemma TEXT, translit TEXT, morph TEXT, gloss TEXT, definition TEXT);
 CREATE TABLE commentary_sources (id TEXT PRIMARY KEY, name TEXT, description TEXT, license TEXT, created_at TEXT);
 CREATE TABLE commentaries (id INTEGER PRIMARY KEY, source TEXT, book_number INTEGER, chapter INTEGER, verse_start INTEGER, verse_end INTEGER, content TEXT);
 CREATE INDEX commentaries_ref ON commentaries(book_number, chapter, verse_start);
@@ -63,7 +69,18 @@ JSONL_TABLES = [
     "summary_entities",
     "commentary_entity_mentions",
     "quiz_question_bank",
+    "lexicon",
+    "bsb_words",
 ]
+
+# Source file for each table loaded from JSONL: <table>.jsonl unless listed here.
+# A .gz file is read with gzip; its sha256 is still checked over the compressed bytes.
+TABLE_FILES = {"bsb_words": "bsb_words.jsonl.gz"}
+
+# Tables that may be absent from a source export (older exports predate them). When the
+# file is absent the table is created empty. A file that exists must still be listed in
+# the manifest, and a listed file must exist, exactly as for every other file.
+OPTIONAL_TABLES = {"lexicon", "bsb_words"}
 
 # Rows are inserted in this key order, whatever order the files list them in.
 SORT_KEYS = {
@@ -76,6 +93,8 @@ SORT_KEYS = {
     "summary_entities": ("id",),
     "commentary_entity_mentions": ("commentary_id", "entity_id"),
     "quiz_question_bank": ("id",),
+    "lexicon": ("strongs",),
+    "bsb_words": ("id",),
 }
 
 # Always stored as JSON text (even for scalars), so the column never holds a raw Python value.
@@ -90,6 +109,18 @@ FTS_TABLES = {
 
 class BuildError(Exception):
     """Any failure while building the content database."""
+
+
+def _table_file(table: str) -> str:
+    """Name of the source file (relative to the source dir) that holds a JSONL table."""
+    return TABLE_FILES.get(table, f"{table}.jsonl")
+
+
+def _open_text(path: Path):
+    """Open a JSONL source file for reading as UTF-8 text; .gz files are decompressed."""
+    if path.suffix == ".gz":
+        return gzip.open(path, "rt", encoding="utf-8", newline="")
+    return open(path, encoding="utf-8")
 
 
 def _sha256_file(path: Path) -> str:
@@ -128,7 +159,11 @@ def _verify_source(source_dir: Path) -> str:
             raise BuildError(f"{relative}: manifest path escapes {source_dir}")
 
     # Table files are always read; verse files are whatever sits in verses/.
-    read = [f"{table}.jsonl" for table in JSONL_TABLES]
+    read = [
+        _table_file(table)
+        for table in JSONL_TABLES
+        if table not in OPTIONAL_TABLES or (source_dir / _table_file(table)).exists()
+    ]
     read += [f"verses/{path.name}" for path in sorted((source_dir / "verses").glob("*.jsonl"))]
     for relative in read:
         if relative not in files:
@@ -167,7 +202,7 @@ def _insert_jsonl(con: sqlite3.Connection, table: str, paths: list[Path]) -> int
 
     records = []
     for path in paths:
-        with open(path, encoding="utf-8") as f:
+        with _open_text(path) as f:
             for line in f:
                 if line.strip():
                     records.append(json.loads(line))
@@ -194,7 +229,11 @@ def _write_database(source_dir: Path, db_path: Path, source_sha256: str) -> dict
 
         con.execute("BEGIN")
         for table in JSONL_TABLES:
-            counts[table] = _insert_jsonl(con, table, [source_dir / f"{table}.jsonl"])
+            path = source_dir / _table_file(table)
+            if table in OPTIONAL_TABLES and not path.exists():
+                counts[table] = 0
+                continue
+            counts[table] = _insert_jsonl(con, table, [path])
 
         verse_files = sorted((source_dir / "verses").glob("*.jsonl"))
         counts["verses"] = _insert_jsonl(con, "verses", verse_files)
