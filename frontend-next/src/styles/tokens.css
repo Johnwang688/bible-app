@@ -2,12 +2,19 @@
  * Design tokens (VI-1). Semantic layer over the legacy theme variables in globals.css.
  *
  * The theme attribute sits on <html>, which is :root, so these var() references
- * resolve per theme with no per-theme blocks. New components use only
+ * resolve per theme with no per-theme blocks. globals.css also overrides legacy
+ * variables on descendants (e.g. [data-theme="neonrose"] .side-pane { --text: … }),
+ * so the colour tokens are declared on every element (:root, *, ::before, ::after) and
+ * recomputed against the local legacy values. Fonts, radii and spacing are only set on
+ * :root. New components use only
  * --color-*, --font-*, --radius-* and --space-*. No colour literals in this file
  * (enforced by review-tests/color-literals.test.cjs), and no legacy variable is
  * redefined here.
  */
-:root {
+:root,
+*,
+*::before,
+*::after {
   /* Surfaces */
   --color-surface-0: var(--bg);              /* page canvas */
   --color-surface-1: var(--panel);           /* panels, cards */
@@ -32,7 +39,9 @@
   --color-line-soft: var(--line-soft);       /* faint dividers */
   --color-focus: var(--accent);              /* focus ring */
   --color-highlight: var(--reader-highlight-bg); /* verse highlight */
+}
 
+:root {
   /* Fonts */
   --font-ui: var(--ui);                      /* interface text */
   --font-scripture: var(--serif);            /* Scripture text */

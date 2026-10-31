@@ -15,6 +15,31 @@ const ROOT = path.resolve(__dirname, '..');
 const loadCounter = () => import(pathToFileURL(path.join(ROOT, 'scripts', 'color-literals-baseline.mjs')).href);
 const literals = async (source, ext) => (await loadCounter()).findColorLiterals(source, ext).map((h) => h.literal);
 
+// The original allowed files and their maximum counts (VI-1). The baseline JSON may only
+// shrink: it cannot list a file that is not here, or a count above these. Never raise or add
+// entries here to make the ratchet pass; use --color-* tokens instead.
+const FROZEN_MAX = {
+  'src/app/LandingClient.tsx': 247,
+  'src/app/globals.css': 1095,
+  'src/app/signin/page.tsx': 69,
+  'src/components/AiSidebar.tsx': 13,
+  'src/components/BibleApp.tsx': 12,
+  'src/components/LandingHero.module.css': 19,
+  'src/features/reader/settings.ts': 21,
+  'src/features/settings/themeHelpers.ts': 10,
+  'src/lib/themes.ts': 82,
+};
+
+test('baseline can only shrink: no new files, no counts above the frozen maximum', () => {
+  const baseline = JSON.parse(fs.readFileSync(path.join(__dirname, 'color-literals-baseline.json'), 'utf8'));
+  const problems = [];
+  for (const [file, count] of Object.entries(baseline)) {
+    if (!Object.hasOwn(FROZEN_MAX, file)) problems.push(`${file}: not in the frozen set, it cannot be baselined`);
+    else if (!(count <= FROZEN_MAX[file])) problems.push(`${file}: baseline ${count} is above the frozen maximum ${FROZEN_MAX[file]}`);
+  }
+  assert.equal(problems.length, 0, '\n' + problems.join('\n'));
+});
+
 test('ratchet: no new colour literals, no increases', async () => {
   const { scanTree } = await loadCounter();
   const baseline = JSON.parse(fs.readFileSync(path.join(__dirname, 'color-literals-baseline.json'), 'utf8'));
