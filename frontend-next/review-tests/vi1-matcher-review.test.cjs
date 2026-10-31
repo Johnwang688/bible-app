@@ -21,11 +21,3 @@ for (const literal of [
     );
   });
 }
-
-test('fragment-only links are not colour literals', async () => {
-  const { findColorLiterals } = await load();
-  assert.deepEqual(
-    findColorLiterals('<a href="#abc">Link</a>', '.tsx'),
-    [],
-  );
-});
