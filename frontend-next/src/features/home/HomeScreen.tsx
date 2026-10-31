@@ -4,15 +4,16 @@ import type { ReactNode, RefObject } from 'react';
 import Link from 'next/link';
 import CurrencyIcon from '@/components/CurrencyIcon';
 import MasteryOverviewPanel from '@/components/MasteryOverviewPanel';
-import type { AuthSession } from '@/lib/account';
-import type { BookInfo, ChapterData, DailyVerse, ReadingProgress, SidePanelMode } from '@/features/reader/types';
+import { useAuth } from '@/features/account/AuthContext';
+import { useStudyItems } from '@/features/study/StudyItemsContext';
+import { useReaderPosition } from '@/features/reader/ReaderPositionContext';
+import type { ChapterData, DailyVerse, SidePanelMode } from '@/features/reader/types';
 import { DailyTasksList } from '@/features/progress/DailyTasksList';
 import { logoSrcForTheme } from '@/features/settings/themeHelpers';
 
 export interface HomeScreenProps {
   currentTheme: string;
   homeTimeGreeting: string;
-  authSession: AuthSession | null;
   coinBalance: number | null;
   sidePanelMode: SidePanelMode;
   toggleStudyPanel: () => void;
@@ -20,9 +21,7 @@ export interface HomeScreenProps {
   dailyVerse: DailyVerse;
   handleDailyVerseRefClick: () => Promise<void>;
   dailyRewardsStatus: { verse_claimed: boolean; tasks_claimed: boolean } | null;
-  readingProgress: ReadingProgress;
   minutesTowardGoal: number;
-  dailyGoalMinutes: number;
   taskChapterDone: boolean;
   taskAiDone: boolean;
   taskMinutesDone: boolean;
@@ -30,13 +29,10 @@ export interface HomeScreenProps {
   tasksBonusClaiming: boolean;
   chapterLoading: boolean;
   chapterData: ChapterData | null;
-  currentBook: BookInfo | null;
   openReaderFromHome: (panel: SidePanelMode) => void;
   currentBookLabel: string;
-  chapter: number;
   currentTranslationLabel: string;
   openTutorial: (startIndex?: number) => void;
-  translation: string;
   sidePanelTitle: () => string;
   sidePanelContext: string;
   closeSidePanel: () => void;
@@ -46,7 +42,6 @@ export interface HomeScreenProps {
 export default function HomeScreen({
   currentTheme,
   homeTimeGreeting,
-  authSession,
   coinBalance,
   sidePanelMode,
   toggleStudyPanel,
@@ -54,9 +49,7 @@ export default function HomeScreen({
   dailyVerse,
   handleDailyVerseRefClick,
   dailyRewardsStatus,
-  readingProgress,
   minutesTowardGoal,
-  dailyGoalMinutes,
   taskChapterDone,
   taskAiDone,
   taskMinutesDone,
@@ -64,18 +57,18 @@ export default function HomeScreen({
   tasksBonusClaiming,
   chapterLoading,
   chapterData,
-  currentBook,
   openReaderFromHome,
   currentBookLabel,
-  chapter,
   currentTranslationLabel,
   openTutorial,
-  translation,
   sidePanelTitle,
   sidePanelContext,
   closeSidePanel,
   studyContent,
 }: HomeScreenProps) {
+  const { currentBook, chapter, translation } = useReaderPosition();
+  const { authSession } = useAuth();
+  const { readingProgress, dailyGoalMinutes } = useStudyItems();
   return (
     <div className="home-screen" role="region" aria-label="Home">
       <div className="home-screen-inner">

@@ -10,7 +10,6 @@ import AiSidebar, {
 import { STORAGE_KEYS } from '@/lib/storageKeys';
 import ChapterQuiz from './ChapterQuiz';
 import {
-  type AccountProfile,
   type AuthSession,
   type SyncedReadingProgress,
   type SyncedStudyItem,
@@ -24,7 +23,6 @@ import {
   putStudyItems,
   putUserSettings,
   refreshSession,
-  restoreAuthSession,
   signIn,
   signOut,
   signUp,
@@ -39,42 +37,64 @@ import {
 import { parseReferenceLabel, sortBookNamesForMatching } from '@/lib/scriptureReference';
 import { normalizeThemeId } from '@/lib/themes';
 
-import type { BookInfo, ChapterData, ChapterQuizVisitState, ChapterReadEvidence, CommentaryEntry, CommentarySource, ReaderSettings, ReadingProgress, SavedPassage, SearchResult, SearchSuggestion, SidePanelMode, SidePanelPosition, Translation, TutorialStep, VerseData, VerseNote } from '@/features/reader/types';
+import type { BookInfo, ChapterData, ChapterQuizVisitState, ChapterReadEvidence, CommentaryEntry, CommentarySource, ReaderSettings, SavedPassage, SearchResult, SearchSuggestion, SidePanelMode, SidePanelPosition, Translation, TutorialStep, VerseData, VerseNote } from '@/features/reader/types';
 import { filterTranslationsForPicker, getLocalizedBookName, getLocalizedBookNameFromRaw, getTranslationDisplayId, getTranslationDisplayName, normalizeTranslationChoice } from '@/features/reader/translations';
 import { DEFAULT_READER_SETTINGS, applyReaderHighlightVars, detectGraphicsCapability, isPagedReadingMode, normalizeReaderSettings } from '@/features/reader/settings';
 import { biblePaneScrollDepthRatio, chapterStorageKey, closestVerseLine, formatVerseGroupRef, scrollVerseLineIntoBiblePaneCenter, sliceVersesIntoPages, verseStorageKey } from '@/features/reader/layout';
 import { computeChapterQuizRequiredDwellMs, getChapterQuizVisibleMs } from '@/features/quiz/dwell';
-import { BOOKMARKS_STORAGE_KEY, COMMENTARY_SYNC_THROTTLE_MS, DAILY_GOAL_MINUTES_STORAGE_KEY, DEFAULT_DAILY_GOAL_MINUTES, ENGAGEMENT_COMMIT_MS, HIGHLIGHTS_STORAGE_KEY, LAST_POSITION_STORAGE_KEY, MAX_ENGAGEMENT_GAP_MS, MAX_RECENT_PASSAGES, NOTES_STORAGE_KEY, ONBOARDING_STORAGE_KEY, READER_SETTINGS_STORAGE_KEY, READING_PROGRESS_STORAGE_KEY, RECENT_PASSAGES_STORAGE_KEY, SCROLL_ACTIVE_HOLD_MS, chapterEvidenceQualifies, computeTodayIso, normalizeReadingProgress, rollReadingProgressToToday, selectDailyVerse, syncGoalCompletion, timeOfDayGreeting } from '@/features/progress/progress';
+import { COMMENTARY_SYNC_THROTTLE_MS, ENGAGEMENT_COMMIT_MS, LAST_POSITION_STORAGE_KEY, MAX_ENGAGEMENT_GAP_MS, MAX_RECENT_PASSAGES, ONBOARDING_STORAGE_KEY, SCROLL_ACTIVE_HOLD_MS, chapterEvidenceQualifies, computeTodayIso, selectDailyVerse, syncGoalCompletion, timeOfDayGreeting } from '@/features/progress/progress';
 import { DYNAMIC_BASE_THEME, DYNAMIC_COLORS, DYNAMIC_CYCLE_MS, hexToRgb, logoSrcForTheme } from '@/features/settings/themeHelpers';
 import { SEARCH_SUGGESTION_LIMIT, clampChapterForBook, compactSearchText, extractLooseReferenceParts, formatSearchSuggestionLabel, getBookPopularityScore, normalizeReferenceSpacing, normalizeSearchText, scoreBookMatch } from '@/features/search/search';
 import { TUTORIAL_VERSE_TOOLS_VERSE, boundsToTutorialRect } from '@/features/onboarding/tutorial';
 import { buildExplainVersePrompt } from '@/features/ai/prompts';
-import { readStoredBookmarks, readStoredDailyGoalMinutes, readStoredHighlights, readStoredLastPosition, readStoredNotes, readStoredReaderSettings, readStoredReadingProgress, readStoredRecentPassages } from '@/lib/localState';
+import { readStoredLastPosition, readStoredReaderSettings } from '@/lib/localState';
 import BookPanel from '@/features/reader/BookPanel';
 import VersionPanel from '@/features/reader/VersionPanel';
 import SearchPanel from '@/features/search/SearchPanel';
 import SettingsPanel from '@/features/settings/SettingsPanel';
+import { ReaderSettingsProvider, useReaderSettings } from '@/features/settings/ReaderSettingsContext';
+import { AuthProvider, useAuth } from '@/features/account/AuthContext';
 import HomeScreen from '@/features/home/HomeScreen';
 import TopBar from '@/features/reader/TopBar';
 import CommentaryContent from '@/features/commentary/CommentaryContent';
 import ChapterContent from '@/features/reader/ChapterContent';
 import StudyContent from '@/features/study/StudyContent';
-// ── Main Component ─────────────────────────────────────────────────────────────
-export default function BibleApp({
-  initialReader = null,
-  initialPanel = null,
-  initialCommentarySource = null,
-}: {
+import { ReaderPositionProvider, useReaderPosition } from '@/features/reader/ReaderPositionContext';
+import { StudyItemsProvider, useStudyItems } from '@/features/study/StudyItemsContext';
+type BibleAppProps = {
   initialReader?: { book: string; chapter: number } | null;
   initialPanel?: 'commentary' | 'ai' | 'study' | null;
   initialCommentarySource?: string | null;
-} = {}) {
+};
+
+export default function BibleApp(props: BibleAppProps = {}) {
+  return (
+    <ReaderSettingsProvider>
+      <AuthProvider>
+        <StudyItemsProvider>
+          <ReaderPositionProvider>
+            <BibleAppInner {...props} />
+          </ReaderPositionProvider>
+        </StudyItemsProvider>
+      </AuthProvider>
+    </ReaderSettingsProvider>
+  );
+}
+
+// ── Main Component ─────────────────────────────────────────────────────────────
+function BibleAppInner({
+  initialReader = null,
+  initialPanel = null,
+  initialCommentarySource = null,
+}: BibleAppProps = {}) {
   // ── Bible data ───
-  const [books, setBooks]             = useState<BookInfo[]>([]);
-  const [translations, setTranslations] = useState<Translation[]>([]);
-  const [currentBook, setCurrentBook] = useState<BookInfo | null>(null);
-  const [chapter, setChapter]         = useState(1);
-  const [translation, setTranslation] = useState('WEB');
+  const {
+    books, setBooks,
+    translations, setTranslations,
+    currentBook, setCurrentBook,
+    chapter, setChapter,
+    translation, setTranslation,
+  } = useReaderPosition();
 
   // ── Chapter display ───
   const [chapterData, setChapterData]   = useState<ChapterData | null>(null);
@@ -129,15 +149,17 @@ export default function BibleApp({
   const [searchResults, setSearchResults]   = useState<SearchResult[]>([]);
   const [searchLoading, setSearchLoading]   = useState(false);
   const [searchError, setSearchError]       = useState<string | null>(null);
-  const [recentPassages, setRecentPassages] = useState<SavedPassage[]>([]);
-  const [highlightedVerses, setHighlightedVerses] = useState<string[]>([]);
-  const [bookmarkedVerses, setBookmarkedVerses] = useState<string[]>([]);
-  const [verseNotes, setVerseNotes]         = useState<Record<string, VerseNote>>({});
-  const [readingProgress, setReadingProgress] = useState<ReadingProgress>(() => normalizeReadingProgress(null));
-  const [dailyGoalMinutes, setDailyGoalMinutes] = useState(DEFAULT_DAILY_GOAL_MINUTES);
+  const {
+    recentPassages, setRecentPassages,
+    highlightedVerses, setHighlightedVerses,
+    bookmarkedVerses, setBookmarkedVerses,
+    verseNotes, setVerseNotes,
+    readingProgress, setReadingProgress,
+    dailyGoalMinutes, setDailyGoalMinutes,
+  } = useStudyItems();
   const [readingGoalEditing, setReadingGoalEditing] = useState(false);
   const [dailyGoalsExpanded, setDailyGoalsExpanded] = useState(false);
-  const [readerSettings, setReaderSettings] = useState<ReaderSettings>(DEFAULT_READER_SETTINGS);
+  const { readerSettings, setReaderSettings } = useReaderSettings();
   /** In-page spreads for paged reading modes (each entry is one printed page of verses). */
   const [pagedPageSlices, setPagedPageSlices] = useState<VerseData[][] | null>(null);
   const [chapterSpreadIndex, setChapterSpreadIndex] = useState(0);
@@ -146,11 +168,7 @@ export default function BibleApp({
   const [, setShowOnboarding] = useState(false);
   const [currentNoteDraft, setCurrentNoteDraft] = useState('');
   const [showVerseNoteEditor, setShowVerseNoteEditor] = useState(false);
-  const [authSession, setAuthSession]       = useState<AuthSession | null>(null);
-  const [accountProfile, setAccountProfile] = useState<AccountProfile | null>(null);
-  const [authMode, setAuthMode]             = useState<'signin' | 'signup'>('signin');
-  const [authBusy, setAuthBusy]             = useState(false);
-  const [authError, setAuthError]           = useState<string | null>(null);
+  const { authSession, setAuthSession, accountProfile, setAccountProfile, authMode, setAuthMode, authBusy, setAuthBusy, authError, setAuthError } = useAuth();
   /** Quiz wallet balance (signed-in only); refreshed after quiz submit. */
   const [coinBalance, setCoinBalance] = useState<number | null>(null);
   const [dailyRewardsStatus, setDailyRewardsStatus] = useState<{
@@ -256,7 +274,7 @@ export default function BibleApp({
   const syncReadyRef        = useRef(false);
   const hydratingAccountRef = useRef(false);
   const accountBootstrapRef = useRef(false);
-  const localStateLoadedRef = useRef(false);
+  const initStartedRef = useRef(false);
   const chapterEngagementRef = useRef<{ key: string; lastInteractionAt: number | null }>({
     key: '',
     lastInteractionAt: null,
@@ -474,36 +492,6 @@ export default function BibleApp({
   }, [chapter, currentBook, selectedVerse, verseNotes]);
 
   useEffect(() => {
-    if (typeof window === 'undefined' || !localStateLoadedRef.current) return;
-    window.localStorage.setItem(HIGHLIGHTS_STORAGE_KEY, JSON.stringify(highlightedVerses));
-  }, [highlightedVerses]);
-
-  useEffect(() => {
-    if (typeof window === 'undefined' || !localStateLoadedRef.current) return;
-    window.localStorage.setItem(BOOKMARKS_STORAGE_KEY, JSON.stringify(bookmarkedVerses));
-  }, [bookmarkedVerses]);
-
-  useEffect(() => {
-    if (typeof window === 'undefined' || !localStateLoadedRef.current) return;
-    window.localStorage.setItem(NOTES_STORAGE_KEY, JSON.stringify(verseNotes));
-  }, [verseNotes]);
-
-  useEffect(() => {
-    if (typeof window === 'undefined' || !localStateLoadedRef.current) return;
-    window.localStorage.setItem(RECENT_PASSAGES_STORAGE_KEY, JSON.stringify(recentPassages));
-  }, [recentPassages]);
-
-  useEffect(() => {
-    if (typeof window === 'undefined' || !localStateLoadedRef.current) return;
-    window.localStorage.setItem(READING_PROGRESS_STORAGE_KEY, JSON.stringify(readingProgress));
-  }, [readingProgress]);
-
-  useEffect(() => {
-    if (typeof window === 'undefined' || !localStateLoadedRef.current) return;
-    window.localStorage.setItem(DAILY_GOAL_MINUTES_STORAGE_KEY, String(dailyGoalMinutes));
-  }, [dailyGoalMinutes]);
-
-  useEffect(() => {
     setReadingProgress(prev => {
       const today = computeTodayIso();
       return syncGoalCompletion(prev, dailyGoalMinutes, today);
@@ -512,7 +500,6 @@ export default function BibleApp({
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    if (localStateLoadedRef.current) window.localStorage.setItem(READER_SETTINGS_STORAGE_KEY, JSON.stringify(readerSettings));
     document.documentElement.dataset.readerScale = readerSettings.fontScale;
     document.documentElement.dataset.readerLineHeight = readerSettings.lineHeight;
     document.documentElement.dataset.readerFont = readerSettings.readerFont;
@@ -3444,26 +3431,10 @@ export default function BibleApp({
   useEffect(() => {
     // Read theme from localStorage (inline script already applied it to the DOM)
     const saved = normalizeThemeId(localStorage.getItem('theme'));
-    const storedSession = restoreAuthSession();
     const storedLastPosition = readStoredLastPosition();
-    const storedHighlights = readStoredHighlights();
-    const storedBookmarks = readStoredBookmarks();
-    const storedNotes = readStoredNotes();
-    const storedRecent = readStoredRecentPassages();
-    const storedProgress = readStoredReadingProgress();
-    const storedDailyGoal = readStoredDailyGoalMinutes();
     const storedReaderSettings = readStoredReaderSettings();
-    localStateLoadedRef.current = true;
     setCurrentTheme(saved);
     localStorage.setItem('theme', saved);
-    setAuthSession(storedSession);
-    setHighlightedVerses(storedHighlights);
-    setBookmarkedVerses(storedBookmarks);
-    setVerseNotes(storedNotes);
-    setRecentPassages(storedRecent);
-    setReadingProgress(rollReadingProgressToToday(storedProgress));
-    setDailyGoalMinutes(storedDailyGoal);
-    setReaderSettings(storedReaderSettings);
     setShowOnboarding(localStorage.getItem(ONBOARDING_STORAGE_KEY) !== '1');
     if (saved === 'dynamic' && storedReaderSettings.specialEffects) startDynamicTheme();
     else {
@@ -3548,11 +3519,15 @@ export default function BibleApp({
         setChapterError(true);
       }
     }
-    init();
-    // Strict Mode unmounts and remounts effects on first mount without re-rendering. Clearing the flag here
-    // stops the persist effects from writing default state over storage before this effect reads it again.
+    // Strict Mode runs this effect twice on the same instance. Refs survive that, so the fetch runs once and a
+    // late duplicate response can't reload the chapter (and close an open note editor) after the user starts.
+    if (!initStartedRef.current) {
+      initStartedRef.current = true;
+      init();
+    }
+    // Strict Mode unmounts and remounts effects on first mount without re-rendering; stop the dynamic
+    // theme timer and animation here so the remount starts them fresh instead of doubling up.
     return () => {
-      localStateLoadedRef.current = false;
       stopDynamicTheme();
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -3852,7 +3827,6 @@ export default function BibleApp({
         <HomeScreen
           currentTheme={currentTheme}
           homeTimeGreeting={homeTimeGreeting}
-          authSession={authSession}
           coinBalance={coinBalance}
           sidePanelMode={sidePanelMode}
           toggleStudyPanel={toggleStudyPanel}
@@ -3860,9 +3834,7 @@ export default function BibleApp({
           dailyVerse={dailyVerse}
           handleDailyVerseRefClick={handleDailyVerseRefClick}
           dailyRewardsStatus={dailyRewardsStatus}
-          readingProgress={readingProgress}
           minutesTowardGoal={minutesTowardGoal}
-          dailyGoalMinutes={dailyGoalMinutes}
           taskChapterDone={taskChapterDone}
           taskAiDone={taskAiDone}
           taskMinutesDone={taskMinutesDone}
@@ -3870,17 +3842,14 @@ export default function BibleApp({
           tasksBonusClaiming={tasksBonusClaiming}
           chapterLoading={chapterLoading}
           chapterData={chapterData}
-          currentBook={currentBook}
           openReaderFromHome={openReaderFromHome}
           currentBookLabel={currentBookLabel}
-          chapter={chapter}
           currentTranslationLabel={currentTranslationLabel}
           openTutorial={openTutorial}
-          translation={translation}
           sidePanelTitle={sidePanelTitle}
           sidePanelContext={sidePanelContext}
           closeSidePanel={closeSidePanel}
-          studyContent={<StudyContent highlightedVerses={highlightedVerses} verseNotes={verseNotes} currentBook={currentBook} chapter={chapter} chapterData={chapterData} books={books} translation={translation} accountProfile={accountProfile} authSession={authSession} authBusy={authBusy} authError={authError} authMode={authMode} setAuthMode={setAuthMode} handleAuthSignIn={handleAuthSignIn} handleAuthSignUp={handleAuthSignUp} handleAuthSignOut={handleAuthSignOut} coinBalance={coinBalance} readingGoalEditing={readingGoalEditing} setReadingGoalEditing={setReadingGoalEditing} readingRhythmTitle={readingRhythmTitle} dailyGoalMinutes={dailyGoalMinutes} setDailyGoalMinutes={setDailyGoalMinutes} readingProgress={readingProgress} recentPassages={recentPassages} dailyGoalsExpanded={dailyGoalsExpanded} setDailyGoalsExpanded={setDailyGoalsExpanded} taskChapterDone={taskChapterDone} taskAiDone={taskAiDone} taskMinutesDone={taskMinutesDone} dailyRewardsStatus={dailyRewardsStatus} handleClaimDailyTasksBonus={handleClaimDailyTasksBonus} tasksBonusClaiming={tasksBonusClaiming} navigateToPassage={navigateToPassage} homeScreenActive={homeScreenActive} openReaderFromHome={openReaderFromHome} closeSidePanel={closeSidePanel} />}
+          studyContent={<StudyContent chapterData={chapterData} handleAuthSignIn={handleAuthSignIn} handleAuthSignUp={handleAuthSignUp} handleAuthSignOut={handleAuthSignOut} coinBalance={coinBalance} readingGoalEditing={readingGoalEditing} setReadingGoalEditing={setReadingGoalEditing} readingRhythmTitle={readingRhythmTitle} dailyGoalsExpanded={dailyGoalsExpanded} setDailyGoalsExpanded={setDailyGoalsExpanded} taskChapterDone={taskChapterDone} taskAiDone={taskAiDone} taskMinutesDone={taskMinutesDone} dailyRewardsStatus={dailyRewardsStatus} handleClaimDailyTasksBonus={handleClaimDailyTasksBonus} tasksBonusClaiming={tasksBonusClaiming} navigateToPassage={navigateToPassage} homeScreenActive={homeScreenActive} openReaderFromHome={openReaderFromHome} closeSidePanel={closeSidePanel} />}
         />
       )}
 
@@ -3912,15 +3881,11 @@ export default function BibleApp({
       {/* Book popup */}
       {!homeScreenActive && (
       <BookPanel
-        books={books}
         expandedBook={expandedBook}
         setExpandedBook={setExpandedBook}
         bookPopupOpen={bookPopupOpen}
         setBookPopupOpen={setBookPopupOpen}
-        translation={translation}
         translationsById={translationsById}
-        currentBook={currentBook}
-        chapter={chapter}
         pickChapter={pickChapter}
       />
       )}
@@ -3928,8 +3893,6 @@ export default function BibleApp({
       {/* Version popup */}
       {!homeScreenActive && (
       <VersionPanel
-        translations={translations}
-        translation={translation}
         versionPopupOpen={versionPopupOpen}
         setVersionPopupOpen={setVersionPopupOpen}
         versionPanelLeft={versionPanelLeft}
@@ -4142,8 +4105,8 @@ export default function BibleApp({
               )}
             </div>
             <div className="side-scroll" ref={sideScrollRef}>
-              {sidePanelMode === 'commentary' && <CommentaryContent commentaryLoading={commentaryLoading} commentaryError={commentaryError} commentaryEntries={commentaryEntries} commentarySource={commentarySource} currentBook={currentBook} chapterData={chapterData} chapter={chapter} syncedVerseStart={syncedVerseStart} />}
-              {sidePanelMode === 'study' && !homeScreenActive && <StudyContent highlightedVerses={highlightedVerses} verseNotes={verseNotes} currentBook={currentBook} chapter={chapter} chapterData={chapterData} books={books} translation={translation} accountProfile={accountProfile} authSession={authSession} authBusy={authBusy} authError={authError} authMode={authMode} setAuthMode={setAuthMode} handleAuthSignIn={handleAuthSignIn} handleAuthSignUp={handleAuthSignUp} handleAuthSignOut={handleAuthSignOut} coinBalance={coinBalance} readingGoalEditing={readingGoalEditing} setReadingGoalEditing={setReadingGoalEditing} readingRhythmTitle={readingRhythmTitle} dailyGoalMinutes={dailyGoalMinutes} setDailyGoalMinutes={setDailyGoalMinutes} readingProgress={readingProgress} recentPassages={recentPassages} dailyGoalsExpanded={dailyGoalsExpanded} setDailyGoalsExpanded={setDailyGoalsExpanded} taskChapterDone={taskChapterDone} taskAiDone={taskAiDone} taskMinutesDone={taskMinutesDone} dailyRewardsStatus={dailyRewardsStatus} handleClaimDailyTasksBonus={handleClaimDailyTasksBonus} tasksBonusClaiming={tasksBonusClaiming} navigateToPassage={navigateToPassage} homeScreenActive={homeScreenActive} openReaderFromHome={openReaderFromHome} closeSidePanel={closeSidePanel} />}
+              {sidePanelMode === 'commentary' && <CommentaryContent commentaryLoading={commentaryLoading} commentaryError={commentaryError} commentaryEntries={commentaryEntries} commentarySource={commentarySource} chapterData={chapterData} syncedVerseStart={syncedVerseStart} />}
+              {sidePanelMode === 'study' && !homeScreenActive && <StudyContent chapterData={chapterData} handleAuthSignIn={handleAuthSignIn} handleAuthSignUp={handleAuthSignUp} handleAuthSignOut={handleAuthSignOut} coinBalance={coinBalance} readingGoalEditing={readingGoalEditing} setReadingGoalEditing={setReadingGoalEditing} readingRhythmTitle={readingRhythmTitle} dailyGoalsExpanded={dailyGoalsExpanded} setDailyGoalsExpanded={setDailyGoalsExpanded} taskChapterDone={taskChapterDone} taskAiDone={taskAiDone} taskMinutesDone={taskMinutesDone} dailyRewardsStatus={dailyRewardsStatus} handleClaimDailyTasksBonus={handleClaimDailyTasksBonus} tasksBonusClaiming={tasksBonusClaiming} navigateToPassage={navigateToPassage} homeScreenActive={homeScreenActive} openReaderFromHome={openReaderFromHome} closeSidePanel={closeSidePanel} />}
               {sidePanelMode === 'ai' && (
                 <AiSidebar
                   currentBookName={currentBook?.name ?? null}
@@ -4178,7 +4141,7 @@ export default function BibleApp({
                 isPagedReadingMode(readerSettings.readingMode) ? ' reader-wrap--paged' : ''
               }${!sideOpen ? ' reader-wrap--full' : ''}`}
             >
-              {<ChapterContent chapterLoading={chapterLoading} chapterError={chapterError} chapterData={chapterData} chapter={chapter} translation={translation} currentBook={currentBook} chapterBookLabel={chapterBookLabel} readerSettings={readerSettings} setReaderSettings={setReaderSettings} pagedPageSlices={pagedPageSlices} chapterSpreadIndex={chapterSpreadIndex} animClass={animClass} setAnimClass={setAnimClass} setChapterData={setChapterData} setChapterLoading={setChapterLoading} pagedFlipAnim={pagedFlipAnim} setPagedFlipAnim={setPagedFlipAnim} aiNavHighlight={aiNavHighlight} highlightedVerses={highlightedVerses} bookmarkedVerses={bookmarkedVerses} verseNotes={verseNotes} setVerseNotes={setVerseNotes} selectedVerse={selectedVerse} setSelectedVerse={setSelectedVerse} selectedVerseGroup={selectedVerseGroup} setSelectedVerseGroup={setSelectedVerseGroup} selectedVerseData={selectedVerseData} selectedVerseKey={selectedVerseKey} selectedVerseNote={selectedVerseNote} selectedVerseHighlighted={selectedVerseHighlighted} versePopupPos={versePopupPos} setVersePopupPos={setVersePopupPos} showVerseNoteEditor={showVerseNoteEditor} setShowVerseNoteEditor={setShowVerseNoteEditor} currentNoteDraft={currentNoteDraft} setCurrentNoteDraft={setCurrentNoteDraft} closeVerseStudyPopup={closeVerseStudyPopup} toggleVerseHighlight={toggleVerseHighlight} saveVerseNote={saveVerseNote} copySelectedVerse={copySelectedVerse} tutorialVerseToolsNavBlocked={tutorialVerseToolsNavBlocked} openSidePanel={openSidePanel} setAiComposerSeed={setAiComposerSeed} recordChapterEngagement={recordChapterEngagement} authSession={authSession} chapterQuizGate={chapterQuizGate} quizTakenThisChapterVisit={quizTakenThisChapterVisit} setQuizOpen={setQuizOpen} topVisibleVerseRef={topVisibleVerseRef} exitAnimDoneRef={exitAnimDoneRef} pendingFlipDataRef={pendingFlipDataRef} biblePaneRef={biblePaneRef} sidePanelModeRef={sidePanelModeRef} currentBookRef={currentBookRef} chapterRef={chapterRef} commentarySourceRef={commentarySourceRef} loadCommentaryData={loadCommentaryData} pagedContentRef={pagedContentRef} pagedMeasureRef={pagedMeasureRef} pagedFlipAnimRef={pagedFlipAnimRef} pagedFlipPendingRef={pagedFlipPendingRef} readerPassagesRef={readerPassagesRef} verseStudyPopupRef={verseStudyPopupRef} />}
+              {<ChapterContent chapterLoading={chapterLoading} chapterError={chapterError} chapterData={chapterData} chapterBookLabel={chapterBookLabel} pagedPageSlices={pagedPageSlices} chapterSpreadIndex={chapterSpreadIndex} animClass={animClass} setAnimClass={setAnimClass} setChapterData={setChapterData} setChapterLoading={setChapterLoading} pagedFlipAnim={pagedFlipAnim} setPagedFlipAnim={setPagedFlipAnim} aiNavHighlight={aiNavHighlight} selectedVerse={selectedVerse} setSelectedVerse={setSelectedVerse} selectedVerseGroup={selectedVerseGroup} setSelectedVerseGroup={setSelectedVerseGroup} selectedVerseData={selectedVerseData} selectedVerseKey={selectedVerseKey} selectedVerseNote={selectedVerseNote} selectedVerseHighlighted={selectedVerseHighlighted} versePopupPos={versePopupPos} setVersePopupPos={setVersePopupPos} showVerseNoteEditor={showVerseNoteEditor} setShowVerseNoteEditor={setShowVerseNoteEditor} currentNoteDraft={currentNoteDraft} setCurrentNoteDraft={setCurrentNoteDraft} closeVerseStudyPopup={closeVerseStudyPopup} toggleVerseHighlight={toggleVerseHighlight} saveVerseNote={saveVerseNote} copySelectedVerse={copySelectedVerse} tutorialVerseToolsNavBlocked={tutorialVerseToolsNavBlocked} openSidePanel={openSidePanel} setAiComposerSeed={setAiComposerSeed} recordChapterEngagement={recordChapterEngagement} chapterQuizGate={chapterQuizGate} quizTakenThisChapterVisit={quizTakenThisChapterVisit} setQuizOpen={setQuizOpen} topVisibleVerseRef={topVisibleVerseRef} exitAnimDoneRef={exitAnimDoneRef} pendingFlipDataRef={pendingFlipDataRef} biblePaneRef={biblePaneRef} sidePanelModeRef={sidePanelModeRef} currentBookRef={currentBookRef} chapterRef={chapterRef} commentarySourceRef={commentarySourceRef} loadCommentaryData={loadCommentaryData} pagedContentRef={pagedContentRef} pagedMeasureRef={pagedMeasureRef} pagedFlipAnimRef={pagedFlipAnimRef} pagedFlipPendingRef={pagedFlipPendingRef} readerPassagesRef={readerPassagesRef} verseStudyPopupRef={verseStudyPopupRef} />}
             </div>
             <div
               className={`ch-nav ch-nav-prev${chromeBottomVisible ? '' : ' chrome-hide-bottom'}${homeScreenActive ? ' home-screen-behind' : ''}${sideOpen && !sidePaneOnRight ? ' side-pane-open' : ''}`}
@@ -4467,8 +4430,6 @@ export default function BibleApp({
         setThemePickerExpanded={setThemePickerExpanded}
         currentTheme={currentTheme}
         applyTheme={applyTheme}
-        readerSettings={readerSettings}
-        setReaderSettings={setReaderSettings}
       />
 
       {/* Galaxy comet canvas — fixed overlay, clips to toolbar/gutter zones only */}

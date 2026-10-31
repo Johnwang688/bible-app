@@ -1,12 +1,10 @@
 'use client';
 
 import type { Dispatch, SetStateAction } from 'react';
-import type { Translation } from '@/features/reader/types';
 import { getTranslationDisplayId, getTranslationDisplayName } from '@/features/reader/translations';
+import { useReaderPosition } from '@/features/reader/ReaderPositionContext';
 
 export interface VersionPanelProps {
-  translations: Translation[];
-  translation: string;
   versionPopupOpen: boolean;
   setVersionPopupOpen: Dispatch<SetStateAction<boolean>>;
   versionPanelLeft: number;
@@ -14,13 +12,12 @@ export interface VersionPanelProps {
 }
 
 export default function VersionPanel({
-  translations,
-  translation,
   versionPopupOpen,
   setVersionPopupOpen,
   versionPanelLeft,
   pickTranslation,
 }: VersionPanelProps) {
+  const { translation, translations } = useReaderPosition();
   return (
     <div
       className={`popup-overlay${versionPopupOpen ? ' open' : ''}`}

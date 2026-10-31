@@ -2,22 +2,20 @@
 
 import type { Dispatch, RefObject, SetStateAction } from 'react';
 import { MasteryStrip } from '@/components/ChapterQuiz';
-import type { AuthSession } from '@/lib/account';
-import type { BookInfo, ChapterData, ReaderSettings, SidePanelMode, VerseData, VerseNote } from '@/features/reader/types';
+import type { BookInfo, ChapterData, SidePanelMode, VerseData, VerseNote } from '@/features/reader/types';
 import { READER_HIGHLIGHT_PRESETS, isPagedReadingMode } from '@/features/reader/settings';
 import { formatVerseGroupRef, splitVersesForBookMode, verseStorageKey } from '@/features/reader/layout';
+import { useReaderSettings } from '@/features/settings/ReaderSettingsContext';
+import { useAuth } from '@/features/account/AuthContext';
+import { useStudyItems } from '@/features/study/StudyItemsContext';
 import { buildExplainVersePrompt } from '@/features/ai/prompts';
+import { useReaderPosition } from '@/features/reader/ReaderPositionContext';
 
 export interface ChapterContentProps {
   chapterLoading: boolean;
   chapterError: boolean;
   chapterData: ChapterData | null;
-  chapter: number;
-  translation: string;
-  currentBook: BookInfo | null;
   chapterBookLabel: string;
-  readerSettings: ReaderSettings;
-  setReaderSettings: Dispatch<SetStateAction<ReaderSettings>>;
   pagedPageSlices: VerseData[][] | null;
   chapterSpreadIndex: number;
   animClass: string;
@@ -27,10 +25,6 @@ export interface ChapterContentProps {
   pagedFlipAnim: string;
   setPagedFlipAnim: Dispatch<SetStateAction<string>>;
   aiNavHighlight: { start: number; end: number } | null;
-  highlightedVerses: string[];
-  bookmarkedVerses: string[];
-  verseNotes: Record<string, VerseNote>;
-  setVerseNotes: Dispatch<SetStateAction<Record<string, VerseNote>>>;
   selectedVerse: number | null;
   setSelectedVerse: Dispatch<SetStateAction<number | null>>;
   selectedVerseGroup: number[];
@@ -53,7 +47,6 @@ export interface ChapterContentProps {
   openSidePanel: (mode: Exclude<SidePanelMode, 'none'>) => void;
   setAiComposerSeed: Dispatch<SetStateAction<{ id: number; text: string } | undefined>>;
   recordChapterEngagement: (bookName: string, currentChapter: number, currentTranslation: string, furthestVerse: number, totalVerses: number) => void;
-  authSession: AuthSession | null;
   chapterQuizGate: { met: boolean; hint: string | null };
   quizTakenThisChapterVisit: boolean;
   setQuizOpen: Dispatch<SetStateAction<boolean>>;
@@ -78,12 +71,7 @@ export default function ChapterContent({
   chapterLoading,
   chapterError,
   chapterData,
-  chapter,
-  translation,
-  currentBook,
   chapterBookLabel,
-  readerSettings,
-  setReaderSettings,
   pagedPageSlices,
   chapterSpreadIndex,
   animClass,
@@ -93,10 +81,6 @@ export default function ChapterContent({
   pagedFlipAnim,
   setPagedFlipAnim,
   aiNavHighlight,
-  highlightedVerses,
-  bookmarkedVerses,
-  verseNotes,
-  setVerseNotes,
   selectedVerse,
   setSelectedVerse,
   selectedVerseGroup,
@@ -119,7 +103,6 @@ export default function ChapterContent({
   openSidePanel,
   setAiComposerSeed,
   recordChapterEngagement,
-  authSession,
   chapterQuizGate,
   quizTakenThisChapterVisit,
   setQuizOpen,
@@ -139,6 +122,10 @@ export default function ChapterContent({
   readerPassagesRef,
   verseStudyPopupRef,
 }: ChapterContentProps) {
+  const { currentBook, chapter, translation } = useReaderPosition();
+  const { readerSettings, setReaderSettings } = useReaderSettings();
+  const { authSession } = useAuth();
+  const { highlightedVerses, bookmarkedVerses, verseNotes, setVerseNotes } = useStudyItems();
   if (chapterLoading) {
     return (
       <div className="state-msg">
