@@ -14,7 +14,7 @@ class AIActionType(str, Enum):
 class AIContext(BaseModel):
     book: str
     chapter: int
-    translation: str = "WEB"
+    translation: str = "BSB"
 
 
 class AIHistoryMessage(BaseModel):

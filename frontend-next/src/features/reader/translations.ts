@@ -1,14 +1,17 @@
 import type { BookInfo, Translation } from '@/features/reader/types';
 
 /** Not offered in the translation picker (may still appear in stored history / API). */
-export const TRANSLATION_PICKER_EXCLUDED_IDS = new Set(['KJV', 'BSB']);
+export const TRANSLATION_PICKER_EXCLUDED_IDS = new Set(['KJV']);
+
+/** The translation a brand-new reader starts in (readers with a saved position keep theirs). */
+export const DEFAULT_TRANSLATION = 'BSB';
 
 export function filterTranslationsForPicker(list: Translation[]): Translation[] {
   return list.filter(t => !TRANSLATION_PICKER_EXCLUDED_IDS.has(t.id.toUpperCase()));
 }
 
 export function normalizeTranslationChoice(id: string): string {
-  return TRANSLATION_PICKER_EXCLUDED_IDS.has(id.toUpperCase()) ? 'WEB' : id;
+  return TRANSLATION_PICKER_EXCLUDED_IDS.has(id.toUpperCase()) ? DEFAULT_TRANSLATION : id;
 }
 
 export function getChineseBookNameVariant(

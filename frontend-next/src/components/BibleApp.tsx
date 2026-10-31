@@ -38,7 +38,7 @@ import { parseReferenceLabel, sortBookNamesForMatching } from '@/lib/scriptureRe
 import { normalizeThemeId } from '@/lib/themes';
 
 import type { BookInfo, ChapterData, ChapterQuizVisitState, ChapterReadEvidence, CommentaryEntry, CommentarySource, ReaderSettings, SavedPassage, SearchResult, SearchSuggestion, SidePanelMode, SidePanelPosition, Translation, TutorialStep, VerseData, VerseNote } from '@/features/reader/types';
-import { filterTranslationsForPicker, getLocalizedBookName, getLocalizedBookNameFromRaw, getTranslationDisplayId, getTranslationDisplayName, normalizeTranslationChoice } from '@/features/reader/translations';
+import { DEFAULT_TRANSLATION, filterTranslationsForPicker, getLocalizedBookName, getLocalizedBookNameFromRaw, getTranslationDisplayId, getTranslationDisplayName, normalizeTranslationChoice } from '@/features/reader/translations';
 import { DEFAULT_READER_SETTINGS, applyReaderHighlightVars, detectGraphicsCapability, isPagedReadingMode, normalizeReaderSettings } from '@/features/reader/settings';
 import { biblePaneScrollDepthRatio, chapterStorageKey, closestVerseLine, formatVerseGroupRef, scrollVerseLineIntoBiblePaneCenter, sliceVersesIntoPages, verseStorageKey } from '@/features/reader/layout';
 import { computeChapterQuizRequiredDwellMs, getChapterQuizVisibleMs } from '@/features/quiz/dwell';
@@ -237,7 +237,7 @@ function BibleAppInner({
   const booksRef               = useRef<BookInfo[]>([]);
   const currentBookRef         = useRef<BookInfo | null>(null);
   const chapterRef             = useRef(1);
-  const translationRef         = useRef('WEB');
+  const translationRef         = useRef(DEFAULT_TRANSLATION);
   const sidePanelModeRef       = useRef<SidePanelMode>('none');
   const sidePanelPositionRef   = useRef<SidePanelPosition>('right');
   const commentarySourceRef    = useRef('summary');
@@ -277,6 +277,9 @@ function BibleAppInner({
   const syncReadyRef        = useRef(false);
   const hydratingAccountRef = useRef(false);
   const accountBootstrapRef = useRef(false);
+  // Whether this device had a saved reading position when the app started (set once by the init effect).
+  // The position effect writes one on every change, so "has one now" cannot tell a new device apart.
+  const startedWithSavedPositionRef = useRef(false);
   const initStartedRef = useRef(false);
   const chapterEngagementRef = useRef<{ key: string; lastInteractionAt: number | null }>({
     key: '',
@@ -1236,11 +1239,11 @@ function BibleAppInner({
         goToHome();
         break;
       case 'reader':
-        navigateToPassage('John', 3, 'WEB');
+        navigateToPassage('John', 3, translationRef.current);
         openReaderFromHome('none');
         break;
       case 'verse-tools':
-        navigateToPassage('John', 3, 'WEB', TUTORIAL_VERSE_TOOLS_VERSE);
+        navigateToPassage('John', 3, translationRef.current, TUTORIAL_VERSE_TOOLS_VERSE);
         openReaderFromHome('none');
         setSelectedVerse(null);
         setSelectedVerseGroup([]);
@@ -1251,11 +1254,11 @@ function BibleAppInner({
         openSearchFromTutorial();
         break;
       case 'commentary':
-        navigateToPassage('John', 3, 'WEB', TUTORIAL_VERSE_TOOLS_VERSE);
+        navigateToPassage('John', 3, translationRef.current, TUTORIAL_VERSE_TOOLS_VERSE);
         openReaderFromHome('commentary');
         break;
       case 'ai':
-        navigateToPassage('John', 3, 'WEB', TUTORIAL_VERSE_TOOLS_VERSE);
+        navigateToPassage('John', 3, translationRef.current, TUTORIAL_VERSE_TOOLS_VERSE);
         openReaderFromHome('ai');
         setAiComposerSeed({
           id: Date.now(),
@@ -1263,7 +1266,7 @@ function BibleAppInner({
         });
         break;
       case 'study':
-        navigateToPassage('John', 3, 'WEB', TUTORIAL_VERSE_TOOLS_VERSE);
+        navigateToPassage('John', 3, translationRef.current, TUTORIAL_VERSE_TOOLS_VERSE);
         openStudyFromTutorial();
         break;
       case 'settings':
@@ -2311,22 +2314,38 @@ function BibleAppInner({
       sidePanelPosition: settings.side_panel_position ?? prev.sidePanelPosition,
       graphicsMode: prev.graphicsMode,
     }));
+    const restorePosition = (
+      book: BookInfo | undefined,
+      chapterNumber: number,
+      translationId: string,
+    ) => {
+      if (!book) return;
+      const t = normalizeTranslationChoice(translationId);
+      setCurrentBook(book);
+      setChapter(chapterNumber);
+      setTranslation(t);
+      void loadChapter(book, chapterNumber, t);
+    };
+    const recentPassage = settings.recent_passages?.[0];
     if (progressItems.length > 0) {
       const latest = progressItems[0];
-      const book = booksByNumber.get(latest.book_number);
-      if (book) {
-        const t = normalizeTranslationChoice(latest.translation);
-        setCurrentBook(book);
-        setChapter(latest.chapter);
-        setTranslation(t);
-        void loadChapter(book, latest.chapter, t);
-      }
+      restorePosition(booksByNumber.get(latest.book_number), latest.chapter, latest.translation);
+    } else if (recentPassage && !startedWithSavedPositionRef.current) {
+      // Only a device that started without its own saved position adopts synced history.
+      const bookName = recentPassage.book.toLowerCase();
+      restorePosition(
+        booksByName.get(bookName) ?? books.find(b =>
+          b.name_zh?.toLowerCase() === bookName
+          || b.name_zh_simplified?.toLowerCase() === bookName),
+        recentPassage.chapter,
+        recentPassage.translation,
+      );
     }
     queueMicrotask(() => {
       hydratingAccountRef.current = false;
       syncReadyRef.current = true;
     });
-  }, [booksByNumber, loadChapter]);
+  }, [books, booksByName, booksByNumber, loadChapter]);
 
   const syncAccountState = useCallback(async (session: AuthSession) => {
     if (!books.length) return;
@@ -3445,6 +3464,7 @@ function BibleAppInner({
     // Read theme from localStorage (inline script already applied it to the DOM)
     const saved = normalizeThemeId(localStorage.getItem('theme'));
     const storedLastPosition = readStoredLastPosition();
+    startedWithSavedPositionRef.current = storedLastPosition !== null;
     const storedReaderSettings = readStoredReaderSettings();
     setCurrentTheme(saved);
     localStorage.setItem('theme', saved);
@@ -3459,7 +3479,7 @@ function BibleAppInner({
       try {
         const [booksData, translationsData, sourcesData] = await Promise.all([
           fetch('/api/v1/books').then(r => r.json()) as Promise<BookInfo[]>,
-          fetch('/api/v1/translations').then(r => r.json()).catch(() => [{ id: 'WEB', name: 'World English Bible' }]) as Promise<Translation[]>,
+          fetch('/api/v1/translations').then(r => r.json()).catch(() => [{ id: DEFAULT_TRANSLATION, name: 'Berean Standard Bible' }]) as Promise<Translation[]>,
           fetch('/api/v1/commentary/sources').then(r => r.json()).catch(() => []) as Promise<CommentarySource[]>,
         ]);
         setBooks(booksData);
@@ -3472,7 +3492,7 @@ function BibleAppInner({
             return next;
           });
         }
-        const initialTranslation = normalizeTranslationChoice(storedLastPosition?.translation ?? 'WEB');
+        const initialTranslation = normalizeTranslationChoice(storedLastPosition?.translation ?? DEFAULT_TRANSLATION);
         const urlBookName = initialReader?.book?.trim();
         const urlChapter = initialReader?.chapter;
         const urlChapterNum =

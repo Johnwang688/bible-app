@@ -4,6 +4,8 @@ import aiEntityContent from './ai-entity-content.json';
 import aiGuidedChapter from './ai-guided-chapter.json';
 import aiGuidedSections from './ai-guided-sections.json';
 import authSession from './auth-session.json';
+import chapterGenesis1Bsb from './chapter-genesis-1-bsb.json';
+import chapterJohn3Bsb from './chapter-john-3-bsb.json';
 import me from './me.json';
 import quizJohn3 from './quiz-john-3.json';
 import quizMasteryOverview from './quiz-mastery-overview.json';
@@ -95,6 +97,15 @@ function resolve(req: Request, calls: MockCalls): Fulfill | null {
   if (path === '/user-settings') {
     if (method === 'PUT') return { json: { ...userSettings, ...(bodyOf(req) as object) } };
     return { json: userSettings };
+  }
+
+  // ── BSB chapters (HG-3b): recorded with the real backend; the HAR has only WEB ──
+  const chapterMatch = /^\/chapters\/([^/]+)\/(\d+)$/.exec(path);
+  if (chapterMatch && method === 'GET' && new URL(req.url()).searchParams.get('translation') === 'BSB') {
+    const book = decodeURIComponent(chapterMatch[1]);
+    const chapter = Number(chapterMatch[2]);
+    if (book === 'Genesis' && chapter === 1) return { json: chapterGenesis1Bsb };
+    if (book === 'John' && chapter === 3) return { json: chapterJohn3Bsb };
   }
 
   // ── Quiz + wallet ──

@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { DEFAULT_TRANSLATION } from '@/features/reader/translations';
+import { readStoredLastPosition } from '@/lib/localState';
 
 function safeReaderReturnHref(raw: string | null): string {
   if (!raw || typeof raw !== 'string') return '/app';
@@ -327,9 +329,10 @@ export default function SummaryEntityPage({
     const msg = chatInput.trim();
     if (!msg || chatLoading || !data) return;
     const firstRef = data.references[0];
+    const readerTranslation = readStoredLastPosition()?.translation ?? DEFAULT_TRANSLATION;
     const ctx = firstRef
-      ? { book: firstRef.book_name, chapter: firstRef.chapter, translation: 'WEB' }
-      : { book: 'Genesis', chapter: 1, translation: 'WEB' };
+      ? { book: firstRef.book_name, chapter: firstRef.chapter, translation: readerTranslation }
+      : { book: 'Genesis', chapter: 1, translation: readerTranslation };
     const newHistory: AIMessage[] = [...history, { role: 'user', content: msg }];
     setHistory(newHistory);
     setChatInput('');
