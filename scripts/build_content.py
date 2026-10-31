@@ -147,16 +147,29 @@ def _verify_source(source_dir: Path) -> str:
     """
     manifest_path = source_dir / "MANIFEST.json"
     try:
-        files = json.loads(manifest_path.read_text(encoding="utf-8"))["files"]
-    except (OSError, ValueError, KeyError) as exc:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        files = manifest["files"]
+    except (OSError, ValueError, KeyError, TypeError) as exc:
         raise BuildError(f"MANIFEST.json: cannot read manifest ({exc})") from exc
     if not isinstance(files, dict):
         raise BuildError("MANIFEST.json: 'files' must be an object")
+    declared_counts = manifest.get("tables", {})
+    if not isinstance(declared_counts, dict):
+        raise BuildError("MANIFEST.json: 'tables' must be an object")
 
     root = source_dir.resolve()
     for relative in files:
         if Path(relative).is_absolute() or not _inside(source_dir / relative, root):
             raise BuildError(f"{relative}: manifest path escapes {source_dir}")
+
+    # An optional table the manifest mentions anywhere (a files entry or a tables count of any
+    # value) is declared: its file must exist, so a build can never silently ship it empty.
+    for table in sorted(OPTIONAL_TABLES):
+        relative = _table_file(table)
+        if (relative in files or table in declared_counts) and not (source_dir / relative).is_file():
+            raise BuildError(
+                f"{table}: declared in MANIFEST.json but {relative} is missing from {source_dir}"
+            )
 
     # Table files are always read; verse files are whatever sits in verses/.
     read = [
