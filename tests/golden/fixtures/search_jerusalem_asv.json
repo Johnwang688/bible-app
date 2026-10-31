@@ -1,7 +1,7 @@
 {
   "body": [
     {
-      "relevance": 5.292103339379999,
+      "relevance": 5.265379223132384,
       "verse": {
         "book": "Isaiah",
         "book_number": 23,
@@ -13,7 +13,7 @@
       }
     },
     {
-      "relevance": 5.292103339379999,
+      "relevance": 5.265379223132384,
       "verse": {
         "book": "Acts",
         "book_number": 44,
@@ -25,7 +25,7 @@
       }
     },
     {
-      "relevance": 5.169863326581697,
+      "relevance": 5.142077969642041,
       "verse": {
         "book": "Ezra",
         "book_number": 15,
@@ -37,7 +37,7 @@
       }
     },
     {
-      "relevance": 4.996737113011983,
+      "relevance": 4.967586370734365,
       "verse": {
         "book": "1 Kings",
         "book_number": 11,
@@ -49,7 +49,7 @@
       }
     },
     {
-      "relevance": 4.980406148524809,
+      "relevance": 4.959731633957544,
       "verse": {
         "book": "Psalms",
         "book_number": 19,
