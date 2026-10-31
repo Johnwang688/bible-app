@@ -277,6 +277,9 @@ function BibleAppInner({
   const syncReadyRef        = useRef(false);
   const hydratingAccountRef = useRef(false);
   const accountBootstrapRef = useRef(false);
+  // Whether this device had a saved reading position when the app started (set once by the init effect).
+  // The position effect writes one on every change, so "has one now" cannot tell a new device apart.
+  const startedWithSavedPositionRef = useRef(false);
   const initStartedRef = useRef(false);
   const chapterEngagementRef = useRef<{ key: string; lastInteractionAt: number | null }>({
     key: '',
@@ -2327,9 +2330,13 @@ function BibleAppInner({
     if (progressItems.length > 0) {
       const latest = progressItems[0];
       restorePosition(booksByNumber.get(latest.book_number), latest.chapter, latest.translation);
-    } else if (recentPassage) {
+    } else if (recentPassage && !startedWithSavedPositionRef.current) {
+      // Only a device that started without its own saved position adopts synced history.
+      const bookName = recentPassage.book.toLowerCase();
       restorePosition(
-        booksByName.get(recentPassage.book.toLowerCase()),
+        booksByName.get(bookName) ?? books.find(b =>
+          b.name_zh?.toLowerCase() === bookName
+          || b.name_zh_simplified?.toLowerCase() === bookName),
         recentPassage.chapter,
         recentPassage.translation,
       );
@@ -2338,7 +2345,7 @@ function BibleAppInner({
       hydratingAccountRef.current = false;
       syncReadyRef.current = true;
     });
-  }, [booksByName, booksByNumber, loadChapter]);
+  }, [books, booksByName, booksByNumber, loadChapter]);
 
   const syncAccountState = useCallback(async (session: AuthSession) => {
     if (!books.length) return;
@@ -3457,6 +3464,7 @@ function BibleAppInner({
     // Read theme from localStorage (inline script already applied it to the DOM)
     const saved = normalizeThemeId(localStorage.getItem('theme'));
     const storedLastPosition = readStoredLastPosition();
+    startedWithSavedPositionRef.current = storedLastPosition !== null;
     const storedReaderSettings = readStoredReaderSettings();
     setCurrentTheme(saved);
     localStorage.setItem('theme', saved);
