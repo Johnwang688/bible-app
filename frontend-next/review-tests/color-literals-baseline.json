@@ -1,0 +1,11 @@
+{
+  "src/app/LandingClient.tsx": 247,
+  "src/app/globals.css": 1095,
+  "src/app/signin/page.tsx": 69,
+  "src/components/AiSidebar.tsx": 13,
+  "src/components/BibleApp.tsx": 12,
+  "src/components/LandingHero.module.css": 19,
+  "src/features/reader/settings.ts": 21,
+  "src/features/settings/themeHelpers.ts": 10,
+  "src/lib/themes.ts": 82
+}

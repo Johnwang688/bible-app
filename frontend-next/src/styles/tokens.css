@@ -1,0 +1,53 @@
+/*
+ * Design tokens (VI-1). Semantic layer over the legacy theme variables in globals.css.
+ *
+ * The theme attribute sits on <html>, which is :root, so these var() references
+ * resolve per theme with no per-theme blocks. New components use only
+ * --color-*, --font-*, --radius-* and --space-*. No colour literals in this file
+ * (enforced by review-tests/color-literals.test.cjs), and no legacy variable is
+ * redefined here.
+ */
+:root {
+  /* Surfaces */
+  --color-surface-0: var(--bg);              /* page canvas */
+  --color-surface-1: var(--panel);           /* panels, cards */
+  --color-surface-2: var(--panel-2);         /* nested / secondary panels */
+  --color-surface-popover: var(--popup-bg);  /* popovers, popups */
+  --color-surface-hover: var(--list-hover);  /* row hover */
+  --color-surface-selected: var(--list-active); /* selected row */
+
+  /* Text */
+  --color-text-primary: var(--text);         /* body text */
+  --color-text-secondary: var(--muted);      /* supporting text */
+  --color-text-muted: var(--rdrlabel);       /* labels, captions */
+  --color-verse-number: var(--vnum);         /* verse numbers */
+
+  /* Accent */
+  --color-accent: var(--accent);             /* links, active states, icons */
+  --color-accent-soft: var(--accent-soft);   /* accent tint backgrounds */
+  --color-on-accent: var(--panel);           /* text on an accent fill */
+
+  /* Lines, focus, highlight */
+  --color-line: var(--line);                 /* borders, dividers */
+  --color-line-soft: var(--line-soft);       /* faint dividers */
+  --color-focus: var(--accent);              /* focus ring */
+  --color-highlight: var(--reader-highlight-bg); /* verse highlight */
+
+  /* Fonts */
+  --font-ui: var(--ui);                      /* interface text */
+  --font-scripture: var(--serif);            /* Scripture text */
+  --font-hebrew: var(--font-hebrew-face), "Noto Serif Hebrew", "SBL Hebrew", serif; /* Hebrew words */
+  --font-greek: var(--font-greek-face), "Gentium Book Plus", "Gentium Plus", serif; /* Greek words */
+
+  /* Radii */
+  --radius-control: 8px;                     /* buttons, inputs */
+  --radius-card: 12px;                       /* cards, panels */
+
+  /* Spacing scale */
+  --space-1: 4px;                            /* tight gaps */
+  --space-2: 8px;                            /* small gaps */
+  --space-3: 12px;                           /* default gaps */
+  --space-4: 16px;                           /* section padding */
+  --space-5: 24px;                           /* large gaps */
+  --space-6: 32px;                           /* page-level spacing */
+}

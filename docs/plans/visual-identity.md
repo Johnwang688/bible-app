@@ -35,3 +35,35 @@
 ## Open
 - Which of the 20 current themes become accent hues (John's keep/cut picks).
 - Naming and a logo or wordmark, and the app's voice for teens.
+
+## Token reference (VI-1)
+Tokens live in `frontend-next/src/styles/tokens.css`, declared on `:root`. In VI-1 each colour token is a bridge to today's legacy theme variable, so it resolves correctly in all 20 themes. VI-2 replaces the bridge values with the new identity; the names stay.
+
+**Rule:** new components use only `--color-*`, `--font-*`, `--radius-*` and `--space-*`. No colour literals: `review-tests/color-literals.test.cjs` blocks new ones and any increase over `review-tests/color-literals-baseline.json`.
+
+| Token | VI-1 value (bridge) | Purpose |
+|---|---|---|
+| `--color-surface-0` | `var(--bg)` | page canvas |
+| `--color-surface-1` | `var(--panel)` | panels, cards |
+| `--color-surface-2` | `var(--panel-2)` | nested / secondary panels |
+| `--color-surface-popover` | `var(--popup-bg)` | popovers, popups |
+| `--color-surface-hover` | `var(--list-hover)` | row hover |
+| `--color-surface-selected` | `var(--list-active)` | selected row |
+| `--color-text-primary` | `var(--text)` | body text |
+| `--color-text-secondary` | `var(--muted)` | supporting text |
+| `--color-text-muted` | `var(--rdrlabel)` | labels, captions |
+| `--color-verse-number` | `var(--vnum)` | verse numbers |
+| `--color-accent` | `var(--accent)` | accent (links, active, icons) |
+| `--color-accent-soft` | `var(--accent-soft)` | accent tint backgrounds |
+| `--color-on-accent` | `var(--panel)` | text on an accent fill |
+| `--color-line` | `var(--line)` | borders, dividers |
+| `--color-line-soft` | `var(--line-soft)` | faint dividers |
+| `--color-focus` | `var(--accent)` | focus ring |
+| `--color-highlight` | `var(--reader-highlight-bg)` | verse highlight |
+| `--font-ui` | `var(--ui)` | interface text |
+| `--font-scripture` | `var(--serif)` | Scripture text |
+| `--font-hebrew` | Noto Serif Hebrew via next/font | Hebrew words |
+| `--font-greek` | Gentium Book Plus via next/font | Greek words |
+| `--radius-control` | `8px` | buttons, inputs |
+| `--radius-card` | `12px` | cards, panels |
+| `--space-1` … `--space-6` | `4px 8px 12px 16px 24px 32px` | spacing scale |
