@@ -19,6 +19,7 @@ Tests: 255 backend (golden responses run offline in the default suite), 39 Playw
 **Next (John, 2026-10-30):** Hebrew and Greek, commentary, app UI and performance; then the agent rework (W3).
 
 **Found and still open:**
+- **Content build: a table declared with count 0 can have no file** (HG-1 review round 3, deferred by John 2026-10-31). The "declared means required" check covers only `bsb_words` and `lexicon`. A hand-edited manifest declaring `verses: 0` with no verse file builds an empty table. The real manifest can't trigger it, because it declares 155,491 verses and counts are enforced. Fix: apply the check to every table. Failing test saved in `bible-app-work/hg/followup-zero-count-test.py`.
 - **Quiz bank drift.** The served bank does not match `quiz-questions/*.json`. 1/2 Samuel and Joshua serve template-generated questions, while better authored ones go unused. Genesis serves 178 of 2,500 authored questions; Proverbs, 2 Kings and 1 Chronicles serve none. The un-timestamped migrations `039_` to `061_` were probably never applied. **Deferred (John, 2026-10-30):** the authored questions were bulk-generated without QA and most are poor, so the quiz bank is revisited after the other core features, not rebuilt from the JSON now.
 - **Missing content.** TSK cross-references were never loaded, and KJV/BSB have no text.
 
