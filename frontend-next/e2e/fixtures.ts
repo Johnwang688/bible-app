@@ -20,9 +20,23 @@ const UPDATE_HAR = process.env.UPDATE_HAR === '1';
 /** Fixed start time so the home-screen greeting (morning/afternoon/evening) never depends on the real clock. */
 const PINNED_NOW = new Date('2026-03-10T10:00:00');
 
-export const test = base.extend<{ calls: MockCalls }>({
+/**
+ * The app's default translation is BSB, but the suite's HAR and text assertions were recorded in WEB.
+ * Unless a spec opts out with `test.use({ seedWebPosition: false })`, every page starts with a saved
+ * position of Genesis 1 in WEB, which reproduces the old default exactly. Specs that seed their own
+ * position still win: their init scripts run after this one.
+ */
+export const test = base.extend<{ calls: MockCalls; seedWebPosition: boolean }>({
+  seedWebPosition: [true, { option: true }],
   // auto: network wiring is installed for every test, whether or not it asks for `calls`.
-  calls: [async ({ page }, use, testInfo) => {
+  calls: [async ({ page, seedWebPosition }, use, testInfo) => {
+    if (seedWebPosition) {
+      await page.addInitScript(() => {
+        if (localStorage.getItem('bible-app-last-position') === null) {
+          localStorage.setItem('bible-app-last-position', JSON.stringify({ book: 'Genesis', chapter: 1, translation: 'WEB' }));
+        }
+      });
+    }
     const apiFailures: string[] = [];
     page.on('requestfailed', (req) => {
       // ERR_FAILED is what a HAR miss (notFound: 'abort') produces; ERR_ABORTED is a navigation cancelling a fetch.
