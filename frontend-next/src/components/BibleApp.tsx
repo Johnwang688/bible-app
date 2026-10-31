@@ -2311,22 +2311,34 @@ function BibleAppInner({
       sidePanelPosition: settings.side_panel_position ?? prev.sidePanelPosition,
       graphicsMode: prev.graphicsMode,
     }));
+    const restorePosition = (
+      book: BookInfo | undefined,
+      chapterNumber: number,
+      translationId: string,
+    ) => {
+      if (!book) return;
+      const t = normalizeTranslationChoice(translationId);
+      setCurrentBook(book);
+      setChapter(chapterNumber);
+      setTranslation(t);
+      void loadChapter(book, chapterNumber, t);
+    };
+    const recentPassage = settings.recent_passages?.[0];
     if (progressItems.length > 0) {
       const latest = progressItems[0];
-      const book = booksByNumber.get(latest.book_number);
-      if (book) {
-        const t = normalizeTranslationChoice(latest.translation);
-        setCurrentBook(book);
-        setChapter(latest.chapter);
-        setTranslation(t);
-        void loadChapter(book, latest.chapter, t);
-      }
+      restorePosition(booksByNumber.get(latest.book_number), latest.chapter, latest.translation);
+    } else if (recentPassage) {
+      restorePosition(
+        booksByName.get(recentPassage.book.toLowerCase()),
+        recentPassage.chapter,
+        recentPassage.translation,
+      );
     }
     queueMicrotask(() => {
       hydratingAccountRef.current = false;
       syncReadyRef.current = true;
     });
-  }, [booksByNumber, loadChapter]);
+  }, [booksByName, booksByNumber, loadChapter]);
 
   const syncAccountState = useCallback(async (session: AuthSession) => {
     if (!books.length) return;
