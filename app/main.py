@@ -71,6 +71,8 @@ from app.services.bible_service import (
     search_verses,
 )
 from app.services.commentary_service import get_commentary, list_commentary_sources
+from app.schemas.words import LexiconEntryOut, VerseWordsOut
+from app.services.word_service import get_lexicon_entry, get_verse_words
 from app.schemas.quiz import (
     ChapterProgressOut,
     ChapterQuizOut,
@@ -215,6 +217,26 @@ async def read_verse_range(
     if not verses:
         raise HTTPException(status_code=404, detail="Verse range not found")
     return verses
+
+
+@app.get(
+    "/api/v1/words/{book}/{chapter}/{verse}",
+    response_model=VerseWordsOut,
+    tags=["bible"],
+)
+def read_verse_words(book: str, chapter: int, verse: int) -> VerseWordsOut:
+    data = get_verse_words(book=book, chapter=chapter, verse=verse)
+    if data is None:
+        raise HTTPException(status_code=404, detail="Verse not found")
+    return data
+
+
+@app.get("/api/v1/lexicon/{strongs}", response_model=LexiconEntryOut, tags=["bible"])
+def read_lexicon_entry(strongs: str) -> LexiconEntryOut:
+    entry = get_lexicon_entry(strongs)
+    if entry is None:
+        raise HTTPException(status_code=404, detail="Lexicon entry not found")
+    return entry
 
 
 @app.post("/api/v1/search", response_model=list[SearchResult], tags=["bible"])

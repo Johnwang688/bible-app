@@ -58,4 +58,9 @@ REQUESTS: list[dict] = [
     # Guided-chapter sections (deterministic, derived from commentary intervals)
     {"name": "guided_sections_john3", "method": "GET", "path": "/api/v1/ai/guided-chapter/sections", "params": {"book": "John", "chapter": 3}},
     {"name": "guided_sections_genesis1", "method": "GET", "path": "/api/v1/ai/guided-chapter/sections", "params": {"book": "Genesis", "chapter": 1}},
+    # Original words and lexicon (HG-2)
+    {"name": "words_john3_16", "method": "GET", "path": "/api/v1/words/John/3/16"},
+    {"name": "words_genesis1_1", "method": "GET", "path": "/api/v1/words/Genesis/1/1"},
+    {"name": "lexicon_g0025", "method": "GET", "path": "/api/v1/lexicon/G0025"},
+    {"name": "lexicon_missing", "method": "GET", "path": "/api/v1/lexicon/X0025"},
 ]

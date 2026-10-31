@@ -1,0 +1,122 @@
+{
+  "body": {
+    "book": "Genesis",
+    "book_number": 1,
+    "chapter": 1,
+    "translation": "BSB",
+    "verse": 1,
+    "words": [
+      {
+        "english": "In the beginning",
+        "english_kind": "text",
+        "english_order": 1,
+        "footnote": null,
+        "gloss": "first: beginning",
+        "grammar": "in/with + noun · singular",
+        "language": "hebrew",
+        "lemma": "רֵאשִׁית",
+        "original": "בְּרֵאשִׁ֖ית",
+        "parsing": "Preposition-b | Noun - feminine singular",
+        "parsing_code": "Prep-b | N-fs",
+        "strongs": "H7225",
+        "translit": "bə·rê·šîṯ"
+      },
+      {
+        "english": "God",
+        "english_kind": "text",
+        "english_order": 2,
+        "footnote": null,
+        "gloss": "God",
+        "grammar": "noun · plural",
+        "language": "hebrew",
+        "lemma": "אֱלֹהִים",
+        "original": "אֱלֹהִ֑ים",
+        "parsing": "Noun - masculine plural",
+        "parsing_code": "N-mp",
+        "strongs": "H0430",
+        "translit": "’ĕ·lō·hîm"
+      },
+      {
+        "english": null,
+        "english_kind": "untranslated",
+        "english_order": 3,
+        "footnote": null,
+        "gloss": "[Obj.]",
+        "grammar": "object marker (not translated)",
+        "language": "hebrew",
+        "lemma": "אֵת",
+        "original": "אֵ֥ת",
+        "parsing": "Direct object marker",
+        "parsing_code": "DirObjM",
+        "strongs": "H0853",
+        "translit": "’êṯ"
+      },
+      {
+        "english": "created",
+        "english_kind": "text",
+        "english_order": 4,
+        "footnote": null,
+        "gloss": "to create",
+        "grammar": "verb · completed action · he",
+        "language": "hebrew",
+        "lemma": "בָּרָא",
+        "original": "בָּרָ֣א",
+        "parsing": "Verb - Qal - Perfect - third person masculine singular",
+        "parsing_code": "V-Qal-Perf-3ms",
+        "strongs": "H1254",
+        "translit": "bā·rā"
+      },
+      {
+        "english": "the heavens",
+        "english_kind": "text",
+        "english_order": 5,
+        "footnote": null,
+        "gloss": "heaven",
+        "grammar": "the + noun · plural",
+        "language": "hebrew",
+        "lemma": "שָׁמַיִם",
+        "original": "הַשָּׁמַ֖יִם",
+        "parsing": "Article | Noun - masculine plural",
+        "parsing_code": "Art | N-mp",
+        "strongs": "H8064",
+        "translit": "haš·šā·ma·yim"
+      },
+      {
+        "english": "and",
+        "english_kind": "text",
+        "english_order": 6,
+        "footnote": null,
+        "gloss": "[Obj.]",
+        "grammar": "and + object marker (not translated)",
+        "language": "hebrew",
+        "lemma": "אֵת",
+        "original": "וְאֵ֥ת",
+        "parsing": "Conjunctive waw | Direct object marker",
+        "parsing_code": "Conj-w | DirObjM",
+        "strongs": "H0853",
+        "translit": "wə·’êṯ"
+      },
+      {
+        "english": "the earth",
+        "english_kind": "text",
+        "english_order": 7,
+        "footnote": null,
+        "gloss": "land: country/planet",
+        "grammar": "the + noun · singular",
+        "language": "hebrew",
+        "lemma": "אֶ֫רֶץ",
+        "original": "הָאָֽרֶץ׃",
+        "parsing": "Article | Noun - feminine singular",
+        "parsing_code": "Art | N-fs",
+        "strongs": "H0776",
+        "translit": "hā·’ā·reṣ"
+      }
+    ]
+  },
+  "request": {
+    "method": "GET",
+    "name": "words_genesis1_1",
+    "path": "/api/v1/words/Genesis/1/1"
+  },
+  "status": 200
+}
