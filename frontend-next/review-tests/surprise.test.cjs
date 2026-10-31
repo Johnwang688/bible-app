@@ -10,7 +10,9 @@ vm.runInNewContext(ts.transpileModule(
   fs.readFileSync('src/features/progress/surprise.ts', 'utf8'),
   { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 } },
 ).outputText, { module: mod, exports: mod.exports, require });
-const { pickSurpriseChapter, chapterReadKey, SURPRISE_UNREAD_WEIGHT } = mod.exports;
+const { chapterReadKey, SURPRISE_UNREAD_WEIGHT } = mod.exports;
+// The module runs in another vm realm; copy each pick into this realm so strict deep-equal compares values only.
+const pickSurpriseChapter = (...args) => ({ ...mod.exports.pickSurpriseChapter(...args) });
 
 const COUNTS = [50, 40, 27, 36, 34, 24, 21, 4, 31, 24, 22, 25, 29, 36, 10, 13, 10, 42, 150, 31, 12, 8, 66, 52, 5, 48, 12, 14, 3, 9, 1, 4, 7, 3, 3, 3, 2, 14, 4, 28, 16, 24, 21, 28, 16, 16, 13, 6, 6, 4, 4, 5, 3, 6, 4, 3, 1, 13, 5, 5, 3, 5, 1, 1, 1, 22];
 const BIBLE = COUNTS.map((total_chapters, i) => ({ book_number: i + 1, total_chapters }));

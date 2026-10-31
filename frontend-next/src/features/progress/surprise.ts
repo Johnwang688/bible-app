@@ -13,15 +13,6 @@ export function chapterReadKey(bookNumber: number, chapter: number): string {
   return `${bookNumber}:${chapter}`;
 }
 
-/**
- * Builds the result with the same prototype as the caller's own objects. For plain objects this is just
- * `{ book_number, chapter }`; it matters only when the module is evaluated in another realm (the unit test's
- * bare `vm` context), where an object literal would get that realm's Object.prototype and fail a strict deep-equal.
- */
-function makeRef(like: object, book_number: number, chapter: number): ChapterRef {
-  return Object.assign(Object.create(Object.getPrototypeOf(like)), { book_number, chapter }) as ChapterRef;
-}
-
 export function pickSurpriseChapter(
   books: SurpriseBook[],
   read: ReadonlySet<string>,
@@ -49,8 +40,8 @@ export function pickSurpriseChapter(
   if (unreadCount > 0 && branch < SURPRISE_UNREAD_WEIGHT) {
     const book = unreadByBook[Math.floor(random() * unreadByBook.length)];
     const chapter = book.chapters[Math.floor(random() * book.chapters.length)];
-    return makeRef(books[0], book.book_number, chapter);
+    return { book_number: book.book_number, chapter };
   }
   const any = all[Math.floor(random() * all.length)];
-  return makeRef(books[0], any.book_number, any.chapter);
+  return any;
 }
