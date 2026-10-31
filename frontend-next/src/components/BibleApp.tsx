@@ -584,10 +584,12 @@ function BibleAppInner({
   }, []);
 
   // ── Chapter loading ────────────────────────────────────────────────────────────
+  const chapterLoadSeqRef = useRef(0);
   const loadChapter = useCallback(async (
     book: BookInfo, ch: number, trans: string, direction: 'next' | 'prev' | null = null,
     opts?: { fromAiNavigate?: boolean },
   ) => {
+    const seq = ++chapterLoadSeqRef.current;
     if (!opts?.fromAiNavigate) {
       pendingAiNavRef.current = null;
       setAiNavHighlight(null);
@@ -615,6 +617,8 @@ function BibleAppInner({
         `/api/v1/chapters/${encodeURIComponent(book.name)}/${ch}?translation=${encodeURIComponent(trans)}`
       ).then(r => { if (!r.ok) throw new Error(); return r.json(); });
 
+      if (seq !== chapterLoadSeqRef.current) return;
+
       if (useFlip) {
         if (exitAnimDoneRef.current) {
           // Exit animation already finished — show new content immediately
@@ -638,6 +642,7 @@ function BibleAppInner({
         }
       }
     } catch {
+      if (seq !== chapterLoadSeqRef.current) return;
       pendingAiNavRef.current = null;
       pendingFlipDataRef.current = null;
       setChapterError(true);
@@ -1810,6 +1815,7 @@ function BibleAppInner({
   };
 
   const handleSurpriseMe = () => {
+    if (books.length === 0) return;
     const current = currentBook ? { book_number: currentBook.book_number, chapter } : null;
     const pick = pickSurpriseChapter(books, chaptersRead, current, Math.random);
     const book = booksByNumber.get(pick.book_number);
@@ -3896,6 +3902,7 @@ function BibleAppInner({
           dailyVerse={dailyVerse}
           handleDailyVerseRefClick={handleDailyVerseRefClick}
           handleSurpriseMe={handleSurpriseMe}
+          surpriseDisabled={books.length === 0}
           dailyRewardsStatus={dailyRewardsStatus}
           minutesTowardGoal={minutesTowardGoal}
           taskChapterDone={taskChapterDone}

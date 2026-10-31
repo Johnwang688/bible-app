@@ -23,6 +23,7 @@ export interface HomeScreenProps {
   dailyVerse: DailyVerse;
   handleDailyVerseRefClick: () => Promise<void>;
   handleSurpriseMe: () => void;
+  surpriseDisabled: boolean;
   dailyRewardsStatus: { verse_claimed: boolean; tasks_claimed: boolean } | null;
   minutesTowardGoal: number;
   taskChapterDone: boolean;
@@ -52,6 +53,7 @@ export default function HomeScreen({
   dailyVerse,
   handleDailyVerseRefClick,
   handleSurpriseMe,
+  surpriseDisabled,
   dailyRewardsStatus,
   minutesTowardGoal,
   taskChapterDone,
@@ -156,7 +158,7 @@ export default function HomeScreen({
                 {exploredChapters.toLocaleString('en-US')} of {totalChapters.toLocaleString('en-US')} chapters explored
               </p>
             </div>
-            <button type="button" className={styles.surpriseButton} onClick={handleSurpriseMe}>
+            <button type="button" className={styles.surpriseButton} onClick={handleSurpriseMe} disabled={surpriseDisabled}>
               Surprise me
             </button>
           </section>
