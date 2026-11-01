@@ -219,9 +219,9 @@ export function toTheme(id: PresetId, canvas: CanvasTokens): Theme {
   const s = findSource(id);
   const style: ThemeStyle = s.style;
   const mode: ThemeMode = s.mode;
-  const base = s.style === 'pastel' ? s.palette.bg : s.palette.base;
+  const app = toBackground(canvas.bg);
   const colors: ThemeColors = {
-    base,
+    base: app.backgroundColor,
     text: canvas.text,
     muted: canvas.muted,
     accent: canvas.accent,
@@ -244,7 +244,7 @@ export function toTheme(id: PresetId, canvas: CanvasTokens): Theme {
     canvas,
     colors,
     backgrounds: {
-      app: toBackground(canvas.bg),
+      app,
       reader: toBackground(canvas.readerBg ?? canvas.bg),
       surface: toBackground(canvas.surface),
       chip: toBackground(canvas.chip),
