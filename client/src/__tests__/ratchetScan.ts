@@ -144,7 +144,9 @@ function leftmostOfPlus(n: ts.Node): ts.Node {
 
 /**
  * Raw colours among the values a colour property can take: through conditionals (both branches),
- * `&&` / `||` / `??` (both sides), wrappers, and `'#' + part` (a hex colour built by concatenation).
+ * `&&` / `||` / `??` (both sides), wrappers, `'#' + part` (a hex colour built by concatenation), and
+ * selections: call/`new` arguments, object-literal values, array elements, and the object of an
+ * element access. Callees, keys, indexes, function bodies and type nodes are never walked.
  */
 function colourValueHits(value: ts.Node): { node: ts.Node; text: string }[] {
   const out: { node: ts.Node; text: string }[] = [];
@@ -169,6 +171,34 @@ function colourValueHits(value: ts.Node): { node: ts.Node; text: string }[] {
       if ((ts.isStringLiteral(first) || ts.isNoSubstitutionTemplateLiteral(first)) && /#$/.test(first.text)) {
         out.push({ node: first, text: n.getText() });
       }
+      return;
+    }
+    // Selections: a colour picked by a call (`Platform.select({ ios: 'red' })`, `pick(on, 'tomato', x)`)
+    // or by an index (`['red', 'blue'][i]`, `({ on: 'red' })[state]`). The arguments, the object's
+    // values and the array's elements are candidates; the callee, the keys and the index are not.
+    if (ts.isCallExpression(n) || ts.isNewExpression(n)) {
+      for (const arg of n.arguments ?? []) walk(arg);
+      return;
+    }
+    if (ts.isElementAccessExpression(n)) {
+      walk(n.expression);
+      return;
+    }
+    if (ts.isArrayLiteralExpression(n)) {
+      for (const el of n.elements) walk(el);
+      return;
+    }
+    if (ts.isSpreadElement(n)) {
+      walk(n.expression);
+      return;
+    }
+    if (ts.isObjectLiteralExpression(n)) {
+      // Property values only; methods, accessors and shorthand names carry no literal value.
+      for (const prop of n.properties) {
+        if (ts.isPropertyAssignment(prop)) walk(prop.initializer);
+        else if (ts.isSpreadAssignment(prop)) walk(prop.expression);
+      }
+      return;
     }
   };
   walk(value);
