@@ -176,11 +176,13 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
 - **Read aloud** reads the first translation.
 
 **Type.**
-- **Chinese reading font:** a Simplified (SC) serif, still to choose; Noto Serif SC (Source Han Serif) is the obvious open-source candidate. It is large, so native builds subset it or download it on first use, and the web loads it only for Chinese text.
+- **Chinese reading font: Noto Serif SC** (John, 2026-11-01), the open-source Source Han Serif, for CUV-SIMP and CUV. It is large, so native builds subset it or download it on first use, and the web loads it only for Chinese text.
 - **Chinese interface text:** Space Grotesk and Plus Jakarta Sans have no Chinese glyphs, so Chinese falls back to the system font (PingFang SC on iOS, Noto Sans CJK on Android, Noto Sans SC on the web).
 - **Layout:** buttons and tabs are sized for the longer of the two languages. Line height for Chinese Scripture is tuned separately from English.
 
-**The Chinese copy** is drafted alongside the English in each phase and reviewed by a native reader before launch.
+**The Chinese copy** is drafted alongside the English in each phase and reviewed before launch by John and a few Chinese-speaking friends (John, 2026-11-01).
+- **A glossary first:** the recurring terms (Scripture, highlight, note, streak, verse of the day, commentary, and so on) are fixed once, following CUV-style church usage, so every screen says the same thing.
+- **A review sheet:** every string as English, Chinese and the screen it appears on, so reviewers can mark changes without running the app. Their fixes go back into the catalogue.
 
 ## Testing (the claude-workflows gates for the new app)
 - **Unit and component tests:** Jest and React Native Testing Library, run by `npm test` in `client/`.
@@ -198,7 +200,7 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
 | **R-4 Home** | streak, goal, continue reading, verse of the day, Surprise me | the SM-1 picker tests ported |
 | **R-5 Search, commentary, entities** | search, the commentary sheet, people/places/themes | the reference parser ported with tests; English and Chinese search |
 | **R-6 Me and accounts** (with W2) | settings, the language setting, appearance and the customisation screen with live preview; Firebase Auth (Apple, Google, email); the backend verifies Firebase tokens; user data on Firestore; optional sync; delete my data; import any real Supabase users | needs John's Firebase project; an Opus security review of the new auth path; sync conflict rules; nothing left importing `supabase` in user paths |
-| **R-7 Web parity and cut-over** | old-localStorage import, read aloud, first-run intro with the "pick your look" screen, a performance budget (including the aurora animation), a native reader's review of the Chinese copy | the new web build replaces `frontend-next/`; the old frontend is archived |
+| **R-7 Web parity and cut-over** | old-localStorage import, read aloud, first-run intro with the "pick your look" screen, a performance budget (including the aurora animation), the review of the Chinese copy (John and friends, from the review sheet) | the new web build replaces `frontend-next/`; the old frontend is archived |
 
 Every phase ships its screens in both languages; the missing-key test keeps Chinese from falling behind.
 
@@ -214,7 +216,5 @@ After R-7, new roadmap features are built frontend and backend together:
 - **App identity:** the app's name, icon and store listing.
 - **Minimum age and privacy:** this matters for accounts and groups.
 - **Shipping native builds:** EAS Build accounts (Apple Developer, Google Play).
-- **Chinese Scripture font:** a Simplified Chinese serif for CUV-SIMP (Noto Serif SC is the candidate).
-- **Who reviews the Chinese copy** before launch.
 - **Translating the English-only content** (commentary, people/places/themes, quizzes) into Chinese: a later project.
 - **The remaining screens in the two styles:** Study, Me, the verse sheet's sub-screens, the picker and the customisation screen are still to be drawn on the canvas, plus Home and the reader in Chinese, and the parallel reader.
