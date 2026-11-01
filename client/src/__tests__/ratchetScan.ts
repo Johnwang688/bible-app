@@ -50,6 +50,18 @@ function isTypePosition(node: ts.Node): boolean {
   return false;
 }
 
+/**
+ * Visits the value children of a node, never descending into type nodes: in `x as 'a' | 'b'`,
+ * `x satisfies T`, `<T>x` and `f<'a'>` the literals in the type are never rendered, but the
+ * expression part still is. `class A extends B<'x'>` keeps `B` and drops the type arguments.
+ */
+function forEachValueChild(node: ts.Node, cb: (child: ts.Node) => void): void {
+  ts.forEachChild(node, (child) => {
+    if (ts.isExpressionWithTypeArguments(child)) cb(child.expression);
+    else if (!ts.isTypeNode(child)) cb(child);
+  });
+}
+
 function stringLiterals(sf: ts.SourceFile): (ts.StringLiteral | ts.NoSubstitutionTemplateLiteral | ts.TemplateLiteralLikeNode)[] {
   const out: (ts.StringLiteral | ts.NoSubstitutionTemplateLiteral | ts.TemplateLiteralLikeNode)[] = [];
   const visit = (node: ts.Node) => {
@@ -95,7 +107,7 @@ export function colourLiterals(file: string, text: string): Finding[] {
         }
       }
     }
-    ts.forEachChild(node, visit);
+    forEachValueChild(node, visit);
   };
   visit(sf);
   return found;
@@ -215,7 +227,7 @@ export function uiStringLiterals(file: string, text: string): Finding[] {
     if (ts.isCallExpression(node) && UI_CALLS.has(node.expression.getText(sf))) {
       for (const arg of node.arguments) report(arg, node.expression.getText(sf));
     }
-    ts.forEachChild(node, visit);
+    forEachValueChild(node, visit);
   };
   visit(sf);
   return found;
@@ -251,7 +263,7 @@ function textLiteralsIn(expr: ts.Node): ts.Node[] {
     if (ts.isJsxElement(n) || ts.isJsxSelfClosingElement(n) || ts.isJsxFragment(n)) return; // visited on their own
     if (ts.isElementAccessExpression(n)) return; // obj['key'] is a lookup, not text
     if (ts.isBinaryExpression(n) && COMPARISON.has(n.operatorToken.kind)) return; // Platform.OS === 'ios'
-    ts.forEachChild(n, walk);
+    forEachValueChild(n, walk);
   };
   walk(expr);
   return out;
