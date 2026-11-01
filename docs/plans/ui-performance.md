@@ -33,6 +33,16 @@ Scoped 2026-10-31 from measurements of a production build (`next start` against 
 1. **Verse tools on phones become a bottom sheet:** a solid panel with large buttons. Desktop keeps the floating popup.
 2. **Cut the themes now to Light, Dark and Paper,** following the device by default. Galaxy, pink, smoke, waves, dynamic and the other themes are retired, and accent colours come later. Saved themes map to the nearest mode.
 
+## Coins (John, 2026-10-31)
+**Retire the coin currency.** Coins were earned for the daily verse, daily tasks, quiz answers and mastery bonuses, but nothing has spent them since the shop was removed (`9c9ba8c`, May 2026). For a youth Bible app, paying for reading can crowd out the reason to read. Motivation comes from streaks, chapters explored (Surprise me), mastery and the planned group accountability.
+
+- **CR-1** (`implementer-medium`, after VI-2a, since both touch `BibleApp.tsx` and the home screen) removes the coin UI:
+  - the balance chip, the daily-task "+10" rewards and the claim flows
+  - quiz and mastery coin amounts, and "Sign in to earn coins"
+  - `CurrencyIcon`.
+
+  Wallet data and endpoints stay in the backend, untouched, so the decision can be reversed; the frontend just stops calling them.
+
 ## Phases (in order; each goes through the claude-workflows gates and Sol review)
 - **PF-1, assets** (`implementer-easy`): resize the coin and logos to their display sizes at 2×, at the same paths. Add the missing `openbible-logo.png`. Target: first-load images under 60 KB.
 - **VI-2a, theme cut** (`implementer-medium`):
@@ -40,6 +50,7 @@ Scoped 2026-10-31 from measurements of a production build (`next start` against 
   - **Migration:** one mapping in `normalizeThemeId` for stored, synced and URL theme ids.
   - **Removal:** delete the retired themes' CSS and their decorations (smoke, waves, galaxy/pink canvas, the dynamic colour cycle).
   - **Acceptance:** Light and Dark computed styles are identical to before.
+- **CR-1, retire coins:** see above.
 - **PF-2, idle and navigation** (`implementer-hard`, raised from medium by the loader redesign):
   - **Loader:** redesign `loadChapter` as one state machine (John, 2026-10-31). Today a late, older response can overwrite a newer chapter, and the page-flip hand-off interacts with overlapping loads. The SM-1 reviews caught two fixes that each opened a new case: a flip after a plain load hangs, and Next after a failed Next stays on the error view. The tests are saved in `bible-app-work/perf/pf2-loader-tests.cjs` and become PF-2's acceptance tests.
   - **Countdown:** the quiz countdown moves into a small component, so `BibleApp` stops re-rendering every 500 ms.
