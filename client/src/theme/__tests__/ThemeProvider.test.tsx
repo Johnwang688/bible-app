@@ -1,5 +1,6 @@
 // Acceptance (orchestrator-owned): the theme provider resolves, persists and reacts.
 import { act, render, screen } from '@testing-library/react-native';
+import { useEffect } from 'react';
 import { Text } from 'react-native';
 
 import { appearanceKey } from '../../storage/keys';
@@ -12,7 +13,9 @@ let setChoiceRef: ((c: AppearanceChoice) => void) | null = null;
 function Probe() {
   const theme = useTheme();
   const { choice, setChoice } = useAppearance();
-  setChoiceRef = setChoice;
+  useEffect(() => {
+    setChoiceRef = setChoice;
+  });
   return (
     <>
       <Text testID="id">{theme.id}</Text>
@@ -22,8 +25,8 @@ function Probe() {
 }
 
 describe('ThemeProvider', () => {
-  it('gives Graphite on a dark phone when nothing is stored', () => {
-    render(
+  it('gives Graphite on a dark phone when nothing is stored', async () => {
+    await render(
       <ThemeProvider storage={createStorage(memoryBackend())} systemScheme="dark">
         <Probe />
       </ThemeProvider>,
@@ -31,10 +34,10 @@ describe('ThemeProvider', () => {
     expect(screen.getByTestId('id')).toHaveTextContent('graphite');
   });
 
-  it('reads the stored choice and swaps to the pair for the phone mode', () => {
+  it('reads the stored choice and swaps to the pair for the phone mode', async () => {
     const storage = createStorage(memoryBackend());
     storage.set(appearanceKey, { preset: 'grape-soda', mode: 'system' });
-    render(
+    await render(
       <ThemeProvider storage={storage} systemScheme="light">
         <Probe />
       </ThemeProvider>,
@@ -42,47 +45,53 @@ describe('ThemeProvider', () => {
     expect(screen.getByTestId('id')).toHaveTextContent('lavender-haze');
   });
 
-  it('follows the phone when its scheme changes', () => {
+  it('follows the phone when its scheme changes', async () => {
     const storage = createStorage(memoryBackend());
     const ui = (scheme: 'light' | 'dark') => (
       <ThemeProvider storage={storage} systemScheme={scheme}>
         <Probe />
       </ThemeProvider>
     );
-    const { rerender } = render(ui('light'));
+    const { rerender } = await render(ui('light'));
     expect(screen.getByTestId('id')).toHaveTextContent('silver');
-    rerender(ui('dark'));
+    await rerender(ui('dark'));
     expect(screen.getByTestId('id')).toHaveTextContent('graphite');
   });
 
-  it('setChoice re-renders with the new preset and saves it on the device', () => {
+  it('setChoice re-renders with the new preset and saves it on the device', async () => {
     const storage = createStorage(memoryBackend());
-    render(
+    await render(
       <ThemeProvider storage={storage} systemScheme="light">
         <Probe />
       </ThemeProvider>,
     );
-    act(() => setChoiceRef!({ preset: 'matcha-latte', mode: 'system' }));
+    await act(async () => {
+      setChoiceRef!({ preset: 'matcha-latte', mode: 'system' });
+    });
     expect(screen.getByTestId('id')).toHaveTextContent('matcha-latte');
     expect(storage.get(appearanceKey)).toEqual({ preset: 'matcha-latte', mode: 'system' });
-    act(() => setChoiceRef!({ preset: 'matcha-latte', mode: 'dark' }));
+    await act(async () => {
+      setChoiceRef!({ preset: 'matcha-latte', mode: 'dark' });
+    });
     expect(screen.getByTestId('id')).toHaveTextContent('matcha-night');
   });
 
-  it('picks up a change written to storage elsewhere (for example by sync)', () => {
+  it('picks up a change written to storage elsewhere (for example by sync)', async () => {
     const storage = createStorage(memoryBackend());
-    render(
+    await render(
       <ThemeProvider storage={storage} systemScheme="light">
         <Probe />
       </ThemeProvider>,
     );
-    act(() => storage.set(appearanceKey, { preset: 'sky', mode: 'system' }));
+    await act(async () => {
+      storage.set(appearanceKey, { preset: 'sky', mode: 'system' });
+    });
     expect(screen.getByTestId('id')).toHaveTextContent('sky');
   });
 
-  it('throws a clear error when used outside the provider', () => {
+  it('throws a clear error when used outside the provider', async () => {
     const spy = jest.spyOn(console, 'error').mockImplementation(() => {});
-    expect(() => render(<Probe />)).toThrow(/ThemeProvider/);
+    await expect(render(<Probe />)).rejects.toThrow(/ThemeProvider/);
     spy.mockRestore();
   });
 });
