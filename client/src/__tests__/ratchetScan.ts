@@ -95,7 +95,10 @@ export function colourLiterals(file: string, text: string): Finding[] {
 
 // ---- String ratchet: no literal UI strings outside the message catalogue ----
 
-/** Props and option keys whose string values are shown to (or read out to) the reader. */
+/**
+ * Props and option keys whose string values are shown to (or read out to) the reader.
+ * (`message` is left out: Error messages are developer diagnostics; the UI shows catalogue text.)
+ */
 const UI_PROPS = new Set([
   'title',
   'label',
@@ -108,8 +111,6 @@ const UI_PROPS = new Set([
   'tabBarAccessibilityLabel',
   'headerTitle',
   'headerBackTitle',
-  'message',
-  'description',
 ]);
 
 const HAS_LETTERS = /\p{L}/u;

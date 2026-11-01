@@ -10,11 +10,11 @@ import { useT } from '../../i18n/I18nProvider';
 import type { MessageKey } from '../../i18n/messages/en';
 import { useTheme } from '../../theme/ThemeProvider';
 
-const TABS: { name: string; icon: TabIconName; label: MessageKey; a11y: MessageKey }[] = [
-  { name: 'index', icon: 'home', label: 'tabs.home', a11y: 'tabs.home.a11y' },
-  { name: 'bible', icon: 'bible', label: 'tabs.bible', a11y: 'tabs.bible.a11y' },
-  { name: 'study', icon: 'study', label: 'tabs.study', a11y: 'tabs.study.a11y' },
-  { name: 'me', icon: 'me', label: 'tabs.me', a11y: 'tabs.me.a11y' },
+const TABS: { name: string; icon: TabIconName; labelKey: MessageKey; a11yKey: MessageKey }[] = [
+  { name: 'index', icon: 'home', labelKey: 'tabs.home', a11yKey: 'tabs.home.a11y' },
+  { name: 'bible', icon: 'bible', labelKey: 'tabs.bible', a11yKey: 'tabs.bible.a11y' },
+  { name: 'study', icon: 'study', labelKey: 'tabs.study', a11yKey: 'tabs.study.a11y' },
+  { name: 'me', icon: 'me', labelKey: 'tabs.me', a11yKey: 'tabs.me.a11y' },
 ];
 
 export default function TabsLayout() {
@@ -65,8 +65,8 @@ export default function TabsLayout() {
           key={tab.name}
           name={tab.name}
           options={{
-            tabBarLabel: t(tab.label),
-            tabBarAccessibilityLabel: t(tab.a11y),
+            tabBarLabel: t(tab.labelKey),
+            tabBarAccessibilityLabel: t(tab.a11yKey),
             tabBarButtonTestID: `tab-${tab.icon}`,
             tabBarIcon: ({ color }) => <TabIcon name={tab.icon} color={color} />,
           }}

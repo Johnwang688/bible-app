@@ -1,4 +1,5 @@
 // Tab bar icons, drawn with react-native-svg so the app needs no icon font.
+import type { ColorValue } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 
 export type TabIconName = 'home' | 'bible' | 'study' | 'me';
@@ -10,7 +11,7 @@ const PATHS: Record<TabIconName, string> = {
   me: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm-7 9a7 7 0 0 1 14 0',
 };
 
-export function TabIcon({ name, color, size = 24 }: { name: TabIconName; color: string; size?: number }) {
+export function TabIcon({ name, color, size = 24 }: { name: TabIconName; color: ColorValue; size?: number }) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" accessible={false}>
       <Path d={PATHS[name]} fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
