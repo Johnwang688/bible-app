@@ -46,23 +46,29 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{
             __html: `
               try {
-                var legacyThemeMap = { 'Galaxy Metallic': 'galaxy', 'galaxy metallic': 'galaxy' };
-                var knownThemes = {
-                  default: 1, dark: 1, dynamic: 1, pink: 1, blue: 1, green: 1, yellow: 1,
-                  purple: 1, orange: 1, gold: 1, midnight: 1, rebecca: 1, galaxy: 1,
-                  parchment: 1, teal: 1, forest: 1, magenta: 1, emerald: 1, canyon: 1, neonrose: 1
+                // Inline copy of normalizeThemeId / resolveAppliedTheme in src/lib/themes.ts: keep in step.
+                var themeMigration = {
+                  system: 'system', paper: 'paper', dark: 'dark',
+                  midnight: 'dark', rebecca: 'dark', galaxy: 'dark', 'Galaxy Metallic': 'dark', 'galaxy metallic': 'dark',
+                  teal: 'dark', forest: 'dark', magenta: 'dark', emerald: 'dark', canyon: 'dark', neonrose: 'dark',
+                  parchment: 'paper', gold: 'paper',
+                  dynamic: 'default', pink: 'default', blue: 'default', green: 'default',
+                  yellow: 'default', purple: 'default', orange: 'default'
                 };
+                // After the first run 'default' means an explicit Light, not the old "never chose".
                 var rawTheme = localStorage.getItem('theme');
-                var t = legacyThemeMap[rawTheme] || rawTheme || 'default';
-                if (!knownThemes[t]) t = 'default';
-                localStorage.setItem('theme', t);
-                if (t === 'dynamic') {
-                  document.documentElement.setAttribute('data-theme', 'default');
-                  document.documentElement.setAttribute('data-dynamic-wave', '1');
-                } else {
-                  document.documentElement.removeAttribute('data-dynamic-wave');
-                  document.documentElement.setAttribute('data-theme', t);
+                var migrated = localStorage.getItem('theme-version') === '2';
+                var pref = 'system';
+                if (rawTheme) {
+                  if (migrated && { system: 1, default: 1, dark: 1, paper: 1 }[rawTheme] === 1) pref = rawTheme;
+                  else if (Object.prototype.hasOwnProperty.call(themeMigration, rawTheme)) pref = themeMigration[rawTheme];
                 }
+                localStorage.setItem('theme', pref);
+                localStorage.setItem('theme-version', '2');
+                var applied = pref === 'system'
+                  ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default')
+                  : pref;
+                document.documentElement.setAttribute('data-theme', applied);
               } catch(e) {}
             `,
           }}
