@@ -68,7 +68,10 @@ The backend and content were rebuilt and tested this week (350 tests, golden API
   - Note and Bookmark
   - Share and Copy
   - **Original words**, which opens the words list and then the word card inside the same sheet
-  - **Commentary on this verse**. Where no note covers the verse (about 23% of verses today), the sheet opens empty with a short line saying there is no note yet (John, 2026-11-01). Falling back to the chapter summary comes later, once the summaries are reworked.
+  - **Commentary on this verse**: Matthew Henry only, for now (John, 2026-11-01).
+    - There is no chapter-summary tab until the summaries are reworked.
+    - Where no note covers the verse (about 23% of verses today), the sheet opens empty with a short line saying there is no note yet.
+    - Falling back to the chapter summary comes after that rework.
   - **Cross-references** (TSK, once commentary CM-1 loads them)
   - **Ask AI**, the slot: hidden until W3.
 
