@@ -4,6 +4,7 @@ import '@fontsource/opendyslexic/400.css';
 import '@fontsource/opendyslexic/700.css';
 import './globals.css';
 import '../styles/tokens.css';
+import ThemeSync from './ThemeSync';
 
 const openSans = Open_Sans({
   subsets: ['latin'],
@@ -69,7 +70,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <ThemeSync />
+        {children}
+      </body>
     </html>
   );
 }

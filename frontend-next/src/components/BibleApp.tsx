@@ -35,7 +35,7 @@ import {
   type WalletOut,
 } from '@/lib/quiz';
 import { parseReferenceLabel, sortBookNamesForMatching } from '@/lib/scriptureReference';
-import { normalizeThemeId, resolveAppliedTheme, type ThemePreference } from '@/lib/themes';
+import { normalizeThemeId, THEME_CHANGE_EVENT, type AppliedTheme, type ThemePreference } from '@/lib/themes';
 
 import type { BookInfo, ChapterData, ChapterQuizVisitState, ChapterReadEvidence, CommentaryEntry, CommentarySource, ReaderSettings, SavedPassage, SearchResult, SearchSuggestion, SidePanelMode, SidePanelPosition, Translation, TutorialStep, VerseData, VerseNote } from '@/features/reader/types';
 import { DEFAULT_TRANSLATION, filterTranslationsForPicker, getLocalizedBookName, getLocalizedBookNameFromRaw, getTranslationDisplayId, getTranslationDisplayName, normalizeTranslationChoice } from '@/features/reader/translations';
@@ -215,27 +215,26 @@ function BibleAppInner({
   /** The stored preference; null until it has been read from storage (the pre-paint script owns the DOM until then). */
   const [storedTheme, setCurrentTheme] = useState<ThemePreference | null>(null);
   const currentTheme: ThemePreference = storedTheme ?? 'system';
-  const [prefersDark, setPrefersDark] = useState(false);
-  const appliedTheme = resolveAppliedTheme(currentTheme, prefersDark);
+  // The applied mode (for the logo): ThemeSync paints <html data-theme>; this just reads it back.
+  const [appliedTheme, setAppliedTheme] = useState<AppliedTheme>('default');
+  useEffect(() => {
+    const root = document.documentElement;
+    const read = () => {
+      const t = root.getAttribute('data-theme');
+      setAppliedTheme(t === 'dark' || t === 'paper' ? t : 'default');
+    };
+    read();
+    const observer = new MutationObserver(read);
+    observer.observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+    return () => observer.disconnect();
+  }, []);
 
   // ── Theme management ──────────────────────────────────────────────────────────
   const applyTheme = useCallback((pref: ThemePreference) => {
     setCurrentTheme(pref);
     localStorage.setItem('theme', pref);
+    window.dispatchEvent(new Event(THEME_CHANGE_EVENT));
   }, []);
-
-  // Paints the applied mode on <html>, and for Auto follows the device setting live.
-  useEffect(() => {
-    if (storedTheme === null) return;
-    const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    const paint = () => {
-      setPrefersDark(mq.matches);
-      document.documentElement.setAttribute('data-theme', resolveAppliedTheme(storedTheme, mq.matches));
-    };
-    paint();
-    mq.addEventListener('change', paint);
-    return () => mq.removeEventListener('change', paint);
-  }, [storedTheme]);
 
   // ── DOM Refs ───
   const biblePaneRef  = useRef<HTMLDivElement>(null);

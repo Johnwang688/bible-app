@@ -1,6 +1,9 @@
 /** What the user chose (stored in `localStorage['theme']` and synced to the account). */
 export type ThemePreference = 'system' | 'light' | 'dark' | 'paper';
 
+/** Dispatched on `window` (same tab) after the preference is written to `localStorage['theme']`. */
+export const THEME_CHANGE_EVENT = 'bible-app-theme-change';
+
 /** What is painted (`<html data-theme>`). */
 export type AppliedTheme = 'default' | 'dark' | 'paper';
 
@@ -90,4 +93,25 @@ export function resolveAppliedTheme(pref: ThemePreference, prefersDark: boolean)
   if (pref === 'system') return prefersDark ? 'dark' : 'default';
   if (pref === 'light') return 'default';
   return pref;
+}
+
+/** The change event of a `prefers-color-scheme` media query list (the subset this needs). */
+interface DeviceThemeQuery {
+  addEventListener(type: 'change', fn: (e: { matches: boolean }) => void): void;
+  removeEventListener(type: 'change', fn: (e: { matches: boolean }) => void): void;
+}
+
+/**
+ * Follows the device light/dark setting, but only for Auto: any other preference adds no listener.
+ * Returns a cleanup that removes exactly what was added.
+ */
+export function subscribeDeviceTheme(
+  pref: ThemePreference,
+  mq: DeviceThemeQuery,
+  onChange: (prefersDark: boolean) => void,
+): () => void {
+  if (pref !== 'system') return () => {};
+  const listener = (e: { matches: boolean }) => onChange(e.matches);
+  mq.addEventListener('change', listener);
+  return () => mq.removeEventListener('change', listener);
 }
