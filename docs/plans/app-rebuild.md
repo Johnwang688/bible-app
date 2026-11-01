@@ -205,7 +205,7 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
 
 **R-0 notes (2026-11-01).**
 - **Native builds:** "builds for iOS and Android" is checked as Metro + Hermes bundle exports plus `expo-doctor`. Signed binaries need EAS (see Open); this PC has no Android SDK or Xcode.
-- **Preset contrast:** the six pastel presets pass 4.5:1 everywhere. The glass presets have 29 pairs below 4.5:1, all secondary text (`muted`, verse numbers, and one Northern lights card text) over the brightest glow peaks and orbs; Scripture text passes on every reader background. The contrast test pins them as known gaps that may only shrink. Tuning them is John's call (see Open).
+- **Preset contrast:** the test checks 735 text/background pairs. The six pastel presets pass 4.5:1 everywhere. The glass presets have 43 pairs below 4.5:1, all over the brightest glow peaks and orbs: mostly secondary text (`muted`, verse numbers, inactive and active tab labels); also highlighted verses over one glow in Liberty and Northern lights, and Northern lights card text. Plain Scripture text passes on every reader background. The test pins them as known gaps that may only shrink. Tuning them is John's call (see Open).
 - **Chinese Scripture font:** the web uses the Google Fonts stylesheet (its unicode-range slices download only the glyphs a page uses); native downloads Noto Serif SC once (7.2 MB) from a pinned jsDelivr copy on first use. Self-hosting the web slices is an option for R-7.
 - **Storage:** MMKV 4; its web build keeps each value in `localStorage` under `bible-app\<key>`, which the old app's `bible-app-*` keys never collide with.
 
@@ -220,7 +220,7 @@ After R-7, new roadmap features are built frontend and backend together:
 - the AI agent.
 
 ## Open (for John, as they come up)
-- **Glass preset contrast:** keep the 29 glass known gaps (secondary text over bright glows; Scripture passes), or darken/lighten `muted` and the accent in Liberty, Silver, Sky, Northern lights, Graphite and Deep blue until they pass. Pinned in `client/src/theme/__tests__/contrast.test.ts`.
+- **Glass preset contrast:** keep the 43 glass known gaps (mostly secondary text over bright glows; plain Scripture passes), or adjust `muted`, the accent, the highlight or the glow colours in Liberty, Silver, Sky, Northern lights, Graphite and Deep blue until they pass. Liberty (14) and Northern lights (15) have the most. Pinned in `client/src/theme/__tests__/contrast.test.ts`.
 - **App identity:** the app's name, icon and store listing.
 - **Minimum age and privacy:** this matters for accounts and groups.
 - **Shipping native builds:** EAS Build accounts (Apple Developer, Google Play).
