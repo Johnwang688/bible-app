@@ -68,7 +68,10 @@ The backend and content were rebuilt and tested this week (350 tests, golden API
   - Note and Bookmark
   - Share and Copy
   - **Original words**, which opens the words list and then the word card inside the same sheet
-  - **Commentary on this verse**
+  - **Commentary on this verse**: Matthew Henry only, for now (John, 2026-11-01).
+    - There is no chapter-summary tab until the summaries are reworked.
+    - Where no note covers the verse (about 23% of verses today), the sheet opens empty with a short line saying there is no note yet.
+    - Falling back to the chapter summary comes after that rework.
   - **Cross-references** (TSK, once commentary CM-1 loads them)
   - **Ask AI**, the slot: hidden until W3.
 
@@ -225,4 +228,15 @@ After R-7, new roadmap features are built frontend and backend together:
 - **Minimum age and privacy:** this matters for accounts and groups.
 - **Shipping native builds:** EAS Build accounts (Apple Developer, Google Play).
 - **Translating the English-only content** (commentary, people/places/themes, quizzes) into Chinese: a later project.
-- **The remaining screens in the two styles:** Study, Me, the verse sheet's sub-screens, the picker and the customisation screen are still to be drawn on the canvas, plus Home and the reader in Chinese, and the parallel reader.
+- **Screens still to draw:** search, the chapter tools sheet, the people/places/themes pages, sign-in, and the first-run intro with "pick your look". As of 2026-11-01 these are drawn on the canvas, in every preset and in both languages:
+  - the parallel reader (its own page)
+  - Home and the reader
+  - Study (saved and progress)
+  - Me
+  - the book and chapter picker
+  - Original words and the word card
+  - the commentary sheet
+  - customisation
+
+  Those last screens are on the "More screens" page.
+- **Reworking the chapter summaries:** John finds the current summaries poor (2026-11-01). They need reworking before they become the fallback for verses with no commentary. Matthew Henry covers 77% of verses, and 321 of 1,189 chapters have no note at all. This fits the commentary rebuild (CM-1 to CM-4).
