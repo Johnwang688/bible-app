@@ -55,39 +55,37 @@ export function glassPairs(t: CanvasTokens, p: GlassLightPalette | GlassDarkPale
     ? { a: rgb(p.a), b: rgb(p.b), glow: composite(p.glow, base) }
     : { a: rgb(p.a), b: rgb(p.b), c: rgb(p.c) };
 
+  // Every backdrop glass sits over: the wash peaks (the reader, the tab bar over the reader) and
+  // the orbs (Home). Floating bars and sheets can sit over any of them.
+  const backdrops: Record<string, Rgb> = { ...wash };
+  for (const [k, v] of Object.entries(orbs)) {
+    if (!Object.values(backdrops).some((w) => w.every((c, i) => Math.abs(c - v[i]!) < 1e-9))) backdrops[`orb ${k}`] = v;
+  }
+
   for (const [name, bg] of Object.entries(wash)) {
     out.push(pair(`reader text/${name}`, t.text, bg));
     out.push(pair(`reader muted/${name}`, t.muted, bg));
     out.push(pair(`reader vnum/${name}`, t.vnum, bg));
-  }
-  out.push(pair('reader hlText/hl', t.hlText ?? t.text, composite(t.hl, base)));
-
-  // Card text on the glass sheen, at every stop of the sheen, over the base and every orb.
-  const sheenAlphas = whiteStops(t.surface);
-  for (const [name, bg] of Object.entries({ base, ...orbs })) {
-    for (const a of sheenAlphas) {
-      const card = composite(`rgba(255, 255, 255, ${a})`, bg);
-      out.push(pair(`card text/sheen ${a}>${name}`, t.text, card));
-      out.push(pair(`card muted/sheen ${a}>${name}`, t.muted, card));
-    }
+    out.push(pair(`reader hlText/hl>${name}`, t.hlText ?? t.text, composite(t.hl, bg)));
   }
 
   out.push(pair('onAccent/accent', t.onAccent, t.accent));
 
-  // The tab bar and the sheet over the base colour (dark adds their tinted colour layer).
-  const tinted = (layer: string | undefined) => (layer ? composite(layer, base) : base);
+  /** Text over a white-sheen layer (every stop), optionally over a tint, over every backdrop. */
+  const layered = (label: string, fgs: Record<string, string>, gradient: string, tint?: string) => {
+    for (const [bgName, bg] of Object.entries(backdrops)) {
+      const under = tint ? composite(tint, bg) : bg;
+      for (const a of whiteStops(gradient)) {
+        const surface = composite(`rgba(255, 255, 255, ${a})`, under);
+        for (const [fgName, fg] of Object.entries(fgs)) out.push(pair(`${label} ${fgName}/${a}>${bgName}`, fg, surface));
+      }
+    }
+  };
   const dp = p as GlassDarkPalette;
-  const tabUnder = tinted(dark ? dp.tab : undefined);
-  for (const a of whiteStops(t.tabBg)) {
-    const bar = composite(`rgba(255, 255, 255, ${a})`, tabUnder);
-    out.push(pair(`tabOn/tabBg ${a}`, t.tabOn, bar));
-    out.push(pair(`tabOff/tabBg ${a}`, t.tabOff, bar));
-  }
-  const sheetUnder = tinted(dark ? dp.sheet : undefined);
-  for (const a of whiteStops(t.sheet)) {
-    const sheet = composite(`rgba(255, 255, 255, ${a})`, sheetUnder);
-    out.push(pair(`sheet text/${a}`, t.text, sheet));
-    out.push(pair(`sheet muted/${a}`, t.muted, sheet));
-  }
+  layered('card', { text: t.text, muted: t.muted }, t.surface);
+  layered('chip', { chipText: t.chipText }, t.chip);
+  layered('button', { btnText: t.btnText ?? t.text }, t.btn);
+  layered('tab', { tabOn: t.tabOn, tabOff: t.tabOff }, t.tabBg, dark ? dp.tab : undefined);
+  layered('sheet', { text: t.text, muted: t.muted }, t.sheet, dark ? dp.sheet : undefined);
   return out;
 }

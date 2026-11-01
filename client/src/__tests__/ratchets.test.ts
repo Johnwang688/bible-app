@@ -81,3 +81,42 @@ describe('string ratchet', () => {
     ]);
   });
 });
+
+// Verifier round 1 on the orchestrator's code (GPT-6.1 Sol): forms the first scanners missed.
+describe('ratchet scanners (verifier counterexamples)', () => {
+  it.each([
+    "const x = <Text>{'Hello ' + name}</Text>;",
+    "const x = <Pressable accessibilityLabel={'Open ' + name} />;",
+    "Alert.alert('Delete note', 'Are you sure?');",
+    "const x = <Text>{ok ? 'Yes' : t('no')}</Text>;",
+    'const x = <>{`Hi ${name}`}</>;',
+  ])('string ratchet rejects literal UI text: %s', (source) => {
+    expect(uiStringLiterals('app/(tabs)/x.tsx', source).length).toBeGreaterThan(0);
+  });
+
+  it.each([
+    "const x = <Text>{t('tabs.home')}</Text>;",
+    "const x = <Text>{t('a') + ' · ' + t('b')}</Text>;",
+    "const x = <Pressable accessibilityLabel={t('tabs.home.a11y')} />;",
+    "const x = <View>{items['key']}</View>;",
+    "const x = <View>{Platform.OS === 'ios' ? <A /> : <B />}</View>;",
+  ])('string ratchet allows catalogue lookups: %s', (source) => {
+    expect(uiStringLiterals('app/(tabs)/x.tsx', source)).toEqual([]);
+  });
+
+  it.each([
+    "const part='fff'; const x=<Text style={{color:`#${part}`}}/>;",
+    "const x=<Text style={{color:'rebeccapurple'}}/>;",
+    "const x={color:'#11223344'};",
+    "const x={backgroundColor:'Tomato'};",
+  ])('token ratchet rejects raw colours: %s', (source) => {
+    expect(colourLiterals('app/(tabs)/x.tsx', source).length).toBeGreaterThan(0);
+  });
+
+  it.each(["const x={color: theme.colors.text};", "const id = `item-${n}`;", "const x={color:'transparent'};"])(
+    'token ratchet allows theme tokens and ordinary strings: %s',
+    (source) => {
+      expect(colourLiterals('x.tsx', source)).toEqual([]);
+    },
+  );
+});

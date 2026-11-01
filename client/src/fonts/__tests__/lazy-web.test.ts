@@ -1,9 +1,10 @@
 // Verifier round 1 on the orchestrator's code (GPT-6.1 Sol): the Chinese web font load.
 // Orchestrator-owned acceptance test; do not edit.
+import { ensureFont, NOTO_SERIF_SC_CSS, resetLazyFontsForTesting } from '../lazy';
+
+// Hoisted above the import by babel-jest.
 jest.mock('react-native', () => ({ Platform: { OS: 'web' } }));
 jest.mock('expo-font', () => ({ loadAsync: jest.fn() }));
-
-import { ensureFont, NOTO_SERIF_SC_CSS, resetLazyFontsForTesting } from '../lazy';
 
 interface FakeLink {
   rel: string;
