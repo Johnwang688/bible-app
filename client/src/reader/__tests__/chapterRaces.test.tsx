@@ -140,6 +140,15 @@ describe('PF-2 loader races, ported', () => {
     expect(h.find('John 3 WEB').signal).toBeDefined();
   });
 
+  // Verifier round 1 (GPT-6.1 Sol): the signal must really be aborted when superseded.
+  it('aborts the request signal when the position moves on', async () => {
+    const h = setup();
+    const ui = await render(h.wrap(<h.Probe book={JOHN} chapter={3} translation="WEB" />));
+    const obsolete = h.find('John 3 WEB').signal!;
+    await ui.rerender(h.wrap(<h.Probe book={JOHN} chapter={4} translation="WEB" />));
+    expect(obsolete.aborted).toBe(true);
+  });
+
   it('keeps a loaded chapter cached: going back shows it with no new request and no spinner', async () => {
     const h = setup();
     const ui = await render(h.wrap(<h.Probe book={JOHN} chapter={3} translation="WEB" />));

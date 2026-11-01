@@ -104,6 +104,19 @@ describe('splitAlternateReadings', () => {
     expect(splitAlternateReadings('')).toEqual([]);
   });
 
+  // Verifier round 1 (GPT-6.1 Sol).
+  it('keeps a nested alternate reading together', () => {
+    expect(splitAlternateReadings('a〔b〔c〕d〕e')).toEqual([
+      { text: 'a', note: false },
+      { text: '〔b〔c〕d〕', note: true },
+      { text: 'e', note: false },
+    ]);
+  });
+
+  it('leaves an unmatched outer opening plain', () => {
+    expect(splitAlternateReadings('a〔b〔c〕')).toEqual([{ text: 'a〔b〔c〕', note: false }]);
+  });
+
   it('leaves an unclosed bracket as plain text', () => {
     expect(splitAlternateReadings('甲〔乙')).toEqual([{ text: '甲〔乙', note: false }]);
   });
