@@ -5,6 +5,7 @@ import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import type { ReadingProgress, SavedPassage, VerseNote } from '@/features/reader/types';
 import {
   BOOKMARKS_STORAGE_KEY,
+  CHAPTERS_READ_STORAGE_KEY,
   DAILY_GOAL_MINUTES_STORAGE_KEY,
   DEFAULT_DAILY_GOAL_MINUTES,
   HIGHLIGHTS_STORAGE_KEY,
@@ -16,6 +17,7 @@ import {
 } from '@/features/progress/progress';
 import {
   readStoredBookmarks,
+  readStoredChaptersRead,
   readStoredDailyGoalMinutes,
   readStoredHighlights,
   readStoredNotes,
@@ -36,6 +38,10 @@ interface StudyItemsContextValue {
   setReadingProgress: Dispatch<SetStateAction<ReadingProgress>>;
   dailyGoalMinutes: number;
   setDailyGoalMinutes: Dispatch<SetStateAction<number>>;
+  /** All-time record of chapters read, as `chapterReadKey` strings (no translation). */
+  chaptersRead: ReadonlySet<string>;
+  /** Callers must return the previous set when nothing is new, so nothing is written. */
+  setChaptersRead: Dispatch<SetStateAction<ReadonlySet<string>>>;
 }
 
 const StudyItemsContext = createContext<StudyItemsContextValue | null>(null);
@@ -47,6 +53,9 @@ export function StudyItemsProvider({ children }: { children: ReactNode }) {
   const [verseNotes, setVerseNotes]         = useState<Record<string, VerseNote>>({});
   const [readingProgress, setReadingProgress] = useState<ReadingProgress>(() => normalizeReadingProgress(null));
   const [dailyGoalMinutes, setDailyGoalMinutes] = useState(DEFAULT_DAILY_GOAL_MINUTES);
+  const [chaptersRead, setChaptersRead] = useState<ReadonlySet<string>>(() => new Set());
+  /** The set that was loaded from storage; the save effect skips it so only real additions are written. */
+  const loadedChaptersReadRef = useRef<ReadonlySet<string> | null>(null);
   /** Set once the stored values have been read; saves are skipped until then. */
   const loadedRef = useRef(false);
 
@@ -83,6 +92,16 @@ export function StudyItemsProvider({ children }: { children: ReactNode }) {
   }, [dailyGoalMinutes]);
 
   useEffect(() => {
+    if (typeof window === 'undefined' || !loadedRef.current) return;
+    if (chaptersRead === loadedChaptersReadRef.current) return;
+    try {
+      window.localStorage.setItem(CHAPTERS_READ_STORAGE_KEY, JSON.stringify([...chaptersRead]));
+    } catch {
+      /* Storage full or blocked: the record lives on for this session. */
+    }
+  }, [chaptersRead]);
+
+  useEffect(() => {
     loadedRef.current = true;
     setHighlightedVerses(readStoredHighlights());
     setBookmarkedVerses(readStoredBookmarks());
@@ -90,6 +109,9 @@ export function StudyItemsProvider({ children }: { children: ReactNode }) {
     setRecentPassages(readStoredRecentPassages());
     setReadingProgress(rollReadingProgressToToday(readStoredReadingProgress()));
     setDailyGoalMinutes(readStoredDailyGoalMinutes());
+    const loadedChaptersRead = readStoredChaptersRead();
+    loadedChaptersReadRef.current = loadedChaptersRead;
+    setChaptersRead(loadedChaptersRead);
     // Strict Mode unmounts and remounts effects on first mount without re-rendering. Clearing the flag here
     // stops the save effects from writing default state over storage before this effect reads it again.
     return () => { loadedRef.current = false; };
@@ -103,8 +125,9 @@ export function StudyItemsProvider({ children }: { children: ReactNode }) {
       verseNotes, setVerseNotes,
       readingProgress, setReadingProgress,
       dailyGoalMinutes, setDailyGoalMinutes,
+      chaptersRead, setChaptersRead,
     }),
-    [recentPassages, highlightedVerses, bookmarkedVerses, verseNotes, readingProgress, dailyGoalMinutes],
+    [recentPassages, highlightedVerses, bookmarkedVerses, verseNotes, readingProgress, dailyGoalMinutes, chaptersRead],
   );
   return <StudyItemsContext.Provider value={value}>{children}</StudyItemsContext.Provider>;
 }
