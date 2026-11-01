@@ -1,0 +1,45 @@
+/* "Surprise me" card on the home screen (SM-1). Tokens only: --color-*, --space-*, --radius-*, --font-*. */
+.surpriseCard {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.surpriseCopy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.surpriseExplored {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--color-text-secondary);
+}
+
+.surpriseButton {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-1);
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.surpriseButton:hover {
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+}
+
+.surpriseButton:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
