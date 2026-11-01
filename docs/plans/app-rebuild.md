@@ -217,4 +217,15 @@ After R-7, new roadmap features are built frontend and backend together:
 - **Minimum age and privacy:** this matters for accounts and groups.
 - **Shipping native builds:** EAS Build accounts (Apple Developer, Google Play).
 - **Translating the English-only content** (commentary, people/places/themes, quizzes) into Chinese: a later project.
-- **The remaining screens in the two styles:** Study, Me, the verse sheet's sub-screens, the picker and the customisation screen are still to be drawn on the canvas, plus Home and the reader in Chinese, and the parallel reader.
+- **Screens still to draw:** search, the chapter tools sheet, the people/places/themes pages, sign-in, and the first-run intro with "pick your look". As of 2026-11-01 these are drawn on the canvas, in every preset and in both languages:
+  - the parallel reader (its own page)
+  - Home and the reader
+  - Study (saved and progress)
+  - Me
+  - the book and chapter picker
+  - Original words and the word card
+  - the commentary sheet
+  - customisation
+
+  Those last screens are on the "More screens" page.
+- **Verses with no commentary:** Matthew Henry covers 77% of verses. 321 of 1,189 chapters have no note at all, and John 3:9–21 is one of the gaps. "Commentary on this verse" needs a decision for those verses: fall back to the chapter summary, or hide the row. This also depends on the commentary rebuild (CM-1 to CM-4).
