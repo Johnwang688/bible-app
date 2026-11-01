@@ -48,26 +48,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               try {
                 // Inline copy of normalizeThemeId / resolveAppliedTheme in src/lib/themes.ts: keep in step.
                 var themeMigration = {
-                  system: 'system', paper: 'paper', dark: 'dark',
+                  system: 'system', light: 'light', paper: 'paper', dark: 'dark',
                   midnight: 'dark', rebecca: 'dark', galaxy: 'dark', 'Galaxy Metallic': 'dark', 'galaxy metallic': 'dark',
                   teal: 'dark', forest: 'dark', magenta: 'dark', emerald: 'dark', canyon: 'dark', neonrose: 'dark',
                   parchment: 'paper', gold: 'paper',
-                  dynamic: 'default', pink: 'default', blue: 'default', green: 'default',
-                  yellow: 'default', purple: 'default', orange: 'default'
+                  dynamic: 'light', pink: 'light', blue: 'light', green: 'light',
+                  yellow: 'light', purple: 'light', orange: 'light'
                 };
-                // After the first run 'default' means an explicit Light, not the old "never chose".
+                // The old 'default' is absent on purpose: it meant "never chose", so it becomes Auto.
                 var rawTheme = localStorage.getItem('theme');
-                var migrated = localStorage.getItem('theme-version') === '2';
-                var pref = 'system';
-                if (rawTheme) {
-                  if (migrated && { system: 1, default: 1, dark: 1, paper: 1 }[rawTheme] === 1) pref = rawTheme;
-                  else if (Object.prototype.hasOwnProperty.call(themeMigration, rawTheme)) pref = themeMigration[rawTheme];
-                }
+                var pref = rawTheme && Object.prototype.hasOwnProperty.call(themeMigration, rawTheme)
+                  ? themeMigration[rawTheme] : 'system';
                 localStorage.setItem('theme', pref);
-                localStorage.setItem('theme-version', '2');
                 var applied = pref === 'system'
                   ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default')
-                  : pref;
+                  : (pref === 'light' ? 'default' : pref);
                 document.documentElement.setAttribute('data-theme', applied);
               } catch(e) {}
             `,

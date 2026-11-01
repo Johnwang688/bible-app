@@ -1,5 +1,5 @@
 /** What the user chose (stored in `localStorage['theme']` and synced to the account). */
-export type ThemePreference = 'system' | 'default' | 'dark' | 'paper';
+export type ThemePreference = 'system' | 'light' | 'dark' | 'paper';
 
 /** What is painted (`<html data-theme>`). */
 export type AppliedTheme = 'default' | 'dark' | 'paper';
@@ -22,7 +22,7 @@ export const APP_THEMES: AppThemeDef[] = [
     cardAccent: '#8a6a4a',
   },
   {
-    id: 'default',
+    id: 'light',
     name: 'Light',
     swatches: ['#faf7f0', '#efdfcb', '#6d4c31', '#221d16'],
     logoColor: 'dark',
@@ -62,29 +62,25 @@ const THEME_MIGRATION: Record<string, ThemePreference> = {
   neonrose: 'dark',
   parchment: 'paper',
   gold: 'paper',
+  // The old 'default' is deliberately absent: the old app wrote it for everyone who never chose, so it means Auto.
+  light: 'light',
   // Pastel and animated themes become an explicit Light.
-  dynamic: 'default',
-  pink: 'default',
-  blue: 'default',
-  green: 'default',
-  yellow: 'default',
-  purple: 'default',
-  orange: 'default',
+  dynamic: 'light',
+  pink: 'light',
+  blue: 'light',
+  green: 'light',
+  yellow: 'light',
+  purple: 'light',
+  orange: 'light',
 };
-
-const CURRENT_PREFERENCES: readonly string[] = ['system', 'default', 'dark', 'paper'];
 
 /**
  * The one migration: turns any stored, synced or legacy theme id into a current preference.
- * Missing, unknown and `'default'` all become Auto: the old app wrote `'default'` for everyone
- * who never chose, so a legacy `'default'` cannot be told apart from "no choice".
- *
- * Once a value has been migrated (`localStorage['theme-version']` is `'2'`, written by the
- * pre-paint script), `'default'` means an explicit Light, so pass `alreadyMigrated` to keep it.
+ * Missing, unknown and the old `'default'` all become Auto (the old app wrote `'default'` for
+ * everyone who never chose); an explicit Light is stored as `'light'`.
  */
-export function normalizeThemeId(rawTheme: string | null | undefined, alreadyMigrated = false): ThemePreference {
+export function normalizeThemeId(rawTheme: string | null | undefined): ThemePreference {
   if (!rawTheme) return 'system';
-  if (alreadyMigrated && CURRENT_PREFERENCES.includes(rawTheme)) return rawTheme as ThemePreference;
   if (!Object.prototype.hasOwnProperty.call(THEME_MIGRATION, rawTheme)) return 'system';
   return THEME_MIGRATION[rawTheme];
 }
@@ -92,5 +88,6 @@ export function normalizeThemeId(rawTheme: string | null | undefined, alreadyMig
 /** Resolves a preference to the mode that is painted; Auto follows the device. */
 export function resolveAppliedTheme(pref: ThemePreference, prefersDark: boolean): AppliedTheme {
   if (pref === 'system') return prefersDark ? 'dark' : 'default';
+  if (pref === 'light') return 'default';
   return pref;
 }

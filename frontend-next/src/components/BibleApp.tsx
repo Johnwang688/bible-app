@@ -2283,8 +2283,6 @@ function BibleAppInner({
     settings: SyncedUserSettings,
   ) => {
     hydratingAccountRef.current = true;
-    // A synced 'default' is ambiguous (old app: never chose; new app: explicit Light), so it never overrides this device.
-    if (settings.theme && settings.theme !== 'default') applyTheme(normalizeThemeId(settings.theme));
     const nextHighlights: string[] = [];
     const nextBookmarks: string[] = [];
     const nextNotes: Record<string, VerseNote> = {};
@@ -2362,7 +2360,7 @@ function BibleAppInner({
       hydratingAccountRef.current = false;
       syncReadyRef.current = true;
     });
-  }, [applyTheme, books, booksByName, booksByNumber, loadChapter]);
+  }, [books, booksByName, booksByNumber, loadChapter]);
 
   const syncAccountState = useCallback(async (session: AuthSession) => {
     if (!books.length) return;
@@ -3012,13 +3010,12 @@ function BibleAppInner({
   // ── Init ──────────────────────────────────────────────────────────────────────
   useEffect(() => {
     // Read theme from localStorage (inline script already applied it to the DOM)
-    const saved = normalizeThemeId(localStorage.getItem('theme'), localStorage.getItem('theme-version') === '2');
+    const saved = normalizeThemeId(localStorage.getItem('theme'));
     const storedLastPosition = readStoredLastPosition();
     startedWithSavedPositionRef.current = storedLastPosition !== null;
     const storedReaderSettings = readStoredReaderSettings();
     setCurrentTheme(saved);
     localStorage.setItem('theme', saved);
-    localStorage.setItem('theme-version', '2');
     setShowOnboarding(localStorage.getItem(ONBOARDING_STORAGE_KEY) !== '1');
 
     async function init() {
