@@ -5,7 +5,8 @@ import { READER_FONT_PX_OPTIONS, READER_LINE_HEIGHT_OPTIONS } from '@/features/r
 import type { GraphicsMode, ReaderFontId, ReaderFontPx, ReaderLineHeightOption, ReaderReadingMode, SidePanelPosition } from '@/features/reader/types';
 import styles from '@/features/settings/SettingsPanel.module.css';
 import { useReaderSettings } from '@/features/settings/ReaderSettingsContext';
-import { THEMES, THEME_GRID_PREVIEW_COUNT, getThemeCardStyle, themesForCollapsedPicker } from '@/features/settings/themeHelpers';
+import { THEMES, getThemeCardStyle } from '@/features/settings/themeHelpers';
+import type { ThemePreference } from '@/lib/themes';
 
 export interface SettingsPanelProps {
   settingsOpen: boolean;
@@ -13,10 +14,8 @@ export interface SettingsPanelProps {
   settingsPanelRef: RefObject<HTMLDivElement | null>;
   settingsOpenedFromHomeRef: RefObject<boolean>;
   setHomeScreenActive: Dispatch<SetStateAction<boolean>>;
-  themePickerExpanded: boolean;
-  setThemePickerExpanded: Dispatch<SetStateAction<boolean>>;
-  currentTheme: string;
-  applyTheme: (id: string) => void;
+  currentTheme: ThemePreference;
+  applyTheme: (id: ThemePreference) => void;
 }
 
 export default function SettingsPanel({
@@ -25,8 +24,6 @@ export default function SettingsPanel({
   settingsPanelRef,
   settingsOpenedFromHomeRef,
   setHomeScreenActive,
-  themePickerExpanded,
-  setThemePickerExpanded,
   currentTheme,
   applyTheme,
 }: SettingsPanelProps) {
@@ -44,15 +41,14 @@ export default function SettingsPanel({
         <div className="settings-body">
           <div className="settings-section-label">Appearance</div>
           <div className="theme-grid">
-            {(themePickerExpanded ? THEMES : themesForCollapsedPicker(currentTheme, THEME_GRID_PREVIEW_COUNT)).map(theme => (
-              <div
+            {THEMES.map(theme => (
+              <button
                 key={theme.id}
+                type="button"
                 className={`theme-card${currentTheme === theme.id ? ' selected' : ''}`}
                 style={getThemeCardStyle(theme)}
-                role="button"
-                tabIndex={0}
+                aria-pressed={currentTheme === theme.id}
                 onClick={() => applyTheme(theme.id)}
-                onKeyDown={e => e.key === 'Enter' && applyTheme(theme.id)}
               >
                 <div className="theme-swatches">
                   {theme.swatches.map((color, i) => (
@@ -61,18 +57,9 @@ export default function SettingsPanel({
                 </div>
                 <div className="theme-name">{theme.name}</div>
                 <span className="theme-check" aria-hidden="true">✓</span>
-              </div>
+              </button>
             ))}
           </div>
-          {THEMES.length > THEME_GRID_PREVIEW_COUNT && (
-            <button
-              type="button"
-              className="settings-theme-expand"
-              onClick={() => setThemePickerExpanded(exp => !exp)}
-            >
-              {themePickerExpanded ? 'See less' : 'See more'}
-            </button>
-          )}
           <div className="settings-section-label">Reading</div>
           <div className="settings-controls">
             <label className="settings-field">

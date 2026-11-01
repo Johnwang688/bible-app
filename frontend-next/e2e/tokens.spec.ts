@@ -5,6 +5,8 @@ import { expect, test } from './fixtures';
 const THEMES = [
   'default', 'dark', 'dynamic', 'pink', 'blue', 'green', 'yellow', 'purple', 'orange', 'gold',
   'midnight', 'rebecca', 'galaxy', 'parchment', 'teal', 'forest', 'magenta', 'emerald', 'canyon', 'neonrose',
+  // VI-2a: retired ids now migrate to a mode; 'paper' and 'system' are new.
+  'paper', 'system', 'light',
 ];
 
 // token -> legacy variable it must equal while VI-1's bridge is in place

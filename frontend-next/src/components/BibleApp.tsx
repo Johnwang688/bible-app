@@ -35,16 +35,17 @@ import {
   type WalletOut,
 } from '@/lib/quiz';
 import { parseReferenceLabel, sortBookNamesForMatching } from '@/lib/scriptureReference';
-import { normalizeThemeId } from '@/lib/themes';
+import { normalizeThemeId, type AppliedTheme, type ThemePreference } from '@/lib/themes';
+import { useThemePreference } from '@/lib/useThemePreference';
 
 import type { BookInfo, ChapterData, ChapterQuizVisitState, ChapterReadEvidence, CommentaryEntry, CommentarySource, ReaderSettings, SavedPassage, SearchResult, SearchSuggestion, SidePanelMode, SidePanelPosition, Translation, TutorialStep, VerseData, VerseNote } from '@/features/reader/types';
 import { DEFAULT_TRANSLATION, filterTranslationsForPicker, getLocalizedBookName, getLocalizedBookNameFromRaw, getTranslationDisplayId, getTranslationDisplayName, normalizeTranslationChoice } from '@/features/reader/translations';
-import { DEFAULT_READER_SETTINGS, applyReaderHighlightVars, detectGraphicsCapability, isPagedReadingMode, normalizeReaderSettings } from '@/features/reader/settings';
+import { DEFAULT_READER_SETTINGS, applyReaderHighlightVars, isPagedReadingMode, normalizeReaderSettings } from '@/features/reader/settings';
 import { biblePaneScrollDepthRatio, chapterStorageKey, closestVerseLine, formatVerseGroupRef, scrollVerseLineIntoBiblePaneCenter, sliceVersesIntoPages, verseStorageKey } from '@/features/reader/layout';
 import { computeChapterQuizRequiredDwellMs, getChapterQuizVisibleMs } from '@/features/quiz/dwell';
 import { chapterReadKey, pickSurpriseChapter } from '@/features/progress/surprise';
-import { COMMENTARY_SYNC_THROTTLE_MS, ENGAGEMENT_COMMIT_MS, LAST_POSITION_STORAGE_KEY, MAX_ENGAGEMENT_GAP_MS, MAX_RECENT_PASSAGES, ONBOARDING_STORAGE_KEY, SCROLL_ACTIVE_HOLD_MS, chapterEvidenceQualifies, computeTodayIso, selectDailyVerse, syncGoalCompletion, timeOfDayGreeting } from '@/features/progress/progress';
-import { DYNAMIC_BASE_THEME, DYNAMIC_COLORS, DYNAMIC_CYCLE_MS, hexToRgb, logoSrcForTheme } from '@/features/settings/themeHelpers';
+import { COMMENTARY_SYNC_THROTTLE_MS, ENGAGEMENT_COMMIT_MS, LAST_POSITION_STORAGE_KEY, MAX_ENGAGEMENT_GAP_MS, MAX_RECENT_PASSAGES, ONBOARDING_STORAGE_KEY, chapterEvidenceQualifies, computeTodayIso, selectDailyVerse, syncGoalCompletion, timeOfDayGreeting } from '@/features/progress/progress';
+import { logoSrcForTheme } from '@/features/settings/themeHelpers';
 import { SEARCH_SUGGESTION_LIMIT, clampChapterForBook, compactSearchText, extractLooseReferenceParts, formatSearchSuggestionLabel, getBookPopularityScore, normalizeReferenceSpacing, normalizeSearchText, scoreBookMatch } from '@/features/search/search';
 import { TUTORIAL_VERSE_TOOLS_VERSE, boundsToTutorialRect } from '@/features/onboarding/tutorial';
 import { buildExplainVersePrompt } from '@/features/ai/prompts';
@@ -132,7 +133,6 @@ function BibleAppInner({
   const [versionPopupOpen, setVersionPopupOpen] = useState(false);
   const [settingsOpen, setSettingsOpen]     = useState(false);
   const settingsOpenedFromHomeRef = useRef(false);
-  const [themePickerExpanded, setThemePickerExpanded] = useState(false);
   const [searchOpen, setSearchOpen]         = useState(false);
   /** Reader: top nav revealed when the pointer nears the top edge (or while hovering it). */
   const [chromeTopShown, setChromeTopShown] = useState(true);
@@ -213,7 +213,25 @@ function BibleAppInner({
   const [ttsRate, setTtsRate]                   = useState(1.0);
 
   // ── Theme ───
-  const [currentTheme, setCurrentTheme] = useState('default');
+  /** The stored preference, shared with ThemeSync and other tabs; null until hydrated (the pre-paint script owns the DOM until then). */
+  const [storedTheme, setThemePreference] = useThemePreference();
+  const currentTheme: ThemePreference = storedTheme ?? 'system';
+  // The applied mode (for the logo): ThemeSync paints <html data-theme>; this just reads it back.
+  const [appliedTheme, setAppliedTheme] = useState<AppliedTheme>('default');
+  useEffect(() => {
+    const root = document.documentElement;
+    const read = () => {
+      const t = root.getAttribute('data-theme');
+      setAppliedTheme(t === 'dark' || t === 'paper' ? t : 'default');
+    };
+    read();
+    const observer = new MutationObserver(read);
+    observer.observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+    return () => observer.disconnect();
+  }, []);
+
+  // ── Theme management ──────────────────────────────────────────────────────────
+  const applyTheme = setThemePreference;
 
   // ── DOM Refs ───
   const biblePaneRef  = useRef<HTMLDivElement>(null);
@@ -221,7 +239,6 @@ function BibleAppInner({
   const sideScrollRef = useRef<HTMLDivElement>(null);
   const sidePaneRef   = useRef<HTMLElement>(null);
   const dividerRef    = useRef<HTMLDivElement>(null);
-  const dynTintRef    = useRef<HTMLDivElement>(null);
   const versionBtnRef = useRef<HTMLButtonElement>(null);
   const tutorialHomeSpotRef = useRef<HTMLDivElement>(null);
   const searchPanelRef = useRef<HTMLDivElement>(null);
@@ -230,7 +247,6 @@ function BibleAppInner({
   const searchInputRef = useRef<HTMLInputElement>(null);
   const commentarySourceMenuRef = useRef<HTMLDivElement>(null);
   const agentMenuRef = useRef<HTMLDivElement>(null);
-  const cometCanvasRef = useRef<HTMLCanvasElement>(null);
   const readerPassagesRef = useRef<HTMLDivElement>(null);
   const readerSelectionPayloadRef = useRef<{ text: string; refLabel?: string } | null>(null);
   const readerSelectionRafRef = useRef<number | null>(null);
@@ -247,7 +263,6 @@ function BibleAppInner({
     matthew_henry: 'Matthew Henry Commentary',
     summary: 'Chapter Summaries',
   });
-  const currentThemeRef = useRef('default');
   const readerSettingsRef = useRef<ReaderSettings>(DEFAULT_READER_SETTINGS);
   const pagedPageSlicesRef = useRef<VerseData[][] | null>(null);
   const chapterSpreadIndexRef = useRef(0);
@@ -264,10 +279,6 @@ function BibleAppInner({
   const isDraggingRef       = useRef(false);
   const dragStartXRef       = useRef(0);
   const dragStartWidthRef   = useRef(0);
-  const dynTimerRef         = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const dynRafRef           = useRef<number | null>(null);
-  const cometRafRef         = useRef<number | null>(null);
-  const dynIndexRef         = useRef(0);
   const touchStartXRef      = useRef<number | null>(null);
   const touchStartYRef      = useRef(0);
   const touchGestureModeRef = useRef<'chapter' | 'side-toggle'>('chapter');
@@ -303,8 +314,6 @@ function BibleAppInner({
   const sidePanelEngagementActivityRef = useRef(0);
   const commentarySyncTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastCommentarySyncAtRef = useRef(0);
-  const scrollActiveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const scrollEffectsDowngradedRef = useRef(false);
   const chromeTopShownRef = useRef(true);
   const chromeBottomShownRef = useRef(true);
   const topChromeHoverRef = useRef(false);
@@ -318,7 +327,6 @@ function BibleAppInner({
   const lastPointerXRef = useRef(0);
   const readerChromeCtxRef = useRef({ home: true, overlay: false, coarse: false });
   const commentarySyncIdleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const resolvedGraphicsModeRef = useRef<'performance' | 'efficiency'>('efficiency');
 
   // Keep stable refs in sync
   useEffect(() => { booksRef.current = books; },                             [books]);
@@ -332,7 +340,6 @@ function BibleAppInner({
   useEffect(() => { sidePanelPositionRef.current = readerSettings.sidePanelPosition; }, [readerSettings.sidePanelPosition]);
   useEffect(() => { commentarySourceRef.current = commentarySource; },       [commentarySource]);
   useEffect(() => { commentarySourceNamesRef.current = commentarySourceNames; }, [commentarySourceNames]);
-  useEffect(() => { currentThemeRef.current = currentTheme; },               [currentTheme]);
   useEffect(() => { readerSettingsRef.current = readerSettings; },           [readerSettings]);
   useEffect(() => { pagedPageSlicesRef.current = pagedPageSlices; },           [pagedPageSlices]);
   useEffect(() => { chapterSpreadIndexRef.current = chapterSpreadIndex; },   [chapterSpreadIndex]);
@@ -474,18 +481,8 @@ function BibleAppInner({
   }, [scheduleChromeScrollAutoHide]);
 
   useEffect(() => {
-    resolvedGraphicsModeRef.current = readerSettings.graphicsMode === 'auto'
-      ? detectGraphicsCapability()
-      : readerSettings.graphicsMode;
-  }, [readerSettings.graphicsMode]);
-
-  useEffect(() => {
     setPersonalityId(restorePersonalityId());
   }, []);
-
-  useEffect(() => {
-    if (!settingsOpen) setThemePickerExpanded(false);
-  }, [settingsOpen]);
 
   useEffect(() => {
     const noteKey = currentBook && selectedVerse != null
@@ -2047,21 +2044,6 @@ function BibleAppInner({
     );
   }, [flushPendingEngagement]);
 
-  const markScrollActive = useCallback(() => {
-    if (typeof document === 'undefined') return;
-    if (resolvedGraphicsModeRef.current !== 'efficiency') return;
-    if (!scrollEffectsDowngradedRef.current) {
-      document.documentElement.setAttribute('data-scroll-active', '1');
-      scrollEffectsDowngradedRef.current = true;
-    }
-    if (scrollActiveTimerRef.current) clearTimeout(scrollActiveTimerRef.current);
-    scrollActiveTimerRef.current = setTimeout(() => {
-      document.documentElement.removeAttribute('data-scroll-active');
-      scrollEffectsDowngradedRef.current = false;
-      scrollActiveTimerRef.current = null;
-    }, SCROLL_ACTIVE_HOLD_MS);
-  }, []);
-
   useEffect(() => {
     if (typeof window === 'undefined' || !currentBook) return;
     window.localStorage.setItem(LAST_POSITION_STORAGE_KEY, JSON.stringify({
@@ -2731,12 +2713,10 @@ function BibleAppInner({
       if (commentarySyncTimerRef.current) clearTimeout(commentarySyncTimerRef.current);
       if (commentarySyncIdleTimerRef.current) clearTimeout(commentarySyncIdleTimerRef.current);
       if (engagementTimerRef.current) clearTimeout(engagementTimerRef.current);
-      if (scrollActiveTimerRef.current) clearTimeout(scrollActiveTimerRef.current);
       if (chromeScrollAutoHideTimerRef.current) {
         clearTimeout(chromeScrollAutoHideTimerRef.current);
         chromeScrollAutoHideTimerRef.current = null;
       }
-      if (typeof document !== 'undefined') document.documentElement.removeAttribute('data-scroll-active');
     };
   }, []);
 
@@ -2755,7 +2735,6 @@ function BibleAppInner({
     const pane = biblePaneRef.current;
     if (!pane || !currentBook || !chapterData) return;
     const onScroll = () => {
-      markScrollActive();
       const y = pane.scrollTop;
       const delta = y - lastScrollYRef.current;
       const { home, overlay } = readerChromeCtxRef.current;
@@ -2808,7 +2787,6 @@ function BibleAppInner({
     chapter,
     chapterData,
     currentBook,
-    markScrollActive,
     scheduleCommentarySyncAfterScroll,
     scheduleReadingProgressCommit,
     scheduleChromeScrollAutoHide,
@@ -3025,484 +3003,15 @@ function BibleAppInner({
     };
   }, [sidePaneWidth]);
 
-  // ── Galaxy comet animation ────────────────────────────────────────────────────
-  useEffect(() => {
-    const canvas = cometCanvasRef.current;
-    if (!canvas) return;
-
-    const isGalaxyTheme = currentTheme === 'galaxy';
-    const isPinkTheme = currentTheme === 'pink';
-
-    if ((!isGalaxyTheme && !isPinkTheme) || !readerSettings.specialEffects) {
-      if (cometRafRef.current !== null) {
-        cancelAnimationFrame(cometRafRef.current);
-        cometRafRef.current = null;
-      }
-      const ctx = canvas.getContext('2d');
-      if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
-      return;
-    }
-
-    const TOPBAR_H  = 56;
-    const TASKBAR_H = 64;
-    const GUTTER_W  = 52;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let zones = getZones(window.innerWidth, window.innerHeight);
-
-    function resize() {
-      if (!canvas) return;
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      zones = getZones(canvas.width, canvas.height);
-    }
-    resize();
-    window.addEventListener('resize', resize);
-
-    interface CometParticle {
-      x: number; y: number;
-      vx: number; vy: number;
-      tail: Array<[number, number]>;
-      maxTail: number;
-      alpha: number;
-      size: number;
-      dead: boolean;
-      respawnIn: number;
-    }
-
-    interface HeartParticle {
-      x: number; y: number;
-      vx: number; vy: number;
-      tail: Array<[number, number]>;
-      maxTail: number;
-      alpha: number;
-      size: number;
-      dead: boolean;
-      respawnIn: number;
-      wobble: number;
-      wobbleSpeed: number;
-    }
-
-    function getZones(w: number, h: number) {
-      return [
-        { x: 0,          y: 0,                    w,          h: TOPBAR_H,                          horizontal: true  },
-        { x: 0,          y: h - TASKBAR_H,         w,          h: TASKBAR_H,                         horizontal: true  },
-        { x: 0,          y: TOPBAR_H,              w: GUTTER_W, h: h - TOPBAR_H - TASKBAR_H,         horizontal: false },
-        { x: w - GUTTER_W, y: TOPBAR_H,            w: GUTTER_W, h: h - TOPBAR_H - TASKBAR_H,        horizontal: false },
-      ];
-    }
-
-    function spawnComet(w: number, h: number): CometParticle {
-      const zones   = getZones(w, h);
-      const weights = [3, 3, 1, 1];
-      let r = Math.random() * 8;
-      let zoneIdx = 0;
-      for (let i = 0; i < weights.length; i++) {
-        r -= weights[i];
-        if (r <= 0) { zoneIdx = i; break; }
-      }
-      const zone  = zones[zoneIdx];
-      const speed = 1.2 + Math.random() * 2.2;
-      let x: number, y: number, vx: number, vy: number;
-
-      if (zone.horizontal) {
-        const fromLeft = Math.random() < 0.5;
-        x  = fromLeft ? zone.x - 5 : zone.x + zone.w + 5;
-        y  = zone.y + zone.h * 0.15 + Math.random() * zone.h * 0.7;
-        vx = fromLeft ? speed : -speed;
-        vy = (Math.random() - 0.5) * speed * 0.3;
-      } else {
-        const fromTop = Math.random() < 0.5;
-        x  = zone.x + zone.w * 0.1 + Math.random() * zone.w * 0.8;
-        y  = fromTop ? zone.y - 5 : zone.y + zone.h + 5;
-        vx = (Math.random() - 0.5) * speed * 0.3;
-        vy = fromTop ? speed : -speed;
-      }
-
-      return { x, y, vx, vy, tail: [], maxTail: Math.floor(20 + Math.random() * 25),
-               alpha: 0.65 + Math.random() * 0.35, size: 1.2 + Math.random() * 1.4,
-               dead: false, respawnIn: 0 };
-    }
-
-    function spawnHeart(w: number, h: number): HeartParticle {
-      const zones   = getZones(w, h);
-      const weights = [3, 3, 1, 1];
-      let r = Math.random() * 8;
-      let zoneIdx = 0;
-      for (let i = 0; i < weights.length; i++) {
-        r -= weights[i];
-        if (r <= 0) { zoneIdx = i; break; }
-      }
-      const zone = zones[zoneIdx];
-      const speed = 0.25 + Math.random() * 0.5;
-      let x: number, y: number, vx: number, vy: number;
-
-      if (zone.horizontal) {
-        const fromLeft = Math.random() < 0.5;
-        x  = fromLeft ? zone.x - 12 : zone.x + zone.w + 12;
-        y  = zone.y + zone.h * 0.18 + Math.random() * zone.h * 0.64;
-        vx = fromLeft ? speed : -speed;
-        vy = (Math.random() - 0.5) * speed * 0.18;
-      } else {
-        const fromTop = Math.random() < 0.5;
-        x  = zone.x + zone.w * 0.16 + Math.random() * zone.w * 0.68;
-        y  = fromTop ? zone.y - 12 : zone.y + zone.h + 12;
-        vx = (Math.random() - 0.5) * speed * 0.2;
-        vy = fromTop ? speed : -speed;
-      }
-
-      return {
-        x,
-        y,
-        vx,
-        vy,
-        tail: [],
-        maxTail: Math.floor(5 + Math.random() * 5),
-        alpha: 0.5 + Math.random() * 0.22,
-        size: 10 + Math.random() * 8,
-        dead: false,
-        respawnIn: 0,
-        wobble: Math.random() * Math.PI * 2,
-        wobbleSpeed: 0.01 + Math.random() * 0.012,
-      };
-    }
-
-    function drawHeart(
-      ctx: CanvasRenderingContext2D,
-      x: number,
-      y: number,
-      size: number,
-      fillStyle: string,
-    ) {
-      ctx.beginPath();
-      ctx.moveTo(x, y + size * 0.28);
-      ctx.bezierCurveTo(x - size * 0.62, y - size * 0.22, x - size * 1.02, y + size * 0.5, x, y + size);
-      ctx.bezierCurveTo(x + size * 1.02, y + size * 0.5, x + size * 0.62, y - size * 0.22, x, y + size * 0.28);
-      ctx.closePath();
-      ctx.fillStyle = fillStyle;
-      ctx.fill();
-    }
-
-    // ── Nebula orbs — large soft blobs that drift slowly through allowed zones ──
-    interface NebulaOrb {
-      x: number; y: number;
-      vx: number; vy: number;
-      radius: number;
-      r: number; g: number; b: number;
-      baseAlpha: number;
-      phase: number;       // breathing phase offset
-      phaseSpeed: number;  // breathing speed
-    }
-
-    const NEBULA_COLORS: [number, number, number][] = [
-      [155, 60, 255],  // violet
-      [255, 195, 55],  // gold
-      [60,  95, 240],  // indigo
-      [255, 80, 185],  // magenta
-      [55, 230, 215],  // teal
-      [255, 140, 40],  // amber
-    ];
-
-    function spawnOrb(w: number, h: number): NebulaOrb {
-      const zones = getZones(w, h);
-      const zone  = zones[Math.floor(Math.random() * zones.length)];
-      const [r, g, b] = NEBULA_COLORS[Math.floor(Math.random() * NEBULA_COLORS.length)];
-      const speed = 0.06 + Math.random() * 0.16;
-      const angle = Math.random() * Math.PI * 2;
-      return {
-        x: zone.x + Math.random() * zone.w,
-        y: zone.y + Math.random() * zone.h,
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed,
-        radius: 70 + Math.random() * 110,
-        r, g, b,
-        baseAlpha: 0.055 + Math.random() * 0.065,
-        phase: Math.random() * Math.PI * 2,
-        phaseSpeed: 0.008 + Math.random() * 0.012,
-      };
-    }
-
-    const isPerformanceMode = resolvedGraphicsModeRef.current === 'performance';
-    const ORB_COUNT = isPerformanceMode ? 6 : 4;
-    const orbs: NebulaOrb[] = isGalaxyTheme
-      ? Array.from({ length: ORB_COUNT }, () => spawnOrb(canvas.width, canvas.height))
-      : [];
-
-    const COMET_COUNT = isPerformanceMode ? 14 : 8;
-    const comets: CometParticle[] = isGalaxyTheme
-      ? Array.from({ length: COMET_COUNT }, () => {
-          const c = spawnComet(canvas.width, canvas.height);
-          // stagger initial positions so they don't all start at zone edges
-          const advance = Math.floor(Math.random() * 80);
-          for (let f = 0; f < advance; f++) {
-            c.tail.push([c.x, c.y]);
-            if (c.tail.length > c.maxTail) c.tail.shift();
-            c.x += c.vx; c.y += c.vy;
-          }
-          return c;
-        })
-      : [];
-
-    const HEART_COUNT = isPerformanceMode ? 16 : 10;
-    const hearts: HeartParticle[] = isPinkTheme
-      ? Array.from({ length: HEART_COUNT }, () => {
-          const heart = spawnHeart(canvas.width, canvas.height);
-          const advance = Math.floor(Math.random() * 55);
-          for (let f = 0; f < advance; f++) {
-            heart.tail.push([heart.x, heart.y]);
-            if (heart.tail.length > heart.maxTail) heart.tail.shift();
-            heart.wobble += heart.wobbleSpeed;
-            heart.x += heart.vx + Math.sin(heart.wobble) * 0.16;
-            heart.y += heart.vy + Math.cos(heart.wobble * 0.8) * 0.08;
-          }
-          return heart;
-        })
-      : [];
-
-    function draw() {
-      if (!canvas) return;
-      const w = canvas.width;
-      const h = canvas.height;
-      const scrollActive = scrollEffectsDowngradedRef.current;
-
-      ctx!.clearRect(0, 0, w, h);
-
-      ctx!.save();
-      ctx!.beginPath();
-      for (const z of zones) ctx!.rect(z.x, z.y, z.w, z.h);
-      ctx!.clip();
-
-      // ── Nebula orbs (drawn first, behind comets) ─────────────────────────────
-      if (isGalaxyTheme) {
-        for (let i = 0; i < orbs.length; i++) {
-        const o = orbs[i];
-        o.phase += o.phaseSpeed;
-        const breathe = 0.65 + 0.35 * Math.sin(o.phase);
-        const a = o.baseAlpha * breathe;
-
-        ctx!.beginPath();
-        ctx!.arc(o.x, o.y, o.radius, 0, Math.PI * 2);
-        if (scrollActive) {
-          ctx!.fillStyle = `rgba(${o.r}, ${o.g}, ${o.b}, ${(a * 0.5).toFixed(3)})`;
-        } else {
-          const grd = ctx!.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.radius);
-          grd.addColorStop(0,    `rgba(${o.r}, ${o.g}, ${o.b}, ${(a * 1.6).toFixed(3)})`);
-          grd.addColorStop(0.45, `rgba(${o.r}, ${o.g}, ${o.b}, ${(a * 0.8).toFixed(3)})`);
-          grd.addColorStop(1,    `rgba(${o.r}, ${o.g}, ${o.b}, 0)`);
-          ctx!.fillStyle = grd;
-        }
-        ctx!.fill();
-
-        o.x += o.vx;
-        o.y += o.vy;
-
-        // Gently nudge velocity to keep orbs in their zone
-        const inAnyZone = zones.some(z =>
-          o.x >= z.x && o.x <= z.x + z.w && o.y >= z.y && o.y <= z.y + z.h,
-        );
-        if (!inAnyZone) {
-          // Drift back toward nearest zone center
-          const nearest = zones.reduce((best, z) => {
-            const cx = z.x + z.w / 2, cy = z.y + z.h / 2;
-            const d2 = (o.x - cx) ** 2 + (o.y - cy) ** 2;
-            return d2 < best.d2 ? { d2, cx, cy } : best;
-          }, { d2: Infinity, cx: 0, cy: 0 });
-          o.vx += (nearest.cx - o.x) * 0.0002;
-            o.vy += (nearest.cy - o.y) * 0.0002;
-          }
-        }
-
-        for (let i = 0; i < comets.length; i++) {
-          const c = comets[i];
-
-          if (c.dead) {
-            c.respawnIn--;
-            if (c.respawnIn <= 0) comets[i] = spawnComet(w, h);
-            continue;
-          }
-
-          c.tail.push([c.x, c.y]);
-          if (c.tail.length > c.maxTail) c.tail.shift();
-
-          if (!scrollActive) {
-        // tail: fading, tapering line segments from base → head
-            for (let j = 1; j < c.tail.length; j++) {
-              const t  = j / c.tail.length; // 0 = oldest, 1 = near-head
-              const [px, py] = c.tail[j - 1];
-              const [cx, cy] = c.tail[j];
-              ctx!.beginPath();
-              ctx!.moveTo(px, py);
-              ctx!.lineTo(cx, cy);
-              ctx!.strokeStyle = `rgba(255, 210, 60, ${c.alpha * t * 0.85})`;
-              ctx!.lineWidth   = Math.max(0.3, c.size * t * 1.4);
-              ctx!.lineCap     = 'round';
-              ctx!.stroke();
-            }
-
-        // outer glow
-            const grd = ctx!.createRadialGradient(c.x, c.y, 0, c.x, c.y, c.size * 5);
-            grd.addColorStop(0,    `rgba(255, 248, 180, ${c.alpha})`);
-            grd.addColorStop(0.35, `rgba(255, 210, 60,  ${c.alpha * 0.6})`);
-            grd.addColorStop(0.7,  `rgba(200, 150, 0,   ${c.alpha * 0.2})`);
-            grd.addColorStop(1,    'rgba(180, 120, 0, 0)');
-            ctx!.beginPath();
-            ctx!.arc(c.x, c.y, c.size * 5, 0, Math.PI * 2);
-            ctx!.fillStyle = grd;
-            ctx!.fill();
-          }
-
-        // bright core (always drawn)
-          ctx!.beginPath();
-          ctx!.arc(c.x, c.y, c.size, 0, Math.PI * 2);
-          ctx!.fillStyle = `rgba(255, 255, 230, ${c.alpha})`;
-          ctx!.fill();
-
-          c.x += c.vx;
-          c.y += c.vy;
-
-          const BUFFER = 80;
-          const alive  = zones.some(z =>
-            c.x >= z.x - BUFFER && c.x <= z.x + z.w + BUFFER &&
-            c.y >= z.y - BUFFER && c.y <= z.y + z.h + BUFFER,
-          );
-          if (!alive) { c.dead = true; c.respawnIn = Math.floor(20 + Math.random() * 60); }
-        }
-      }
-
-      if (isPinkTheme) {
-        for (let i = 0; i < hearts.length; i++) {
-          const heart = hearts[i];
-
-          if (heart.dead) {
-            heart.respawnIn--;
-            if (heart.respawnIn <= 0) hearts[i] = spawnHeart(w, h);
-            continue;
-          }
-
-          if (!scrollActive) {
-            const glow = ctx!.createRadialGradient(
-              heart.x,
-              heart.y + heart.size * 0.45,
-              0,
-              heart.x,
-              heart.y + heart.size * 0.45,
-              heart.size * 2.3,
-            );
-            glow.addColorStop(0, `rgba(255, 228, 240, ${heart.alpha * 0.55})`);
-            glow.addColorStop(0.45, `rgba(255, 170, 205, ${heart.alpha * 0.24})`);
-            glow.addColorStop(1, 'rgba(255, 150, 195, 0)');
-            ctx!.beginPath();
-            ctx!.arc(heart.x, heart.y + heart.size * 0.45, heart.size * 2.3, 0, Math.PI * 2);
-            ctx!.fillStyle = glow;
-            ctx!.fill();
-          }
-
-          drawHeart(ctx!, heart.x, heart.y, heart.size, `rgba(255, 188, 216, ${heart.alpha})`);
-          drawHeart(ctx!, heart.x, heart.y, heart.size * 0.62, `rgba(255, 238, 244, ${heart.alpha * 0.72})`);
-
-          heart.wobble += heart.wobbleSpeed;
-          heart.x += heart.vx + Math.sin(heart.wobble) * 0.16;
-          heart.y += heart.vy + Math.cos(heart.wobble * 0.8) * 0.08;
-
-          const BUFFER = 54;
-          const alive = zones.some(z =>
-            heart.x >= z.x - BUFFER && heart.x <= z.x + z.w + BUFFER &&
-            heart.y >= z.y - BUFFER && heart.y <= z.y + z.h + BUFFER,
-          );
-          if (!alive) {
-            heart.dead = true;
-            heart.respawnIn = Math.floor(16 + Math.random() * 44);
-          }
-        }
-      }
-
-      ctx!.restore();
-      cometRafRef.current = requestAnimationFrame(draw);
-    }
-
-    cometRafRef.current = requestAnimationFrame(draw);
-
-    return () => {
-      if (cometRafRef.current !== null) {
-        cancelAnimationFrame(cometRafRef.current);
-        cometRafRef.current = null;
-      }
-      window.removeEventListener('resize', resize);
-      if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
-    };
-  }, [currentTheme, readerSettings.specialEffects, readerSettings.graphicsMode]);
-
-  // ── Theme management ──────────────────────────────────────────────────────────
-  const stopDynamicTheme = useCallback(() => {
-    if (dynTimerRef.current) { clearTimeout(dynTimerRef.current); dynTimerRef.current = null; }
-    if (dynRafRef.current)   { cancelAnimationFrame(dynRafRef.current); dynRafRef.current = null; }
-    if (dynTintRef.current)  dynTintRef.current.style.backgroundColor = 'transparent';
-    document.documentElement.removeAttribute('data-dynamic-wave');
-  }, []);
-
-  const runDynamicRgbStrip = useCallback(() => {
-    if (currentThemeRef.current !== 'dynamic' || !readerSettings.specialEffects) return;
-    const nextHex = DYNAMIC_COLORS[dynIndexRef.current % DYNAMIC_COLORS.length];
-    dynIndexRef.current++;
-    const { r, g, b } = hexToRgb(nextHex);
-    const t0 = performance.now();
-    const frame = (now: number) => {
-      if (currentThemeRef.current !== 'dynamic') return;
-      const u = Math.min((now - t0) / DYNAMIC_CYCLE_MS, 1);
-      const a = u <= 0.5 ? u * 2 : (1 - u) * 2;
-      if (dynTintRef.current) dynTintRef.current.style.backgroundColor = `rgba(${r},${g},${b},${a})`;
-      if (u < 1) {
-        dynRafRef.current = requestAnimationFrame(frame);
-      } else {
-        dynRafRef.current = null;
-        if (dynTintRef.current) dynTintRef.current.style.backgroundColor = 'transparent';
-        dynTimerRef.current = setTimeout(runDynamicRgbStrip, 0);
-      }
-    };
-    dynRafRef.current = requestAnimationFrame(frame);
-  }, []);
-
-  const startDynamicTheme = useCallback(() => {
-    if (!readerSettings.specialEffects) {
-      document.documentElement.removeAttribute('data-dynamic-wave');
-      document.documentElement.setAttribute('data-theme', DYNAMIC_BASE_THEME);
-      return;
-    }
-    dynIndexRef.current = 0;
-    document.documentElement.setAttribute('data-theme', DYNAMIC_BASE_THEME);
-    dynTimerRef.current = setTimeout(runDynamicRgbStrip, 0);
-  }, [readerSettings.specialEffects, runDynamicRgbStrip]);
-
-  const applyTheme = useCallback((id: string) => {
-    if (id !== 'dynamic') stopDynamicTheme();
-    setCurrentTheme(id);
-    localStorage.setItem('theme', id);
-    if (id === 'dynamic') {
-      document.documentElement.setAttribute('data-dynamic-wave', '1');
-      startDynamicTheme();
-    } else {
-      document.documentElement.removeAttribute('data-dynamic-wave');
-      document.documentElement.setAttribute('data-theme', id);
-    }
-  }, [stopDynamicTheme, startDynamicTheme]);
-
   // ── Init ──────────────────────────────────────────────────────────────────────
   useEffect(() => {
-    // Read theme from localStorage (inline script already applied it to the DOM)
+    // Store the migrated theme id (useThemePreference reads it normalised; the inline script already painted it)
     const saved = normalizeThemeId(localStorage.getItem('theme'));
     const storedLastPosition = readStoredLastPosition();
     startedWithSavedPositionRef.current = storedLastPosition !== null;
     const storedReaderSettings = readStoredReaderSettings();
-    setCurrentTheme(saved);
     localStorage.setItem('theme', saved);
     setShowOnboarding(localStorage.getItem(ONBOARDING_STORAGE_KEY) !== '1');
-    if (saved === 'dynamic' && storedReaderSettings.specialEffects) startDynamicTheme();
-    else {
-      document.documentElement.removeAttribute('data-dynamic-wave');
-      document.documentElement.setAttribute('data-theme', saved === 'dynamic' ? DYNAMIC_BASE_THEME : saved);
-    }
 
     async function init() {
       try {
@@ -3587,11 +3096,8 @@ function BibleAppInner({
       initStartedRef.current = true;
       init();
     }
-    // Strict Mode unmounts and remounts effects on first mount without re-rendering; stop the dynamic
-    // theme timer and animation here so the remount starts them fresh instead of doubling up.
-    return () => {
-      stopDynamicTheme();
-    };
+    // Nothing to tear down: the fetch is guarded by initStartedRef, so a Strict Mode replay is a no-op.
+    return () => {};
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -3873,22 +3379,9 @@ function BibleAppInner({
   // ── JSX ───────────────────────────────────────────────────────────────────────
   return (
     <>
-      {/* Wave background */}
-      <div id="wave-bg" aria-hidden="true">
-        <svg className="wave-svg wv-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
-          <path fill="var(--muted)" d="M0,100 C180,30 540,190 720,100 C900,30 1260,190 1440,100 L1440,320 L0,320 Z"/>
-        </svg>
-        <svg className="wave-svg wv-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
-          <path fill="var(--muted)" d="M0,130 C200,55 520,210 720,130 C920,55 1240,210 1440,130 L1440,320 L0,320 Z"/>
-        </svg>
-        <svg className="wave-svg wv-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
-          <path fill="var(--muted)" d="M0,90 C160,15 560,175 720,90 C880,5 1280,175 1440,90 L1440,320 L0,320 Z"/>
-        </svg>
-      </div>
-
       {homeScreenActive && (
         <HomeScreen
-          currentTheme={currentTheme}
+          appliedTheme={appliedTheme}
           homeTimeGreeting={homeTimeGreeting}
           coinBalance={coinBalance}
           sidePanelMode={sidePanelMode}
@@ -3986,39 +3479,6 @@ function BibleAppInner({
 
       {/* Content shell */}
       <div className={`content-shell${contentShellChromeHidden ? ' chrome-hidden' : ''}${homeScreenActive ? ' home-screen-behind' : ''}`}>
-        {/* Smoke overlay */}
-        <div id="smoke-overlay" aria-hidden="true">
-          {([ ['300px','300px','var(--muted)','5%','4%','35px','18px','30s','0s'],
-              ['220px','220px','var(--accent)','42%','2%','-25px','22px','22s','-8s'],
-              ['260px','260px','var(--muted)','72%','6%','20px','14px','27s','-4s'],
-              ['280px','280px','var(--accent)','18%','28%','-40px','-16px','34s','-12s'],
-              ['200px','200px','var(--muted)','55%','25%','30px','-20px','25s','-2s'],
-              ['320px','320px','var(--accent)','80%','32%','-28px','10px','38s','-18s'],
-              ['260px','260px','var(--muted)','8%','54%','45px','-12px','28s','-6s'],
-              ['190px','190px','var(--accent)','38%','58%','-22px','18px','21s','-14s'],
-              ['290px','290px','var(--muted)','65%','50%','25px','-8px','33s','-9s'],
-              ['240px','240px','var(--accent)','22%','76%','-38px','-22px','26s','-3s'],
-              ['310px','310px','var(--muted)','58%','80%','32px','-18px','36s','-16s'],
-              ['180px','180px','var(--accent)','85%','72%','-18px','24px','23s','-22s'],
-          ] as [string,string,string,string,string,string,string,string,string][]).map(([w,h,bg,l,t,dx,dy,dur,del], i) => (
-            <div key={i} className="smoke-wisp" style={{
-              width: w, height: h, background: bg, left: l, top: t,
-              ['--dx' as string]: dx, ['--dy' as string]: dy,
-              animationDuration: dur, animationDelay: del,
-            } as React.CSSProperties} />
-          ))}
-        </div>
-
-        {/* Dynamic theme wave */}
-        <div id="dynamic-wave" aria-hidden="true">
-          <div className="dynamic-wave-tint" ref={dynTintRef} />
-        </div>
-
-        {/* Galaxy sparkles */}
-        <div className="galaxy-sparkles" aria-hidden="true" />
-        <div className="pink-hearts" aria-hidden="true" />
-        <div className="emerald-leaves" aria-hidden="true" />
-
         {/* Main content area */}
         <div
           ref={contentAreaRef}
@@ -4433,7 +3893,7 @@ function BibleAppInner({
           >
             <span className="taskbar-icon" aria-hidden="true">
               <img
-                src={logoSrcForTheme(currentTheme)}
+                src={logoSrcForTheme(appliedTheme)}
                 alt=""
                 className="taskbar-icon-img"
                 width={22}
@@ -4492,13 +3952,10 @@ function BibleAppInner({
         settingsPanelRef={settingsPanelRef}
         settingsOpenedFromHomeRef={settingsOpenedFromHomeRef}
         setHomeScreenActive={setHomeScreenActive}
-        themePickerExpanded={themePickerExpanded}
-        setThemePickerExpanded={setThemePickerExpanded}
         currentTheme={currentTheme}
         applyTheme={applyTheme}
       />
 
-      {/* Galaxy comet canvas — fixed overlay, clips to toolbar/gutter zones only */}
       {tutorialOpen && tutorialStep && (
         <div
           className="tutorial-overlay"
@@ -4666,21 +4123,6 @@ function BibleAppInner({
           </section>
         </div>
       )}
-
-      <canvas
-        ref={cometCanvasRef}
-        className="theme-comet-canvas"
-        aria-hidden="true"
-        style={{
-          position: 'fixed',
-          inset: 0,
-          width: '100%',
-          height: '100%',
-          pointerEvents: 'none',
-          zIndex: homeScreenActive ? 30 : 110,
-          display: currentTheme === 'galaxy' || currentTheme === 'pink' ? 'block' : 'none',
-        }}
-      />
 
       {/* Quiz modal */}
       {quizOpen && authSession && currentBook && (

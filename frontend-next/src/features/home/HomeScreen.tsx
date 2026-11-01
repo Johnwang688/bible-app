@@ -11,10 +11,11 @@ import type { ChapterData, DailyVerse, SidePanelMode } from '@/features/reader/t
 import { chapterReadKey } from '@/features/progress/surprise';
 import { DailyTasksList } from '@/features/progress/DailyTasksList';
 import { logoSrcForTheme } from '@/features/settings/themeHelpers';
+import type { AppliedTheme } from '@/lib/themes';
 import styles from '@/features/home/HomeScreen.module.css';
 
 export interface HomeScreenProps {
-  currentTheme: string;
+  appliedTheme: AppliedTheme;
   homeTimeGreeting: string;
   coinBalance: number | null;
   sidePanelMode: SidePanelMode;
@@ -44,7 +45,7 @@ export interface HomeScreenProps {
 }
 
 export default function HomeScreen({
-  currentTheme,
+  appliedTheme,
   homeTimeGreeting,
   coinBalance,
   sidePanelMode,
@@ -88,7 +89,7 @@ export default function HomeScreen({
           <div className="home-screen-title-row">
             <img
               className="home-screen-logo"
-              src={logoSrcForTheme(currentTheme)}
+              src={logoSrcForTheme(appliedTheme)}
               alt=""
               width={40}
               height={40}
