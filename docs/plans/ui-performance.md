@@ -1,5 +1,7 @@
 # UI and performance plan
 
+> **Superseded 2026-10-31 (John):** the frontend is being rebuilt in Expo / React Native (`docs/plans/app-rebuild.md`). PF-1 and VI-2a ship on the old frontend. CR-1, PF-2, PF-3 and UI-1 to UI-3 are cancelled there. Their findings and decisions carry into the rebuild: the bottom sheet, the loader race tests, the phone layout issues, the coin removal and Paper's AA colours.
+
 Scoped 2026-10-31 from measurements of a production build (`next start` against the real FastAPI backend). The orchestrator's probe is `bible-app-work/perf/probe.mjs`; it runs at 1× and 4× CPU throttle, with phone and desktop viewports.
 
 ## What we measured (main @ 17fafd3)
