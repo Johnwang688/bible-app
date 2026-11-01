@@ -145,3 +145,9 @@ describe('contrast pairs cover every glass surface', () => {
     expect(glassPairs({ ...t, [key]: '#FFFFFF' }, palette, false)).not.toEqual(glassPairs(t, palette, false));
   });
 });
+
+// Verifier round 2 on the orchestrator's code (GPT-6.1 Sol): a mutant-killing coverage check.
+it.each([...GLOW_L, ...GLOW_D])('$id: highlighted Scripture is measured over every wash backdrop', (palette) => {
+  const names = glassPairs(getTheme(palette.id).canvas, palette, 'onAccent' in palette).map((p) => p.name);
+  expect(names).toEqual(expect.arrayContaining(['base', 'a', 'b', 'c'].map((b) => `reader hlText/hl>${b}`)));
+});

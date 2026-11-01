@@ -120,3 +120,41 @@ describe('ratchet scanners (verifier counterexamples)', () => {
     },
   );
 });
+
+// Verifier round 2 on the orchestrator's code (GPT-6.1 Sol): a repeat of the same class.
+describe('ratchet scanners (verifier round 2)', () => {
+  it.each([
+    "const x = <Text>{['Home', 'Bible'].join(' / ')}</Text>;",
+    "const x = <Pressable accessibilityLabel={'Open menu'.trim()} />;",
+    "Alert.alert('Delete note'.trim(), 'Are you sure?'.trim());",
+    "const x = <Text>{format('Chapter {n}', n)}</Text>;",
+  ])('string ratchet rejects call-wrapped literal UI text: %s', (source) => {
+    expect(uiStringLiterals('app/(tabs)/x.tsx', source).length).toBeGreaterThan(0);
+  });
+
+  it.each([
+    "const x = <Text>{t('tabs.home', { n: 3 })}</Text>;",
+    "const x = <Text>{i18n.t('tabs.home')}</Text>;",
+    "const x = <Text>{formatNumber(1189)}</Text>;",
+    "const x = <Text style={{ fontFamily: uiFace(theme.type.ui, '700') }}>{t('a')}</Text>;",
+  ])('string ratchet still allows catalogue calls and non-text calls: %s', (source) => {
+    expect(uiStringLiterals('app/(tabs)/x.tsx', source)).toEqual([]);
+  });
+
+  it.each([
+    "const x = <Text style={{color: active ? 'rebeccapurple' : theme.colors.text}} />;",
+    "const x = { 'color': 'red' };",
+    "const part = 'fff'; const x = {color: '#' + part};",
+    "const x = { borderColor: (dim && 'gray') || theme.colors.muted };",
+  ])('token ratchet rejects raw colours: %s', (source) => {
+    expect(colourLiterals('app/(tabs)/x.tsx', source).length).toBeGreaterThan(0);
+  });
+
+  it.each([
+    "const x = { color: active ? theme.colors.tabOn : theme.colors.tabOff };",
+    "const label = '#' + n;",
+    "const x = { 'fontFamily': 'Literata' };",
+  ])('token ratchet still allows non-colour strings: %s', (source) => {
+    expect(colourLiterals('x.tsx', source)).toEqual([]);
+  });
+});
