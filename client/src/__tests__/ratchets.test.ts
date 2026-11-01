@@ -177,3 +177,33 @@ describe('ratchet scanners (verifier round 3)', () => {
     expect(colourLiterals('app/(tabs)/x.tsx', "const x = { color: customColor ?? 'red' };").length).toBeGreaterThan(0);
   });
 });
+
+// Follow-up to R-0's 5a stop (Sol round 3, F2): colours chosen through calls and element access.
+describe('ratchet scanners (R-0 follow-up: colour selections)', () => {
+  it.each([
+    "const x = <Text style={{ color: Platform.select({ ios: 'red', android: 'blue', default: 'black' }) }} />;",
+    "const x = { color: ['red', 'blue'][index] };",
+    "const x = { backgroundColor: Platform.select({ web: '#fff', default: theme.colors.base }) };",
+    "const x = { color: pick(active, 'tomato', theme.colors.text) };",
+    "const x = { tintColor: ({ on: 'red', off: 'gray' } as const)[state] };",
+  ])('token ratchet rejects colour literals picked by a call or an index: %s', (source) => {
+    expect(colourLiterals('app/(tabs)/x.tsx', source).length).toBeGreaterThan(0);
+  });
+
+  it.each([
+    "const x = { color: Platform.select({ ios: theme.colors.text, default: theme.colors.muted }) };",
+    "const x = { color: palette[state] };",
+    "const x = { color: theme.colors[key] };",
+    "const x = { color: withAlpha(theme.colors.text, 0.5) };",
+    "const x = { fontFamily: Platform.select({ ios: 'Literata', default: 'serif' }) };",
+  ])('token ratchet allows theme-driven selections and non-colour props: %s', (source) => {
+    expect(colourLiterals('x.tsx', source)).toEqual([]);
+  });
+});
+
+// Verifier (GPT-6.1 Sol) on the follow-up: a mutant-killing regression test.
+it('token ratchet detects named colours passed to constructors', () => {
+  expect(colourLiterals('x.tsx', "const x = { color: new Color('red') };")).toEqual([
+    { file: 'x.tsx', line: 1, text: 'color: red' },
+  ]);
+});
