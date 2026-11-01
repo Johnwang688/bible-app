@@ -20,11 +20,12 @@ test('coin icon: 64×64 at most, under 8 KB, still a PNG with transparency', asy
 });
 
 for (const p of ['logo/openbible-logo-black.png', 'logo/openbible-logo-white.png']) {
-  test(`${p}: longest side 96–192 px, under 24 KB, aspect ratio kept, transparent`, async () => {
+  test(`${p}: longest side 96–192 px, under 24 KB, aspect ratio of its original kept, transparent`, async () => {
     const m = await meta(p);
     assert.equal(m.format, 'png');
     assert.ok(Math.max(m.w, m.h) <= 192 && Math.max(m.w, m.h) >= 96, JSON.stringify(m));
-    assert.ok(Math.abs(m.w / m.h - 1050 / 1176) < 0.02, `aspect ${m.w}/${m.h}`);
+    const src = await sharp(path.join('assets-src', path.basename(p))).metadata();
+    assert.ok(Math.abs(m.w / m.h - src.width / src.height) < 0.02, `aspect ${m.w}/${m.h} vs original ${src.width}/${src.height}`);
     assert.ok(m.kb < 24, `${m.kb.toFixed(1)} KB`);
     assert.ok(m.alpha);
   });
