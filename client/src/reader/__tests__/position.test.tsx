@@ -82,6 +82,27 @@ describe('useReaderPosition', () => {
     expect(recent[0]).toEqual({ bookNumber: 1, chapter: 6, translation: 'BSB' });
   });
 
+  // Verifier round 2 (GPT-6.1 Sol): a mutant-killing memoisation check.
+  it('keeps the API and setter identities across unrelated rerenders', async () => {
+    const storage = createStorage(memoryBackend());
+    const seen: PosApi[] = [];
+    function Probe() {
+      seen.push(useReaderPosition({ storage, locales: [en] }));
+      return null;
+    }
+    const ui = await render(<Probe />);
+    const initial = seen[seen.length - 1]!;
+    await ui.rerender(<Probe />);
+    expect(seen[seen.length - 1]).toBe(initial);
+    const next: ReaderPosition = { bookNumber: 43, chapter: 3, translation: 'WEB' };
+    await act(async () => initial.setPosition(next));
+    expect(seen[seen.length - 1]!.position).toEqual(next);
+    expect(seen[seen.length - 1]!.setPosition).toBe(initial.setPosition);
+    const afterMove = seen[seen.length - 1]!;
+    await ui.rerender(<Probe />);
+    expect(seen[seen.length - 1]).toBe(afterMove);
+  });
+
   it('a corrupt stored position falls back to the default', async () => {
     const backend = memoryBackend();
     backend.set('reader.position', JSON.stringify({ v: 1, data: { bookNumber: 400, chapter: 1, translation: 'BSB' } }));
