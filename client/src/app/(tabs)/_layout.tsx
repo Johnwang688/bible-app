@@ -41,6 +41,8 @@ export default function TabsLayout() {
             borderColor: border.color,
             boxShadow: theme.shadows.tabBar ?? undefined,
           },
+          // Room for 44pt items plus their margins and the label, above the home indicator.
+          !floating && { height: BAR_HEIGHT + insets.bottom, paddingBottom: insets.bottom },
           floating && {
             position: 'absolute',
             left: 16,
@@ -48,7 +50,7 @@ export default function TabsLayout() {
             bottom: Math.max(insets.bottom, 12),
             borderWidth: border.width,
             borderRadius: radius,
-            height: 68,
+            height: BAR_HEIGHT,
             paddingBottom: 0,
           },
         ],
@@ -75,6 +77,8 @@ export default function TabsLayout() {
     </Tabs>
   );
 }
+
+const BAR_HEIGHT = 68;
 
 const styles = StyleSheet.create({
   bar: { backgroundColor: 'transparent', elevation: 0 },

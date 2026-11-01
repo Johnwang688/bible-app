@@ -120,7 +120,7 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
 **Two styles.** Both use the same screens and layout; only the tokens change.
 - **Neubrutalist pastel:** thick outlines, hard offset shadows, pastel fills. UI font Space Grotesk.
 - **Aurora glass:** frosted glass cards over soft aurora gradients, in the spirit of Apple's Liquid Glass. UI font Plus Jakarta Sans. Kept neutral: greys and restrained glows.
-  - **Native glass where it exists:** the system glass material on iOS 26; a blur (`expo-blur`) on Android and web. Confirm the Expo module in R-0.
+  - **Native glass where it exists:** the system glass material on iOS 26; a blur (`expo-blur`) on Android and a CSS backdrop filter on the web. Confirmed in R-0: `expo-glass-effect` (`GlassView`, `isLiquidGlassAvailable()`), in `client/src/components/GlassSurface.tsx`.
   - **The aurora moves.** The background glows drift slowly on their own (a gentle loop, several seconds per cycle) and shift with scrolling (parallax). Animate transforms on the UI thread (Reanimated); no layout work or re-renders per frame. **Reduce Motion stops both**, leaving a still background.
   - **The reader stays calm.** Scripture sits on the soft wash only, never on the bright orbs behind the Home cards.
 
@@ -188,12 +188,13 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
 - **Unit and component tests:** Jest and React Native Testing Library, run by `npm test` in `client/`.
 - **End to end:** Playwright against the web export (`expo export -p web`), with API mocks in the same style as today's suite. A small Maestro flow suite for native smoke tests later.
 - **Typecheck and lint:** `tsc --noEmit` and ESLint.
+- **The local gate** (stands in for CI): `npm run gate` in `client/` runs typecheck, lint, the unit tests (and names the token ratchet, string ratchet, preset contrast and missing-key suites), `expo-doctor`, the web export, the iOS and Android exports (Metro + Hermes bundles) and the Playwright suite. `--quick` runs only the first three; `--offline` skips `expo-doctor`.
 - **Review:** every phase goes through task cards, headless workers, gates, GPT-6.1 Sol review and the 5a caught-bug loop, in its own worktree, and lands by PR.
 
 ## Phases
 | Phase | Scope | Acceptance (highlights) |
 |---|---|---|
-| **R-0 Scaffold** | the Expo app in `client/`, tabs, the theme engine with every preset, fonts, the storage module, the API client, the message catalogue (English and Simplified Chinese) with locale detection, test harnesses, web export | builds for web, iOS and Android; four empty tabs; token ratchet; a contrast test over every preset; the string ratchet and the missing-key test; CI-equivalent local gate script |
+| **R-0 Scaffold** ✅ done 2026-11-01 | the Expo app in `client/`, tabs, the theme engine with every preset, fonts, the storage module, the API client, the message catalogue (English and Simplified Chinese) with locale detection, test harnesses, web export | builds for web, iOS and Android; four empty tabs; token ratchet; a contrast test over every preset; the string ratchet and the missing-key test; CI-equivalent local gate script |
 | **R-1 Reader core** | the Bible tab: chapter view, the book/chapter and version pickers, swipe/keys, the collapsing header, reading settings, parallel reading, query cache plus next-chapter prefetch | position persists; prefetched chapter turns are instant; the PF-2 race tests ported and passing; parallel verses stay aligned when one translation lacks a verse |
 | **R-2 Verse sheet** | the bottom sheet: highlight, note, bookmark, share/copy, Original words and the word card | the HG-3a behaviours ported; 44 pt targets; the screen-reader pass |
 | **R-3 Study tab** | lists of study items, progress, chapters explored and the coverage map | local-first; filters; opening in context |
@@ -201,6 +202,12 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
 | **R-5 Search, commentary, entities** | search, the commentary sheet, people/places/themes | the reference parser ported with tests; English and Chinese search |
 | **R-6 Me and accounts** (with W2) | settings, the language setting, appearance and the customisation screen with live preview; Firebase Auth (Apple, Google, email); the backend verifies Firebase tokens; user data on Firestore; optional sync; delete my data; import any real Supabase users | needs John's Firebase project; an Opus security review of the new auth path; sync conflict rules; nothing left importing `supabase` in user paths |
 | **R-7 Web parity and cut-over** | old-localStorage import, read aloud, first-run intro with the "pick your look" screen, a performance budget (including the aurora animation), the review of the Chinese copy (John and friends, from the review sheet) | the new web build replaces `frontend-next/`; the old frontend is archived |
+
+**R-0 notes (2026-11-01).**
+- **Native builds:** "builds for iOS and Android" is checked as Metro + Hermes bundle exports plus `expo-doctor`. Signed binaries need EAS (see Open); this PC has no Android SDK or Xcode.
+- **Preset contrast:** the six pastel presets pass 4.5:1 everywhere. The glass presets have 29 pairs below 4.5:1, all secondary text (`muted`, verse numbers, and one Northern lights card text) over the brightest glow peaks and orbs; Scripture text passes on every reader background. The contrast test pins them as known gaps that may only shrink. Tuning them is John's call (see Open).
+- **Chinese Scripture font:** the web uses the Google Fonts stylesheet (its unicode-range slices download only the glyphs a page uses); native downloads Noto Serif SC once (7.2 MB) from a pinned jsDelivr copy on first use. Self-hosting the web slices is an option for R-7.
+- **Storage:** MMKV 4; its web build keeps each value in `localStorage` under `bible-app\<key>`, which the old app's `bible-app-*` keys never collide with.
 
 Every phase ships its screens in both languages; the missing-key test keeps Chinese from falling behind.
 
@@ -213,6 +220,7 @@ After R-7, new roadmap features are built frontend and backend together:
 - the AI agent.
 
 ## Open (for John, as they come up)
+- **Glass preset contrast:** keep the 29 glass known gaps (secondary text over bright glows; Scripture passes), or darken/lighten `muted` and the accent in Liberty, Silver, Sky, Northern lights, Graphite and Deep blue until they pass. Pinned in `client/src/theme/__tests__/contrast.test.ts`.
 - **App identity:** the app's name, icon and store listing.
 - **Minimum age and privacy:** this matters for accounts and groups.
 - **Shipping native builds:** EAS Build accounts (Apple Developer, Google Play).

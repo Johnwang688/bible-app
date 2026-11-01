@@ -86,6 +86,25 @@ test.describe('English, light phone', () => {
 test.describe('English, dark phone', () => {
   test.use({ locale: 'en-US', colorScheme: 'dark' });
 
+  for (const preset of ['grape-soda', 'graphite']) {
+    test(`shows every tab label in full (${preset})`, async ({ page }) => {
+      await seed(page, 'appearance', 1, { preset, mode: 'system' });
+      await page.goto('/');
+      await expect(page.getByTestId('screen-home')).toBeVisible();
+      const viewport = page.viewportSize()!;
+      for (const name of ['Home tab', 'Bible tab', 'Study tab', 'Me tab']) {
+        const tab = page.getByLabel(name, { exact: true });
+        const label = tab.getByText(name.replace(' tab', ''), { exact: true });
+        const [t, l] = [await tab.boundingBox(), await label.boundingBox()];
+        expect(t && l).toBeTruthy();
+        expect(l!.y + l!.height).toBeLessThanOrEqual(Math.min(t!.y + t!.height, viewport.height) + 0.5);
+        expect(t!.height).toBeGreaterThanOrEqual(44);
+        // A bar that is too short squashes the label rather than pushing it out.
+        expect(l!.height).toBeGreaterThanOrEqual(12);
+      }
+    });
+  }
+
   test('skipping the look picker gives Graphite', async ({ page }) => {
     await page.goto('/');
     await expect(page.getByTestId('screen-home')).toBeVisible();
