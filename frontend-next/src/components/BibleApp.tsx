@@ -584,17 +584,10 @@ function BibleAppInner({
   }, []);
 
   // ── Chapter loading ────────────────────────────────────────────────────────────
-  const chapterLoadSeqRef = useRef(0);
-  // seq of the latest load that has finished (data applied, handed to the flip, or error shown).
-  const chapterLoadDoneRef = useRef(0);
   const loadChapter = useCallback(async (
     book: BookInfo, ch: number, trans: string, direction: 'next' | 'prev' | null = null,
     opts?: { fromAiNavigate?: boolean },
   ) => {
-    // A flip keeps the old content on screen; if an earlier load is still in flight
-    // (e.g. a plain load cleared the content), there is nothing to animate out.
-    const earlierLoadInFlight = chapterLoadSeqRef.current !== chapterLoadDoneRef.current;
-    const seq = ++chapterLoadSeqRef.current;
     if (!opts?.fromAiNavigate) {
       pendingAiNavRef.current = null;
       setAiNavHighlight(null);
@@ -602,8 +595,7 @@ function BibleAppInner({
 
     const useFlip = direction != null
       && readerSettingsRef.current.pageFlipEnabled
-      && readerSettingsRef.current.specialEffects
-      && !earlierLoadInFlight;
+      && readerSettingsRef.current.specialEffects;
 
     setChapterError(false);
 
@@ -622,9 +614,6 @@ function BibleAppInner({
       const data: ChapterData = await fetch(
         `/api/v1/chapters/${encodeURIComponent(book.name)}/${ch}?translation=${encodeURIComponent(trans)}`
       ).then(r => { if (!r.ok) throw new Error(); return r.json(); });
-
-      if (seq !== chapterLoadSeqRef.current) return;
-      chapterLoadDoneRef.current = seq;
 
       if (useFlip) {
         if (exitAnimDoneRef.current) {
@@ -649,8 +638,6 @@ function BibleAppInner({
         }
       }
     } catch {
-      if (seq !== chapterLoadSeqRef.current) return;
-      chapterLoadDoneRef.current = seq;
       pendingAiNavRef.current = null;
       pendingFlipDataRef.current = null;
       setChapterError(true);
