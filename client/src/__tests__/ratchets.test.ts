@@ -200,3 +200,10 @@ describe('ratchet scanners (R-0 follow-up: colour selections)', () => {
     expect(colourLiterals('x.tsx', source)).toEqual([]);
   });
 });
+
+// Verifier (GPT-6.1 Sol) on the follow-up: a mutant-killing regression test.
+it('token ratchet detects named colours passed to constructors', () => {
+  expect(colourLiterals('x.tsx', "const x = { color: new Color('red') };")).toEqual([
+    { file: 'x.tsx', line: 1, text: 'color: red' },
+  ]);
+});
