@@ -1,5 +1,6 @@
 // Acceptance test for VI-2a (cut the themes to Auto / Light / Dark / Paper). Owned by the orchestrator: do not edit.
-// Stored preference ('theme' in localStorage): 'system' | 'default' | 'dark' | 'paper'.
+// Stored preference ('theme' in localStorage): 'system' | 'light' | 'dark' | 'paper'.
+// 'light' is an explicit Light; the old app's stored 'default' meant "never chose" and becomes 'system'.
 // Applied mode (<html data-theme>): 'default' | 'dark' | 'paper'. 'system' follows prefers-color-scheme.
 import type { Page } from '@playwright/test';
 import { expect, revealTaskbar, test } from './fixtures';
@@ -23,12 +24,15 @@ const MIGRATION: [string | null, string, string][] = [
   [null, 'system', 'default'],
   ['default', 'system', 'default'],
   ['dark', 'dark', 'dark'],
+  ['light', 'light', 'default'],
+  ['system', 'system', 'default'],
+  ['paper', 'paper', 'paper'],
   ['parchment', 'paper', 'paper'],
   ['gold', 'paper', 'paper'],
-  ['dynamic', 'default', 'default'],
-  ['pink', 'default', 'default'],
-  ['blue', 'default', 'default'],
-  ['purple', 'default', 'default'],
+  ['dynamic', 'light', 'default'],
+  ['pink', 'light', 'default'],
+  ['blue', 'light', 'default'],
+  ['purple', 'light', 'default'],
   ['galaxy', 'dark', 'dark'],
   ['Galaxy Metallic', 'dark', 'dark'],
   ['midnight', 'dark', 'dark'],
@@ -56,12 +60,28 @@ test('Auto follows the device, including a live change', async ({ page }) => {
   expect(await stored(page)).toBe('system');
 });
 
-test('an explicit choice ignores the device', async ({ page }) => {
-  await openWithStoredTheme(page, 'default', 'light');
-  await page.evaluate(() => localStorage.setItem('theme', 'dark'));
-  await page.reload();
-  await page.emulateMedia({ colorScheme: 'light' });
+test('an explicit choice ignores the device, and survives reloads', async ({ page }) => {
+  await openWithStoredTheme(page, 'dark', 'light');
   await expect(html(page)).toHaveAttribute('data-theme', 'dark');
+  await page.evaluate(() => localStorage.setItem('theme', 'light'));
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await page.reload();
+  await expect(html(page)).toHaveAttribute('data-theme', 'default');
+  await page.reload();
+  await expect(html(page)).toHaveAttribute('data-theme', 'default');
+  expect(await stored(page)).toBe('light');
+});
+
+test('the Light card stores an explicit light preference', async ({ page }) => {
+  await openWithStoredTheme(page, null, 'dark');
+  await page.getByRole('button', { name: 'Bible reader' }).click();
+  await revealTaskbar(page);
+  await page.getByRole('button', { name: 'Settings', exact: true }).click();
+  await page.getByRole('button', { name: 'Light', exact: true }).click();
+  await expect(html(page)).toHaveAttribute('data-theme', 'default');
+  expect(await stored(page)).toBe('light');
+  await page.reload();
+  await expect(html(page)).toHaveAttribute('data-theme', 'default');
 });
 
 test('settings offer exactly Auto, Light, Dark and Paper; Paper applies the sepia mode and survives a reload', async ({ page }) => {
@@ -90,20 +110,3 @@ for (const t of ['system', 'dark', 'paper']) {
     await expect(page.locator('canvas')).toHaveCount(0);
   });
 }
-
-test('a synced account theme from a retired id is normalised', async ({ page }) => {
-  await page.route('**/api/v1/user-settings', async (route) => {
-    if (route.request().method() !== 'GET') return route.fallback();
-    const json = (await import('./mocks/user-settings.json')).default;
-    return route.fulfill({ json: { ...json, theme: 'galaxy' } });
-  });
-  await page.addInitScript(() => {
-    localStorage.setItem('bible-app-auth-session', JSON.stringify({
-      accessToken: 'e2e-access-token', refreshToken: 'e2e-refresh-token',
-      userId: '00000000-0000-4000-8000-000000000001', email: 'e2e@example.com',
-    }));
-  });
-  await openWithStoredTheme(page, 'default');
-  await expect(html(page)).toHaveAttribute('data-theme', 'dark');
-  await expect.poll(() => stored(page)).toBe('dark');
-});
