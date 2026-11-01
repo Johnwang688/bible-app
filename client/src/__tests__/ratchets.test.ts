@@ -158,3 +158,22 @@ describe('ratchet scanners (verifier round 2)', () => {
     expect(colourLiterals('x.tsx', source)).toEqual([]);
   });
 });
+
+// Verifier round 3 on the scanners (GPT-6.1 Sol): a false positive and a mutant-killing check.
+describe('ratchet scanners (verifier round 3)', () => {
+  it.each([
+    "const x = <Text>{value as 'short' | 'long'}</Text>;",
+    "const x = <Text>{value satisfies 'short' | 'long'}</Text>;",
+    "const x = <Text>{(value as Record<'a' | 'b', string>).a}</Text>;",
+  ])('string ratchet ignores type-only literals: %s', (source) => {
+    expect(uiStringLiterals('app/(tabs)/x.tsx', source)).toEqual([]);
+  });
+
+  it('string ratchet still sees the text beside a type assertion', () => {
+    expect(uiStringLiterals('x.tsx', "const x = <Text>{('Hello' as string)}</Text>;").length).toBeGreaterThan(0);
+  });
+
+  it('token ratchet rejects a literal fallback colour after ??', () => {
+    expect(colourLiterals('app/(tabs)/x.tsx', "const x = { color: customColor ?? 'red' };").length).toBeGreaterThan(0);
+  });
+});
