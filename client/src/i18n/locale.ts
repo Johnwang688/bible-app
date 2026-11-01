@@ -28,14 +28,13 @@ export function resolveLocale(pref: LanguagePreference, locales: readonly Device
 }
 
 function isTraditional(l: DeviceLocale): boolean {
-  const subtags = l.languageTag.split(/[-_]/).slice(1);
-  const script = l.scriptCode ?? subtags.find((s) => /^[A-Za-z]{4}$/.test(s)) ?? null;
-  if (script === 'Hant') return true;
-  if (script === 'Hans') return false;
-  if (subtags.includes('Hant')) return true;
-  if (subtags.includes('Hans')) return false;
-  const region = (l.regionCode ?? subtags.find((s) => /^[A-Za-z]{2}$/.test(s)) ?? '').toUpperCase();
-  return region === 'TW' || region === 'HK' || region === 'MO';
+  // BCP-47 is case-insensitive and some platforms use '_' as the separator.
+  const subtags = l.languageTag.toLowerCase().split(/[-_]/).slice(1);
+  const script = l.scriptCode?.toLowerCase() ?? subtags.find((s) => /^[a-z]{4}$/.test(s)) ?? null;
+  if (script === 'hant') return true;
+  if (script === 'hans') return false;
+  const region = l.regionCode?.toLowerCase() ?? subtags.find((s) => /^[a-z]{2}$/.test(s)) ?? '';
+  return region === 'tw' || region === 'hk' || region === 'mo';
 }
 
 export function defaultTranslation(locales: readonly DeviceLocale[]): StarterTranslation {
@@ -49,7 +48,7 @@ export function getDeviceLocales(): DeviceLocale[] {
     return getLocales().map((l) => ({
       languageTag: l.languageTag,
       languageCode: l.languageCode ?? null,
-      scriptCode: (l as { scriptCode?: string | null }).scriptCode ?? null,
+      scriptCode: l.languageScriptCode ?? null,
       regionCode: l.regionCode ?? null,
     }));
   } catch {
