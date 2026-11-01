@@ -40,7 +40,8 @@ Scoped 2026-10-31 from measurements of a production build (`next start` against 
   - **Migration:** one mapping in `normalizeThemeId` for stored, synced and URL theme ids.
   - **Removal:** delete the retired themes' CSS and their decorations (smoke, waves, galaxy/pink canvas, the dynamic colour cycle).
   - **Acceptance:** Light and Dark computed styles are identical to before.
-- **PF-2, idle and navigation** (`implementer-medium`):
+- **PF-2, idle and navigation** (`implementer-hard`, raised from medium by the loader redesign):
+  - **Loader:** redesign `loadChapter` as one state machine (John, 2026-10-31). Today a late, older response can overwrite a newer chapter, and the page-flip hand-off interacts with overlapping loads. The SM-1 reviews caught two fixes that each opened a new case: a flip after a plain load hangs, and Next after a failed Next stays on the error view. The tests are saved in `bible-app-work/perf/pf2-loader-tests.cjs` and become PF-2's acceptance tests.
   - **Countdown:** the quiz countdown moves into a small component, so `BibleApp` stops re-rendering every 500 ms.
   - **Client cache:** an in-memory chapter cache, plus a prefetch of the next and previous chapter after each load.
   - **Backend:** `Cache-Control` (content is immutable per build) and gzip on the API.
