@@ -25,11 +25,12 @@ The backend and content were rebuilt and tested this week (350 tests, golden API
 8. **Coins are retired** (`ui-performance.md`).
 9. **No CI workflow:** the claude-workflows reviews gate every change. The old Supabase auth code is replaced, not reused, so it needs no review. The new Firebase auth path is reviewed with Opus as the security reviewer (R-6), since Sol's filter blocks security probing.
 10. **The old frontend:** VI-2a (the theme cut) is its last change. Its other planned phases are cancelled: CR-1, PF-2, PF-3, UI-1 to UI-3. It keeps serving the website until the new web build reaches parity (R-7).
+11. **Chinese mode (John, 2026-11-01):** the app comes in English and **Simplified Chinese**, with an English/Chinese parallel reader. See Chinese mode.
 
 ## What the app does today (the inventory this plan covers)
 | Area | Backend | Old client-only behaviour | In v1 of the new app |
 |---|---|---|---|
-| Bible text | books, translations, chapters, verse ranges | reading modes (scroll, book, paged single/double), fonts, size, line height, chapter swipe/keys | yes |
+| Bible text | books, translations, chapters, verse ranges | reading modes (scroll, book, paged single/double), fonts, size, line height, chapter swipe/keys | yes, plus **parallel reading** (two translations verse by verse) |
 | Search | `POST /search` (bm25 + substring, English and Chinese) | reference parsing ("jn 3 16"), suggestions, recent passages | yes |
 | Hebrew and Greek | `/words/{b}/{c}/{v}`, `/lexicon/{strongs}` | the Original words panel and word card | yes |
 | Commentary | `/commentary`, `/commentary/sources` (Matthew Henry, summaries) | the commentary panel | yes; content is being rebuilt (`commentary.md`) |
@@ -44,6 +45,7 @@ The backend and content were rebuilt and tested this week (350 tests, golden API
 | AI | `/ai/chat`, `/ai/guided-chapter`, `/ai/entity-content` | chat sidebar, 4 personas, guided chapter study | **slot only** |
 | Quiz and mastery | `/quiz/...`, `/quiz/mastery-overview` | chapter quiz after dwell, hints, mastery map | **slot only** |
 | Coins | `/wallet/...` | balance, rewards | **removed** |
+| Interface language | `preferred_language` on the account; Chinese book names (`name_zh`, `name_zh_simplified`); CUV and CUV-SIMP | English only; Chinese book names when reading CUV | **English and Simplified Chinese** (see Chinese mode) |
 
 ## Information architecture
 **The tabs: Home · Bible · Study · Me.** The Bible tab is the heart of the app. Every other tab leads back into it.
@@ -59,6 +61,7 @@ The backend and content were rebuilt and tested this week (350 tests, golden API
 - **Header:** book and chapter (tap → the book and chapter picker), translation (tap → the version picker), search, and a reading-settings button. The header collapses on scroll and comes back on a tap or a small scroll up. A visible affordance is always within reach, which fixes the old app's hidden bar.
 - **Text:** scroll by default. Paged mode is an option in reading settings. Verse numbers are tappable targets. The text never sits under fixed controls: safe-area insets, plus padding for the floating bar.
 - **Chapter navigation:** swipe left/right (native), the arrow keys (web), and previous/next at the end of each chapter.
+- **Parallel reading:** reading settings can add a second translation (for example BSB + CUV-SIMP). See Chinese mode.
 - **The verse sheet:** tap a verse to open a bottom sheet (John's decision for phones). It has:
   - the reference
   - Highlight, with colour swatches of at least 44 px
@@ -82,7 +85,8 @@ The backend and content were rebuilt and tested this week (350 tests, golden API
 ### Me: account and settings
 - **Account:** optional sign-in. Signed in, it shows sync status, sign-out, and delete my data.
 - **Appearance:** style and preset, light/dark/follow the phone, reading font and size, line height, reading mode, and the customisation screen (see Visual design).
-- **Reading:** default translation, read-aloud voice, the daily goal.
+- **Language:** follow the phone, English, or 简体中文 (see Chinese mode).
+- **Reading:** default translation, parallel translation, read-aloud voice, the daily goal.
 - **Sources and credits:** BSB, STEP Bible, Matthew Henry, TSK.
 - **About, privacy and help.**
 
@@ -97,6 +101,7 @@ The backend and content were rebuilt and tested this week (350 tests, golden API
 - **Local data:** MMKV on native and `localStorage` on web, behind one storage module with validated schemas. Study items and progress are local-first, with a sync queue to the backend when signed in.
 - **Design tokens:** a typed theme object built from the presets in Visual design. It replaces the VI identity (warm paper and ink) and the old Light/Dark/Paper tokens. No raw colour literals outside the theme (a ratchet test, like VI-1's).
 - **Fonts:** see Visual design. Hebrew and Greek stay on Noto Serif Hebrew and Gentium Book Plus.
+- **Strings and locale:** every UI string goes through one message catalogue (keys, not literals) from R-0, with `expo-localization` for the phone's language. Dates and numbers are formatted for the locale. A ratchet test fails on new literal UI strings, and a catalogue test fails when a key is missing in either language.
 - **Accessibility:**
   - 44 pt targets and Dynamic Type
   - screen-reader labels on every control
@@ -142,9 +147,40 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
 **Fonts.**
 - **Scripture:** Literata by default, with Source Serif 4 as the second choice; more reading fonts can be added later.
 - **Hebrew and Greek:** fixed (Noto Serif Hebrew, Gentium Book Plus).
-- **Chinese (CUV):** needs a CJK serif, still to choose.
+- **Chinese:** see Chinese mode.
 
 **Accessibility:** 4.5:1 text contrast in every preset (checked by a test over the preset table), 44 pt targets, and the Reduce Motion rule above.
+
+## Chinese mode (John, 2026-11-01)
+**Two interface languages: English and Simplified Chinese (简体中文).** There is no Traditional Chinese interface; CUV Traditional stays available as a translation.
+
+**Choosing the language.**
+- **Me → Language:** follow the phone (the default), English, or 简体中文. Saved on the device, and in `preferred_language` when signed in.
+- **Following the phone:** any Chinese phone language gets the Simplified interface. A brand-new reader starts in CUV-SIMP, or in CUV (Traditional) when the phone is set to Traditional Chinese. Readers with a saved position keep their translation.
+- **Switching language later** asks once whether to switch Scripture to match. It never changes the translation silently.
+
+**What is in Chinese.**
+- **The whole interface:** tabs, buttons, sheets, settings, the first-run intro, empty states, errors, and the screen-reader labels.
+- **Scripture and book names:** CUV-SIMP and CUV, with Chinese book names from the backend. In the reader, book names follow the translation being read; elsewhere (Study lists, Home) they follow the interface language.
+- **Search:** already handles Chinese references (约翰福音 3) and Chinese words.
+- **Home:** the verse of the day comes in the reader's translation.
+
+**What stays English for now.** Commentary, people/places/themes and (later) quiz questions are English-only content. In Chinese mode they still show, marked with a small 英文 label. Translating that content is its own later project, not part of the rebuild.
+
+**Parallel reading** (English and Chinese together; any two translations work).
+- **Turned on in reading settings:** pick a second translation. It is remembered on the device.
+- **Phones:** interleaved by verse: each verse in the first translation, then the same verse in the second, in a quieter colour. Two columns are too narrow on a phone.
+- **Tablets and the web:** two aligned columns.
+- **Alignment is by verse number.** A verse that one translation lacks shows as empty on that side, never shifted.
+- **Tapping a verse** opens the usual verse sheet. Highlights, notes and bookmarks attach to the reference, so they show on both sides.
+- **Read aloud** reads the first translation.
+
+**Type.**
+- **Chinese reading font:** a Simplified (SC) serif, still to choose; Noto Serif SC (Source Han Serif) is the obvious open-source candidate. It is large, so native builds subset it or download it on first use, and the web loads it only for Chinese text.
+- **Chinese interface text:** Space Grotesk and Plus Jakarta Sans have no Chinese glyphs, so Chinese falls back to the system font (PingFang SC on iOS, Noto Sans CJK on Android, Noto Sans SC on the web).
+- **Layout:** buttons and tabs are sized for the longer of the two languages. Line height for Chinese Scripture is tuned separately from English.
+
+**The Chinese copy** is drafted alongside the English in each phase and reviewed by a native reader before launch.
 
 ## Testing (the claude-workflows gates for the new app)
 - **Unit and component tests:** Jest and React Native Testing Library, run by `npm test` in `client/`.
@@ -155,14 +191,16 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
 ## Phases
 | Phase | Scope | Acceptance (highlights) |
 |---|---|---|
-| **R-0 Scaffold** | the Expo app in `client/`, tabs, the theme engine with every preset, fonts, the storage module, the API client, test harnesses, web export | builds for web, iOS and Android; four empty tabs; token ratchet; a contrast test over every preset; CI-equivalent local gate script |
-| **R-1 Reader core** | the Bible tab: chapter view, the book/chapter and version pickers, swipe/keys, the collapsing header, reading settings, query cache plus next-chapter prefetch | position persists; prefetched chapter turns are instant; the PF-2 race tests ported and passing |
+| **R-0 Scaffold** | the Expo app in `client/`, tabs, the theme engine with every preset, fonts, the storage module, the API client, the message catalogue (English and Simplified Chinese) with locale detection, test harnesses, web export | builds for web, iOS and Android; four empty tabs; token ratchet; a contrast test over every preset; the string ratchet and the missing-key test; CI-equivalent local gate script |
+| **R-1 Reader core** | the Bible tab: chapter view, the book/chapter and version pickers, swipe/keys, the collapsing header, reading settings, parallel reading, query cache plus next-chapter prefetch | position persists; prefetched chapter turns are instant; the PF-2 race tests ported and passing; parallel verses stay aligned when one translation lacks a verse |
 | **R-2 Verse sheet** | the bottom sheet: highlight, note, bookmark, share/copy, Original words and the word card | the HG-3a behaviours ported; 44 pt targets; the screen-reader pass |
 | **R-3 Study tab** | lists of study items, progress, chapters explored and the coverage map | local-first; filters; opening in context |
 | **R-4 Home** | streak, goal, continue reading, verse of the day, Surprise me | the SM-1 picker tests ported |
 | **R-5 Search, commentary, entities** | search, the commentary sheet, people/places/themes | the reference parser ported with tests; English and Chinese search |
-| **R-6 Me and accounts** (with W2) | settings, appearance and the customisation screen with live preview; Firebase Auth (Apple, Google, email); the backend verifies Firebase tokens; user data on Firestore; optional sync; delete my data; import any real Supabase users | needs John's Firebase project; an Opus security review of the new auth path; sync conflict rules; nothing left importing `supabase` in user paths |
-| **R-7 Web parity and cut-over** | old-localStorage import, read aloud, first-run intro with the "pick your look" screen, a performance budget (including the aurora animation) | the new web build replaces `frontend-next/`; the old frontend is archived |
+| **R-6 Me and accounts** (with W2) | settings, the language setting, appearance and the customisation screen with live preview; Firebase Auth (Apple, Google, email); the backend verifies Firebase tokens; user data on Firestore; optional sync; delete my data; import any real Supabase users | needs John's Firebase project; an Opus security review of the new auth path; sync conflict rules; nothing left importing `supabase` in user paths |
+| **R-7 Web parity and cut-over** | old-localStorage import, read aloud, first-run intro with the "pick your look" screen, a performance budget (including the aurora animation), a native reader's review of the Chinese copy | the new web build replaces `frontend-next/`; the old frontend is archived |
+
+Every phase ships its screens in both languages; the missing-key test keeps Chinese from falling behind.
 
 After R-7, new roadmap features are built frontend and backend together:
 - commentary CM-1 to CM-4
@@ -176,5 +214,7 @@ After R-7, new roadmap features are built frontend and backend together:
 - **App identity:** the app's name, icon and store listing.
 - **Minimum age and privacy:** this matters for accounts and groups.
 - **Shipping native builds:** EAS Build accounts (Apple Developer, Google Play).
-- **Chinese Scripture font:** a CJK serif for CUV.
-- **The remaining screens in the two styles:** Study, Me, the verse sheet's sub-screens, the picker and the customisation screen are still to be drawn on the canvas.
+- **Chinese Scripture font:** a Simplified Chinese serif for CUV-SIMP (Noto Serif SC is the candidate).
+- **Who reviews the Chinese copy** before launch.
+- **Translating the English-only content** (commentary, people/places/themes, quizzes) into Chinese: a later project.
+- **The remaining screens in the two styles:** Study, Me, the verse sheet's sub-screens, the picker and the customisation screen are still to be drawn on the canvas, plus Home and the reader in Chinese, and the parallel reader.
