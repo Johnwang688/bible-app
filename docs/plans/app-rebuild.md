@@ -68,7 +68,7 @@ The backend and content were rebuilt and tested this week (350 tests, golden API
   - Note and Bookmark
   - Share and Copy
   - **Original words**, which opens the words list and then the word card inside the same sheet
-  - **Commentary on this verse**
+  - **Commentary on this verse**. Where no note covers the verse (about 23% of verses today), the sheet opens empty with a short line saying there is no note yet (John, 2026-11-01). Falling back to the chapter summary comes later, once the summaries are reworked.
   - **Cross-references** (TSK, once commentary CM-1 loads them)
   - **Ask AI**, the slot: hidden until W3.
 
@@ -228,4 +228,4 @@ After R-7, new roadmap features are built frontend and backend together:
   - customisation
 
   Those last screens are on the "More screens" page.
-- **Verses with no commentary:** Matthew Henry covers 77% of verses. 321 of 1,189 chapters have no note at all, and John 3:9–21 is one of the gaps. "Commentary on this verse" needs a decision for those verses: fall back to the chapter summary, or hide the row. This also depends on the commentary rebuild (CM-1 to CM-4).
+- **Reworking the chapter summaries:** John finds the current summaries poor (2026-11-01). They need reworking before they become the fallback for verses with no commentary. Matthew Henry covers 77% of verses, and 321 of 1,189 chapters have no note at all. This fits the commentary rebuild (CM-1 to CM-4).
