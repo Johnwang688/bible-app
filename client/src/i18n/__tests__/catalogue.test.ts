@@ -17,6 +17,10 @@ const SAME_IN_BOTH = new Set([
   'translation.ASV.name',
   // "John 3" / "约翰福音 3": the book name is translated, the pattern is the same.
   'reader.chapterTitle',
+  // Glyphs and joiners, not words.
+  'reader.settingsGlyph',
+  'settings.sizeGlyph',
+  'reader.translationPair',
 ]);
 
 /** Common Traditional-only characters: the interface is Simplified Chinese only. */
