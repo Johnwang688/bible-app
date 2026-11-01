@@ -1,5 +1,6 @@
 // Acceptance (orchestrator-owned): the i18n provider picks the language, persists it and formats.
 import { act, render, screen } from '@testing-library/react-native';
+import { useEffect } from 'react';
 import { Text } from 'react-native';
 
 import { languageKey } from '../../storage/keys';
@@ -15,7 +16,9 @@ let setPrefRef: ((p: LanguagePreference) => void) | null = null;
 
 function Probe() {
   const { t, locale, preference, setPreference, formatNumber } = useI18n();
-  setPrefRef = setPreference;
+  useEffect(() => {
+    setPrefRef = setPreference;
+  });
   return (
     <>
       <Text testID="home">{t('tabs.home')}</Text>
@@ -27,8 +30,8 @@ function Probe() {
 }
 
 describe('I18nProvider', () => {
-  it('follows a Chinese phone with the Simplified interface', () => {
-    render(
+  it('follows a Chinese phone with the Simplified interface', async () => {
+    await render(
       <I18nProvider storage={createStorage(memoryBackend())} locales={[zhCN]}>
         <Probe />
       </I18nProvider>,
@@ -38,10 +41,10 @@ describe('I18nProvider', () => {
     expect(screen.getByTestId('pref')).toHaveTextContent('system');
   });
 
-  it('obeys a stored language over the phone', () => {
+  it('obeys a stored language over the phone', async () => {
     const storage = createStorage(memoryBackend());
     storage.set(languageKey, 'en');
-    render(
+    await render(
       <I18nProvider storage={storage} locales={[zhCN]}>
         <Probe />
       </I18nProvider>,
@@ -49,21 +52,23 @@ describe('I18nProvider', () => {
     expect(screen.getByTestId('home')).toHaveTextContent('Home');
   });
 
-  it('setPreference switches the interface and saves the choice', () => {
+  it('setPreference switches the interface and saves the choice', async () => {
     const storage = createStorage(memoryBackend());
-    render(
+    await render(
       <I18nProvider storage={storage} locales={[enUS]}>
         <Probe />
       </I18nProvider>,
     );
     expect(screen.getByTestId('home')).toHaveTextContent('Home');
-    act(() => setPrefRef!('zh-Hans'));
+    await act(async () => {
+      setPrefRef!('zh-Hans');
+    });
     expect(screen.getByTestId('home')).toHaveTextContent('首页');
     expect(storage.get(languageKey)).toBe('zh-Hans');
   });
 
-  it('formats numbers for the locale', () => {
-    render(
+  it('formats numbers for the locale', async () => {
+    await render(
       <I18nProvider storage={createStorage(memoryBackend())} locales={[enUS]}>
         <Probe />
       </I18nProvider>,
@@ -71,9 +76,9 @@ describe('I18nProvider', () => {
     expect(screen.getByTestId('num')).toHaveTextContent('1,189');
   });
 
-  it('throws a clear error when used outside the provider', () => {
+  it('throws a clear error when used outside the provider', async () => {
     const spy = jest.spyOn(console, 'error').mockImplementation(() => {});
-    expect(() => render(<Probe />)).toThrow(/I18nProvider/);
+    await expect(render(<Probe />)).rejects.toThrow(/I18nProvider/);
     spy.mockRestore();
   });
 });
