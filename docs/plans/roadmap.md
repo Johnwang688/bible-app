@@ -36,6 +36,8 @@ Scoped 2026-10-31 in `docs/plans/commentary.md`:
 Not started: John is working on it.
 
 ### 3. App UI and performance
+**Now the app rebuild** (`docs/plans/app-rebuild.md`, 2026-10-31): a new Expo / React Native frontend with Home · Bible · Study · Me tabs, keeping the backend. It also settles the mobile approach (Expo) for track 4.
+
 Includes VI-2 and the responsive and mobile layout pass. The mobile app work in track 4 depends on it.
 
 ### 4. iOS and Android apps
