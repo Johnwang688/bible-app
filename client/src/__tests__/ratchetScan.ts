@@ -88,17 +88,79 @@ export function colourLiterals(file: string, text: string): Finding[] {
   }
   const visit = (node: ts.Node) => {
     if ((ts.isPropertyAssignment(node) || ts.isJsxAttribute(node)) && node.initializer) {
-      const name = node.name.getText(sf);
-      let init: ts.Node = node.initializer;
-      if (ts.isJsxExpression(init) && init.expression) init = init.expression;
-      if (COLOR_PROP.test(name) && (ts.isStringLiteral(init) || ts.isNoSubstitutionTemplateLiteral(init)) && NAMED.test(init.text)) {
-        found.push({ file, line: lineOf(sf, init), text: `${name}: ${init.text}` });
+      const name = propName(sf, node.name);
+      if (name !== undefined && COLOR_PROP.test(name)) {
+        for (const hit of colourValueHits(node.initializer)) {
+          found.push({ file, line: lineOf(sf, hit.node), text: `${name}: ${hit.text}` });
+        }
       }
     }
     ts.forEachChild(node, visit);
   };
   visit(sf);
   return found;
+}
+
+/** The name of a property or attribute without quotes: `color`, `'color'`, `["color"]` all give `color`. */
+function propName(sf: ts.SourceFile, name: ts.PropertyName | ts.JsxAttributeName): string | undefined {
+  if (ts.isIdentifier(name) || ts.isStringLiteral(name) || ts.isNoSubstitutionTemplateLiteral(name) || ts.isNumericLiteral(name)) return name.text;
+  if (ts.isComputedPropertyName(name)) {
+    const e = name.expression;
+    return ts.isStringLiteral(e) || ts.isNoSubstitutionTemplateLiteral(e) ? e.text : undefined;
+  }
+  if (ts.isJsxNamespacedName(name)) return `${name.namespace.text}:${name.name.text}`;
+  return name.getText(sf).replace(/^['"`]|['"`]$/g, '');
+}
+
+/** Strips wrappers that leave the value unchanged: parentheses, `as`, `satisfies`, `!`, `<T>x`, `{...}` in JSX. */
+function unwrap(n: ts.Node): ts.Node {
+  for (;;) {
+    if (ts.isJsxExpression(n) && n.expression) n = n.expression;
+    else if (ts.isParenthesizedExpression(n) || ts.isAsExpression(n) || ts.isSatisfiesExpression(n) || ts.isNonNullExpression(n) || ts.isTypeAssertionExpression(n)) n = n.expression;
+    else return n;
+  }
+}
+
+const LOGICAL = new Set<ts.SyntaxKind>([ts.SyntaxKind.AmpersandAmpersandToken, ts.SyntaxKind.BarBarToken, ts.SyntaxKind.QuestionQuestionToken]);
+
+/** The leftmost operand of a `+` chain: `'#' + a + b` is `('#' + a) + b`. */
+function leftmostOfPlus(n: ts.Node): ts.Node {
+  n = unwrap(n);
+  while (ts.isBinaryExpression(n) && n.operatorToken.kind === ts.SyntaxKind.PlusToken) n = unwrap(n.left);
+  return n;
+}
+
+/**
+ * Raw colours among the values a colour property can take: through conditionals (both branches),
+ * `&&` / `||` / `??` (both sides), wrappers, and `'#' + part` (a hex colour built by concatenation).
+ */
+function colourValueHits(value: ts.Node): { node: ts.Node; text: string }[] {
+  const out: { node: ts.Node; text: string }[] = [];
+  const walk = (raw: ts.Node) => {
+    const n = unwrap(raw);
+    if (ts.isStringLiteral(n) || ts.isNoSubstitutionTemplateLiteral(n)) {
+      if (NAMED.test(n.text.trim())) out.push({ node: n, text: n.text });
+      return;
+    }
+    if (ts.isConditionalExpression(n)) {
+      walk(n.whenTrue);
+      walk(n.whenFalse);
+      return;
+    }
+    if (ts.isBinaryExpression(n) && LOGICAL.has(n.operatorToken.kind)) {
+      walk(n.left);
+      walk(n.right);
+      return;
+    }
+    if (ts.isBinaryExpression(n) && n.operatorToken.kind === ts.SyntaxKind.PlusToken) {
+      const first = leftmostOfPlus(n);
+      if ((ts.isStringLiteral(first) || ts.isNoSubstitutionTemplateLiteral(first)) && /#$/.test(first.text)) {
+        out.push({ node: first, text: n.getText() });
+      }
+    }
+  };
+  walk(value);
+  return out;
 }
 
 // ---- String ratchet: no literal UI strings outside the message catalogue ----
@@ -143,8 +205,8 @@ export function uiStringLiterals(file: string, text: string): Finding[] {
       report(node.expression);
     }
     if ((ts.isJsxAttribute(node) || ts.isPropertyAssignment(node)) && node.initializer) {
-      const name = node.name.getText(sf).replace(/^['"]|['"]$/g, '');
-      if (UI_PROPS.has(name)) {
+      const name = propName(sf, node.name);
+      if (name !== undefined && UI_PROPS.has(name)) {
         let init: ts.Node = node.initializer;
         if (ts.isJsxExpression(init) && init.expression) init = init.expression;
         report(init, name);
@@ -161,7 +223,8 @@ export function uiStringLiterals(file: string, text: string): Finding[] {
 
 /**
  * String literals with letters inside an expression, through concatenation, conditionals,
- * templates and parentheses. Arguments of calls are skipped: `t('tabs.home')` passes a key.
+ * templates, parentheses and calls (callee and arguments: `'Open'.trim()`, `format('Ch {n}', n)`).
+ * Only catalogue lookups are skipped: `t('tabs.home')` and `i18n.t('tabs.home')` pass a key.
  */
 const COMPARISON = new Set<ts.SyntaxKind>([
   ts.SyntaxKind.EqualsEqualsEqualsToken,
@@ -179,7 +242,12 @@ function textLiteralsIn(expr: ts.Node): ts.Node[] {
       out.push(n);
       return;
     }
-    if (ts.isCallExpression(n) || ts.isNewExpression(n) || ts.isArrowFunction(n) || ts.isFunctionExpression(n)) return;
+    if (ts.isArrowFunction(n) || ts.isFunctionExpression(n)) return; // bodies are not the rendered value
+    if ((ts.isCallExpression(n) || ts.isTaggedTemplateExpression(n)) && isCatalogueLookup(ts.isCallExpression(n) ? n.expression : n.tag)) return;
+    if (ts.isPropertyAssignment(n)) {
+      walk(n.initializer); // the key is not text, the value may be
+      return;
+    }
     if (ts.isJsxElement(n) || ts.isJsxSelfClosingElement(n) || ts.isJsxFragment(n)) return; // visited on their own
     if (ts.isElementAccessExpression(n)) return; // obj['key'] is a lookup, not text
     if (ts.isBinaryExpression(n) && COMPARISON.has(n.operatorToken.kind)) return; // Platform.OS === 'ios'
@@ -187,6 +255,15 @@ function textLiteralsIn(expr: ts.Node): ts.Node[] {
   };
   walk(expr);
   return out;
+}
+
+/** `t(...)`, `i18n.t(...)`, `t?.(...)`: the callee is the identifier `t` or a property access ending in `.t`. */
+function isCatalogueLookup(callee: ts.Expression): boolean {
+  let c: ts.Node = callee;
+  while (ts.isParenthesizedExpression(c) || ts.isNonNullExpression(c) || ts.isAsExpression(c)) c = c.expression;
+  if (ts.isIdentifier(c)) return c.text === 't';
+  if (ts.isPropertyAccessExpression(c)) return c.name.text === 't';
+  return false;
 }
 
 function isTextLiteral(node: ts.Node): boolean {
