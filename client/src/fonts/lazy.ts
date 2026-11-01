@@ -50,7 +50,7 @@ async function loadFont(font: LazyFont): Promise<void> {
     }
     case 'chineseScripture':
       if (Platform.OS === 'web') {
-        addStylesheet(NOTO_SERIF_SC_CSS);
+        await addStylesheet(NOTO_SERIF_SC_CSS);
         return;
       }
       await Font.loadAsync({ [LAZY_FONT_FAMILY.chineseScripture]: { uri: NOTO_SERIF_SC_URL } });
@@ -58,13 +58,28 @@ async function loadFont(font: LazyFont): Promise<void> {
   }
 }
 
-function addStylesheet(href: string): void {
-  if (typeof document === 'undefined') return;
-  if (document.querySelector(`link[rel="stylesheet"][href="${href}"]`)) return;
-  const link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.href = href;
-  document.head.appendChild(link);
+/**
+ * Adds a stylesheet `<link>` (or reuses a matching one) and resolves when it loads. Rejects on
+ * error and removes the failed `<link>`, so a retry adds a fresh one. No DOM: resolves at once.
+ */
+function addStylesheet(href: string): Promise<void> {
+  if (typeof document === 'undefined') return Promise.resolve();
+  const found = document.querySelector<HTMLLinkElement>(`link[rel="stylesheet"][href="${href}"]`);
+  if (found?.sheet) return Promise.resolve();
+  const link = found ?? document.createElement('link');
+  const done = new Promise<void>((resolve, reject) => {
+    link.addEventListener('load', () => resolve());
+    link.addEventListener('error', () => {
+      link.remove();
+      reject(new Error(`Stylesheet failed to load: ${href}`));
+    });
+  });
+  if (!found) {
+    link.rel = 'stylesheet';
+    link.href = href;
+    document.head.appendChild(link);
+  }
+  return done;
 }
 
 /** Tests only: forget loads so each test starts clean. */
