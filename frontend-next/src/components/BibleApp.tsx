@@ -35,7 +35,8 @@ import {
   type WalletOut,
 } from '@/lib/quiz';
 import { parseReferenceLabel, sortBookNamesForMatching } from '@/lib/scriptureReference';
-import { normalizeThemeId, THEME_CHANGE_EVENT, type AppliedTheme, type ThemePreference } from '@/lib/themes';
+import { normalizeThemeId, type AppliedTheme, type ThemePreference } from '@/lib/themes';
+import { useThemePreference } from '@/lib/useThemePreference';
 
 import type { BookInfo, ChapterData, ChapterQuizVisitState, ChapterReadEvidence, CommentaryEntry, CommentarySource, ReaderSettings, SavedPassage, SearchResult, SearchSuggestion, SidePanelMode, SidePanelPosition, Translation, TutorialStep, VerseData, VerseNote } from '@/features/reader/types';
 import { DEFAULT_TRANSLATION, filterTranslationsForPicker, getLocalizedBookName, getLocalizedBookNameFromRaw, getTranslationDisplayId, getTranslationDisplayName, normalizeTranslationChoice } from '@/features/reader/translations';
@@ -212,8 +213,8 @@ function BibleAppInner({
   const [ttsRate, setTtsRate]                   = useState(1.0);
 
   // ── Theme ───
-  /** The stored preference; null until it has been read from storage (the pre-paint script owns the DOM until then). */
-  const [storedTheme, setCurrentTheme] = useState<ThemePreference | null>(null);
+  /** The stored preference, shared with ThemeSync and other tabs; null until hydrated (the pre-paint script owns the DOM until then). */
+  const [storedTheme, setThemePreference] = useThemePreference();
   const currentTheme: ThemePreference = storedTheme ?? 'system';
   // The applied mode (for the logo): ThemeSync paints <html data-theme>; this just reads it back.
   const [appliedTheme, setAppliedTheme] = useState<AppliedTheme>('default');
@@ -230,11 +231,7 @@ function BibleAppInner({
   }, []);
 
   // ── Theme management ──────────────────────────────────────────────────────────
-  const applyTheme = useCallback((pref: ThemePreference) => {
-    setCurrentTheme(pref);
-    localStorage.setItem('theme', pref);
-    window.dispatchEvent(new Event(THEME_CHANGE_EVENT));
-  }, []);
+  const applyTheme = setThemePreference;
 
   // ── DOM Refs ───
   const biblePaneRef  = useRef<HTMLDivElement>(null);
@@ -3008,12 +3005,11 @@ function BibleAppInner({
 
   // ── Init ──────────────────────────────────────────────────────────────────────
   useEffect(() => {
-    // Read theme from localStorage (inline script already applied it to the DOM)
+    // Store the migrated theme id (useThemePreference reads it normalised; the inline script already painted it)
     const saved = normalizeThemeId(localStorage.getItem('theme'));
     const storedLastPosition = readStoredLastPosition();
     startedWithSavedPositionRef.current = storedLastPosition !== null;
     const storedReaderSettings = readStoredReaderSettings();
-    setCurrentTheme(saved);
     localStorage.setItem('theme', saved);
     setShowOnboarding(localStorage.getItem(ONBOARDING_STORAGE_KEY) !== '1');
 

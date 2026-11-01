@@ -1,31 +1,18 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { THEME_CHANGE_EVENT, normalizeThemeId, resolveAppliedTheme, subscribeDeviceTheme, type ThemePreference } from '@/lib/themes';
+import { useEffect } from 'react';
+import { resolveAppliedTheme, subscribeDeviceTheme } from '@/lib/themes';
+import { useThemePreference } from '@/lib/useThemePreference';
 
 const DARK_QUERY = '(prefers-color-scheme: dark)';
 
 /**
  * Paints `<html data-theme>` on every route. The pre-paint script in the root layout owns the first
- * paint; this keeps it in step with the stored preference and, for Auto only, with the device.
+ * paint; this keeps it in step with the stored preference (this tab and other tabs, through
+ * `useThemePreference`) and, for Auto only, with the device.
  */
 export default function ThemeSync() {
-  const [pref, setPref] = useState<ThemePreference | null>(null);
-
-  // Reads the stored preference, and follows changes from this tab and from other tabs.
-  useEffect(() => {
-    const read = () => setPref(normalizeThemeId(localStorage.getItem('theme')));
-    const onStorage = (e: StorageEvent) => {
-      if (e.key === null || e.key === 'theme') read();
-    };
-    read();
-    window.addEventListener('storage', onStorage);
-    window.addEventListener(THEME_CHANGE_EVENT, read);
-    return () => {
-      window.removeEventListener('storage', onStorage);
-      window.removeEventListener(THEME_CHANGE_EVENT, read);
-    };
-  }, []);
+  const [pref] = useThemePreference();
 
   // Paints now, and re-paints on a device change when the preference is Auto.
   useEffect(() => {
