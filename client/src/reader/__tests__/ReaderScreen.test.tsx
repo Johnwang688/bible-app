@@ -12,8 +12,8 @@ const JOHN3_16_WEB = 'For God so loved the world';
 
 const fontSizeOf = (el: { props: { style?: unknown } }) => StyleSheet.flatten(el.props.style as never)?.fontSize as number;
 
-function setWindow(width: number, height: number) {
-  act(() => {
+async function setWindow(width: number, height: number) {
+  await act(async () => {
     Dimensions.set({
       window: { width, height, scale: 2, fontScale: 1 },
       screen: { width, height, scale: 2, fontScale: 1 },
@@ -21,7 +21,9 @@ function setWindow(width: number, height: number) {
   });
 }
 
-beforeEach(() => setWindow(390, 844));
+beforeEach(async () => {
+  await setWindow(390, 844);
+});
 
 describe('ReaderScreen', () => {
   it('opens at the saved position with the book and chapter in the header', async () => {
@@ -34,7 +36,7 @@ describe('ReaderScreen', () => {
   it('starts a new reader at Genesis 1 in BSB and saves the position once it moves', async () => {
     const { storage } = await renderReader();
     expect(await screen.findByText(synthText('Genesis', 1, 1, 'BSB'))).toBeTruthy();
-    fireEvent.press(screen.getByTestId('reader-next'));
+    await fireEvent.press(screen.getByTestId('reader-next'));
     expect(await screen.findByText(synthText('Genesis', 2, 1, 'BSB'))).toBeTruthy();
     expect(storage.get(readerPositionKey)).toEqual({ bookNumber: 1, chapter: 2, translation: 'BSB' });
   });
@@ -43,7 +45,7 @@ describe('ReaderScreen', () => {
     const storage = createStorage(memoryBackend());
     const first = await renderReader({ storage, position: { bookNumber: 43, chapter: 4, translation: 'BSB' } });
     await screen.findByText(synthText('John', 4, 1, 'BSB'));
-    fireEvent.press(screen.getByTestId('reader-next'));
+    await fireEvent.press(screen.getByTestId('reader-next'));
     await screen.findByText(synthText('John', 5, 1, 'BSB'));
     await first.ui.unmount();
     await renderReader({ storage });
@@ -55,7 +57,7 @@ describe('ReaderScreen', () => {
     await screen.findByText(synthText('John', 4, 1, 'BSB'));
     await waitFor(() => expect(calls).toEqual(expect.arrayContaining(['John 5 BSB', 'John 3 BSB'])));
     await act(async () => {}); // let the prefetches settle into the cache
-    fireEvent.press(screen.getByTestId('reader-next'));
+    await fireEvent.press(screen.getByTestId('reader-next'));
     expect(screen.queryByTestId('reader-loading')).toBeNull();
     expect(screen.getByText(synthText('John', 5, 1, 'BSB'))).toBeTruthy();
   });
@@ -63,7 +65,7 @@ describe('ReaderScreen', () => {
   it('goes back with the previous-chapter button and crosses book boundaries', async () => {
     await renderReader({ position: { bookNumber: 41, chapter: 1, translation: 'BSB' } });
     await screen.findByText(synthText('Mark', 1, 1, 'BSB'));
-    fireEvent.press(screen.getByTestId('reader-prev'));
+    await fireEvent.press(screen.getByTestId('reader-prev'));
     expect(await screen.findByText(synthText('Matthew', 28, 1, 'BSB'))).toBeTruthy();
     expect(within(screen.getByTestId('reader-book-button')).getByText('Matthew 28')).toBeTruthy();
   });
@@ -81,11 +83,11 @@ describe('ReaderScreen', () => {
   it('chooses a book and chapter in the picker', async () => {
     await renderReader({ position: JOHN3_WEB });
     await screen.findByText(new RegExp(JOHN3_16_WEB));
-    fireEvent.press(screen.getByTestId('reader-book-button'));
+    await fireEvent.press(screen.getByTestId('reader-book-button'));
     expect(await screen.findByTestId('book-picker')).toBeTruthy();
-    fireEvent.press(screen.getByTestId('picker-testament-OT'));
-    fireEvent.press(screen.getByTestId('picker-book-19'));
-    fireEvent.press(await screen.findByTestId('picker-chapter-23'));
+    await fireEvent.press(screen.getByTestId('picker-testament-OT'));
+    await fireEvent.press(screen.getByTestId('picker-book-19'));
+    await fireEvent.press(await screen.findByTestId('picker-chapter-23'));
     expect(await screen.findByText(synthText('Psalms', 23, 1, 'WEB'))).toBeTruthy();
     expect(screen.queryByTestId('book-picker')).toBeNull();
   });
@@ -93,32 +95,32 @@ describe('ReaderScreen', () => {
   it('filters books in the picker and shows recent passages', async () => {
     await renderReader({ position: JOHN3_WEB });
     await screen.findByText(new RegExp(JOHN3_16_WEB));
-    fireEvent.press(screen.getByTestId('reader-next'));
+    await fireEvent.press(screen.getByTestId('reader-next'));
     await screen.findByText(synthText('John', 4, 1, 'WEB'));
-    fireEvent.press(screen.getByTestId('reader-book-button'));
-    fireEvent.changeText(await screen.findByTestId('picker-filter'), 'rom');
+    await fireEvent.press(screen.getByTestId('reader-book-button'));
+    await fireEvent.changeText(await screen.findByTestId('picker-filter'), 'rom');
     expect(screen.getByTestId('picker-book-45')).toBeTruthy();
     expect(screen.queryByTestId('picker-book-43')).toBeNull();
-    fireEvent.changeText(screen.getByTestId('picker-filter'), 'zzz');
+    await fireEvent.changeText(screen.getByTestId('picker-filter'), 'zzz');
     expect(screen.getByText('No book matches “zzz”')).toBeTruthy();
     expect(within(screen.getByTestId('picker-recent-0')).getByText('John 4')).toBeTruthy();
-    fireEvent.press(screen.getByTestId('picker-close'));
+    await fireEvent.press(screen.getByTestId('picker-close'));
     await waitFor(() => expect(screen.queryByTestId('book-picker')).toBeNull());
   });
 
   it('switches translation in the version picker; book names follow the translation', async () => {
     await renderReader({ position: JOHN3_WEB });
     await screen.findByText(new RegExp(JOHN3_16_WEB));
-    fireEvent.press(screen.getByTestId('reader-translation-button'));
+    await fireEvent.press(screen.getByTestId('reader-translation-button'));
     expect(await screen.findByTestId('version-picker')).toBeTruthy();
-    fireEvent.press(screen.getByTestId('version-CUV-SIMP'));
+    await fireEvent.press(screen.getByTestId('version-CUV-SIMP'));
     expect(await screen.findByText(/神爱世人/)).toBeTruthy();
     expect(within(screen.getByTestId('reader-book-button')).getByText('约翰福音 3')).toBeTruthy();
   });
 
   it('draws CUV alternate readings smaller than the verse text', async () => {
     await renderReader({ position: { bookNumber: 43, chapter: 3, translation: 'CUV-SIMP' } });
-    const note = await screen.findByText(/^〔或作/);
+    const note = (await screen.findAllByText(/^〔或作/))[0]!;
     const verseText = screen.getByText(/神爱世人/);
     expect(fontSizeOf(note)).toBeLessThan(fontSizeOf(verseText));
   });
@@ -128,7 +130,7 @@ describe('ReaderScreen', () => {
     await screen.findByText(new RegExp(JOHN3_16_WEB));
     const v16 = screen.getByTestId('verse-16');
     expect(v16.props.accessibilityLabel).toBe('Verse 16');
-    fireEvent.press(v16);
+    await fireEvent.press(v16);
     expect(screen.getByTestId('verse-16').props.accessibilityState?.selected).toBe(true);
   });
 
@@ -137,16 +139,16 @@ describe('ReaderScreen', () => {
     await renderReader({ position: { bookNumber: 43, chapter: 9, translation: 'BSB' }, fail });
     expect(await screen.findByTestId('reader-error')).toBeTruthy();
     fail.clear();
-    fireEvent.press(screen.getByTestId('reader-retry'));
+    await fireEvent.press(screen.getByTestId('reader-retry'));
     expect(await screen.findByText(synthText('John', 9, 1, 'BSB'))).toBeTruthy();
   });
 
   it('changes the text size from reading settings and remembers it', async () => {
     const { storage } = await renderReader({ position: { bookNumber: 43, chapter: 4, translation: 'BSB' } });
     const before = fontSizeOf(await screen.findByText(synthText('John', 4, 1, 'BSB')));
-    fireEvent.press(screen.getByTestId('reader-settings-button'));
-    fireEvent.press(await screen.findByTestId('settings-larger'));
-    fireEvent.press(screen.getByTestId('settings-done'));
+    await fireEvent.press(screen.getByTestId('reader-settings-button'));
+    await fireEvent.press(await screen.findByTestId('settings-larger'));
+    await fireEvent.press(screen.getByTestId('settings-done'));
     await waitFor(() => expect(fontSizeOf(screen.getByText(synthText('John', 4, 1, 'BSB')))).toBeGreaterThan(before));
     expect(storage.get(readingSettingsKey).textSize).toBe(3);
   });
@@ -156,10 +158,10 @@ describe('parallel reading', () => {
   it('interleaves the second translation under each verse on a phone', async () => {
     const { storage } = await renderReader({ position: { bookNumber: 43, chapter: 4, translation: 'BSB' } });
     await screen.findByText(synthText('John', 4, 1, 'BSB'));
-    fireEvent.press(screen.getByTestId('reader-settings-button'));
-    fireEvent.press(await screen.findByTestId('settings-parallel'));
-    fireEvent.press(screen.getByTestId('settings-second-CUV-SIMP'));
-    fireEvent.press(screen.getByTestId('settings-done'));
+    await fireEvent.press(screen.getByTestId('reader-settings-button'));
+    await fireEvent.press(await screen.findByTestId('settings-parallel'));
+    await fireEvent.press(screen.getByTestId('settings-second-CUV-SIMP'));
+    await fireEvent.press(screen.getByTestId('settings-done'));
     const row = await screen.findByTestId('verse-row-2');
     expect(within(row).getByText(synthText('John', 4, 2, 'BSB'))).toBeTruthy();
     expect(within(row).getByText(synthText('John', 4, 2, 'CUV-SIMP'))).toBeTruthy();
@@ -181,12 +183,12 @@ describe('parallel reading', () => {
   });
 
   it('shows two aligned columns on a wide screen, with a swap button', async () => {
-    setWindow(1024, 768);
+    await setWindow(1024, 768);
     const storage = createStorage(memoryBackend());
     storage.set(readingSettingsKey, { textSize: 2, parallel: 'CUV-SIMP' });
     await renderReader({ storage, position: { bookNumber: 43, chapter: 4, translation: 'BSB' } });
     expect(await screen.findByTestId('parallel-columns')).toBeTruthy();
-    fireEvent.press(screen.getByTestId('reader-swap'));
+    await fireEvent.press(screen.getByTestId('reader-swap'));
     await waitFor(() => expect(storage.get(readerPositionKey)?.translation).toBe('CUV-SIMP'));
     expect(storage.get(readingSettingsKey).parallel).toBe('BSB');
   });
@@ -194,8 +196,8 @@ describe('parallel reading', () => {
   it('never offers the first translation as the second one', async () => {
     await renderReader({ position: { bookNumber: 43, chapter: 4, translation: 'BSB' } });
     await screen.findByText(synthText('John', 4, 1, 'BSB'));
-    fireEvent.press(screen.getByTestId('reader-settings-button'));
-    fireEvent.press(await screen.findByTestId('settings-parallel'));
+    await fireEvent.press(screen.getByTestId('reader-settings-button'));
+    await fireEvent.press(await screen.findByTestId('settings-parallel'));
     expect(screen.queryByTestId('settings-second-BSB')).toBeNull();
     expect(screen.getByTestId('settings-second-WEB')).toBeTruthy();
   });
@@ -207,7 +209,7 @@ describe('Chinese interface', () => {
     await screen.findByText(new RegExp(JOHN3_16_WEB));
     expect(within(screen.getByTestId('reader-book-button')).getByText('John 3')).toBeTruthy();
     expect(screen.getByTestId('reader-settings-button').props.accessibilityLabel).toBe('阅读设置');
-    fireEvent.press(screen.getByTestId('reader-book-button'));
+    await fireEvent.press(screen.getByTestId('reader-book-button'));
     expect(await screen.findByText('选择经文')).toBeTruthy();
     expect(within(screen.getByTestId('picker-book-43')).getByText('约翰福音')).toBeTruthy();
   });
