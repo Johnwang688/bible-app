@@ -39,7 +39,7 @@ The backend and content were rebuilt and tested this week (350 tests, golden API
 | Daily verse | — | a date-seeded verse of the day | yes |
 | Read aloud | — | browser speech synthesis with voice settings | yes (native TTS) |
 | Accounts | auth signin/signup/refresh/signout (Supabase JWTs), `/me`, `/user-settings` | sign-in panel, settings sync (push-only theme) | optional sign-in, **moving to Firebase Auth + Firestore (W2)** |
-| Themes | — | Auto / Light / Dark / Paper (VI-2a) | yes, on the new tokens |
+| Themes | — | Auto / Light / Dark / Paper (VI-2a) | **replaced** by two styles with presets and customisation (see Visual design) |
 | Tutorial | — | an 8-step guided tour | replaced by a short first-run intro |
 | AI | `/ai/chat`, `/ai/guided-chapter`, `/ai/entity-content` | chat sidebar, 4 personas, guided chapter study | **slot only** |
 | Quiz and mastery | `/quiz/...`, `/quiz/mastery-overview` | chapter quiz after dwell, hints, mastery map | **slot only** |
@@ -81,7 +81,7 @@ The backend and content were rebuilt and tested this week (350 tests, golden API
 
 ### Me: account and settings
 - **Account:** optional sign-in. Signed in, it shows sync status, sign-out, and delete my data.
-- **Appearance:** Auto, Light, Dark or Paper (accents come with VI-2b), reading font and size, line height, reading mode.
+- **Appearance:** style and preset, light/dark/follow the phone, reading font and size, line height, reading mode, and the customisation screen (see Visual design).
 - **Reading:** default translation, read-aloud voice, the daily goal.
 - **Sources and credits:** BSB, STEP Bible, Matthew Henry, TSK.
 - **About, privacy and help.**
@@ -95,8 +95,8 @@ The backend and content were rebuilt and tested this week (350 tests, golden API
 - **Server data:** TanStack Query (cache, retries, prefetching the next chapter). **This replaces the old hand-rolled loader**, so the PF-2 race class goes away by design: query keys plus cancellation, and no global "current load" state.
 - **Auth:** Firebase Auth through the Firebase SDK, with Apple, Google and email sign-in. The ID token goes as `Authorization: Bearer` to the FastAPI backend, which verifies it with `firebase-admin`. The client never stores passwords.
 - **Local data:** MMKV on native and `localStorage` on web, behind one storage module with validated schemas. Study items and progress are local-first, with a sync queue to the backend when signed in.
-- **Design tokens:** the VI identity (warm paper and ink, `docs/plans/visual-identity.md`), ported from `frontend-next/src/styles/tokens.css` into a typed theme object. Light, Dark and Paper with the AA-checked Paper values from VI-2a. No raw colour literals outside the theme (a ratchet test, like VI-1's).
-- **Fonts:** a serif for Scripture, Noto Serif Hebrew, Gentium Book Plus, and the system UI font.
+- **Design tokens:** a typed theme object built from the presets in Visual design. It replaces the VI identity (warm paper and ink) and the old Light/Dark/Paper tokens. No raw colour literals outside the theme (a ratchet test, like VI-1's).
+- **Fonts:** see Visual design. Hebrew and Greek stay on Noto Serif Hebrew and Gentium Book Plus.
 - **Accessibility:**
   - 44 pt targets and Dynamic Type
   - screen-reader labels on every control
@@ -107,7 +107,44 @@ The backend and content were rebuilt and tested this week (350 tests, golden API
   - `bible-app-last-position`
   - `bible-app-highlights`, `-notes`, `-bookmarks`
   - `bible-app-recent-passages`, `-reading-progress`, `-chapters-read`, `-daily-goal-minutes`
-  - `theme`.
+  - `theme`: Auto, Light and Dark map to the default look (Silver / Graphite) in that mode; Paper maps to Silver.
+
+## Visual design (John, 2026-11-01)
+Picked from 15 directions, then tuned preset by preset on the design canvas (https://claude.ai/artifact/9qzaFmKVKTnGkgUWDxRqnN, the "Presets" page). The canvas holds every preset's exact colour values; R-0 copies them into the typed theme table. John may still tweak individual presets.
+
+**Two styles.** Both use the same screens and layout; only the tokens change.
+- **Neubrutalist pastel:** thick outlines, hard offset shadows, pastel fills. UI font Space Grotesk.
+- **Aurora glass:** frosted glass cards over soft aurora gradients, in the spirit of Apple's Liquid Glass. UI font Plus Jakarta Sans. Kept neutral: greys and restrained glows.
+  - **Native glass where it exists:** the system glass material on iOS 26; a blur (`expo-blur`) on Android and web. Confirm the Expo module in R-0.
+  - **The aurora moves.** The background glows drift slowly on their own (a gentle loop, several seconds per cycle) and shift with scrolling (parallax). Animate transforms on the UI thread (Reanimated); no layout work or re-renders per frame. **Reduce Motion stops both**, leaving a still background.
+  - **The reader stays calm.** Scripture sits on the soft wash only, never on the bright orbs behind the Home cards.
+
+**Presets.** Each style has three light and three dark presets. Every preset keeps to one colour family; mixed hues looked wrong.
+
+| Style | Light | Dark |
+|---|---|---|
+| Neubrutalist pastel | Strawberry milk, Matcha latte, Lavender haze | Bubblegum night, Matcha night, Grape soda |
+| Aurora glass | Liberty, Silver, Sky | Northern lights, Graphite, Deep blue |
+
+- **Pastel dark rule:** keep the brutalist outlines and hard shadows, but no light pastel card backgrounds. Cards use dusty mid-tones with light text (for example Bubblegum night's cards are `#7A4D61` / `#5C3A4A` with `#FFF1F5` text).
+- **No brand names or brand lookalikes** for presets.
+- Matched light/dark pairs: Strawberry milk / Bubblegum night, Matcha latte / Matcha night, Lavender haze / Grape soda, Silver / Graphite, Sky / Deep blue. Liberty and Northern lights stand alone.
+
+**First run.** A skippable "pick your look" screen shows both styles. The choice is saved on the device (and synced when signed in).
+- **Skipping gives Silver in light mode and Graphite in dark mode,** following the phone's setting.
+- The style is a look, not a gender setting. Onboarding asks no gender question; the only personal detail is an optional age range.
+
+**Customisation** (Me → Appearance), with a live preview of Home and the reader:
+1. **Presets:** pick any preset from either style.
+2. **Tweaks:** accent colour, light/dark/follow the phone, reading font, text size, line height.
+3. **Advanced:** edit every token. A contrast check blocks combinations below 4.5:1 for text.
+
+**Fonts.**
+- **Scripture:** Literata by default, with Source Serif 4 as the second choice; more reading fonts can be added later.
+- **Hebrew and Greek:** fixed (Noto Serif Hebrew, Gentium Book Plus).
+- **Chinese (CUV):** needs a CJK serif, still to choose.
+
+**Accessibility:** 4.5:1 text contrast in every preset (checked by a test over the preset table), 44 pt targets, and the Reduce Motion rule above.
 
 ## Testing (the claude-workflows gates for the new app)
 - **Unit and component tests:** Jest and React Native Testing Library, run by `npm test` in `client/`.
@@ -118,14 +155,14 @@ The backend and content were rebuilt and tested this week (350 tests, golden API
 ## Phases
 | Phase | Scope | Acceptance (highlights) |
 |---|---|---|
-| **R-0 Scaffold** | the Expo app in `client/`, tabs, theme tokens, fonts, the storage module, the API client, test harnesses, web export | builds for web, iOS and Android; four empty tabs; token ratchet; CI-equivalent local gate script |
+| **R-0 Scaffold** | the Expo app in `client/`, tabs, the theme engine with every preset, fonts, the storage module, the API client, test harnesses, web export | builds for web, iOS and Android; four empty tabs; token ratchet; a contrast test over every preset; CI-equivalent local gate script |
 | **R-1 Reader core** | the Bible tab: chapter view, the book/chapter and version pickers, swipe/keys, the collapsing header, reading settings, query cache plus next-chapter prefetch | position persists; prefetched chapter turns are instant; the PF-2 race tests ported and passing |
 | **R-2 Verse sheet** | the bottom sheet: highlight, note, bookmark, share/copy, Original words and the word card | the HG-3a behaviours ported; 44 pt targets; the screen-reader pass |
 | **R-3 Study tab** | lists of study items, progress, chapters explored and the coverage map | local-first; filters; opening in context |
 | **R-4 Home** | streak, goal, continue reading, verse of the day, Surprise me | the SM-1 picker tests ported |
 | **R-5 Search, commentary, entities** | search, the commentary sheet, people/places/themes | the reference parser ported with tests; English and Chinese search |
-| **R-6 Me and accounts** (with W2) | settings, appearance; Firebase Auth (Apple, Google, email); the backend verifies Firebase tokens; user data on Firestore; optional sync; delete my data; import any real Supabase users | needs John's Firebase project; an Opus security review of the new auth path; sync conflict rules; nothing left importing `supabase` in user paths |
-| **R-7 Web parity and cut-over** | old-localStorage import, read aloud, first-run intro, a performance budget | the new web build replaces `frontend-next/`; the old frontend is archived |
+| **R-6 Me and accounts** (with W2) | settings, appearance and the customisation screen with live preview; Firebase Auth (Apple, Google, email); the backend verifies Firebase tokens; user data on Firestore; optional sync; delete my data; import any real Supabase users | needs John's Firebase project; an Opus security review of the new auth path; sync conflict rules; nothing left importing `supabase` in user paths |
+| **R-7 Web parity and cut-over** | old-localStorage import, read aloud, first-run intro with the "pick your look" screen, a performance budget (including the aurora animation) | the new web build replaces `frontend-next/`; the old frontend is archived |
 
 After R-7, new roadmap features are built frontend and backend together:
 - commentary CM-1 to CM-4
@@ -139,3 +176,5 @@ After R-7, new roadmap features are built frontend and backend together:
 - **App identity:** the app's name, icon and store listing.
 - **Minimum age and privacy:** this matters for accounts and groups.
 - **Shipping native builds:** EAS Build accounts (Apple Developer, Google Play).
+- **Chinese Scripture font:** a CJK serif for CUV.
+- **The remaining screens in the two styles:** Study, Me, the verse sheet's sub-screens, the picker and the customisation screen are still to be drawn on the canvas.
