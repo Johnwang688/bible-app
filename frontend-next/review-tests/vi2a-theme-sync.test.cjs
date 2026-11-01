@@ -57,7 +57,7 @@ const ratio = (a, b) => { const x = luminance(a), y = luminance(b); return (Math
 test('F3: Paper text colours meet AA on its background and panel', () => {
   const css = fs.readFileSync('src/app/globals.css', 'utf8');
   const block = css.match(/\[data-theme="paper"\]\s*\{([^}]*)\}/)[1];
-  const color = name => block.match(new RegExp(`${name}:\s*(#[0-9a-f]{6})`, 'i'))[1];
+  const color = name => block.match(new RegExp(`${name}:\\s*(#[0-9a-f]{6})`, 'i'))[1];
   for (const fg of ['--text', '--muted', '--accent', '--vnum', '--rdrlabel']) {
     for (const bg of ['--bg', '--panel']) {
       const r = ratio(color(fg), color(bg));
