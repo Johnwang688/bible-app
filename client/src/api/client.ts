@@ -181,24 +181,38 @@ export function createApiClient(opts: ApiClientOptions): ApiClient {
       const headers: Record<string, string> = { Accept: 'application/json' };
       if (json !== undefined) headers['Content-Type'] = 'application/json';
 
-      let text: string;
-      let response: Response;
-      try {
+      // Rejects as soon as our controller aborts (timeout or caller abort), so a pending token,
+      // fetch that ignores its signal, or slow body read cannot outlive the deadline.
+      const abortSignal = controller.signal;
+      const aborted = new Promise<never>((_, reject) => {
+        const onAbort = () => reject(abortSignal.reason ?? new Error('aborted'));
+        if (abortSignal.aborted) onAbort();
+        else abortSignal.addEventListener('abort', onAbort, { once: true });
+      });
+      aborted.catch(() => undefined);
+
+      const work = (async () => {
         const token = getAuthToken ? await getAuthToken() : null;
         if (token) headers.Authorization = `Bearer ${token}`;
 
         const fetchFn = opts.fetch ?? globalThis.fetch;
         const init: RequestInit = { method, headers, signal: controller.signal };
         if (json !== undefined) init.body = JSON.stringify(json);
-        response = await fetchFn(baseUrl + path, init);
-        text = await response.text();
+        const res = await fetchFn(baseUrl + path, init);
+        return { response: res, text: await res.text() };
+      })();
+
+      let text: string;
+      let response: Response;
+      try {
+        ({ response, text } = await Promise.race([work, aborted]));
       } catch (cause) {
         throw transportError(cause);
       }
 
       if (!response.ok) {
         const parsed = parseJson(text);
-        const body = parsed.ok ? parsed.value : text === '' ? undefined : text;
+        const body = parsed.ok ? parsed.value : text;
         throw new ApiError({ kind: 'http', status: response.status, path, body });
       }
 
