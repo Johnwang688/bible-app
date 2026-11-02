@@ -25,6 +25,7 @@ import { greetingKey } from './greeting';
 import { ContinueCard, GoalCard, HomeHeader, SurpriseCard, VerseCard, type VerseState } from './HomeCards';
 import { shareVerse } from './shareVerse';
 import { pickSurpriseChapter } from './surprise';
+import { useToday } from './useToday';
 import { verseOfTheDay } from './verseOfTheDay';
 
 /** Room under the content for the tab bar, so the last card can scroll above it (as Study does). */
@@ -51,7 +52,7 @@ export function HomeScreen({
   const insets = useSafeAreaInsets();
   const storage = useMemo(() => storageProp ?? getStorage(), [storageProp]);
 
-  const today = now();
+  const today = useToday(now);
   const progress = useReadingProgress({ storage, now });
   const { position, setPosition } = useReaderPosition({ storage, locales });
   const open = useOpenInReader({ storage, navigate });
