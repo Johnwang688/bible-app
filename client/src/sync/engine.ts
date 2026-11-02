@@ -7,7 +7,9 @@
 // values at its start (L0) and again just before writing (L1); an entry that changed in between keeps
 // its new value and stays pending for the next run (rule 5). The local writes and the state update
 // happen synchronously together, journaled so that a crash between the key writes is settled on the
-// next start (journal.ts). After stop() resolves, no local write, base write or remote call happens.
+// next start (journal.ts). While they are written, the watchers stamp nothing (each write notifies them
+// before the next lands, so they would take the engine's own half-written values for local changes);
+// the commit stamps their domains once every write has landed. After stop() resolves, no local write, base write or remote call happens.
 // Runs never overlap, however syncNow is reached (a status listener calling it during a run included).
 //
 // Change detection: a first-seen stamp means "a local change is pending" until that exact change is
@@ -122,8 +124,13 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
   let again: Promise<void> | null = null;
   let unsubscribes: (() => void)[] = [];
   let failures = 0;
-  /** True while commit writes: a save then would write the merged state without its journal. */
+  /**
+   * True while commit writes. The engine's own writes notify the watchers while the local values are
+   * only partly written (the in-memory state already describes all of them), so a watcher then stamps
+   * nothing: it notes its domain, and commit stamps those domains once every write has landed.
+   */
   let committing = false;
+  const deferred = new Set<(at: number) => { stamped: boolean; dirty: boolean }>();
   const timers: { first?: ReturnType<typeof setTimeout>; debounce?: ReturnType<typeof setTimeout>; retry?: ReturnType<typeof setTimeout>; interval?: ReturnType<typeof setInterval> } = {};
 
   // ---- status ----
@@ -190,10 +197,14 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
 
   function onLocalChange(stamp: (at: number) => { stamped: boolean; dirty: boolean }) {
     if (phase !== 'started') return;
+    if (committing) {
+      // Mid-commit: no recovery and no stamping against half-written values (commit stamps after).
+      deferred.add(stamp);
+      return;
+    }
     recover();
     const res = stamp(now());
-    // During a commit only the in-memory state is stamped; commit's final save persists it.
-    if (res.dirty && !committing) saveState();
+    if (res.dirty) saveState();
     if (res.stamped) scheduleDebounce();
   }
 
@@ -379,19 +390,28 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
       throw e;
     }
     committing = true;
+    deferred.clear();
+    let stamped = false;
     try {
       storage.set(stateKey, journaled);
-      // The in-memory state is already the new one, so each write's own change notification finds nothing new.
+      // Each write notifies the watchers before the next lands: they defer to the stamping below.
       if (items && studyKey) storage.set(studyKey, items, { tag: id });
       for (const w of settings) storage.set(w.key, w.value, { tag: id });
       if (progress && progressKey) storage.set(progressKey, progress, { tag: id });
       committing = false;
+      // Every local value now matches the in-memory state, so only a real change (an app listener
+      // writing in response to one of these writes) is stamped, as the watcher would have (rule 5).
+      const at = now();
+      for (const stamp of deferred) if (stamp(at).stamped) stamped = true;
+      deferred.clear();
       saveState();
     } catch (e) {
       committing = false;
+      deferred.clear();
       state = clone(journaled);
       throw e;
     }
+    if (stamped) scheduleDebounce();
   }
 
   // ---- study items ----

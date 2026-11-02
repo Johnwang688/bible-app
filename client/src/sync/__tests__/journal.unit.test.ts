@@ -1,6 +1,10 @@
 // The write journal (R6b-fu-journal, implementer-owned): a crash after EVERY single storage write of a
 // run, for each domain and all together, must leave a device that converges with the account and an
-// observer device exactly as if the run had either finished or never happened (journal.ts).
+// observer device exactly as if the run had either finished or never happened (journal.ts). Every
+// scenario runs with the engine idle and started (watchers subscribed): a started engine's watchers see
+// each of its own writes while the others have not landed yet (R6b-fu-journal-fix1).
+import { z } from 'zod';
+
 import { appearanceKey, languageKey } from '../../storage/keys';
 import { createStorage, type KeyValueBackend, type Storage, type StorageKey } from '../../storage/storage';
 import { createSyncEngine } from '../engine';
@@ -13,6 +17,8 @@ import { iso, makeDevice, progressKey, setNote, studyKey } from './fixtures';
 const DAY = '2026-11-02';
 const UNKNOWN = '1970-01-01T00:00:00.000Z';
 const stateKey = syncStateKey('alice');
+/** A third synced setting (types.ts SettingKey), so that one run takes two settings and pushes a third. */
+const customKey: StorageKey<string> = { key: 'appearance.custom', version: 1, schema: z.string().min(1), fallback: 'plain' };
 
 /** A backend whose writes can be counted and whose bytes can be copied at any moment. */
 function mapBackend(init?: Map<string, string>) {
@@ -79,7 +85,9 @@ function domainsOf(parts: Part[]): SyncDomains {
   return {
     studyItems: parts.includes('items') ? studyKey : undefined,
     progress: parts.includes('progress') ? progressKey : undefined,
-    settings: parts.includes('settings') ? [appearanceKey as StorageKey<unknown>, languageKey as StorageKey<unknown>] : undefined,
+    // The run under test takes B's custom setting and language in one commit (custom written first) and
+    // C changes both later, so a local change invented for either shows.
+    settings: parts.includes('settings') ? [appearanceKey as StorageKey<unknown>, customKey as StorageKey<unknown>, languageKey as StorageKey<unknown>] : undefined,
   };
 }
 
@@ -90,10 +98,10 @@ const note = (ref: string, text: string, t: number, deviceId: string) => ({
 /**
  * Device A syncs, then the account changes on device B (at 2,000,000) while A changes locally. A's
  * next run is the run under test; `crashAt` (1-based write number, or null for no crash) copies A's
- * storage after that write (0: before its first). Returns the copy, the number of writes the run made
- * and the remote.
+ * storage after that write (0: before its first). With `started`, A's engine is started (watching)
+ * before its local changes. Returns the copy, the number of writes the run made and the remote.
  */
-async function runUnderTest(parts: Part[], crashAt: number | null, remoteDies: boolean) {
+async function runUnderTest(parts: Part[], crashAt: number | null, remoteDies: boolean, started: boolean) {
   const remote = createMemoryRemote();
   const disk = mapBackend();
   const storage = createStorage(disk.backend);
@@ -113,16 +121,24 @@ async function runUnderTest(parts: Part[], crashAt: number | null, remoteDies: b
     v.highlights['6:6:6'] = { colour: 'yellow', updatedAt: UNKNOWN }; // no own time: its change time is first-seen
     storage.set(studyKey, v);
   }
-  if (parts.includes('settings')) storage.set(languageKey, 'en');
+  if (parts.includes('settings')) {
+    storage.set(languageKey, 'en');
+    storage.set(customKey, 'a0');
+  }
   if (parts.includes('progress')) storage.set(progressKey, { ...progressKey.fallback, activeMs: { [DAY]: 50_000 } });
   await engine.syncNow();
   expect(engine.status().state).toBe('idle');
+  if (started) {
+    engine.start(); // its first run is a timer (fake: never fires); the run under test is syncNow
+    clock.now = 1_500_000; // the watchers stamp A's local changes below now
+  }
 
   // The account changes on B.
   remote.putItem(note('2:2:2', 'from B', 2_000_000, 'devB'));
   remote.putItem({ id: 'note:3:3:3', kind: 'note', ref: '3:3:3', deleted: true, value: null, updatedAt: 2_000_000, deviceId: 'devB' });
   remote.putItem({ id: 'highlight:6:6:6', kind: 'highlight', ref: '6:6:6', deleted: false, value: { colour: 'pink' }, updatedAt: 2_000_000, deviceId: 'devB' });
   remote.putSetting({ key: 'language', json: '"zh-Hans"', updatedAt: 2_000_000, deviceId: 'devB' });
+  remote.putSetting({ key: 'appearance.custom', json: '"from B"', updatedAt: 2_000_000, deviceId: 'devB' });
   remote.putDevice({ deviceId: 'devB', activeMs: { [DAY]: 100_000 }, chaptersRead: { '1:1': iso(2_000_000) }, goalMetDays: [], goal: { minutes: 20, updatedAt: 2_000_000 }, updatedAt: 2_000_000 });
 
   // A changes locally.
@@ -154,8 +170,8 @@ async function runUnderTest(parts: Part[], crashAt: number | null, remoteDies: b
 
 type Edit = 'none' | 'trap';
 
-/** Restarts device A from the crashed bytes (after optional local edits) and checks convergence. */
-async function restartAndCheck(parts: Part[], remote: MemoryRemote, bytes: Map<string, string>, edit: Edit, startTwice: boolean) {
+/** Restarts device A from the crashed bytes (after optional local edits; started, with `started`) and checks convergence. */
+async function restartAndCheck(parts: Part[], remote: MemoryRemote, bytes: Map<string, string>, edit: Edit, startTwice: boolean, started: boolean) {
   const disk = mapBackend(bytes);
   const storage: Storage = createStorage(disk.backend);
   const domains = domainsOf(parts);
@@ -177,18 +193,23 @@ async function restartAndCheck(parts: Part[], remote: MemoryRemote, bytes: Map<s
   remote.putItem(note('3:3:3', 'from C', 2_500_000, 'devC'));
   remote.putItem({ id: 'highlight:6:6:6', kind: 'highlight', ref: '6:6:6', deleted: false, value: { colour: 'green' }, updatedAt: 2_500_000, deviceId: 'devC' });
   remote.putSetting({ key: 'language', json: '"system"', updatedAt: 2_500_000, deviceId: 'devC' });
+  remote.putSetting({ key: 'appearance.custom', json: '"from C"', updatedAt: 2_500_000, deviceId: 'devC' });
   remote.putDevice({ deviceId: 'devC', activeMs: { [DAY]: 7_000 }, chaptersRead: {}, goalMetDays: [], goal: { minutes: 30, updatedAt: 2_500_000 }, updatedAt: 2_500_000 });
 
   const a = make(4_000_000);
+  if (started) a.engine.start();
   const d = makeDevice(remote, 'devD', { domains, start: 5_000_000 });
   for (const dev of [a, a, d, a, d]) {
     await dev.engine.syncNow();
     expect(dev.engine.status().state).toBe('idle');
   }
+  await a.engine.stop();
 
   const state = storage.get(stateKey);
   expect(state.journal ?? null).toBeNull();
   expect(state.progress.pending).toBeNull();
+  // Converged: no local change is left pending (an invented one would go out as newer than it is).
+  expect({ items: state.items.stamps, settings: state.settings.stamps, goal: state.progress.goalStamp }).toEqual({ items: {}, settings: {}, goal: null });
 
   if (parts.includes('items')) {
     const want: Record<string, string> = { '1:1:1': 'keep edited', '2:2:2': 'from C', '3:3:3': 'from C', '4:4:4': 'new A' };
@@ -203,6 +224,7 @@ async function restartAndCheck(parts: Part[], remote: MemoryRemote, bytes: Map<s
   if (parts.includes('settings')) {
     expect([storage.get(languageKey), d.storage.get(languageKey), remote.settings.get('language')?.json]).toEqual(['system', 'system', '"system"']);
     expect([storage.get(appearanceKey).mode, d.storage.get(appearanceKey).mode]).toEqual(['dark', 'dark']);
+    expect([storage.get(customKey), d.storage.get(customKey), remote.settings.get('appearance.custom')?.json]).toEqual(['from C', 'from C', '"from C"']);
   }
   if (parts.includes('progress')) {
     const own = 55_000 + (edit === 'trap' ? 100_000 : 0);
@@ -219,30 +241,38 @@ async function restartAndCheck(parts: Part[], remote: MemoryRemote, bytes: Map<s
 }
 
 describe('a crash after every single storage write of a run converges', () => {
+  beforeEach(() => jest.useFakeTimers());
+  afterEach(() => {
+    jest.clearAllTimers();
+    jest.useRealTimers();
+  });
+
   for (const [name, parts] of Object.entries(PARTS)) {
-    test(`${name}: every crash point, remote finishing or dying, with and without local edits before restart`, async () => {
-      const { writes: total, crashed: none } = await runUnderTest(parts, null, false);
-      expect(none).toBeNull();
-      // At least: the journal, each local key the run takes a value into, the final state, a base update after a push.
-      expect(total).toBeGreaterThanOrEqual(parts.length === 3 ? 7 : 4);
-      let checked = 0;
-      for (let n = 0; n <= total; n++) {
-        for (const remoteDies of [false, true]) {
-          for (const edit of ['none', 'trap'] as const) {
-            for (const startTwice of [false, true]) {
-              const { remote, crashed } = await runUnderTest(parts, n, remoteDies);
-              try {
-                await restartAndCheck(parts, remote, crashed!, edit, startTwice);
-              } catch (e) {
-                throw new Error(`crash after write ${n}/${total}, remote ${remoteDies ? 'dies' : 'finishes'}, edit ${edit}, startTwice ${startTwice}: ${(e as Error).message}`);
+    for (const started of [false, true]) {
+      test(`${name}, engine ${started ? 'started' : 'idle'}: every crash point, remote finishing or dying, with and without local edits before restart`, async () => {
+        const { writes: total, crashed: none } = await runUnderTest(parts, null, false, started);
+        expect(none).toBeNull();
+        // At least: the journal, each local key the run takes a value into, the final state, a base update after a push.
+        expect(total).toBeGreaterThanOrEqual(parts.length === 3 ? 8 : parts.includes('settings') ? 5 : 4);
+        let checked = 0;
+        for (let n = 0; n <= total; n++) {
+          for (const remoteDies of [false, true]) {
+            for (const edit of ['none', 'trap'] as const) {
+              for (const startTwice of [false, true]) {
+                const { remote, crashed } = await runUnderTest(parts, n, remoteDies, started);
+                try {
+                  await restartAndCheck(parts, remote, crashed!, edit, startTwice, started);
+                } catch (e) {
+                  throw new Error(`crash after write ${n}/${total}, remote ${remoteDies ? 'dies' : 'finishes'}, edit ${edit}, startTwice ${startTwice}: ${(e as Error).message}`);
+                }
+                checked++;
               }
-              checked++;
             }
           }
         }
-      }
-      expect(checked).toBe((total + 1) * 8);
-    });
+        expect(checked).toBe((total + 1) * 8);
+      });
+    }
   }
 });
 
@@ -317,6 +347,56 @@ describe('a local write that throws in the middle of a run', () => {
     expect(state.items.base['note:3:3:3']).toMatchObject({ s: null, t: 2_000_000, d: 'devB' });
     expect(state.settings.base.language?.s).toBe('"en"');
     await a.engine.stop();
+  });
+});
+
+describe('a started engine watching its own commit', () => {
+  beforeEach(() => jest.useFakeTimers());
+  afterEach(() => {
+    jest.clearAllTimers();
+    jest.useRealTimers();
+  });
+
+  test('an app write made in response to one of its writes, and an edit right after the commit, are stamped (rule 5)', async () => {
+    const remote = createMemoryRemote();
+    const a = makeDevice(remote, 'devA', { domains: domainsOf(['settings']) });
+    a.storage.set(languageKey, 'en');
+    await a.engine.syncNow();
+    a.engine.start();
+    remote.putSetting({ key: 'appearance.custom', json: '"from B"', updatedAt: 2_000_000, deviceId: 'devB' });
+    remote.putSetting({ key: 'language', json: '"zh-Hans"', updatedAt: 2_000_000, deviceId: 'devB' });
+    // An app listener reacts to the custom setting (written before the language) by changing the appearance.
+    let reacted = false;
+    const off = a.storage.subscribe(customKey, () => {
+      if (reacted || a.storage.get(customKey) !== 'from B') return;
+      reacted = true;
+      expect(a.storage.get(languageKey)).toBe('en'); // mid-commit: the language has not landed yet
+      a.storage.set(appearanceKey, { preset: null, mode: 'light' });
+    });
+    a.clock.now = 3_000_000;
+    await a.engine.syncNow();
+    off();
+    expect(reacted).toBe(true);
+    let state = a.storage.get(stateKey);
+    expect(state.settings.stamps).toEqual({ appearance: { at: 3_000_000, s: '{"mode":"light","preset":null}' } });
+    expect([state.settings.base['appearance.custom']?.s, state.settings.base.language?.s]).toEqual(['"from B"', '"zh-Hans"']);
+
+    a.clock.now = 3_100_000;
+    a.storage.set(languageKey, 'system'); // right after the commit: the watcher stamps it at once
+    state = a.storage.get(stateKey);
+    expect(state.settings.stamps.language).toEqual({ at: 3_100_000, s: '"system"' });
+
+    await a.engine.syncNow();
+    await a.engine.stop();
+    expect({
+      appearance: [remote.settings.get('appearance')?.json, remote.settings.get('appearance')?.updatedAt],
+      language: [remote.settings.get('language')?.json, remote.settings.get('language')?.updatedAt],
+      stamps: a.storage.get(stateKey).settings.stamps,
+    }).toEqual({
+      appearance: ['{"preset":null,"mode":"light"}', 3_000_000],
+      language: ['"system"', 3_100_000],
+      stamps: {},
+    });
   });
 });
 

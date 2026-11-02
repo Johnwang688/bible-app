@@ -25,7 +25,8 @@
 //       3. saves the final state, without the journal.
 //     A crash before 1 or after 3 leaves a matching pair. A crash in between leaves the journal.
 //   - Recovery (`recoverJournal`, at engine creation, before every run and before stamping a local
-//     change, so before anything reads local values against the state): for each journaled key,
+//     change, so before anything reads local values against the state; never inside step 2, where
+//     the watchers wait for the commit to stamp once all writes have landed): for each journaled key,
 //     `tagOf(key) === id` means its write landed, so its part of the state takes the journaled value;
 //     otherwise the write did not land, and the part stays as it was before the run. Then the journal
 //     is cleared, in one state write (atomic; recovering twice decides the same, since only a new
