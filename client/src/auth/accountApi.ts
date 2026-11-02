@@ -5,8 +5,8 @@
 import { AuthError } from './types';
 
 export const ACCOUNT_REQUEST_TIMEOUT_MS = 15_000;
-/** How long a request waits for an App Check token before it goes without one. */
-export const APP_CHECK_TOKEN_TIMEOUT_MS = 5_000;
+/** How long a request waits for an App Check token (including starting App Check) before it goes without one. */
+export const APP_CHECK_TOKEN_TIMEOUT_MS = 3_000;
 
 export interface AccountApiOptions {
   /** The backend base URL without a trailing slash (api/config.ts `getApiBaseUrl`). */
@@ -15,8 +15,10 @@ export interface AccountApiOptions {
   fetch?: (url: string, init?: RequestInit) => Promise<Response>;
   timeoutMs?: number;
   /**
-   * The App Check token for the request; null or a rejection sends no header. Defaults to `getAppCheckToken`
-   * from ./appCheck, loaded only when a request is made (loading this file loads nothing from Firebase).
+   * The App Check token for the request; null or a rejection sends no header. Defaults to
+   * `getAppCheckTokenForRequest` from ./appCheck, loaded only when a request is made (loading this file loads
+   * nothing from Firebase); on the web it starts App Check first, so a call made signed out (the Under 13
+   * delete, which never creates Firestore) carries a token too.
    */
   appCheckToken?: () => Promise<string | null>;
 }
@@ -37,8 +39,10 @@ async function detailOf(res: Response): Promise<unknown> {
 
 function defaultAppCheckToken(): Promise<string | null> {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const { getAppCheckToken } = require('./appCheck') as typeof import('./appCheck');
-  return getAppCheckToken();
+  const appCheck = require('./appCheck') as Partial<typeof import('./appCheck')>;
+  // Web: starts App Check, then the token; native: null. A module without it (a test double) gives its token.
+  const source = appCheck.getAppCheckTokenForRequest ?? appCheck.getAppCheckToken;
+  return source ? source() : Promise.resolve(null);
 }
 
 /**

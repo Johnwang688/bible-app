@@ -13,3 +13,8 @@ export function ensureAppCheck(_app: FirebaseApp): void {}
 export async function getAppCheckToken(): Promise<string | null> {
   return null;
 }
+
+/** Always null on native (no provider yet); nothing is started. */
+export async function getAppCheckTokenForRequest(): Promise<string | null> {
+  return null;
+}
