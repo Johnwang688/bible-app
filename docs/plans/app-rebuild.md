@@ -198,7 +198,7 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
 | Phase | Scope | Acceptance (highlights) |
 |---|---|---|
 | **R-0 Scaffold** ✅ done 2026-11-01 | the Expo app in `client/`, tabs, the theme engine with every preset, fonts, the storage module, the API client, the message catalogue (English and Simplified Chinese) with locale detection, test harnesses, web export | builds for web, iOS and Android; four empty tabs; token ratchet; a contrast test over every preset; the string ratchet and the missing-key test; CI-equivalent local gate script |
-| **R-1 Reader core** | the Bible tab: chapter view, the book/chapter and version pickers, swipe/keys, the collapsing header, reading settings, parallel reading, query cache plus next-chapter prefetch | position persists; prefetched chapter turns are instant; the PF-2 race tests ported and passing; parallel verses stay aligned when one translation lacks a verse |
+| **R-1 Reader core** ✅ done 2026-11-01 | the Bible tab: chapter view, the book/chapter and version pickers, swipe/keys, the collapsing header, reading settings, parallel reading, query cache plus next-chapter prefetch | position persists; prefetched chapter turns are instant; the PF-2 race tests ported and passing; parallel verses stay aligned when one translation lacks a verse |
 | **R-2 Verse sheet** | the bottom sheet: highlight, note, bookmark, share/copy, Original words and the word card | the HG-3a behaviours ported; 44 pt targets; the screen-reader pass |
 | **R-3 Study tab** | lists of study items, progress, chapters explored and the coverage map | local-first; filters; opening in context |
 | **R-4 Home** | streak, goal, continue reading, verse of the day, Surprise me | the SM-1 picker tests ported |
@@ -211,6 +211,18 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
 - **Preset contrast:** the test checks 735 text/background pairs. The six pastel presets pass 4.5:1 everywhere. The glass presets have 43 pairs below 4.5:1, all over the brightest glow peaks and orbs: mostly secondary text (`muted`, verse numbers, inactive and active tab labels); also highlighted verses over one glow in Liberty and Northern lights, and Northern lights card text. Plain Scripture text passes on every reader background. The test pins them as known gaps that may only shrink. Tuning them is John's call (see Open).
 - **Chinese Scripture font:** the web uses the Google Fonts stylesheet (its unicode-range slices download only the glyphs a page uses); native downloads Noto Serif SC once (7.2 MB) from a pinned jsDelivr copy on first use. Self-hosting the web slices is an option for R-7.
 - **Storage:** MMKV 4; its web build keeps each value in `localStorage` under `bible-app\<key>`, which the old app's `bible-app-*` keys never collide with.
+
+**R-1 notes (2026-11-01).**
+- **Races by design:** the shown chapter is always the TanStack query for the current position (book, chapter, translation), with cancellation through `signal`. The six PF-2 loader race tests are ported as behaviour tests (`client/src/reader/__tests__/chapterRaces.test.tsx`) and pass. Next and previous chapters are prefetched for both translations, so a turn renders from the cache on its first frame.
+- **Defaults:** a brand-new reader starts at Genesis 1 in BSB, CUV-SIMP or CUV, following the phone. KJV is not offered: the backend has no KJV text yet.
+- **Parallel reading:** phones interleave the second translation under each verse; screens 768 px and wider show two columns with a swap button. Alignment is by verse number, and a missing verse is an empty, labelled cell. The two sides are never the same translation: the version picker, recent passages and swap all apply the same rule.
+- **Reading settings in R-1:** text size, parallel reading, the second translation and swap. Reading font and line height move to Me → Appearance (R-6).
+- **Deferred:**
+  - **Paged mode:** a later reader phase.
+  - **The header's search button:** R-5.
+  - **Read-chapter dots in the picker:** progress, R-3/R-4.
+  - **Verse screen-reader labels:** they say "Verse 16" rather than reading the text. To revisit in R-2's screen-reader pass.
+  - **Native swipe:** unit-tested, but not yet tried on a device (needs EAS builds).
 
 Every phase ships its screens in both languages; the missing-key test keeps Chinese from falling behind.
 
