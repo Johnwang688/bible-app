@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // The R-7 performance budget, measured on the web export (run `npx expo export -p web --output-dir dist` first).
-//   node scripts/perf-budget.mjs [--port 8105] [--gpu] [--runs 3]
+//   node scripts/perf-budget.mjs [--port 8105] [--gpu] [--runs 3] [--only startup|motion]
 // Prints one JSON object: bundle sizes, start-up on an emulated mid-range phone (Pixel 7 viewport, 4x CPU
 // throttle, fast 4G), and the aurora's frame rate and main-thread cost per frame for each style.
 // The local server sends files uncompressed, so the fast-4G start-up is a worst case; noNetworkLimit isolates
@@ -22,6 +22,8 @@ const opt = (name, fallback) => {
 const PORT = Number(opt('--port', process.env.E2E_PORT ?? 8105));
 const RUNS = Number(opt('--runs', 3));
 const GPU = args.includes('--gpu');
+/** --only startup | motion: run one half. */
+const ONLY = opt('--only', null);
 const BASE = `http://127.0.0.1:${PORT}`;
 const KEY = (k) => `bible-app${String.fromCharCode(92)}${k}`;
 
@@ -129,7 +131,8 @@ async function startup(browser, network, preset = 'matcha-latte') {
 
 /** Frame rate and main-thread cost over 5 s on Home, for one look and aurora style. */
 async function motion(browser, label, init, throttle) {
-  const { context, page, cdp } = await phonePage(browser, init);
+  // No network limit here: this measures the frame cost, not the download.
+  const { context, page, cdp } = await phonePage(browser, init, false);
   if (!throttle) await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
   await page.goto(BASE + '/');
   await page.getByTestId('screen-home').waitFor({ state: 'visible', timeout: 60_000 });
@@ -211,8 +214,11 @@ try {
     ['Silver, fluid', [['aurora.style', JSON.stringify({ v: 1, data: 'fluid' })]]],
     ['Silver, flow', [['aurora.style', JSON.stringify({ v: 1, data: 'flow' })]]],
   ];
-  const out = { date: new Date().toISOString(), bundle: bundle(), startup: { fast4g: await startup(browser, true), fast4gGlass: await startup(browser, true, 'silver'), noNetworkLimit: await startup(browser, false) }, fonts: fonts(), motion: [] };
-  for (const throttle of [false, true]) for (const [label, init] of looks) out.motion.push(await motion(browser, label, init, throttle));
+  const out = { date: new Date().toISOString(), bundle: bundle(), fonts: fonts(), startup: null, motion: [] };
+  if (ONLY !== 'motion') {
+    out.startup = { fast4g: await startup(browser, true), fast4gGlass: await startup(browser, true, 'silver'), noNetworkLimit: await startup(browser, false) };
+  }
+  if (ONLY !== 'startup') for (const throttle of [false, true]) for (const [label, init] of looks) out.motion.push(await motion(browser, label, init, throttle));
   console.log(JSON.stringify(out, null, 2));
 } finally {
   await browser.close();
