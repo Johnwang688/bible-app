@@ -27,7 +27,7 @@ const PLUS = '+';
 export function CustomiseModes() {
   const theme = useTheme();
   const { t } = useI18n();
-  const { choice, setChoice } = useAppearance();
+  const { choice, updateChoice } = useAppearance();
   return (
     <View style={styles.column} accessibilityRole="radiogroup">
       {MODES.map((mode) => {
@@ -39,7 +39,7 @@ export function CustomiseModes() {
             role="radio"
             label={t(`mode.${mode}`)}
             selected={on}
-            onPress={() => setChoice({ preset: choice.preset, mode })}
+            onPress={() => updateChoice((current) => ({ ...current, mode }))}
             style={[
               on ? { backgroundColor: theme.colors.cta, borderRadius: theme.radii.button } : buttonStyle(theme),
               styles.option,
@@ -72,7 +72,7 @@ interface AccentOption {
 export function CustomiseAccents() {
   const theme = useTheme();
   const { t } = useI18n();
-  const { presetId, custom, setCustom } = useAppearance();
+  const { presetId, custom, updateCustom } = useAppearance();
   const own = getTheme(presetId).colors.accent;
   const current = editedAccent(custom, presetId);
   const options: AccentOption[] = [
@@ -99,8 +99,10 @@ export function CustomiseAccents() {
             selected={on}
             disabled={blocked}
             onPress={() => {
-              const result = setAccent(custom, presetId, o.fixed ? o.color : null);
-              if (result.ok) setCustom(result.custom);
+              updateCustom((current) => {
+                const result = setAccent(current, presetId, o.fixed ? o.color : null);
+                return result.ok ? result.custom : null;
+              });
             }}
             style={[styles.dot, { backgroundColor: o.color, borderColor: on ? theme.colors.text : theme.colors.base }]}
           />
@@ -113,7 +115,7 @@ export function CustomiseAccents() {
 export function CustomiseFonts() {
   const theme = useTheme();
   const { t, locale } = useI18n();
-  const { custom, setCustom } = useAppearance();
+  const { updateCustom } = useAppearance();
   return (
     <View style={styles.column}>
       <View style={styles.fontRow} accessibilityRole="radiogroup">
@@ -126,7 +128,7 @@ export function CustomiseFonts() {
               role="radio"
               label={t(`font.${font}`)}
               selected={on}
-              onPress={() => setCustom({ ...custom, scriptureFont: font })}
+              onPress={() => updateCustom((current) => ({ ...current, scriptureFont: font }))}
               style={[
                 buttonStyle(theme),
                 styles.font,
@@ -149,7 +151,7 @@ export function CustomiseFonts() {
   );
 }
 
-export function CustomiseSize({ textSize, onChange }: { textSize: number; onChange(index: number): void }) {
+export function CustomiseSize({ textSize, onStep }: { textSize: number; onStep(delta: -1 | 1): void }) {
   const theme = useTheme();
   const { t, formatNumber } = useI18n();
   const last = TEXT_SIZES.length - 1;
@@ -160,7 +162,7 @@ export function CustomiseSize({ textSize, onChange }: { textSize: number; onChan
         label={t('customise.size.smaller')}
         glyph={MINUS}
         disabled={textSize <= 0}
-        onPress={() => onChange(Math.max(0, textSize - 1))}
+        onPress={() => onStep(-1)}
       />
       <Text
         testID="customise-size-value"
@@ -173,7 +175,7 @@ export function CustomiseSize({ textSize, onChange }: { textSize: number; onChan
         label={t('customise.size.larger')}
         glyph={PLUS}
         disabled={textSize >= last}
-        onPress={() => onChange(Math.min(last, textSize + 1))}
+        onPress={() => onStep(1)}
       />
     </View>
   );
@@ -202,6 +204,6 @@ const styles = StyleSheet.create({
   dot: { width: 44, height: 44, borderRadius: 22, borderWidth: 3 },
   fontRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   font: { flex: 1, minWidth: 120, minHeight: 50, justifyContent: 'center', paddingHorizontal: 8 },
-  sizeRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  sizeRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 6 },
   step: { alignItems: 'center', justifyContent: 'center' },
 });

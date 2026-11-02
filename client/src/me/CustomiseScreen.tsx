@@ -7,6 +7,8 @@ import { uiFace } from '../fonts/fonts';
 import { useI18n } from '../i18n/I18nProvider';
 import { Icon } from '../reader/components/icons';
 import { useReadingSettings } from '../reader/state';
+import { TEXT_SIZES, readingSettingsKey } from '../storage/keys';
+import { getStorage } from '../storage/storage';
 import { resetPreset } from '../theme/custom';
 import { PRESETS } from '../theme/presets';
 import { useAppearance, useTheme } from '../theme/ThemeProvider';
@@ -20,14 +22,23 @@ import { CustomisePreview } from './components/CustomisePreview';
 export function CustomiseScreen(props: { onBack(): void; onAdvanced(): void }) {
   const theme = useTheme();
   const { t } = useI18n();
-  const { choice, setChoice, presetId, custom, setCustom } = useAppearance();
-  const [reading, setReading] = useReadingSettings();
+  const { presetId, updateChoice, updateCustom } = useAppearance();
+  const [reading] = useReadingSettings();
   const presetName = t(`preset.${presetId}`);
 
   const pick = (id: PresetId) => {
     const mode = PRESETS.find((p) => p.id === id)?.mode;
     // Same mode as now showing: keep the mode setting. Otherwise switch so the new look shows.
-    setChoice({ preset: id, mode: mode === undefined || mode === theme.mode ? choice.mode : mode });
+    updateChoice((current) => ({ preset: id, mode: mode === undefined || mode === theme.mode ? current.mode : mode }));
+  };
+
+  // Built from the stored settings at the moment of the press, so quick presses each count and
+  // settings written elsewhere since the last render are kept.
+  const stepSize = (delta: number) => {
+    const storage = getStorage();
+    const current = storage.get(readingSettingsKey);
+    const textSize = Math.min(TEXT_SIZES.length - 1, Math.max(0, current.textSize + delta));
+    if (textSize !== current.textSize) storage.set(readingSettingsKey, { ...current, textSize });
   };
 
   return (
@@ -42,7 +53,7 @@ export function CustomiseScreen(props: { onBack(): void; onAdvanced(): void }) {
           testID="customise-reset"
           role="button"
           label={t('customise.reset.a11y', { preset: presetName })}
-          onPress={() => setCustom(resetPreset(custom, presetId))}
+          onPress={() => updateCustom((current) => resetPreset(current, presetId))}
           style={[styles.reset, { borderRadius: theme.radii.button, borderWidth: theme.borders.button?.width ?? 1, borderColor: theme.borders.button?.color ?? theme.colors.muted }]}
         >
           <Text style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 14 }}>{t('customise.reset')}</Text>
@@ -58,7 +69,7 @@ export function CustomiseScreen(props: { onBack(): void; onAdvanced(): void }) {
           </View>
           <View style={styles.group}>
             <CustomiseLabel>{t('customise.size')}</CustomiseLabel>
-            <CustomiseSize textSize={reading.textSize} onChange={(textSize) => setReading({ ...reading, textSize })} />
+            <CustomiseSize textSize={reading.textSize} onStep={stepSize} />
           </View>
         </View>
       </View>

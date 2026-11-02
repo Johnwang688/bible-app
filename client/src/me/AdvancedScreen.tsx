@@ -15,7 +15,7 @@ const EXAMPLE_COLOUR = ACCENT_CHOICES[0].color;
 export function AdvancedScreen(props: { onBack(): void }) {
   const theme = useTheme();
   const { t, formatNumber } = useI18n();
-  const { presetId, custom, setCustom } = useAppearance();
+  const { presetId, custom, updateCustom } = useAppearance();
   // What the reader has typed but not applied, and the last refusal, per token.
   const [drafts, setDrafts] = useState<Partial<Record<ColorToken, string>>>({});
   const [errors, setErrors] = useState<Partial<Record<ColorToken, string>>>({});
@@ -26,25 +26,30 @@ export function AdvancedScreen(props: { onBack(): void }) {
   };
 
   const apply = (token: ColorToken, value: string) => {
-    const result = setTokenEdit(custom, presetId, token, value);
-    if (result.ok) {
-      setCustom(result.custom);
-      settle(token);
-      return;
-    }
-    const message =
-      result.reason === 'contrast'
-        ? t('advanced.error.contrast', {
-            count: result.failures.length,
-            ratio: formatNumber(Math.min(...result.failures.map((f) => f.ratio)), { maximumFractionDigits: 2 }),
-          })
-        : t('advanced.error.invalid', { example: EXAMPLE_COLOUR });
-    setErrors((e) => ({ ...e, [token]: message }));
+    // Built from the stored value at the moment of the press, so two quick applies both count.
+    updateCustom((current) => {
+      const result = setTokenEdit(current, presetId, token, value);
+      if (result.ok) {
+        settle(token);
+        return result.custom;
+      }
+      const message =
+        result.reason === 'contrast'
+          ? t('advanced.error.contrast', {
+              count: result.failures.length,
+              ratio: formatNumber(Math.min(...result.failures.map((f) => f.ratio)), { maximumFractionDigits: 2 }),
+            })
+          : t('advanced.error.invalid', { example: EXAMPLE_COLOUR });
+      setErrors((e) => ({ ...e, [token]: message }));
+      return null;
+    });
   };
 
   const reset = (token: ColorToken) => {
-    const result = setTokenEdit(custom, presetId, token, null);
-    if (result.ok) setCustom(result.custom);
+    updateCustom((current) => {
+      const result = setTokenEdit(current, presetId, token, null);
+      return result.ok ? result.custom : null;
+    });
     settle(token);
   };
 
