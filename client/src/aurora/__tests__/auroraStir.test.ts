@@ -100,10 +100,10 @@ function withController(run: (screen: El, destroy: () => void) => void, screenSt
 beforeEach(() => void mockCalls.splice(0));
 
 describe('stirring', () => {
-  it('lets the stir surface pan vertically while mounted, and puts the old value back on destroy', () => {
+  it('lets the stir surface pan vertically (and pinch-zoom) while mounted, and puts the old value back on destroy', () => {
     withController(
       (screen, destroy) => {
-        expect(screen.style.touchAction).toBe('pan-y');
+        expect(screen.style.touchAction).toBe('pan-y pinch-zoom');
         destroy();
         expect(screen.style.touchAction).toBe('manipulation');
       },

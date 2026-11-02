@@ -192,9 +192,9 @@ export function createAuroraController(host: HTMLElement, screen: HTMLElement | 
 
   // ---- stirring (fluid only) ----
   // Only a deliberate drag stirs: a pointer sends nothing until it has moved STIR_SLOP_PX from where it
-  // went down. `touch-action: pan-y` lets a vertical drag scroll (the browser then cancels the pointer).
+  // went down. `touch-action: pan-y pinch-zoom` lets a vertical drag scroll and keeps pinch-zoom (the browser then cancels the pointer).
   const savedTouchAction = screen ? screen.style.touchAction : '';
-  if (screen) screen.style.touchAction = 'pan-y';
+  if (screen) screen.style.touchAction = 'pan-y pinch-zoom';
   /** Per pointer id: where it went down, and whether it has started stirring. */
   const downs = new Map<number, { x: number; y: number; stirring: boolean }>();
   const toUnit = (r: DOMRect, x: number, y: number) => [(x - r.left) / r.width, 1 - (y - r.top) / r.height] as const;
