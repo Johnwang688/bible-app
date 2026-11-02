@@ -64,7 +64,7 @@ interface Snapshot {
 
 function setup() {
   const { api, calls, find } = fakeApi();
-  const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+  const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: Infinity } } });
   const renders: Snapshot[] = [];
   function Probe({ book, chapter, translation }: { book?: BookInfo; chapter: number; translation: TranslationId }) {
     const q = useChapter(book, chapter, translation);

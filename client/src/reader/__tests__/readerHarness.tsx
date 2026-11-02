@@ -89,7 +89,7 @@ export async function renderReader(opts: RenderReaderOptions = {}) {
   const storage = opts.storage ?? createStorage(memoryBackend());
   if (opts.position) storage.set(readerPositionKey, opts.position);
   const { api, calls } = fakeApi(opts);
-  const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+  const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: Infinity } } });
   const locales = opts.locales ?? [EN];
   const ui = await render(
     <SafeAreaProvider initialMetrics={{ frame: { x: 0, y: 0, width: 390, height: 844 }, insets: { top: 47, left: 0, right: 0, bottom: 34 } }}>

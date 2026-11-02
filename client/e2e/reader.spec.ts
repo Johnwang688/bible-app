@@ -98,6 +98,26 @@ test.describe('reader (English)', () => {
     await expect(row.getByText(/神爱世人/)).toBeVisible();
   });
 
+  test('verses flow in one paragraph: a long verse wraps as text, not as a block', async ({ page }) => {
+    await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
+    await page.goto('/bible');
+    await expect(page.getByText(/For God so loved the world/)).toBeVisible();
+    // An inline run that wraps has one client rect per line; an inline-block (a whole verse that
+    // jumps to a new line) has just one.
+    const rects = await page.evaluate(() => {
+      const el = document.querySelector('[data-testid="verse-16"]')!;
+      return Array.from(el.getClientRects()).length;
+    });
+    expect(rects).toBeGreaterThan(1);
+    // And verse 17 starts on the line where verse 16 ends.
+    const [end16, start17] = await page.evaluate(() => {
+      const r16 = Array.from(document.querySelector('[data-testid="verse-16"]')!.getClientRects());
+      const r17 = document.querySelector('[data-testid="verse-17"]')!.getClientRects()[0]!;
+      return [r16[r16.length - 1]!.top, r17.top];
+    });
+    expect(Math.abs(end16! - start17!)).toBeLessThan(4);
+  });
+
   test('the Bible tab text never sits under the tab bar at the end of the chapter', async ({ page }) => {
     await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
     await page.goto('/bible');
