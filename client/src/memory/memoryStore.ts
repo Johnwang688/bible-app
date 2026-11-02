@@ -1,6 +1,7 @@
 // The Memory section's store: applies a graded step to the device's progress, as Little Lamb's
 // trainers did on a graded verdict (`recordAttempt`, then on a pass `setStageAtLeast(nextStageAfter(stage))`),
-// and ticks a passed step off the day's lesson. Synchronous reads and writes, so two calls cannot interleave.
+// and ticks a passed step off the day's lesson. Reads and writes are synchronous, but a storage listener
+// may call back in mid-write, so `submitStep` re-applies its changes to the stored value at each write.
 import {
   memoryHistoryKey,
   memoryLessonKey,
@@ -60,50 +61,78 @@ export function createMemoryStore(storage: Storage): MemoryStore {
     },
 
     submitStep({ index, verseId, stage, passed, now = new Date() }) {
+      // Invariants:
+      // - Validate, then write: every value this call would store is computed from the current
+      //   stored values and parsed against its key's schema before the first `storage.set`, so a
+      //   rejected value throws with nothing written.
+      // - Each write re-reads its key and re-applies this call's delta (the attempt row, the lesson
+      //   tick, the history addition) to the value as stored at that moment, never to a snapshot
+      //   taken before an earlier write notified listeners.
+      // - Re-entrant calls are safe: a listener that calls `submitStep` from inside one of these
+      //   writes sees fully stored values, and its changes are kept by the writes that follow.
+      //   Writes go progress, lesson, history: whether the day became completed is decided by the
+      //   lesson write, and the history write follows from it.
       if (!getMemoryVerse(verseId)) {
         return { recorded: false, dayCompleted: false, streak: streak(now), progress: undefined };
       }
+      const today = toLocalDateString(now);
 
       // Two writers, two jobs: the attempt moves the counters and the schedule, the promotion only
       // the stage, and only on a pass (and only as far as the successes have paid for).
-      //
-      // Every new value is computed first and only then written (progress, history, lesson), so a
-      // value the schema rejects throws before anything is stored, never between two writes.
-      const map = storage.get(memoryProgressKey);
-      let row = recordAttempt(map[verseId], passed, now, endOfLocalDay(now));
-      if (passed) row = promoteStage(row, nextStageAfter(stage));
-
-      const today = toLocalDateString(now);
-      const history = storage.get(memoryHistoryKey);
-      let completedDates = history.completedDates;
-      let startedOn = history.startedOn;
-      if (startedOn === null) startedOn = today;
+      const applyAttempt = (map: ProgressMap): { map: ProgressMap; row: VerseProgress } => {
+        let row = recordAttempt(map[verseId], passed, now, endOfLocalDay(now));
+        if (passed) row = promoteStage(row, nextStageAfter(stage));
+        return { map: { ...map, [verseId]: row }, row };
+      };
 
       // Only a pass ticks a step, and only on the plan of today's local date: an index carried
-      // over from yesterday's plan must not tick today's.
-      let recorded = false;
-      let dayCompleted = false;
-      let newLesson: DailyLessonRecord | null = null;
-      const stored = storage.get(memoryLessonKey);
-      if (passed && index !== null && stored && stored.date === today) {
-        const out = completeLessonStep(stored, index, verseId, stage, now);
-        recorded = out.recorded;
-        dayCompleted = out.dayCompleted;
-        if (out.recorded) {
-          newLesson = out.lesson;
-          if (out.dayCompleted && stored.completedAt === null && !completedDates.includes(today)) {
-            // Only the recent run matters to the streak, and the schema caps the list: drop the oldest.
-            completedDates = [...completedDates, today].sort().slice(-MAX_COMPLETED_DATES);
-          }
+      // over from yesterday's plan must not tick today's. `justCompleted` is whether this tick
+      // turned an incomplete day into a completed one.
+      const applyTick = (lesson: DailyLessonRecord | null) => {
+        if (!passed || index === null || !lesson || lesson.date !== today) {
+          return { lesson: null, recorded: false, dayCompleted: false, justCompleted: false };
         }
-      }
+        const out = completeLessonStep(lesson, index, verseId, stage, now);
+        if (!out.recorded) return { lesson: null, recorded: false, dayCompleted: out.dayCompleted, justCompleted: false };
+        return {
+          lesson: out.lesson,
+          recorded: true,
+          dayCompleted: out.dayCompleted,
+          justCompleted: out.dayCompleted && lesson.completedAt === null,
+        };
+      };
 
-      storage.set(memoryProgressKey, { ...map, [verseId]: row });
-      if (startedOn !== history.startedOn || completedDates !== history.completedDates) {
-        storage.set(memoryHistoryKey, { startedOn, completedDates });
-      }
-      if (newLesson) storage.set(memoryLessonKey, newLesson);
-      return { recorded, dayCompleted, streak: streak(now), progress: row };
+      // The first attempt starts the history; a newly completed day is added once. Stored history
+      // may hold duplicates, so they are dropped before the cap: no distinct day is lost while
+      // there is room. Only the recent run matters to the streak, so the cap drops the oldest.
+      // Null when nothing changes.
+      const applyHistory = (history: MemoryHistory, justCompleted: boolean): MemoryHistory | null => {
+        const startedOn = history.startedOn ?? today;
+        const addDay = justCompleted && !history.completedDates.includes(today);
+        if (startedOn === history.startedOn && !addDay) return null;
+        const completedDates = addDay
+          ? [...new Set([...history.completedDates, today])].sort().slice(-MAX_COMPLETED_DATES)
+          : history.completedDates;
+        return { startedOn, completedDates };
+      };
+
+      // Validate every candidate first.
+      const progressCandidate = applyAttempt(storage.get(memoryProgressKey));
+      const tickCandidate = applyTick(storage.get(memoryLessonKey));
+      const historyCandidate = applyHistory(storage.get(memoryHistoryKey), tickCandidate.justCompleted);
+      memoryProgressKey.schema.parse(progressCandidate.map);
+      if (tickCandidate.lesson) memoryLessonKey.schema.parse(tickCandidate.lesson);
+      if (historyCandidate) memoryHistoryKey.schema.parse(historyCandidate);
+
+      // Then write, each key re-read and its delta re-applied at the moment of its write.
+      const attempt = applyAttempt(storage.get(memoryProgressKey));
+      storage.set(memoryProgressKey, attempt.map);
+      const tick = applyTick(storage.get(memoryLessonKey));
+      if (tick.lesson) storage.set(memoryLessonKey, tick.lesson);
+      const history = applyHistory(storage.get(memoryHistoryKey), tick.justCompleted);
+      if (history) storage.set(memoryHistoryKey, history);
+
+      return { recorded: tick.recorded, dayCompleted: tick.dayCompleted, streak: streak(now), progress: attempt.row };
     },
 
     streak,
