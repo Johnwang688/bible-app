@@ -123,7 +123,7 @@ describe('Home: verse of the day', () => {
     await renderHome({ position: JOHN3_WEB, now: new Date(2026, 10, 9, 7, 0) });
     // 9 Nov 2026 is Psalm 23:1 (index 6 of the list); the fake API synthesises Psalms 23 in WEB.
     expect(textOf(await screen.findByTestId('home-votd-text'))).toBe('Psalms 23:1 WEB');
-    expect(textOf(screen.getByTestId('home-votd-ref'))).toBe('Psalms 23:1');
+    expect(textOf(screen.getByTestId('home-votd-ref'))).toBe('Psalm 23:1'); // a single psalm (GO-AHEAD minor)
   });
 
   it('tapping it opens the verse in context: the chapter, in the same translation, with the verse selected', async () => {
