@@ -20,29 +20,46 @@ export function lookFontNames(theme: Theme): FontName[] {
 }
 
 const pending = new Map<FontName, Promise<void>>();
+/** Faces whose last load failed: on the web expo-font still holds each one's `@font-face` rule. */
+const failed = new Set<FontName>();
 
-/** Starts one load for the faces nobody has asked for yet; each face remembers it until it fails. */
-function loadMissing(missing: FontName[]): Promise<void> {
-  const sources = Object.fromEntries(
-    missing.map((name) => [name, { uri: FONT_SOURCES[name], display: Font.FontDisplay.SWAP }]),
-  );
-  const load = Font.loadAsync(sources).catch((err: unknown) => {
-    for (const name of missing) if (pending.get(name) === load) pending.delete(name);
+/**
+ * Loads one face. On the web expo-font keeps a failed face's `@font-face` rule, and `loadAsync` skips a family
+ * whose rule exists, so a retry would download nothing: a face that failed is unloaded first (it stays
+ * in its `error` state until then). A face that loaded is never unloaded. A failure is rethrown, and the face is
+ * forgotten so a later call asks again.
+ */
+async function loadFace(name: FontName): Promise<void> {
+  if (failed.delete(name)) {
+    try {
+      await Font.unloadAsync?.(name);
+    } catch {
+      // Nothing to remove (a phone face that never loaded), or the rule is already gone.
+    }
+  }
+  try {
+    await Font.loadAsync(name, { uri: FONT_SOURCES[name], display: Font.FontDisplay.SWAP });
+  } catch (err) {
+    failed.add(name);
+    pending.delete(name);
     throw err;
-  });
-  for (const name of missing) pending.set(name, load);
-  return load;
+  }
 }
 
 /**
- * Loads each of a look's faces not loaded or loading yet, in one `loadAsync`. Concurrent callers share a
- * load; a failed face is forgotten so a later call retries it. Rejects if any face failed.
+ * Loads each of a look's faces not loaded or loading yet, each on its own `loadAsync` and all settled
+ * together. Concurrent callers share a face's load; a failed face is forgotten, and unloaded when a later call
+ * asks for it again, so that call downloads it again. Rejects if any face failed.
  */
 export async function ensureLookFonts(theme: Theme): Promise<void> {
-  const names = lookFontNames(theme);
-  const missing = names.filter((name) => !pending.has(name));
-  const loads = new Set(names.map((name) => pending.get(name)).filter((p): p is Promise<void> => !!p));
-  if (missing.length > 0) loads.add(loadMissing(missing));
+  const loads = lookFontNames(theme).map((name) => {
+    let load = pending.get(name);
+    if (!load) {
+      load = loadFace(name);
+      pending.set(name, load);
+    }
+    return load;
+  });
   const results = await Promise.allSettled(loads);
   const failed = results.find((r): r is PromiseRejectedResult => r.status === 'rejected');
   if (failed) throw failed.reason;
@@ -51,4 +68,5 @@ export async function ensureLookFonts(theme: Theme): Promise<void> {
 /** Tests only: forget loads so each test starts clean. */
 export function resetLookFontsForTesting(): void {
   pending.clear();
+  failed.clear();
 }
