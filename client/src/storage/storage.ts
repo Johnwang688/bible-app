@@ -1,7 +1,8 @@
 // The storage module: one typed key/value store with validated schemas.
 // Native: MMKV. Web: MMKV's web build, which keeps values in localStorage.
 // Every value is stored as JSON `{ v, data }`; a value that is corrupt, from another version
-// or fails its schema reads as the key's fallback, so bad data never reaches the app.
+// or fails its schema reads as the key's fallback, so bad data never reaches the app. A key with
+// `migrate` reads an older version through it instead (the next write stores the new version).
 import { useCallback, useSyncExternalStore } from 'react';
 import type { z } from 'zod';
 
@@ -16,6 +17,11 @@ export interface StorageKey<T> {
   version: number;
   schema: z.ZodType<T>;
   fallback: T;
+  /**
+   * Turns data stored under an older version into this version's shape; the result is still checked
+   * against `schema`. Return `undefined` for data it cannot read, which then reads as the fallback.
+   */
+  migrate?: (fromVersion: number, data: unknown) => unknown;
 }
 
 export interface Storage {
@@ -38,12 +44,19 @@ export function createStorage(backend: KeyValueBackend): Storage {
       if (raw === undefined) return clone(k.fallback);
       try {
         const env: unknown = JSON.parse(raw);
-        if (env && typeof env === 'object' && (env as { v?: unknown }).v === k.version && 'data' in env) {
-          const parsed = k.schema.safeParse((env as { data: unknown }).data);
-          if (parsed.success) return parsed.data;
+        if (env && typeof env === 'object' && 'data' in env) {
+          const { v, data } = env as { v?: unknown; data: unknown };
+          const current =
+            v === k.version
+              ? data
+              : k.migrate && typeof v === 'number' && Number.isInteger(v) && v < k.version
+                ? k.migrate(v, data)
+                : undefined;
+          const parsed = current === undefined ? null : k.schema.safeParse(current);
+          if (parsed?.success) return parsed.data;
         }
       } catch {
-        // Corrupt JSON reads as the fallback.
+        // Corrupt JSON, or a migration that throws, reads as the fallback.
       }
       return clone(k.fallback);
     },

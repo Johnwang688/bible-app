@@ -1,7 +1,8 @@
 // End-to-end smoke tests against the web export (`npm run export:web` first).
 import { defineConfig, devices } from '@playwright/test';
 
-const PORT = 8099;
+// E2E_PORT lets two worktrees run the suite at once.
+const PORT = Number(process.env.E2E_PORT ?? 8099);
 
 export default defineConfig({
   testDir: './e2e',
