@@ -14,6 +14,8 @@ Security notes:
   reach real Firebase). The identity-only ``get_firebase_identity`` (whoami, no data) needs just
   ``app_env == "development"``. Anything else with either variable set is refused (503) and logged, before
   any token verification or Firestore call.
+- App Check (``app.core.app_check``): the ``X-Firebase-AppCheck`` header is checked only **after** the ID token
+  is accepted, per ``APP_CHECK_MODE`` (monitor logs, enforce refuses with the same 401, off ignores it).
 - The uid is used as a Firestore path segment, so a uid outside ``[A-Za-z0-9_-]{1,128}`` is refused (401)
   before any use ('/' would split the path into another user's tree).
 """
@@ -27,10 +29,11 @@ import threading
 from dataclasses import dataclass
 
 import firebase_admin
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, Header, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from firebase_admin import auth
 
+from app.core.app_check import APP_CHECK_HEADER, AppCheckRefused, check_app_check
 from app.core.config import get_settings
 
 logger = logging.getLogger(__name__)
@@ -137,7 +140,9 @@ def emulator_refused(*, data_access: bool = True) -> bool:
     return True
 
 
-def _verify(credentials: HTTPAuthorizationCredentials | None, *, data_access: bool) -> FirebaseUser:
+def _verify(
+    credentials: HTTPAuthorizationCredentials | None, app_check_token: str | None, *, data_access: bool
+) -> FirebaseUser:
     if credentials is None or (credentials.scheme or "").lower() != "bearer":
         raise _unauthorized()
     token = (credentials.credentials or "").strip()
@@ -179,23 +184,31 @@ def _verify(credentials: HTTPAuthorizationCredentials | None, *, data_access: bo
     if isinstance(raw_auth_time, (int, float)) and not isinstance(raw_auth_time, bool):
         auth_time = int(raw_auth_time)
 
+    # App Check, only once the ID token is accepted (so a bad ID token is a 401 whatever the mode).
+    try:
+        check_app_check(app_check_token, app)
+    except AppCheckRefused as refused:
+        raise (_unavailable() if refused.unavailable else _unauthorized()) from None
+
     return FirebaseUser(uid=uid, email=email, auth_time=auth_time)
 
 
 def get_firebase_user(
     credentials: HTTPAuthorizationCredentials | None = Depends(_bearer),
+    app_check_token: str | None = Header(default=None, alias=APP_CHECK_HEADER),
 ) -> FirebaseUser:
-    """FastAPI dependency: verify the Bearer Firebase ID token and return the signed-in user.
+    """FastAPI dependency: verify the Bearer Firebase ID token (then App Check) and return the signed-in user.
 
     The default for any endpoint that reads or changes data: the Firebase emulators are honoured only with the
     full emulator setup.
     """
-    return _verify(credentials, data_access=True)
+    return _verify(credentials, app_check_token, data_access=True)
 
 
 def get_firebase_identity(
     credentials: HTTPAuthorizationCredentials | None = Depends(_bearer),
+    app_check_token: str | None = Header(default=None, alias=APP_CHECK_HEADER),
 ) -> FirebaseUser:
     """Like ``get_firebase_user``, for endpoints that only echo the token's own identity (whoami) and touch
     no data: the emulators are honoured in development without the full emulator setup."""
-    return _verify(credentials, data_access=False)
+    return _verify(credentials, app_check_token, data_access=False)
