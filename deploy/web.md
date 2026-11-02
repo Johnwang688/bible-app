@@ -30,18 +30,19 @@ The app reads them in `client/src/api/config.ts`. Add a new var there and to `.e
 From `client/`:
 
 ```
-npx expo export -p web --output-dir dist
+rm -rf dist
+npx expo export -p web --output-dir dist --clear
 ```
 
 Production mode loads `client/.env.production`. A local `client/.env.production.local` overrides it and
-is git-ignored. Check that the backend URL got inlined and the localhost fallback did not:
+is git-ignored. **Always pass `--clear`:** Metro's transform cache can keep a bundle built with older
+env values (seen 2026-11-02: a cached build still pointed at `localhost:8000`). Then check that the
+backend URL got inlined and the localhost fallback did not:
 
 ```
-grep -l "bible-api-593497511935" dist/_expo/static/js/web/*.js
-grep -L "localhost:8000" dist/_expo/static/js/web/*.js
+grep -l "bible-api-593497511935" dist/_expo/static/js/web/*.js   # must list a bundle
+grep -l "localhost:8000" dist/_expo/static/js/web/*.js           # must print nothing
 ```
-
-The first command must list the entry bundle. The second must list it too (no `localhost:8000` in it).
 
 ## Preview
 

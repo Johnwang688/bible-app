@@ -21,7 +21,6 @@ function readEnvFile(file: string): Record<string, string> {
 }
 
 const env = readEnvFile(path.join(CLIENT, '.env.production'));
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const firebaseJson: any = JSON.parse(readFileSync(path.join(REPO, 'firebase.json'), 'utf8'));
 const hosting = firebaseJson.hosting;
 
@@ -90,7 +89,6 @@ function globToRegExp(glob: string): RegExp {
 function escape(s: string) {
   return s.replace(/[.+^${}()|[\]\\]/g, '\\$&');
 }
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function matches(rule: any, p: string): boolean {
   if (typeof rule.regex === 'string') return new RegExp(rule.regex).test(p);
   return globToRegExp(rule.source.startsWith('/') || rule.source.startsWith('*') ? rule.source : `/${rule.source}`).test(p);
