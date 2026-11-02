@@ -47,7 +47,7 @@ describe('paths the first-run gate never covers', () => {
     const storage = await gateAt('/privacy');
     expect(screen.getByTestId('app-content')).toBeTruthy();
     expect(screen.queryByTestId('first-run-welcome')).toBeNull();
-    expect(storage.get(onboardingKey)).toBeNull();
+    expect(storage.get(onboardingKey)).toEqual({ done: false, ageRange: null });
   });
 
   it('any other page on a fresh device still shows the intro', async () => {
