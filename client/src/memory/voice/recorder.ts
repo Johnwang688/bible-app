@@ -23,7 +23,8 @@ const TICK_MS = 250;
 const MIME_TYPES = ['audio/webm;codecs=opus', 'audio/ogg;codecs=opus', 'audio/mp4'] as const;
 const FALLBACK_MIME_TYPE = 'audio/webm';
 
-interface Active {
+/** One recording, from `start` until its data is delivered, dropped or cancelled. */
+interface Session {
   stream: MediaStream;
   recorder: MediaRecorder;
   chunks: Blob[];
@@ -32,43 +33,69 @@ interface Active {
   cap: ReturnType<typeof setTimeout>;
   /** Settles once the recorder has emitted its last data and stopped. */
   stopped: Promise<void>;
+  /** Settles when the session is cancelled, so nothing waits on a browser event that no longer matters. */
+  dropped: Promise<void>;
+  drop(): void;
   mimeType: string;
+  /** `finishing`: stopped by the user or the cap, waiting for the final data. */
+  phase: 'recording' | 'finishing';
+  cancelled: boolean;
+  released: boolean;
 }
 
 export function createWebRecorder(env: WebRecorderEnv): Recorder {
-  let active: Active | null = null;
+  // The one session that can still deliver or be cancelled: recording, or finishing after a stop.
+  let current: Session | null = null;
   // Bumped by every start and every cancel, so a start that is still waiting on the microphone prompt
   // can tell it was overtaken and release the stream it was handed.
   let generation = 0;
 
-  const release = (stream: MediaStream) => {
+  const releaseStream = (stream: MediaStream) => {
     for (const track of stream.getTracks()) track.stop();
   };
-
-  // Ends the recording `a` (already detached from `active`): clears both timers, stops the recorder,
-  // releases the microphone, and resolves once the data is complete.
-  // `discard` (cancel) releases the microphone at once, since the data is dropped; otherwise it is released
-  // after the recorder's last data has arrived.
-  const end = async (a: Active, discard = false): Promise<void> => {
-    clearInterval(a.tick);
-    clearTimeout(a.cap);
+  // Every end of a session releases its tracks, exactly once.
+  const release = (s: Session) => {
+    if (s.released) return;
+    s.released = true;
+    releaseStream(s.stream);
+  };
+  const clearTimers = (s: Session) => {
+    clearInterval(s.tick);
+    clearTimeout(s.cap);
+  };
+  const stopRecorder = (s: Session): boolean => {
     try {
-      if (a.recorder.state !== 'inactive') {
-        a.recorder.stop();
-        if (discard) release(a.stream);
-        else await a.stopped;
+      if (s.recorder.state !== 'inactive') {
+        s.recorder.stop();
+        return true;
       }
     } catch {
-      // A recorder that cannot stop has nothing more to give; the stream is released below.
-    } finally {
-      release(a.stream);
+      // A recorder that cannot stop has nothing more to give.
     }
+    return false;
   };
 
-  const toRecording = (a: Active): Recording => ({
-    blob: new Blob(a.chunks, { type: a.recorder.mimeType || a.mimeType }),
-    durationMs: Date.now() - a.startedAt,
-  });
+  // Drops the session: nothing it recorded is delivered, and the microphone is released at once.
+  const discard = (s: Session) => {
+    s.cancelled = true;
+    clearTimers(s);
+    stopRecorder(s);
+    release(s);
+    s.drop();
+    if (current === s) current = null;
+  };
+
+  // Stops the session and returns its recording once the last data is in; null if it was cancelled meanwhile.
+  const finish = async (s: Session): Promise<Recording | null> => {
+    s.phase = 'finishing';
+    const durationMs = Date.now() - s.startedAt;
+    clearTimers(s);
+    if (stopRecorder(s)) await Promise.race([s.stopped, s.dropped]);
+    if (s.cancelled) return null;
+    release(s);
+    if (current === s) current = null;
+    return { blob: new Blob(s.chunks, { type: s.recorder.mimeType || s.mimeType }), durationMs };
+  };
 
   const pickMimeType = (): string | undefined => {
     const supports = env.MediaRecorder.isTypeSupported?.bind(env.MediaRecorder);
@@ -88,11 +115,7 @@ export function createWebRecorder(env: WebRecorderEnv): Recorder {
     },
 
     async start({ maxMs, onAutoStop, onTick }: RecorderStartOptions) {
-      if (active) {
-        const previous = active;
-        active = null;
-        void end(previous, true);
-      }
+      if (current) discard(current);
       const mine = ++generation;
 
       let stream: MediaStream;
@@ -105,7 +128,7 @@ export function createWebRecorder(env: WebRecorderEnv): Recorder {
       }
       if (mine !== generation) {
         // Cancelled (or restarted) while the prompt was open: nothing is recording.
-        release(stream);
+        releaseStream(stream);
         return 'denied';
       }
 
@@ -124,45 +147,49 @@ export function createWebRecorder(env: WebRecorderEnv): Recorder {
         stopped = new Promise<void>((resolve) => recorder.addEventListener('stop', () => resolve()));
         recorder.start();
       } catch {
-        release(stream);
+        releaseStream(stream);
         return 'unsupported';
       }
 
+      let drop!: () => void;
+      const dropped = new Promise<void>((resolve) => {
+        drop = resolve;
+      });
       const startedAt = Date.now();
-      const a: Active = {
+      const s: Session = {
         stream,
         recorder,
         chunks,
         startedAt,
         stopped,
+        dropped,
+        drop,
         mimeType: mimeType ?? FALLBACK_MIME_TYPE,
+        phase: 'recording',
+        cancelled: false,
+        released: false,
         tick: setInterval(() => onTick?.(Date.now() - startedAt), TICK_MS),
         cap: setTimeout(() => {
-          if (active !== a) return;
-          active = null;
-          const durationMs = Date.now() - a.startedAt;
-          void end(a).then(() => onAutoStop({ ...toRecording(a), durationMs }));
+          if (current !== s || s.phase !== 'recording') return;
+          void finish(s).then((recording) => {
+            // Delivered only if this session was not cancelled or replaced while the final data arrived.
+            if (recording && !s.cancelled) onAutoStop(recording);
+          });
         }, maxMs),
       };
-      active = a;
+      current = s;
       return 'recording';
     },
 
     async stop() {
-      const a = active;
-      if (!a) return null;
-      active = null;
-      const durationMs = Date.now() - a.startedAt;
-      await end(a);
-      return { ...toRecording(a), durationMs };
+      const s = current;
+      if (!s || s.phase !== 'recording') return null;
+      return finish(s);
     },
 
     cancel() {
       generation++;
-      const a = active;
-      if (!a) return;
-      active = null;
-      void end(a, true);
+      if (current) discard(current);
     },
   };
 }

@@ -23,46 +23,64 @@ function retryAfterSeconds(header: string | null | undefined): number {
   return Number.isSafeInteger(seconds) && seconds > 0 ? seconds : DEFAULT_RETRY_AFTER_S;
 }
 
-export const checkVoice: CheckVoice = async (audio, language, deps, signal) => {
-  if (!(deps.isOnline ?? deviceIsOnline)()) return { kind: 'offline' };
+const ABORTED = Symbol('aborted');
 
-  let token: string | null;
+export const checkVoice: CheckVoice = async (audio, language, deps, signal) => {
   try {
-    token = await deps.getIdToken();
+    if (!(deps.isOnline ?? deviceIsOnline)()) return { kind: 'offline' };
   } catch {
     return { kind: 'error' };
   }
-  if (token === null) return { kind: 'signed-out' };
   if (signal?.aborted) return { kind: 'cancelled' };
 
+  // The verdict is decided at the first abort (the caller's Cancel, or the deadline), and every await below
+  // races against it, so the call settles once, at that moment, whatever the token, the fetch or the body do.
   const controller = new AbortController();
-  let timedOut = false;
-  const onCallerAbort = () => controller.abort();
-  signal?.addEventListener('abort', onCallerAbort);
-  const timer = setTimeout(() => {
-    timedOut = true;
+  let verdict: 'cancelled' | 'timeout' | null = null;
+  let signalAbort!: () => void;
+  const aborted = new Promise<typeof ABORTED>((resolve) => {
+    signalAbort = () => resolve(ABORTED);
+  });
+  const abort = (reason: 'cancelled' | 'timeout') => {
+    if (verdict !== null) return;
+    verdict = reason;
     controller.abort();
-  }, deps.timeoutMs ?? TRANSCRIBE_TIMEOUT_MS);
+    signalAbort();
+  };
+  // The verdict if an abort came first, else a plain failure (read through a function: the closures set it).
+  const failure = (): VoiceOutcome => ({ kind: verdict ?? 'error' });
+  // A result that lands after the first abort is dropped, even if it won the race by arriving at once.
+  const race = <T>(pending: Promise<T>): Promise<T | typeof ABORTED> =>
+    Promise.race([aborted, pending]).then((value) => (verdict !== null ? ABORTED : value));
+
+  const onCallerAbort = () => abort('cancelled');
+  signal?.addEventListener('abort', onCallerAbort);
+  const timer = setTimeout(() => abort('timeout'), deps.timeoutMs ?? TRANSCRIBE_TIMEOUT_MS);
 
   try {
-    const res = await (deps.fetch ?? fetch)(
-      `${deps.baseUrl}/memory/transcribe?${SPEECH_QUERY_PARAM}=${encodeURIComponent(language)}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': audio.type || DEFAULT_CONTENT_TYPE, Authorization: `Bearer ${token}` },
-        body: audio,
-        signal: controller.signal,
-      },
+    const token = await race(Promise.resolve().then(() => deps.getIdToken()));
+    if (token === ABORTED) return failure();
+    if (token === null) return { kind: 'signed-out' };
+
+    const res = await race(
+      Promise.resolve().then(() =>
+        (deps.fetch ?? fetch)(`${deps.baseUrl}/memory/transcribe?${SPEECH_QUERY_PARAM}=${encodeURIComponent(language)}`, {
+          method: 'POST',
+          headers: { 'Content-Type': audio.type || DEFAULT_CONTENT_TYPE, Authorization: `Bearer ${token}` },
+          body: audio,
+          signal: controller.signal,
+        }),
+      ),
     );
+    if (res === ABORTED) return failure();
     if (res.status >= 200 && res.status < 300) {
-      const body = (await res.json()) as { text?: unknown } | null;
+      const body = await race(Promise.resolve(res.json()) as Promise<{ text?: unknown } | null>);
+      if (body === ABORTED) return failure();
       return typeof body?.text === 'string' ? { kind: 'text', text: body.text.trim() } : { kind: 'error' };
     }
     return outcomeForStatus(res.status, res.headers?.get('Retry-After'));
   } catch {
-    if (timedOut) return { kind: 'timeout' };
-    if (signal?.aborted) return { kind: 'cancelled' };
-    return { kind: 'error' };
+    return failure();
   } finally {
     clearTimeout(timer);
     signal?.removeEventListener('abort', onCallerAbort);

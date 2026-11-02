@@ -103,10 +103,12 @@ export function displayDiff(
   for (const op of align(exp.keys, heard.keys)) {
     if (op.kind === 'match') {
       const char = glyphAt(op.e);
-      const alike = exp.norm[op.e] !== heard.norm[op.t];
+      const said = heard.chars[op.t]!;
+      // A sound-alike only when the said glyph really differs from the shown one, so counts and ops agree.
+      const alike = exp.norm[op.e] !== heard.norm[op.t] && said !== char;
       counts.ok++;
       if (alike) counts.alike++;
-      ops.push({ kind: 'match', char, heard: alike ? heard.chars[op.t]! : char });
+      ops.push({ kind: 'match', char, heard: alike ? said : char });
     } else if (op.kind === 'sub') {
       counts.wrong++;
       ops.push({ kind: 'sub', char: glyphAt(op.e), heard: heard.chars[op.t]! });
@@ -143,6 +145,37 @@ function trimEdges(text: string): string {
   return chars.slice(start, end).join('');
 }
 
+/** True when `text` is nothing but edge characters, or one reference the grader would take whole. */
+function isOnlyReference(text: string, verse: MemoryVerse, keyer: SpeechKeyer): boolean {
+  if (trimEdges(text) === '') return true;
+  const graded = compareFullRecall(text, verse.textZh, verse.referenceZh, keyer);
+  return graded.bodyTranscript === '' && graded.referenceStatus !== 'missing';
+}
+
+/**
+ * The reference(s) the grader took off `full` (its trimmed transcript), leaving `body` in one piece between
+ * them. The body can also occur inside a title, so the cut is the occurrence whose left and right are each
+ * nothing but a reference; an empty body is cut at the split where both halves are.
+ */
+function referenceAround(full: string, body: string, verse: MemoryVerse, keyer: SpeechKeyer): string {
+  const split = (at: number): string[] => [full.slice(0, at), full.slice(at + body.length)];
+  let best: string[] = [full];
+  let bestFilled = 0;
+  for (let at = full.indexOf(body); at >= 0; at = full.indexOf(body, at + 1)) {
+    const parts = split(at);
+    if (parts.every((part) => isOnlyReference(part, verse, keyer))) {
+      // Two references around an empty body can be cut anywhere between them; keep the cut that separates them.
+      const filled = parts.filter((part) => trimEdges(part) !== '').length;
+      if (filled > bestFilled) {
+        best = parts;
+        bestFilled = filled;
+      }
+    }
+    if (at >= full.length) break;
+  }
+  return best.map(trimEdges).filter(Boolean).join(' ');
+}
+
 /** Full-recall result: the grader's verdict, the body drawn against the verse, and the reference as heard. */
 export function recallDisplay(
   transcript: string,
@@ -160,15 +193,7 @@ export function recallDisplay(
 
   let heardReference: string | null = null;
   if (graded.referenceStatus !== 'missing') {
-    // The grader only ever takes the reference off the trimmed transcript's start and/or end, leaving the
-    // body in one piece between them, so what is left on either side of the body is the reference.
-    const full = transcript.trim();
-    const bodyAt = graded.bodyTranscript === '' ? -1 : full.indexOf(graded.bodyTranscript);
-    const parts =
-      bodyAt < 0
-        ? [full]
-        : [full.slice(0, bodyAt), full.slice(bodyAt + graded.bodyTranscript.length)];
-    heardReference = parts.map(trimEdges).filter(Boolean).join(' ');
+    heardReference = referenceAround(transcript.trim(), graded.bodyTranscript, verse, keyer);
   }
 
   return {
