@@ -4,6 +4,7 @@ import * as Clipboard from 'expo-clipboard';
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import {
   Linking,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -36,9 +37,11 @@ export interface PrivacyScreenProps {
   canGoBack: boolean;
   onBack: () => void;
   onOpenApp: () => void;
+  /** Called with the page's language on mount and each time it changes (for the document title). */
+  onLocaleChange?: (locale: AppLocale) => void;
 }
 
-export function PrivacyScreen({ lang, canGoBack, onBack, onOpenApp }: PrivacyScreenProps) {
+export function PrivacyScreen({ lang, canGoBack, onBack, onOpenApp, onLocaleChange }: PrivacyScreenProps) {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const { locale: interfaceLocale } = useI18n();
@@ -47,10 +50,17 @@ export function PrivacyScreen({ lang, canGoBack, onBack, onOpenApp }: PrivacyScr
   const locale = chosen ?? privacyLocale(lang, interfaceLocale);
   const t = useMemo(() => createT(locale), [locale]);
   const zh = locale === 'zh-Hans';
+  useEffect(() => {
+    onLocaleChange?.(locale);
+  }, [locale, onLocaleChange]);
   // The UI fonts have no Chinese glyphs, so Chinese falls back to the system font: ask it for bold too.
   const cjkBold = zh ? ({ fontWeight: '700' } as const) : null;
   const [scrolled, setScrolled] = useState(false);
   const beta = isBetaBuild();
+  // react-native-web renders `lang` on the root so assistive tech reads the page in its own language.
+  const langProps = { lang: locale } as object;
+  // The web provider does not reliably report the CSS inset, so the browser applies it itself.
+  const topInset = Platform.OS === 'web' ? ('env(safe-area-inset-top, 0px)' as unknown as number) : insets.top;
 
   const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const past = e.nativeEvent.contentOffset.y > 4;
@@ -65,8 +75,8 @@ export function PrivacyScreen({ lang, canGoBack, onBack, onOpenApp }: PrivacyScr
   } as const;
 
   return (
-    <View testID="screen-privacy" style={[styles.fill, theme.backgrounds.app]}>
-      <View style={{ paddingTop: insets.top }}>
+    <View testID="screen-privacy" {...langProps} style={[styles.fill, theme.backgrounds.app]}>
+      <View style={{ paddingTop: topInset }}>
         {scrolled ? <GlassSurface background={theme.backgrounds.tabBar} style={StyleSheet.absoluteFill} /> : null}
         {scrolled ? (
           <View
@@ -237,12 +247,16 @@ function Bullet({ theme, text, body }: { theme: Theme; text: string; body: Body 
 function EmailRow({ theme, t, body }: { theme: Theme; t: TFunction; body: Body }) {
   const [copied, setCopied] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  useEffect(
-    () => () => {
+  const mounted = useRef(true);
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
       if (timer.current) clearTimeout(timer.current);
-    },
-    [],
-  );
+    };
+  }, []);
+
+  const mailto = 'mailto:' + PRIVACY_CONTACT;
 
   const copy = async () => {
     try {
@@ -251,10 +265,17 @@ function EmailRow({ theme, t, body }: { theme: Theme; t: TFunction; body: Body }
       // The clipboard is unavailable; the address is on screen to copy by hand.
       return;
     }
+    if (!mounted.current) return;
     setCopied(true);
     if (timer.current) clearTimeout(timer.current);
     timer.current = setTimeout(() => setCopied(false), COPIED_MS);
   };
+
+  // On the web the row is a real mailto anchor and the browser opens it; elsewhere a press opens it.
+  const mailProps =
+    Platform.OS === 'web'
+      ? ({ href: mailto } as object)
+      : { onPress: () => void Linking.openURL(mailto) };
 
   return (
     <View>
@@ -262,7 +283,7 @@ function EmailRow({ theme, t, body }: { theme: Theme; t: TFunction; body: Body }
         <Pressable
           testID="privacy-email"
           accessibilityRole="link"
-          onPress={() => void Linking.openURL('mailto:' + PRIVACY_CONTACT)}
+          {...mailProps}
           style={({ pressed }) => [styles.emailRow, pressed && styles.pressed]}
         >
           <Text style={[body, { fontFamily: uiFace(theme.type.ui, '700'), color: theme.colors.accent, textDecorationLine: 'underline' }]}>
