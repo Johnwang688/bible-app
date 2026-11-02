@@ -200,7 +200,7 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
 | **R-0 Scaffold** ✅ done 2026-11-01 | the Expo app in `client/`, tabs, the theme engine with every preset, fonts, the storage module, the API client, the message catalogue (English and Simplified Chinese) with locale detection, test harnesses, web export | builds for web, iOS and Android; four empty tabs; token ratchet; a contrast test over every preset; the string ratchet and the missing-key test; CI-equivalent local gate script |
 | **R-1 Reader core** ✅ done 2026-11-01 | the Bible tab: chapter view, the book/chapter and version pickers, swipe/keys, the collapsing header, reading settings, parallel reading, query cache plus next-chapter prefetch | position persists; prefetched chapter turns are instant; the PF-2 race tests ported and passing; parallel verses stay aligned when one translation lacks a verse |
 | **R-2 Verse sheet** ✅ done 2026-11-01 | the bottom sheet: highlight, note, bookmark, share/copy, Original words and the word card | the HG-3a behaviours ported; 44 pt targets; the screen-reader pass |
-| **R-3 Study tab** | lists of study items, progress, chapters explored and the coverage map | local-first; filters; opening in context |
+| **R-3 Study tab** ✅ done 2026-11-02 | lists of study items, progress, chapters explored and the coverage map | local-first; filters; opening in context |
 | **R-4 Home** | streak, goal, continue reading, verse of the day, Surprise me | the SM-1 picker tests ported |
 | **R-5 Search, commentary, entities** | search, the commentary sheet, people/places/themes | the reference parser ported with tests; English and Chinese search |
 | **R-6 Me and accounts** (with W2) | settings, the language setting, appearance and the customisation screen with live preview; Firebase Auth (Apple, Google, email); the backend verifies Firebase tokens; user data on Firestore; optional sync; delete my data; import any real Supabase users | needs John's Firebase project; an Opus security review of the new auth path; sync conflict rules; nothing left importing `supabase` in user paths |
@@ -220,7 +220,7 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
 - **Deferred:**
   - **Paged mode:** a later reader phase.
   - **The header's search button:** R-5.
-  - **Read-chapter dots in the picker:** progress, R-3/R-4.
+  - **Read-chapter dots in the picker:** done in R-3.
   - **Verse screen-reader labels:** they say "Verse 16" rather than reading the text. To revisit in R-2's screen-reader pass.
   - **Native swipe:** unit-tested, but not yet tried on a device (needs EAS builds).
 
@@ -244,6 +244,27 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
 - **Motion:** 60 fps. It pauses when the screen is hidden or the app is in the background, and shows a still frame when the device asks for reduced motion.
 - **Hardware:** the prototype ran smoothly on John's school iPad. A low-end Android phone is still to try (needs EAS builds), as part of R-7's performance budget.
 - **When:** R-7 builds the animation and the Appearance choice.
+
+**R-3 notes (2026-11-02).**
+- **Study → Saved:** every highlight, note and bookmark, newest first. Verses saved together (a range from the verse sheet) show as one entry, "John 3:16–18". Filters: kind (All, Highlights, Notes, Bookmarks), colour, and book (a sheet listing only the books that have items). Book names and dates follow the interface language; the verse text is in the reader's current translation. Tapping an entry opens it in context: the Bible tab, that chapter in the same translation, the verses selected (sheet closed), scrolled into view, with focus on the first.
+- **Study → Progress:** the streak (with the best streak) and this week, Monday first; today's minutes against the daily goal; chapters explored, "N / 1,189", and the coverage map, one square per book, shaded from none to every chapter. English uses three-letter book codes and Chinese the CUV abbreviations; screen readers hear the full book name and the count. The design's third segment, Explore (people, places and themes), comes with R-5.
+- **Reading time and chapter credit** follow the old app's rules:
+  - **Time:** time counts between interactions (opening a chapter, scrolling, tapping a verse), up to 15 s per gap. While a chapter is showing it keeps counting for up to 60 s after the last interaction. Nothing counts while the tab or the app is in the background.
+  - **Credit:** a chapter is credited once half of it (at least 3 verses) has been on screen and 1.5 s per verse has been spent on it (20–75 s), in any translation. A chapter that fits on the screen counts as fully seen.
+  - **Days and streaks:** days are local calendar days (the old app used UTC), and time across midnight is split between the two days. A day counts towards the streak when its time reaches the goal. The goal defaults to 10 minutes, as before; Me → Reading sets it in R-6.
+  - **Picker:** the book picker marks read chapters with a dot and "Chapter 3, read".
+- **Storage:**
+  - Stored values can now be migrated from an older version.
+  - Study items moved to version 2: highlights carry the time they were set (R-2 highlights read as having no date, and show none).
+  - Reading progress is a new key, `reading.progress`. It is validated against the 66 books' chapter counts and real calendar days.
+  - Both stay local until sync (R-6). The old app's progress import is R-7.
+- **Review:** Sol reviewed the shared layer (2 rounds, 7 fixes) and the two teams (4 rounds). The reader's reading-time geometry and scroll-to-verse went round the 5a loop to `implementer-hard` twice. After round 3 John chose one more round with a fixed design: every reader handler reads the live chapter and running state when it runs, so nothing counts while the reader is away; only the chapter's own end marker measures its content (a content-size report can only raise it, and a scroll shorter than it is dropped); a layout report for a chapter not on screen never touches the scroll-to-verse cache. Round 4 found one more issue in the geometry class. By John's decision it ships as a known gap, below.
+- **Known gaps (geometry; each errs towards less credit unless noted):**
+  - **Smaller text on the web:** the zero-height end marker moves without resizing, so it reports no new place, and the measured height cannot go down. A chapter that fits better after the text shrinks is under-credited until it is scrolled. Test: `e2e/reviewR3Round4Shrink.spec.ts` (`fixme`).
+  - **A late scroll before the new chapter's end marker reports** (about one frame after a chapter turn) is judged by its own sizes; a late scroll from the old chapter's bottom in that window could credit the new chapter's last verse. This one errs towards more credit.
+  - **The end marker cannot tell translations apart:** a late report from the same chapter in the previous translation, with the same verse count, is accepted.
+  - **A chapter laid out while the reader is hidden** keeps no marker measurement, so a short chapter that fits is credited only once it lays out again or is scrolled.
+- **Still to check on a device (needs EAS builds):** reading time with the app going to the background, and scroll-to-verse on native (it estimates a verse's position inside the single-paragraph view from its share of the text).
 
 Every phase ships its screens in both languages; the missing-key test keeps Chinese from falling behind.
 

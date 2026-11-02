@@ -1,12 +1,25 @@
 // The Bible tab. The shown chapter is always the query for the current position (no copy of it
 // is kept in state), so a late response for another chapter can never appear.
-import { useCallback, useEffect, useMemo, useRef, useState, type ComponentRef } from 'react';
-import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ComponentRef } from 'react';
+import {
+  ActivityIndicator,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View,
+  type LayoutChangeEvent,
+  type NativeScrollEvent,
+  type NativeSyntheticEvent,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { uiFace } from '../../fonts/fonts';
 import { useT } from '../../i18n/I18nProvider';
 import type { DeviceLocale } from '../../i18n/types';
+import type { ChapterInfo } from '../../progress';
 import type { ReaderPosition, ReadingSettings } from '../../storage/keys';
 import { getStorage, type Storage } from '../../storage/storage';
 import { useStudyItems } from '../../study';
@@ -14,6 +27,7 @@ import { useTheme } from '../../theme/ThemeProvider';
 import { findBook, useBooks } from '../books';
 import { clampPosition, nextPosition, prevPosition } from '../navigation';
 import { useReaderPosition, useReadingSettings } from '../state';
+import { readerTargets, usePendingReaderTarget } from '../target';
 import type { TranslationId } from '../translations';
 import { usePrefetchAdjacent, useChapter } from '../useChapter';
 import { useFocusNodeSoon } from './a11y';
@@ -26,7 +40,9 @@ import { useArrowKeys } from './useArrowKeys';
 import { useChapterSwipe, type SwipeDirection } from './useChapterSwipe';
 import { useCollapsingHeader } from './useCollapsingHeader';
 import { useHideTabBar } from './useHideTabBar';
+import { useReadingTime } from './useReadingTime';
 import { useTabFocused } from './useTabFocused';
+import { useVerseScroller } from './scrollToVerse';
 import { VerseSheet } from './VerseSheet';
 import { VersionPicker } from './VersionPicker';
 import { buttonStyle } from './ui';
@@ -53,11 +69,16 @@ const TAB_BAR_ROOM = 120;
 /** Room between the header and the first line. */
 const HEADER_GAP = 16;
 
-export function ReaderScreen(props: { storage?: Storage; locales?: readonly DeviceLocale[] }) {
+export function ReaderScreen(props: {
+  storage?: Storage;
+  locales?: readonly DeviceLocale[];
+  /** The reading-time clock; `Date.now` when absent. */
+  now?: () => number;
+}) {
   const theme = useTheme();
   const t = useT();
   const insets = useSafeAreaInsets();
-  const { width } = useWindowDimensions();
+  const { width, height: windowHeight } = useWindowDimensions();
   const storage = useMemo(() => props.storage ?? getStorage(), [props.storage]);
 
   const { position: stored, setPosition } = useReaderPosition({ storage, locales: props.locales });
@@ -77,6 +98,30 @@ export function ReaderScreen(props: { storage?: Storage; locales?: readonly Devi
   // With one translation this is the same query as the first, so nothing extra is requested.
   const secondQuery = useChapter(book, position.chapter, secondId ?? first);
   usePrefetchAdjacent(books.data, position, secondId ? [first, secondId] : [first]);
+
+  // What to show: always derived from the queries for the current position.
+  const queries = secondId ? [books, firstQuery, secondQuery] : [books, firstQuery];
+  const ready = !!books.data && !!firstQuery.data && (!secondId || !!secondQuery.data);
+  const failed = queries.some((q) => q.isError && !q.isFetching);
+  const retry = () => {
+    for (const q of queries) if (q.isError) void q.refetch();
+  };
+
+  // The chapter on screen: the first translation's data for the current position, once everything shown is
+  // ready. Reading time and opening in context both wait for it; they never act on a chapter that is loading,
+  // failed or no longer the current position.
+  const loaded = firstQuery.data;
+  const shownChapter =
+    ready && loaded && loaded.book_number === position.bookNumber && loaded.chapter === position.chapter ? loaded : null;
+  const isShown = !!shownChapter;
+  const totalVerses = shownChapter?.verses.length ?? 0;
+  const shownInfo = useMemo<ChapterInfo | null>(
+    () => (isShown ? { bookNumber: position.bookNumber, chapter: position.chapter, totalVerses } : null),
+    [isShown, position.bookNumber, position.chapter, totalVerses],
+  );
+  // Keys move the reader, and the clock runs, only while its tab is showing (the tab stays mounted on web).
+  const focused = useTabFocused();
+  const reading = useReadingTime({ storage, now: props.now, chapter: shownInfo, focused });
 
   const [sheet, setSheet] = useState<Sheet | null>(null);
   const closeSheet = useCallback(() => setSheet(null), []);
@@ -166,12 +211,19 @@ export function ReaderScreen(props: { storage?: Storage; locales?: readonly Devi
   // a long press does. With the sheet closed a tap starts a new selection.
   const onVersePress = useCallback(
     (verse: number) => {
+      reading.interact();
       if (verseSheetOpen) extendTo(verse);
       else setSelection({ key: selectionKey, anchor: verse, start: verse, end: verse, open: true });
     },
-    [verseSheetOpen, extendTo, selectionKey],
+    [verseSheetOpen, extendTo, selectionKey, reading],
   );
-  const onVerseLongPress = extendTo;
+  const onVerseLongPress = useCallback(
+    (verse: number) => {
+      reading.interact();
+      extendTo(verse);
+    },
+    [extendTo, reading],
+  );
 
   // The open verse sheet's height: the chapter keeps that much room under its text, so any verse can be
   // scrolled up above the sheet.
@@ -187,6 +239,8 @@ export function ReaderScreen(props: { storage?: Storage; locales?: readonly Devi
     else toolsRefs.current.delete(verse);
   }, []);
   const focusSoon = useFocusNodeSoon();
+  // A verse to scroll to once its chapter is on screen (see the effect below).
+  const pendingScroll = useRef<{ key: string; verse: number } | null>(null);
 
   const closeVerseSheet = () => {
     const anchor = range?.anchor;
@@ -198,30 +252,126 @@ export function ReaderScreen(props: { storage?: Storage; locales?: readonly Devi
   const goToReference = (bookNumber: number, chapter: number, verse: number) => {
     const here = positionRef.current;
     moveTo({ bookNumber, chapter, translation: here.translation });
-    setSelection({ key: `${bookNumber}:${chapter}:${here.translation}`, anchor: verse, start: verse, end: verse, open: false });
+    const key = `${bookNumber}:${chapter}:${here.translation}`;
+    setSelection({ key, anchor: verse, start: verse, end: verse, open: false });
+    pendingScroll.current = { key, verse };
   };
 
   const hideDistance = insets.top + HEADER_BODY_HEIGHT + 4;
   const header = useCollapsingHeader(hideDistance);
-  const { reset: resetHeader } = header;
-  const scrollRef = useRef<ComponentRef<typeof ScrollView>>(null);
+  const { reset: resetHeader, show: showHeader } = header;
+  // Coming back to the reader tab: the header is back too (it may have been scrolled away before leaving).
   useEffect(() => {
+    if (focused) showHeader();
+  }, [focused, showHeader]);
+  const scrollRef = useRef<ComponentRef<typeof ScrollView>>(null);
+  const scroller = useVerseScroller({
+    scrollRef,
+    toolsRefs,
+    viewportHeight: windowHeight,
+    headerBottom: insets.top + HEADER_BODY_HEIGHT + HEADER_GAP,
+    // Native: the chapter view lays verses out in rows when it reads in parallel, else as one paragraph. Only
+    // measurements of the layout on screen place a verse.
+    layout: secondId ? 'rows' : 'text',
+    shownKey: selectionKey,
+  });
+  const { cancel: cancelScroll, scrollToVerse, retry: retryScroll, release: releaseScroll } = scroller;
+  useEffect(() => {
+    // A scroll to a verse of the chapter we are leaving must not happen.
+    cancelScroll();
     scrollRef.current?.scrollTo({ y: 0, animated: false });
     resetHeader();
-  }, [position.bookNumber, position.chapter, resetHeader]);
+  }, [position.bookNumber, position.chapter, resetHeader, cancelScroll]);
+
+  // Opening a passage in context: once the reader shows the target's chapter, select its verses (sheet closed),
+  // bring the first into view and move focus to it. A target for another chapter waits; the caller has already
+  // moved the reader, so it arrives when the chapter does, in either order. It also waits for the tab to show.
+  const pendingTarget = usePendingReaderTarget();
+  const target =
+    pendingTarget && isShown && focused && pendingTarget.bookNumber === position.bookNumber && pendingTarget.chapter === position.chapter
+      ? pendingTarget
+      : null;
+  // Adjusting state while rendering (as the selection above): the verses are selected in the very render that
+  // shows the chapter. The guard stops it once the selection is the target's.
+  if (target && !(range && !range.open && range.start === target.start && range.end === target.end)) {
+    setSelection({ key: selectionKey, anchor: target.start, start: target.start, end: target.end, open: false });
+  }
+  useEffect(() => {
+    if (!target) return;
+    pendingScroll.current = { key: selectionKey, verse: target.start };
+    focusSoon(toolsRefs.current.get(target.start));
+    readerTargets.done(target);
+  }, [target, selectionKey, focusSoon]);
+
+  // Scrolls to a verse once its chapter is on screen: for the target above and for a reference on a word card
+  // (which moves the chapter first). A request for a chapter that is not the current position is dropped, so
+  // the newest chapter wins and a verse of a chapter that is no longer shown is never scrolled to. Runs after
+  // every render (a ref check) because the request can be made at any moment.
+  useEffect(() => {
+    const p = pendingScroll.current;
+    if (!p) return;
+    if (p.key !== selectionKey) {
+      pendingScroll.current = null;
+      return;
+    }
+    if (!shownChapter || !focused) return;
+    pendingScroll.current = null;
+    scrollToVerse(p.key, p.verse, shownChapter.verses);
+  });
+
+  const onScroll = useCallback(
+    (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+      header.onScroll(e);
+      reading.onScroll(e);
+    },
+    [header, reading],
+  );
+  // The scroll view's size and its content's: reading time uses both, and a scroll to a verse that is waiting for
+  // the page to be measurable (a hidden tab) tries again.
+  const onScrollLayout = useCallback(
+    (e: LayoutChangeEvent) => {
+      reading.onLayout(e);
+      retryScroll();
+    },
+    [reading, retryScroll],
+  );
+  const onContentSizeChange = useCallback(
+    (w: number, h: number) => {
+      reading.onContentSizeChange(w, h);
+      retryScroll();
+    },
+    [reading, retryScroll],
+  );
+  // The room under the chapter (see the scroll view's padding below).
+  const bottomRoom = TAB_BAR_ROOM + insets.bottom + sheetRoom;
+
+  // The chapter's end marker (below) is the only measure of its content's height: its place plus the room below.
+  // What is on screen now, for its reports (a layout effect, so it is current before any report runs), and the
+  // marker's last place for that chapter. When the room below changes (the verse sheet opens or closes) the
+  // marker does not move and reports nothing, so its height is reported again from its last place.
+  const endLive = useRef<{ info: ChapterInfo | null; key: string; room: number }>({ info: shownInfo, key: selectionKey, room: bottomRoom });
+  const endPlace = useRef<{ info: ChapterInfo; key: string; y: number } | null>(null);
+  useLayoutEffect(() => {
+    endLive.current = { info: shownInfo, key: selectionKey, room: bottomRoom };
+    const end = endPlace.current;
+    if (shownInfo && end && end.info === shownInfo && end.key === selectionKey) {
+      reading.onChapterLayout(shownInfo, end.y + bottomRoom);
+    }
+  }, [shownInfo, selectionKey, bottomRoom, reading]);
+  const onChapterEnd = useCallback(
+    (info: ChapterInfo, key: string, e: LayoutChangeEvent) => {
+      const y = e.nativeEvent.layout.y;
+      const shown = endLive.current;
+      // A marker rendered for another chapter (kept from an earlier render) says nothing about this one.
+      if (shown.info === info && shown.key === key) endPlace.current = { info, key, y };
+      reading.onChapterLayout(info, y + shown.room);
+    },
+    [reading],
+  );
 
   const swipeHandlers = useChapterSwipe(turn);
-  // Keys move the reader only while its tab is showing (the tab stays mounted on web) and no sheet is open.
-  const focused = useTabFocused();
+  // Keys move the reader only while its tab is showing and no sheet is open.
   useArrowKeys({ onNext: goNext, onPrev: goPrev, disabled: sheet !== null || verseSheetOpen || !focused });
-
-  // What to show: always derived from the queries for the current position.
-  const queries = secondId ? [books, firstQuery, secondQuery] : [books, firstQuery];
-  const ready = !!books.data && !!firstQuery.data && (!secondId || !!secondQuery.data);
-  const failed = queries.some((q) => q.isError && !q.isFetching);
-  const retry = () => {
-    for (const q of queries) if (q.isError) void q.refetch();
-  };
 
   const wide = width >= WIDE_BREAKPOINT;
   const horizontal = wide && secondId ? WIDE_PADDING : NARROW_PADDING;
@@ -259,11 +409,28 @@ export function ReaderScreen(props: { storage?: Storage; locales?: readonly Devi
           onVerseLongPress={onVerseLongPress}
           registerTools={registerTools}
           onSwap={swap}
+          // Native only: the web finds the verse's element.
+          onVerseLayout={Platform.OS === 'web' ? undefined : scroller.onLayout}
+          layoutKey={selectionKey}
         />
         <View style={styles.navRow}>
           {prevButton ?? <View style={styles.navSpacer} />}
           {nextButton ?? <View style={styles.navSpacer} />}
         </View>
+        {/* The end of the chapter, for reading time: keyed by the chapter, so it reports its place whenever a
+            chapter has laid out, even one whose content is the same size as the last (no content-size event
+            comes then). Its report names the chapter it was rendered for; its place plus the room below is the
+            content's height for that chapter, and nothing else establishes one. */}
+        {shownInfo ? (
+          <View
+            key={selectionKey}
+            testID="reader-chapter-end"
+            style={styles.chapterEnd}
+            accessible={false}
+            pointerEvents="none"
+            onLayout={(e) => onChapterEnd(shownInfo, selectionKey, e)}
+          />
+        ) : null}
       </>
     );
   } else if (failed) {
@@ -300,14 +467,17 @@ export function ReaderScreen(props: { storage?: Storage; locales?: readonly Devi
       <ScrollView
         ref={scrollRef}
         testID="reader-scroll"
-        onScroll={header.onScroll}
+        onScroll={onScroll}
+        onScrollBeginDrag={releaseScroll}
+        onLayout={onScrollLayout}
+        onContentSizeChange={onContentSizeChange}
         scrollEventThrottle={16}
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={[
           styles.content,
           {
             paddingTop: insets.top + HEADER_BODY_HEIGHT + HEADER_GAP,
-            paddingBottom: TAB_BAR_ROOM + insets.bottom + sheetRoom,
+            paddingBottom: bottomRoom,
             paddingHorizontal: horizontal,
           },
         ]}
@@ -370,4 +540,6 @@ const styles = StyleSheet.create({
   navRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingTop: 28 },
   nav: { width: 56, height: 48, alignItems: 'center', justifyContent: 'center' },
   navSpacer: { width: 56, height: 48 },
+  // No height, the full width: the web's layout reports need a size that is not 0 × 0.
+  chapterEnd: { alignSelf: 'stretch', height: 0 },
 });
