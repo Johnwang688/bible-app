@@ -80,9 +80,13 @@ describe('reading time and chapters explored', () => {
     const { ui, storage } = await renderReader({ position: { bookNumber: 19, chapter: 117, translation: 'WEB' }, now: c.now });
     await screen.findByText('Psalms 117:1 WEB');
     const scroll = screen.getByTestId('reader-scroll');
-    // The whole chapter (3 verses here) fits: content 500 high in a 700 viewport.
+    // The whole chapter (3 verses here) fits: its end is 300 down a 700 viewport. Only the chapter's own end
+    // marker says so; the scroll view's content size cannot tell which chapter it measured (R3-reader-fix3).
     await fireEvent(scroll, 'layout', { nativeEvent: { layout: { x: 0, y: 0, width: 390, height: 700 } } });
     await fireEvent(scroll, 'contentSizeChange', 390, 500);
+    await fireEvent(screen.getByTestId('reader-chapter-end'), 'layout', {
+      nativeEvent: { layout: { x: 0, y: 300, width: 390, height: 0 } },
+    });
     c.advance(10_000);
     await fireEvent.press(screen.getByTestId('verse-1'));
     c.advance(10_000);
