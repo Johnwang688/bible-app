@@ -12,9 +12,11 @@
 //   setting the audio mode, preparing, recording, stopping, reading the file) finds it. `discard()` sets
 //   `cancelled` and unsets `current` first, synchronously, then releases the native recorder.
 // - Every asynchronous continuation (the permission query and request, `setAudioModeAsync`,
-//   `prepareToRecordAsync`, `recorder.stop`, `readFile`, the tick, the cap) checks `live(s)` when it resumes. A
-//   recorder made before a cancel was released by the cancel; `record()` is only called after a `live(s)` check
-//   with no await in between, so a discarded session never records.
+//   `prepareToRecordAsync`, `recorder.stop`, `readFile`, the tick, the cap) checks `live(s)` when it resumes,
+//   before anything with a visible effect: the permission prompt is only opened after a `live(s)` check that
+//   follows the query, so a discarded session never prompts. A recorder made before a cancel was released by
+//   the cancel; `record()` is only called after a `live(s)` check with no await in between, so a discarded
+//   session never records.
 // - Delivery is the last step: `live(s)`, then `complete(s)` (synchronous), then the callback or the return,
 //   with no await in between.
 import {
@@ -192,11 +194,15 @@ export function createNativeRecorder(audio: ExpoAudioApi, deps: NativeRecorderDe
     onAutoStop(recording);
   };
 
-  /** Whether the microphone may be used, prompting if it has not been decided. A throw reads as no. */
-  const ensurePermission = async (): Promise<boolean> => {
+  /**
+   * Whether the microphone may be used, prompting if it has not been decided. A throw reads as no. A session
+   * discarded while the query was pending never opens the prompt (it reads as no; the caller checks `live(s)`).
+   */
+  const ensurePermission = async (s: Session): Promise<boolean> => {
     try {
       const known = await audio.getRecordingPermissionsAsync();
       if (known.granted) return true;
+      if (!live(s)) return false;
       return (await audio.requestRecordingPermissionsAsync()).granted;
     } catch {
       return false;
@@ -232,7 +238,7 @@ export function createNativeRecorder(audio: ExpoAudioApi, deps: NativeRecorderDe
       };
       current = s;
 
-      const granted = await ensurePermission();
+      const granted = await ensurePermission(s);
       if (!live(s)) return 'denied'; // Cancelled (or restarted) while the prompt was open: nothing was made.
       if (!granted) {
         discard(s);
