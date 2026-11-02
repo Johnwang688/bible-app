@@ -1,5 +1,5 @@
 // Unit tests for the engine's edges (R-6b, implementer-owned): what the acceptance tests do not reach.
-import { languageKey } from '../../storage/keys';
+import { languageKey, studyItemsKey } from '../../storage/keys';
 import { createStorage, memoryBackend } from '../../storage/storage';
 import { clearSyncState, createSyncEngine, getDeviceId } from '../engine';
 import { createMemoryRemote, type MemoryRemote } from '../memoryRemote';
@@ -245,14 +245,21 @@ describe('lifecycle', () => {
     await a.engine.stop();
   });
 
-  test('with only the registry domains, settings sync and nothing else is touched', async () => {
+  test('the registry syncs R-3's study items and reading progress and the settings (orchestrator, after R-3 merged)', async () => {
     const storage = createStorage(memoryBackend());
     storage.set(languageKey, 'zh-Hans');
+    storage.set(studyItemsKey, {
+      highlights: { '43:3:16': { colour: 'blue', updatedAt: '1970-01-01T00:00:00.004Z' } },
+      notes: {},
+      bookmarks: {},
+    });
     const engine = createSyncEngine({ uid: 'u1', storage, remote, domains: DEFAULT_DOMAINS, deviceId: 'devA', now: () => 5 });
     await engine.syncNow();
     expect(engine.status()).toEqual({ state: 'idle', lastSyncedAt: 5 });
     expect(remote.settings.get('language')?.json).toBe('"zh-Hans"');
-    expect([...new Set(remote.calls)].sort()).toEqual(['pullSettings', 'pushSettings']);
+    expect(remote.items.get('highlight:43:3:16')?.value).toEqual({ colour: 'blue' });
+    expect(remote.devices.get('devA')).toBeDefined();
+    expect(remote.settings.has('onboarding' as never)).toBe(false);
   });
 
   test('an engine with no domains still runs', async () => {
