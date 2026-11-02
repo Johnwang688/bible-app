@@ -1,6 +1,6 @@
 // The Bible tab. The shown chapter is always the query for the current position (no copy of it
 // is kept in state), so a late response for another chapter can never appear.
-import { useCallback, useEffect, useMemo, useRef, useState, type ComponentRef } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ComponentRef } from 'react';
 import {
   ActivityIndicator,
   Platform,
@@ -345,6 +345,30 @@ export function ReaderScreen(props: {
   // The room under the chapter (see the scroll view's padding below).
   const bottomRoom = TAB_BAR_ROOM + insets.bottom + sheetRoom;
 
+  // The chapter's end marker (below) is the only measure of its content's height: its place plus the room below.
+  // What is on screen now, for its reports (a layout effect, so it is current before any report runs), and the
+  // marker's last place for that chapter. When the room below changes (the verse sheet opens or closes) the
+  // marker does not move and reports nothing, so its height is reported again from its last place.
+  const endLive = useRef<{ info: ChapterInfo | null; key: string; room: number }>({ info: shownInfo, key: selectionKey, room: bottomRoom });
+  const endPlace = useRef<{ info: ChapterInfo; key: string; y: number } | null>(null);
+  useLayoutEffect(() => {
+    endLive.current = { info: shownInfo, key: selectionKey, room: bottomRoom };
+    const end = endPlace.current;
+    if (shownInfo && end && end.info === shownInfo && end.key === selectionKey) {
+      reading.onChapterLayout(shownInfo, end.y + bottomRoom);
+    }
+  }, [shownInfo, selectionKey, bottomRoom, reading]);
+  const onChapterEnd = useCallback(
+    (info: ChapterInfo, key: string, e: LayoutChangeEvent) => {
+      const y = e.nativeEvent.layout.y;
+      const shown = endLive.current;
+      // A marker rendered for another chapter (kept from an earlier render) says nothing about this one.
+      if (shown.info === info && shown.key === key) endPlace.current = { info, key, y };
+      reading.onChapterLayout(info, y + shown.room);
+    },
+    [reading],
+  );
+
   const swipeHandlers = useChapterSwipe(turn);
   // Keys move the reader only while its tab is showing and no sheet is open.
   useArrowKeys({ onNext: goNext, onPrev: goPrev, disabled: sheet !== null || verseSheetOpen || !focused });
@@ -395,14 +419,16 @@ export function ReaderScreen(props: {
         </View>
         {/* The end of the chapter, for reading time: keyed by the chapter, so it reports its place whenever a
             chapter has laid out, even one whose content is the same size as the last (no content-size event
-            comes then). Its place plus the room below is the content's height for this chapter. */}
+            comes then). Its report names the chapter it was rendered for; its place plus the room below is the
+            content's height for that chapter, and nothing else establishes one. */}
         {shownInfo ? (
           <View
             key={selectionKey}
+            testID="reader-chapter-end"
             style={styles.chapterEnd}
             accessible={false}
             pointerEvents="none"
-            onLayout={(e) => reading.onChapterLayout(shownInfo, e.nativeEvent.layout.y + bottomRoom)}
+            onLayout={(e) => onChapterEnd(shownInfo, selectionKey, e)}
           />
         ) : null}
       </>

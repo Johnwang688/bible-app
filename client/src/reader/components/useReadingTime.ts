@@ -1,12 +1,29 @@
 // Reports what the reader is doing to the engagement tracker (src/progress/engagement.ts): the chapter
 // being shown, scrolling and verse presses, plus a heartbeat while the reader is in front.
 //
-// Nothing is reported for a chapter that is loading, failed or not the current position: the screen passes
-// `chapter` only when that chapter is what is on screen.
+// Evidence written to storage is never taken back, so the rule is: only measurements tied to the chapter on
+// screen count, and time away from the app never counts.
+//
+// 1. Live state is read when an event is handled, never from a render's closure. The chapter on screen and
+//    whether the reader is running (`focused && appActive && chapter`) live in a ref, updated in a layout effect
+//    (before any event of the next frame) and set to "not running" in the same effect's cleanup, before the
+//    tracker is paused. Every entry point (`interact`, `onScroll`, `onLayout`, `onContentSizeChange`,
+//    `onChapterLayout`, the trailing scroll timer, the settle timer) reads it when it runs and, when the reader is
+//    not running, does nothing at all. A report is for the live chapter only: a handler or timer made for an
+//    earlier chapter, or before a pause, reports nothing for that chapter either. The callbacks are stable (they
+//    read refs), so a kept one behaves exactly like the newest.
+// 2. Only the chapter's own end marker (the screen's `reader-chapter-end`) measures its content: its report
+//    names the chapter it was rendered for, and a report for any other chapter is dropped. A content-size report
+//    cannot say which chapter it measured: it never establishes a content height, and after the marker has
+//    reported it may raise that height but never lower it below the marker's. A scroll event carries its own
+//    sizes: once the marker has reported, one whose content is shorter than the marker's is not this chapter's
+//    and is dropped (no report, no interaction); before that, its own sizes are used. The viewport (the scroll
+//    view's own size) belongs to no chapter and is kept across chapters. A new chapter starts with no content
+//    height: until its marker reports, nothing beyond verse 0 is reported except what scroll events say.
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSyncExternalStore } from 'react';
 import { AppState, type LayoutChangeEvent, type NativeScrollEvent, type NativeSyntheticEvent } from 'react-native';
 
-import { createEngagementTracker, type ChapterInfo } from '../../progress';
+import { createEngagementTracker, type ChapterInfo, type EngagementTracker } from '../../progress';
 import type { Storage } from '../../storage/storage';
 
 /** The heartbeat: how often the clock is advanced while the reader is showing. */
@@ -18,6 +35,11 @@ export const SCROLL_REPORT_MS = 250;
  * case its measurements arrived in the same moment. Only measurements of that chapter are ever used.
  */
 export const GEOMETRY_SETTLE_MS = 300;
+/**
+ * How far a scroll event's content may fall short of the end marker's and still be the same layout: the two are
+ * measured separately and rounded to the pixel grid on their own.
+ */
+const SIZE_SLACK = 2;
 
 /** Whether the app is in front. The web reports 'active' while the page is visible. */
 function subscribeAppState(onChange: () => void): () => void {
@@ -47,19 +69,34 @@ export function furthestVerseOf(
   return Math.min(total, Math.max(1, Math.ceil((total * bottom) / contentSize.height)));
 }
 
+const sameChapter = (a: ChapterInfo, b: ChapterInfo) =>
+  a.bookNumber === b.bookNumber && a.chapter === b.chapter && a.totalVerses === b.totalVerses;
+
 export interface ReadingTime {
   /** A verse press, long press or tools press: the reader is here, with no new information about the view. */
   interact(): void;
   onScroll(e: NativeSyntheticEvent<NativeScrollEvent>): void;
-  /** The scroll view's own size, and the size of its content: a chapter that fits is wholly on screen. */
+  /** The scroll view's own size (the viewport; it belongs to no chapter). */
   onLayout(e: LayoutChangeEvent): void;
+  /** The scroll content's size: never establishes a content height, only raises the end marker's. */
   onContentSizeChange(width: number, height: number): void;
   /**
-   * The height of the scroll content as measured from the shown chapter's own layout (`chapter` names it; a report
-   * for any other is ignored). The screen reports it when a chapter has laid out, so a chapter whose content is
-   * the same size as the last one's (no content-size event comes) is still measured.
+   * The chapter's end marker laid out: `contentHeight` is the content's height for the chapter `chapter` it was
+   * rendered for. The only source of a chapter's content height; a report for any chapter but the live one is
+   * dropped.
    */
   onChapterLayout(chapter: ChapterInfo, contentHeight: number): void;
+}
+
+/** The live chapter's geometry. All of it is for `of` (the hook's chapter prop, by identity) and no other. */
+interface Geometry {
+  of: ChapterInfo | null;
+  /** The end marker's content height; null until it has reported for `of`. */
+  marker: number | null;
+  /** The content height used: the marker's, raised by content-size reports. */
+  content: number;
+  /** The scroll offset, from scroll events accepted after the marker reported (0 until then). */
+  offset: number;
 }
 
 export function useReadingTime(opts: {
@@ -78,58 +115,106 @@ export function useReadingTime(opts: {
   const appActive = useAppActive();
   const running = focused && appActive && !!chapter;
 
+  // The live state every entry point reads (see the top of the file). `chapter` is null whenever not running.
+  const live = useRef<{ running: boolean; chapter: ChapterInfo | null; tracker: EngagementTracker; clock: () => number }>({
+    running: false,
+    chapter: null,
+    tracker,
+    clock,
+  });
+  const viewport = useRef(0);
+  const geo = useRef<Geometry>({ of: null, marker: null, content: 0, offset: 0 });
+
   // Scroll reports: the time of the last one, and a trailing report so the last scroll of a burst is not lost.
   const lastScroll = useRef(-Infinity);
   const trailing = useRef<ReturnType<typeof setTimeout> | null>(null);
-  // What the trailing report will say (its chapter is the one that was shown when it was made).
+  // What the trailing report will say (its chapter is the one that was live when it was made).
   const trailingReport = useRef<{ chapter: ChapterInfo; furthest: number } | null>(null);
   const cancelTrailing = useCallback(() => {
     if (trailing.current !== null) clearTimeout(trailing.current);
     trailing.current = null;
     trailingReport.current = null;
   }, []);
-  /** Reports a waiting trailing scroll now (before anything pauses the clock), so the last scroll is not lost. */
-  const flushTrailing = useCallback(() => {
-    const r = trailingReport.current;
-    cancelTrailing();
-    if (r) {
-      lastScroll.current = clock();
-      tracker.interact(r.chapter, r.furthest);
-    }
-  }, [tracker, clock, cancelTrailing]);
 
-  // The scroll view's geometry, for a chapter that never scrolls. The viewport is the scroll view's own size and
-  // holds for any chapter. The content size and the offset belong to one chapter: each is stamped with the chapter
-  // that was shown when it was measured, and is used for that chapter only. A new chapter has neither until a
-  // content size (or its own layout, or a scroll) is reported while it is shown: its predecessor's sizes would
-  // credit a long chapter as seen in full.
-  const view = useRef<{ viewport: number; content: number; contentOf: ChapterInfo | null; offset: number; offsetOf: ChapterInfo | null }>({
-    viewport: 0,
-    content: 0,
-    contentOf: null,
-    offset: 0,
-    offsetOf: null,
-  });
-  const reportGeometryRef = useRef<() => void>(() => undefined);
+  /** Reports the furthest verse on screen of the live chapter, at most once per SCROLL_REPORT_MS. */
+  const report = useCallback(
+    (furthest: number) => {
+      const l = live.current;
+      if (!l.running || !l.chapter) return;
+      const reported = l.chapter;
+      const t = l.clock();
+      const wait = SCROLL_REPORT_MS - (t - lastScroll.current);
+      cancelTrailing();
+      if (wait <= 0) {
+        lastScroll.current = t;
+        l.tracker.interact(reported, furthest);
+        return;
+      }
+      trailingReport.current = { chapter: reported, furthest };
+      trailing.current = setTimeout(() => {
+        trailing.current = null;
+        const r = trailingReport.current;
+        trailingReport.current = null;
+        const now = live.current;
+        // Flushed or cancelled (a pause, a new chapter): nothing is left to say.
+        if (!r || !now.running || now.chapter !== r.chapter) return;
+        lastScroll.current = now.clock();
+        now.tracker.interact(r.chapter, r.furthest);
+      }, wait);
+    },
+    [cancelTrailing],
+  );
 
-  // A chapter is shown (or the reader came back to it): the clock starts here. Whatever stops it (another
-  // chapter, a pause, unmounting) first reports a waiting scroll and then pauses the tracker, which counts the
-  // time up to now: an instant chapter turn never goes through `running` false, so it needs this too.
-  useEffect(() => {
+  // The estimate from the viewport and the marker's content height (with the offset of this chapter's scrolls):
+  // when the content fits in the viewport the whole chapter is on screen, and no scroll event will ever say so.
+  const reportGeometry = useCallback(() => {
+    const l = live.current;
+    const g = geo.current;
+    if (!l.running || !l.chapter || g.of !== l.chapter || g.marker === null) return;
+    if (viewport.current <= 0 || g.content <= 0) return;
+    report(
+      furthestVerseOf(
+        {
+          contentOffset: { x: 0, y: g.offset },
+          layoutMeasurement: { width: 0, height: viewport.current },
+          contentSize: { width: 0, height: g.content },
+        },
+        l.chapter.totalVerses,
+      ),
+    );
+  }, [report]);
+
+  // A chapter is shown (or the reader came back to it): the live state is set and the clock starts here, before
+  // any event of the next frame. Whatever stops it (another chapter, a pause, unmounting) first marks the reader
+  // not running, reports a waiting scroll and then pauses the tracker, which counts the time up to now: an
+  // instant chapter turn never goes through `running` false, so it needs this too.
+  useLayoutEffect(() => {
+    const shown = running ? chapter : null;
+    live.current = { running: !!shown, chapter: shown, tracker, clock };
+    // A new chapter starts with no content height (its predecessor's would credit a long chapter as seen in
+    // full). The same chapter coming back keeps what was measured for it.
+    if (shown && geo.current.of !== shown) geo.current = { of: shown, marker: null, content: 0, offset: 0 };
     lastScroll.current = -Infinity;
     let settle: ReturnType<typeof setTimeout> | undefined;
-    if (running && chapter) {
-      tracker.interact(chapter, 0);
-      // What was measured for this chapter while the reader was away (or in this same moment) counts now.
-      reportGeometryRef.current();
-      settle = setTimeout(() => reportGeometryRef.current(), GEOMETRY_SETTLE_MS);
+    if (shown) {
+      tracker.interact(shown, 0);
+      // What was measured for this chapter before (or in this same moment) counts now.
+      reportGeometry();
+      settle = setTimeout(reportGeometry, GEOMETRY_SETTLE_MS);
     }
     return () => {
+      live.current = { running: false, chapter: null, tracker, clock };
       clearTimeout(settle);
-      flushTrailing();
+      // The trailing scroll was made while this chapter was live: it is reported now, before the pause.
+      const r = trailingReport.current;
+      cancelTrailing();
+      if (r) {
+        lastScroll.current = clock();
+        tracker.interact(r.chapter, r.furthest);
+      }
       tracker.pause();
     };
-  }, [tracker, chapter, running, flushTrailing]);
+  }, [tracker, clock, chapter, running, reportGeometry, cancelTrailing]);
 
   // The heartbeat. Stopping it (the tab or the app went away, or the chapter went) pauses the tracker, and so
   // does unmounting; pausing writes what is pending.
@@ -145,99 +230,64 @@ export function useReadingTime(opts: {
   useEffect(() => cancelTrailing, [cancelTrailing]);
 
   const interact = useCallback(() => {
-    if (running && chapter) tracker.interact(chapter, 0);
-  }, [tracker, running, chapter]);
-
-  /** Reports the furthest verse on screen, at most once per SCROLL_REPORT_MS; the last one of a burst follows. */
-  const report = useCallback(
-    (furthest: number) => {
-      if (!running || !chapter) return;
-      const t = clock();
-      const wait = SCROLL_REPORT_MS - (t - lastScroll.current);
-      if (wait <= 0) {
-        cancelTrailing();
-        lastScroll.current = t;
-        tracker.interact(chapter, furthest);
-        return;
-      }
-      cancelTrailing();
-      trailingReport.current = { chapter, furthest };
-      trailing.current = setTimeout(() => {
-        trailing.current = null;
-        trailingReport.current = null;
-        lastScroll.current = clock();
-        tracker.interact(chapter, furthest);
-      }, wait);
-    },
-    [tracker, running, chapter, clock, cancelTrailing],
-  );
+    const l = live.current;
+    if (l.running && l.chapter) l.tracker.interact(l.chapter, 0);
+  }, []);
 
   const onScroll = useCallback(
     (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-      if (!running || !chapter) return;
-      // A scroll event carries its own sizes, all measured now: they are this chapter's.
+      const l = live.current;
+      if (!l.running || !l.chapter) return;
       const { contentOffset, layoutMeasurement, contentSize } = e.nativeEvent;
-      view.current = {
-        viewport: layoutMeasurement.height > 0 ? layoutMeasurement.height : view.current.viewport,
-        content: contentSize.height,
-        contentOf: chapter,
-        offset: contentOffset.y,
-        offsetOf: chapter,
-      };
-      report(furthestVerseOf(e.nativeEvent, chapter.totalVerses));
+      const g = geo.current;
+      const marked = g.of === l.chapter && g.marker !== null;
+      // Shorter than the shown chapter's end: an earlier chapter's scroll, delivered late.
+      if (marked && contentSize.height < g.marker! - SIZE_SLACK) return;
+      if (layoutMeasurement.height > 0) viewport.current = layoutMeasurement.height;
+      // Only an offset known to be this chapter's is kept for the geometry estimate.
+      if (marked) g.offset = contentOffset.y;
+      report(furthestVerseOf(e.nativeEvent, l.chapter.totalVerses));
     },
-    [running, chapter, report],
+    [report],
   );
-
-  // The same estimate from the view's own size and content size, with the current offset: when the content fits
-  // in the viewport the whole chapter is on screen, and no scroll event will ever say so. Only this chapter's
-  // content size counts (see `view`); without one, nothing is reported.
-  const reportGeometry = useCallback(() => {
-    const v = view.current;
-    if (!chapter || v.contentOf !== chapter || v.viewport <= 0 || v.content <= 0) return;
-    report(
-      furthestVerseOf(
-        {
-          contentOffset: { x: 0, y: v.offsetOf === chapter ? v.offset : 0 },
-          layoutMeasurement: { width: 0, height: v.viewport },
-          contentSize: { width: 0, height: v.content },
-        },
-        chapter.totalVerses,
-      ),
-    );
-  }, [chapter, report]);
-  // A layout effect, so the chapter effect above (a passive one) already sees this render's chapter.
-  useLayoutEffect(() => {
-    reportGeometryRef.current = reportGeometry;
-  }, [reportGeometry]);
 
   const onLayout = useCallback(
     (e: LayoutChangeEvent) => {
-      view.current.viewport = e.nativeEvent.layout.height;
+      // The viewport belongs to no chapter: it is kept even while nothing is shown (the scroll view lays out
+      // once, often before the chapter has loaded). A hidden tab's 0 says nothing about the real size.
+      const height = e.nativeEvent.layout.height;
+      if (height > 0) viewport.current = height;
       reportGeometry();
     },
     [reportGeometry],
   );
 
-  // Stamped with the chapter shown when the report is handled (the screen's latest render).
   const onContentSizeChange = useCallback(
     (_width: number, height: number) => {
-      view.current.content = height;
-      view.current.contentOf = chapter;
+      const l = live.current;
+      const g = geo.current;
+      if (!l.running || !l.chapter || g.of !== l.chapter || g.marker === null) return;
+      g.content = Math.max(g.marker, height);
       reportGeometry();
     },
-    [chapter, reportGeometry],
+    [reportGeometry],
   );
 
   const onChapterLayout = useCallback(
     (of: ChapterInfo, contentHeight: number) => {
-      if (!chapter || of.bookNumber !== chapter.bookNumber || of.chapter !== chapter.chapter) return;
-      view.current.content = contentHeight;
-      view.current.contentOf = chapter;
+      const l = live.current;
+      if (!l.running || !l.chapter || !sameChapter(of, l.chapter)) return;
+      const g = geo.current;
+      if (g.of !== l.chapter) geo.current = { of: l.chapter, marker: null, content: 0, offset: 0 };
+      geo.current.marker = contentHeight;
+      geo.current.content = contentHeight;
       reportGeometry();
     },
-    [chapter, reportGeometry],
+    [reportGeometry],
   );
 
-  return { interact, onScroll, onLayout, onContentSizeChange, onChapterLayout };
+  return useMemo(
+    () => ({ interact, onScroll, onLayout, onContentSizeChange, onChapterLayout }),
+    [interact, onScroll, onLayout, onContentSizeChange, onChapterLayout],
+  );
 }

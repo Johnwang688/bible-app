@@ -10,6 +10,11 @@
 // A request lives until it is done, replaced (a new request), cancelled (the chapter changed) or the reader
 // unmounts. A verse the chapter does not have is dropped at once: nothing could ever place it.
 //
+// Only measurements tied to the chapter on screen count. What the screen says is on screen (`place`: the shown
+// key, the layout kind, the viewport and the header) is updated in a layout effect, so it is current when any
+// report or timer runs. A layout report for a key that is not the shown one is dropped before anything else: it
+// never replaces or clears the cached layout of the chapter on screen.
+//
 // - Web: when the page cannot be measured yet (a hidden tab: everything measures 0), the request waits for
 //   something that can change that: a render of the reader (the tab gaining focus re-renders it), a layout or
 //   content-size report (`retry`), and, as a backstop, a slow check that backs off to once every
@@ -20,7 +25,7 @@
 //   stays open for PLACED_MS (until the user scrolls): a report that arrives after the target (a replacement
 //   layout of the same chapter) places it again from the new measurements, so the order of the two events does
 //   not matter.
-import { useCallback, useEffect, useRef, type ComponentRef, type RefObject } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, type ComponentRef, type RefObject } from 'react';
 import { Platform, type ScrollView } from 'react-native';
 
 /** What the chapter view reports about its layout (native only). All of it belongs to one chapter. */
@@ -95,9 +100,10 @@ export function useVerseScroller(opts: {
   shownKey?: string;
 }) {
   const { scrollRef, toolsRefs, viewportHeight, headerBottom, layout: layoutKind, shownKey } = opts;
-  // Read by the attempts, which also run from timers and reports. Updated before the render check below runs.
+  // Read by the attempts, which also run from timers and reports. A layout effect: current before any report or
+  // timer of the next frame, and before the render check below runs.
   const place = useRef({ viewportHeight, headerBottom, layout: layoutKind, shownKey });
-  useEffect(() => {
+  useLayoutEffect(() => {
     place.current = { viewportHeight, headerBottom, layout: layoutKind, shownKey };
   }, [viewportHeight, headerBottom, layoutKind, shownKey]);
 
@@ -219,6 +225,9 @@ export function useVerseScroller(opts: {
   /** The chapter view's layout reports. Passed to it on native only. */
   const onLayout = useCallback(
     (r: VerseLayoutReport) => {
+      // Another chapter's layout (an old chapter's report, delivered late): it must not touch the cache.
+      const { shownKey } = place.current;
+      if (shownKey !== undefined && r.key !== shownKey) return;
       if (!layout.current || layout.current.key !== r.key) {
         layout.current = { key: r.key, rootY: null, kind: null, rows: new Map(), textHeight: null };
       }
