@@ -4,7 +4,7 @@
 // On the web nothing waits for them (text shows at once in a fallback font). Another look's fonts load when that
 // look is chosen, and when the look picker shows it.
 import { act, render, screen } from '@testing-library/react-native';
-import type { ReactNode } from 'react';
+import { useEffect, type ReactNode } from 'react';
 import { Platform, Text } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -92,7 +92,9 @@ function Providers({ storage, locale, children }: { storage: Storage; locale: De
 let chooser: ((id: 'strawberry-milk' | 'silver') => void) | null = null;
 function Chooser() {
   const { choice, setChoice } = useAppearance();
-  chooser = (id) => setChoice({ ...choice, preset: id });
+  useEffect(() => {
+    chooser = (id) => setChoice({ ...choice, preset: id });
+  }, [choice, setChoice]);
   return null;
 }
 
