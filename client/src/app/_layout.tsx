@@ -5,6 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 
 import { ApiProvider } from '../api/ApiProvider';
+import { AccountProvider } from '../auth';
 import { STARTUP_FONTS } from '../fonts/fonts';
 import { I18nProvider } from '../i18n/I18nProvider';
 import { ThemeProvider, useTheme } from '../theme/ThemeProvider';
@@ -23,11 +24,13 @@ export default function RootLayout() {
 
   return (
     <ApiProvider>
-      <I18nProvider>
-        <ThemeProvider>
-          <ThemedStack />
-        </ThemeProvider>
-      </I18nProvider>
+      <AccountProvider>
+        <I18nProvider>
+          <ThemeProvider>
+            <ThemedStack />
+          </ThemeProvider>
+        </I18nProvider>
+      </AccountProvider>
     </ApiProvider>
   );
 }
