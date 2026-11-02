@@ -64,7 +64,7 @@ describe('Home: today’s goal', () => {
     await renderHome({ position: JOHN3_WEB, progress: { goalMinutes: 15, activeMs: { [TODAY]: min(9) + 30_000 } } });
     const card = screen.getByTestId('home-goal');
     expect(card.props.accessibilityRole).toBe('button');
-    expect(card.props.accessibilityLabel).toBe('Today’s goal: 9 of 15 min');
+    expect(card.props.accessibilityLabel).toBe('Today’s goal, 9 of 15 minutes, edit');
     expect(card.props.accessibilityHint).toBe('Change your daily goal');
     expect(within(card).getByText('Today')).toBeTruthy();
     expect(textOf(screen.getByTestId('home-goal-done'))).toBe('9');
@@ -81,7 +81,7 @@ describe('Home: today’s goal', () => {
       storage.set(readingProgressKey, { ...p, activeMs: { [TODAY]: min(6) } });
     });
     expect(textOf(screen.getByTestId('home-goal-done'))).toBe('6');
-    expect(screen.getByTestId('home-goal').props.accessibilityLabel).toBe('Today’s goal: 6 of 10 min');
+    expect(screen.getByTestId('home-goal').props.accessibilityLabel).toBe('Today’s goal, 6 of 10 minutes, edit');
   });
 });
 
@@ -226,7 +226,7 @@ describe('Home in Chinese', () => {
     expect(textOf(await screen.findByTestId('home-votd-text'))).toMatch(/^神爱世人/);
     expect(textOf(screen.getByTestId('home-votd-ref'))).toBe('约翰福音 3:16');
     expect(textOf(screen.getByTestId('home-explored'))).toBe('已探索 1 / 1,189 章');
-    expect(screen.getByTestId('home-goal').props.accessibilityLabel).toBe('今日目标：0 / 10 分钟');
-    expect(screen.getByTestId('home-streak').props.accessibilityLabel).toBe('连续阅读 0 天');
+    expect(screen.getByTestId('home-goal').props.accessibilityLabel).toBe('今日目标，0 / 10 分钟，编辑');
+    expect(screen.getByTestId('home-streak').props.accessibilityLabel).toBe('开始连续阅读'); // no 0 flame (GO-AHEAD minor)
   });
 });

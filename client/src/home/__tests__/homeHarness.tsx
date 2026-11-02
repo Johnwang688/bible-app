@@ -25,6 +25,8 @@ export interface RenderHomeOptions extends FakeApiOptions {
   random?: () => number;
   /** The book catalogue never arrives (Surprise me before the books load). */
   booksPending?: boolean;
+  /** While `current` is set, every chapter request waits for it before it answers (a request in flight). */
+  chapterGate?: { current: Promise<void> | null };
 }
 
 export async function renderHome(opts: RenderHomeOptions = {}) {
@@ -32,9 +34,20 @@ export async function renderHome(opts: RenderHomeOptions = {}) {
   if (opts.progress) storage.set(readingProgressKey, { ...storage.get(readingProgressKey), ...opts.progress });
   if (opts.position) storage.set(readerPositionKey, opts.position);
   const fake = fakeApi(opts);
-  const api = (
+  let api = (
     opts.booksPending ? { ...(fake.api as object), books: () => new Promise(() => undefined) } : fake.api
   ) as ApiClient;
+  const gate = opts.chapterGate;
+  if (gate) {
+    const inner = api;
+    api = {
+      ...(inner as object),
+      chapter: async (...args: Parameters<ApiClient['chapter']>) => {
+        if (gate.current) await gate.current;
+        return inner.chapter(...args);
+      },
+    } as ApiClient;
+  }
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: Infinity } } });
   const locales = opts.locales ?? [EN];
   const navigate = jest.fn();
