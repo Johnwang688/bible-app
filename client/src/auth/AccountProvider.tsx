@@ -11,9 +11,17 @@
 // connection) is ambiguous: the server may have wiped the account, or be wiping it still. Resuming
 // sync then would re-upload what the server just deleted. So the account goes "unconfirmed": its
 // sync stays stopped (status `error`) until a probe settles it. The probe forces a token refresh
-// (it fails once the user is deleted or its tokens are revoked: the delete is done) and compares the
+// (it fails once the user is deleted or its tokens are revoked: the delete is done; a failure that does
+// not prove that, such as a transient token-service error, leaves the account unconfirmed) and compares the
 // remote with what it held before the request (emptied: the delete reached the server). The probe
 // runs right after the failure and again on every syncNow (foreground, `online`) until it settles.
+//
+// The sign-in gate (first run's Under 13 age choice) turns sign-in and sync off. While it is closed,
+// `target()` wants no engine (it reads the gate live, so no reconcile step on the chain can start one),
+// signIn/signUp/sendPasswordReset reject with 'not-allowed' before reaching the auth backend, and any
+// signed-in user (a restored session, one signed in when the gate closes, or one whose sign-in raced the
+// gate) is signed out through the normal path once in-flight sign-outs and deletes have settled: the
+// engine stops on the chain first, then auth signs out. Opening the gate again does nothing by itself.
 //
 // The injected dependencies are read once, when the provider mounts; the defaults (Firebase, device
 // storage, the Firestore remote, the account API) are created on first use, never at import.
@@ -27,6 +35,8 @@ import { DEFAULT_DOMAINS } from '../sync/registry';
 import type { SyncDomains } from '../sync/shapes';
 import type { RemoteStore, SyncEngine, SyncStatus } from '../sync/types';
 import { createAccountApi } from './accountApi';
+import { firebaseAuthCode } from './firebaseErrors';
+import { ALWAYS_ALLOWED, type SignInGate } from './signInGate';
 import { AuthError, type AccountState, type AccountStatus, type AuthBackend, type AuthUser, type SignInMethod } from './types';
 
 export interface AccountProviderProps {
@@ -41,6 +51,12 @@ export interface AccountProviderProps {
   domains?: SyncDomains;
   /** Default: the backend's DELETE /api/v1/account at `getApiBaseUrl()`. */
   deleteAccountRequest?: (idToken: string) => Promise<void>;
+  /**
+   * Whether sign-in and sync are allowed on this device (first run's Under 13 age choice turns them off).
+   * Default: always allowed. R-7a's first-run selector (a `storageGate` over its onboarding key) replaces
+   * this default when it merges.
+   */
+  signInGate?: SignInGate;
 }
 
 // ---- dependencies --------------------------------------------------------------------------------
@@ -52,6 +68,7 @@ interface Deps {
   remoteFor(uid: string): RemoteStore;
   domains: SyncDomains;
   deleteRequest(idToken: string): Promise<void>;
+  gate: SignInGate;
 }
 
 function createDeps(p: AccountProviderProps): Deps {
@@ -88,6 +105,7 @@ function createDeps(p: AccountProviderProps): Deps {
       return createFirestoreRemote(getFirebaseDb(), uid);
     },
     domains: p.domains ?? DEFAULT_DOMAINS,
+    gate: p.signInGate ?? ALWAYS_ALLOWED,
     deleteRequest(idToken) {
       if (!deleteRequest) {
         const api = createAccountApi({ baseUrl: getApiBaseUrl() });
@@ -103,6 +121,7 @@ function createDeps(p: AccountProviderProps): Deps {
 interface View {
   status: AccountStatus;
   user: AuthUser | null;
+  signInAllowed: boolean;
 }
 
 interface Listeners {
@@ -127,8 +146,26 @@ function asAuthError(e: unknown): AuthError {
   return isAuthError(e) ? e : new AuthError('unknown', undefined, { cause: e });
 }
 
-/** Refresh failures that mean the account is gone or its session revoked (user-not-found, user-disabled, user-token-expired, ...). */
-const ACCOUNT_GONE: readonly AuthError['kind'][] = ['wrong-credentials', 'requires-recent-login', 'unknown'];
+/**
+ * Firebase codes of a refresh failure that prove the account is gone or its tokens revoked. Anything else
+ * (auth/internal-error, auth/quota-exceeded, auth/network-request-failed, a non-Firebase exception) says
+ * nothing about the account: the delete stays unconfirmed and is probed again later.
+ */
+const ACCOUNT_GONE_CODES: readonly string[] = ['auth/user-not-found', 'auth/user-disabled', 'auth/user-token-expired', 'auth/invalid-user-token'];
+
+/**
+ * For an AuthError without a Firebase code (another AuthBackend, or a test fake), the kinds that stand
+ * for those codes. The Firebase adapter only gives these kinds from a code, so a code always decides there.
+ * Never 'unknown': that is the catch-all for failures that prove nothing.
+ */
+const ACCOUNT_GONE_KINDS: readonly AuthError['kind'][] = ['wrong-credentials', 'requires-recent-login'];
+
+/** Whether a forced token refresh failed in a way that proves the account is gone or its tokens revoked. */
+function provesAccountGone(e: unknown): boolean {
+  const code = isAuthError(e) ? e.code : firebaseAuthCode(e);
+  if (code !== undefined) return ACCOUNT_GONE_CODES.includes(code);
+  return isAuthError(e) && ACCOUNT_GONE_KINDS.includes(e.kind);
+}
 
 /** The `sub` claim of a JWT, or null when the token is not a decodable JWT. */
 export function tokenSubject(token: string): string | null {
@@ -161,6 +198,16 @@ type ProbeOutcome =
   | 'unreachable' // the probe could not tell (offline): ask again later
   | 'switched'; // a different user (or none) is signed in now: nothing to decide for this one
 
+/** Whether the gate allows sign-in now. Fails closed: a gate that throws keeps sign-in and sync off. */
+function isAllowed(gate: SignInGate): boolean {
+  try {
+    return gate.allowed();
+  } catch (e) {
+    console.warn('[account] the sign-in gate failed; treating sign-in as not allowed', e);
+    return false;
+  }
+}
+
 function sameUser(a: AuthUser | null, b: AuthUser | null): boolean {
   return a === b || (a !== null && b !== null && a.uid === b.uid && a.email === b.email);
 }
@@ -191,12 +238,20 @@ function createController(deps: Deps): Controller {
   /** Sign-outs and deletes in progress (they hold sync off); syncNow waits for them to settle. */
   const busy = new Set<Promise<unknown>>();
 
-  const emitView = () => listeners?.onView({ status: known ? (user ? 'signedIn' : 'signedOut') : 'loading', user });
+  /** A run of `enforceGate` in progress, and whether another pass was asked for meanwhile. */
+  let gateCheck: Promise<void> | null = null;
+  let gateAgain = false;
+
+  const gateAllowed = () => isAllowed(deps.gate);
+
+  const emitView = () =>
+    listeners?.onView({ status: known ? (user ? 'signedIn' : 'signedOut') : 'loading', user, signInAllowed: gateAllowed() });
   const emitSync = (sync: SyncStatus | null) => listeners?.onSync(sync);
 
   /** The user sync should run for right now, or null. */
   function target(): AuthUser | null {
     if (!listeners || holds > 0 || !user || user.uid === blockedUid || user.uid === unconfirmed?.uid) return null;
+    if (!gateAllowed()) return null;
     return user;
   }
 
@@ -258,6 +313,55 @@ function createController(deps: Deps): Controller {
     if (!sameUser(user, next)) user = next ? { uid: next.uid, email: next.email } : null;
     emitView();
     kick();
+    if (user && !gateAllowed()) void enforceGate();
+  }
+
+  /**
+   * While the gate is closed, signs out whoever is signed in through the normal path (the engine stops on the
+   * chain, then auth signs out), after in-flight sign-outs and deletes have settled. Concurrent calls share one
+   * run; a call during a run asks for one more pass. Never rejects. If the sign-out fails the user stays signed
+   * in but no engine starts (`target()` reads the gate); the next auth or gate change tries again.
+   */
+  function enforceGate(): Promise<void> {
+    if (gateCheck) {
+      gateAgain = true;
+      return gateCheck;
+    }
+    gateCheck = (async () => {
+      do {
+        gateAgain = false;
+        try {
+          while (busy.size > 0) await Promise.all(busy);
+          await chain;
+          if (listeners && user && !gateAllowed()) await holding(() => signOut());
+        } catch (e) {
+          console.warn('[account] signing out after sign-in was turned off failed', e);
+        }
+      } while (gateAgain);
+    })().finally(() => {
+      gateCheck = null;
+    });
+    return gateCheck;
+  }
+
+  /** The gate changed: show it, bring the engine in line on the chain, and sign out if it closed. */
+  function onGateChange() {
+    if (!listeners) return;
+    emitView();
+    kick();
+    if (user && !gateAllowed()) void enforceGate();
+  }
+
+  /** Throws 'not-allowed' (before anything reaches the auth backend) while the gate is closed. */
+  function requireAllowed(): void {
+    if (!gateAllowed()) throw new AuthError('not-allowed', 'sign-in is off on this device');
+  }
+
+  /** After a sign-in or sign-up resolved: if the gate closed meanwhile, sign the user out again and reject. */
+  async function afterSignIn(): Promise<void> {
+    if (gateAllowed()) return;
+    await enforceGate();
+    throw new AuthError('not-allowed', 'sign-in is off on this device');
   }
 
   function requireAuth(): AuthBackend {
@@ -294,6 +398,7 @@ function createController(deps: Deps): Controller {
 
   const actions: Actions = {
     async signIn(method: SignInMethod) {
+      requireAllowed();
       const auth = requireAuth();
       try {
         await auth.signIn(method);
@@ -303,9 +408,11 @@ function createController(deps: Deps): Controller {
       blockedUid = null;
       unconfirmed = null;
       setUser(auth.currentUser());
+      await afterSignIn();
     },
 
     async signUp(email: string, password: string) {
+      requireAllowed();
       const auth = requireAuth();
       try {
         await auth.signUp(email, password);
@@ -315,6 +422,7 @@ function createController(deps: Deps): Controller {
       blockedUid = null;
       unconfirmed = null;
       setUser(auth.currentUser());
+      await afterSignIn();
     },
 
     signOut() {
@@ -322,6 +430,8 @@ function createController(deps: Deps): Controller {
     },
 
     async sendPasswordReset(email: string) {
+      // Off behind the gate too: it would send a typed-in email address to the auth backend.
+      requireAllowed();
       const auth = requireAuth();
       try {
         await auth.sendPasswordReset(email);
@@ -374,7 +484,13 @@ function createController(deps: Deps): Controller {
     try {
       token = await auth.getIdToken(true);
     } catch (e) {
-      return ACCOUNT_GONE.includes(asAuthError(e).kind) ? 'deleted' : 'unreachable';
+      // Design limit (U2): 'deleted' proves the account's tokens were revoked (the backend revokes and
+      // disables the user before touching any data), not that the wipe finished. That is safe: the backend
+      // writes the deletedUsers/{uid} marker before the wipe, so a half-finished delete takes no more
+      // writes from existing tokens, and a retry (sign in again → delete) completes it. If the backend
+      // failed after disabling the user, signing in again is refused until the delete is finished
+      // server-side.
+      return provesAccountGone(e) ? 'deleted' : 'unreachable';
     }
     if (!token || auth.currentUser()?.uid !== uid) return 'switched';
     if (hadData) {
@@ -488,6 +604,7 @@ function createController(deps: Deps): Controller {
   function attach(next: Listeners): () => void {
     listeners = next;
     const offs: (() => void)[] = [];
+    offs.push(deps.gate.subscribe(onGateChange));
     const auth = deps.auth();
     if (auth) {
       offs.push(auth.onAuthStateChanged((u) => setUser(u)));
@@ -524,13 +641,16 @@ const AccountContext = createContext<AccountState | null>(null);
 
 export function AccountProvider({ children, ...props }: AccountProviderProps) {
   const [controller] = useState(() => createController(createDeps(props)));
-  const [view, setView] = useState<View>({ status: 'loading', user: null });
+  const [view, setView] = useState<View>(() => ({ status: 'loading', user: null, signInAllowed: isAllowed(props.signInGate ?? ALWAYS_ALLOWED) }));
   const [sync, setSync] = useState<SyncStatus | null>(null);
 
   useEffect(
     () =>
       controller.attach({
-        onView: (next) => setView((prev) => (prev.status === next.status && sameUser(prev.user, next.user) ? prev : next)),
+        onView: (next) =>
+          setView((prev) =>
+            prev.status === next.status && sameUser(prev.user, next.user) && prev.signInAllowed === next.signInAllowed ? prev : next,
+          ),
         onSync: (next) =>
           setSync((prev) =>
             prev === next || (prev && next && prev.state === next.state && prev.lastSyncedAt === next.lastSyncedAt) ? prev : next,
@@ -540,7 +660,7 @@ export function AccountProvider({ children, ...props }: AccountProviderProps) {
   );
 
   const value = useMemo<AccountState>(
-    () => ({ status: view.status, user: view.user, sync, ...controller.actions }),
+    () => ({ status: view.status, user: view.user, signInAllowed: view.signInAllowed, sync, ...controller.actions }),
     [view, sync, controller],
   );
 

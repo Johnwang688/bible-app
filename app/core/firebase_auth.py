@@ -6,11 +6,14 @@ Credentials and the configured project id. No key files are read or written.
 Security notes:
 - Tokens are verified with ``check_revoked=True`` so revoked sessions and disabled users are refused.
 - Never log the token or its claims; only the exception type.
-- ``FIREBASE_AUTH_EMULATOR_HOST`` makes the Admin SDK accept unsigned tokens. Endpoints that act on data
-  (``get_firebase_user``) honour it only with an explicit emulator setup: ``app_env == "development"``,
-  ``ALLOW_FIREBASE_EMULATORS=1``, ``FIRESTORE_EMULATOR_HOST`` set and a ``demo-`` project id (a demo
-  project can never reach real Firebase). The identity-only ``get_firebase_identity`` (whoami) needs just
-  ``app_env == "development"``. Anything else with the variable set is refused (503) and logged.
+- ``FIREBASE_AUTH_EMULATOR_HOST`` makes the Admin SDK accept unsigned tokens, and ``FIRESTORE_EMULATOR_HOST``
+  sends the Admin SDK's Firestore client (the delete's marker and wipe) to another host. If **either** is
+  set, endpoints that act on data (``get_firebase_user``, and the delete itself through
+  ``emulator_refused``) need the full, explicit emulator setup: ``app_env == "development"``,
+  ``ALLOW_FIREBASE_EMULATORS=1``, **both** variables set and a ``demo-`` project id (a demo project can never
+  reach real Firebase). The identity-only ``get_firebase_identity`` (whoami, no data) needs just
+  ``app_env == "development"``. Anything else with either variable set is refused (503) and logged, before
+  any token verification or Firestore call.
 - The uid is used as a Firestore path segment, so a uid outside ``[A-Za-z0-9_-]{1,128}`` is refused (401)
   before any use ('/' would split the path into another user's tree).
 """
@@ -101,13 +104,19 @@ def _unavailable() -> HTTPException:
     return HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail=UNAVAILABLE_DETAIL)
 
 
-def _emulator_refused(*, data_access: bool) -> bool:
-    """True when FIREBASE_AUTH_EMULATOR_HOST is set but must not be honoured for this request.
+_EMULATOR_VARS = ("FIREBASE_AUTH_EMULATOR_HOST", "FIRESTORE_EMULATOR_HOST")
 
-    Read at request time. ``data_access`` endpoints need the full, explicit emulator setup (see the module
-    docstring); identity-only endpoints need only the development environment.
+
+def emulator_refused(*, data_access: bool = True) -> bool:
+    """True when a Firebase emulator variable is set but must not be honoured for this request.
+
+    The one check for both token verification and the account delete; read at request time. If either
+    ``FIREBASE_AUTH_EMULATOR_HOST`` or ``FIRESTORE_EMULATOR_HOST`` is set, ``data_access`` callers need the
+    full emulator setup (see the module docstring); identity-only callers need only the development
+    environment. Logs an error when it refuses.
     """
-    if not os.environ.get("FIREBASE_AUTH_EMULATOR_HOST"):
+    present = [name for name in _EMULATOR_VARS if os.environ.get(name)]
+    if not present:
         return False
     settings = get_settings()
     allowed = settings.app_env == "development"
@@ -115,14 +124,15 @@ def _emulator_refused(*, data_access: bool) -> bool:
         allowed = (
             allowed
             and os.environ.get("ALLOW_FIREBASE_EMULATORS") == "1"
-            and bool(os.environ.get("FIRESTORE_EMULATOR_HOST"))
+            and all(os.environ.get(name) for name in _EMULATOR_VARS)
             and str(settings.firebase_project_id or "").startswith("demo-")
         )
     if allowed:
         return False
     logger.error(
-        "FIREBASE_AUTH_EMULATOR_HOST is set without the full emulator setup (development, "
-        "ALLOW_FIREBASE_EMULATORS=1, FIRESTORE_EMULATOR_HOST, a demo- project); refusing to verify tokens"
+        "%s set without the full emulator setup (development, ALLOW_FIREBASE_EMULATORS=1, "
+        "FIREBASE_AUTH_EMULATOR_HOST and FIRESTORE_EMULATOR_HOST, a demo- project); refusing Firebase calls",
+        " and ".join(present),
     )
     return True
 
@@ -134,7 +144,7 @@ def _verify(credentials: HTTPAuthorizationCredentials | None, *, data_access: bo
     if not token:
         raise _unauthorized()
 
-    if _emulator_refused(data_access=data_access):
+    if emulator_refused(data_access=data_access):
         raise _unavailable()
 
     try:
@@ -177,7 +187,7 @@ def get_firebase_user(
 ) -> FirebaseUser:
     """FastAPI dependency: verify the Bearer Firebase ID token and return the signed-in user.
 
-    The default for any endpoint that reads or changes data: the Auth emulator is honoured only with the
+    The default for any endpoint that reads or changes data: the Firebase emulators are honoured only with the
     full emulator setup.
     """
     return _verify(credentials, data_access=True)
@@ -187,5 +197,5 @@ def get_firebase_identity(
     credentials: HTTPAuthorizationCredentials | None = Depends(_bearer),
 ) -> FirebaseUser:
     """Like ``get_firebase_user``, for endpoints that only echo the token's own identity (whoami) and touch
-    no data: the Auth emulator is honoured in development without the full emulator setup."""
+    no data: the emulators are honoured in development without the full emulator setup."""
     return _verify(credentials, data_access=False)
