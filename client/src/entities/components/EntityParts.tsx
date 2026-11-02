@@ -1,10 +1,11 @@
 // Small pieces the people / places / themes screens share: the way back (button, Escape, the Android back
 // button), the top bar, the card surface, the uppercase label and the centred state block.
 import { router } from 'expo-router';
-import { useEffect, useLayoutEffect, useRef, type ReactNode } from 'react';
-import { BackHandler, Platform, Pressable, StyleSheet, Text, View, type ViewStyle } from 'react-native';
+import type { ReactNode } from 'react';
+import { Pressable, StyleSheet, Text, View, type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { useScreenBack } from '../../search/useScreenBack';
 import { GlassSurface } from '../../components/GlassSurface';
 import { uiFace } from '../../fonts/fonts';
 import { useT } from '../../i18n/I18nProvider';
@@ -26,29 +27,8 @@ export function goBack() {
  */
 export function useEntityBack(onBack?: () => void): () => void {
   const back = onBack ?? goBack;
-  // The listeners are added once; the ref (set in the layout phase) always holds the latest handler.
-  const latest = useRef(back);
-  useLayoutEffect(() => {
-    latest.current = back;
-  });
-  useEffect(() => {
-    if (Platform.OS === 'web') {
-      if (typeof document === 'undefined') return;
-      const onKeyDown = (e: KeyboardEvent) => {
-        if (e.key !== 'Escape' || e.repeat) return;
-        e.preventDefault();
-        latest.current();
-      };
-      document.addEventListener('keydown', onKeyDown);
-      return () => document.removeEventListener('keydown', onKeyDown);
-    }
-    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
-      latest.current();
-      return true;
-    });
-    return () => sub.remove();
-  }, []);
-  return () => latest.current();
+  useScreenBack(back);
+  return back;
 }
 
 /** The round Back button under the status bar. */

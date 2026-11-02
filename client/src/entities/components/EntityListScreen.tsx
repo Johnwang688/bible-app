@@ -310,6 +310,8 @@ function EntityFilter({
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         editable={editable}
+        aria-disabled={!editable}
+        accessibilityState={{ disabled: !editable }}
         placeholder={label}
         placeholderTextColor={theme.colors.muted}
         accessibilityLabel={label}

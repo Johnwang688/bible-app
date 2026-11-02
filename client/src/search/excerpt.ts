@@ -19,7 +19,12 @@ export function excerptAround(text: string, terms: string[], lead = 40): string 
   const match = pattern ? pattern.exec(text) : null;
   if (!match || match.index <= lead) return text;
   const at = match.index;
-  if (hasCjk(text)) return `…${text.slice(at - Math.floor(lead / 2))}`;
+  if (hasCjk(text)) {
+    let cut = at - Math.floor(lead / 2);
+    // Never start on the low half of a surrogate pair: step back onto its high half.
+    if (/[\uDC00-\uDFFF]/.test(text.charAt(cut))) cut -= 1;
+    return `…${text.slice(cut)}`;
+  }
   let start = at;
   for (let i = Math.max(1, at - lead); i < at; i++) {
     if (/\s/.test(text.charAt(i - 1)) && !/\s/.test(text.charAt(i))) {

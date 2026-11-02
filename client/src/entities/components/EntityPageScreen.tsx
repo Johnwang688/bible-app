@@ -182,6 +182,7 @@ function Overview({ text }: { text: string }) {
           testID="entity-overview-toggle"
           accessibilityRole="button"
           accessibilityState={{ expanded: open }}
+          aria-expanded={open}
           onPress={() => setOpen(!open)}
           style={styles.textButton}
         >
@@ -249,6 +250,7 @@ function Timeline({
                   testID={`entity-event-${i}`}
                   accessibilityRole="button"
                   accessibilityState={{ expanded: isOpen }}
+                  aria-expanded={isOpen}
                   onPress={() => toggle(i)}
                   style={styles.eventHeader}
                 >

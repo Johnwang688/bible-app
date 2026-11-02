@@ -225,6 +225,8 @@ function FindField({
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         editable={!disabled}
+        aria-disabled={disabled}
+        accessibilityState={{ disabled }}
         placeholder={t('explore.find')}
         placeholderTextColor={theme.colors.muted}
         accessibilityLabel={t('explore.find')}
