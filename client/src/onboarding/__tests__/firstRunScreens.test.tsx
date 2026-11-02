@@ -390,3 +390,68 @@ describe('on the aurora', () => {
     }
   });
 });
+
+// Acceptance (orchestrator-owned, Sol review r1 F2 and F3).
+describe('native accessibility (review r1)', () => {
+  it.each([
+    ['look', toLook],
+    ['age', toAge],
+  ] as const)('%s does not nest radios under an iOS accessibility element', async (_step, go) => {
+    const { Platform } = require('react-native');
+    const previous = Platform.OS;
+    Platform.OS = 'ios';
+
+    try {
+      await go();
+      const groups = screen.container.queryAll((n) => n.type === 'View' && n.props.role === 'radiogroup');
+      expect(groups.length).toBeGreaterThan(0);
+      for (const group of groups) {
+        expect(group.props.accessible).not.toBe(true);
+      }
+    } finally {
+      Platform.OS = previous;
+    }
+  });
+
+  it('Android Back preserves the look and age while returning through steps', async () => {
+    const { BackHandler, Platform } = require('react-native');
+    const previous = Platform.OS;
+    Platform.OS = 'android';
+
+    let hardwareBack: (() => boolean) | undefined;
+    const remove = jest.fn();
+    const subscription = jest.spyOn(BackHandler, 'addEventListener').mockImplementation((_event: unknown, handler: unknown) => {
+      hardwareBack = handler as () => boolean;
+      return { remove };
+    });
+
+    try {
+      await toLook();
+      await press(radio('Sky'));
+      await press(button('Continue'));
+      await press(radio('Under 13'));
+
+      await act(async () => {
+        expect(hardwareBack!()).toBe(true);
+      });
+      expect(screen.getByTestId('first-run-look')).toBeTruthy();
+      expect(isChecked(radio('Sky'))).toBe(true);
+
+      await press(button('Continue'));
+      expect(isChecked(radio('Under 13'))).toBe(true);
+
+      await act(async () => {
+        expect(hardwareBack!()).toBe(true);
+      });
+      await act(async () => {
+        expect(hardwareBack!()).toBe(true);
+      });
+      expect(screen.getByTestId('first-run-welcome')).toBeTruthy();
+      expect(hardwareBack!()).toBe(false);
+      expect(remove).toHaveBeenCalled();
+    } finally {
+      subscription.mockRestore();
+      Platform.OS = previous;
+    }
+  });
+});
