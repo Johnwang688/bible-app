@@ -91,6 +91,13 @@ export const zhHans: Record<MessageKey, string> = {
   'settings.second': '第二个译本',
   'settings.swap': '交换顺序',
 
+  'highlight.yellow': '黄色',
+  'highlight.orange': '橙色',
+  'highlight.pink': '粉色',
+  'highlight.purple': '紫色',
+  'highlight.blue': '蓝色',
+  'highlight.green': '绿色',
+
   'common.loading': '加载中…',
   'common.retry': '重试',
   'error.network': '无法连接服务器。请检查网络后重试。',

@@ -89,6 +89,13 @@ export const en = {
   'settings.second': 'Second translation',
   'settings.swap': 'Swap order',
 
+  'highlight.yellow': 'Yellow',
+  'highlight.orange': 'Orange',
+  'highlight.pink': 'Pink',
+  'highlight.purple': 'Purple',
+  'highlight.blue': 'Blue',
+  'highlight.green': 'Green',
+
   'common.loading': 'Loading…',
   'common.retry': 'Try again',
   'error.network': 'Can’t reach the server. Check your connection and try again.',
