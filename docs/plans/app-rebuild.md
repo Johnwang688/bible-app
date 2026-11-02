@@ -245,6 +245,13 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
 - **Hardware:** the prototype ran smoothly on John's school iPad. A low-end Android phone is still to try (needs EAS builds), as part of R-7's performance budget.
 - **When:** R-7 builds the animation and the Appearance choice.
 
+**B-1 web beta notes (2026-11-02).** The new web app ships as a public beta on Firebase Hosting (John, 11-02).
+- **Where:** site `bible-app-492520`, https://bible-app-492520.web.app, a new URL. The old site keeps running, and beta testers start fresh, so the old-`localStorage` import does nothing there. The live channel waits for John after the phase PRs merge; runbook in `deploy/web.md`.
+- **Build config:** `client/.env.production` (committed, public values only) gives the API origin (W5's Cloud Run `bible-api`), `EXPO_PUBLIC_RELEASE_CHANNEL=beta` and the Firebase web config. `client/src/api/config.ts` reads them: a production build with no API URL, or a non-https one, throws rather than calling localhost. R-6b reads `getFirebaseWebConfig()`.
+- **Hosting:** `firebase.json` `hosting` serves `client/dist` with a single-page rewrite. HTML is `no-cache` and the content-hashed `/_expo` and `/assets` trees are immutable for a year; checked on the real host. A strict CSP (scripts `'self'` only; the API, Firebase Auth and Firestore in `connect-src`; Google Fonts for the Chinese font), nosniff and Referrer-Policy go on every response. `ignore` is empty on purpose, because font paths contain `node_modules`.
+- **Beta label:** in beta builds, Simplified Chinese is offered as "简体中文（测试版）", with a one-line note (`beta.*` keys, `client/src/beta/`). Mounting it in Me's language sheet waits for R-6a.
+- **Privacy policy** at `/privacy`, in English and Chinese, for the App Store too. It is written to match what the app does (local-first; API requests carry only references and search words; Firebase only when signed in). Prototype: `design/proposed/b1-privacy.html`. It must change whenever the app sends data somewhere new.
+
 Every phase ships its screens in both languages; the missing-key test keeps Chinese from falling behind.
 
 After R-7, new roadmap features are built frontend and backend together:
