@@ -122,3 +122,22 @@ test('F7: a credit lands at once, between the batched writes', () => {
   tracker.tick();
   expect(storage.get(readingProgressKey).chaptersRead['43:3']).toBeDefined();
 });
+
+test('round 2: a late write for yesterday keeps its time and leaves today’s evidence (kills "skip older day")', () => {
+  const storage = createStorage(memoryBackend());
+  let t = new Date(2026, 10, 2, 23, 59, 58).getTime();
+  const a = createEngagementTracker({ storage, now: () => t });
+  const b = createEngagementTracker({ storage, now: () => t });
+  a.interact(JOHN3, 18);
+  t += 1000;
+  a.interact(JOHN3, 18);
+  b.interact({ bookNumber: 1, chapter: 1, totalVerses: 31 }, 16);
+  t += 2000;
+  b.tick();
+  b.flush();
+  a.flush();
+  const p = storage.get(readingProgressKey);
+  expect(p.activeMs).toEqual({ '2026-11-02': 2000, '2026-11-03': 1000 });
+  expect(p.evidence.day).toBe('2026-11-03');
+  expect(p.evidence.chapters['1:1']).toEqual({ furthestVerse: 0, engagedMs: 1000 });
+});
