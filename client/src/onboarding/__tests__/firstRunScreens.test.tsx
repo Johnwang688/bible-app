@@ -500,3 +500,28 @@ describe('a fast double tap (review r1)', () => {
     expect(screen.getByTestId('first-run-look')).toBeTruthy();
   });
 });
+
+// Sol review r2 (orchestrator-owned): mutant-killer for the phone settle time (a 1 ms guard survived the tests above).
+describe('review r2 settle boundary', () => {
+  it.each(['ios', 'android'] as const)('%s ignores second taps throughout the settle window', async (os) => {
+    const Platform = RNPlatform as { OS: string };
+    const previous = Platform.OS;
+    Platform.OS = os;
+    try {
+      const storage = await toLook();
+      await press(button('Continue'));
+
+      clock += 100;
+      await pressNow(button('Start reading'));
+      expect(screen.getByTestId('first-run-age')).toBeTruthy();
+      expect(storage.get(onboardingKey)).toEqual({ done: false, ageRange: null });
+
+      clock += 250;
+      await pressNow(button('Start reading'));
+      expect(screen.getByTestId('app-content')).toBeTruthy();
+      expect(storage.get(onboardingKey)).toEqual({ done: true, ageRange: null });
+    } finally {
+      Platform.OS = previous;
+    }
+  });
+});
