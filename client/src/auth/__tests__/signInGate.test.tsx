@@ -9,7 +9,7 @@ import { createMemoryRemote, type MemoryRemote } from '../../sync/memoryRemote';
 import { DOMAINS, setNote } from '../../sync/__tests__/fixtures';
 import { SETTING_KEYS } from '../../sync/types';
 import { AccountProvider, useAccount } from '../AccountProvider';
-import { ALWAYS_ALLOWED, storageGate } from '../signInGate';
+import { ALWAYS_ALLOWED, SIGN_IN_OFF, storageGate } from '../signInGate';
 import { AuthError, type AuthBackend, type AuthUser } from '../types';
 
 // Stand-in for R-7a's onboarding key (client/src/onboarding/keys.ts on r7a-firstrun).
@@ -148,16 +148,45 @@ test('a signed-in user who picks Under 13 later is signed out and sync stops', a
   expect(remote.calls).toEqual([]);
 });
 
-test('signInAllowed defaults to true without a gate', async () => {
+test('fail closed (John, 2026-11-02): without a gate, sign-in, sign-up, reset and sync are off', async () => {
   const storage = createStorage(memoryBackend());
+  const auth = fakeAuth(ALICE);
+  const remote = createMemoryRemote();
   const wrapper = ({ children }: { children: ReactNode }) => (
-    <AccountProvider auth={fakeAuth(null)} storage={storage} remoteFor={() => createMemoryRemote()} domains={DOMAINS}>
+    <AccountProvider auth={auth} storage={storage} remoteFor={() => remote} domains={DOMAINS}>
       {children}
     </AccountProvider>
   );
   const view = await renderHook(() => useAccount(), { wrapper });
   await waitFor(() => expect(view.result.current.status).toBe('signedOut'));
-  expect(view.result.current.signInAllowed).toBe(true);
+  expect(view.result.current.signInAllowed).toBe(false);
+  expect(SIGN_IN_OFF.allowed()).toBe(false);
+  await settle();
+  expect(remote.calls).toEqual([]);
+  for (const action of [
+    () => view.result.current.signIn({ kind: 'password', email: 'a@example.com', password: 'whatever1' }),
+    () => view.result.current.signUp('a@example.com', 'whatever1'),
+    () => view.result.current.sendPasswordReset('a@example.com'),
+  ]) {
+    let error: unknown;
+    await act(async () => {
+      try {
+        await action();
+      } catch (e) {
+        error = e;
+      }
+    });
+    expect((error as AuthError).kind).toBe('not-allowed');
+  }
+  expect(auth.log.filter((l) => l !== 'signOut')).toEqual([]);
+});
+
+test('an unknown first-run state (intro not finished) keeps the gate closed when wired as planned', () => {
+  const storage = createStorage(memoryBackend());
+  const planned = storageGate(storage, onboardingKey, (o) => o.done && o.ageRange !== 'under-13');
+  expect(planned.allowed()).toBe(false);
+  storage.set(onboardingKey, { done: true, ageRange: null });
+  expect(planned.allowed()).toBe(true);
 });
 
 test('the age choice is never a synced setting', () => {

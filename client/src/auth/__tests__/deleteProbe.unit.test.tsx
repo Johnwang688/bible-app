@@ -12,6 +12,7 @@ import { DOMAINS, setNote } from '../../sync/__tests__/fixtures';
 import { AccountProvider, tokenSubject, useAccount } from '../AccountProvider';
 import { mapFirebaseAuthError } from '../firebaseErrors';
 import { AuthError, type AuthBackend, type AuthUser } from '../types';
+import { ALWAYS_ALLOWED } from '../signInGate';
 
 const mockClearSyncState = jest.fn();
 jest.mock('../../sync/engine', () => {
@@ -94,7 +95,7 @@ function setup(auth: Fake, deleteRequest: (token: string) => Promise<void>) {
   };
   const request = jest.fn(deleteRequest);
   const wrapper = ({ children }: { children: ReactNode }) => (
-    <AccountProvider auth={auth} storage={storage} remoteFor={remoteFor} domains={DOMAINS} deleteAccountRequest={request}>
+    <AccountProvider signInGate={ALWAYS_ALLOWED} auth={auth} storage={storage} remoteFor={remoteFor} domains={DOMAINS} deleteAccountRequest={request}>
       {children}
     </AccountProvider>
   );

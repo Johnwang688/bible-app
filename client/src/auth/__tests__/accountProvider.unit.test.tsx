@@ -10,6 +10,7 @@ import { DOMAINS, setNote } from '../../sync/__tests__/fixtures';
 import type { RemoteStore } from '../../sync/types';
 import { AccountProvider, useAccount } from '../AccountProvider';
 import { AuthError, type AccountState, type AuthBackend, type AuthUser } from '../types';
+import { ALWAYS_ALLOWED } from '../signInGate';
 
 // Wraps the real engine so the test sees every start and stop.
 const mockEngines = { live: new Set<number>(), maxLive: 0, started: [] as string[], nextId: 0 };
@@ -121,7 +122,7 @@ function setup(auth: Fake, extra: { deleteRequest?: (token: string) => Promise<v
   };
   const deleteRequest = jest.fn(extra.deleteRequest ?? (async () => undefined));
   const wrapper = ({ children }: { children: ReactNode }) => (
-    <AccountProvider auth={auth} storage={storage} remoteFor={remoteFor} domains={DOMAINS} deleteAccountRequest={deleteRequest}>
+    <AccountProvider signInGate={ALWAYS_ALLOWED} auth={auth} storage={storage} remoteFor={remoteFor} domains={DOMAINS} deleteAccountRequest={deleteRequest}>
       {children}
     </AccountProvider>
   );
@@ -268,7 +269,7 @@ describe('AccountProvider concurrency', () => {
     const warn = jest.spyOn(console, 'warn').mockImplementation(() => undefined);
     const storage = createStorage(memoryBackend());
     const wrapper = ({ children }: { children: ReactNode }) => (
-      <AccountProvider storage={storage} remoteFor={() => createMemoryRemote()} domains={DOMAINS}>
+      <AccountProvider signInGate={ALWAYS_ALLOWED} storage={storage} remoteFor={() => createMemoryRemote()} domains={DOMAINS}>
         {children}
       </AccountProvider>
     );

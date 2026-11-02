@@ -36,7 +36,7 @@ import type { SyncDomains } from '../sync/shapes';
 import type { RemoteStore, SyncEngine, SyncStatus } from '../sync/types';
 import { createAccountApi } from './accountApi';
 import { firebaseAuthCode } from './firebaseErrors';
-import { ALWAYS_ALLOWED, type SignInGate } from './signInGate';
+import { SIGN_IN_OFF, type SignInGate } from './signInGate';
 import { AuthError, type AccountState, type AccountStatus, type AuthBackend, type AuthUser, type SignInMethod } from './types';
 
 export interface AccountProviderProps {
@@ -53,8 +53,7 @@ export interface AccountProviderProps {
   deleteAccountRequest?: (idToken: string) => Promise<void>;
   /**
    * Whether sign-in and sync are allowed on this device (first run's Under 13 age choice turns them off).
-   * Default: always allowed. R-7a's first-run selector (a `storageGate` over its onboarding key) replaces
-   * this default when it merges.
+   * Default: `SIGN_IN_OFF` (fail closed). `_layout.tsx` passes R-7a's `signInGateFor()` once PR #33 merges.
    */
   signInGate?: SignInGate;
 }
@@ -105,7 +104,7 @@ function createDeps(p: AccountProviderProps): Deps {
       return createFirestoreRemote(getFirebaseDb(), uid);
     },
     domains: p.domains ?? DEFAULT_DOMAINS,
-    gate: p.signInGate ?? ALWAYS_ALLOWED,
+    gate: p.signInGate ?? SIGN_IN_OFF,
     deleteRequest(idToken) {
       if (!deleteRequest) {
         const api = createAccountApi({ baseUrl: getApiBaseUrl() });
@@ -641,7 +640,7 @@ const AccountContext = createContext<AccountState | null>(null);
 
 export function AccountProvider({ children, ...props }: AccountProviderProps) {
   const [controller] = useState(() => createController(createDeps(props)));
-  const [view, setView] = useState<View>(() => ({ status: 'loading', user: null, signInAllowed: isAllowed(props.signInGate ?? ALWAYS_ALLOWED) }));
+  const [view, setView] = useState<View>(() => ({ status: 'loading', user: null, signInAllowed: isAllowed(props.signInGate ?? SIGN_IN_OFF) }));
   const [sync, setSync] = useState<SyncStatus | null>(null);
 
   useEffect(

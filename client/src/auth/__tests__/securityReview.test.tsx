@@ -11,6 +11,7 @@ import { createAccountApi } from '../accountApi';
 import { AccountProvider, useAccount } from '../AccountProvider';
 import { firebaseEmulatorsEnabled } from '../firebaseConfig';
 import { AuthError, type AuthBackend, type AuthUser, type SignInMethod } from '../types';
+import { ALWAYS_ALLOWED } from '../signInGate';
 
 const ALICE: AuthUser = { uid: 'alice', email: 'alice@example.com' };
 const BOB: AuthUser = { uid: 'bob', email: 'bob@example.com' };
@@ -90,7 +91,7 @@ function setup(auth: FakeAuth, deleteRequest: (token: string) => Promise<void>) 
   };
   const request = jest.fn(deleteRequest);
   const wrapper = ({ children }: { children: ReactNode }) => (
-    <AccountProvider auth={auth} storage={storage} remoteFor={remoteFor} domains={DOMAINS} deleteAccountRequest={request}>
+    <AccountProvider signInGate={ALWAYS_ALLOWED} auth={auth} storage={storage} remoteFor={remoteFor} domains={DOMAINS} deleteAccountRequest={request}>
       {children}
     </AccountProvider>
   );

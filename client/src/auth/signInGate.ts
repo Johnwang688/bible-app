@@ -10,7 +10,17 @@ export interface SignInGate {
   subscribe(listener: () => void): () => void;
 }
 
-/** Sign-in is always allowed (the default until R-7a's first-run selector is wired in). */
+/**
+ * Sign-in and sync are off: the provider's default, so the Under 13 promise holds whatever order the PRs merge in
+ * (John, 2026-11-02: fail closed). R-7a's `signInGateFor()` replaces it in `_layout.tsx` once PR #33 is on main;
+ * that gate should also stay closed while the first-run state is unknown (the intro not finished).
+ */
+export const SIGN_IN_OFF: SignInGate = Object.freeze({
+  allowed: () => false,
+  subscribe: () => () => undefined,
+});
+
+/** Sign-in is always allowed: for tests and tools only. The app never uses it. */
 export const ALWAYS_ALLOWED: SignInGate = Object.freeze({
   allowed: () => true,
   subscribe: () => () => undefined,

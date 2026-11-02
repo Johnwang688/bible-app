@@ -10,6 +10,7 @@ import { createAccountApi } from '../accountApi';
 import { AccountProvider, useAccount } from '../AccountProvider';
 import { mapFirebaseAuthError } from '../firebaseErrors';
 import { AuthError, type AuthBackend, type AuthUser, type SignInMethod } from '../types';
+import { ALWAYS_ALLOWED } from '../signInGate';
 
 interface FakeAuth extends AuthBackend {
   log: string[];
@@ -98,7 +99,7 @@ function setup(opts: { auth?: FakeAuth; deleteRequest?: (token: string) => Promi
   };
   const deleteRequest = jest.fn(opts.deleteRequest ?? (async (_token: string) => undefined));
   const wrapper = ({ children }: { children: ReactNode }) => (
-    <AccountProvider auth={auth} storage={storage} remoteFor={remoteFor} domains={DOMAINS} deleteAccountRequest={deleteRequest}>
+    <AccountProvider signInGate={ALWAYS_ALLOWED} auth={auth} storage={storage} remoteFor={remoteFor} domains={DOMAINS} deleteAccountRequest={deleteRequest}>
       {children}
     </AccountProvider>
   );

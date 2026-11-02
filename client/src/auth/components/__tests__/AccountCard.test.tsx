@@ -18,6 +18,7 @@ import { AccountProvider } from '../../AccountProvider';
 import type { SignInGate } from '../../signInGate';
 import { AuthError, type AuthBackend, type AuthUser, type SignInMethod } from '../../types';
 import { AccountCard } from '../AccountCard';
+import { ALWAYS_ALLOWED } from '../../signInGate';
 
 const EN: DeviceLocale[] = [{ languageTag: 'en-US', languageCode: 'en', regionCode: 'US' }];
 const ZH: DeviceLocale[] = [{ languageTag: 'zh-Hans-CN', languageCode: 'zh', scriptCode: 'Hans', regionCode: 'CN' }];
@@ -97,7 +98,7 @@ async function renderCard(
     <SafeAreaProvider initialMetrics={{ frame: { x: 0, y: 0, width: 390, height: 844 }, insets: { top: 47, left: 0, right: 0, bottom: 34 } }}>
       <I18nProvider storage={storage} locales={opts.locales ?? EN}>
         <ThemeProvider storage={storage} systemScheme="light">
-          <AccountProvider
+          <AccountProvider signInGate={ALWAYS_ALLOWED}
             auth={auth}
             storage={storage}
             remoteFor={() => remote}

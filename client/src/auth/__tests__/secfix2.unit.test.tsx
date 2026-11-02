@@ -10,6 +10,7 @@ import { DOMAINS, setNote } from '../../sync/__tests__/fixtures';
 import { AccountProvider, useAccount } from '../AccountProvider';
 import { mapFirebaseAuthError } from '../firebaseErrors';
 import { AuthError, type AuthBackend, type AuthUser } from '../types';
+import { ALWAYS_ALLOWED } from '../signInGate';
 
 const mockClearSyncState = jest.fn();
 jest.mock('../../sync/engine', () => {
@@ -84,7 +85,7 @@ function setup(auth: Fake) {
     throw new AuthError('network', 'delete account timed out');
   };
   const wrapper = ({ children }: { children: ReactNode }) => (
-    <AccountProvider auth={auth} storage={storage} remoteFor={remoteFor} domains={DOMAINS} deleteAccountRequest={timedOut}>
+    <AccountProvider signInGate={ALWAYS_ALLOWED} auth={auth} storage={storage} remoteFor={remoteFor} domains={DOMAINS} deleteAccountRequest={timedOut}>
       {children}
     </AccountProvider>
   );

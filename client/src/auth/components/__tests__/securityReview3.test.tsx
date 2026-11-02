@@ -18,6 +18,7 @@ import { AccountProvider } from '../../AccountProvider';
 import { createAccountApi } from '../../accountApi';
 import { AuthError, type AuthBackend, type AuthUser } from '../../types';
 import { AccountCard } from '../AccountCard';
+import { ALWAYS_ALLOWED } from '../../signInGate';
 
 const mockPush = jest.fn();
 jest.mock('expo-router', () => ({
@@ -83,7 +84,7 @@ async function renderCard(opts: { auth: Fake; remote?: MemoryRemote; deleteReque
     <SafeAreaProvider initialMetrics={{ frame: { x: 0, y: 0, width: 390, height: 844 }, insets: { top: 47, left: 0, right: 0, bottom: 34 } }}>
       <I18nProvider storage={storage} locales={EN}>
         <ThemeProvider storage={storage} systemScheme="light">
-          <AccountProvider
+          <AccountProvider signInGate={ALWAYS_ALLOWED}
             auth={opts.auth}
             storage={storage}
             remoteFor={() => remote}
