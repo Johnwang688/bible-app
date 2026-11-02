@@ -33,6 +33,18 @@ def _delete_failed() -> HTTPException:
     return HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail=DELETE_FAILED_DETAIL)
 
 
+def _reenable(uid: str, app) -> None:
+    """After a failed step that followed (b2), let the user sign in again so a retry can finish the delete.
+
+    A sign-in after the marker may write again; the retry writes a newer marker and wipes again. If this fails
+    too, the account stays disabled (and takes no writes) until an operator finishes the delete.
+    """
+    try:
+        auth.update_user(uid, disabled=False, app=app)
+    except Exception as exc:
+        logger.error("Account deletion: re-enabling the auth user after a failure failed: %s", type(exc).__name__)
+
+
 @router.get("")
 def read_account(user: FirebaseUser = Depends(get_firebase_identity)) -> dict[str, str | None]:
     return {"uid": user.uid, "email": user.email}
@@ -84,6 +96,7 @@ def delete_account(user: FirebaseUser = Depends(get_firebase_user)) -> Response:
         db.recursive_delete(db.collection("users").document(uid))
     except Exception as exc:
         logger.warning("Account deletion: Firestore delete failed: %s", type(exc).__name__)
+        _reenable(uid, app)
         raise _delete_failed() from None
 
     # (d) Delete the auth user last.
@@ -93,6 +106,7 @@ def delete_account(user: FirebaseUser = Depends(get_firebase_user)) -> Response:
         pass
     except Exception as exc:
         logger.warning("Account deletion: deleting the auth user failed: %s", type(exc).__name__)
+        _reenable(uid, app)
         raise _delete_failed() from None
 
     return Response(status_code=status.HTTP_204_NO_CONTENT)

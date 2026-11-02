@@ -58,7 +58,7 @@ def fakes(monkeypatch):
     monkeypatch.setattr(fb_auth, "verify_id_token", verify_id_token)
     monkeypatch.setattr(fb_auth, "revoke_refresh_tokens", lambda uid, app=None: log.append(("revoke", uid)))
     monkeypatch.setattr(fb_auth, "delete_user", lambda uid, app=None: log.append(("delete_user", uid)))
-    monkeypatch.setattr(fb_auth, "update_user", lambda uid, app=None, **kw: log.append(("disable", uid)))
+    monkeypatch.setattr(fb_auth, "update_user", lambda uid, app=None, **kw: log.append(("disable" if kw.get("disabled") else "enable", uid)))
     monkeypatch.setattr(fb_firestore, "client", lambda app=None: state["db"] or Db())
     return log, state
 

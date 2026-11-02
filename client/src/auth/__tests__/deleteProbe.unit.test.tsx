@@ -144,7 +144,8 @@ describe('F3: a delete that fails with network', () => {
     expect(mockClearSyncState).toHaveBeenCalledWith(s.storage, 'alice');
   });
 
-  test.each(['wrong-credentials', 'unknown'] as const)('a refresh failing with %s also finishes the delete', async (kind) => {
+  // 'unknown' left out after S2-2 (security review r2): a codeless unknown failure is unconfirmed, not 'deleted'.
+  test.each(['wrong-credentials'] as const)('a refresh failing with %s also finishes the delete', async (kind) => {
     const auth = fakeAuth(ALICE);
     const s = setup(auth, timedOut);
     const view = await aliceWithData(auth, s);
