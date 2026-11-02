@@ -247,16 +247,16 @@ describe('the reading-time tracker', () => {
     expect(h.stored().goalMetDays).toEqual(['2026-11-02']);
   });
 
-  it('splits time at midnight: the new day starts its own total and evidence', () => {
+  it('splits time at midnight: each day gets its own part, and the new day its own evidence', () => {
     const h = setup(new Date(2026, 10, 2, 23, 59, 50).getTime());
     h.tracker.interact(JOHN3, 4);
     h.advance(5000);
     h.tracker.interact(JOHN3, 4);
-    h.advance(10_000); // now 00:00:05 on the 3rd
+    h.advance(10_000); // 23:59:55 → 00:00:05 on the 3rd: 5 s each side
     h.tracker.interact(JOHN3, 6);
     h.tracker.flush();
-    expect(h.stored().activeMs).toEqual({ '2026-11-02': 5000, '2026-11-03': 10_000 });
-    expect(h.stored().evidence).toEqual({ day: '2026-11-03', chapters: { '43:3': { furthestVerse: 6, engagedMs: 10_000 } } });
+    expect(h.stored().activeMs).toEqual({ '2026-11-02': 10_000, '2026-11-03': 5000 });
+    expect(h.stored().evidence).toEqual({ day: '2026-11-03', chapters: { '43:3': { furthestVerse: 6, engagedMs: 5000 } } });
   });
 
   it('two trackers on the same storage both land (each write reads the latest stored value)', () => {

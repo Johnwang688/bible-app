@@ -127,11 +127,30 @@ export const studyItemsKey: StorageKey<StudyItems> = {
 
 // ---- Reading progress (R-3): time read per day, the daily goal and the chapters explored ----
 
+/** Chapters per book, in canon order (1,189 in all). Progress keys must name a real chapter. */
+export const CHAPTER_COUNTS = [
+  50, 40, 27, 36, 34, 24, 21, 4, 31, 24, 22, 25, 29, 36, 10, 13, 10, 42, 150, 31, 12, 8, 66, 52, 5, 48, 12, 14, 3, 9, 1, 4,
+  7, 3, 3, 3, 2, 14, 4, 28, 16, 24, 21, 28, 16, 16, 13, 6, 6, 4, 4, 5, 3, 6, 4, 3, 1, 13, 5, 5, 3, 5, 1, 1, 1, 22,
+] as const;
+
 /** `"43:3"`: a chapter, in any translation. */
 export const chapterKey = (bookNumber: number, chapter: number): string => `${bookNumber}:${chapter}`;
-const chapterKeySchema = z.string().regex(/^([1-9]|[1-5]\d|6[0-6]):([1-9]\d{0,2})$/);
-/** A local calendar day, `"2026-11-02"`. */
-const dayKeySchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
+const chapterKeySchema = z
+  .string()
+  .regex(/^([1-9]|[1-5]\d|6[0-6]):([1-9]\d{0,2})$/)
+  .refine((k) => {
+    const [book, chapter] = k.split(':').map(Number) as [number, number];
+    return chapter <= CHAPTER_COUNTS[book - 1]!;
+  });
+/** A local calendar day, `"2026-11-02"`, that exists. */
+const dayKeySchema = z
+  .string()
+  .regex(/^\d{4}-\d{2}-\d{2}$/)
+  .refine((day) => {
+    const [y, m, d] = day.split('-').map(Number) as [number, number, number];
+    const date = new Date(Date.UTC(y, m - 1, d));
+    return date.getUTCFullYear() === y && date.getUTCMonth() === m - 1 && date.getUTCDate() === d;
+  });
 
 export const DEFAULT_GOAL_MINUTES = 10;
 export const MIN_GOAL_MINUTES = 5;
@@ -166,7 +185,7 @@ export const readingProgressKey: StorageKey<ReadingProgress> = {
     goalMetDays: z.array(dayKeySchema),
     chaptersRead: z.record(chapterKeySchema, z.string()),
     evidence: z.object({
-      day: z.string(),
+      day: z.union([z.literal(''), dayKeySchema]),
       chapters: z.record(
         chapterKeySchema,
         z.object({ furthestVerse: z.number().int().min(0), engagedMs: z.number().int().min(0) }),

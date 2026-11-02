@@ -7,6 +7,7 @@
 import { router } from 'expo-router';
 import { useCallback, useMemo, useSyncExternalStore } from 'react';
 
+import { readerPositionKey } from '../storage/keys';
 import { getStorage, type Storage } from '../storage/storage';
 import { useReaderPosition } from './state';
 
@@ -27,9 +28,12 @@ export const readerTargets = {
     pending = { ...t };
     notify();
   },
-  /** The reader calls this once it has shown the target. A no-op if a newer target replaced it. */
+  /**
+   * The reader calls this with the object `get()` returned, once it has shown it. A no-op if a newer target
+   * replaced it, even one for the same verses (each `set` makes a new object).
+   */
   done(t: ReaderTarget) {
-    if (pending && pending.bookNumber === t.bookNumber && pending.chapter === t.chapter && pending.start === t.start && pending.end === t.end) {
+    if (pending === t) {
       pending = null;
       notify();
     }
@@ -58,10 +62,12 @@ export function useOpenInReader(opts?: { storage?: Storage; navigate?: () => voi
   const navigate = opts?.navigate ?? goToBibleTab;
   return useCallback(
     (t: ReaderTarget) => {
+      // The translation the reader is in now: the stored one, which may be newer than this render's.
+      const translation = storage.get(readerPositionKey)?.translation ?? position.translation;
       readerTargets.set(t);
-      setPosition({ bookNumber: t.bookNumber, chapter: t.chapter, translation: position.translation });
+      setPosition({ bookNumber: t.bookNumber, chapter: t.chapter, translation });
       navigate();
     },
-    [navigate, position.translation, setPosition],
+    [navigate, position.translation, setPosition, storage],
   );
 }
