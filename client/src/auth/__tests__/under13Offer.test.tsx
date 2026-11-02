@@ -134,7 +134,7 @@ describe('Under 13 picked while signed in', () => {
 
   test('the offer survives a restart', async () => {
     const { s, view } = await pickUnder13WhileSignedIn();
-    view.unmount();
+    await view.unmount();
     const again = setup({ startSignedIn: false, storage: s.storage, backend: s.backend });
     const view2 = await renderHook(() => useAccount(), { wrapper: again.wrapper });
     await waitFor(() => expect(view2.result.current.status).toBe('signedOut'));
@@ -220,7 +220,7 @@ describe('Under 13 picked while signed in', () => {
     await act(async () => view.result.current.dismissUnder13Offer());
     expect(view.result.current.under13Offer).toBeNull();
     expect(s.auth.server.has(KID.email)).toBe(true);
-    view.unmount();
+    await view.unmount();
     const again = setup({ startSignedIn: false, storage: s.storage, backend: s.backend });
     const view2 = await renderHook(() => useAccount(), { wrapper: again.wrapper });
     await waitFor(() => expect(view2.result.current.status).toBe('signedOut'));
