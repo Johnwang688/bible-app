@@ -283,7 +283,7 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
   - **Round 1:** a rounding gap in the contrast guard (4.495:1 passed as 4.50), quick presses losing changes, a translation change overwriting a newer position, and the size row overflowing at 150%.
   - **Round 2:** the same "value captured at render" class on other paths, escalated to `implementer-hard`.
   - **Round 3:** it again, after the escalation (5a step 5). John chose to ship and fix in a follow-up.
-- **Known gaps (a follow-up PR; Sol's failing tests are parked in `C:\devible-app-work6a\pending\`):**
+- **Known gaps (a follow-up PR; Sol's failing tests are parked in `C:/dev/bible-app-work/r6a/pending/`):**
   - **F10:** coming from Liberty or Northern lights (no light/dark partner), choosing a paired preset can show its opposite partner.
   - **F11:** if the phone switches light/dark between render and a press, an edit or reset can target the previous preset.
   - **Root cause:** the ThemeProvider has no "preset showing now" call, so the screens infer it. The fix is a ThemeProvider call that resolves the stored choice against the phone's current scheme, then dropping `src/me/showingPreset.ts`.
