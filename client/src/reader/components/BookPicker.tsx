@@ -8,6 +8,7 @@ import type { BookInfo } from '../../api/schemas';
 import { uiFace } from '../../fonts/fonts';
 import { useI18n } from '../../i18n/I18nProvider';
 import type { AppLocale } from '../../i18n/types';
+import { useReadingProgress } from '../../progress';
 import { recentPassagesKey, type ReaderPosition } from '../../storage/keys';
 import { useStoredValue, type Storage } from '../../storage/storage';
 import { useTheme } from '../../theme/ThemeProvider';
@@ -50,6 +51,7 @@ export function BookPicker({
   const { t, locale } = useI18n();
   const insets = useSafeAreaInsets();
   const [recent] = useStoredValue(storage, recentPassagesKey);
+  const { isRead } = useReadingProgress({ storage });
   const sorted = useMemo(() => [...books].sort((a, b) => a.book_number - b.book_number), [books]);
   const current = findBook(books, position.bookNumber);
 
@@ -191,12 +193,13 @@ export function BookPicker({
                 <View style={styles.grid}>
                   {Array.from({ length: book.total_chapters }, (_, i) => i + 1).map((n) => {
                     const here = isCurrentBook && n === position.chapter;
+                    const read = isRead(book.book_number, n);
                     return (
                       <View key={n} style={styles.cell}>
                         <Pressable
                           testID={`picker-chapter-${n}`}
                           accessibilityRole="button"
-                          accessibilityLabel={t('picker.chapter', { n })}
+                          accessibilityLabel={t(read ? 'picker.chapterRead' : 'picker.chapter', { n })}
                           accessibilityState={{ selected: here }}
                           aria-selected={here}
                           onPress={() => choose(book.book_number, n)}
@@ -207,6 +210,15 @@ export function BookPicker({
                           ]}
                         >
                           <Text style={{ color: here ? theme.colors.onCta : theme.colors.btnText, fontFamily: uiBold, fontSize: 15 }}>{n}</Text>
+                          {read ? (
+                            // The number's own colour is the one that reads on this cell, selected or not.
+                            <View
+                              testID={`picker-chapter-${n}-read`}
+                              accessible={false}
+                              pointerEvents="none"
+                              style={[styles.readDot, { backgroundColor: here ? theme.colors.onCta : theme.colors.btnText }]}
+                            />
+                          ) : null}
                         </Pressable>
                       </View>
                     );
@@ -240,4 +252,5 @@ const styles = StyleSheet.create({
   grid: { flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -4, paddingBottom: 14 },
   cell: { width: `${100 / COLUMNS}%`, padding: 4 },
   chapter: { height: 44, alignItems: 'center', justifyContent: 'center' },
+  readDot: { position: 'absolute', top: 6, right: 6, width: 6, height: 6, borderRadius: 3 },
 });
