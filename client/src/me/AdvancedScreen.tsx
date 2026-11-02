@@ -1,14 +1,15 @@
 // Advanced (R-6a): every colour token the showing preset can edit, one row each. An edit is
-// applied only if custom.ts accepts it; a refusal says why and nothing is stored.
+// applied only if custom.ts accepts it; a refusal (Apply or Reset) says why and nothing is stored.
 import { useState } from 'react';
 import { Text } from 'react-native';
 
 import { uiFace } from '../fonts/fonts';
 import { useI18n } from '../i18n/I18nProvider';
-import { ACCENT_CHOICES, editableTokens, setTokenEdit, type ColorToken } from '../theme/custom';
+import { ACCENT_CHOICES, editableTokens, setTokenEdit, type ColorToken, type EditResult } from '../theme/custom';
 import { useAppearance, useTheme } from '../theme/ThemeProvider';
 import { AdvancedTokenRow } from './components/AdvancedTokenRow';
 import { CustomiseFrame } from './components/CustomiseFrame';
+import { useShowingPreset } from './showingPreset';
 
 const EXAMPLE_COLOUR = ACCENT_CHOICES[0].color;
 
@@ -20,37 +21,31 @@ export function AdvancedScreen(props: { onBack(): void }) {
   const [drafts, setDrafts] = useState<Partial<Record<ColorToken, string>>>({});
   const [errors, setErrors] = useState<Partial<Record<ColorToken, string>>>({});
 
-  const settle = (token: ColorToken) => {
-    setDrafts((d) => omit(d, token));
-    setErrors((e) => omit(e, token));
-  };
+  const showing = useShowingPreset();
 
-  const apply = (token: ColorToken, value: string) => {
-    // Built from the stored value at the moment of the press, so two quick applies both count.
+  // One edit (a colour, or null to reset), built from the stored value and the preset showing at
+  // the moment of the press. Only an applied write clears the row; a refusal keeps or shows its error.
+  const edit = (token: ColorToken, value: string | null) => {
+    const id = showing();
+    let result: EditResult | undefined;
     updateCustom((current) => {
-      const result = setTokenEdit(current, presetId, token, value);
-      if (result.ok) {
-        settle(token);
-        return result.custom;
-      }
-      const message =
-        result.reason === 'contrast'
-          ? t('advanced.error.contrast', {
-              count: result.failures.length,
-              ratio: formatNumber(Math.min(...result.failures.map((f) => f.ratio)), { maximumFractionDigits: 2 }),
-            })
-          : t('advanced.error.invalid', { example: EXAMPLE_COLOUR });
-      setErrors((e) => ({ ...e, [token]: message }));
-      return null;
-    });
-  };
-
-  const reset = (token: ColorToken) => {
-    updateCustom((current) => {
-      const result = setTokenEdit(current, presetId, token, null);
+      result = setTokenEdit(current, id, token, value);
       return result.ok ? result.custom : null;
     });
-    settle(token);
+    if (!result) return;
+    if (result.ok) {
+      setDrafts((d) => omit(d, token));
+      setErrors((e) => omit(e, token));
+      return;
+    }
+    const message =
+      result.reason === 'contrast'
+        ? t('advanced.error.contrast', {
+            count: result.failures.length,
+            ratio: formatNumber(Math.min(...result.failures.map((f) => f.ratio)), { maximumFractionDigits: 2 }),
+          })
+        : t('advanced.error.invalid', { example: EXAMPLE_COLOUR });
+    setErrors((e) => ({ ...e, [token]: message }));
   };
 
   const edits = custom.edits[presetId] ?? {};
@@ -74,8 +69,8 @@ export function AdvancedScreen(props: { onBack(): void }) {
           error={errors[token]}
           edited={edits[token] !== undefined}
           onDraft={(text) => setDrafts((d) => ({ ...d, [token]: text }))}
-          onApply={(text) => apply(token, text)}
-          onReset={() => reset(token)}
+          onApply={(text) => edit(token, text)}
+          onReset={() => edit(token, null)}
         />
       ))}
     </CustomiseFrame>

@@ -48,6 +48,15 @@ export function MeScreen({ onNavigate }: { onNavigate(to: MeRoute): void }) {
     close();
   };
 
+  const chooseParallel = (choice: 'off' | TranslationId) => {
+    // Read at press time: the main translation may have changed since this render, and the parallel
+    // text must never repeat it.
+    const storage = getStorage();
+    const main = (storage.get(readerPositionKey) ?? position).translation;
+    if (choice === main) return;
+    setSettings({ ...storage.get(readingSettingsKey), parallel: choice === 'off' ? null : choice });
+  };
+
   const parallelValue = settings.parallel === null ? t('me.value.off') : t(TRANSLATIONS[settings.parallel].shortKey);
 
   const languageChoices: MeChoice<LanguagePreference>[] = LANGUAGES.map((value) => ({
@@ -120,7 +129,7 @@ export function MeScreen({ onNavigate }: { onNavigate(to: MeRoute): void }) {
           titleKey="me.row.parallel"
           choices={parallelChoices}
           selected={settings.parallel ?? 'off'}
-          onChoose={(v) => setSettings({ ...getStorage().get(readingSettingsKey), parallel: v === 'off' ? null : v })}
+          onChoose={chooseParallel}
           onClose={close}
         />
       ) : null}

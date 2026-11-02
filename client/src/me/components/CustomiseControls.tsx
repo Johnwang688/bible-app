@@ -18,6 +18,7 @@ import {
 import { getTheme } from '../../theme/presets';
 import { useAppearance, useTheme } from '../../theme/ThemeProvider';
 import type { ModePreference } from '../../theme/types';
+import { useShowingPreset } from '../showingPreset';
 import { CustomisePressable } from './CustomisePressable';
 
 const MODES: readonly ModePreference[] = ['light', 'dark', 'system'];
@@ -73,6 +74,7 @@ export function CustomiseAccents() {
   const theme = useTheme();
   const { t } = useI18n();
   const { presetId, custom, updateCustom } = useAppearance();
+  const showing = useShowingPreset();
   const own = getTheme(presetId).colors.accent;
   const current = editedAccent(custom, presetId);
   const options: AccentOption[] = [
@@ -99,8 +101,10 @@ export function CustomiseAccents() {
             selected={on}
             disabled={blocked}
             onPress={() => {
+              // The preset showing at the press, not at render: a look picked just before is counted.
+              const id = showing();
               updateCustom((current) => {
-                const result = setAccent(current, presetId, o.fixed ? o.color : null);
+                const result = setAccent(current, id, o.fixed ? o.color : null);
                 return result.ok ? result.custom : null;
               });
             }}

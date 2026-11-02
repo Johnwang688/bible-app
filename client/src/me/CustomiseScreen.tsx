@@ -18,6 +18,9 @@ import { CustomiseFrame, CustomiseLabel } from './components/CustomiseFrame';
 import { CustomisePresetRow } from './components/CustomisePresetRow';
 import { CustomisePressable } from './components/CustomisePressable';
 import { CustomisePreview } from './components/CustomisePreview';
+import { useShowingPreset } from './showingPreset';
+
+const modeOf = (id: PresetId) => PRESETS.find((p) => p.id === id)?.mode;
 
 export function CustomiseScreen(props: { onBack(): void; onAdvanced(): void }) {
   const theme = useTheme();
@@ -26,10 +29,14 @@ export function CustomiseScreen(props: { onBack(): void; onAdvanced(): void }) {
   const [reading] = useReadingSettings();
   const presetName = t(`preset.${presetId}`);
 
+  const showing = useShowingPreset();
+
   const pick = (id: PresetId) => {
-    const mode = PRESETS.find((p) => p.id === id)?.mode;
-    // Same mode as now showing: keep the mode setting. Otherwise switch so the new look shows.
-    updateChoice((current) => ({ preset: id, mode: mode === undefined || mode === theme.mode ? current.mode : mode }));
+    const mode = modeOf(id);
+    // Same mode as the preset showing at the press: keep the mode setting. Otherwise switch so the
+    // new look shows. Both read from the stored choice, so a mode press just before is counted.
+    const shownMode = modeOf(showing());
+    updateChoice((current) => ({ preset: id, mode: mode === undefined || mode === shownMode ? current.mode : mode }));
   };
 
   // Built from the stored settings at the moment of the press, so quick presses each count and
@@ -53,7 +60,10 @@ export function CustomiseScreen(props: { onBack(): void; onAdvanced(): void }) {
           testID="customise-reset"
           role="button"
           label={t('customise.reset.a11y', { preset: presetName })}
-          onPress={() => updateCustom((current) => resetPreset(current, presetId))}
+          onPress={() => {
+            const id = showing();
+            updateCustom((current) => resetPreset(current, id));
+          }}
           style={[styles.reset, { borderRadius: theme.radii.button, borderWidth: theme.borders.button?.width ?? 1, borderColor: theme.borders.button?.color ?? theme.colors.muted }]}
         >
           <Text style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 14 }}>{t('customise.reset')}</Text>
