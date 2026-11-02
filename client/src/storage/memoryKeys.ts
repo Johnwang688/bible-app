@@ -85,15 +85,23 @@ export interface MemorySettings {
   speech: 'mandarin' | 'cantonese';
   /** The Chinese script the library is shown in. */
   script: 'simplified' | 'traditional';
+  /** Voice answers on. Off: typing only, nothing is recorded or uploaded. */
+  voice: boolean;
+  /** The consent sheet was answered with Allow. */
+  voiceConsent: boolean;
 }
 
-/** Memory settings: the speech language and the script. */
+/** Memory settings: the speech language, the script and the voice choices. v2 added `voice` and `voiceConsent`. */
 export const memorySettingsKey: StorageKey<MemorySettings> = {
   key: 'memory.settings',
-  version: 1,
+  version: 2,
   schema: z.object({
     speech: z.enum(['mandarin', 'cantonese']),
     script: z.enum(['simplified', 'traditional']),
+    voice: z.boolean(),
+    voiceConsent: z.boolean(),
   }),
-  fallback: { speech: 'mandarin', script: 'simplified' },
+  fallback: { speech: 'mandarin', script: 'simplified', voice: true, voiceConsent: false },
+  migrate: (from, data) =>
+    from === 1 && data !== null && typeof data === 'object' ? { ...data, voice: true, voiceConsent: false } : undefined,
 };
