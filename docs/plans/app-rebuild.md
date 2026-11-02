@@ -238,6 +238,14 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
   - the Hebrew and Greek fonts.
 - **Known gap:** changing chapter while a note is half-written drops the unsaved draft. John merged R-2 with it (2026-11-02); fix it in a later phase.
 
+**R-4 notes (2026-11-02).**
+- **Home is built as signed off** (Home.dc.html, the stack layout). It shows the greeting and streak chip, today's goal, continue reading, the verse of the day and Surprise me, in both languages and every preset. Home only reads progress and the position, so whatever the reader records shows at once.
+- **Surprise me** is the SM-1 picker, ported with its tests: a random chapter, 90% from unread chapters, picking the book first. It never picks the chapter the reader is on (the stored one), keeps the reader's translation, clears any stale "open in context" target, and is disabled until the book list loads. There is no result screen: it opens the chapter in the Bible tab.
+- **The verse of the day:** a curated list of 60 verses, one per local calendar day, the same for everyone on that date. It is shown in the reader's translation, with CUV alternate readings removed. Tapping it opens the verse in context; Share uses the system sheet, or the clipboard on desktop browsers.
+- **Continue reading:** the subtitle is the translation's full name. The design's "Verse 16 · yesterday" needs the last verse and the time read, which the app does not store.
+- **Time of day:** Home re-renders when the day or the greeting band changes (05:00, 12:00, 17:00, midnight), and when the app returns to the foreground. It took three Sol rounds.
+- **Waiting for John's approval of the prototypes** (`design/proposed/r4-goal-sheet.html`, `r4-home-empty.html`): the daily-goal sheet (the goal card's tap does nothing until then), the "Start reading" card for a new reader, and the verse of the day's error state (until then the card shows only its label when the verse can't load). The goal rules (`client/src/home/goal.ts`) are built and tested. The card (R4-goal) and its tests are ready, so this lands as a follow-up commit once approved.
+
 **Moving aurora (John, 2026-11-02).** The glass presets' background moves instead of showing fixed orbs. Prototype: https://claude.ai/artifact/7a4knhcqYFhVAn45NwDfrD.
 - **Two styles, chosen in Me → Appearance:** a fluid simulation, the default, which the reader can stir with a finger; and a lighter flow shader. Both render at half resolution and scale up.
 - **Vivid colours, readable text:** the colours are not capped. Text that sits directly on the aurora gets a soft shadow so it stays readable; R-7 works out how the contrast test measures shadowed text. Scripture still never sits on the aurora.
