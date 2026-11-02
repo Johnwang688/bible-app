@@ -2,8 +2,7 @@
 // first-run screens and the aurora option put on the moving aurora, measured over the aurora's own colours
 // (every one of the three, and the base), not just the base.
 import { auroraPalette, type Rgb } from '../../aurora/palette';
-import { auroraTextShadow } from '../../aurora/textShadow';
-import { shadowedContrast } from '../../aurora/textShadow';
+import { auroraTextShadow, shadowedContrast } from '../../aurora/textShadow';
 import { composite, contrastRatio, MIN_TEXT_CONTRAST, parseColor } from '../../theme/contrast';
 import { getTheme } from '../../theme/presets';
 import { PRESET_IDS, type Background, type Theme } from '../../theme/types';

@@ -89,7 +89,7 @@ async function toAge(opts?: Opts) {
 function mutedOffCard(preset: PresetId): string[] {
   const muted = getTheme(preset).colors.muted;
   const out: string[] = [];
-  for (const t of screen.UNSAFE_root.findAll((n) => typeof n.type === 'string' && n.type === 'Text', { deep: true })) {
+  for (const t of screen.container.queryAll((n) => n.type === 'Text')) {
     const colour = StyleSheet.flatten(t.props.style)?.color;
     if (colour !== muted) continue;
     let onCard = false;
@@ -310,7 +310,7 @@ describe('step 3: your age', () => {
     const a = await toAge();
     await press(button('Start reading'));
     expect(a.get(onboardingKey)).toEqual({ done: true, ageRange: null });
-    screen.unmount();
+    await screen.unmount();
     const b = await toAge();
     await press(radio('Prefer not to say'));
     await press(button('Start reading'));
@@ -373,7 +373,7 @@ describe('on the aurora', () => {
   it.each(steps)('%s: glass looks show the aurora, pastel looks do not', async (_name, go) => {
     await go({ appearance: { preset: 'silver', mode: 'system' } });
     expect(screen.getAllByTestId('aurora-background').length).toBeGreaterThan(0);
-    screen.unmount();
+    await screen.unmount();
     await go({ appearance: { preset: 'strawberry-milk', mode: 'system' } });
     expect(screen.queryAllByTestId('aurora-background')).toHaveLength(0);
   });
@@ -386,7 +386,7 @@ describe('on the aurora', () => {
     ] as const) {
       await go({ scheme, appearance: { preset, mode: 'system' } });
       expect([preset, mutedOffCard(preset)]).toEqual([preset, []]);
-      screen.unmount();
+      await screen.unmount();
     }
   });
 });

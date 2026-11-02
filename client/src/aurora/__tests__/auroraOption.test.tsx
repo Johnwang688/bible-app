@@ -118,7 +118,7 @@ describe('the Moving background option', () => {
     expect(screen.getByRole('radio', { name: /^流体/ })).toBeTruthy();
     expect(screen.getByRole('radio', { name: /^流光/ })).toBeTruthy();
     expect(textOf(screen.getByTestId('aurora-option-note'))).toBe('手机开启“减弱动态效果”时，背景保持静止。');
-    screen.unmount();
+    await screen.unmount();
     await show('silver', { locale: ZH, reduceMotion: true });
     expect(textOf(screen.getByTestId('aurora-option-note'))).toBe('手机已开启“减弱动态效果”，所以动画已关闭。');
   });
@@ -127,7 +127,7 @@ describe('the Moving background option', () => {
     await show(preset);
     const muted = getTheme(preset).colors.muted;
     const off: string[] = [];
-    for (const t of screen.UNSAFE_root.findAll((n) => n.type === 'Text', { deep: true })) {
+    for (const t of screen.container.queryAll((n) => n.type === 'Text')) {
       if (StyleSheet.flatten(t.props.style)?.color !== muted) continue;
       let onCard = false;
       for (let n = t.parent; n; n = n.parent) {

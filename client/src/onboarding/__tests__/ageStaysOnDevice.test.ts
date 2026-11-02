@@ -49,13 +49,13 @@ describe('the age choice never leaves the device', () => {
     expect(bad).toEqual([]);
   });
 
-  it('outside the root layout, other modules import only the sign-in selector (a boolean), never the age', () => {
+  it('outside the root layout, other modules import only the sign-in selector (a boolean) or the paint helpers, never the age', () => {
     const bad = outside
       .filter((f) => f !== 'app/_layout.tsx')
       .flatMap((f) =>
         imports(readSource(f))
           .filter(fromOnboarding)
-          .filter((s) => !/(^|\/)onboarding\/signIn$/.test(s))
+          .filter((s) => !/(^|\/)onboarding\/(signIn|paint)$/.test(s))
           .map((s) => `${f}: ${s}`),
       );
     expect(bad).toEqual([]);
