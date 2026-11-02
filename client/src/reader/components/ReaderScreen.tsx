@@ -25,6 +25,7 @@ import { ReadingSettingsSheet } from './ReadingSettingsSheet';
 import { useArrowKeys } from './useArrowKeys';
 import { useChapterSwipe, type SwipeDirection } from './useChapterSwipe';
 import { useCollapsingHeader } from './useCollapsingHeader';
+import { useHideTabBar } from './useHideTabBar';
 import { useTabFocused } from './useTabFocused';
 import { VerseSheet } from './VerseSheet';
 import { VersionPicker } from './VersionPicker';
@@ -173,6 +174,8 @@ export function ReaderScreen(props: { storage?: Storage; locales?: readonly Devi
   const [sheetHeight, setSheetHeight] = useState(0);
   const verseSheetOpen = !!(range && sheetOpen && book && firstQuery.data);
   const sheetRoom = verseSheetOpen ? sheetHeight : 0;
+  // The sheet takes the bottom of the screen; the (floating) tab bar would cover its last row.
+  useHideTabBar(verseSheetOpen);
 
   // Each verse-tools button, so focus can go back to it when the sheet closes.
   const toolsRefs = useRef(new Map<number, unknown>());
