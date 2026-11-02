@@ -4,8 +4,11 @@
 //
 // Concurrency: a request id (`gen`) is bumped by every new recording, send and cancel, so a tick, an auto-stop or a
 // transcription that settles after Cancel, after Try again or after unmount is ignored. `busy` latches the stop /
-// auto-stop / send chain so a double tap or a stop racing the 30 s cap sends once.
-import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
+// auto-stop / send chain so a double tap or a stop racing the 30 s cap sends once. Each answer goes out with its own
+// AbortSignal, aborted by Cancel (while it is checked or graded) and by unmounting, so the trainer's grade, which
+// awaits too, becomes a no-op. `onAnswer` is always the latest render's: the auto-stop callback and a pending send
+// hold an older render's closure, and must not grade with the state that render saw.
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { ActivityIndicator, Linking, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { uiFace } from '../../../fonts/fonts';
@@ -49,7 +52,11 @@ export interface VoicePanelProps {
   placeholder: string;
   /** "Heard differently? Type it": opens the field already holding what was heard. */
   initialTyped?: string;
-  onAnswer(text: string, via: 'voice' | 'typed'): void | Promise<void>;
+  /**
+   * A transcript or typed answer. `signal` aborts when the answer stops belonging to this panel's attempt (Cancel
+   * while it is graded, the panel unmounting); a grade still pending then must record and show nothing.
+   */
+  onAnswer(text: string, via: 'voice' | 'typed', signal: AbortSignal): void | Promise<void>;
 }
 
 export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer }: VoicePanelProps) {
@@ -77,7 +84,12 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
   const busy = useRef(false);
   const modeRef = useRef<Mode>('idle');
   const abort = useRef<AbortController | null>(null);
+  const typedAbort = useRef<AbortController | null>(null);
   const checking = useRef(false);
+  const answer = useRef(onAnswer);
+  useLayoutEffect(() => {
+    answer.current = onAnswer;
+  });
   const go = (next: Mode) => {
     modeRef.current = next;
     setMode(next);
@@ -91,6 +103,7 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
     return () => {
       mounted.current = false;
       abort.current?.abort();
+      typedAbort.current?.abort();
       if (modeRef.current === 'recording' || modeRef.current === 'starting') recorder.cancel();
     };
   }, [recorder]);
@@ -161,14 +174,15 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
       outcome = { kind: 'error' };
     }
     if (id !== gen.current || !mounted.current) return; // cancelled, retried or gone: a late answer is ignored
-    abort.current = null;
     const now = Date.now();
     recordVoiceOutcome(outcome, now);
     if (outcome.kind === 'limit') lastLimit = { until: now + outcome.retryAfterS * 1000, window: outcome.window };
     if (outcome.kind === 'text') {
+      // The controller stays live while the trainer grades: Cancel (still on screen) or unmounting aborts the grade.
       try {
-        await onAnswer(outcome.text, 'voice');
+        await answer.current(outcome.text, 'voice', controller.signal);
       } finally {
+        if (abort.current === controller) abort.current = null;
         if (mounted.current && id === gen.current) {
           busy.current = false;
           go('idle');
@@ -176,6 +190,7 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
       }
       return;
     }
+    abort.current = null;
     busy.current = false;
     if (outcome.kind === 'signed-out') setLocal('signed-out');
     else if (outcome.kind === 'offline') setLocal('offline');
@@ -253,8 +268,11 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
     const text = typed.trim();
     if (text === '' || checking.current) return;
     checking.current = true;
-    void Promise.resolve(onAnswer(text, 'typed')).finally(() => {
+    const controller = new AbortController();
+    typedAbort.current = controller;
+    void Promise.resolve(answer.current(text, 'typed', controller.signal)).finally(() => {
       checking.current = false;
+      if (typedAbort.current === controller) typedAbort.current = null;
     });
   };
 

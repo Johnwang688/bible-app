@@ -1,6 +1,6 @@
 // Trainer 3: say (or type) the whole verse with its reference. The verse is hidden; the reference may come first or
 // last. The result draws the verse against the grader's alignment and says how the reference was read.
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { uiFace } from '../../../fonts/fonts';
@@ -13,6 +13,7 @@ import { parseSpokenReference, referenceForms, toTraditionalTitle } from '../../
 import { MemButton, MemCard, SectionLabel } from '../parts';
 import { useChineseFont } from '../useChineseFont';
 import { AlikeNote, DiffText, Legend } from './DiffText';
+import { useAttempt } from './hooks';
 import { TrainerIcon } from './icons';
 import { HintPassNote, Note, ResultActions, ResultHeader, type Verdict } from './ResultPanel';
 import { referenceOf, RefBlock, StepTitle, TrainerShell } from './TrainerShell';
@@ -39,29 +40,24 @@ export function FullRecallTrainer({ ctx }: { ctx: TrainerCtx }) {
   const reference = referenceOf(verse, ctx.script);
 
   const [hint, setHint] = useState<0 | 1 | 2>(0);
-  const [hinted, setHinted] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
   const [round, setRound] = useState(0);
   const [prefill, setPrefill] = useState<string | undefined>(undefined);
-  const mounted = useRef(true);
-  const grading = useRef(false);
-  useEffect(() => {
-    mounted.current = true;
-    return () => {
-      mounted.current = false;
-    };
-  }, []);
+  const attempt = useAttempt();
 
-  const grade = async (transcript: string, via: 'voice' | 'typed') => {
-    if (grading.current) return;
-    grading.current = true;
+  const grade = async (transcript: string, via: 'voice' | 'typed', signal?: AbortSignal) => {
+    const ticket = attempt.begin(signal);
+    if (!ticket) return;
     try {
       let keyer: SpeechKeyer = MANDARIN_SYNC_KEYER;
       if (via === 'voice') keyer = await loadSpeechKeyer(ctx.settings.speech).catch(() => MANDARIN_SYNC_KEYER);
-      if (!mounted.current) return;
+      // Cancelled, a new round or left while the keyer loaded: the answer no longer belongs to the attempt on screen.
+      if (!ticket.live()) return;
       const verdict = gradeStep(verse.id, 'full-recall', { kind: 'recall', transcript }, keyer);
       const display = recallDisplay(transcript, verse, keyer, ctx.script);
-      // A hint or a peek is shown, never recorded: the step only counts when it passes without one.
+      // A hint or a peek is shown, never recorded: the step only counts when it passes without one. Hint use is read
+      // now, so a hint opened while recording or while this answer was graded counts.
+      const hinted = attempt.hinted();
       if (!hinted) ctx.record(verdict.passed);
       setResult({
         verdict: !verdict.passed ? 'fail' : hinted ? 'hint-pass' : 'pass',
@@ -71,20 +67,21 @@ export function FullRecallTrainer({ ctx }: { ctx: TrainerCtx }) {
         fromVoice: via === 'voice',
       });
     } finally {
-      grading.current = false;
+      ticket.done();
     }
   };
 
-  /** A fresh attempt: hint use is cleared with it. */
+  /** A fresh attempt: hint use is cleared with it, and a grade still pending is void. */
   const reset = () => {
+    attempt.newRound(false);
     setHint(0);
-    setHinted(false);
     setResult(null);
     setPrefill(undefined);
     setRound((r) => r + 1);
   };
   /** Correcting a misheard answer by typing is the same attempt, so hint use stays with it. */
   const typeWhatWasHeard = (said: string) => {
+    attempt.newRound(true);
     setResult(null);
     setPrefill(said);
     setRound((r) => r + 1);
@@ -214,8 +211,8 @@ export function FullRecallTrainer({ ctx }: { ctx: TrainerCtx }) {
             label={t(hint === 0 ? 'memory.hint' : hint === 1 ? 'memory.hint.showVerse' : 'memory.hint.hideVerse')}
             onPress={() => {
               if (hint === 0) {
+                attempt.markHinted();
                 setHint(1);
-                setHinted(true);
               } else setHint(hint === 1 ? 2 : 0);
             }}
           />
