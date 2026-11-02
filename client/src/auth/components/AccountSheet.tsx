@@ -108,13 +108,31 @@ export function AccountSheet({
     if (!deleting) onClose();
   }, [deleting, onClose]);
 
-  /** Starts a request; the returned check says whether its result still matters. */
+  /**
+   * The request that owns the current view's form (its seq), or 0. Set synchronously: a second submit in the same
+   * turn (two Return presses before React commits `busy`) sees it, where the `busy` state it closed over is stale.
+   * Without it the second submit took the seq over, so its own rejection ("already in progress") reset `busy` and
+   * Close/Cancel unlocked while the first request (a delete) still ran.
+   */
+  const owner = useRef(0);
+
+  /**
+   * Starts a request, or returns null when one is already running for this view (leaving the view with `go`
+   * abandons it, as before). `current()` says whether its result still matters; `finish()` ends it.
+   */
   const begin = useCallback(() => {
+    if (owner.current !== 0 && owner.current === seq.current) return null;
     const mine = ++seq.current;
+    owner.current = mine;
     setBusy(true);
     setError(null);
     setDeleteMessage(null);
-    return () => alive.current && seq.current === mine;
+    const current = () => alive.current && seq.current === mine;
+    const finish = () => {
+      if (owner.current === mine) owner.current = 0;
+      if (current()) setBusy(false);
+    };
+    return { current, finish };
   }, []);
 
   const go = useCallback((next: SheetView) => {
@@ -153,14 +171,16 @@ export function AccountSheet({
     const trimmed = email.trim();
     if (!checkEmail(trimmed)) return;
     if (password.length === 0) return setError({ key: 'auth.error.wrongCredentials', place: 'form' });
-    const current = begin();
+    const request = begin();
+    if (!request) return;
+    const { current } = request;
     try {
       await account.signIn({ kind: 'password', email: trimmed, password });
       if (current()) onClose();
     } catch (e) {
       if (current()) setError(authError(e));
     } finally {
-      if (current()) setBusy(false);
+      request.finish();
     }
   };
 
@@ -169,14 +189,16 @@ export function AccountSheet({
     const trimmed = email.trim();
     if (!checkEmail(trimmed)) return;
     if (password.length < MIN_PASSWORD_LENGTH) return setError({ key: 'auth.signUp.tooShort', place: 'password' });
-    const current = begin();
+    const request = begin();
+    if (!request) return;
+    const { current } = request;
     try {
       await account.signUp(trimmed, password);
       if (current()) onClose();
     } catch (e) {
       if (current()) setError(authError(e));
     } finally {
-      if (current()) setBusy(false);
+      request.finish();
     }
   };
 
@@ -184,20 +206,24 @@ export function AccountSheet({
     if (busy) return;
     const trimmed = email.trim();
     if (!checkEmail(trimmed)) return;
-    const current = begin();
+    const request = begin();
+    if (!request) return;
+    const { current } = request;
     try {
       await account.sendPasswordReset(trimmed);
       if (current()) setSent(true);
     } catch (e) {
       if (current()) setError(authError(e));
     } finally {
-      if (current()) setBusy(false);
+      request.finish();
     }
   };
 
   const submitDelete = async () => {
     if (busy || deletePassword.length === 0) return;
-    const current = begin();
+    const request = begin();
+    if (!request) return;
+    const { current } = request;
     try {
       await account.deleteAccount(deletePassword);
       onDeleted();
@@ -205,13 +231,15 @@ export function AccountSheet({
     } catch (e) {
       if (current()) setDeleteMessage(deleteError(e));
     } finally {
-      if (current()) setBusy(false);
+      request.finish();
     }
   };
 
   const submitOfferDelete = async () => {
     if (busy || deletePassword.length === 0) return;
-    const current = begin();
+    const request = begin();
+    if (!request) return;
+    const { current } = request;
     try {
       await account.deleteOfferedAccount(deletePassword);
       onDeleted();
@@ -221,7 +249,7 @@ export function AccountSheet({
       const key = deleteError(e);
       if (current()) setDeleteMessage(key === 'delete.error.network' ? 'account.under13Offer.network' : key);
     } finally {
-      if (current()) setBusy(false);
+      request.finish();
     }
   };
 
