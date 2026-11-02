@@ -124,6 +124,14 @@ def canonical_origin(origin: str) -> str:
         labels = host.rstrip(".").split(".")
         if not all(_HOST_LABEL.fullmatch(label) for label in labels):
             raise bad
+        for label in labels:
+            if label.startswith("xn--"):
+                # Malformed punycode is rejected by browsers' URL parsers: it must decode and round-trip.
+                try:
+                    if label.encode("ascii").decode("idna").encode("idna") != label.encode("ascii"):
+                        raise bad
+                except UnicodeError:
+                    raise bad from None
         if _NUMERIC_LABEL.fullmatch(labels[-1]):
             # Browsers parse this as IPv4 (and rewrite shorthand, hex and octal): only a canonical
             # dotted quad is accepted.

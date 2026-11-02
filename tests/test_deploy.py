@@ -362,3 +362,17 @@ def test_review2_cors_rejects_non_canonical_hosts(origin):
     # Rejected, not guessed at: the operator gives the exact ASCII form the browser sends.
     with pytest.raises(ValueError):
         deploy.canonical_origin(origin)
+
+
+# --- Sol review round 3 -------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize("origin", ["https://xn--a.web.app", "https://xn--.web.app", "https://xn--zz-.web.app"])
+def test_review3_cors_rejects_malformed_punycode(origin):
+    # WHATWG URL rejects these, so no browser can send a matching Origin.
+    with pytest.raises(ValueError):
+        deploy.canonical_origin(origin)
+
+
+def test_review3_cors_keeps_valid_punycode():
+    assert deploy.canonical_origin("https://xn--bcher-kva.web.app") == "https://xn--bcher-kva.web.app"
