@@ -18,4 +18,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY --from=content /out/content.sqlite ./build/content.sqlite
 COPY app ./app
 
+# Run as an unprivileged user; the app only reads its files (the content DB opens immutable).
+RUN useradd --system --no-create-home --uid 10001 app
+USER app
+
 CMD ["sh", "-c", "exec uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8080}"]
