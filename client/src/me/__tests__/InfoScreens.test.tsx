@@ -25,7 +25,7 @@ describe('Sources and credits', () => {
     ]) {
       expect(screen.getByText(s)).toBeTruthy();
     }
-    const open = jest.spyOn(Linking, 'openURL').mockResolvedValue(true);
+    const open = jest.spyOn(Linking, 'openURL').mockResolvedValue(undefined);
     const link = screen.getByTestId('credits-step-link');
     expect(link.props.accessibilityRole).toBe('link');
     await act(async () => fireEvent.press(link));

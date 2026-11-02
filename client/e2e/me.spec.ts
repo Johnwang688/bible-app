@@ -10,7 +10,7 @@ async function stored<T>(page: Page, key: string): Promise<T | null> {
 
 async function openMe(page: Page) {
   await page.goto('/');
-  await page.getByRole('tab', { name: /Me tab|我的/ }).click();
+  await page.getByTestId('tab-me').click();
   await expect(page.getByTestId('screen-me')).toBeVisible();
 }
 
@@ -37,7 +37,7 @@ test.describe('Me (English)', () => {
     expect(await bodyBackground(page)).not.toBe(before);
 
     await page.reload();
-    await page.getByRole('tab', { name: 'Me tab' }).click();
+    await page.getByTestId('tab-me').click();
     await expect(page.getByTestId('me-row-look-value')).toHaveText('Matcha latte');
   });
 
