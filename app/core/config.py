@@ -46,6 +46,8 @@ class Settings(BaseSettings):
 
     # Firebase (Admin SDK uses Application Default Credentials; this only pins the project)
     firebase_project_id: str = Field(default="bible-app-492520", alias="FIREBASE_PROJECT_ID")
+    # App Check on the user endpoints: monitor (log only), enforce (401), off; anything else is enforce.
+    app_check_mode: str = Field(default="monitor", alias="APP_CHECK_MODE")
 
     # Google OAuth
     google_client_id: str = Field(default="", alias="GOOGLE_CLIENT_ID")

@@ -1,14 +1,24 @@
 // The backend's account endpoints (R-6b): "delete my data". The ID token goes in the Authorization
-// header and is never logged.
+// header and is never logged. The App Check token (web only; null on native for now) goes in
+// X-Firebase-AppCheck when there is one; without one the request still goes (the backend is in monitor
+// mode, docs/app-check.md).
 import { AuthError } from './types';
 
 export const ACCOUNT_REQUEST_TIMEOUT_MS = 15_000;
+/** How long a request waits for an App Check token before it goes without one. */
+export const APP_CHECK_TOKEN_TIMEOUT_MS = 5_000;
 
 export interface AccountApiOptions {
   /** The backend base URL without a trailing slash (api/config.ts `getApiBaseUrl`). */
   baseUrl: string;
-  fetch?: typeof fetch;
+  /** Called with a string URL; `globalThis.fetch` by default. */
+  fetch?: (url: string, init?: RequestInit) => Promise<Response>;
   timeoutMs?: number;
+  /**
+   * The App Check token for the request; null or a rejection sends no header. Defaults to `getAppCheckToken`
+   * from ./appCheck, loaded only when a request is made (loading this file loads nothing from Firebase).
+   */
+  appCheckToken?: () => Promise<string | null>;
 }
 
 export interface AccountApi {
@@ -25,6 +35,36 @@ async function detailOf(res: Response): Promise<unknown> {
   }
 }
 
+function defaultAppCheckToken(): Promise<string | null> {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { getAppCheckToken } = require('./appCheck') as typeof import('./appCheck');
+  return getAppCheckToken();
+}
+
+/**
+ * The App Check token, or null; never rejects and waits at most APP_CHECK_TOKEN_TIMEOUT_MS (a failing or
+ * slow provider means "no header", not "no request").
+ */
+async function appCheckTokenOf(source: () => Promise<string | null>): Promise<string | null> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<null>((resolve) => {
+    timer = setTimeout(() => resolve(null), APP_CHECK_TOKEN_TIMEOUT_MS);
+  });
+  const token = (async () => {
+    try {
+      const value = await source();
+      return typeof value === 'string' && value.trim() !== '' ? value : null;
+    } catch {
+      return null;
+    }
+  })();
+  try {
+    return await Promise.race([token, timeout]);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 export function createAccountApi(opts: AccountApiOptions): AccountApi {
   const baseUrl = opts.baseUrl.replace(/\/+$/, '');
   const timeoutMs = opts.timeoutMs ?? ACCOUNT_REQUEST_TIMEOUT_MS;
@@ -32,13 +72,16 @@ export function createAccountApi(opts: AccountApiOptions): AccountApi {
   return {
     async deleteAccount(idToken) {
       const doFetch = opts.fetch ?? globalThis.fetch;
+      const headers: Record<string, string> = { Authorization: `Bearer ${idToken}` };
+      const appCheckToken = await appCheckTokenOf(opts.appCheckToken ?? defaultAppCheckToken);
+      if (appCheckToken) headers['X-Firebase-AppCheck'] = appCheckToken;
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), timeoutMs);
       let res: Response;
       try {
         res = await doFetch(`${baseUrl}/api/v1/account`, {
           method: 'DELETE',
-          headers: { Authorization: `Bearer ${idToken}` },
+          headers,
           signal: controller.signal,
         });
       } catch (e) {
