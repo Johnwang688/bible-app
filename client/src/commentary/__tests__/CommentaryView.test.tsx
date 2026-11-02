@@ -178,6 +178,27 @@ describe('CommentaryView', () => {
     expect(await screen.findByTestId('commentary-entry-2640')).toBeTruthy();
     expect(screen.queryByTestId('commentary-verse')).toBeNull();
   });
+  // Sol review, round 1: kills a surviving mutant.
+  it('renders all covering entries and expands a long second entry beside a short first entry', async () => {
+    const short = { ...JOHN3_MH[0]!, id: 9001, content: 'Short first note.' };
+    const long = { ...JOHN3_MH[0]!, id: 9002, verse_start: 2 };
+    await renderView({ verse: 3, rows: [long, short] });
+  
+    const second = await screen.findByTestId('commentary-entry-9002');
+    expect(screen.getByTestId('commentary-range')).toHaveTextContent('John 3:1–8');
+    expect(screen.getByText('John 3:2–8')).toBeTruthy();
+    expect(screen.getByTestId('commentary-entry-9001'))
+      .toHaveTextContent('Short first note.');
+    expect(second).not.toHaveTextContent(/ye workers of iniquity/);
+  
+    await fireEvent.press(screen.getByTestId('commentary-read-all'));
+  
+    expect(screen.getByTestId('commentary-entry-9002'))
+      .toHaveTextContent(/ye workers of iniquity/);
+    expect(screen.getByTestId('commentary-entry-9001'))
+      .toHaveTextContent('Short first note.');
+    expect(screen.queryByTestId('commentary-read-all')).toBeNull();
+  });
 });
 
 describe('CommentaryView waits for nothing it does not need', () => {

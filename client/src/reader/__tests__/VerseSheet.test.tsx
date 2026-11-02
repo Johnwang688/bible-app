@@ -106,6 +106,26 @@ describe('verse sheet', () => {
     expect(await screen.findByTestId('sheet-commentary')).toBeTruthy();
   });
 
+  // Sol review of R-5b, round 1: kills a surviving mutant.
+  it('opens commentary for the first verse of a range and keeps it when the selection extends backwards', async () => {
+    await renderReader({
+      position: { bookNumber: 43, chapter: 3, translation: 'WEB' },
+    });
+    await screen.findByText(/For God so loved the world/);
+    await fireEvent.press(screen.getByTestId('verse-3-tools'));
+    await fireEvent.press(screen.getByTestId('verse-5-tools'));
+    await fireEvent.press(screen.getByTestId('sheet-commentary'));
+    await screen.findByTestId('commentary-view');
+  
+    expect(screen.getByTestId('commentary-verse')).toHaveTextContent(/^3 /);
+  
+    await fireEvent.press(screen.getByTestId('verse-2-tools'));
+    expect(screen.getByTestId('commentary-verse')).toHaveTextContent(/^3 /);
+  
+    await fireEvent.press(screen.getByTestId('commentary-back'));
+    expect(await screen.findByTestId('sheet-commentary')).toBeTruthy();
+  });
+
   it('shows a highlight on both sides in parallel reading (items attach to the reference)', async () => {
     const storage = createStorage(memoryBackend());
     storage.set(readingSettingsKey, { textSize: 2, parallel: 'CUV-SIMP' });
