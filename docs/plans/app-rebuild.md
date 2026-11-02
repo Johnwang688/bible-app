@@ -264,6 +264,9 @@ prototypes** (John, 2026-11-02), so R-7a ships no new screens. Prototypes in `bi
   - **Skipping** gives Silver / Graphite following the phone, but keeps a light/dark mode imported from the old app.
   - **The gate** (`FirstRunGate`) wraps the navigator in the root layout: on a fresh device the intro shows instead
     of the app, and afterwards the app opens on the page that was asked for.
+  - **`/privacy` is never covered** (B-1, #29): the privacy policy opens directly on a fresh device, for the App Store
+    review URL and links from outside the app, and the intro stays not done. Exempt paths are exact matches in
+    `FIRST_RUN_EXEMPT_PATHS` (`onboarding/FirstRunGate.tsx`).
   - **The screens** (approved 2026-11-02 as drawn, `bible-app-work/r7a/GO-AHEAD.md`): welcome, pick your look, your
     age. Steps 2 and 3 have a 44 pt Back and "Skip for now". Skip on step 1 drops the whole intro and gives the
     default look; "Skip for now" on step 2 or 3 ends the intro keeping the look picked so far, with no age. The look
