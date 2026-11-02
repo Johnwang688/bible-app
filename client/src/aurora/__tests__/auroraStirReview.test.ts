@@ -121,3 +121,28 @@ test('exactly 10 CSS px starts stirring, including diagonally', () => {
       .toEqual(['down', 'move']);
   });
 });
+
+// Acceptance (orchestrator-owned, Sol review r2 F1 and F2).
+test('a move while paused cannot become a deferred down after resuming', () => {
+  withController({}, (screen, controller) => {
+    screen.fire('pointerdown', 100, 100);
+    controller.update({ ...inputs, focused: false });
+    screen.fire('pointermove', 120, 100);
+    controller.update(inputs);
+    screen.fire('pointermove', 121, 100);
+    expect(mockPointer.mock.calls).toEqual([]);
+  });
+});
+
+test('tap and sub-slop cancellation send no up to the renderer', () => {
+  withController({}, screen => {
+    screen.fire('pointerdown', 100, 100);
+    screen.fire('pointerup', 100, 100);
+
+    screen.fire('pointerdown', 100, 100);
+    screen.fire('pointermove', 106, 104);
+    screen.fire('pointercancel', 106, 104);
+
+    expect(mockPointer.mock.calls).toEqual([]);
+  });
+});
