@@ -1,11 +1,11 @@
 // Acceptance tests for the Firestore adapter against the emulator, with the real rules loaded
 // (R-6b, orchestrator-owned; the implementer may not edit them). Run: npm run test:emulator
-import { languageKey } from '../../storage/keys';
-import { createStorage, memoryBackend } from '../../storage/storage';
-import { createSyncEngine } from '../engine';
-import { createFirestoreRemote } from '../firestoreRemote';
-import { RemoteError, type RemoteItem } from '../types';
-import { DOMAINS, setNote, studyKey } from '../__tests__/fixtures';
+import { languageKey } from '../../../storage/keys';
+import { createStorage, memoryBackend } from '../../../storage/storage';
+import { createSyncEngine } from '../../engine';
+import { createFirestoreRemote } from '../../firestoreRemote';
+import { RemoteError, type RemoteItem } from '../../types';
+import { DOMAINS, setNote, studyKey } from '../fixtures';
 import { clearFirestore, closeAll, dbAs } from './emulator';
 
 beforeEach(clearFirestore);

@@ -3,8 +3,8 @@
 import { deleteApp, initializeApp } from 'firebase/app';
 import { connectAuthEmulator, getAuth } from 'firebase/auth';
 
-import { createFirebaseAuthBackend } from '../firebaseAuth';
-import type { AuthBackend, AuthUser } from '../types';
+import { createFirebaseAuthBackend } from '../../firebaseAuth';
+import type { AuthBackend, AuthUser } from '../../types';
 
 const PROJECT = 'demo-r6b';
 const AUTH_URL = 'http://127.0.0.1:9180';
