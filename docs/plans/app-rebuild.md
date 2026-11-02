@@ -203,7 +203,7 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
 | **R-3 Study tab** ✅ done 2026-11-02 | lists of study items, progress, chapters explored and the coverage map | local-first; filters; opening in context |
 | **R-4 Home** | streak, goal, continue reading, verse of the day, Surprise me | the SM-1 picker tests ported |
 | **R-5 Search, commentary, entities** | search, the commentary sheet, people/places/themes | the reference parser ported with tests; English and Chinese search |
-| **R-6 Me and accounts** (with W2) | settings, the language setting, appearance and the customisation screen with live preview; Firebase Auth (Apple, Google, email); the backend verifies Firebase tokens; user data on Firestore; optional sync; delete my data; import any real Supabase users | needs John's Firebase project; an Opus security review of the new auth path; sync conflict rules; nothing left importing `supabase` in user paths |
+| **R-6 Me and accounts** (with W2): R-6a (Me, no accounts) ✅ 2026-11-02; R-6b (accounts) in progress | settings, the language setting, appearance and the customisation screen with live preview; Firebase Auth (Apple, Google, email); the backend verifies Firebase tokens; user data on Firestore; optional sync; delete my data; import any real Supabase users | needs John's Firebase project; an Opus security review of the new auth path; sync conflict rules; nothing left importing `supabase` in user paths |
 | **R-7 Web parity and cut-over** | old-localStorage import, read aloud, first-run intro with the "pick your look" screen, a performance budget (including the aurora animation), the review of the Chinese copy (John and friends, from the review sheet) | the new web build replaces `frontend-next/`; the old frontend is archived |
 
 **R-0 notes (2026-11-01).**
@@ -265,6 +265,29 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
   - **The end marker cannot tell translations apart:** a late report from the same chapter in the previous translation, with the same verse count, is accepted.
   - **A chapter laid out while the reader is hidden** keeps no marker measurement, so a short chapter that fits is credited only once it lays out again or is scrolled.
 - **Still to check on a device (needs EAS builds):** reading time with the app going to the background, and scroll-to-verse on native (it estimates a verse's position inside the single-paragraph view from its share of the text).
+
+**R-6a notes (2026-11-02): the Me tab, without accounts.**
+- **Me:** Appearance (look, light or dark, reading font, text size), Language (app language), Reading (translation, parallel translation), More (Sources and credits, About and privacy, Help). The Me tab is now a stack: Me → Customise → Advanced, and the three info screens.
+  - Left for other phases: the account card (R-6b), the daily goal row (R-4's goal sheet, mounted here once both merge), the read-aloud voice (R-7).
+- **Customise** (from the signed-off design): a live preview of Home, the 12 presets, light/dark/follow the phone, the accent, the reading font, text size and Reset.
+  - Picking a preset of the other mode switches to that mode, so the preset shows.
+  - The accent and colour edits are kept per preset, so a light preset and its dark partner each keep their own.
+  - An accent that would be hard to read on the look is disabled and says why.
+- **Advanced:** edit every plain-colour token of the preset that shows (gradients, borders and shadows stay the preset's).
+  - **The contrast guard:** an edit is refused if any text pair the preset shows falls below 4.5:1 and below the preset's own ratio. So the glass presets' known gaps are allowed as they are, but never made worse.
+  - Stored edits are checked again when the theme is built, and a set that fails is ignored as a whole.
+  - Line height isn't in the signed-off design, so it isn't built.
+- **Reading font:** the choice applies to Latin-script Scripture. Chinese Scripture always uses Noto Serif SC, and Customise says so in Chinese.
+- **Storage:** the new key `appearance.custom` (`src/storage/appearanceCustomKey.ts`) holds the reading font and the per-preset edits. The text size reuses R-1's reading settings.
+- **Review:** Sol ran 3 rounds; every finding became a permanent test.
+  - **Round 1:** a rounding gap in the contrast guard (4.495:1 passed as 4.50), quick presses losing changes, a translation change overwriting a newer position, and the size row overflowing at 150%.
+  - **Round 2:** the same "value captured at render" class on other paths, escalated to `implementer-hard`.
+  - **Round 3:** it again, after the escalation (5a step 5). John chose to ship and fix in a follow-up.
+- **Known gaps (a follow-up PR; Sol's failing tests are parked in `C:\devible-app-work6a\pending\`):**
+  - **F10:** coming from Liberty or Northern lights (no light/dark partner), choosing a paired preset can show its opposite partner.
+  - **F11:** if the phone switches light/dark between render and a press, an edit or reset can target the previous preset.
+  - **Root cause:** the ThemeProvider has no "preset showing now" call, so the screens infer it. The fix is a ThemeProvider call that resolves the stored choice against the phone's current scheme, then dropping `src/me/showingPreset.ts`.
+- **Flaky on main (not R-6a's):** `e2e/reader.spec.ts` "Back restores the words list scroll" fails about 1 run in 3 under load.
 
 Every phase ships its screens in both languages; the missing-key test keeps Chinese from falling behind.
 

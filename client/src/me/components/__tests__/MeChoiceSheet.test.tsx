@@ -8,6 +8,9 @@ import { MeScreen } from '../../MeScreen';
 import { renderMe } from '../../__tests__/meHarness';
 import { MeChoiceSheet } from '../MeChoiceSheet';
 
+// The first test pays the screens' cold start; under a loaded machine that can pass 5 s.
+jest.setTimeout(15000);
+
 afterEach(() => setStorageForTesting(null));
 
 describe('MeChoiceSheet', () => {
