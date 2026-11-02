@@ -147,6 +147,27 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
     };
   }, [beat]);
 
+  // A signed-out notice left by a server 401 is lifted when the user signs in again (false -> true), or when the
+  // notice's own Sign in completes. Other local notices are left alone.
+  const clearSignedOut = useCallback(() => setLocal((cur) => (cur === 'signed-out' ? null : cur)), []);
+  const wasSignedIn = useRef(auth.signedIn);
+  useEffect(() => {
+    if (auth.signedIn && !wasSignedIn.current) clearSignedOut();
+    wasSignedIn.current = auth.signedIn;
+  }, [auth.signedIn, clearSignedOut]);
+  const authSignIn = auth.signIn;
+  const signIn = authSignIn
+    ? () => {
+        const done: unknown = authSignIn();
+        void Promise.resolve(done).then(
+          () => {
+            if (mounted.current) clearSignedOut();
+          },
+          () => undefined,
+        );
+      }
+    : undefined;
+
   const online = isOnline();
   const gate = voiceGate({
     voiceOn: ctx.settings.voice,
@@ -320,7 +341,7 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
           limitedUntil={limitedUntil}
           onSettings={() => setSettingsOpen(true)}
           onTryAgain={() => setLocal(null)}
-          signIn={auth.signIn}
+          signIn={signIn}
         />
         {field(true)}
       </>
