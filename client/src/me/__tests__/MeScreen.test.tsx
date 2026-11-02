@@ -72,16 +72,16 @@ describe('Me', () => {
 
   it('the Appearance rows open Customise; the More rows open their screens', async () => {
     const { routes } = await renderMeScreen();
-    for (const id of ['me-row-look', 'me-row-mode', 'me-row-font', 'me-row-textSize']) fireEvent.press(screen.getByTestId(id));
-    fireEvent.press(screen.getByTestId('me-row-sources'));
-    fireEvent.press(screen.getByTestId('me-row-about'));
-    fireEvent.press(screen.getByTestId('me-row-help'));
+    for (const id of ['me-row-look', 'me-row-mode', 'me-row-font', 'me-row-textSize']) await act(async () => fireEvent.press(screen.getByTestId(id)));
+    await act(async () => fireEvent.press(screen.getByTestId('me-row-sources')));
+    await act(async () => fireEvent.press(screen.getByTestId('me-row-about')));
+    await act(async () => fireEvent.press(screen.getByTestId('me-row-help')));
     expect(routes).toEqual(['customise', 'customise', 'customise', 'customise', 'sources', 'about', 'help']);
   });
 
   it('changes the app language at once, and stores it', async () => {
     const { storage } = await renderMeScreen();
-    fireEvent.press(screen.getByTestId('me-row-language'));
+    await act(async () => fireEvent.press(screen.getByTestId('me-row-language')));
     const sheet = await screen.findByTestId('me-language-sheet');
     for (const id of ['system', 'en', 'zh-Hans']) expect(within(sheet).getByTestId(`me-language-${id}`).props.accessibilityRole).toBe('radio');
     expect(within(sheet).getByTestId('me-language-system').props.accessibilityState).toMatchObject({ selected: true });
@@ -96,7 +96,7 @@ describe('Me', () => {
     const storage = createStorage(memoryBackend());
     storage.set(readerPositionKey, { bookNumber: 43, chapter: 3, translation: 'BSB' });
     await renderMeScreen({ storage });
-    fireEvent.press(screen.getByTestId('me-row-translation'));
+    await act(async () => fireEvent.press(screen.getByTestId('me-row-translation')));
     await screen.findByTestId('version-picker');
     await act(async () => fireEvent.press(screen.getByTestId('version-WEB')));
     // The reader keeps its place and switches translation.
@@ -107,7 +107,7 @@ describe('Me', () => {
 
   it('sets the translation before anything has been read', async () => {
     const { storage } = await renderMeScreen();
-    fireEvent.press(screen.getByTestId('me-row-translation'));
+    await act(async () => fireEvent.press(screen.getByTestId('me-row-translation')));
     await act(async () => fireEvent.press(await screen.findByTestId('version-ASV')));
     expect(storage.get(readerPositionKey)).toMatchObject({ bookNumber: 1, chapter: 1, translation: 'ASV' });
   });
@@ -116,7 +116,7 @@ describe('Me', () => {
     const storage = createStorage(memoryBackend());
     storage.set(readerPositionKey, { bookNumber: 43, chapter: 3, translation: 'BSB' });
     await renderMeScreen({ storage });
-    fireEvent.press(screen.getByTestId('me-row-parallel'));
+    await act(async () => fireEvent.press(screen.getByTestId('me-row-parallel')));
     const sheet = await screen.findByTestId('me-parallel-sheet');
     expect(within(sheet).queryByTestId('me-parallel-BSB')).toBeNull();
     expect(within(sheet).getByTestId('me-parallel-off').props.accessibilityState).toMatchObject({ selected: true });
@@ -124,7 +124,7 @@ describe('Me', () => {
     expect(storage.get(readingSettingsKey).parallel).toBe('CUV-SIMP');
     expect(value('me-row-parallel')).toHaveTextContent('CUV');
 
-    fireEvent.press(screen.getByTestId('me-row-parallel'));
+    await act(async () => fireEvent.press(screen.getByTestId('me-row-parallel')));
     await act(async () => fireEvent.press(await screen.findByTestId('me-parallel-off')));
     expect(storage.get(readingSettingsKey).parallel).toBeNull();
     expect(value('me-row-parallel')).toHaveTextContent('Off');
@@ -135,7 +135,7 @@ describe('Me', () => {
     storage.set(readerPositionKey, { bookNumber: 43, chapter: 3, translation: 'BSB' });
     storage.set(readingSettingsKey, { textSize: 2, parallel: 'WEB' });
     await renderMeScreen({ storage });
-    fireEvent.press(screen.getByTestId('me-row-translation'));
+    await act(async () => fireEvent.press(screen.getByTestId('me-row-translation')));
     await act(async () => fireEvent.press(await screen.findByTestId('version-WEB')));
     expect(storage.get(readerPositionKey)?.translation).toBe('WEB');
     expect(storage.get(readingSettingsKey).parallel).toBeNull();

@@ -5,7 +5,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { I18nProvider } from '../../i18n/I18nProvider';
 import type { DeviceLocale } from '../../i18n/types';
-import { createStorage, memoryBackend, type Storage } from '../../storage/storage';
+import { createStorage, memoryBackend, setStorageForTesting, type Storage } from '../../storage/storage';
 import { ThemeProvider } from '../../theme/ThemeProvider';
 import type { ThemeMode } from '../../theme/types';
 
@@ -20,6 +20,9 @@ export interface RenderMeOptions {
 
 export async function renderMe(ui: ReactElement, opts: RenderMeOptions = {}) {
   const storage = opts.storage ?? createStorage(memoryBackend());
+  // Hooks that read the app's default storage (useReaderPosition, useReadingSettings) get the test's storage
+  // too. Each render sets its own; it is not reset after a test, because the tree unmounts after afterEach hooks.
+  setStorageForTesting(storage);
   const result = await render(
     <SafeAreaProvider initialMetrics={{ frame: { x: 0, y: 0, width: 390, height: 844 }, insets: { top: 47, left: 0, right: 0, bottom: 34 } }}>
       <I18nProvider storage={storage} locales={opts.locales ?? [EN]}>

@@ -8,6 +8,9 @@ import { HelpScreen } from '../HelpScreen';
 import { SourcesScreen } from '../SourcesScreen';
 import { renderMe, ZH } from './meHarness';
 
+// Jest has no app manifest; give expo-constants the version from app.json.
+jest.mock('expo-constants', () => ({ __esModule: true, default: { expoConfig: { version: '0.1.0' } } }));
+
 describe('Sources and credits', () => {
   it('credits every source the app shows, and links STEP Bible', async () => {
     const calls: string[] = [];

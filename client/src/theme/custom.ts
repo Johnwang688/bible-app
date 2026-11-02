@@ -126,8 +126,8 @@ function basePairs(id: PresetId): ReadonlyMap<string, number> {
   return map;
 }
 
-/** Ratios are compared at two decimals, so float noise never flags an unchanged pair. */
-const round2 = (n: number) => Math.round(n * 100) / 100;
+/** Float noise allowed when comparing a pair with the preset's own ratio (an unchanged pair is never flagged). */
+const RATIO_EPSILON = 1e-9;
 
 /** The preset's canvas with these edits on top. */
 export function editedCanvas(id: PresetId, edits: PresetEdits): CanvasTokens {
@@ -142,9 +142,10 @@ export function contrastFailures(id: PresetId, edits: PresetEdits): Pair[] {
   const theme = getTheme(id);
   const base = basePairs(id);
   return pairsForCanvas(id, theme.style, editedCanvas(id, edits)).filter((p) => {
-    if (round2(p.ratio) >= MIN_TEXT_CONTRAST) return false;
+    // Raw ratios: 4.495:1 is below 4.5:1 even though it displays as 4.50 (Sol, R-6a round 1).
+    if (p.ratio >= MIN_TEXT_CONTRAST) return false;
     const before = base.get(p.name);
-    return before === undefined || round2(p.ratio) < round2(before);
+    return before === undefined || p.ratio < before - RATIO_EPSILON;
   });
 }
 
