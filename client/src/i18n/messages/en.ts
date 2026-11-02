@@ -1,5 +1,7 @@
 // The English message catalogue. Every UI string goes through a key here (R-0 string ratchet).
 // Keys are flat and dotted. Placeholders are {name}.
+import { memoryEn } from './memory';
+
 export const en = {
   'app.name': 'Bible App',
 
@@ -192,6 +194,9 @@ export const en = {
   'study.bookCoverage': '{book}: {read} of {total} chapters read',
   'study.legendNone': 'None',
   'study.legendAll': 'Every chapter',
+
+  // Memory (team MEM): the block lives in ./memory.ts.
+  ...memoryEn,
 
   'common.loading': 'Loading…',
   'common.retry': 'Try again',
