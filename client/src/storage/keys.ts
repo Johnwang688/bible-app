@@ -3,6 +3,7 @@ import { z } from 'zod';
 
 import type { LanguagePreference } from '../i18n/types';
 import { TRANSLATION_IDS, type TranslationId } from '../reader/translations';
+import { HIGHLIGHT_IDS, type HighlightId } from '../theme/highlights';
 import { PRESET_IDS, type AppearanceChoice } from '../theme/types';
 import type { StorageKey } from './storage';
 
@@ -75,4 +76,36 @@ export const readingSettingsKey: StorageKey<ReadingSettings> = {
     parallel: translationId.nullable(),
   }),
   fallback: { textSize: DEFAULT_TEXT_SIZE_INDEX, parallel: null },
+};
+
+// ---- Study items (R-2): highlights, notes and bookmarks, local first ----
+
+/** A verse reference. Study items attach to references, so they show in every translation. */
+export interface VerseRef {
+  bookNumber: number;
+  chapter: number;
+  verse: number;
+}
+
+/** `"43:3:16"`: the key study items are stored under. */
+export const refKey = (r: VerseRef): string => `${r.bookNumber}:${r.chapter}:${r.verse}`;
+
+const refKeySchema = z.string().regex(/^([1-9]|[1-5]\d|6[0-6]):([1-9]\d{0,2}):([1-9]\d{0,2})$/);
+export const NOTE_MAX_LENGTH = 5000;
+
+export interface StudyItems {
+  highlights: Record<string, HighlightId>;
+  notes: Record<string, { text: string; updatedAt: string }>;
+  bookmarks: Record<string, { createdAt: string }>;
+}
+
+export const studyItemsKey: StorageKey<StudyItems> = {
+  key: 'study.items',
+  version: 1,
+  schema: z.object({
+    highlights: z.record(refKeySchema, z.enum(HIGHLIGHT_IDS)),
+    notes: z.record(refKeySchema, z.object({ text: z.string().min(1).max(NOTE_MAX_LENGTH), updatedAt: z.string() })),
+    bookmarks: z.record(refKeySchema, z.object({ createdAt: z.string() })),
+  }),
+  fallback: { highlights: {}, notes: {}, bookmarks: {} },
 };

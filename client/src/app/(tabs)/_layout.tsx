@@ -1,5 +1,6 @@
 // The four tabs: Home · Bible · Study · Me.
 import { Tabs } from 'expo-router/tabs';
+import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -8,12 +9,33 @@ import { TabIcon, type TabIconName } from '../../components/TabIcon';
 import { uiFace } from '../../fonts/fonts';
 import { useT } from '../../i18n/I18nProvider';
 import type { MessageKey } from '../../i18n/messages/en';
+import { HideTabBarContext } from '../../reader/components/useHideTabBar';
 import { useTheme } from '../../theme/ThemeProvider';
 
-const TABS: { name: string; icon: TabIconName; labelKey: MessageKey; a11yKey: MessageKey }[] = [
-  { name: 'index', icon: 'home', labelKey: 'tabs.home', a11yKey: 'tabs.home.a11y' },
-  { name: 'bible', icon: 'bible', labelKey: 'tabs.bible', a11yKey: 'tabs.bible.a11y' },
-  { name: 'study', icon: 'study', labelKey: 'tabs.study', a11yKey: 'tabs.study.a11y' },
+const TABS: {
+  name: string;
+  icon: TabIconName;
+  labelKey: MessageKey;
+  a11yKey: MessageKey;
+}[] = [
+  {
+    name: 'index',
+    icon: 'home',
+    labelKey: 'tabs.home',
+    a11yKey: 'tabs.home.a11y',
+  },
+  {
+    name: 'bible',
+    icon: 'bible',
+    labelKey: 'tabs.bible',
+    a11yKey: 'tabs.bible.a11y',
+  },
+  {
+    name: 'study',
+    icon: 'study',
+    labelKey: 'tabs.study',
+    a11yKey: 'tabs.study.a11y',
+  },
   { name: 'me', icon: 'me', labelKey: 'tabs.me', a11yKey: 'tabs.me.a11y' },
 ];
 
@@ -24,57 +46,75 @@ export default function TabsLayout() {
   const floating = theme.floatingTabBar;
   const border = theme.borders.tabBar;
   const radius = floating ? theme.radii.card : 0;
+  // The Bible screen hides the bar while its verse sheet is open (the sheet takes the bottom of the screen).
+  const [bibleBarHidden, setBibleBarHidden] = useState(false);
+
+  const barStyle = [
+    styles.bar,
+    {
+      borderTopWidth: border.width,
+      borderColor: border.color,
+      boxShadow: theme.shadows.tabBar ?? undefined,
+    },
+    // Room for 44pt items plus their margins and the label, above the home indicator.
+    !floating && {
+      height: BAR_HEIGHT + insets.bottom,
+      paddingBottom: insets.bottom,
+    },
+    floating && {
+      position: 'absolute' as const,
+      left: 16,
+      right: 16,
+      bottom: Math.max(insets.bottom, 12),
+      borderWidth: border.width,
+      borderRadius: radius,
+      height: BAR_HEIGHT,
+      paddingBottom: 0,
+    },
+  ];
 
   return (
-    <Tabs
-      screenOptions={{
-        headerShown: false,
-        tabBarActiveTintColor: theme.colors.tabOn,
-        tabBarInactiveTintColor: theme.colors.tabOff,
-        tabBarActiveBackgroundColor: theme.canvas.tabPill,
-        tabBarLabelStyle: { fontFamily: uiFace(theme.type.ui, '700'), fontSize: 12 },
-        tabBarItemStyle: { minHeight: 44, borderRadius: theme.radii.button, margin: 4 },
-        tabBarStyle: [
-          styles.bar,
-          {
-            borderTopWidth: border.width,
-            borderColor: border.color,
-            boxShadow: theme.shadows.tabBar ?? undefined,
+    <HideTabBarContext.Provider value={setBibleBarHidden}>
+      <Tabs
+        screenOptions={{
+          headerShown: false,
+          tabBarActiveTintColor: theme.colors.tabOn,
+          tabBarInactiveTintColor: theme.colors.tabOff,
+          tabBarActiveBackgroundColor: theme.canvas.tabPill,
+          tabBarLabelStyle: {
+            fontFamily: uiFace(theme.type.ui, '700'),
+            fontSize: 12,
           },
-          // Room for 44pt items plus their margins and the label, above the home indicator.
-          !floating && { height: BAR_HEIGHT + insets.bottom, paddingBottom: insets.bottom },
-          floating && {
-            position: 'absolute',
-            left: 16,
-            right: 16,
-            bottom: Math.max(insets.bottom, 12),
-            borderWidth: border.width,
-            borderRadius: radius,
-            height: BAR_HEIGHT,
-            paddingBottom: 0,
+          tabBarItemStyle: {
+            minHeight: 44,
+            borderRadius: theme.radii.button,
+            margin: 4,
           },
-        ],
-        tabBarBackground: () => (
-          <GlassSurface
-            background={theme.backgrounds.tabBar}
-            style={[StyleSheet.absoluteFill, { borderRadius: radius }]}
+          tabBarStyle: barStyle,
+          tabBarBackground: () => (
+            <GlassSurface
+              background={theme.backgrounds.tabBar}
+              style={[StyleSheet.absoluteFill, { borderRadius: radius }]}
+            />
+          ),
+        }}
+      >
+        {TABS.map((tab) => (
+          <Tabs.Screen
+            key={tab.name}
+            name={tab.name}
+            options={{
+              tabBarLabel: t(tab.labelKey),
+              tabBarAccessibilityLabel: t(tab.a11yKey),
+              tabBarButtonTestID: `tab-${tab.icon}`,
+              tabBarIcon: ({ color }) => <TabIcon name={tab.icon} color={color} />,
+              // A screen's own tabBarStyle replaces the navigator's, so the full style is repeated here.
+              ...(tab.name === 'bible' && bibleBarHidden ? { tabBarStyle: [barStyle, styles.hidden] } : null),
+            }}
           />
-        ),
-      }}
-    >
-      {TABS.map((tab) => (
-        <Tabs.Screen
-          key={tab.name}
-          name={tab.name}
-          options={{
-            tabBarLabel: t(tab.labelKey),
-            tabBarAccessibilityLabel: t(tab.a11yKey),
-            tabBarButtonTestID: `tab-${tab.icon}`,
-            tabBarIcon: ({ color }) => <TabIcon name={tab.icon} color={color} />,
-          }}
-        />
-      ))}
-    </Tabs>
+        ))}
+      </Tabs>
+    </HideTabBarContext.Provider>
   );
 }
 
@@ -82,4 +122,5 @@ const BAR_HEIGHT = 68;
 
 const styles = StyleSheet.create({
   bar: { backgroundColor: 'transparent', elevation: 0 },
+  hidden: { display: 'none' },
 });

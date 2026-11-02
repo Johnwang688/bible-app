@@ -39,7 +39,11 @@ export interface FakeApiOptions {
   omit?: Record<string, number[]>;
   /** Requests that fail, by the same key. */
   fail?: Set<string>;
+  /** Words requests that fail, by "Book chapter:verse". */
+  failWords?: Set<string>;
 }
+
+const WORDS: Record<string, string> = { 'John 3:16': 'words_john3_16', 'Genesis 1:1': 'words_genesis1_1' };
 
 export function fakeApi(opts: FakeApiOptions = {}) {
   const calls: string[] = [];
@@ -71,6 +75,30 @@ export function fakeApi(opts: FakeApiOptions = {}) {
           };
       const omit = opts.omit?.[key] ?? [];
       return { ...base, verses: base.verses.filter((v) => !omit.includes(v.verse)) };
+    },
+    words: async (book: string, chapter: number, verse: number) => {
+      const key = `${book} ${chapter}:${verse}`;
+      calls.push(`words ${key}`);
+      if (opts.failWords?.has(key)) throw new ApiError({ kind: 'network', status: 0, path: `/words/${key}` });
+      const fx = WORDS[key];
+      const b = BOOKS.find((x) => x.name === book)!;
+      return fx ? fixture(fx) : { book, book_number: b.book_number, chapter, verse, translation: 'BSB', words: [] };
+    },
+    lexicon: async (strongs: string) => {
+      calls.push(`lexicon ${strongs}`);
+      if (strongs === 'G0025') return fixture('lexicon_g0025');
+      return {
+        strongs,
+        language: strongs.startsWith('H') ? 'hebrew' : 'greek',
+        lemma: `lemma-${strongs}`,
+        translit: `translit-${strongs}`,
+        gloss: `gloss-${strongs}`,
+        definition: `definition-${strongs}`,
+        occurrences: 3,
+        verse_count: 2,
+        references: [{ book: 'Genesis', book_number: 1, chapter: 2, verse: 4 }],
+        source: 'STEP Bible brief lexicon (STEPBible.org, CC BY 4.0)',
+      };
     },
   } as unknown as ApiClient;
   return { api, calls };

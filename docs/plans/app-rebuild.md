@@ -199,7 +199,7 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
 |---|---|---|
 | **R-0 Scaffold** ✅ done 2026-11-01 | the Expo app in `client/`, tabs, the theme engine with every preset, fonts, the storage module, the API client, the message catalogue (English and Simplified Chinese) with locale detection, test harnesses, web export | builds for web, iOS and Android; four empty tabs; token ratchet; a contrast test over every preset; the string ratchet and the missing-key test; CI-equivalent local gate script |
 | **R-1 Reader core** ✅ done 2026-11-01 | the Bible tab: chapter view, the book/chapter and version pickers, swipe/keys, the collapsing header, reading settings, parallel reading, query cache plus next-chapter prefetch | position persists; prefetched chapter turns are instant; the PF-2 race tests ported and passing; parallel verses stay aligned when one translation lacks a verse |
-| **R-2 Verse sheet** | the bottom sheet: highlight, note, bookmark, share/copy, Original words and the word card | the HG-3a behaviours ported; 44 pt targets; the screen-reader pass |
+| **R-2 Verse sheet** ✅ done 2026-11-01 | the bottom sheet: highlight, note, bookmark, share/copy, Original words and the word card | the HG-3a behaviours ported; 44 pt targets; the screen-reader pass |
 | **R-3 Study tab** | lists of study items, progress, chapters explored and the coverage map | local-first; filters; opening in context |
 | **R-4 Home** | streak, goal, continue reading, verse of the day, Surprise me | the SM-1 picker tests ported |
 | **R-5 Search, commentary, entities** | search, the commentary sheet, people/places/themes | the reference parser ported with tests; English and Chinese search |
@@ -223,6 +223,19 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
   - **Read-chapter dots in the picker:** progress, R-3/R-4.
   - **Verse screen-reader labels:** they say "Verse 16" rather than reading the text. To revisit in R-2's screen-reader pass.
   - **Native swipe:** unit-tested, but not yet tried on a device (needs EAS builds).
+
+**R-2 notes (2026-11-01).**
+- **The verse sheet is non-modal**, as drawn: the chapter stays usable above it. Tapping a verse opens it; tapping a second verse (or a long press on native) extends the selection to a range. The tab bar hides while the sheet is open.
+- **Highlights:** six colours. Each colour's wash keeps Scripture at 4.5:1 or better in all 12 presets (a test checks it). Highlights, notes and bookmarks attach to the reference, so they show in every translation and on both sides of parallel reading. They are local-only until sync in R-6.
+- **Original words and the word card:** ported from HG-3a, including the untranslated/elsewhere rows, Hebrew right-to-left, the empty and error states with retry, the stale-target and failed-revisit cases, focus moves, and back to the same list position. In Chinese, glosses and definitions stay English and carry the 英文 badge. The commentary row opens a placeholder until R-5.
+- **Screen-reader pass (closes the R-1 leftovers):**
+  - Verse text is read as text.
+  - Each verse number is a real button, "Verse 16: verse tools". On the web it's a `<button>`, and verses never use the link role.
+  - The number button is smaller than 44 pt on purpose: touch users tap the verse text, which is the large target. The button is for keyboard and screen-reader users and is above the WCAG AA 24 px minimum.
+- **Still to check on a device (needs EAS builds):**
+  - VoiceOver/TalkBack on the nested verse-number button;
+  - the Android back button in the sheet;
+  - the Hebrew and Greek fonts.
 
 Every phase ships its screens in both languages; the missing-key test keeps Chinese from falling behind.
 

@@ -16,6 +16,13 @@ const synth = (book: string, chapter: number, verse: number, tr: string) => `${b
 
 async function mockApi(page: Page) {
   await page.route('**/api/v1/books', (route) => route.fulfill({ json: BOOKS }));
+  await page.route('**/api/v1/words/**', (route) => {
+    const p = decodeURIComponent(new URL(route.request().url()).pathname);
+    if (p.endsWith('/John/3/16')) return route.fulfill({ json: body('words_john3_16') });
+    if (p.endsWith('/Genesis/1/1')) return route.fulfill({ json: body('words_genesis1_1') });
+    return route.fulfill({ json: { book: 'x', book_number: 1, chapter: 1, verse: 1, translation: 'BSB', words: [] } });
+  });
+  await page.route('**/api/v1/lexicon/**', (route) => route.fulfill({ json: body('lexicon_g0025') }));
   await page.route('**/api/v1/chapters/**', (route) => {
     const url = new URL(route.request().url());
     const [, , , , bookRaw, chRaw] = url.pathname.split('/');
@@ -131,6 +138,234 @@ test.describe('reader (English)', () => {
     const btn = await next.boundingBox();
     expect(btn!.y + btn!.height).toBeLessThanOrEqual(tab!.y + 1);
   });
+});
+
+test.describe('verse sheet (R-2)', () => {
+  test.use({ locale: 'en-US', colorScheme: 'light' });
+
+  test('a highlight made in the verse sheet survives a reload', async ({ page }) => {
+    await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
+    await page.goto('/bible');
+    await page.getByText(/For God so loved the world/).click();
+    await expect(page.getByTestId('verse-sheet')).toBeVisible();
+    await expect(page.getByTestId('verse-sheet').getByText('John 3:16')).toBeVisible();
+    await page.getByTestId('sheet-swatch-yellow').click();
+    await page.getByTestId('sheet-close').click();
+    await expect(page.getByTestId('verse-sheet')).toHaveCount(0);
+    await page.reload();
+    await expect(page.getByText(/For God so loved the world/)).toBeVisible();
+    const bg = await page.getByTestId('verse-16').evaluate((el) => getComputedStyle(el).backgroundColor);
+    expect(bg).not.toBe('rgba(0, 0, 0, 0)');
+  });
+
+  test('Original words opens the word list and a word card', async ({ page }) => {
+    await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
+    await page.goto('/bible');
+    await page.getByTestId('verse-16-tools').click();
+    await page.getByTestId('sheet-original-words').click();
+    await expect(page.getByTestId('words-list')).toBeVisible();
+    await page.getByTestId('words-list').getByText('loved', { exact: true }).click();
+    await expect(page.getByTestId('word-card')).toBeVisible();
+    await expect(page.getByText('Used 143 times in 110 verses')).toBeVisible();
+  });
+
+  test('the verse-tools button is a real button and Escape closes the sheet', async ({ page }) => {
+    await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
+    await page.goto('/bible');
+    await expect(page.getByRole('button', { name: 'Verse 16: verse tools' })).toBeVisible();
+    await expect(page.getByTestId('verse-16')).not.toHaveAttribute('role', 'link');
+    await page.getByRole('button', { name: 'Verse 16: verse tools' }).click();
+    await expect(page.getByTestId('verse-sheet')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(page.getByTestId('verse-sheet')).toHaveCount(0);
+  });
+
+  // Verifier round 1 on the verse sheet (GPT-6.1 Sol).
+  test('R2 review F2: Escape restores the words list scroll and row focus', async ({ page }) => {
+    await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
+    await page.route('**/api/v1/words/**', route => {
+      const data = body('words_john3_16');
+      const template = data.words.find((w: { strongs: string }) => w.strongs === 'G0025');
+      return route.fulfill({ json: { ...data, words: Array.from({ length: 80 }, (_, i) => ({
+        ...template, english_order: i + 1, english: 'phrase ' + (i + 1), english_kind: 'text',
+      })) } });
+    });
+    await page.goto('/bible');
+    await page.getByTestId('verse-16-tools').click();
+    await page.getByTestId('sheet-original-words').click();
+    const row = page.getByTestId('word-row-40');
+    await row.scrollIntoViewIfNeeded();
+    const scrollTop = () => page.getByTestId('words-list').evaluate(el => {
+      const nodes = [el, ...el.querySelectorAll('*')];
+      const scroller = nodes.find(n => n.scrollHeight > n.clientHeight + 50 && getComputedStyle(n).overflowY === 'auto');
+      return scroller!.scrollTop;
+    });
+    const before = await scrollTop();
+    expect(before).toBeGreaterThan(0);
+    await row.click();
+    await expect(page.getByTestId('word-card')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(page.getByTestId('words-list')).toBeVisible();
+    await expect.poll(scrollTop).toBe(before);
+    await expect(row).toBeFocused();
+  });
+
+  test('R2 review mutant guard: Back restores the words list scroll and row focus', async ({ page }) => {
+    await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
+    await page.route('**/api/v1/words/**', route => {
+      const data = body('words_john3_16');
+      const template = data.words.find((w: { strongs: string }) => w.strongs === 'G0025');
+      return route.fulfill({ json: { ...data, words: Array.from({ length: 80 }, (_, i) => ({
+        ...template, english_order: i + 1, english: 'phrase ' + (i + 1), english_kind: 'text',
+      })) } });
+    });
+    await page.goto('/bible');
+    await page.getByTestId('verse-16-tools').click();
+    await page.getByTestId('sheet-original-words').click();
+    const row = page.getByTestId('word-row-40');
+    await row.scrollIntoViewIfNeeded();
+    const scrollTop = () => page.getByTestId('words-list').evaluate(el => {
+      const nodes = [el, ...el.querySelectorAll('*')];
+      const scroller = nodes.find(n => n.scrollHeight > n.clientHeight + 50 && getComputedStyle(n).overflowY === 'auto');
+      return scroller!.scrollTop;
+    });
+    const before = await scrollTop();
+    expect(before).toBeGreaterThan(0);
+    await row.click();
+    await expect(page.getByTestId('word-card')).toBeVisible();
+    await page.getByTestId('word-back').click();
+    await expect(page.getByTestId('words-list')).toBeVisible();
+    await expect.poll(scrollTop).toBe(before);
+    await expect(row).toBeFocused();
+  });
+
+  test('R2 review F3: tapping a second verse with the sheet open extends the selection (the chapter stays usable)', async ({ page }) => {
+    await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
+    await page.goto('/bible');
+    await page.getByTestId('verse-16-tools').click();
+    await expect(page.getByTestId('verse-sheet')).toBeVisible();
+    const point = await page.getByTestId('verse-17').evaluate((el) => {
+      const r = Array.from(el.getClientRects()).find((x) => x.width > 5 && x.top >= 0 && x.top < innerHeight - 10)!;
+      return { x: r.left + 3, y: r.top + 3 };
+    });
+    await page.mouse.click(point.x, point.y);
+    await expect(page.getByTestId('verse-sheet').getByText('John 3:16–17', { exact: true })).toBeVisible();
+  });
+
+  for (const preset of ['silver', 'strawberry-milk']) {
+    test(`nothing covers the verse sheet: its last row is the topmost element (${preset})`, async ({ page }) => {
+      await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
+      await seed(page, 'appearance', { preset, mode: 'light' });
+      await page.goto('/bible');
+      await page.getByTestId('verse-16-tools').click();
+      const row = page.getByTestId('sheet-commentary');
+      await expect(row).toBeVisible();
+      await expect(row).toBeInViewport({ ratio: 1 });
+      const covered = await row.evaluate((el) => {
+        const r = el.getBoundingClientRect();
+        const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+        return !(hit && el.contains(hit));
+      });
+      expect(covered).toBe(false);
+    });
+  }
+
+  // Verifier round 2 on the verse sheet (GPT-6.1 Sol).
+  test('R2 round2: chapter change restores arrow navigation', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await seed(page, 'reader.position', {
+      bookNumber: 43, chapter: 3, translation: 'WEB',
+    });
+    await page.goto('/bible');
+    await page.getByTestId('verse-16-tools').click();
+    await expect(
+      page.getByTestId('verse-sheet').getByRole('heading'),
+    ).toBeFocused();
+
+    if (await page.getByTestId('reader-show-controls').count()) {
+      await page.getByTestId('reader-show-controls').click();
+    }
+    await page.getByTestId('reader-book-button').click();
+    await page.getByTestId('picker-chapter-4').click();
+
+    await expect(page.getByTestId('reader-book-button'))
+      .toContainText('John 4');
+    await expect(page.getByTestId('verse-sheet')).toHaveCount(0);
+
+    await page.keyboard.press('ArrowRight');
+    await expect(page.getByTestId('reader-book-button'))
+      .toContainText('John 5');
+  });
+
+  test('R2 round2: picker Escape preserves the underlying verse sheet', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await seed(page, 'reader.position', {
+      bookNumber: 43, chapter: 3, translation: 'WEB',
+    });
+    await page.goto('/bible');
+    await page.getByTestId('verse-16-tools').click();
+    await expect(
+      page.getByTestId('verse-sheet').getByRole('heading'),
+    ).toBeFocused();
+
+    if (await page.getByTestId('reader-show-controls').count()) {
+      await page.getByTestId('reader-show-controls').click();
+    }
+    await page.getByTestId('reader-book-button').click();
+    await expect(page.getByTestId('book-picker')).toBeVisible();
+    await page.getByTestId('picker-close').focus();
+    await page.keyboard.press('Escape');
+
+    await expect(page.getByTestId('verse-sheet')).toBeVisible();
+    await expect(page.getByTestId('book-picker')).toHaveCount(0);
+  });
+
+  test('keyboard users open the verse sheet from the verse-tools button with Enter', async ({ page }) => {
+    await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
+    await page.goto('/bible');
+    await page.getByRole('button', { name: 'Verse 16: verse tools' }).focus();
+    await page.keyboard.press('Enter');
+    await expect(page.getByTestId('verse-sheet')).toBeVisible();
+  });
+});
+
+test.describe('verse sheet labels at 150% display scale (John’s setting)', () => {
+  test.use({ locale: 'en-US', colorScheme: 'light', viewport: { width: 375, height: 812 }, deviceScaleFactor: 1.5 });
+
+  for (const preset of ['strawberry-milk', 'silver']) {
+  test(`verse sheet action labels fit on one line, never breaking a word (${preset})`, async ({ page }) => {
+    await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
+    await seed(page, 'appearance', { preset, mode: 'light' });
+    await page.goto('/bible');
+    await page.getByTestId('verse-16-tools').click();
+    await expect(page.getByTestId('verse-sheet')).toBeVisible();
+    // Fonts load on first use; measure only once the label's own font has loaded.
+    await page.waitForFunction(() => {
+      const btn = document.querySelector('[data-testid="sheet-bookmark"]');
+      const leaf = btn && Array.from(btn.querySelectorAll('*')).find((e) => e.childElementCount === 0 && e.textContent!.trim());
+      if (!leaf) return false;
+      const cs = getComputedStyle(leaf);
+      return document.fonts.check(`${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`);
+    });
+    await page.evaluate(() => document.fonts.ready);
+    const labels = await page.evaluate(() =>
+      ['sheet-note', 'sheet-bookmark', 'sheet-copy', 'sheet-share', 'sheet-original-words'].map((id) => {
+        const btn = document.querySelector(`[data-testid="${id}"]`)!;
+        const leaves = Array.from(btn.querySelectorAll('*')).filter((e) => e.childElementCount === 0 && e.textContent!.trim());
+        return leaves.map((e) => {
+          const cs = getComputedStyle(e);
+          return { id, text: e.textContent, lines: Math.round(e.getBoundingClientRect().height / (parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.2)) };
+        });
+      }).flat(),
+    );
+    for (const l of labels) {
+      // A two-word label may wrap onto two lines; a one-word label must not.
+      const max = l.text!.trim().includes(' ') ? 2 : 1;
+      expect([l.id, l.text, l.lines <= max]).toEqual([l.id, l.text, true]);
+    }
+  });
+  }
+
 });
 
 test.describe('reader (Chinese phone)', () => {

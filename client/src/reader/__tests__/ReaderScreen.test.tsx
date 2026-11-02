@@ -125,13 +125,13 @@ describe('ReaderScreen', () => {
     expect(fontSizeOf(note)).toBeLessThan(fontSizeOf(verseText));
   });
 
-  it('marks a tapped verse as selected (the verse sheet itself is R-2)', async () => {
+  it('marks a tapped verse as selected and opens its verse sheet (R-2)', async () => {
     await renderReader({ position: JOHN3_WEB });
     await screen.findByText(new RegExp(JOHN3_16_WEB));
-    const v16 = screen.getByTestId('verse-16');
-    expect(v16.props.accessibilityLabel).toBe('Verse 16');
-    await fireEvent.press(v16);
-    expect(screen.getByTestId('verse-16').props.accessibilityState?.selected).toBe(true);
+    expect(screen.getByTestId('verse-16-tools').props.accessibilityLabel).toBe('Verse 16: verse tools');
+    await fireEvent.press(screen.getByTestId('verse-16'));
+    expect(screen.getByTestId('verse-16-tools').props.accessibilityState?.selected).toBe(true);
+    expect(await screen.findByTestId('verse-sheet')).toBeTruthy();
   });
 
   it('shows an error with a retry that recovers', async () => {

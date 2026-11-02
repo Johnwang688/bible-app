@@ -1,40 +1,23 @@
-// Verifier round 2 on the reader UI (GPT-6.1 Sol). Orchestrator-owned; do not edit.
-import { fireEvent, render, screen } from '@testing-library/react-native';
+// Verse keyboard access (orchestrator-owned). R-1 activated the verse *text* with Enter/Space on the web;
+// R-2 makes the verse number a real button (verse-{n}-tools), so keyboard users reach every verse's tools
+// through it and the text stays plain readable text. The e2e suite presses Enter on the button in a browser.
+import { screen } from '@testing-library/react-native';
 import { Platform } from 'react-native';
 
-import { I18nProvider } from '../../i18n/I18nProvider';
-import { createStorage, memoryBackend } from '../../storage/storage';
-import { ThemeProvider } from '../../theme/ThemeProvider';
-import { ChapterView } from '../components/ChapterView';
-import { EN, fakeApi } from './readerHarness';
+import { renderReader } from './readerHarness';
 
-it.each(['Enter', ' '])('activates a web verse with %p', async key => {
-  const os = jest.replaceProperty(Platform, 'OS', 'web');
-  const storage = createStorage(memoryBackend());
-  const chapter = await fakeApi().api.chapter('John', 4, 'BSB');
-  const onVersePress = jest.fn();
-  const ui = await render(
-    <I18nProvider storage={storage} locales={[EN]}>
-      <ThemeProvider storage={storage} systemScheme="light">
-        <ChapterView
-          chapter={chapter}
-          translation="BSB"
-          textSize={2}
-          selectedVerse={null}
-          onVersePress={onVersePress}
-        />
-      </ThemeProvider>
-    </I18nProvider>,
-  );
-
+it.each(['ios', 'web'] as const)('gives every verse a keyboard-reachable tools button (%s)', async (os) => {
+  const restore = jest.replaceProperty(Platform, 'OS', os);
   try {
-    await fireEvent(screen.getByTestId('verse-1'), 'keyDown', {
-      key, preventDefault: jest.fn(),
-    });
-    expect(onVersePress).toHaveBeenCalledTimes(1);
-    expect(onVersePress).toHaveBeenCalledWith(1);
+    await renderReader({ position: { bookNumber: 43, chapter: 4, translation: 'BSB' } });
+    await screen.findByTestId('verse-1-tools');
+    const tools = screen.getAllByTestId(/^verse-\d+-tools$/);
+    expect(tools.length).toBe(3);
+    for (const t of tools) {
+      expect(t.props.accessibilityRole).toBe('button');
+      expect(t.props.onPress).toEqual(expect.any(Function));
+    }
   } finally {
-    await ui.unmount();
-    os.restore();
+    restore.restore();
   }
 });
