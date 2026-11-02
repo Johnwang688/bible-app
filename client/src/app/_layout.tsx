@@ -8,6 +8,7 @@ import { ApiProvider } from '../api/ApiProvider';
 import { STARTUP_FONTS } from '../fonts/fonts';
 import { I18nProvider } from '../i18n/I18nProvider';
 import { importLegacyDataOnce, webLegacySource } from '../legacy';
+import { FirstRunGate } from '../onboarding/FirstRunGate';
 import { getStorage } from '../storage/storage';
 import { ThemeProvider, useTheme } from '../theme/ThemeProvider';
 
@@ -41,7 +42,9 @@ function ThemedStack() {
   return (
     <>
       <StatusBar style={theme.mode === 'dark' ? 'light' : 'dark'} />
-      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: theme.colors.base } }} />
+      <FirstRunGate>
+        <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: theme.colors.base } }} />
+      </FirstRunGate>
     </>
   );
 }
