@@ -248,7 +248,12 @@ export function createAuroraController(host: HTMLElement, screen: HTMLElement | 
       if (Math.hypot(ev.clientX - d.x, ev.clientY - d.y) < STIR_SLOP_PX) return;
       d.stirring = true;
       const [x, y] = toUnit(r, d.x, d.y);
+      // The down point is the last point sent, so an 'up' from an interruption inside this call lands on it.
+      d.ux = x;
+      d.uy = y;
       renderer.pointer('down', ev.pointerId, x, y);
+      // The call may have ended the stretch (paused, destroyed): then this gesture is forgotten; send nothing more.
+      if (downs.get(ev.pointerId) !== d || !renderer || !canStir()) return;
     }
     const [x, y] = toUnit(r, ev.clientX, ev.clientY);
     d.ux = x;
@@ -258,7 +263,7 @@ export function createAuroraController(host: HTMLElement, screen: HTMLElement | 
   const onUp = (ev: PointerEvent) => {
     const d = downs.get(ev.pointerId);
     downs.delete(ev.pointerId);
-    if (!d?.stirring || !renderer || lost) return;
+    if (!d?.stirring || !renderer || lost || renderer.style === null) return;
     const r = canvas.getBoundingClientRect();
     if (r.width < 1 || r.height < 1) return;
     const [x, y] = toUnit(r, ev.clientX, ev.clientY);
