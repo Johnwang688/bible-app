@@ -1,9 +1,149 @@
 rules_version = '2';
-// Default deny (step 0). R-6b replaces this with the per-user rules.
+// Per-user sync data (R-6b). Layout and document shapes: client/src/sync/types.ts.
+//
+//   users/{uid}/items/{kind}:{ref}   one study item (highlight, note, bookmark) or its tombstone
+//   users/{uid}/devices/{deviceId}   one device's own reading progress
+//   users/{uid}/settings/{key}       one synced setting
+//
+// Only those three collections are open, and only to their owner. Clients may read and write (create
+// or replace) a document whose shape validates; they may never delete one (a deleted study item is a
+// tombstone; only the backend's Admin SDK, which bypasses these rules, removes documents). Every other
+// path, including users/{uid} itself, matches no rule and is therefore denied.
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if false;
+
+    // ---- Shared helpers -------------------------------------------------------------------------
+
+    // The signed-in user is the owner of users/{uid}.
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    // The map has exactly these keys: none missing, none extra.
+    function hasExactly(m, fields) {
+      return m.keys().hasAll(fields) && m.keys().hasOnly(fields);
+    }
+
+    // A device id: 1..64 of A-Z a-z 0-9 _ -  (also the devices document id).
+    function isDeviceId(s) {
+      return s is string && s.matches('^[A-Za-z0-9_-]{1,64}$');
+    }
+
+    // A client clock in ms: a positive int, at most one day ahead of the server.
+    function isClientTime(t) {
+      return t is int && t > 0 && t <= request.time.toMillis() + 86400000;
+    }
+
+    // The server write time: must be serverTimestamp(), never a client value.
+    function isServerTime(t) {
+      return t == request.time;
+    }
+
+    // ---- Study items: users/{uid}/items/{kind}:{ref} ---------------------------------------------
+
+    // The id is a kind and a verse: book 1..66, chapter and verse 1..999 without leading zeros.
+    function isItemId(id) {
+      return id.matches('^(highlight|note|bookmark):([1-9]|[1-5][0-9]|6[0-6]):[1-9][0-9]{0,2}:[1-9][0-9]{0,2}$');
+    }
+
+    // A live highlight value: { colour } with one of the six colour ids (theme/highlights.ts).
+    function isHighlightValue(v) {
+      return hasExactly(v, ['colour'])
+        && v.colour in ['yellow', 'orange', 'pink', 'purple', 'blue', 'green'];
+    }
+
+    // A live note value: { text } of 1..5000 characters (storage/keys.ts NOTE_MAX_LENGTH).
+    function isNoteValue(v) {
+      return hasExactly(v, ['text'])
+        && v.text is string && v.text.size() >= 1 && v.text.size() <= 5000;
+    }
+
+    // A live bookmark value: { createdAt }, an ISO time of 1..40 characters.
+    function isBookmarkValue(v) {
+      return hasExactly(v, ['createdAt'])
+        && v.createdAt is string && v.createdAt.size() >= 1 && v.createdAt.size() <= 40;
+    }
+
+    // A tombstone has a null value; a live item has the value of its kind.
+    function isItemValue(d) {
+      return d.deleted == true
+        ? d.value == null
+        : d.value is map && (
+            d.kind == 'highlight' ? isHighlightValue(d.value)
+            : d.kind == 'note' ? isNoteValue(d.value)
+            : d.kind == 'bookmark' && isBookmarkValue(d.value)
+          );
+    }
+
+    function isItem(itemId, d) {
+      return isItemId(itemId)
+        && hasExactly(d, ['kind', 'ref', 'deleted', 'value', 'updatedAt', 'deviceId', 'serverTime'])
+        && d.kind is string && d.ref is string
+        && itemId == d.kind + ':' + d.ref
+        && d.deleted is bool
+        && isItemValue(d)
+        && isClientTime(d.updatedAt)
+        && isDeviceId(d.deviceId)
+        && isServerTime(d.serverTime);
+    }
+
+    // ---- Device progress: users/{uid}/devices/{deviceId} ----------------------------------------
+
+    // The daily goal as the device last set it: null, or { minutes 5..120, updatedAt }.
+    function isGoal(g) {
+      return g == null || (
+        g is map && hasExactly(g, ['minutes', 'updatedAt'])
+        && g.minutes is int && g.minutes >= 5 && g.minutes <= 120
+        && g.updatedAt is int && g.updatedAt > 0
+      );
+    }
+
+    // The maps' and list's contents are validated by the client's schemas on pull; here only their
+    // types and sizes. `evidence` (device-local) is not allowed.
+    function isDevice(deviceId, d) {
+      return isDeviceId(deviceId)
+        && hasExactly(d, ['deviceId', 'activeMs', 'chaptersRead', 'goalMetDays', 'goal', 'updatedAt', 'serverTime'])
+        && d.deviceId == deviceId
+        && d.activeMs is map && d.activeMs.size() <= 20000
+        && d.chaptersRead is map && d.chaptersRead.size() <= 1189
+        && d.goalMetDays is list && d.goalMetDays.size() <= 20000
+        && isGoal(d.goal)
+        && isClientTime(d.updatedAt)
+        && isServerTime(d.serverTime);
+    }
+
+    // ---- Settings: users/{uid}/settings/{key} ---------------------------------------------------
+
+    // The synced settings (types.ts SETTING_KEYS); json at most 20000 characters (SETTING_JSON_MAX).
+    function isSetting(key, d) {
+      return key in ['appearance', 'appearance.custom', 'language']
+        && hasExactly(d, ['key', 'json', 'updatedAt', 'deviceId', 'serverTime'])
+        && d.key == key
+        && d.json is string && d.json.size() <= 20000
+        && isClientTime(d.updatedAt)
+        && isDeviceId(d.deviceId)
+        && isServerTime(d.serverTime);
+    }
+
+    // ---- Paths ----------------------------------------------------------------------------------
+
+    // users/{uid} itself has no rule: denied. Only these three subcollections are open.
+    match /users/{uid} {
+
+      match /items/{itemId} {
+        allow get, list: if isOwner(uid);
+        allow create, update: if isOwner(uid) && isItem(itemId, request.resource.data);
+      }
+
+      match /devices/{deviceId} {
+        allow get, list: if isOwner(uid);
+        allow create, update: if isOwner(uid) && isDevice(deviceId, request.resource.data);
+      }
+
+      match /settings/{key} {
+        allow get, list: if isOwner(uid);
+        allow create, update: if isOwner(uid) && isSetting(key, request.resource.data);
+      }
     }
   }
 }
