@@ -128,7 +128,7 @@ describe('web recorder', () => {
     expect(await rec.stop()).toBeNull();
   });
 
-  it('on native (the test platform) the recorder is the unsupported stub', async () => {
+  it('on native without the expo-audio module (the plain test platform) the recorder is the unsupported stub', async () => {
     const rec = createRecorder();
     expect(rec.supported).toBe(false);
     expect(await rec.permission()).toBe('unsupported');

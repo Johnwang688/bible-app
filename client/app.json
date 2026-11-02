@@ -32,7 +32,13 @@
       "expo-localization",
       "expo-font",
       "expo-splash-screen",
-      "expo-asset"
+      "expo-asset",
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "Bible App uses the microphone only while you answer a memory verse by voice."
+        }
+      ]
     ]
   }
 }

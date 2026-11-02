@@ -259,8 +259,8 @@ describe('voice states (fill-in)', () => {
     expect(screen.getByTestId('memory-type-input')).toBeTruthy();
   });
 
-  it('native (no recorder yet): typing only, with a note', async () => {
-    await lesson({}, { auth: SIGNED_IN });
+  it('a device that cannot record: typing only, with a note', async () => {
+    await lesson({ recorder: { ...fakeRecorder().recorder, supported: false } }, { auth: SIGNED_IN });
     expect(screen.getByTestId('memory-notice-unsupported')).toBeTruthy();
     expect(screen.queryByTestId('memory-mic')).toBeNull();
   });
