@@ -198,12 +198,15 @@ export function createAuroraController(host: HTMLElement, screen: HTMLElement | 
   /** Per pointer id: where it went down, and whether it has started stirring. */
   const downs = new Map<number, { x: number; y: number; stirring: boolean }>();
   const toUnit = (r: DOMRect, x: number, y: number) => [(x - r.left) / r.width, 1 - (y - r.top) / r.height] as const;
+  const canStir = () => !!renderer && !lost && state === 'running' && renderer.style === 'fluid';
   const onDown = (ev: PointerEvent) => {
+    // A pointer that went down while the aurora could not be stirred never stirs, whatever changes later.
+    if (!canStir()) return;
     downs.set(ev.pointerId, { x: ev.clientX, y: ev.clientY, stirring: false });
   };
   const onMove = (ev: PointerEvent) => {
     const d = downs.get(ev.pointerId);
-    if (!d || !renderer || lost || state !== 'running' || renderer.style !== 'fluid') return;
+    if (!d || !renderer || !canStir()) return;
     const r = canvas.getBoundingClientRect();
     if (r.width < 1 || r.height < 1) return;
     if (!d.stirring) {
