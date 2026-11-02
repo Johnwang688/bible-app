@@ -483,7 +483,7 @@ describe('a fast double tap (review r1)', () => {
     await press(button('Continue'));
     await pressNow(button('Start reading'));
     expect(screen.getByTestId('first-run-age')).toBeTruthy();
-    expect(storage.get(onboardingKey)).toBeNull();
+    expect(storage.get(onboardingKey)).toEqual({ done: false, ageRange: null });
   });
 
   it('a double tap on Get started stops at the look step', async () => {
