@@ -23,6 +23,15 @@ export const en = {
   'mode.light': 'Light',
   'mode.dark': 'Dark',
 
+  'aurora.label': 'Moving background',
+  'aurora.fluid.name': 'Fluid',
+  'aurora.fluid.desc': 'Drifts on its own. Stir it with a finger.',
+  'aurora.flow.name': 'Flow',
+  'aurora.flow.desc': 'A lighter, gentler drift.',
+  'aurora.note.motion': 'When your phone asks for less motion, the background stays still.',
+  'aurora.note.reduced': 'Animation is off because your phone asks for less motion.',
+  'aurora.note.glassOnly': 'For Aurora glass looks.',
+
   'preset.strawberry-milk': 'Strawberry milk',
   'preset.matcha-latte': 'Matcha latte',
   'preset.lavender-haze': 'Lavender haze',
