@@ -398,3 +398,44 @@ describe('page states', () => {
     expect(calls.page).toBe(2);
   });
 });
+
+describe('review round 2 regression tests', () => {
+  it('R2 exposes the overview expanded state on the web', async () => {
+    await renderPage('person', 'god');
+    const button = () => screen.getByTestId('entity-overview-toggle');
+    expect(button().props.accessibilityState.expanded).toBe(false);
+    await fireEvent.press(button());
+    expect(button().props.accessibilityState.expanded).toBe(true);
+    await fireEvent.press(button());
+    expect(button().props.accessibilityState.expanded).toBe(false);
+  });
+
+  it('R2 clears the filter disabled semantics after retry succeeds', async () => {
+    let down = true;
+    await renderList('place', {
+      list: async (kind) => {
+        if (down) {
+          throw new ApiError({
+            kind: 'network',
+            status: 0,
+            path: '/summary-entities/list/place',
+          });
+        }
+        return LISTS[kind];
+      },
+    });
+
+    const field = () => screen.getByTestId('entity-filter');
+    expect(field().props.editable).toBe(false);
+    expect(field().props['aria-disabled']).toBe(true);
+    expect(field().props.accessibilityState).toMatchObject({ disabled: true });
+
+    down = false;
+    await fireEvent.press(screen.getByTestId('entity-list-retry'));
+    await screen.findByTestId('entity-row-achaia');
+
+    expect(field().props.editable).toBe(true);
+    expect(field().props['aria-disabled']).toBe(false);
+    expect(field().props.accessibilityState).toMatchObject({ disabled: false });
+  });
+});

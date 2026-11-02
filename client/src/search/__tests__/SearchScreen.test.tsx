@@ -1,10 +1,10 @@
 // Acceptance (orchestrator-owned, R-5 part 2): the search screen (design/proposed/r5-search.html, approved by John,
 // with the fixes in r5/GO-AHEAD.md).
 import { QueryClient } from '@tanstack/react-query';
-import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react-native';
+import { act, fireEvent, render, renderHook, screen, waitFor, within } from '@testing-library/react-native';
 import * as fs from 'fs';
 import * as path from 'path';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ApiProvider } from '../../api/ApiProvider';
@@ -18,6 +18,7 @@ import { createStorage, memoryBackend } from '../../storage/storage';
 import { ThemeProvider } from '../../theme/ThemeProvider';
 import { SearchScreen } from '../components/SearchScreen';
 import { excerptAround } from '../excerpt';
+import { useScreenBack } from '../useScreenBack';
 
 const fixture = (name: string) =>
   JSON.parse(fs.readFileSync(path.resolve(__dirname, `../../../../tests/golden/fixtures/${name}.json`), 'utf8')).body;
@@ -465,5 +466,67 @@ describe('targets', () => {
     const list = screen.getByTestId('search-results');
     expect(list.props.keyboardDismissMode).toBe('on-drag');
     expect(list.props.keyboardShouldPersistTaps).toBe('handled');
+  });
+});
+
+describe('review round 2 regression tests', () => {
+  it('R2 ignores composing Escape without consuming it, then handles a normal Escape', async () => {
+    const previous = Object.getOwnPropertyDescriptor(globalThis, 'document');
+    const listeners = new Set<(event: KeyboardEvent) => void>();
+
+    const add = jest.fn((type: string, fn: (e: KeyboardEvent) => void) => {
+      if (type === 'keydown') listeners.add(fn);
+    });
+    const remove = jest.fn((type: string, fn: (e: KeyboardEvent) => void) => {
+      if (type === 'keydown') listeners.delete(fn);
+    });
+
+    Object.defineProperty(globalThis, 'document', {
+      configurable: true,
+      value: { addEventListener: add, removeEventListener: remove },
+    });
+
+    const os = jest.replaceProperty(Platform, 'OS', 'web');
+    const back = jest.fn();
+    let ui: Awaited<ReturnType<typeof renderHook>> | undefined;
+
+    try {
+      ui = await renderHook(() => useScreenBack(back));
+      expect(listeners.size).toBe(1);
+      expect(add).toHaveBeenCalledWith('keydown', expect.any(Function), true);
+
+      const composing = {
+        key: 'Escape',
+        repeat: false,
+        isComposing: true,
+        preventDefault: jest.fn(),
+        stopImmediatePropagation: jest.fn(),
+      };
+      await act(async () => {
+        for (const fn of listeners) {
+          fn(composing as unknown as KeyboardEvent);
+        }
+      });
+
+      expect(back).not.toHaveBeenCalled();
+      expect(composing.preventDefault).not.toHaveBeenCalled();
+      expect(composing.stopImmediatePropagation).not.toHaveBeenCalled();
+
+      const normal = { ...composing, isComposing: false };
+      await act(async () => {
+        for (const fn of listeners) {
+          fn(normal as unknown as KeyboardEvent);
+        }
+      });
+      expect(back).toHaveBeenCalledTimes(1);
+      expect(normal.preventDefault).toHaveBeenCalledTimes(1);
+      expect(normal.stopImmediatePropagation).toHaveBeenCalledTimes(1);
+    } finally {
+      await ui?.unmount();
+      expect(listeners.size).toBe(0);
+      os.restore();
+      if (previous) Object.defineProperty(globalThis, 'document', previous);
+      else Reflect.deleteProperty(globalThis, 'document');
+    }
   });
 });
