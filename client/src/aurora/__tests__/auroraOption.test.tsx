@@ -3,7 +3,7 @@
 // rows disabled, with its own note) and no muted text directly on the aurora. Mounting it in Customise waits
 // for R-6a. The implementer may not edit this file.
 import { act, fireEvent, render, screen } from '@testing-library/react-native';
-import { AccessibilityInfo, StyleSheet } from 'react-native';
+import { AccessibilityInfo, Platform as RNPlatform, StyleSheet } from 'react-native';
 
 import { I18nProvider } from '../../i18n/I18nProvider';
 import type { DeviceLocale } from '../../i18n/types';
@@ -21,6 +21,13 @@ const ZH: DeviceLocale = { languageTag: 'zh-Hans-CN', languageCode: 'zh', script
 type Host = ReturnType<typeof screen.getByTestId>;
 const isChecked = (el: Host) => el.props['aria-checked'] === true || el.props.accessibilityState?.checked === true;
 const isDisabled = (el: Host) => el.props['aria-disabled'] === true || el.props.accessibilityState?.disabled === true;
+/** A radio group by its label. Not by role: on iOS the group must not be an accessibility element (VoiceOver
+ * cannot reach controls nested in one), and the test library's role queries only find accessibility elements. */
+const radioGroup = (name: string) => {
+  const found = screen.container.queryAll((n) => n.type === 'View' && n.props.role === 'radiogroup' && n.props['aria-label'] === name);
+  expect(found).toHaveLength(1);
+  return found[0] as unknown as Host;
+};
 const isInside = (el: Host, ancestor: Host) => {
   for (let n: Host | null = el; n; n = n.parent) if (n === ancestor) return true;
   return false;
@@ -51,7 +58,7 @@ afterEach(() => {
 describe('the Moving background option', () => {
   it('on glass: two radios, Fluid (the default) checked, with descriptions and the motion note', async () => {
     await show('silver');
-    const group = screen.getByRole('radiogroup', { name: 'Moving background' });
+    const group = radioGroup('Moving background');
     const fluid = screen.getByRole('radio', { name: /^Fluid/ });
     const flow = screen.getByRole('radio', { name: /^Flow/ });
     expect(isInside(fluid, group) && isInside(flow, group)).toBe(true);
@@ -114,7 +121,7 @@ describe('the Moving background option', () => {
 
   it('in Chinese', async () => {
     await show('silver', { locale: ZH });
-    expect(screen.getByRole('radiogroup', { name: '动态背景' })).toBeTruthy();
+    expect(radioGroup('动态背景')).toBeTruthy();
     expect(screen.getByRole('radio', { name: /^流体/ })).toBeTruthy();
     expect(screen.getByRole('radio', { name: /^流光/ })).toBeTruthy();
     expect(textOf(screen.getByTestId('aurora-option-note'))).toBe('手机开启“减弱动态效果”时，背景保持静止。');
@@ -136,5 +143,22 @@ describe('the Moving background option', () => {
       if (!onCard) off.push(textOf(t as unknown as Host));
     }
     expect(off).toEqual([]);
+  });
+});
+
+// Acceptance (orchestrator-owned): the same iOS nesting Sol found in the first-run radio groups (flow review r1 F2).
+describe('native accessibility', () => {
+  it('does not nest the radios under an iOS accessibility element', async () => {
+    const Platform = RNPlatform as { OS: string };
+    const previous = Platform.OS;
+    Platform.OS = 'ios';
+    try {
+      await show('silver');
+      const groups = screen.container.queryAll((n) => n.type === 'View' && n.props.role === 'radiogroup');
+      expect(groups.length).toBeGreaterThan(0);
+      for (const group of groups) expect(group.props.accessible).not.toBe(true);
+    } finally {
+      Platform.OS = previous;
+    }
   });
 });
