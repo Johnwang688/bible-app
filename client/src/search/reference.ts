@@ -148,6 +148,15 @@ export interface BookIndex {
   readonly data: IndexData;
 }
 
+/**
+ * The book part of a query after the one strict normalisation that both parseReference and
+ * suggestPassages use. Chinese: Han words, whitespace removed. Latin: lowercase ASCII letters and
+ * digits in words, a trailing dot dropped, a leading i/ii/iii turned into 1/2/3 when more words follow.
+ */
+type BookPart =
+  | { readonly script: 'zh'; readonly key: string }
+  | { readonly script: 'latin'; readonly key: string; readonly words: string };
+
 interface Tail {
   readonly book: string;
   readonly chapter?: number | undefined;
@@ -161,15 +170,35 @@ function squash(text: string): string {
   return text.replace(/\s+/g, '');
 }
 
-/** Latin tokens after normalising, with a leading i/ii/iii turned into 1/2/3. */
-function latinTokens(text: string): string[] {
-  const tokens = normalizeSearchText(text).split(' ').filter(Boolean);
+/** A leading i/ii/iii turned into 1/2/3 when more words follow ("ii kings", but not "is"). */
+function romanToDigit(tokens: string[]): string[] {
   const first = tokens[0];
   if (tokens.length > 1 && first !== undefined) {
     const numbered = ROMAN.get(first);
     if (numbered !== undefined) tokens[0] = numbered;
   }
   return tokens;
+}
+
+/** Latin tokens of a name from the book list or the alias table (index side only, never a query). */
+function latinTokens(text: string): string[] {
+  return romanToDigit(normalizeSearchText(text).split(' ').filter(Boolean));
+}
+
+/**
+ * The strict normalisation of the book part of a query. Null when any character could not be part of
+ * a book token, so nothing is dropped and the rest matched (no "John 爱", "jo-hn", "j.ohn").
+ */
+function bookPart(text: string): BookPart | null {
+  if (CJK_BOOK.test(text)) return { script: 'zh', key: squash(text) };
+  if (!LATIN_BOOK.test(text)) return null;
+  const tokens = romanToDigit(text.replace(/\.$/, '').split(' '));
+  return { script: 'latin', key: tokens.join(''), words: tokens.join(' ') };
+}
+
+/** Length in code points, so a character outside the BMP counts once. */
+function charCount(text: string): number {
+  return [...text].length;
 }
 
 function putHit(map: Map<string, Hit | null>, key: string, bookNumber: number, bookOnly: boolean): void {
@@ -235,42 +264,29 @@ export function buildBookIndex(books: readonly BookInfo[]): BookIndex {
     const trad = TRAD_SHORT[n - 1];
     if (trad) putHit(zhExact, trad, n, false);
   }
+  // Aliases and extra short names only for books in the list: the index never resolves a missing book.
+  const present = new Set(indexed.map((b) => b.bookNumber));
   for (const [key, names] of Object.entries(ALIASES)) {
     const n = Number(key);
+    if (!present.has(n)) continue;
     for (const name of names) {
       const compact = latinTokens(name).join('');
       putHit(latinExact, compact, n, compact.length >= 3);
     }
   }
-  for (const [name, n] of EXTRA_ZH) putHit(zhExact, name, n, false);
+  for (const [name, n] of EXTRA_ZH) if (present.has(n)) putHit(zhExact, name, n, false);
 
   const byNumber = new Map(indexed.map((b) => [b.bookNumber, b] as const));
   return { data: { books: indexed, byNumber, latinExact, zhExact } };
 }
 
 /**
- * The book part of a strict query, as a compact Latin key, or null if it is not a plain Latin name.
- * Drops one trailing dot and turns a leading i/ii/iii into 1/2/3 when more words follow.
- */
-function strictLatinKey(text: string): string | null {
-  if (!LATIN_BOOK.test(text)) return null;
-  const tokens = text.replace(/\.$/, '').split(' ');
-  const first = tokens[0];
-  if (tokens.length > 1 && first !== undefined) {
-    const numbered = ROMAN.get(first);
-    if (numbered !== undefined) tokens[0] = numbered;
-  }
-  return tokens.join('');
-}
-
-/**
  * The book part of a strict query. Chinese must match a known name exactly. Latin must match a name or
- * alias exactly, or else a prefix that only one book has. Anything with other characters is no book.
+ * alias exactly, or else a prefix that only one book has.
  */
-function lookupStrict(text: string, data: IndexData): Hit | null {
-  if (CJK_BOOK.test(text)) return data.zhExact.get(squash(text)) ?? null;
-  const key = strictLatinKey(text);
-  if (!key) return null;
+function lookupStrict(part: BookPart, data: IndexData): Hit | null {
+  if (part.script === 'zh') return data.zhExact.get(part.key) ?? null;
+  const key = part.key;
   const exact = data.latinExact.get(key);
   if (exact !== undefined) return exact;
   if (key.length < 2) return null;
@@ -308,29 +324,34 @@ export function parseReference(query: string, index: BookIndex): PassageRef | nu
   const text = cleanQuery(query);
   if (!text) return null;
   const tail = splitTail(text);
-  const hit = lookupStrict(tail.book, index.data);
-  if (!hit) return null;
-  if (tail.chapter === undefined) return hit.bookOnly ? { bookNumber: hit.bookNumber } : null;
-  const book = index.data.byNumber.get(hit.bookNumber);
-  return book ? resolveStrict(book, tail.chapter, tail) : null;
+  const part = bookPart(tail.book);
+  const hit = part ? lookupStrict(part, index.data) : null;
+  const book = hit ? index.data.byNumber.get(hit.bookNumber) : undefined;
+  if (!hit || !book) return null;
+  if (tail.chapter === undefined) return hit.bookOnly ? { bookNumber: book.bookNumber } : null;
+  return resolveStrict(book, tail.chapter, tail);
 }
 
-/** Score of a book for a partial name. Higher is better; -Infinity means no match. */
-function bookScore(text: string, book: IndexedBook, data: IndexData): number {
+/**
+ * Score of a book for a partial name. Higher is better; -Infinity means no match.
+ * Chinese: an exact name or short name 560; else a full name (Simplified or Traditional) that starts
+ * with the text, 450 plus 100 times the coverage (typed length / name length). Latin: an exact name,
+ * code or alias 560; else the fuzzy scoreBookMatch on the strict words.
+ */
+function bookScore(part: BookPart, book: IndexedBook, data: IndexData): number {
   let best = Number.NEGATIVE_INFINITY;
-  const zh = squash(text);
-  if (zh) {
-    const hit = data.zhExact.get(zh);
-    if (hit && hit.bookNumber === book.bookNumber) best = Math.max(best, 560);
-    if (book.zhFull.some((name) => name.startsWith(zh))) best = Math.max(best, 450);
+  if (part.script === 'zh') {
+    const hit = data.zhExact.get(part.key);
+    if (hit && hit.bookNumber === book.bookNumber) best = 560;
+    const typed = charCount(part.key);
+    for (const name of book.zhFull) {
+      if (name.startsWith(part.key)) best = Math.max(best, 450 + (100 * typed) / charCount(name));
+    }
+    return best;
   }
-  const tokens = latinTokens(text);
-  if (tokens.length > 0) {
-    const hit = data.latinExact.get(tokens.join(''));
-    if (hit && hit.bookNumber === book.bookNumber) best = Math.max(best, 560);
-    best = Math.max(best, scoreBookMatch(tokens.join(' '), book.name));
-  }
-  return best;
+  const hit = data.latinExact.get(part.key);
+  if (hit && hit.bookNumber === book.bookNumber) best = 560;
+  return Math.max(best, scoreBookMatch(part.words, book.name));
 }
 
 /** The suggestion for one book at the typed chapter. Null when the chapter does not fit that book. */
@@ -355,7 +376,8 @@ export function suggestPassages(query: string, index: BookIndex, limit = 5): Pas
   const text = cleanQuery(query);
   if (!text) return [];
   const tail = splitTail(text);
-  if (!tail.book) return [];
+  const part = bookPart(tail.book);
+  if (!part) return [];
 
   const out: PassageRef[] = [];
   const taken = new Set<number>();
@@ -368,7 +390,7 @@ export function suggestPassages(query: string, index: BookIndex, limit = 5): Pas
   const scored: { score: number; bookNumber: number; ref: PassageRef }[] = [];
   for (const book of index.data.books) {
     if (taken.has(book.bookNumber)) continue;
-    const score = bookScore(tail.book, book, index.data);
+    const score = bookScore(part, book, index.data);
     if (!Number.isFinite(score)) continue;
     const ref = suggestionRef(book, tail);
     if (ref) scored.push({ score, bookNumber: book.bookNumber, ref });
