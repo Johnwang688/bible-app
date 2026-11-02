@@ -42,6 +42,11 @@ export const en = {
 
   'content.englishOnly': 'English',
 
+  // ---- Web beta (B-1) ----
+  'beta.badge': 'Beta',
+  'beta.language.zh-Hans': '简体中文（测试版）',
+  'beta.language.note': 'The Chinese interface is in beta. Some wording may still change.',
+
   'translation.BSB.short': 'BSB',
   'translation.BSB.name': 'Berean Standard Bible',
   'translation.WEB.short': 'WEB',

@@ -44,6 +44,11 @@ export const zhHans: Record<MessageKey, string> = {
 
   'content.englishOnly': '英文',
 
+  // ---- Web beta (B-1) ----
+  'beta.badge': '测试版',
+  'beta.language.zh-Hans': '简体中文（测试版）',
+  'beta.language.note': '中文界面仍在测试阶段，部分用语可能还会调整。',
+
   'translation.BSB.short': 'BSB',
   'translation.BSB.name': 'Berean Standard Bible',
   'translation.WEB.short': 'WEB',
