@@ -9,12 +9,14 @@ import { useT } from '../../i18n/I18nProvider';
 import type { DeviceLocale } from '../../i18n/types';
 import type { ReaderPosition, ReadingSettings } from '../../storage/keys';
 import { getStorage, type Storage } from '../../storage/storage';
+import { useStudyItems } from '../../study';
 import { useTheme } from '../../theme/ThemeProvider';
 import { findBook, useBooks } from '../books';
 import { clampPosition, nextPosition, prevPosition } from '../navigation';
 import { useReaderPosition, useReadingSettings } from '../state';
 import type { TranslationId } from '../translations';
 import { usePrefetchAdjacent, useChapter } from '../useChapter';
+import { focusNodeSoon } from './a11y';
 import { BookPicker } from './BookPicker';
 import { ChapterView, NARROW_PADDING, WIDE_BREAKPOINT, WIDE_PADDING } from './ChapterView';
 import { Icon } from './icons';
@@ -24,10 +26,20 @@ import { useArrowKeys } from './useArrowKeys';
 import { useChapterSwipe, type SwipeDirection } from './useChapterSwipe';
 import { useCollapsingHeader } from './useCollapsingHeader';
 import { useTabFocused } from './useTabFocused';
+import { VerseSheet } from './VerseSheet';
 import { VersionPicker } from './VersionPicker';
 import { buttonStyle } from './ui';
 
 type Sheet = 'book' | 'version' | 'settings';
+
+interface Selection {
+  /** The chapter and translation it belongs to. */
+  key: string;
+  /** The verse the selection started from; a long press extends from here. */
+  anchor: number;
+  start: number;
+  end: number;
+}
 
 /** Room under the text for the floating tab bar (plus the bottom inset). */
 const TAB_BAR_ROOM = 120;
@@ -43,6 +55,7 @@ export function ReaderScreen(props: { storage?: Storage; locales?: readonly Devi
 
   const { position: stored, setPosition } = useReaderPosition({ storage, locales: props.locales });
   const [settings, setSettings] = useReadingSettings({ storage });
+  const study = useStudyItems({ storage });
   const books = useBooks();
 
   const position = useMemo<ReaderPosition>(
@@ -118,15 +131,57 @@ export function ReaderScreen(props: { storage?: Storage; locales?: readonly Devi
     moveTo({ ...here, translation: current.parallel });
   }, [moveTo]);
 
-  // Tapping a verse selects it (the verse sheet is R-2); tapping it again clears it.
-  const chapterKey = `${position.bookNumber}:${position.chapter}`;
-  const [selection, setSelection] = useState<{ key: string; verse: number } | null>(null);
-  const selectedVerse = selection?.key === chapterKey ? selection.verse : null;
+  // The selection is a range in the shown chapter. It belongs to one chapter in one translation: any
+  // change of either discards it. Tapping a verse selects it and opens the verse sheet; a long press
+  // on another verse extends the range. Closing the sheet clears the selection.
+  const selectionKey = `${position.bookNumber}:${position.chapter}:${first}`;
+  const [selection, setSelection] = useState<Selection | null>(null);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const range = selection?.key === selectionKey ? selection : null;
+  // Adjusting state while rendering: a selection from another chapter or translation is dropped at once,
+  // so it can never reappear when the reader comes back to that chapter.
+  if (selection && !range) setSelection(null);
+
   const onVersePress = useCallback(
-    (verse: number) =>
-      setSelection((prev) => (prev && prev.key === chapterKey && prev.verse === verse ? null : { key: chapterKey, verse })),
-    [chapterKey],
+    (verse: number) => {
+      setSelection({ key: selectionKey, anchor: verse, start: verse, end: verse });
+      setSheetOpen(true);
+    },
+    [selectionKey],
   );
+  const onVerseLongPress = useCallback(
+    (verse: number) => {
+      setSelection((prev) =>
+        prev && prev.key === selectionKey
+          ? { ...prev, start: Math.min(prev.anchor, verse), end: Math.max(prev.anchor, verse) }
+          : { key: selectionKey, anchor: verse, start: verse, end: verse },
+      );
+      setSheetOpen(true);
+    },
+    [selectionKey],
+  );
+
+  // Each verse-tools button, so focus can go back to it when the sheet closes.
+  const toolsRefs = useRef(new Map<number, unknown>());
+  const registerTools = useCallback((verse: number, node: unknown) => {
+    if (node) toolsRefs.current.set(verse, node);
+    else toolsRefs.current.delete(verse);
+  }, []);
+
+  const closeVerseSheet = () => {
+    const anchor = range?.anchor;
+    setSheetOpen(false);
+    setSelection(null);
+    if (anchor !== undefined) focusNodeSoon(toolsRefs.current.get(anchor));
+  };
+
+  // A reference on a word card: close the sheet, go to that chapter in this translation, select the verse.
+  const goToReference = (bookNumber: number, chapter: number, verse: number) => {
+    const here = positionRef.current;
+    setSheetOpen(false);
+    moveTo({ bookNumber, chapter, translation: here.translation });
+    setSelection({ key: `${bookNumber}:${chapter}:${here.translation}`, anchor: verse, start: verse, end: verse });
+  };
 
   const hideDistance = insets.top + HEADER_BODY_HEIGHT + 4;
   const header = useCollapsingHeader(hideDistance);
@@ -140,7 +195,7 @@ export function ReaderScreen(props: { storage?: Storage; locales?: readonly Devi
   const swipeHandlers = useChapterSwipe(turn);
   // Keys move the reader only while its tab is showing (the tab stays mounted on web) and no sheet is open.
   const focused = useTabFocused();
-  useArrowKeys({ onNext: goNext, onPrev: goPrev, disabled: sheet !== null || !focused });
+  useArrowKeys({ onNext: goNext, onPrev: goPrev, disabled: sheet !== null || sheetOpen || !focused });
 
   // What to show: always derived from the queries for the current position.
   const queries = secondId ? [books, firstQuery, secondQuery] : [books, firstQuery];
@@ -179,8 +234,12 @@ export function ReaderScreen(props: { storage?: Storage; locales?: readonly Devi
           translation={first}
           second={secondId && secondQuery.data ? { chapter: secondQuery.data, translation: secondId } : null}
           textSize={settings.textSize}
-          selectedVerse={selectedVerse}
+          selectedVerse={range?.start ?? null}
+          selectedEnd={range?.end}
+          study={study}
           onVersePress={onVersePress}
+          onVerseLongPress={onVerseLongPress}
+          registerTools={registerTools}
           onSwap={swap}
         />
         <View style={styles.navRow}>
@@ -263,6 +322,18 @@ export function ReaderScreen(props: { storage?: Storage; locales?: readonly Devi
         />
       ) : null}
       {sheet === 'version' ? <VersionPicker current={first} onSelect={chooseTranslation} onClose={closeSheet} /> : null}
+      {range && sheetOpen && book && firstQuery.data ? (
+        <VerseSheet
+          book={book}
+          chapter={firstQuery.data}
+          translation={first}
+          start={range.start}
+          end={range.end}
+          study={study}
+          onClose={closeVerseSheet}
+          onGoTo={goToReference}
+        />
+      ) : null}
       {sheet === 'settings' ? (
         <ReadingSettingsSheet settings={settings} translation={first} onChange={saveSettings} onSwap={swap} onClose={closeSheet} />
       ) : null}
