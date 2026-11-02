@@ -168,10 +168,11 @@ for (const [locale, label] of [
       await expect(page.getByTestId('home-votd-text')).toBeVisible();
       const overflow = () => page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
       expect(await overflow()).toBeLessThanOrEqual(0);
+      // 44 pt, less a hundredth: at 1.5x a box measured while the sheet slides in can come out at 43.9999.
       for (const id of ['home-streak', 'home-goal', 'home-continue', 'home-votd-share', 'home-surprise-go']) {
         const box = (await page.getByTestId(id).boundingBox())!;
         expect(box.x + box.width).toBeLessThanOrEqual(375);
-        if (id !== 'home-streak') expect(box.height).toBeGreaterThanOrEqual(44);
+        if (id !== 'home-streak') expect(box.height).toBeGreaterThanOrEqual(43.99);
       }
       await page.getByTestId('home-goal').click();
       await expect(page.getByTestId('goal-sheet')).toBeVisible();
@@ -179,7 +180,7 @@ for (const [locale, label] of [
       for (const id of ['goal-minus', 'goal-plus', 'goal-choice-60', 'goal-sheet-close']) {
         const box = (await page.getByTestId(id).boundingBox())!;
         expect(box.x + box.width).toBeLessThanOrEqual(375);
-        expect(box.height).toBeGreaterThanOrEqual(44);
+        expect(box.height).toBeGreaterThanOrEqual(43.99);
       }
     });
   });
