@@ -252,6 +252,24 @@ test.describe('verse sheet (R-2)', () => {
     await expect(page.getByTestId('verse-sheet').getByText('John 3:16–17', { exact: true })).toBeVisible();
   });
 
+  for (const preset of ['silver', 'strawberry-milk']) {
+    test(`nothing covers the verse sheet: its last row is the topmost element (${preset})`, async ({ page }) => {
+      await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
+      await seed(page, 'appearance', { preset, mode: 'light' });
+      await page.goto('/bible');
+      await page.getByTestId('verse-16-tools').click();
+      const row = page.getByTestId('sheet-commentary');
+      await expect(row).toBeVisible();
+      await expect(row).toBeInViewport({ ratio: 1 });
+      const covered = await row.evaluate((el) => {
+        const r = el.getBoundingClientRect();
+        const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+        return !(hit && el.contains(hit));
+      });
+      expect(covered).toBe(false);
+    });
+  }
+
   test('keyboard users open the verse sheet from the verse-tools button with Enter', async ({ page }) => {
     await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
     await page.goto('/bible');
