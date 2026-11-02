@@ -1,6 +1,16 @@
 // The transcription client: uploads one recording to the Bible app's server and reports what came back as a
 // typed `VoiceOutcome`. It never throws and settles exactly once; nothing is uploaded when the device is
 // offline or the user is signed out.
+//
+// INVARIANT (cancel always wins): once the caller has aborted, the result is `cancelled` (and once the
+// deadline has passed, `timeout`), whatever the token, the fetch or the body do afterwards.
+// How the code keeps it:
+// - The verdict is decided by the first of {the caller's abort, the deadline} and never changes after.
+// - Every await races against that verdict, so a pending token, fetch or body cannot hold the call open.
+// - Every return after the listener is attached goes through `settle()`, which reads the caller's
+//   `signal.aborted` and the verdict synchronously and is the last thing before the return: no await follows
+//   it, so an abort that lands between an await resuming and the return still turns the result into
+//   `cancelled`.
 import { SPEECH_QUERY_PARAM } from '../speech/types';
 import {
   MINUTE_LIMIT_MAX_RETRY_S,
@@ -24,34 +34,41 @@ function retryAfterSeconds(header: string | null | undefined): number {
 }
 
 const ABORTED = Symbol('aborted');
+const ERROR: VoiceOutcome = { kind: 'error' };
 
 export const checkVoice: CheckVoice = async (audio, language, deps, signal) => {
+  let early: VoiceOutcome | null;
   try {
-    if (!(deps.isOnline ?? deviceIsOnline)()) return { kind: 'offline' };
+    early = (deps.isOnline ?? deviceIsOnline)() ? null : { kind: 'offline' };
   } catch {
-    return { kind: 'error' };
+    early = ERROR;
   }
+  // A caller who has already aborted gets `cancelled`, even offline: the invariant has no exceptions.
   if (signal?.aborted) return { kind: 'cancelled' };
+  if (early) return early;
 
-  // The verdict is decided at the first abort (the caller's Cancel, or the deadline), and every await below
-  // races against it, so the call settles once, at that moment, whatever the token, the fetch or the body do.
   const controller = new AbortController();
   let verdict: 'cancelled' | 'timeout' | null = null;
   let signalAbort!: () => void;
   const aborted = new Promise<typeof ABORTED>((resolve) => {
     signalAbort = () => resolve(ABORTED);
   });
+  // The first abort decides the verdict; later ones change nothing.
   const abort = (reason: 'cancelled' | 'timeout') => {
     if (verdict !== null) return;
     verdict = reason;
     controller.abort();
     signalAbort();
   };
-  // The verdict if an abort came first, else a plain failure (read through a function: the closures set it).
-  const failure = (): VoiceOutcome => ({ kind: verdict ?? 'error' });
-  // A result that lands after the first abort is dropped, even if it won the race by arriving at once.
-  const race = <T>(pending: Promise<T>): Promise<T | typeof ABORTED> =>
-    Promise.race([aborted, pending]).then((value) => (verdict !== null ? ABORTED : value));
+  // Whether an abort has been decided, reading the caller's signal too (synchronous).
+  const decided = (): boolean => {
+    if (verdict === null && signal?.aborted) abort('cancelled');
+    return verdict !== null;
+  };
+  // The result as returned: a decided abort wins over anything else. Must be the last step before a return.
+  const settle = (outcome: VoiceOutcome): VoiceOutcome => (decided() ? { kind: verdict! } : outcome);
+  // Resolves with the value, or ABORTED as soon as an abort is decided.
+  const race = <T>(pending: Promise<T>): Promise<T | typeof ABORTED> => Promise.race([aborted, pending]);
 
   const onCallerAbort = () => abort('cancelled');
   signal?.addEventListener('abort', onCallerAbort);
@@ -59,8 +76,8 @@ export const checkVoice: CheckVoice = async (audio, language, deps, signal) => {
 
   try {
     const token = await race(Promise.resolve().then(() => deps.getIdToken()));
-    if (token === ABORTED) return failure();
-    if (token === null) return { kind: 'signed-out' };
+    if (token === ABORTED || decided()) return settle(ERROR);
+    if (token === null) return settle({ kind: 'signed-out' });
 
     const res = await race(
       Promise.resolve().then(() =>
@@ -72,15 +89,14 @@ export const checkVoice: CheckVoice = async (audio, language, deps, signal) => {
         }),
       ),
     );
-    if (res === ABORTED) return failure();
-    if (res.status >= 200 && res.status < 300) {
-      const body = await race(Promise.resolve(res.json()) as Promise<{ text?: unknown } | null>);
-      if (body === ABORTED) return failure();
-      return typeof body?.text === 'string' ? { kind: 'text', text: body.text.trim() } : { kind: 'error' };
-    }
-    return outcomeForStatus(res.status, res.headers?.get('Retry-After'));
+    if (res === ABORTED || decided()) return settle(ERROR);
+    if (res.status < 200 || res.status >= 300) return settle(outcomeForStatus(res.status, res.headers?.get('Retry-After')));
+
+    const body = await race(Promise.resolve().then(() => res.json() as Promise<{ text?: unknown } | null>));
+    if (body === ABORTED || decided()) return settle(ERROR);
+    return settle(typeof body?.text === 'string' ? { kind: 'text', text: body.text.trim() } : ERROR);
   } catch {
-    return failure();
+    return settle(ERROR);
   } finally {
     clearTimeout(timer);
     signal?.removeEventListener('abort', onCallerAbort);
