@@ -5,3 +5,4 @@ export * from './alternateReadings';
 export * from './books';
 export * from './state';
 export * from './useChapter';
+export * from './words';
