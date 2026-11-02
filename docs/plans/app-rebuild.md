@@ -258,7 +258,8 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
 - **Known, for John (parked per 5a step 5):**
   - Sol sync rounds 3 and 4 found 1 + 2 more cases in the journal's commit. Both are unreachable from today's app code: one needs a crash followed by another account syncing first; the other needs a storage listener that writes a synced key mid-commit.
   - Sol's Under 13 round 2 found 2 more: an offer after a failed gate sign-out, then an ordinary sign-out and a restore; and Back/Escape closing the delete sheet just after submit.
-  - A held-back future-clock item stays on this device until it is edited again. Fixing that needs the remote contract to report what it held back.
+  - A held-back future-clock item stays on this device until it is edited again. So does an item the server refuses on its own in a document-by-document retry (security round 5, S5-1, medium). Fixing it needs the remote contract to report what it held back.
+  - The rest of security round 5 (low): a refused batch's fan-out repeats on every retry (S5-2); a held-back goal rewrites the device document on every run (S5-3); an MMKV failure on first launch can wipe a new sign-in (S5-4) or let the first build's clear session come back (S5-5); the app closing between Under 13 and the gate's sign-out loses the offer (S5-6). Each test is skipped, with a fix design.
   - The device-document count per user is not capped. App Check and a budget alert are the controls.
 - **Mounting:** `AccountCard` mounts on Me when R-6a is on main (one line). `appearanceCustomKey` joins the synced settings then too.
 
