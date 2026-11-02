@@ -4,16 +4,18 @@
 import type { Color, Theme } from './types';
 
 export interface DangerColours {
-  /** Text, icons and error borders on a card or sheet. */
+  /** Text and icons on a card or sheet. */
   text: Color;
+  /** The border of an invalid field: at least 3:1 on every field and sheet surface (Sol UI review R6). */
+  border: Color;
   /** The fill of a destructive button. */
   fill: Color;
   /** Text on `fill`. */
   onFill: Color;
 }
 
-const LIGHT: DangerColours = { text: '#B3261E', fill: '#B3261E', onFill: '#FFFFFF' };
-const DARK: DangerColours = { text: '#FFB4AB', fill: '#FFB4AB', onFill: '#111317' };
+const LIGHT: DangerColours = { text: '#B3261E', border: '#8C1D18', fill: '#B3261E', onFill: '#FFFFFF' };
+const DARK: DangerColours = { text: '#FFB4AB', border: '#FFB4AB', fill: '#FFB4AB', onFill: '#111317' };
 
 export function dangerColours(theme: Pick<Theme, 'mode'>): DangerColours {
   return theme.mode === 'dark' ? DARK : LIGHT;

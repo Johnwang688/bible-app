@@ -124,12 +124,13 @@ describe('Sol review: reproducible account UI counterexamples', () => {
   });
 });
 
-// Error fields use danger.text instead of the normal border helper. They must retain 3:1 too.
+// Error fields use the danger border colour. It must retain 3:1 (orchestrator: rewritten from `.text` to the new
+// `.border` field, same intent, so John's approved danger text colour stays).
 test('R6: invalid-field borders retain 3:1 on every preset field and sheet surface', () => {
   const failures = PRESET_IDS.flatMap((id) => {
     const theme = getTheme(id);
     const { sheet, field } = fieldSurfaces(theme);
-    const ratio = Math.min(...[...sheet, ...field].map((bg) => contrastRatio(dangerColours(theme).text, bg)));
+    const ratio = Math.min(...[...sheet, ...field].map((bg) => contrastRatio(dangerColours(theme).border, bg)));
     return ratio < 3 ? [{ id, ratio: Number(ratio.toFixed(2)) }] : [];
   });
   expect(failures).toEqual([]);

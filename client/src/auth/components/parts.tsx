@@ -275,7 +275,7 @@ export interface AuthFieldProps {
 
 export function AuthField({ inputRef, focusNext, ...p }: AuthFieldProps) {
   const theme = useTheme();
-  const danger = dangerColours(theme).text;
+  const danger = dangerColours(theme).border;
   const pill = theme.radii.button >= 24;
   return (
     <View style={styles.fieldGroup}>
