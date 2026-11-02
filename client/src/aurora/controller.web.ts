@@ -4,7 +4,7 @@
 import type { AuroraStyle } from './keys';
 import { auroraState, createAuroraLoop, type AuroraClock, type AuroraRenderer, type AuroraState } from './loop';
 import { samePalette, type AuroraPalette } from './palette';
-import { createAuroraRenderer, type PointerKind, type WebAuroraRenderer } from './renderer.web';
+import { createAuroraRenderer, type WebAuroraRenderer } from './renderer.web';
 
 export interface AuroraInputs {
   style: AuroraStyle;
@@ -23,6 +23,8 @@ export interface AuroraController {
 const RESOLUTION = 0.5;
 /** How often, at most, a running aurora writes its frame count to the canvas. */
 const REPORT_MS = 250;
+/** How far (CSS px) a pointer must move from where it went down before it stirs. */
+const STIR_SLOP_PX = 10;
 
 /** The canvas backing size for its CSS size, or null while it has no size (a hidden tab). */
 function backingSize(el: HTMLElement): { w: number; h: number } | null {
@@ -189,16 +191,39 @@ export function createAuroraController(host: HTMLElement, screen: HTMLElement | 
   canvas.addEventListener('webglcontextrestored', onRestored);
 
   // ---- stirring (fluid only) ----
-  const pointer = (kind: PointerKind, ev: PointerEvent) => {
-    if (!renderer || lost) return;
-    if (kind !== 'up' && (state !== 'running' || renderer.style !== 'fluid')) return;
+  // Only a deliberate drag stirs: a pointer sends nothing until it has moved STIR_SLOP_PX from where it
+  // went down. `touch-action: pan-y pinch-zoom` lets a vertical drag scroll and keeps pinch-zoom (the browser then cancels the pointer).
+  const savedTouchAction = screen ? screen.style.touchAction : '';
+  if (screen) screen.style.touchAction = 'pan-y pinch-zoom';
+  /** Per pointer id: where it went down, and whether it has started stirring. */
+  const downs = new Map<number, { x: number; y: number; stirring: boolean }>();
+  const toUnit = (r: DOMRect, x: number, y: number) => [(x - r.left) / r.width, 1 - (y - r.top) / r.height] as const;
+  const onDown = (ev: PointerEvent) => {
+    downs.set(ev.pointerId, { x: ev.clientX, y: ev.clientY, stirring: false });
+  };
+  const onMove = (ev: PointerEvent) => {
+    const d = downs.get(ev.pointerId);
+    if (!d || !renderer || lost || state !== 'running' || renderer.style !== 'fluid') return;
     const r = canvas.getBoundingClientRect();
     if (r.width < 1 || r.height < 1) return;
-    renderer.pointer(kind, ev.pointerId, (ev.clientX - r.left) / r.width, 1 - (ev.clientY - r.top) / r.height);
+    if (!d.stirring) {
+      if (Math.hypot(ev.clientX - d.x, ev.clientY - d.y) < STIR_SLOP_PX) return;
+      d.stirring = true;
+      const [x, y] = toUnit(r, d.x, d.y);
+      renderer.pointer('down', ev.pointerId, x, y);
+    }
+    const [x, y] = toUnit(r, ev.clientX, ev.clientY);
+    renderer.pointer('move', ev.pointerId, x, y);
   };
-  const onDown = (ev: PointerEvent) => pointer('down', ev);
-  const onMove = (ev: PointerEvent) => pointer('move', ev);
-  const onUp = (ev: PointerEvent) => pointer('up', ev);
+  const onUp = (ev: PointerEvent) => {
+    const d = downs.get(ev.pointerId);
+    downs.delete(ev.pointerId);
+    if (!d?.stirring || !renderer || lost) return;
+    const r = canvas.getBoundingClientRect();
+    if (r.width < 1 || r.height < 1) return;
+    const [x, y] = toUnit(r, ev.clientX, ev.clientY);
+    renderer.pointer('up', ev.pointerId, x, y);
+  };
   const passive: AddEventListenerOptions = { passive: true };
   screen?.addEventListener('pointerdown', onDown, passive);
   screen?.addEventListener('pointermove', onMove, passive);
@@ -239,6 +264,8 @@ export function createAuroraController(host: HTMLElement, screen: HTMLElement | 
       screen?.removeEventListener('pointermove', onMove, passive);
       screen?.removeEventListener('pointerup', onUp, passive);
       screen?.removeEventListener('pointercancel', onUp, passive);
+      downs.clear();
+      if (screen) screen.style.touchAction = savedTouchAction;
       renderer?.dispose();
       renderer = null;
       canvas.remove();

@@ -25,6 +25,15 @@ export const zhHans: Record<MessageKey, string> = {
   'mode.light': '浅色',
   'mode.dark': '深色',
 
+  'aurora.label': '动态背景',
+  'aurora.fluid.name': '流体',
+  'aurora.fluid.desc': '自行流动，可用手指搅动。',
+  'aurora.flow.name': '流光',
+  'aurora.flow.desc': '更轻柔的流动。',
+  'aurora.note.motion': '手机开启“减弱动态效果”时，背景保持静止。',
+  'aurora.note.reduced': '手机已开启“减弱动态效果”，所以动画已关闭。',
+  'aurora.note.glassOnly': '适用于极光玻璃外观。',
+
   'preset.strawberry-milk': '草莓牛奶',
   'preset.matcha-latte': '抹茶拿铁',
   'preset.lavender-haze': '薰衣草雾',

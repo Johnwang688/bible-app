@@ -3,3 +3,4 @@
 // sits directly on it `auroraTextShadow(theme)`.
 export { AuroraBackground } from './AuroraBackground';
 export { auroraTextShadow } from './textShadow';
+export { AuroraOption } from './AuroraOption';
