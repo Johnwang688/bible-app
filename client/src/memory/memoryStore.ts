@@ -102,12 +102,15 @@ export function createMemoryStore(storage: Storage): MemoryStore {
         };
       };
 
-      // The first attempt starts the history; a newly completed day is added once. Stored history
-      // may hold duplicates, so they are dropped before the cap: no distinct day is lost while
-      // there is room. Only the recent run matters to the streak, so the cap drops the oldest.
-      // Null when nothing changes.
+      // The first attempt starts the history; a newly completed day is added once. `startedOn` is
+      // the earlier of the stored date and this call's day (both YYYY-MM-DD, so a string compare
+      // orders them): a nested submit that runs after midnight must not move it to the later day.
+      // Stored history may hold duplicates, so they are dropped before the cap: no distinct day is
+      // lost while there is room. Only the recent run matters to the streak, so the cap drops the
+      // oldest. Null when nothing changes.
       const applyHistory = (history: MemoryHistory, justCompleted: boolean): MemoryHistory | null => {
-        const startedOn = history.startedOn ?? today;
+        const startedOn =
+          history.startedOn === null ? today : history.startedOn < today ? history.startedOn : today;
         const addDay = justCompleted && !history.completedDates.includes(today);
         if (startedOn === history.startedOn && !addDay) return null;
         const completedDates = addDay
