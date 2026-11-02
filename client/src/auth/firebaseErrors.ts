@@ -19,6 +19,8 @@ const KINDS: Record<string, AuthErrorKind> = {
   'auth/too-many-requests': 'too-many-requests',
   'auth/network-request-failed': 'network',
   'auth/requires-recent-login': 'requires-recent-login',
+  // The session was revoked (password changed, account deleted or disabled): sign in again.
+  'auth/user-token-expired': 'requires-recent-login',
 };
 
 /** The error's Firebase Auth code (`auth/...`), or undefined. */

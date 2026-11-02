@@ -9,6 +9,11 @@ rules_version = '2';
 // or replace) a document whose shape validates; they may never delete one (a deleted study item is a
 // tombstone; only the backend's Admin SDK, which bypasses these rules, removes documents). Every other
 // path, including users/{uid} itself, matches no rule and is therefore denied.
+//
+//   deletedUsers/{uid}               { deletedAt }: written by the backend's "delete my data" (Admin SDK).
+//                                    Closed to clients. While it exists, only a sign-in after deletedAt
+//                                    may write under users/{uid}, so an ID token issued before the delete
+//                                    (still valid for up to an hour on another device) cannot recreate data.
 service cloud.firestore {
   match /databases/{database}/documents {
 
@@ -17,6 +22,16 @@ service cloud.firestore {
     // The signed-in user is the owner of users/{uid}.
     function isOwner(uid) {
       return request.auth != null && request.auth.uid == uid;
+    }
+
+    // The owner may write under users/{uid} unless the account's data was deleted after this sign-in.
+    // A uid that was never deleted has no marker; deletedAt is a timestamp, auth_time is in seconds.
+    function canWrite(uid) {
+      let marker = /databases/$(database)/documents/deletedUsers/$(uid);
+      return isOwner(uid) && (
+        !exists(marker)
+        || request.auth.token.auth_time * 1000 > get(marker).data.deletedAt.toMillis()
+      );
     }
 
     // The map has exactly these keys: none missing, none extra.
@@ -89,12 +104,12 @@ service cloud.firestore {
 
     // ---- Device progress: users/{uid}/devices/{deviceId} ----------------------------------------
 
-    // The daily goal as the device last set it: null, or { minutes 5..120, updatedAt }.
+    // The daily goal as the device last set it: null, or { minutes 5..120, updatedAt (a client clock) }.
     function isGoal(g) {
       return g == null || (
         g is map && hasExactly(g, ['minutes', 'updatedAt'])
         && g.minutes is int && g.minutes >= 5 && g.minutes <= 120
-        && g.updatedAt is int && g.updatedAt > 0
+        && isClientTime(g.updatedAt)
       );
     }
 
@@ -127,22 +142,28 @@ service cloud.firestore {
 
     // ---- Paths ----------------------------------------------------------------------------------
 
+    // Deletion markers: Admin SDK only (it bypasses rules). Stated explicitly for readability.
+    match /deletedUsers/{uid} {
+      allow read, write: if false;
+    }
+
     // users/{uid} itself has no rule: denied. Only these three subcollections are open.
+    // Reads stay open to the owner; writes also need canWrite (the deletion marker check).
     match /users/{uid} {
 
       match /items/{itemId} {
         allow get, list: if isOwner(uid);
-        allow create, update: if isOwner(uid) && isItem(itemId, request.resource.data);
+        allow create, update: if canWrite(uid) && isItem(itemId, request.resource.data);
       }
 
       match /devices/{deviceId} {
         allow get, list: if isOwner(uid);
-        allow create, update: if isOwner(uid) && isDevice(deviceId, request.resource.data);
+        allow create, update: if canWrite(uid) && isDevice(deviceId, request.resource.data);
       }
 
       match /settings/{key} {
         allow get, list: if isOwner(uid);
-        allow create, update: if isOwner(uid) && isSetting(key, request.resource.data);
+        allow create, update: if canWrite(uid) && isSetting(key, request.resource.data);
       }
     }
   }

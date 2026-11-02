@@ -23,19 +23,26 @@ NOW = int(time.time())
 
 
 class FakeRef:
-    def __init__(self, path: str):
+    def __init__(self, path: str, log: list | None = None, fail: bool = False):
         self.path = path
+        self.log = log if log is not None else []
+        self.fail = fail
 
     def collection(self, name: str) -> "FakeCollection":
         return FakeCollection(f"{self.path}/{name}")
 
+    def set(self, data, *args, **kwargs):
+        self.log.append(("set", self.path))
+
 
 class FakeCollection:
-    def __init__(self, path: str):
+    def __init__(self, path: str, log: list | None = None, fail: bool = False):
         self.path = path
+        self.log = log
+        self.fail = fail
 
     def document(self, doc_id: str) -> FakeRef:
-        return FakeRef(f"{self.path}/{doc_id}")
+        return FakeRef(f"{self.path}/{doc_id}", self.log, self.fail)
 
 
 class FakeDb:
@@ -44,7 +51,7 @@ class FakeDb:
         self.fail = fail
 
     def collection(self, name: str) -> FakeCollection:
-        return FakeCollection(name)
+        return FakeCollection(name, self.log, self.fail)
 
     def recursive_delete(self, ref, *args, **kwargs):
         if self.fail:
@@ -162,7 +169,14 @@ def test_a_token_without_a_uid_is_401(fb, client):
 def test_delete_removes_the_users_data_then_the_account(fb, client):
     res = client.delete("/api/v1/account", headers=AUTH)
     assert res.status_code == 204, res.text
-    assert fb.log == [("revoke", "alice"), ("recursive_delete", "users/alice"), ("delete_user", "alice")]
+    # The deletion marker (deletedUsers/{uid}) is written before the wipe: the rules refuse writes from ID
+    # tokens issued before it (security review F1).
+    assert fb.log == [
+        ("revoke", "alice"),
+        ("set", "deletedUsers/alice"),
+        ("recursive_delete", "users/alice"),
+        ("delete_user", "alice"),
+    ]
     assert fb.verify_calls[-1]["check_revoked"] is True
 
 
