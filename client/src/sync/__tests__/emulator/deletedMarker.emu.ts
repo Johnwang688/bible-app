@@ -19,6 +19,9 @@ import {
 
 import { clearFirestore, closeAll, dbAs, denied, FIRESTORE_HOST, FIRESTORE_PORT, PROJECT } from './emulator';
 
+// Device ids in the engine's shape (20 url-safe characters); activeMs on the wire is "day=ms;..." (R6b-fu-rules).
+const DEV_A = 'devA0000000000000000';
+
 const apps: FirebaseApp[] = [];
 let n = 0;
 
@@ -55,12 +58,12 @@ const highlight = () => ({
   deleted: false,
   value: { colour: 'blue' },
   updatedAt: NOW() - 1000,
-  deviceId: 'devA',
+  deviceId: DEV_A,
   serverTime: serverTimestamp(),
 });
 const device = () => ({
-  deviceId: 'devA',
-  activeMs: { '2026-11-02': 300000 },
+  deviceId: DEV_A,
+  activeMs: '2026-11-02=300000',
   chaptersRead: {},
   goalMetDays: [],
   goal: null,
@@ -71,13 +74,13 @@ const setting = () => ({
   key: 'language',
   json: '"zh-Hans"',
   updatedAt: NOW() - 1000,
-  deviceId: 'devA',
+  deviceId: DEV_A,
   serverTime: serverTimestamp(),
 });
 
 const writeAll = (db: Firestore, uid: string) => [
   setDoc(doc(db, 'users', uid, 'items', 'highlight:43:3:16'), highlight()),
-  setDoc(doc(db, 'users', uid, 'devices', 'devA'), device()),
+  setDoc(doc(db, 'users', uid, 'devices', DEV_A), device()),
   setDoc(doc(db, 'users', uid, 'settings', 'language'), setting()),
 ];
 
@@ -129,7 +132,7 @@ describe('after "delete my data"', () => {
 
   test('the owner can still read (an old sign-in sees what a new one wrote)', async () => {
     await Promise.all(writeAll(aliceAfter, 'alice'));
-    expect((await getDoc(doc(aliceBefore, 'users', 'alice', 'devices', 'devA'))).exists()).toBe(true);
+    expect((await getDoc(doc(aliceBefore, 'users', 'alice', 'devices', DEV_A))).exists()).toBe(true);
     expect((await getDocs(collection(aliceBefore, 'users', 'alice', 'items'))).size).toBe(1);
   });
 
@@ -140,7 +143,7 @@ describe('after "delete my data"', () => {
   test('a sign-in at the instant of the delete is not after it', async () => {
     const atDelete = dbSignedInAt('alice', Math.floor(deletedAt / 1000) * 1000);
     await writeMarker('alice', Math.floor(deletedAt / 1000) * 1000);
-    await denied(setDoc(doc(atDelete, 'users', 'alice', 'devices', 'devA'), device()));
+    await denied(setDoc(doc(atDelete, 'users', 'alice', 'devices', DEV_A), device()));
   });
 });
 

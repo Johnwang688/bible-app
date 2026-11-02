@@ -20,6 +20,10 @@ import {
 
 import { clearFirestore, closeAll, dbAs, denied, FIRESTORE_HOST, FIRESTORE_PORT, PROJECT } from './emulator';
 
+// Device ids in the engine's shape (20 url-safe characters); activeMs on the wire is "day=ms;..." (R6b-fu-rules).
+const DEV_A = 'devA0000000000000000';
+const DEV_B = 'devB0000000000000000';
+
 const AUTH_URL = 'http://127.0.0.1:9180';
 
 let alice: Firestore;
@@ -33,8 +37,8 @@ beforeEach(clearFirestore);
 afterAll(closeAll);
 
 const device = (over: Record<string, unknown> = {}) => ({
-  deviceId: 'devA',
-  activeMs: { '2026-11-02': 300000 },
+  deviceId: DEV_A,
+  activeMs: '2026-11-02=300000',
   chaptersRead: { '43:3': '2026-11-02T10:00:00.000Z' },
   goalMetDays: ['2026-11-01'],
   goal: { minutes: 15, updatedAt: Date.now() - 1000 },
@@ -49,7 +53,7 @@ const highlight = (over: Record<string, unknown> = {}) => ({
   deleted: false,
   value: { colour: 'blue' },
   updatedAt: Date.now() - 1000,
-  deviceId: 'devA',
+  deviceId: DEV_A,
   serverTime: serverTimestamp(),
   ...over,
 });
@@ -74,7 +78,7 @@ describe('FINDING: delete-my-data does not stop a still-valid ID token', () => {
     await fetch(`${AUTH_URL}/emulator/v1/projects/${PROJECT}/accounts`, { method: 'DELETE' });
     const { user } = await createUserWithEmailAndPassword(auth, 'victim@example.com', 'correct horse');
     const uid = user.uid;
-    await setDoc(doc(db, 'users', uid, 'devices', 'devB'), device({ deviceId: 'devB' }));
+    await setDoc(doc(db, 'users', uid, 'devices', DEV_B), device({ deviceId: DEV_B }));
 
     // "Delete my data" as the backend does it: the auth user is deleted and users/{uid} is wiped.
     const del = await fetch(`${AUTH_URL}/identitytoolkit.googleapis.com/v1/projects/${PROJECT}/accounts:delete`, {
@@ -98,7 +102,7 @@ describe('FINDING: delete-my-data does not stop a still-valid ID token', () => {
     expect(marker.ok).toBe(true);
 
     // Device B's sync engine runs again with the ID token it still holds.
-    await denied(setDoc(doc(db, 'users', uid, 'devices', 'devB'), device({ deviceId: 'devB' })));
+    await denied(setDoc(doc(db, 'users', uid, 'devices', DEV_B), device({ deviceId: DEV_B })));
   });
 });
 
@@ -107,13 +111,13 @@ describe('FINDING: delete-my-data does not stop a still-valid ID token', () => {
 describe.skip('ACCEPTED RISK (pending John): device documents are arbitrary storage', () => {
   test('activeMs / chaptersRead / goalMetDays values are not type-checked: a ~900 KB blob is accepted', async () => {
     const blob = 'x'.repeat(900_000);
-    await denied(setDoc(doc(alice, 'users', 'alice', 'devices', 'devA'), device({ activeMs: { '2026-11-02': blob } })));
+    await denied(setDoc(doc(alice, 'users', 'alice', 'devices', DEV_A), device({ activeMs: { '2026-11-02': blob } })));
   });
 
   test('nested maps of anything are accepted inside chaptersRead and goalMetDays', async () => {
     await denied(
       setDoc(
-        doc(alice, 'users', 'alice', 'devices', 'devA'),
+        doc(alice, 'users', 'alice', 'devices', DEV_A),
         device({ chaptersRead: { '43:3': { any: { nested: ['data', 1, true] } } }, goalMetDays: [{ not: 'a day' }] }),
       ),
     );
@@ -121,16 +125,16 @@ describe.skip('ACCEPTED RISK (pending John): device documents are arbitrary stor
 
   test('the number of device documents per user is unbounded (proposed cap: 20)', async () => {
     for (let i = 0; i < 20; i++) {
-      await setDoc(doc(alice, 'users', 'alice', 'devices', `dev${i}`), device({ deviceId: `dev${i}` }));
+      await setDoc(doc(alice, 'users', 'alice', 'devices', `dev${i}`.padEnd(20, '0')), device({ deviceId: `dev${i}`.padEnd(20, '0') }));
     }
-    await denied(setDoc(doc(alice, 'users', 'alice', 'devices', 'dev20'), device({ deviceId: 'dev20' })));
+    await denied(setDoc(doc(alice, 'users', 'alice', 'devices', 'dev20'.padEnd(20, '0')), device({ deviceId: 'dev20'.padEnd(20, '0') })));
   });
 });
 
 describe('FINDING: the goal clock has no upper bound', () => {
   test('goal.updatedAt far in the future is accepted (wins every later goal change forever)', async () => {
     const farFuture = Date.now() + 100 * 365 * 86_400_000;
-    await denied(setDoc(doc(alice, 'users', 'alice', 'devices', 'devA'), device({ goal: { minutes: 5, updatedAt: farFuture } })));
+    await denied(setDoc(doc(alice, 'users', 'alice', 'devices', DEV_A), device({ goal: { minutes: 5, updatedAt: farFuture } })));
   });
 });
 
@@ -138,7 +142,7 @@ describe('sound', () => {
   test('collection-group queries over every user are denied, even for a signed-in user', async () => {
     await setDoc(doc(alice, 'users', 'alice', 'items', 'highlight:43:3:16'), highlight());
     await denied(getDocs(collectionGroup(alice, 'items')));
-    await denied(getDocs(query(collectionGroup(alice, 'devices'), where('deviceId', '==', 'devA'))));
+    await denied(getDocs(query(collectionGroup(alice, 'devices'), where('deviceId', '==', DEV_A))));
     await denied(getDocs(collectionGroup(anon, 'settings')));
   });
 
@@ -155,7 +159,7 @@ describe('sound', () => {
 
   test('a client cannot reach below the three collections', async () => {
     await denied(setDoc(doc(alice, 'users', 'alice', 'items', 'highlight:43:3:16', 'sub', 'x'), { a: 1 }));
-    await denied(setDoc(doc(alice, 'users', 'alice', 'devices', 'devA', 'sub', 'x'), { a: 1 }));
+    await denied(setDoc(doc(alice, 'users', 'alice', 'devices', DEV_A, 'sub', 'x'), { a: 1 }));
   });
 
   test('a signed-out client cannot list anything', async () => {

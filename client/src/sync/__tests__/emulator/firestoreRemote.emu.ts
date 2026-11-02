@@ -8,6 +8,10 @@ import { RemoteError, type RemoteItem } from '../../types';
 import { DOMAINS, setNote, studyKey } from '../fixtures';
 import { clearFirestore, closeAll, dbAs } from './emulator';
 
+// Device ids in the engine's shape (20 url-safe characters); activeMs on the wire is "day=ms;..." (R6b-fu-rules).
+const DEV_A = 'devA0000000000000000';
+const DEV_B = 'devB0000000000000000';
+
 beforeEach(clearFirestore);
 afterAll(closeAll);
 
@@ -18,7 +22,7 @@ const note = (ref: string, text: string, updatedAt = Date.now() - 5000): RemoteI
   deleted: false,
   value: { text },
   updatedAt,
-  deviceId: 'devA',
+  deviceId: DEV_A,
 });
 
 test('items round-trip; pulls are incremental on serverTime', async () => {
@@ -27,7 +31,7 @@ test('items round-trip; pulls are incremental on serverTime', async () => {
   const first = await remote.pullItems(null);
   expect(first.items.map((i) => i.id).sort()).toEqual(['note:1:1:1', 'note:1:1:2']);
   const one = first.items.find((i) => i.id === 'note:1:1:1')!;
-  expect(one).toMatchObject({ kind: 'note', ref: '1:1:1', deleted: false, value: { text: 'one' }, deviceId: 'devA' });
+  expect(one).toMatchObject({ kind: 'note', ref: '1:1:1', deleted: false, value: { text: 'one' }, deviceId: DEV_A });
   expect(typeof one.serverTime).toBe('number');
   expect(first.items.find((i) => i.id === 'note:1:1:2')).toMatchObject({ deleted: true, value: null });
   expect(first.cursor).toBe(Math.max(...first.items.map((i) => i.serverTime)));
@@ -50,7 +54,7 @@ test('more than one batch of items is written', async () => {
 test('devices and settings round-trip', async () => {
   const remote = createFirestoreRemote(dbAs('alice'), 'alice');
   const progress = {
-    deviceId: 'devA',
+    deviceId: DEV_A,
     activeMs: { '2026-11-02': 1000 },
     chaptersRead: { '43:3': '2026-11-02T10:00:00.000Z' },
     goalMetDays: ['2026-11-02'],
@@ -58,12 +62,12 @@ test('devices and settings round-trip', async () => {
     updatedAt: Date.now() - 1000,
   };
   await remote.pushDevice(progress);
-  await remote.pushDevice({ ...progress, deviceId: 'devB', goal: null });
+  await remote.pushDevice({ ...progress, deviceId: DEV_B, goal: null });
   const devices = await remote.pullDevices();
-  expect(devices.find((d) => d.deviceId === 'devA')).toEqual(progress);
-  expect(devices.find((d) => d.deviceId === 'devB')?.goal).toBeNull();
+  expect(devices.find((d) => d.deviceId === DEV_A)).toEqual(progress);
+  expect(devices.find((d) => d.deviceId === DEV_B)?.goal).toBeNull();
 
-  const s = { key: 'language' as const, json: '"en"', updatedAt: Date.now() - 1000, deviceId: 'devA' };
+  const s = { key: 'language' as const, json: '"en"', updatedAt: Date.now() - 1000, deviceId: DEV_A };
   await remote.pushSettings([s]);
   expect(await remote.pullSettings()).toEqual([s]);
 });
@@ -88,8 +92,8 @@ test('two engines sync a note and a setting through Firestore', async () => {
     });
     return { storage, engine };
   };
-  const a = mk('devA');
-  const b = mk('devB');
+  const a = mk(DEV_A);
+  const b = mk(DEV_B);
   setNote(a.storage, '43:3:16', 'For God so loved the world', Date.now() - 1000);
   a.storage.set(languageKey, 'zh-Hans');
   await a.engine.syncNow();
