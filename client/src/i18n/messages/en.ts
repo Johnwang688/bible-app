@@ -103,8 +103,8 @@ export const en = {
   'delete.busy': 'Deleting…',
   'delete.cancel': 'Cancel',
   'delete.wrongPassword': 'That password isn’t right.',
-  'delete.error.network': 'No connection, so nothing was deleted yet. Try again when you’re online.',
-  'delete.error.server': 'Couldn’t delete your account right now. Nothing has changed. Try again later.',
+  'delete.error.network': 'We couldn’t confirm the delete. Check your connection and try again; sync stays off until then.',
+  'delete.error.server': 'We couldn’t finish deleting your account. Try again later.',
 
   'content.englishOnly': 'English',
 

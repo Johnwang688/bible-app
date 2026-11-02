@@ -101,6 +101,11 @@ export function AccountSheet({
   }, []);
 
   const accountEmail = account.user?.email ?? '';
+  /** A delete is running: closing cannot stop it, so nothing may close the sheet until its result is shown. */
+  const deleting = busy && view === 'delete';
+  const closeUnlessDeleting = useCallback(() => {
+    if (!deleting) onClose();
+  }, [deleting, onClose]);
 
   /** Starts a request; the returned check says whether its result still matters. */
   const begin = useCallback(() => {
@@ -118,6 +123,7 @@ export function AccountSheet({
     setDeleteMessage(null);
     setBusy(false);
     setPassword('');
+    setDeletePassword('');
     setShowPassword(false);
     setSent(false);
   }, []);
@@ -280,6 +286,8 @@ export function AccountSheet({
   const signInPassword = passwordField('current', () => void submitSignIn());
   const signUpPassword = passwordField('new', () => void submitSignUp());
   const formMessage = message('form');
+  // In the sent state no field is shown, so a failed resend shows its error here whatever its place.
+  const sentMessage = error ? <ErrorLine testID="auth-error" text={t(error.key)} boxed /> : undefined;
 
   const title =
     view === 'signIn' ? t('auth.signIn.title') : view === 'signUp' ? t('auth.signUp.title') : view === 'reset' ? t('auth.reset.title') : t('delete.title');
@@ -290,7 +298,7 @@ export function AccountSheet({
         <RoundButton testID="auth-back" label={t('auth.back')} glyph="back" onPress={back} />
       ) : null}
       <SheetTitle key={view} text={title} />
-      {view !== 'delete' ? <RoundButton testID="auth-close" label={t('auth.close')} glyph="close" onPress={onClose} /> : null}
+      <RoundButton testID="auth-close" label={t('auth.close')} glyph="close" disabled={deleting} onPress={closeUnlessDeleting} />
     </View>
   );
 
@@ -298,7 +306,7 @@ export function AccountSheet({
   const maxBody = keyboard > 0 ? Math.max(120, windowHeight - keyboard - insets.top - SHEET_TOP_GAP - CHROME) : undefined;
 
   return (
-    <SheetModal testID="account-sheet" avoidKeyboard onClose={onClose}>
+    <SheetModal testID="account-sheet" avoidKeyboard onClose={closeUnlessDeleting}>
       <View style={styles.frame}>
         {header}
         <ScrollView
@@ -359,7 +367,7 @@ export function AccountSheet({
                   {t('auth.reset.sent')}
                 </Text>
               </View>
-              {formMessage}
+              {sentMessage}
               <ActionButton testID="auth-reset-back" label={resetFrom === 'delete' ? t('auth.back') : t('auth.reset.back')} onPress={back} />
               <TextButton testID="auth-resend" label={t('auth.reset.resend')} disabled={busy} onPress={() => void submitReset()} />
             </>
@@ -392,7 +400,7 @@ export function AccountSheet({
                 disabled={deletePassword.length === 0}
                 onPress={() => void submitDelete()}
               />
-              <ActionButton testID="delete-cancel" variant="secondary" label={t('delete.cancel')} onPress={onClose} />
+              <ActionButton testID="delete-cancel" variant="secondary" label={t('delete.cancel')} disabled={deleting} onPress={closeUnlessDeleting} />
             </>
           ) : null}
         </ScrollView>

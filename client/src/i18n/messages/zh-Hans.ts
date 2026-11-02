@@ -105,8 +105,8 @@ export const zhHans: Record<MessageKey, string> = {
   'delete.busy': '正在删除…',
   'delete.cancel': '取消',
   'delete.wrongPassword': '密码不正确。',
-  'delete.error.network': '没有网络连接，尚未删除任何内容。请联网后再试。',
-  'delete.error.server': '暂时无法删除你的账户，一切都未改变。请稍后再试。',
+  'delete.error.network': '无法确认删除是否完成。请检查网络连接后重试；在此之前同步保持关闭。',
+  'delete.error.server': '暂时无法完成删除账户。请稍后再试。',
 
   'content.englishOnly': '英文',
 
