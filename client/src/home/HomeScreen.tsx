@@ -3,7 +3,7 @@
 // at once. It writes only through Surprise me (the position, via `setPosition`) and the verse of the day (via
 // `useOpenInReader`).
 import { router } from 'expo-router';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -17,12 +17,14 @@ import { readerTargets, useOpenInReader } from '../reader/target';
 import { TRANSLATIONS } from '../reader/translations';
 import { useChapter } from '../reader/useChapter';
 import { readerPositionKey } from '../storage/keys';
-import { getStorage, type Storage } from '../storage/storage';
+import { getStorage, useStoredValue, type Storage } from '../storage/storage';
 import { formatReference, shareText } from '../study/share';
 import { useScriptureFont } from '../study/components/scriptureFont';
 import { useTheme } from '../theme/ThemeProvider';
+import { GoalSheet } from './GoalSheet';
 import { greetingKey } from './greeting';
 import { ContinueCard, GoalCard, HomeHeader, SurpriseCard, VerseCard, type VerseState } from './HomeCards';
+import { lastVerseKey } from './homeKeys';
 import { shareVerse } from './shareVerse';
 import { pickSurpriseChapter } from './surprise';
 import { useToday } from './useToday';
@@ -58,8 +60,9 @@ export function HomeScreen({
   const open = useOpenInReader({ storage, navigate });
   const books = useBooks();
 
-  // The daily-goal sheet arrives with the next card; the goal card calls this when pressed.
-  const openGoal = useCallback(() => undefined, []);
+  const [goalOpen, setGoalOpen] = useState(false);
+  const openGoal = useCallback(() => setGoalOpen(true), []);
+  const closeGoal = useCallback(() => setGoalOpen(false), []);
 
   // Continue reading
   const translation = position.translation;
@@ -69,22 +72,63 @@ export function HomeScreen({
     ? t('reader.chapterTitle', { book: bookNameForLocale(readerBook, locale), chapter: position.chapter })
     : null;
   const continueRef = chapterTitle === null ? t('common.loading') : `${chapterTitle} · ${t(meta.shortKey)}`;
-  const continueLabel = chapterTitle === null ? t('home.continue') : t('home.continueLabel', { ref: chapterTitle });
+  // No stored position: a brand-new reader, who is offered the start of the Bible rather than "continue".
+  const [storedPosition] = useStoredValue(storage, readerPositionKey);
+  const fresh = storedPosition === null;
+  const continueCaps = t(fresh ? 'home.start' : 'home.continue');
+  const continueLabel =
+    chapterTitle === null
+      ? continueCaps
+      : t(fresh ? 'home.startLabel' : 'home.continueLabel', { ref: chapterTitle });
 
   // Verse of the day
-  const daily = verseOfTheDay(dayKey(today));
+  const todayKey = dayKey(today);
+  const daily = verseOfTheDay(todayKey);
   const dailyBook = findBook(books.data, daily.bookNumber);
   const chapter = useChapter(dailyBook, daily.chapter, translation);
   const scripture = useScriptureFont(theme, translation);
-  const rawVerse = chapter.data?.verses.find((v) => v.verse === daily.verse);
-  const verseRef = dailyBook ? formatReference(bookNameForLocale(dailyBook, locale), daily.chapter, [daily.verse]) : null;
+  const [kept] = useStoredValue(storage, lastVerseKey);
+  const fetched = chapter.data?.verses.find((v) => v.verse === daily.verse)?.text;
+  // The verse kept from earlier today stands in when the chapter can't be had.
+  const cached =
+    kept &&
+    kept.day === todayKey &&
+    kept.translation === translation &&
+    kept.bookNumber === daily.bookNumber &&
+    kept.chapter === daily.chapter &&
+    kept.verse === daily.verse
+      ? kept.text
+      : undefined;
+  const rawText = fetched ?? cached;
+
+  // Remember the verse that loaded, for the day and translation it is the verse of the day for.
+  useEffect(() => {
+    if (fetched === undefined || fetched.length === 0 || fetched.length > 2000) return;
+    const next = { day: todayKey, translation, bookNumber: daily.bookNumber, chapter: daily.chapter, verse: daily.verse, text: fetched };
+    const current = storage.get(lastVerseKey);
+    if (
+      current &&
+      current.day === next.day &&
+      current.translation === next.translation &&
+      current.bookNumber === next.bookNumber &&
+      current.chapter === next.chapter &&
+      current.verse === next.verse &&
+      current.text === next.text
+    ) {
+      return;
+    }
+    storage.set(lastVerseKey, next);
+  }, [storage, fetched, todayKey, translation, daily.bookNumber, daily.chapter, daily.verse]);
+
+  const bookName = daily.bookNumber === 19 ? t('home.psalm') : dailyBook ? bookNameForLocale(dailyBook, locale) : null;
+  const verseRef = bookName === null ? null : formatReference(bookName, daily.chapter, [daily.verse]);
+  // A refetch of a query that never had data goes back to "pending", so the error count is what remembers a failure.
+  const failed = chapter.isError || chapter.errorUpdateCount > 0 || (chapter.isSuccess && fetched === undefined);
   let verse: VerseState;
-  if (chapter.isError || (chapter.isSuccess && !rawVerse)) {
-    verse = { kind: 'none' };
-  } else if (rawVerse && verseRef) {
+  if (rawText !== undefined && verseRef) {
     verse = {
       kind: 'ready',
-      text: splitAlternateReadings(rawVerse.text)
+      text: splitAlternateReadings(rawText)
         .filter((run) => !run.note)
         .map((run) => run.text)
         .join(''),
@@ -93,20 +137,25 @@ export function HomeScreen({
       fontFamily: scripture.fontFamily,
       zh: scripture.zh,
     };
+  } else if (failed) {
+    verse = { kind: 'error', retrying: chapter.isFetching };
   } else {
     verse = { kind: 'loading' };
   }
   const openVerse = () =>
     open({ bookNumber: daily.bookNumber, chapter: daily.chapter, start: daily.verse, end: daily.verse });
   const share = () => {
-    if (!rawVerse || !verseRef) return;
+    if (rawText === undefined || !verseRef) return;
     const message = shareText(
-      [{ verse: daily.verse, text: rawVerse.text }],
+      [{ verse: daily.verse, text: rawText }],
       verseRef,
       t(meta.shortKey),
       scripture.zh ? 'zh' : 'en',
     );
     void shareVerse(message, t('sheet.copied'));
+  };
+  const retry = () => {
+    void chapter.refetch();
   };
 
   // Surprise me
@@ -131,19 +180,22 @@ export function HomeScreen({
           date={formatDate(today, { weekday: 'long', month: 'long', day: 'numeric' })}
           greeting={t(greetingKey(today))}
           streak={progress.streak}
-          streakLabel={t('study.streakLabel', { n: progress.streak })}
+          streakLabel={progress.streak >= 1 ? t('study.streakLabel', { n: progress.streak }) : t('home.streakStart')}
           streakDays={t('study.streakDays')}
+          streakStart={t('home.streakStart')}
         />
         <GoalCard done={progress.goalProgressMinutes} goal={progress.goalMinutes} onPress={openGoal} />
-        <ContinueCard reference={continueRef} sub={t(meta.nameKey)} label={continueLabel} onPress={navigate} />
-        <VerseCard state={verse} onOpen={openVerse} onShare={share} />
+        <ContinueCard caps={continueCaps} reference={continueRef} sub={t(meta.nameKey)} label={continueLabel} onPress={navigate} />
+        <VerseCard state={verse} onOpen={openVerse} onShare={share} onRetry={retry} />
         <SurpriseCard
+          body={t(progress.exploredCount === 0 ? 'home.surpriseBodyNew' : 'home.surpriseBody')}
           exploredText={t('home.explored', { n: explored, total })}
           exploredLabel={t('home.exploredLabel', { n: explored, total })}
           disabled={!books.data}
           onPress={surprise}
         />
       </ScrollView>
+      {goalOpen ? <GoalSheet storage={storage} now={now} onClose={closeGoal} /> : null}
     </View>
   );
 }

@@ -1,7 +1,7 @@
 // The Home tab's cards, as the signed-off design draws them. They take ready values; HomeScreen reads the
 // storage and the API and decides what to show.
 import type { ReactNode } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { GlassSurface } from '../components/GlassSurface';
 import { uiFace } from '../fonts/fonts';
@@ -19,12 +19,15 @@ function Card({
   padding,
   background,
   row = false,
+  grow = false,
 }: {
   children: ReactNode;
   gap: number;
   padding: { top: number; bottom: number };
   background?: Background;
   row?: boolean;
+  /** Fill a parent that has a minimum height. */
+  grow?: boolean;
 }) {
   const theme = useTheme();
   return (
@@ -32,6 +35,7 @@ function Card({
       background={background ?? theme.backgrounds.surface}
       style={{
         gap,
+        flexGrow: grow ? 1 : undefined,
         flexDirection: row ? 'row' : 'column',
         alignItems: row ? 'center' : undefined,
         paddingTop: padding.top,
@@ -75,16 +79,19 @@ export function HomeHeader({
   streak,
   streakLabel,
   streakDays,
+  streakStart,
 }: {
   date: string;
   greeting: string;
   streak: number;
   streakLabel: string;
   streakDays: string;
+  /** What the chip says at a streak of 0, in place of the count. */
+  streakStart: string;
 }) {
   const theme = useTheme();
   return (
-    <View style={styles.header}>
+    <View testID="home-header" style={styles.header}>
       <View style={styles.headerText}>
         <Text testID="home-date" style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 13 }}>
           {date}
@@ -113,10 +120,18 @@ export function HomeHeader({
         ]}
       >
         <FlameIcon color={theme.colors.chipText} />
-        <Text testID="home-streak-count" style={{ color: theme.colors.chipText, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 15 }}>
-          {String(streak)}
-        </Text>
-        <Text style={{ color: theme.colors.chipText, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 12 }}>{streakDays}</Text>
+        {streak >= 1 ? (
+          <>
+            <Text testID="home-streak-count" style={{ color: theme.colors.chipText, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 15 }}>
+              {String(streak)}
+            </Text>
+            <Text style={{ color: theme.colors.chipText, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 12 }}>{streakDays}</Text>
+          </>
+        ) : (
+          <Text style={{ color: theme.colors.chipText, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 13, flexShrink: 1 }}>
+            {streakStart}
+          </Text>
+        )}
       </View>
     </View>
   );
@@ -141,24 +156,38 @@ export function GoalCard({
       accessibilityLabel={t('home.goalLabel', { done, goal })}
       accessibilityHint={t('home.goalHint')}
       onPress={onPress}
-      style={{ borderRadius: theme.radii.card }}
+      style={{ borderRadius: theme.radii.card, minHeight: 44 }}
     >
       <Card gap={8} padding={{ top: 14, bottom: 14 }}>
         <View style={styles.baselineRow}>
           <Text style={smallCaps(theme, theme.colors.muted)}>{t('home.today')}</Text>
-          <Text style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14, flexShrink: 1 }}>
-            <Text testID="home-goal-done" style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '700') }}>
-              {String(done)}
+          <View style={styles.goalEnd}>
+            <Text style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14, flexShrink: 1 }}>
+              <Text testID="home-goal-done" style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '700') }}>
+                {String(done)}
+              </Text>
+              {t('home.goalOf', { goal })}
             </Text>
-            {t('home.goalOf', { goal })}
-          </Text>
+            {/* Says the card can be edited; the card's own label already says so. */}
+            <View testID="home-goal-cue" accessible={false}>
+              <Icon name="chevronRight" size={18} color={theme.colors.muted} />
+            </View>
+          </View>
         </View>
         <View
           testID="home-goal-bar"
           accessibilityRole="progressbar"
           accessibilityLabel={t('study.goal')}
           accessibilityValue={{ min: 0, max: goal, now: done }}
-          style={[styles.track, { backgroundColor: theme.colors.track }]}
+          aria-valuemin={0}
+          aria-valuemax={goal}
+          aria-valuenow={done}
+          style={[
+            styles.track,
+            { backgroundColor: theme.colors.track },
+            // An empty track would vanish into the card, so it is outlined until reading starts.
+            done <= 0 && { borderWidth: 1, borderColor: theme.colors.muted },
+          ]}
         >
           <View style={[styles.barFill, { width: `${share * 100}%`, backgroundColor: theme.canvas.bar ?? theme.colors.cta }]} />
         </View>
@@ -168,11 +197,14 @@ export function GoalCard({
 }
 
 export function ContinueCard({
+  caps,
   reference,
   sub,
   label,
   onPress,
 }: {
+  /** The small caps line: "Continue reading", or "Start reading" for a reader with no position yet. */
+  caps: string;
   /** The chapter and translation, or "Loading…" until the books arrive. */
   reference: string;
   sub: string;
@@ -180,7 +212,6 @@ export function ContinueCard({
   onPress: () => void;
 }) {
   const theme = useTheme();
-  const { t } = useI18n();
   const text = theme.canvas.c1t ?? theme.colors.text;
   const muted = theme.canvas.c1m ?? theme.colors.muted;
   return (
@@ -193,7 +224,7 @@ export function ContinueCard({
     >
       <Card gap={14} row padding={{ top: 16, bottom: 16 }} background={paint(theme.canvas.c1)}>
         <View style={styles.continueText}>
-          <Text style={smallCaps(theme, muted)}>{t('home.continue')}</Text>
+          <Text style={smallCaps(theme, muted)}>{caps}</Text>
           <Text testID="home-continue-ref" style={{ color: text, fontFamily: uiFace(theme.type.head, '700'), fontSize: 19 }}>
             {reference}
           </Text>
@@ -212,7 +243,7 @@ export function ContinueCard({
 /** What the verse card shows in place of the verse. */
 export type VerseState =
   | { kind: 'loading' }
-  | { kind: 'none' }
+  | { kind: 'error'; retrying: boolean }
   | {
       kind: 'ready';
       text: string;
@@ -223,16 +254,33 @@ export type VerseState =
     };
 
 const SHARE_SIZE = 44;
+/** The verse card never gets shorter than this, so Home does not jump as the verse loads. */
+export const VOTD_MIN_HEIGHT = 200;
+/** Widths of the skeleton's bars, as a share of the card's width. */
+const SKELETON_BARS = ['100%', '94%', '86%', '52%'] as const;
 
-export function VerseCard({ state, onOpen, onShare }: { state: VerseState; onOpen: () => void; onShare: () => void }) {
+/** Section labelling that only the web needs: a native screen reader reads the cards in order anyway. */
+const region = (label: string) => (Platform.OS === 'web' ? ({ role: 'region', 'aria-label': label } as const) : {});
+
+export function VerseCard({
+  state,
+  onOpen,
+  onShare,
+  onRetry,
+}: {
+  state: VerseState;
+  onOpen: () => void;
+  onShare: () => void;
+  onRetry: () => void;
+}) {
   const theme = useTheme();
   const { t } = useI18n();
   const text = theme.colors.text;
   const muted = theme.colors.muted;
   const caption = <Text style={smallCaps(theme, muted)}>{t('home.votd')}</Text>;
   return (
-    <View testID="home-votd">
-      <Card gap={12} padding={{ top: 18, bottom: 14 }} background={paint(theme.canvas.c2)}>
+    <View testID="home-votd" style={{ minHeight: VOTD_MIN_HEIGHT }} {...region(t('home.votd'))}>
+      <Card gap={12} grow padding={{ top: 18, bottom: 14 }} background={paint(theme.canvas.c2)}>
         {state.kind === 'ready' ? (
           <>
             <Pressable
@@ -271,8 +319,34 @@ export function VerseCard({ state, onOpen, onShare }: { state: VerseState; onOpe
           <>
             {caption}
             {state.kind === 'loading' ? (
-              <Text style={{ color: muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14 }}>{t('common.loading')}</Text>
-            ) : null}
+              <View testID="home-votd-skeleton" accessible accessibilityLabel={t('common.loading')} style={styles.skeleton}>
+                {SKELETON_BARS.map((width) => (
+                  <View key={width} style={[styles.bar, { width, backgroundColor: theme.colors.track }]} />
+                ))}
+              </View>
+            ) : (
+              <>
+                <Text
+                  testID="home-votd-error"
+                  aria-live="polite"
+                  style={{ color: muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 15, lineHeight: 22 }}
+                >
+                  {t('home.votdError')}
+                </Text>
+                <Pressable
+                  testID="home-votd-retry"
+                  accessibilityRole="button"
+                  accessibilityState={{ disabled: state.retrying, busy: state.retrying }}
+                  disabled={state.retrying}
+                  onPress={onRetry}
+                  style={[styles.retry, buttonStyle(theme)]}
+                >
+                  <Text style={{ color: theme.colors.btnText, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 14 }}>
+                    {state.retrying ? t('home.votdRetrying') : t('common.retry')}
+                  </Text>
+                </Pressable>
+              </>
+            )}
           </>
         )}
       </Card>
@@ -281,11 +355,14 @@ export function VerseCard({ state, onOpen, onShare }: { state: VerseState; onOpe
 }
 
 export function SurpriseCard({
+  body,
   exploredText,
   exploredLabel,
   disabled,
   onPress,
 }: {
+  /** What Surprise me does; it differs for a reader who has not explored anything yet. */
+  body: string;
   exploredText: string;
   exploredLabel: string;
   disabled: boolean;
@@ -296,7 +373,7 @@ export function SurpriseCard({
   const text = theme.canvas.c3t ?? theme.colors.text;
   const muted = theme.canvas.c3m ?? theme.colors.muted;
   return (
-    <View testID="home-surprise">
+    <View testID="home-surprise" {...region(t('home.surprise'))}>
       <Card gap={10} padding={{ top: 16, bottom: 16 }} background={paint(theme.canvas.c3)}>
         <View style={[styles.baselineRow, styles.wrap]}>
           <Text accessibilityRole="header" style={{ color: text, fontFamily: uiFace(theme.type.head, '700'), fontSize: 19, flexShrink: 1 }}>
@@ -311,7 +388,7 @@ export function SurpriseCard({
           </Text>
         </View>
         <Text style={{ color: muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14, lineHeight: 20 }}>
-          {t('home.surpriseBody')}
+          {body}
         </Text>
         <Pressable
           testID="home-surprise-go"
@@ -331,8 +408,9 @@ export function SurpriseCard({
 }
 
 const styles = StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 },
-  headerText: { flex: 1, flexShrink: 1, gap: 4 },
+  header: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10 },
+  // With large text the streak chip wraps below the greeting instead of squeezing it.
+  headerText: { flex: 1, flexShrink: 1, minWidth: 160, gap: 4 },
   chip: {
     flexShrink: 0,
     flexDirection: 'row',
@@ -345,13 +423,17 @@ const styles = StyleSheet.create({
   },
   baselineRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', gap: 8 },
   wrap: { flexWrap: 'wrap' },
+  goalEnd: { flexDirection: 'row', alignItems: 'center', gap: 2, flexShrink: 1 },
   track: { height: 8, borderRadius: 999, overflow: 'hidden' },
   barFill: { height: '100%', borderRadius: 999 },
   continueText: { flex: 1, flexShrink: 1, gap: 3 },
-  round: { width: 48, height: 48, flexShrink: 0, alignItems: 'center', justifyContent: 'center' },
+  round: { minWidth: 48, minHeight: 48, flexShrink: 0, alignItems: 'center', justifyContent: 'center' },
   votdOpen: { gap: 12 },
   votdRef: { minHeight: SHARE_SIZE, justifyContent: 'center', paddingRight: SHARE_SIZE + 12 },
   share: { position: 'absolute', right: 16, bottom: 14, width: SHARE_SIZE, height: SHARE_SIZE, alignItems: 'center', justifyContent: 'center' },
-  go: { height: 48, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 16 },
+  go: { minHeight: 48, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 16 },
   disabled: { opacity: 0.5 },
+  skeleton: { gap: 12, paddingVertical: 4 },
+  bar: { height: 16, borderRadius: 999 },
+  retry: { minHeight: 44, paddingHorizontal: 18, alignSelf: 'flex-start', alignItems: 'center', justifyContent: 'center' },
 });
