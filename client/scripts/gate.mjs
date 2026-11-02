@@ -38,7 +38,8 @@ const steps = [
     after: checkAcceptanceSuites,
   },
   !quick && !offline && { name: 'expo-doctor', covers: 'native config and SDK versions', cmd: 'npx --yes expo-doctor' },
-  !quick && { name: 'export web', covers: 'builds for web', cmd: 'npx expo export -p web --output-dir dist' },
+  // --clear: worktrees share node_modules, so Metro's cache can serve another worktree's stale bundle (R-3).
+  !quick && { name: 'export web', covers: 'builds for web', cmd: 'npx expo export -p web --clear --output-dir dist' },
   !quick && {
     name: 'export ios + android',
     covers: 'builds for iOS and Android (Metro + Hermes bundles)',
