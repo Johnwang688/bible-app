@@ -58,6 +58,8 @@ export function createAuroraController(host: HTMLElement, screen: HTMLElement | 
     canvas.height = initial.h;
   }
 
+  // Null only without WebGL2. A renderer whose context was lost while it was being built comes back
+  // with no style (state off) and rebuilds on `webglcontextrestored`.
   let renderer: WebAuroraRenderer | null = createAuroraRenderer(canvas, inputs.style, inputs.palette);
 
   const show = (on: boolean) => {
@@ -69,9 +71,8 @@ export function createAuroraController(host: HTMLElement, screen: HTMLElement | 
   const delegate: AuroraRenderer = {
     step: (dt) => renderer?.step(dt),
     draw: () => {
-      if (!renderer || lost) return;
-      renderer.draw();
-      show(true);
+      // Shown only once a frame is really on it (the renderer never draws on a lost context).
+      if (renderer && !lost && renderer.draw()) show(true);
     },
   };
 
@@ -164,12 +165,19 @@ export function createAuroraController(host: HTMLElement, screen: HTMLElement | 
   // ---- context loss ----
   const onLost = (e: Event) => {
     e.preventDefault(); // without this the browser never restores the context
+    if (destroyed) return;
     lost = true;
+    renderer?.contextLost();
     apply();
   };
+  // Rebuild whatever state creation (or an earlier restore) left: with no renderer, create one.
   const onRestored = () => {
-    if (destroyed || !renderer) return;
-    lost = !renderer.restore();
+    if (destroyed) return;
+    if (renderer) lost = !renderer.restore();
+    else {
+      renderer = createAuroraRenderer(canvas, inputs.style, inputs.palette);
+      lost = renderer?.style == null;
+    }
     reportStyle();
     if (lost) return;
     show(false);
