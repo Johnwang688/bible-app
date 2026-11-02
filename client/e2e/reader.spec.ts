@@ -179,6 +179,14 @@ test.describe('verse sheet (R-2)', () => {
     await page.keyboard.press('Escape');
     await expect(page.getByTestId('verse-sheet')).toHaveCount(0);
   });
+
+  test('keyboard users open the verse sheet from the verse-tools button with Enter', async ({ page }) => {
+    await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
+    await page.goto('/bible');
+    await page.getByRole('button', { name: 'Verse 16: verse tools' }).focus();
+    await page.keyboard.press('Enter');
+    await expect(page.getByTestId('verse-sheet')).toBeVisible();
+  });
 });
 
 test.describe('reader (Chinese phone)', () => {
