@@ -147,21 +147,44 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
     };
   }, [beat]);
 
-  // A signed-out notice left by a server 401 is lifted when the user signs in again (false -> true), or when the
-  // notice's own Sign in completes. Other local notices are left alone.
+  // Auth results are tied to the auth state they started under. `authEpoch` is bumped whenever `signedIn` changes or a
+  // notice Sign in is seen to change the token; a voice outcome that lands in a later epoch is discarded. `latch` is
+  // the server 401 behind a signed-out notice (the token it was for): it is lifted by signing in again (false -> true),
+  // or by the Sign in pressed on that very notice once it completes with a different, non-null token. A newer 401 is a
+  // new latch, so an older Sign in can't lift it. Other local notices are never touched by auth.
+  const authEpoch = useRef(0);
+  const latch = useRef<{ token: string | null } | null>(null);
+  const latestAuth = useRef(auth);
+  useLayoutEffect(() => {
+    latestAuth.current = auth;
+  });
+  const showLocal = (next: LocalNotice | null, token: string | null = null) => {
+    latch.current = next === 'signed-out' ? { token } : null;
+    setLocal(next);
+  };
   const clearSignedOut = useCallback(() => setLocal((cur) => (cur === 'signed-out' ? null : cur)), []);
   const wasSignedIn = useRef(auth.signedIn);
   useEffect(() => {
-    if (auth.signedIn && !wasSignedIn.current) clearSignedOut();
+    if (auth.signedIn !== wasSignedIn.current) authEpoch.current++;
+    if (auth.signedIn && !wasSignedIn.current) {
+      latch.current = null;
+      clearSignedOut();
+    }
     wasSignedIn.current = auth.signedIn;
   }, [auth.signedIn, clearSignedOut]);
   const authSignIn = auth.signIn;
   const signIn = authSignIn
     ? () => {
+        const startedFor = latch.current;
         const done: unknown = authSignIn();
         void Promise.resolve(done).then(
-          () => {
-            if (mounted.current) clearSignedOut();
+          async () => {
+            if (!mounted.current || startedFor === null || latch.current !== startedFor) return;
+            const token = await latestAuth.current.getIdToken().catch(() => null);
+            if (!mounted.current || latch.current !== startedFor || token === null || token === startedFor.token) return;
+            authEpoch.current++;
+            latch.current = null;
+            clearSignedOut();
           },
           () => undefined,
         );
@@ -185,16 +208,33 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
   // ---- recording ----------------------------------------------------------------------------------------------
   const beginSend = async (blob: Blob) => {
     const id = ++gen.current;
+    const epoch = authEpoch.current;
     const controller = new AbortController();
     abort.current = controller;
     go('grading');
+    // The token this request actually sent, so a 401 latches against it.
+    let usedToken: { value: string | null } | null = null;
+    const getIdToken = async () => (usedToken = { value: await auth.getIdToken() }).value;
     let outcome: VoiceOutcome;
     try {
-      outcome = await checkVoice(blob, ctx.settings.speech, { baseUrl, getIdToken: auth.getIdToken, isOnline }, controller.signal);
+      outcome = await checkVoice(blob, ctx.settings.speech, { baseUrl, getIdToken, isOnline }, controller.signal);
     } catch {
       outcome = { kind: 'error' };
     }
-    if (id !== gen.current || !mounted.current) return; // cancelled, retried or gone: a late answer is ignored
+    const live = () => id === gen.current && mounted.current; // cancelled, retried or gone: a late answer is ignored
+    if (!live()) return;
+    // A 401 from a request that never asked for a token is held against the token of its (unchanged) auth state.
+    if (outcome.kind === 'signed-out' && usedToken === null && epoch === authEpoch.current) {
+      usedToken = { value: await auth.getIdToken().catch(() => null) };
+      if (!live()) return;
+    }
+    if (epoch !== authEpoch.current) {
+      // Begun under another auth state: nothing of it is shown, graded or recorded; the gate decides what's next.
+      abort.current = null;
+      busy.current = false;
+      go('idle');
+      return;
+    }
     const now = Date.now();
     recordVoiceOutcome(outcome, now);
     if (outcome.kind === 'limit') lastLimit = { until: now + outcome.retryAfterS * 1000, window: outcome.window };
@@ -213,9 +253,9 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
     }
     abort.current = null;
     busy.current = false;
-    if (outcome.kind === 'signed-out') setLocal('signed-out');
-    else if (outcome.kind === 'offline') setLocal('offline');
-    else if (outcome.kind === 'too-long' || outcome.kind === 'timeout' || outcome.kind === 'error') setLocal(outcome.kind);
+    if (outcome.kind === 'signed-out') showLocal('signed-out', usedToken?.value ?? null);
+    else if (outcome.kind === 'offline') showLocal('offline');
+    else if (outcome.kind === 'too-long' || outcome.kind === 'timeout' || outcome.kind === 'error') showLocal(outcome.kind);
     go('idle');
   };
 
@@ -244,7 +284,7 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
       setPermission('denied');
       go('idle');
     } else if (result === 'unsupported') {
-      setLocal('unsupported');
+      showLocal('unsupported');
       go('idle');
     } else {
       go('recording');
@@ -340,7 +380,7 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
           retryAfterS={gate.kind === 'notice' ? gate.retryAfterS : undefined}
           limitedUntil={limitedUntil}
           onSettings={() => setSettingsOpen(true)}
-          onTryAgain={() => setLocal(null)}
+          onTryAgain={() => showLocal(null)}
           signIn={signIn}
         />
         {field(true)}
