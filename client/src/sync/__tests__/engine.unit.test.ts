@@ -263,3 +263,102 @@ describe('lifecycle', () => {
     expect(DOMAINS.settings).toHaveLength(2);
   });
 });
+
+describe('fix1: convergence and crash safety', () => {
+  const DAY = '2026-11-02';
+  const PROGRESS = { progress: progressKey };
+
+  test('a crash after the marker but before the progress write keeps the old fold (no minutes lost)', async () => {
+    const backend = memoryBackend();
+    const storage = createStorage(backend);
+    const a = makeDevice(remote, 'devA', { domains: PROGRESS, storage });
+    storage.set(progressKey, { ...progressKey.fallback, activeMs: { [DAY]: 50_000 } });
+    await a.engine.syncNow();
+    remote.putDevice({ deviceId: 'devB', activeMs: { [DAY]: 100_000 }, chaptersRead: {}, goalMetDays: [], goal: null, updatedAt: 1 });
+
+    // Snapshot the durable bytes at the marker write, before the progress is written.
+    const crashed = memoryBackend();
+    const stateKey = syncStateKey('alice');
+    let captured = false;
+    const off = storage.subscribe(stateKey, () => {
+      if (captured || !storage.get(stateKey).progress.pending) return;
+      for (const key of [progressKey.key, stateKey.key]) {
+        const raw = backend.getString(key);
+        if (raw !== undefined) crashed.set(key, raw);
+      }
+      captured = true;
+    });
+    await a.engine.syncNow();
+    off();
+    expect(captured).toBe(true);
+    const crashedStorage = createStorage(crashed);
+    expect(crashedStorage.get(progressKey).activeMs[DAY]).toBe(50_000);
+    expect(crashedStorage.get(stateKey).progress.pending?.fold).toEqual({ [DAY]: 100_000 });
+
+    // The app reads 10 s more before the engine comes back; it is this device's own time.
+    crashedStorage.set(progressKey, { ...crashedStorage.get(progressKey), activeMs: { [DAY]: 60_000 } });
+    const restarted = makeDevice(remote, 'devA', { domains: PROGRESS, storage: crashedStorage });
+    expect(crashedStorage.get(stateKey).progress.pending).toBeNull(); // settled at creation
+    await restarted.engine.syncNow();
+    await restarted.engine.syncNow();
+    expect(crashedStorage.get(progressKey).activeMs[DAY]).toBe(160_000);
+    expect(remote.devices.get('devA')?.activeMs[DAY]).toBe(60_000);
+  });
+
+  test('an item created and deleted again before any sync sends nothing and leaves no stamp', async () => {
+    const a = makeDevice(remote, 'devA', { domains: { studyItems: studyKey } });
+    a.engine.start();
+    await a.engine.syncNow();
+    setNote(a.storage, '9:9:9', 'brief', a.clock.now);
+    const v = a.storage.get(studyKey);
+    delete v.notes['9:9:9'];
+    a.storage.set(studyKey, v);
+    remote.calls.length = 0;
+    await a.engine.syncNow();
+    expect(remote.calls).not.toContain('pushItems');
+    expect(a.storage.get(syncStateKey('alice')).items.stamps).toEqual({});
+    await a.engine.stop();
+  });
+
+  test('a delayed older setting push is repaired by the device that knows the newer one', async () => {
+    const a = makeDevice(remote, 'devA', { start: 1_000_000 });
+    const b = makeDevice(remote, 'devB', { start: 1_000_000 });
+    a.storage.set(languageKey, 'en');
+    await a.engine.syncNow();
+    await b.engine.syncNow();
+    a.clock.now = 1_100_000;
+    a.storage.set(languageKey, 'zh-Hans');
+    b.clock.now = 1_200_000;
+    b.storage.set(languageKey, 'system');
+    const held = remote.hold('pushSettings');
+    const run = a.engine.syncNow();
+    await held.started;
+    await b.engine.syncNow(); // newer, lands first
+    held.release();
+    await run; // older lands last
+    expect(remote.settings.get('language')?.json).toBe('"zh-Hans"');
+    for (const d of [b, a, b, a]) await d.engine.syncNow();
+    expect(remote.settings.get('language')).toMatchObject({ json: '"system"', updatedAt: 1_200_000, deviceId: 'devB' });
+    expect(a.storage.get(languageKey)).toBe('system');
+    expect(b.storage.get(languageKey)).toBe('system');
+  });
+
+  test('a lost goal acknowledgement followed by a newer local goal sends the newer one', async () => {
+    const a = makeDevice(remote, 'devA', { domains: PROGRESS, start: 1_000_000 });
+    a.storage.set(progressKey, { ...progressKey.fallback, goalMinutes: 20 });
+    const held = remote.hold('pushDevice');
+    const run = a.engine.syncNow();
+    await held.started;
+    const stopped = a.engine.stop();
+    held.release();
+    await Promise.all([run, stopped]);
+    expect(remote.devices.get('devA')?.goal).toEqual({ minutes: 20, updatedAt: 1_000_000 });
+
+    a.restart();
+    a.clock.now = 2_000_000;
+    a.storage.set(progressKey, { ...a.storage.get(progressKey), goalMinutes: 25 });
+    await a.engine.syncNow();
+    expect(a.storage.get(progressKey).goalMinutes).toBe(25);
+    expect(remote.devices.get('devA')?.goal).toEqual({ minutes: 25, updatedAt: 2_000_000 });
+  });
+});

@@ -30,9 +30,14 @@ export interface StampEntry {
 /**
  * Rule 4 bookkeeping for one entry. `localSig` is the local value's signature (null = absent);
  * `baseSig` the last synced one (null = absent or deleted, undefined = never linked, which always
- * counts as pending). A pending entry without a stamp, or whose value changed since it was stamped,
- * is stamped `at`; a settled entry loses its stamp.
- * Returns 'stamped' when a stamp was created or renewed, 'cleared' when one was removed, else null.
+ * counts as pending). An entry that differs from its base and has no stamp, or whose value changed
+ * since it was stamped, is stamped `at`.
+ *
+ * A stamp is never cleared here: a value that changes back to the base is still a change, made at the
+ * moment it was seen (pink, then blue again over a blue base is a newer blue). So a stamp's presence
+ * means "a local change is pending"; only the engine removes one, when that exact change is settled
+ * (pushed and acknowledged, or replaced by the account's value).
+ * Returns 'stamped' when a stamp was created or renewed, else null.
  */
 export function restamp(
   stamps: Record<string, StampEntry>,
@@ -40,16 +45,17 @@ export function restamp(
   localSig: string | null,
   baseSig: string | null | undefined,
   at: number,
-): 'stamped' | 'cleared' | null {
+): 'stamped' | null {
   const current = lookup(stamps, id);
-  if (localSig === baseSig) {
-    if (!current) return null;
-    delete stamps[id];
-    return 'cleared';
-  }
-  if (current && current.s === localSig) return null;
+  if (current ? current.s === localSig : localSig === baseSig) return null;
   stamps[id] = { at, s: localSig };
   return 'stamped';
+}
+
+/** Whether two stamps are the same stamp (both absent counts as the same). */
+export function sameStamp(a: StampEntry | null | undefined, b: StampEntry | null | undefined): boolean {
+  if (!a || !b) return !a && !b;
+  return a.at === b.at && a.s === b.s;
 }
 
 /** What a remote entry looks like to a decision: its value signature, whether the device can store it, and its clock. */
@@ -84,6 +90,14 @@ const NONE: Decision = { do: 'none' };
 /**
  * Rules 1–3 and 9 for one linked entry (an entry with sync history, or a study item, where no
  * history simply means "absent"). `seen` is the first-seen moment of the pending local change.
+ *
+ * Every device decides by the same total order (`beats` on the clocks), so all of them agree on the
+ * winner. The remote is a plain document store without conditional writes, so an older push that was
+ * delayed can land after a newer one: when the pulled entry loses to what this device knows (its
+ * pending change, or its base when nothing is pending), this device's winning value is pushed again
+ * with its own clock instead of the losing one being taken. That cannot ping-pong: a push only ever
+ * replaces a remote clock with one that beats it, so once the remote holds the greatest clock any
+ * device knows, no device's decision is to push.
  */
 export function decide(args: {
   localSig: string | null;
@@ -93,22 +107,35 @@ export function decide(args: {
   remote: RemoteSide | undefined;
   seen: number;
   self: string;
+  /**
+   * Whether a local change is pending: the value differs from the base, or a stamp says it changed
+   * (even back to the base value). Defaults to "the value differs from the base".
+   */
+  changed?: boolean;
 }): Decision {
   const { localSig, own, base, remote, seen, self } = args;
   const baseSig = base ? base.s : null;
-  const localChanged = localSig !== baseSig;
-  const remoteChanged =
-    remote !== undefined &&
-    (!base || !remote.valid || remote.sig !== base.s || remote.clock.t !== base.t || remote.clock.d !== base.d);
-
-  if (!remoteChanged) return localChanged ? { do: 'push', clock: { t: changeTime(own, seen), d: self } } : NONE;
-  // remoteChanged implies remote is defined.
-  const r = remote!;
-  if (r.valid && r.sig === localSig) return { do: 'adopt' };
-  if (!localChanged) return r.valid ? { do: 'take' } : { do: 'ignore' };
+  const changed = args.changed ?? localSig !== baseSig;
+  const baseClock: Clock | undefined = base ? { t: base.t, d: base.d } : undefined;
   const mine: Clock = { t: changeTime(own, seen), d: self };
-  if (beats(mine, r.clock)) return { do: 'push', clock: mine };
-  return r.valid ? { do: 'take' } : { do: 'ignore' };
+  const remoteIsBase =
+    remote !== undefined &&
+    base !== undefined &&
+    remote.valid &&
+    remote.sig === base.s &&
+    remote.clock.t === base.t &&
+    remote.clock.d === base.d;
+
+  if (remote === undefined || remoteIsBase) return changed ? { do: 'push', clock: mine } : NONE;
+  if (changed) {
+    // Equal payloads still compare clocks: a newer local clock is sent so other devices see it (rule 2).
+    if (beats(mine, remote.clock)) return { do: 'push', clock: mine };
+  } else if (baseClock && beats(baseClock, remote.clock)) {
+    // The account holds an older change than the one this device already synced: send it again.
+    return { do: 'push', clock: baseClock };
+  }
+  if (!remote.valid) return { do: 'ignore' };
+  return remote.sig === localSig ? { do: 'adopt' } : { do: 'take' };
 }
 
 /**
@@ -121,14 +148,16 @@ export function decideWhole(args: {
   remote: RemoteSide | undefined;
   seen: number;
   self: string;
+  /** As in `decide`. */
+  changed?: boolean;
 }): Decision {
-  const { localSig, base, remote, seen, self } = args;
+  const { localSig, base, remote, seen, self, changed } = args;
   if (!base) {
     if (!remote) return { do: 'push', clock: { t: seen, d: self } };
     if (!remote.valid) return { do: 'ignore' };
     return remote.sig === localSig ? { do: 'adopt' } : { do: 'take' };
   }
-  return decide({ localSig, own: null, base, remote, seen, self });
+  return decide({ localSig, own: null, base, remote, seen, self, changed });
 }
 
 /** JSON with object keys sorted, so equal values always give equal strings. */

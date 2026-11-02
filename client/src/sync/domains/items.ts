@@ -42,27 +42,43 @@ function ownTime(iso: string): number | null {
   return Number.isFinite(t) ? t : null;
 }
 
+/** The local item for one stored entry (the entry is known to be of its kind's shape). */
+export function localItemOf(kind: ItemKind, ref: string, entry: unknown): LocalItem {
+  switch (kind) {
+    case 'highlight': {
+      const h = entry as StudyItemsShape['highlights'][string];
+      return { kind, ref, sig: h.colour, value: { colour: h.colour }, own: ownTime(h.updatedAt) };
+    }
+    case 'note': {
+      const n = entry as StudyItemsShape['notes'][string];
+      return { kind, ref, sig: n.text, value: { text: n.text }, own: ownTime(n.updatedAt) };
+    }
+    case 'bookmark': {
+      const b = entry as StudyItemsShape['bookmarks'][string];
+      return { kind, ref, sig: b.createdAt, value: { createdAt: b.createdAt }, own: ownTime(b.createdAt) };
+    }
+  }
+}
+
 /** Every local item by id. */
 export function readLocalItems(v: StudyItemsShape): Map<string, LocalItem> {
   const out = new Map<string, LocalItem>();
-  for (const [ref, h] of Object.entries(v.highlights)) {
-    out.set(itemId('highlight', ref), { kind: 'highlight', ref, sig: h.colour, value: { colour: h.colour }, own: ownTime(h.updatedAt) });
-  }
-  for (const [ref, n] of Object.entries(v.notes)) {
-    out.set(itemId('note', ref), { kind: 'note', ref, sig: n.text, value: { text: n.text }, own: ownTime(n.updatedAt) });
-  }
-  for (const [ref, b] of Object.entries(v.bookmarks)) {
-    out.set(itemId('bookmark', ref), { kind: 'bookmark', ref, sig: b.createdAt, value: { createdAt: b.createdAt }, own: ownTime(b.createdAt) });
-  }
+  for (const [ref, h] of Object.entries(v.highlights)) out.set(itemId('highlight', ref), localItemOf('highlight', ref, h));
+  for (const [ref, n] of Object.entries(v.notes)) out.set(itemId('note', ref), localItemOf('note', ref, n));
+  for (const [ref, b] of Object.entries(v.bookmarks)) out.set(itemId('bookmark', ref), localItemOf('bookmark', ref, b));
   return out;
 }
 
-/** Signatures only (cheaper; for change detection). */
-export function readLocalSigs(v: StudyItemsShape): Map<string, string> {
+/**
+ * A local item's fingerprint: its value signature and its own time (null when absent). Change
+ * detection uses it, so re-saving the same value at a new time counts as a change (rule 4).
+ */
+export const fingerprint = (item: LocalItem | undefined): string | null => (item ? JSON.stringify([item.sig, item.own]) : null);
+
+/** Fingerprints only (for change detection). */
+export function readLocalFingerprints(v: StudyItemsShape): Map<string, string> {
   const out = new Map<string, string>();
-  for (const [ref, h] of Object.entries(v.highlights)) out.set(itemId('highlight', ref), h.colour);
-  for (const [ref, n] of Object.entries(v.notes)) out.set(itemId('note', ref), n.text);
-  for (const [ref, b] of Object.entries(v.bookmarks)) out.set(itemId('bookmark', ref), b.createdAt);
+  for (const [id, item] of readLocalItems(v)) out.set(id, fingerprint(item)!);
   return out;
 }
 

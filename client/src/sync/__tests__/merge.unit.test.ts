@@ -19,15 +19,19 @@ describe('clocks', () => {
 });
 
 describe('restamp', () => {
-  test('stamps once, renews on a new value, clears when settled', () => {
+  test('stamps once, renews on a new value, and a change back to the base is still a change', () => {
     const stamps: Record<string, StampEntry> = {};
     expect(restamp(stamps, 'x', 'a', null, 100)).toBe('stamped');
     expect(restamp(stamps, 'x', 'a', null, 200)).toBeNull();
     expect(stamps.x).toEqual({ at: 100, s: 'a' });
     expect(restamp(stamps, 'x', 'b', null, 300)).toBe('stamped');
     expect(stamps.x).toEqual({ at: 300, s: 'b' });
-    expect(restamp(stamps, 'x', null, null, 400)).toBe('cleared');
-    expect(stamps.x).toBeUndefined();
+    expect(restamp(stamps, 'x', null, null, 400)).toBe('stamped');
+    expect(stamps.x).toEqual({ at: 400, s: null });
+    expect(restamp(stamps, 'x', null, null, 500)).toBeNull();
+    // Nothing pending and equal to the base: no stamp.
+    expect(restamp(stamps, 'y', 'base', 'base', 600)).toBeNull();
+    expect(stamps.y).toBeUndefined();
   });
 
   test('never linked (undefined base) is always pending', () => {
@@ -67,9 +71,25 @@ describe('decide', () => {
     expect(decide({ ...args, localSig: 'mine', base, remote: R(null, 99, 'devZ', false) })).toMatchObject({ do: 'push' });
   });
 
-  test('same value on both sides: adopt the remote clock', () => {
-    expect(decide({ ...args, localSig: 'same', base: undefined, remote: R('same', 5) })).toEqual({ do: 'adopt' });
+  test('same value on both sides: adopt the remote clock unless the local one is newer', () => {
+    expect(decide({ ...args, localSig: 'same', base: undefined, remote: R('same', 500) })).toEqual({ do: 'adopt' });
+    expect(decide({ ...args, localSig: 'same', base: undefined, remote: R('same', 5) })).toEqual({ do: 'push', clock: { t: 100, d: 'devA' } });
     expect(decide({ ...args, localSig: null, base: undefined, remote: R(null, 5) })).toEqual({ do: 'adopt' });
+  });
+
+  test('a stale remote (older than the base, nothing pending) gets the base pushed back with its own clock', () => {
+    expect(decide({ ...args, localSig: 'old', base, remote: R('older', 5, 'devB') })).toEqual({ do: 'push', clock: { t: 10, d: 'devA' } });
+    expect(decide({ ...args, localSig: null, base: { s: null, t: 10, d: 'devB' }, remote: R('older', 5) })).toEqual({
+      do: 'push',
+      clock: { t: 10, d: 'devB' },
+    });
+    // Not older: taken as before.
+    expect(decide({ ...args, localSig: 'old', base, remote: R('newer', 10, 'devB') })).toEqual({ do: 'take' });
+  });
+
+  test('a pending change equal to the base (changed back) still counts as a change', () => {
+    expect(decide({ ...args, localSig: 'old', base, remote: R('theirs', 50), changed: true })).toEqual({ do: 'push', clock: { t: 100, d: 'devA' } });
+    expect(decide({ ...args, localSig: 'old', base, remote: undefined, changed: true })).toEqual({ do: 'push', clock: { t: 100, d: 'devA' } });
   });
 
   test('a deletion is a change: local absent vs a live base', () => {

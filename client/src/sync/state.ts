@@ -32,9 +32,14 @@ const stateSchema = z.object({
   items: z.object({
     /** pullItems cursor (server ms), or null before the first complete pull. */
     cursor: z.number().nullable(),
-    /** Last synced state per item id: the value signature (null = tombstone) and its clock. */
-    base: z.record(z.string(), z.object({ s: z.string().nullable(), ...clock })),
-    /** First-seen stamps of pending local changes, per item id (s = the local signature stamped). */
+    /**
+     * Last synced state per item id: the value signature (null = tombstone), its clock, and `f`, the
+     * local fingerprint (value and own time, null = absent) the device held when it synced. A local
+     * entry whose fingerprint differs is a pending change even when its value equals the base (a
+     * re-colour back to the synced colour has a newer own time).
+     */
+    base: z.record(z.string(), z.object({ s: z.string().nullable(), ...clock, f: z.string().nullable().optional() })),
+    /** First-seen stamps of pending local changes, per item id (s = the local fingerprint stamped). */
     stamps: z.record(z.string(), stamp),
     /**
      * Clocks of remote values this device cannot store (rule 6), kept so that an older local change
@@ -58,6 +63,15 @@ const stateSchema = z.object({
     goalStamp: stamp.nullable(),
     /** Hash of the synced parts of the local progress after the last sync (detects pending changes). */
     sig: z.string().nullable(),
+    /**
+     * Set only while the engine writes merged progress (the crash marker, see engine.ts
+     * `writeProgress`): the fold that goes with that write and the `activeMs` it writes. Found on a
+     * later start, it decides which fold matches the stored progress.
+     */
+    pending: z
+      .object({ fold: z.record(z.string(), z.number()), expect: z.record(z.string(), z.number()) })
+      .nullable()
+      .default(null),
   }),
 });
 
@@ -68,7 +82,7 @@ export type Stamp = SyncStateData['items']['stamps'][string];
 export const EMPTY_SYNC_STATE: SyncStateData = {
   items: { cursor: null, base: {}, stamps: {}, ignored: {} },
   settings: { base: {}, stamps: {} },
-  progress: { fold: {}, goal: null, ownGoal: null, goalStamp: null, sig: null },
+  progress: { fold: {}, goal: null, ownGoal: null, goalStamp: null, sig: null, pending: null },
 };
 
 /** The state key for one account on this device. Throws on a uid that is not safe in a key name. */
