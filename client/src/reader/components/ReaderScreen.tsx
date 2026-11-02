@@ -258,7 +258,11 @@ export function ReaderScreen(props: {
 
   const hideDistance = insets.top + HEADER_BODY_HEIGHT + 4;
   const header = useCollapsingHeader(hideDistance);
-  const { reset: resetHeader } = header;
+  const { reset: resetHeader, show: showHeader } = header;
+  // Coming back to the reader tab: the header is back too (it may have been scrolled away before leaving).
+  useEffect(() => {
+    if (focused) showHeader();
+  }, [focused, showHeader]);
   const scrollRef = useRef<ComponentRef<typeof ScrollView>>(null);
   const scroller = useVerseScroller({
     scrollRef,
@@ -403,6 +407,8 @@ export function ReaderScreen(props: {
         ref={scrollRef}
         testID="reader-scroll"
         onScroll={onScroll}
+        onLayout={reading.onLayout}
+        onContentSizeChange={reading.onContentSizeChange}
         scrollEventThrottle={16}
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={[

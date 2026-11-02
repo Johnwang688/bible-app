@@ -118,12 +118,11 @@ export function useVerseScroller(opts: {
       want.current = w;
       stopRetrying();
       if (attempt() || Platform.OS !== 'web') return;
-      // On the web the element exists but the page may not have laid out yet (the tab was hidden a moment ago):
-      // try again for a second or so, unless a newer request or a cancel has replaced this one.
-      let left = 20;
+      // On the web the element exists but the page may not have laid out yet (the tab is hidden): keep trying
+      // until it can be done. A newer request, a cancel (the chapter changed) or unmounting ends the wait.
       const again = () => {
         retryTimer.current = null;
-        if (want.current !== w || left-- <= 0) return;
+        if (want.current !== w) return;
         if (!attempt()) retryTimer.current = setTimeout(again, 50);
       };
       retryTimer.current = setTimeout(again, 50);
@@ -143,8 +142,15 @@ export function useVerseScroller(opts: {
       if (!layout.current || layout.current.key !== r.key) layout.current = { key: r.key, rootY: null, rows: new Map(), textHeight: null };
       const l = layout.current;
       if (r.kind === 'root') l.rootY = r.y;
-      else if (r.kind === 'row') l.rows.set(r.verse, r.y);
-      else l.textHeight = r.height;
+      else if (r.kind === 'row') {
+        // A row layout: a paragraph height from an earlier layout is stale.
+        l.textHeight = null;
+        l.rows.set(r.verse, r.y);
+      } else {
+        // A paragraph layout: any row positions are from an earlier (parallel) layout of this chapter and are stale.
+        l.rows.clear();
+        l.textHeight = r.height;
+      }
       if (want.current?.key === r.key) attempt();
     },
     [attempt],
