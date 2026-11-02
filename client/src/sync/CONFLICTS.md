@@ -42,6 +42,20 @@ When signed in, the sync engine (`engine.ts`) merges the device with the account
     if any device set one (as rule 10).
 15. **Today's chapter evidence** (dwell tracking) stays on the device.
 
+## Crash safety
+The app can be killed at any moment, also between two storage writes of one sync. A sync that
+changes local values (study items, a setting, reading progress) first saves a journal in its state:
+a fresh id, and for each value it is about to write, what that write means for the sync history (the
+new last-synced value and clock, the reading-minutes fold, the goal). Each value is then written
+together with that id, in the same storage write, and the journal is cleared after the last one. On the
+next start, and before every sync, the engine settles a journal it finds: a value that carries the
+journal's id was written, so its history moves on; any other was not, so its history stays as it was.
+It never guesses from the values themselves, so reading or editing done before sync starts again is
+never mistaken for the engine's write: it is simply a local change (rule 5). After a crash the device
+therefore ends up exactly as if the interrupted sync had either finished or never run: no change is
+sent back as newer than it is, no minutes are counted twice or lost, no clock is lost.
+(`journal.ts`; `__tests__/journal.unit.test.ts` crashes after every single write.)
+
 ## Not synced (yet)
 Reading position, reading settings (text size, parallel translation) and recent passages stay on each
 device. Sync runs on sign-in, on app start and return to the foreground, a few seconds after a local

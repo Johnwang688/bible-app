@@ -28,17 +28,58 @@ const clock = { t: z.number(), d: z.string() };
 /** The first moment the engine saw a pending change, and the value (signature) it saw. */
 const stamp = z.object({ at: z.number(), s: z.string().nullable() });
 
+/**
+ * An item's last synced state: the value signature (null = tombstone), its clock, and `f`, the local
+ * fingerprint (value and own time, null = absent) the device held when it synced. A local entry whose
+ * fingerprint differs is a pending change even when its value equals the base (a re-colour back to the
+ * synced colour has a newer own time).
+ */
+const itemBase = z.object({ s: z.string().nullable(), ...clock, f: z.string().nullable().optional() });
+const settingBase = z.object({ s: z.string(), ...clock });
+const goalBase = z.object({ m: z.number(), ...clock });
+const ownGoal = z.object({ minutes: z.number(), updatedAt: z.number() });
+
+/** The progress state except `pending`: what a journaled progress write commits (journal.ts). */
+const progressCore = {
+  /** Other devices' minutes per day folded into the local activeMs last time (rule 12). */
+  fold: z.record(z.string(), z.number()),
+  /** The last synced goal and its clock. Null = not linked yet (rule 14). */
+  goal: goalBase.nullable(),
+  /** The goal as this device last set it: the device document's `goal`. */
+  ownGoal: ownGoal.nullable(),
+  /** First-seen stamp of a pending goal change (s = the goal minutes as a string). */
+  goalStamp: stamp.nullable(),
+  /** Hash of the synced parts of the local progress after the last sync (detects pending changes). */
+  sig: z.string().nullable(),
+};
+
+/**
+ * The engine's write journal (journal.ts): present only while a run writes local values, and on a
+ * later start if the process died in between. For each local key being written, what committing that
+ * write means for the state; `id` is the write tag every one of those local writes carries.
+ */
+const journalSchema = z.object({
+  id: z.string(),
+  /** The study items write: entries to set in base, stamps and ignored (null = remove the entry). */
+  items: z
+    .object({
+      base: z.record(z.string(), itemBase.nullable()),
+      stamps: z.record(z.string(), stamp.nullable()),
+      ignored: z.record(z.string(), z.object(clock).nullable()),
+    })
+    .nullable(),
+  /** Per setting key written: its base and stamp after the write (null = none). */
+  settings: z.record(z.string(), z.object({ base: settingBase.nullable(), stamp: stamp.nullable() })),
+  /** The progress write: the whole progress state after it. */
+  progress: z.object(progressCore).nullable(),
+});
+
 const stateSchema = z.object({
   items: z.object({
     /** pullItems cursor (server ms), or null before the first complete pull. */
     cursor: z.number().nullable(),
-    /**
-     * Last synced state per item id: the value signature (null = tombstone), its clock, and `f`, the
-     * local fingerprint (value and own time, null = absent) the device held when it synced. A local
-     * entry whose fingerprint differs is a pending change even when its value equals the base (a
-     * re-colour back to the synced colour has a newer own time).
-     */
-    base: z.record(z.string(), z.object({ s: z.string().nullable(), ...clock, f: z.string().nullable().optional() })),
+    /** Last synced state per item id (see itemBase). */
+    base: z.record(z.string(), itemBase),
     /** First-seen stamps of pending local changes, per item id (s = the local fingerprint stamped). */
     stamps: z.record(z.string(), stamp),
     /**
@@ -49,40 +90,37 @@ const stateSchema = z.object({
   }),
   settings: z.object({
     /** Last synced value per setting key (stable JSON) and its clock. No entry = not linked yet (rule 10). */
-    base: z.record(z.string(), z.object({ s: z.string(), ...clock })),
+    base: z.record(z.string(), settingBase),
     stamps: z.record(z.string(), stamp),
   }),
   progress: z.object({
-    /** Other devices' minutes per day folded into the local activeMs last time (rule 12). */
-    fold: z.record(z.string(), z.number()),
-    /** The last synced goal and its clock. Null = not linked yet (rule 14). */
-    goal: z.object({ m: z.number(), ...clock }).nullable(),
-    /** The goal as this device last set it: the device document's `goal`. */
-    ownGoal: z.object({ minutes: z.number(), updatedAt: z.number() }).nullable(),
-    /** First-seen stamp of a pending goal change (s = the goal minutes as a string). */
-    goalStamp: stamp.nullable(),
-    /** Hash of the synced parts of the local progress after the last sync (detects pending changes). */
-    sig: z.string().nullable(),
+    ...progressCore,
     /**
-     * Set only while the engine writes merged progress (the crash marker, see engine.ts
-     * `writeProgress`): the fold that goes with that write and the `activeMs` it writes. Found on a
-     * later start, it decides which fold matches the stored progress.
+     * The progress part of the journal, as seen from the progress state: set exactly while
+     * `journal.progress` is, to the fold that goes with the journaled progress write and the
+     * `activeMs` it writes. A marker without a journal (from before the journal) is settled by
+     * comparing values (journal.ts `recoverJournal`).
      */
     pending: z
       .object({ fold: z.record(z.string(), z.number()), expect: z.record(z.string(), z.number()) })
       .nullable()
       .default(null),
   }),
+  /** The write journal (journal.ts). States saved before it existed read as null. */
+  journal: journalSchema.nullable().default(null),
 });
 
 export type SyncStateData = z.infer<typeof stateSchema>;
 export type ItemBase = SyncStateData['items']['base'][string];
 export type Stamp = SyncStateData['items']['stamps'][string];
+export type Journal = NonNullable<SyncStateData['journal']>;
+export type ProgressCore = NonNullable<Journal['progress']>;
 
 export const EMPTY_SYNC_STATE: SyncStateData = {
   items: { cursor: null, base: {}, stamps: {}, ignored: {} },
   settings: { base: {}, stamps: {} },
   progress: { fold: {}, goal: null, ownGoal: null, goalStamp: null, sig: null, pending: null },
+  journal: null,
 };
 
 /** The state key for one account on this device. Throws on a uid that is not safe in a key name. */
