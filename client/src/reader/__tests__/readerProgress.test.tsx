@@ -75,6 +75,24 @@ describe('reading time and chapters explored', () => {
     expect(storage.get(readingProgressKey).activeMs['2026-11-02']).toBeGreaterThanOrEqual(4000);
   });
 
+  it('a chapter that fits on the screen has been seen in full, with no scrolling (orchestrator catch)', async () => {
+    const c = clock();
+    const { ui, storage } = await renderReader({ position: { bookNumber: 19, chapter: 117, translation: 'WEB' }, now: c.now });
+    await screen.findByText('Psalms 117:1 WEB');
+    const scroll = screen.getByTestId('reader-scroll');
+    // The whole chapter (3 verses here) fits: content 500 high in a 700 viewport.
+    await fireEvent(scroll, 'layout', { nativeEvent: { layout: { x: 0, y: 0, width: 390, height: 700 } } });
+    await fireEvent(scroll, 'contentSizeChange', 390, 500);
+    c.advance(10_000);
+    await fireEvent.press(screen.getByTestId('verse-1'));
+    c.advance(10_000);
+    await fireEvent.press(screen.getByTestId('verse-2'));
+    await ui.unmount();
+    const p = storage.get(readingProgressKey);
+    expect(p.evidence.chapters['19:117']!.furthestVerse).toBe(3);
+    expect(Object.keys(p.chaptersRead)).toEqual(['19:117']);
+  });
+
   it('turning the chapter starts the next chapter’s clock', async () => {
     const c = clock();
     const { ui, storage } = await renderReader({ position: JOHN3_WEB, now: c.now });

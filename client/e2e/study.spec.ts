@@ -73,7 +73,10 @@ test.describe('Study: progress', () => {
     await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
     await page.goto('/bible');
     await expect(page.getByText(/For God so loved the world/)).toBeVisible();
-    // Scroll to the end, then read for a minute (the reader's heartbeat keeps the clock going).
+    // Scroll to the end, then read for a minute (the reader's heartbeat keeps the clock going). The wheel
+    // scrolls what is under the mouse, so put it over the text.
+    const vp = page.viewportSize()!;
+    await page.mouse.move(vp.width / 2, vp.height / 2);
     for (let i = 0; i < 12; i++) {
       await page.mouse.wheel(0, 600);
       await page.clock.fastForward(5000);
@@ -86,6 +89,17 @@ test.describe('Study: progress', () => {
     await page.getByTestId('tab-bible').click();
     await page.getByTestId('reader-book-button').click();
     await expect(page.getByTestId('picker-chapter-3-read')).toBeVisible();
+  });
+
+  test('a short chapter that fits on the screen counts without any scrolling', async ({ page }) => {
+    await page.clock.install({ time: new Date(2026, 10, 4, 9, 0) });
+    await seed(page, 'reader.position', { bookNumber: 19, chapter: 117, translation: 'WEB' });
+    await page.goto('/bible');
+    await expect(page.getByText('Psalms 117:1 WEB')).toBeVisible();
+    for (let i = 0; i < 6; i++) await page.clock.fastForward(5000);
+    await page.getByTestId('tab-study').click();
+    await page.getByTestId('study-tab-progress').click();
+    await expect(page.getByTestId('study-map-19')).toHaveAttribute('aria-label', 'Psalms: 1 of 150 chapters read');
   });
 
   test('time spent away from the reader is not counted', async ({ page }) => {
