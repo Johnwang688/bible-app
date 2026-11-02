@@ -1,6 +1,6 @@
 // Root layout: fonts, then the providers every screen needs (API, language, theme).
 import { useFonts } from 'expo-font';
-import { SplashScreen, Stack } from 'expo-router';
+import { SplashScreen, Stack, usePathname } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 
@@ -39,10 +39,11 @@ export default function RootLayout() {
 
 function ThemedStack() {
   const theme = useTheme();
+  const pathname = usePathname();
   return (
     <>
       <StatusBar style={theme.mode === 'dark' ? 'light' : 'dark'} />
-      <FirstRunGate>
+      <FirstRunGate pathname={pathname}>
         <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: theme.colors.base } }} />
       </FirstRunGate>
     </>
