@@ -3,7 +3,7 @@
 //
 // Nothing is reported for a chapter that is loading, failed or not the current position: the screen passes
 // `chapter` only when that chapter is what is on screen.
-import { useCallback, useEffect, useMemo, useRef, useSyncExternalStore } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSyncExternalStore } from 'react';
 import { AppState, type LayoutChangeEvent, type NativeScrollEvent, type NativeSyntheticEvent } from 'react-native';
 
 import { createEngagementTracker, type ChapterInfo } from '../../progress';
@@ -13,7 +13,10 @@ import type { Storage } from '../../storage/storage';
 export const HEARTBEAT_MS = 5000;
 /** Scroll reports are at most this far apart (the first one goes at once). */
 export const SCROLL_REPORT_MS = 250;
-/** After a chapter is shown, how long before the scroll view's size is taken as it is for that chapter. */
+/**
+ * After a chapter is shown (or comes back to the front), how long before its geometry is looked at once more, in
+ * case its measurements arrived in the same moment. Only measurements of that chapter are ever used.
+ */
 export const GEOMETRY_SETTLE_MS = 300;
 
 /** Whether the app is in front. The web reports 'active' while the page is visible. */
@@ -51,6 +54,12 @@ export interface ReadingTime {
   /** The scroll view's own size, and the size of its content: a chapter that fits is wholly on screen. */
   onLayout(e: LayoutChangeEvent): void;
   onContentSizeChange(width: number, height: number): void;
+  /**
+   * The height of the scroll content as measured from the shown chapter's own layout (`chapter` names it; a report
+   * for any other is ignored). The screen reports it when a chapter has laid out, so a chapter whose content is
+   * the same size as the last one's (no content-size event comes) is still measured.
+   */
+  onChapterLayout(chapter: ChapterInfo, contentHeight: number): void;
 }
 
 export function useReadingTime(opts: {
@@ -89,8 +98,18 @@ export function useReadingTime(opts: {
     }
   }, [tracker, clock, cancelTrailing]);
 
-  // The scroll view's geometry, for a chapter that never scrolls. The offset is the latest scroll's.
-  const view = useRef({ offset: 0, viewport: 0, content: 0 });
+  // The scroll view's geometry, for a chapter that never scrolls. The viewport is the scroll view's own size and
+  // holds for any chapter. The content size and the offset belong to one chapter: each is stamped with the chapter
+  // that was shown when it was measured, and is used for that chapter only. A new chapter has neither until a
+  // content size (or its own layout, or a scroll) is reported while it is shown: its predecessor's sizes would
+  // credit a long chapter as seen in full.
+  const view = useRef<{ viewport: number; content: number; contentOf: ChapterInfo | null; offset: number; offsetOf: ChapterInfo | null }>({
+    viewport: 0,
+    content: 0,
+    contentOf: null,
+    offset: 0,
+    offsetOf: null,
+  });
   const reportGeometryRef = useRef<() => void>(() => undefined);
 
   // A chapter is shown (or the reader came back to it): the clock starts here. Whatever stops it (another
@@ -98,13 +117,11 @@ export function useReadingTime(opts: {
   // time up to now: an instant chapter turn never goes through `running` false, so it needs this too.
   useEffect(() => {
     lastScroll.current = -Infinity;
-    view.current.offset = 0;
     let settle: ReturnType<typeof setTimeout> | undefined;
     if (running && chapter) {
       tracker.interact(chapter, 0);
-      // The view's size was usually measured before the chapter was shown (while it loaded), and a chapter that
-      // fits changes nothing about it, so no event will come. Look again once the layout has settled; by then
-      // any size left from the last chapter has been replaced by an event if it was different.
+      // What was measured for this chapter while the reader was away (or in this same moment) counts now.
+      reportGeometryRef.current();
       settle = setTimeout(() => reportGeometryRef.current(), GEOMETRY_SETTLE_MS);
     }
     return () => {
@@ -158,29 +175,39 @@ export function useReadingTime(opts: {
   const onScroll = useCallback(
     (e: NativeSyntheticEvent<NativeScrollEvent>) => {
       if (!running || !chapter) return;
-      view.current.offset = e.nativeEvent.contentOffset.y;
+      // A scroll event carries its own sizes, all measured now: they are this chapter's.
+      const { contentOffset, layoutMeasurement, contentSize } = e.nativeEvent;
+      view.current = {
+        viewport: layoutMeasurement.height > 0 ? layoutMeasurement.height : view.current.viewport,
+        content: contentSize.height,
+        contentOf: chapter,
+        offset: contentOffset.y,
+        offsetOf: chapter,
+      };
       report(furthestVerseOf(e.nativeEvent, chapter.totalVerses));
     },
     [running, chapter, report],
   );
 
   // The same estimate from the view's own size and content size, with the current offset: when the content fits
-  // in the viewport the whole chapter is on screen, and no scroll event will ever say so.
+  // in the viewport the whole chapter is on screen, and no scroll event will ever say so. Only this chapter's
+  // content size counts (see `view`); without one, nothing is reported.
   const reportGeometry = useCallback(() => {
-    const { offset, viewport, content } = view.current;
-    if (!chapter || viewport <= 0 || content <= 0) return;
+    const v = view.current;
+    if (!chapter || v.contentOf !== chapter || v.viewport <= 0 || v.content <= 0) return;
     report(
       furthestVerseOf(
         {
-          contentOffset: { x: 0, y: offset },
-          layoutMeasurement: { width: 0, height: viewport },
-          contentSize: { width: 0, height: content },
+          contentOffset: { x: 0, y: v.offsetOf === chapter ? v.offset : 0 },
+          layoutMeasurement: { width: 0, height: v.viewport },
+          contentSize: { width: 0, height: v.content },
         },
         chapter.totalVerses,
       ),
     );
   }, [chapter, report]);
-  useEffect(() => {
+  // A layout effect, so the chapter effect above (a passive one) already sees this render's chapter.
+  useLayoutEffect(() => {
     reportGeometryRef.current = reportGeometry;
   }, [reportGeometry]);
 
@@ -192,13 +219,25 @@ export function useReadingTime(opts: {
     [reportGeometry],
   );
 
+  // Stamped with the chapter shown when the report is handled (the screen's latest render).
   const onContentSizeChange = useCallback(
     (_width: number, height: number) => {
       view.current.content = height;
+      view.current.contentOf = chapter;
       reportGeometry();
     },
-    [reportGeometry],
+    [chapter, reportGeometry],
   );
 
-  return { interact, onScroll, onLayout, onContentSizeChange };
+  const onChapterLayout = useCallback(
+    (of: ChapterInfo, contentHeight: number) => {
+      if (!chapter || of.bookNumber !== chapter.bookNumber || of.chapter !== chapter.chapter) return;
+      view.current.content = contentHeight;
+      view.current.contentOf = chapter;
+      reportGeometry();
+    },
+    [chapter, reportGeometry],
+  );
+
+  return { interact, onScroll, onLayout, onContentSizeChange, onChapterLayout };
 }

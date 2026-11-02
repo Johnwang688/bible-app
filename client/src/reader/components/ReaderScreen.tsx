@@ -10,6 +10,7 @@ import {
   Text,
   useWindowDimensions,
   View,
+  type LayoutChangeEvent,
   type NativeScrollEvent,
   type NativeSyntheticEvent,
 } from 'react-native';
@@ -269,8 +270,12 @@ export function ReaderScreen(props: {
     toolsRefs,
     viewportHeight: windowHeight,
     headerBottom: insets.top + HEADER_BODY_HEIGHT + HEADER_GAP,
+    // Native: the chapter view lays verses out in rows when it reads in parallel, else as one paragraph. Only
+    // measurements of the layout on screen place a verse.
+    layout: secondId ? 'rows' : 'text',
+    shownKey: selectionKey,
   });
-  const { cancel: cancelScroll, scrollToVerse } = scroller;
+  const { cancel: cancelScroll, scrollToVerse, retry: retryScroll, release: releaseScroll } = scroller;
   useEffect(() => {
     // A scroll to a verse of the chapter we are leaving must not happen.
     cancelScroll();
@@ -321,6 +326,24 @@ export function ReaderScreen(props: {
     },
     [header, reading],
   );
+  // The scroll view's size and its content's: reading time uses both, and a scroll to a verse that is waiting for
+  // the page to be measurable (a hidden tab) tries again.
+  const onScrollLayout = useCallback(
+    (e: LayoutChangeEvent) => {
+      reading.onLayout(e);
+      retryScroll();
+    },
+    [reading, retryScroll],
+  );
+  const onContentSizeChange = useCallback(
+    (w: number, h: number) => {
+      reading.onContentSizeChange(w, h);
+      retryScroll();
+    },
+    [reading, retryScroll],
+  );
+  // The room under the chapter (see the scroll view's padding below).
+  const bottomRoom = TAB_BAR_ROOM + insets.bottom + sheetRoom;
 
   const swipeHandlers = useChapterSwipe(turn);
   // Keys move the reader only while its tab is showing and no sheet is open.
@@ -370,6 +393,18 @@ export function ReaderScreen(props: {
           {prevButton ?? <View style={styles.navSpacer} />}
           {nextButton ?? <View style={styles.navSpacer} />}
         </View>
+        {/* The end of the chapter, for reading time: keyed by the chapter, so it reports its place whenever a
+            chapter has laid out, even one whose content is the same size as the last (no content-size event
+            comes then). Its place plus the room below is the content's height for this chapter. */}
+        {shownInfo ? (
+          <View
+            key={selectionKey}
+            style={styles.chapterEnd}
+            accessible={false}
+            pointerEvents="none"
+            onLayout={(e) => reading.onChapterLayout(shownInfo, e.nativeEvent.layout.y + bottomRoom)}
+          />
+        ) : null}
       </>
     );
   } else if (failed) {
@@ -407,15 +442,16 @@ export function ReaderScreen(props: {
         ref={scrollRef}
         testID="reader-scroll"
         onScroll={onScroll}
-        onLayout={reading.onLayout}
-        onContentSizeChange={reading.onContentSizeChange}
+        onScrollBeginDrag={releaseScroll}
+        onLayout={onScrollLayout}
+        onContentSizeChange={onContentSizeChange}
         scrollEventThrottle={16}
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={[
           styles.content,
           {
             paddingTop: insets.top + HEADER_BODY_HEIGHT + HEADER_GAP,
-            paddingBottom: TAB_BAR_ROOM + insets.bottom + sheetRoom,
+            paddingBottom: bottomRoom,
             paddingHorizontal: horizontal,
           },
         ]}
@@ -478,4 +514,6 @@ const styles = StyleSheet.create({
   navRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingTop: 28 },
   nav: { width: 56, height: 48, alignItems: 'center', justifyContent: 'center' },
   navSpacer: { width: 56, height: 48 },
+  // No height, the full width: the web's layout reports need a size that is not 0 × 0.
+  chapterEnd: { alignSelf: 'stretch', height: 0 },
 });
