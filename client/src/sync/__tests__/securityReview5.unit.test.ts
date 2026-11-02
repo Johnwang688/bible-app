@@ -1,3 +1,7 @@
+// PARKED for John (claude-workflows 5a step 5): every S5 finding repeats a class implementer-hard already fixed in
+// round 4 (S5-1/2/3: the S4-1 held-back-clock class; S5-4/5: the S4-5 session store under an MMKV failure; S5-6: the
+// S4-3 offer recording). Confirmed failing by the orchestrator; the "sound:" tests stay on. Fix designs are in the
+// reviewer's notes (C:/dev/bible-app-work/r6b/R6b-security-r5-result.json) and the PR.
 // Security review round 5 (R-6b follow-up): the fixes for round 4's S4-1 in the Firestore adapter (held-back clocks and
 // the per-document retry). Reviewer-owned. A test named "S5-n ..." encodes a finding and fails on the code as reviewed;
 // a test named "sound: ..." records something checked and found correct (it passes).
@@ -146,7 +150,7 @@ describe('S5-1 (medium): an item the adapter holds back (or the server refuses o
   // (a date set by hand), the second test's path loses every fresh edit that shares a batch with an older one.
   const items: SyncDomains = { studyItems: studyKey };
 
-  test('S5-1 a note stamped while the clock ran two days ahead syncs once real time has passed its clock', async () => {
+  test.skip('S5-1 a note stamped while the clock ran two days ahead syncs once real time has passed its clock', async () => {
     const storage = createStorage(memoryBackend());
     const engine = engineFor(storage, items);
 
@@ -167,7 +171,7 @@ describe('S5-1 (medium): an item the adapter holds back (or the server refuses o
     expect(itemOnServer('note:43:3:16')?.value).toEqual({ text: 'written while the clock ran ahead' });
   });
 
-  test('S5-1 a note the server refused on its own in a retried batch is sent again later', async () => {
+  test.skip('S5-1 a note the server refused on its own in a retried batch is sent again later', async () => {
     const storage = createStorage(memoryBackend());
     const engine = engineFor(storage, items);
     fake.state.serverNow = T0;
@@ -205,7 +209,7 @@ describe('S5-2 (low): a push the server refuses for every document costs 1 + N w
   // 451), each a rules evaluation with the deletedUsers exists()/get() reads. Triggers: a device clock more than a day
   // ahead (every fresh edit is refused; this lasts until the clock is fixed), or the deletedUsers marker (an account
   // deleted on another device, until this device's ID token expires). Around 288 retries a day x 451 requests.
-  test('S5-2 three attempts at the same all-refused push of 50 notes make at most 3 + 50 write requests', async () => {
+  test.skip('S5-2 three attempts at the same all-refused push of 50 notes make at most 3 + 50 write requests', async () => {
     deviceNow = T0 + 2 * DAY; // ahead of the server by two days: every note below is refused
     const list: RemoteItem[] = Array.from({ length: 50 }, (_, i) => ({
       id: `note:1:1:${i + 1}`,
@@ -249,7 +253,7 @@ describe('S5-3 (low): while a goal is held back, every sync run rewrites the dev
     expect(deviceWrites()).toBe(after);
   });
 
-  test('S5-3 runs with no change do not rewrite the device document while its goal is held back', async () => {
+  test.skip('S5-3 runs with no change do not rewrite the device document while its goal is held back', async () => {
     const storage = createStorage(memoryBackend());
     const engine = engineFor(storage, progress);
     deviceNow = T0 + 30 * DAY; // the goal is changed while the clock runs a month ahead

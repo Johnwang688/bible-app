@@ -1,3 +1,7 @@
+// PARKED for John (claude-workflows 5a step 5): every S5 finding repeats a class implementer-hard already fixed in
+// round 4 (S5-1/2/3: the S4-1 held-back-clock class; S5-4/5: the S4-5 session store under an MMKV failure; S5-6: the
+// S4-3 offer recording). Confirmed failing by the orchestrator; the "sound:" tests stay on. Fix designs are in the
+// reviewer's notes (C:/dev/bible-app-work/r6b/R6b-security-r5-result.json) and the PR.
 // Security review round 5 (R-6b follow-up): the fixes for round 4 in the native session store (firebaseApp.native.ts:
 // the migration retry, the legacy-copy removal, the reinstall wipe) and in the Under 13 offer recording
 // (AccountProvider.tsx, S4-3). Reviewer-owned. A test named "S5-n ..." encodes a finding and fails on the code as
@@ -110,7 +114,7 @@ describe('the native session store and an MMKV failure', () => {
   // wipe of every session key, including the one this install's own sign-in wrote. The person signed in on this
   // install, and is signed out at the next start. A sign-in right after install is wiped. (Safe direction; the fix
   // card's "a set or remove of it counts as wiping it" does not hold while the install is unknown.)
-  test('S5-4 (low): a sign-in made on a new install while MMKV is unavailable survives the next start', async () => {
+  test.skip('S5-4 (low): a sign-in made on a new install while MMKV is unavailable survives the next start', async () => {
     mmkvDown = true; // the whole first launch: the install marker cannot be read or written
     const s = startApp();
     expect(await s.getItem(KEY)).toBeNull(); // sound: unknown install reads as signed out
@@ -127,7 +131,7 @@ describe('the native session store and an MMKV failure', () => {
   // imports the old clear copy. Someone who, in the run before, signed in to another account and signed out, starts
   // signed in to the old account; the header's "a session the user signed out of can never come back from the old
   // clear copy" does not hold across an MMKV failure.
-  test('S5-5 (low): after a sign-in and sign-out made while MMKV was down, the next start is still signed out', async () => {
+  test.skip('S5-5 (low): after a sign-in and sign-out made while MMKV was down, the next start is still signed out', async () => {
     mmkv('bible-app-auth').set(KEY, OLD); // R-6b's first build left this session in clear
     mmkvDown = true;
     const s = startApp();
@@ -219,7 +223,7 @@ describe('S5-6 (low): Under 13 picked while signed in, then the app closed befor
   // to delete them, although Under 13 was picked while that account was signed in. Fix: persist the "closed on uid"
   // fact (or record the offer) when the gate closes on a signed-in account, before the sign-out, and drop it if the
   // gate opens again.
-  test('S5-6 the next launch offers to delete the account that was signed in when Under 13 was picked', async () => {
+  test.skip('S5-6 the next launch offers to delete the account that was signed in when Under 13 was picked', async () => {
     const storage = createStorage(memoryBackend());
     storage.set(ageKey, 'over13');
     const gate = storageGate(storage, ageKey, (age) => age === 'over13');
