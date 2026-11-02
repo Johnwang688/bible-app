@@ -1,0 +1,121 @@
+// The sync layer's contracts (R-6b, orchestrator-owned). The engine, the Firestore adapter, the
+// in-memory test remote and the account provider all build against these; change them only here.
+//
+// Firestore layout (every path is per user; the security rules in /firestore.rules enforce it):
+//   users/{uid}/items/{kind}:{ref}     one study item, last writer wins (RemoteItem)
+//   users/{uid}/devices/{deviceId}     one device's own reading progress (DeviceProgress)
+//   users/{uid}/settings/{key}         one synced setting, last writer wins (RemoteSetting)
+// Every document also carries `serverTime`, set by the server (request.time) on each write; pulls of
+// items are incremental on it. The client never deletes documents: a deleted study item is a
+// tombstone (`deleted: true`, `value: null`). Only the backend's "delete my data" removes documents.
+import type { HighlightId } from '../theme/highlights';
+
+export type ItemKind = 'highlight' | 'note' | 'bookmark';
+export const ITEM_KINDS: readonly ItemKind[] = ['highlight', 'note', 'bookmark'];
+
+/** The value of a live item, by kind. */
+export type RemoteItemValue =
+  | { colour: HighlightId } // highlight
+  | { text: string } // note: 1..NOTE_MAX_LENGTH characters
+  | { createdAt: string }; // bookmark: an ISO time, at most 40 characters
+
+export interface RemoteItem {
+  /** `${kind}:${ref}`, e.g. `note:43:3:16`. Also the Firestore document id. */
+  id: string;
+  kind: ItemKind;
+  /** The verse, `"43:3:16"` (storage/keys.ts `refKey`). */
+  ref: string;
+  deleted: boolean;
+  /** Null exactly when `deleted`. */
+  value: RemoteItemValue | null;
+  /** Client time in ms of the change: the last-writer-wins clock. */
+  updatedAt: number;
+  /** The device that made the change: the tie-break when two changes have the same `updatedAt`. */
+  deviceId: string;
+}
+
+/** An item as pulled: `serverTime` is the server's write time in ms. */
+export interface PulledItem extends RemoteItem {
+  serverTime: number;
+}
+
+/** One device's own reading progress. Each device writes only its own document. */
+export interface DeviceProgress {
+  deviceId: string;
+  /** This device's own engaged reading time per local day (`"2026-11-02"` → ms). Never other devices' time. */
+  activeMs: Record<string, number>;
+  /** Chapters credited as read (`"43:3"` → ISO time first credited). */
+  chaptersRead: Record<string, string>;
+  /** Days the daily goal was met. */
+  goalMetDays: string[];
+  /** The daily goal as this device last set it, or null if this device never changed it. */
+  goal: { minutes: number; updatedAt: number } | null;
+  /** Client time in ms of this write. */
+  updatedAt: number;
+}
+
+/** The synced settings: the storage keys (storage/*.ts `key`) whose whole value syncs. */
+export type SettingKey = 'appearance' | 'appearance.custom' | 'language';
+export const SETTING_KEYS: readonly SettingKey[] = ['appearance', 'appearance.custom', 'language'];
+export const SETTING_JSON_MAX = 20000;
+
+export interface RemoteSetting {
+  key: SettingKey;
+  /** JSON of the stored value (the storage key's `data`, not the `{ v, data }` envelope). At most SETTING_JSON_MAX characters. */
+  json: string;
+  updatedAt: number;
+  deviceId: string;
+}
+
+export type RemoteErrorKind = 'offline' | 'denied' | 'other';
+
+/** What a RemoteStore throws. The engine maps `offline` to the offline status and the rest to error. */
+export class RemoteError extends Error {
+  readonly kind: RemoteErrorKind;
+  constructor(kind: RemoteErrorKind, message?: string, options?: { cause?: unknown }) {
+    super(message ?? `remote ${kind}`, options);
+    this.name = 'RemoteError';
+    this.kind = kind;
+  }
+}
+
+/** One signed-in user's remote data. Implemented by firestoreRemote.ts and memoryRemote.ts. */
+export interface RemoteStore {
+  /**
+   * Items written since `since` (server ms), or every item when `since` is null. Implementations may
+   * return items at or before `since` too (callers must tolerate repeats). `cursor` is the larger of
+   * `since` and the largest `serverTime` returned (null only when both are absent); it never goes back.
+   */
+  pullItems(since: number | null): Promise<{ items: PulledItem[]; cursor: number | null }>;
+  /** Writes the items (each replaces the document with that id). Resolves only when all are written. */
+  pushItems(items: readonly RemoteItem[]): Promise<void>;
+  /** Every device's progress document, this device's included. */
+  pullDevices(): Promise<DeviceProgress[]>;
+  /** Replaces this device's progress document. */
+  pushDevice(progress: DeviceProgress): Promise<void>;
+  pullSettings(): Promise<RemoteSetting[]>;
+  pushSettings(settings: readonly RemoteSetting[]): Promise<void>;
+}
+
+export type SyncState = 'idle' | 'syncing' | 'offline' | 'error';
+
+export interface SyncStatus {
+  state: SyncState;
+  /** Client ms of the last sync that finished without error, or null. */
+  lastSyncedAt: number | null;
+}
+
+export interface SyncEngine {
+  /** Starts watching local changes and runs a first sync. Calling it twice is a no-op. */
+  start(): void;
+  /**
+   * Stops: no further local or remote writes once the returned promise resolves (it waits for a run
+   * in flight to reach a safe point). Calling it twice, or before start, is fine.
+   */
+  stop(): Promise<void>;
+  /** Runs a sync now (or joins the one in flight and runs once more after it). Never rejects. */
+  syncNow(): Promise<void>;
+  status(): SyncStatus;
+  /** Called after every status change. Returns the unsubscribe. */
+  subscribe(listener: () => void): () => void;
+}
