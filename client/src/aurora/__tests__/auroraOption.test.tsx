@@ -138,3 +138,20 @@ describe('the Moving background option', () => {
     expect(off).toEqual([]);
   });
 });
+
+// Acceptance (orchestrator-owned): the same iOS nesting Sol found in the first-run radio groups (flow review r1 F2).
+describe('native accessibility', () => {
+  it('does not nest the radios under an iOS accessibility element', async () => {
+    const { Platform } = require('react-native');
+    const previous = Platform.OS;
+    Platform.OS = 'ios';
+    try {
+      await show('silver');
+      const groups = screen.container.queryAll((n) => n.type === 'View' && n.props.role === 'radiogroup');
+      expect(groups.length).toBeGreaterThan(0);
+      for (const group of groups) expect(group.props.accessible).not.toBe(true);
+    } finally {
+      Platform.OS = previous;
+    }
+  });
+});
