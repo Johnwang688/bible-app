@@ -236,6 +236,7 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
   - VoiceOver/TalkBack on the nested verse-number button;
   - the Android back button in the sheet;
   - the Hebrew and Greek fonts.
+- **Known gap:** changing chapter while a note is half-written drops the unsaved draft. John merged R-2 with it (2026-11-02); fix it in a later phase.
 
 Every phase ships its screens in both languages; the missing-key test keeps Chinese from falling behind.
 
