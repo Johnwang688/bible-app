@@ -75,11 +75,18 @@ export function FullRecallTrainer({ ctx }: { ctx: TrainerCtx }) {
     }
   };
 
-  const reset = (keepPrefill?: string) => {
+  /** A fresh attempt: hint use is cleared with it. */
+  const reset = () => {
     setHint(0);
     setHinted(false);
     setResult(null);
-    setPrefill(keepPrefill);
+    setPrefill(undefined);
+    setRound((r) => r + 1);
+  };
+  /** Correcting a misheard answer by typing is the same attempt, so hint use stays with it. */
+  const typeWhatWasHeard = (said: string) => {
+    setResult(null);
+    setPrefill(said);
     setRound((r) => r + 1);
   };
 
@@ -230,7 +237,7 @@ export function FullRecallTrainer({ ctx }: { ctx: TrainerCtx }) {
             onTryAgain={() => reset()}
             onHintAgain={() => reset()}
             onSkip={ctx.skip}
-            onHeardDifferently={() => reset(result.said)}
+            onHeardDifferently={() => typeWhatWasHeard(result.said)}
           />
         ) : (
           <VoicePanel

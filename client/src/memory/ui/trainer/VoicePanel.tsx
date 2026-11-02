@@ -102,12 +102,27 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
     if (limitedUntil === null) return;
     const left = limitedUntil - Date.now();
     if (left <= 0) return;
-    if (left <= MINUTE_LIMIT_MAX_RETRY_S * 1000) {
-      const id = setInterval(beat, 1000);
-      return () => clearInterval(id);
-    }
-    const id = setTimeout(beat, left - MINUTE_LIMIT_MAX_RETRY_S * 1000 + 50);
-    return () => clearTimeout(id);
+    // One timer at the moment the limit passes, plus a per-second tick for the countdown in its last minute.
+    let tick: ReturnType<typeof setInterval> | undefined;
+    let start: ReturnType<typeof setTimeout> | undefined;
+    const lift = setTimeout(() => {
+      if (tick !== undefined) clearInterval(tick);
+      if (start !== undefined) clearTimeout(start);
+      beat();
+    }, left + 50);
+    const startTick = () => {
+      tick = setInterval(beat, 1000);
+    };
+    if (left <= MINUTE_LIMIT_MAX_RETRY_S * 1000) startTick();
+    else start = setTimeout(() => {
+      beat();
+      startTick();
+    }, left - MINUTE_LIMIT_MAX_RETRY_S * 1000 + 50);
+    return () => {
+      clearTimeout(lift);
+      if (start !== undefined) clearTimeout(start);
+      if (tick !== undefined) clearInterval(tick);
+    };
   }, [limitedUntil, beat]);
   useEffect(() => {
     if (typeof window === 'undefined' || typeof window.addEventListener !== 'function') return;
