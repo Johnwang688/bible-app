@@ -89,23 +89,62 @@ def test_cors_accepts_exact_origins():
 
 
 class FakeGcloud:
-    """Records calls; pretends secrets exist with the given latest values."""
+    """Records calls and models Secret Manager versions like gcloud reports them.
+
+    An existing secret starts as v1 DESTROYED, v2 DISABLED, v3 ENABLED (latest, holding the given value).
+    `access --format=json` returns the payload base64-encoded, exactly as the real API does.
+    """
 
     def __init__(self, existing: dict[str, str]):
-        self.existing = dict(existing)
+        self.existing = {name: value.encode("utf-8") for name, value in existing.items()}
+        self.versions = {name: {1: "DESTROYED", 2: "DISABLED", 3: "ENABLED"} for name in existing}
+        self.list_override: str | None = None
         self.calls: list[tuple[list[str], str | None]] = []
 
     def __call__(self, args: list[str], stdin: str | None) -> subprocess.CompletedProcess:
+        import base64
+
         self.calls.append((list(args), stdin))
         out, code = "", 0
         if args[:2] == ["secrets", "describe"]:
             code = 0 if args[2] in self.existing else 1
+        elif args[:2] == ["secrets", "create"]:
+            self.existing[args[2]] = b""
+            self.versions[args[2]] = {}
         elif args[:3] == ["secrets", "versions", "access"]:
             name = args[args.index("--secret") + 1]
-            out = self.existing.get(name, "")
+            versions = self.versions.get(name, {})
+            if not versions or versions[max(versions)] != "ENABLED":
+                code = 1
+            else:
+                out = json.dumps({
+                    "name": f"projects/593497511935/secrets/{name}/versions/{max(versions)}",
+                    "payload": {"data": base64.b64encode(self.existing[name]).decode("ascii")},
+                })
+        elif args[:3] == ["secrets", "versions", "add"]:
+            name = args[3]
+            new = max(self.versions[name], default=0) + 1
+            self.versions[name][new] = "ENABLED"
+            self.existing[name] = (stdin or "").encode("utf-8")
+            out = f"projects/593497511935/secrets/{name}/versions/{new}\n"
         elif args[:3] == ["secrets", "versions", "list"]:
-            out = "projects/p/secrets/x/versions/3 ENABLED\nprojects/p/secrets/x/versions/2 DISABLED\nprojects/p/secrets/x/versions/1 DESTROYED\n"
+            name = args[3]
+            if self.list_override is not None:
+                out = self.list_override
+            else:
+                rows = sorted(self.versions.get(name, {}).items(), reverse=True)
+                out = "".join(f"projects/593497511935/secrets/{name}/versions/{v} {st}\n" for v, st in rows)
+        elif args[:3] == ["secrets", "versions", "destroy"]:
+            self.versions[args[args.index("--secret") + 1]][int(args[3])] = "DESTROYED"
         return subprocess.CompletedProcess(args, code, out, "")
+
+
+def _destroyed(fake: FakeGcloud) -> list[str]:
+    return [a[3] for a, _ in fake.calls if a[:3] == ["secrets", "versions", "destroy"]]
+
+
+def _added(fake: FakeGcloud) -> list:
+    return [a for a, _ in fake.calls if a[:3] == ["secrets", "versions", "add"]]
 
 
 def test_sync_secrets_never_puts_values_in_argv():
@@ -150,8 +189,8 @@ def test_sync_secrets_creates_regional_secret_and_grants_accessor_per_secret():
 def test_sync_secrets_destroys_superseded_versions_only():
     fake = FakeGcloud(existing={"OPENAI_API_KEY": "old"})
     deploy.sync_secrets({"OPENAI_API_KEY": "new"}, project=PROJECT, region="us-central1", gcloud=fake, log=lambda _l: None)
-    destroyed = [a[3] for a, _ in fake.calls if a[:3] == ["secrets", "versions", "destroy"]]
-    assert destroyed == ["2"]  # 3 is the new latest, 1 is already destroyed
+    assert sorted(_destroyed(fake)) == ["2", "3"]  # 4 is the new latest, 1 is already destroyed
+    assert fake.versions["OPENAI_API_KEY"][4] == "ENABLED"
 
 
 def test_dry_run_prints_commands_without_secret_values(capsys):
@@ -221,8 +260,6 @@ def test_review_retry_finishes_version_cleanup():
 
         def __call__(self, args, stdin):
             result = super().__call__(args, stdin)
-            if args[:3] == ["secrets", "versions", "add"]:
-                self.existing[args[3]] = stdin
             if args[:3] == ["secrets", "versions", "list"] and not self.failed:
                 self.failed = True
                 return subprocess.CompletedProcess(args, 1, "", "transient failure")
@@ -234,7 +271,8 @@ def test_review_retry_finishes_version_cleanup():
         deploy.sync_secrets({"OPENAI_API_KEY": "new"}, **kwargs)
     fake.calls.clear()
     deploy.sync_secrets({"OPENAI_API_KEY": "new"}, **kwargs)
-    assert [a[3] for a, _ in fake.calls if a[:3] == ["secrets", "versions", "destroy"]] == ["2"]
+    assert sorted(_destroyed(fake)) == ["2", "3"]
+    assert fake.versions["OPENAI_API_KEY"][4] == "ENABLED"
 
 
 def test_review_gcloud_runner_passes_secret_bytes_unchanged():
@@ -257,3 +295,70 @@ def test_review_missing_required_secrets_prevents_deploy(monkeypatch, capsys):
     assert deploy.main(["--image", "img:tag"]) != 0
     assert not [c for c in calls if "deploy" in c]
     assert "--sync-secrets" in capsys.readouterr().err
+
+
+# --- Sol review round 2 -------------------------------------------------------------------------
+
+
+def _sync_unchanged_with_list(rows: str) -> FakeGcloud:
+    fake = FakeGcloud({"OPENAI_API_KEY": "same"})
+    fake.list_override = rows
+    deploy.sync_secrets({"OPENAI_API_KEY": "same"}, project=PROJECT, region="us-central1", gcloud=fake, log=lambda _: None)
+    return fake
+
+
+def test_review2_cleanup_keeps_the_compared_version_whatever_the_list_order():
+    # Access compared v3. Equal createTimes can list v2 first; v3 must survive.
+    fake = _sync_unchanged_with_list("x/versions/2 ENABLED\nx/versions/3 ENABLED\n")
+    assert _destroyed(fake) == ["2"]
+
+
+def test_review2_cleanup_never_destroys_newer_versions():
+    fake = _sync_unchanged_with_list("x/versions/5 ENABLED\nx/versions/3 ENABLED\nx/versions/2 ENABLED\n")
+    assert "5" not in _destroyed(fake) and "3" not in _destroyed(fake)
+
+
+def test_review2_cleanup_skips_when_kept_version_is_not_enabled():
+    # v3 was disabled between access and list: destroy nothing rather than leave no usable version.
+    fake = _sync_unchanged_with_list("x/versions/3 DISABLED\nx/versions/2 ENABLED\n")
+    assert _destroyed(fake) == []
+
+
+@pytest.mark.parametrize("value", ["line1\r\nline2", "line1\nline2", "tail\n", "\ufffd", "caf\u00e9"])
+def test_review2_unchanged_value_compares_byte_exact(value):
+    fake = FakeGcloud({"OPENAI_API_KEY": value})
+    deploy.sync_secrets({"OPENAI_API_KEY": value}, project=PROJECT, region="us-central1", gcloud=fake, log=lambda _: None)
+    assert not _added(fake)
+    access = next(a for a, _ in fake.calls if a[:3] == ["secrets", "versions", "access"])
+    assert "--format=json" in access  # raw base64 payload, not gcloud's text formatter
+
+
+def test_review2_different_bytes_are_never_unchanged():
+    fake = FakeGcloud({"OPENAI_API_KEY": "x"})
+    fake.existing["OPENAI_API_KEY"] = b"\xff"  # not UTF-8
+    deploy.sync_secrets({"OPENAI_API_KEY": "\ufffd"}, project=PROJECT, region="us-central1", gcloud=fake, log=lambda _: None)
+    assert _added(fake)
+
+
+@pytest.mark.parametrize(
+    ("configured", "browser"),
+    [("https://xn--bcher-kva.example", "https://xn--bcher-kva.example"),
+     ("http://[2001:0DB8:0:0:0:0:0:1]:08081", "http://[2001:db8::1]:8081"),
+     ("https://x.app.", "https://x.app.")],
+)
+def test_review2_cors_matches_browser_serialisation(configured, browser):
+    from starlette.middleware.cors import CORSMiddleware
+
+    cors = CORSMiddleware(None, allow_origins=deploy.parse_cors_origins(configured), allow_credentials=True)
+    assert cors.is_allowed_origin(browser)
+
+
+@pytest.mark.parametrize(
+    "origin",
+    ["https://bücher.example", "https://%78.app", "http://127.1:8081", "http://0x7f.0.0.1", "http://[fe80::1%25eth0]",
+     "http://1.2.3.256", "http://01.2.3.4"],
+)
+def test_review2_cors_rejects_non_canonical_hosts(origin):
+    # Rejected, not guessed at: the operator gives the exact ASCII form the browser sends.
+    with pytest.raises(ValueError):
+        deploy.canonical_origin(origin)

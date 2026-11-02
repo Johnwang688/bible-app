@@ -46,9 +46,10 @@ python deploy.py --sync-secrets   # creates/updates changed secrets only; values
 python deploy.py                  # new revision picks up :latest
 ```
 
-`--sync-secrets` adds a version only when the value changed, destroys the superseded version, and grants
-the runtime service account `secretAccessor` on that one secret. To add a new secret name, add it to
-`SECRET_ENV_VARS` in `deploy.py`.
+`--sync-secrets` adds a version only when the value changed (compared byte for byte), destroys every
+older version, and grants the runtime service account `secretAccessor` on that one secret. It is safe to
+re-run after a failure. `python deploy.py` refuses to deploy while any of the five secrets is missing.
+To add a new secret name, add it to `SECRET_ENV_VARS` in `deploy.py`.
 
 Not deployed on purpose: `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `APP_SECRET_KEY` (Settings reads
 them, but no code uses them), and `DEFAULT_TRANSLATION` / `OPENAI_MODEL` (the code defaults apply, so
@@ -64,16 +65,18 @@ production defaults to BSB).
 | `CORS_ORIGINS` | `http://localhost:8081,http://127.0.0.1:8081,https://bible-app-492520.web.app,https://bible-app-492520.firebaseapp.com` |
 
 Change the origins with `--cors-origins` or `DEPLOY_CORS_ORIGINS` (comma-separated, exact `http(s)://host[:port]`
-origins; `*` and paths are rejected, because the API sends credentials-enabled CORS). The two
+origins; `*`, paths, userinfo and bad ports are rejected, because the API sends credentials-enabled CORS).
+Origins are rewritten to the form browsers send (lowercase, default port dropped), since the backend
+matches them as exact strings. The two
 Firebase Hosting domains are the planned web host; add the real one when the web app is hosted.
 
 ## Cost guard
 
 | Setting | Value | Why |
 |---|---|---|
-| min / max instances | 0 / 3 | scales to zero when idle; caps a traffic spike at 3 instances |
+| min / max instances | 0 / 3 | scales to zero when idle; caps a traffic spike at 3. Both the revision (`--min-instances`) and the service-level (`--min`) minimum are pinned to 0 on every deploy |
 | CPU / memory | 1 vCPU / 512 MiB | the content DB is read from the image, not loaded into memory |
-| CPU billing | request-based (default) | no CPU charge between requests |
+| CPU billing | request-based (`--cpu-throttling`, pinned on every deploy) | no CPU charge between requests |
 | concurrency / timeout | 80 / 300 s | SQLite reads are cheap; AI chat answers can take tens of seconds |
 | Artifact Registry cleanup | keep the newest 3 images, delete the rest after 14 days | `deploy/ar-cleanup-policy.json` |
 

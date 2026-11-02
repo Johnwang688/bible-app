@@ -17,8 +17,11 @@ Override defaults with flags or env: DEPLOY_PROJECT, DEPLOY_REGION, DEPLOY_CORS_
 from __future__ import annotations
 
 import argparse
+import base64
+import ipaddress
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -86,16 +89,20 @@ def image_base(project: str, region: str) -> str:
 
 
 _DEFAULT_PORTS = {"http": 80, "https": 443}
+_HOST_LABEL = re.compile(r"[a-z0-9_]([a-z0-9_-]*[a-z0-9_])?")
+_NUMERIC_LABEL = re.compile(r"[0-9]+|0x[0-9a-f]*")
 
 
 def canonical_origin(origin: str) -> str:
-    """Return `origin` in the form a browser sends it (lowercase, no default port), or raise ValueError.
+    """Return `origin` in the exact form a browser sends it, or raise ValueError.
 
-    Starlette's CORSMiddleware compares origins as exact strings, so `http://LOCALHOST:8081` or
-    `https://x.app:443` would silently never match.
+    Starlette's CORSMiddleware compares origins as exact strings, so a configured origin that differs
+    from the browser's serialisation silently never matches. Case and default ports are normalised;
+    anything a browser would rewrite in a less obvious way (IDN, percent-encoding, IPv4 shorthand,
+    IPv6 zone ids) is rejected, so the operator gives the exact ASCII form instead.
     """
     bad = ValueError(f"not an exact http(s) origin: {origin!r}")
-    if "*" in origin or "@" in origin or any(ch.isspace() for ch in origin):
+    if not origin.isascii() or any(ch in origin for ch in "*@%") or any(ch.isspace() for ch in origin):
         raise bad
     parts = urlsplit(origin)
     scheme = parts.scheme.lower()
@@ -107,9 +114,24 @@ def canonical_origin(origin: str) -> str:
         raise bad from None
     if port == 0 or (port is None and parts.netloc.endswith(":")):
         raise bad
-    host = parts.hostname  # already lowercased by urlsplit
-    if ":" in host:
-        host = f"[{host}]"
+    host = parts.hostname  # lowercased by urlsplit
+    if parts.netloc.split("@")[-1].startswith("["):
+        try:
+            host = f"[{ipaddress.IPv6Address(host).compressed}]"
+        except ValueError:
+            raise bad from None
+    else:
+        labels = host.rstrip(".").split(".")
+        if not all(_HOST_LABEL.fullmatch(label) for label in labels):
+            raise bad
+        if _NUMERIC_LABEL.fullmatch(labels[-1]):
+            # Browsers parse this as IPv4 (and rewrite shorthand, hex and octal): only a canonical
+            # dotted quad is accepted.
+            try:
+                if str(ipaddress.IPv4Address(host)) != host:
+                    raise bad
+            except ValueError:
+                raise bad from None
     suffix = f":{port}" if port is not None and port != _DEFAULT_PORTS[scheme] else ""
     return f"{scheme}://{host}{suffix}"
 
@@ -203,6 +225,11 @@ def git_image_tag(root: Path) -> str:
 # --- Secret Manager sync -------------------------------------------------------------------------
 
 
+def _version_id(resource_name: str) -> int | None:
+    tail = resource_name.strip().rsplit("/", 1)[-1]
+    return int(tail) if tail.isdigit() else None
+
+
 def sync_secrets(
     values: dict[str, str | None],
     *,
@@ -214,8 +241,9 @@ def sync_secrets(
     """Create or update one secret per SECRET_ENV_VARS name from `values`; return the names synced.
 
     Secret values only ever travel on stdin (`--data-file=-`), never in argv, and are never logged.
-    A new version is added only when the value changed; superseded versions are destroyed (the
-    local .env is the source of truth, and active versions past the free six are billed).
+    A new version is added only when the stored bytes differ (read as the API's base64 payload, so
+    gcloud's text formatter never rewrites newlines). Afterwards every version older than the one
+    kept is destroyed: the local .env is the source of truth, and active versions past six are billed.
     The runtime service account gets secretAccessor on each secret only, not on the project.
     """
     member = f"serviceAccount:{service_account_email(project)}"
@@ -225,8 +253,10 @@ def sync_secrets(
         if not value:
             log(f"skip {name}: empty or missing in .env")
             continue
+        wanted = value.encode("utf-8")
         exists = gcloud(["secrets", "describe", name, "--project", project, "--format=value(name)"], None)
-        current: str | None = None
+        current: bytes | None = None
+        kept: int | None = None
         if exists.returncode != 0:
             gcloud(
                 [
@@ -237,32 +267,45 @@ def sync_secrets(
                 None,
             ).check_returncode()
         else:
-            latest = gcloud(["secrets", "versions", "access", "latest", "--secret", name, "--project", project], None)
-            current = latest.stdout if latest.returncode == 0 else None
-        if current == value:
+            latest = gcloud(
+                ["secrets", "versions", "access", "latest", "--secret", name, "--project", project, "--format=json"],
+                None,
+            )
+            if latest.returncode == 0:
+                try:
+                    payload = json.loads(latest.stdout)
+                    current = base64.b64decode(payload["payload"]["data"], validate=True)
+                    kept = _version_id(payload["name"])
+                except (ValueError, KeyError, TypeError):
+                    current, kept = None, None
+        if current is not None and current == wanted and kept is not None:
             log(f"unchanged {name}")
         else:
-            gcloud(["secrets", "versions", "add", name, "--project", project, "--data-file=-"], value).check_returncode()
+            added = gcloud(
+                ["secrets", "versions", "add", name, "--project", project, "--data-file=-", "--format=value(name)"],
+                value,
+            )
+            added.check_returncode()
+            kept = _version_id(added.stdout)
             log(f"updated {name}")
-        # Always (not only after an add), so a retry finishes a cleanup that an earlier run left half done.
-        listed = gcloud(
-            [
-                "secrets", "versions", "list", name, "--project", project,
-                "--sort-by=~createTime", "--format=value(name,state)",
-            ],
-            None,
-        )
+        # Runs on every sync (not only after an add), so a retry finishes an interrupted cleanup.
+        listed = gcloud(["secrets", "versions", "list", name, "--project", project, "--format=value(name,state)"], None)
         listed.check_returncode()
-        live = []
+        states: dict[int, str] = {}
         for line in listed.stdout.splitlines():
             fields = line.split()
-            if len(fields) >= 2 and fields[1].upper() != "DESTROYED":
-                live.append(fields[0].rsplit("/", 1)[-1])
-        for version in live[1:]:  # newest first; keep only the latest version
-            gcloud(
-                ["secrets", "versions", "destroy", version, "--secret", name, "--project", project, "--quiet"],
-                None,
-            ).check_returncode()
+            version = _version_id(fields[0]) if len(fields) >= 2 else None
+            if version is not None:
+                states[version] = fields[1].upper()
+        if kept is None or states.get(kept) != "ENABLED":
+            log(f"warning {name}: kept version {kept} is not ENABLED; skipped cleanup of older versions")
+        else:
+            # Only versions older than the one kept (by number, never by list order or createTime).
+            for version in sorted((v for v, st in states.items() if v < kept and st != "DESTROYED"), reverse=True):
+                gcloud(
+                    ["secrets", "versions", "destroy", str(version), "--secret", name, "--project", project, "--quiet"],
+                    None,
+                ).check_returncode()
         gcloud(
             [
                 "secrets", "add-iam-policy-binding", name, "--project", project,
@@ -282,7 +325,8 @@ def make_gcloud_runner(gcloud_path: str) -> GcloudFn:
         result = subprocess.run([gcloud_path, *cmd], input=(stdin or "").encode("utf-8"), capture_output=True)
         return subprocess.CompletedProcess(
             result.args, result.returncode,
-            result.stdout.decode("utf-8", errors="replace"), result.stderr.decode("utf-8", errors="replace"),
+            # stdout is strict: a mis-decoded value must fail loudly, never compare equal by accident.
+            result.stdout.decode("utf-8"), result.stderr.decode("utf-8", errors="replace"),
         )
 
     return run
