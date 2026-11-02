@@ -14,6 +14,7 @@ from firebase_admin import auth
 from app.core.firebase_auth import (
     FirebaseUnavailable,
     FirebaseUser,
+    emulator_refused,
     get_firebase_app,
     get_firebase_identity,
     get_firebase_user,
@@ -43,6 +44,10 @@ def delete_account(user: FirebaseUser = Depends(get_firebase_user)) -> Response:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="recent-login-required")
 
     uid = user.uid
+    # The same emulator check as token verification, again right before the Admin SDK calls: an emulator
+    # variable without the full emulator setup could send the Firestore half of the delete elsewhere.
+    if emulator_refused(data_access=True):
+        raise _delete_failed()
     try:
         app = get_firebase_app()
     except FirebaseUnavailable:
@@ -55,6 +60,16 @@ def delete_account(user: FirebaseUser = Depends(get_firebase_user)) -> Response:
         pass  # already deleted by an earlier attempt; still clear any leftover data
     except Exception as exc:
         logger.warning("Account deletion: revoking tokens failed: %s", type(exc).__name__)
+        raise _delete_failed() from None
+
+    # (b2) Disable the auth user before the marker: a disabled user cannot get new tokens, so nobody can
+    # sign in between the marker and the end of the delete (a sign-in after the marker could write again).
+    try:
+        auth.update_user(uid, disabled=True, app=app)
+    except auth.UserNotFoundError:
+        pass  # already deleted by an earlier attempt
+    except Exception as exc:
+        logger.warning("Account deletion: disabling the auth user failed: %s", type(exc).__name__)
         raise _delete_failed() from None
 
     # (c) Remove all Firestore data under users/{uid}. Keep the auth user if this fails so a retry works.

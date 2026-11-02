@@ -11,7 +11,8 @@
 // connection) is ambiguous: the server may have wiped the account, or be wiping it still. Resuming
 // sync then would re-upload what the server just deleted. So the account goes "unconfirmed": its
 // sync stays stopped (status `error`) until a probe settles it. The probe forces a token refresh
-// (it fails once the user is deleted or its tokens are revoked: the delete is done) and compares the
+// (it fails once the user is deleted or its tokens are revoked: the delete is done; a failure that does
+// not prove that, such as a transient token-service error, leaves the account unconfirmed) and compares the
 // remote with what it held before the request (emptied: the delete reached the server). The probe
 // runs right after the failure and again on every syncNow (foreground, `online`) until it settles.
 //
@@ -27,6 +28,7 @@ import { DEFAULT_DOMAINS } from '../sync/registry';
 import type { SyncDomains } from '../sync/shapes';
 import type { RemoteStore, SyncEngine, SyncStatus } from '../sync/types';
 import { createAccountApi } from './accountApi';
+import { firebaseAuthCode } from './firebaseErrors';
 import { AuthError, type AccountState, type AccountStatus, type AuthBackend, type AuthUser, type SignInMethod } from './types';
 
 export interface AccountProviderProps {
@@ -127,8 +129,26 @@ function asAuthError(e: unknown): AuthError {
   return isAuthError(e) ? e : new AuthError('unknown', undefined, { cause: e });
 }
 
-/** Refresh failures that mean the account is gone or its session revoked (user-not-found, user-disabled, user-token-expired, ...). */
-const ACCOUNT_GONE: readonly AuthError['kind'][] = ['wrong-credentials', 'requires-recent-login', 'unknown'];
+/**
+ * Firebase codes of a refresh failure that prove the account is gone or its tokens revoked. Anything else
+ * (auth/internal-error, auth/quota-exceeded, auth/network-request-failed, a non-Firebase exception) says
+ * nothing about the account: the delete stays unconfirmed and is probed again later.
+ */
+const ACCOUNT_GONE_CODES: readonly string[] = ['auth/user-not-found', 'auth/user-disabled', 'auth/user-token-expired', 'auth/invalid-user-token'];
+
+/**
+ * For an AuthError without a Firebase code (another AuthBackend, or a test fake), the kinds that stand
+ * for those codes. The Firebase adapter only gives these kinds from a code, so a code always decides there.
+ * Never 'unknown': that is the catch-all for failures that prove nothing.
+ */
+const ACCOUNT_GONE_KINDS: readonly AuthError['kind'][] = ['wrong-credentials', 'requires-recent-login'];
+
+/** Whether a forced token refresh failed in a way that proves the account is gone or its tokens revoked. */
+function provesAccountGone(e: unknown): boolean {
+  const code = isAuthError(e) ? e.code : firebaseAuthCode(e);
+  if (code !== undefined) return ACCOUNT_GONE_CODES.includes(code);
+  return isAuthError(e) && ACCOUNT_GONE_KINDS.includes(e.kind);
+}
 
 /** The `sub` claim of a JWT, or null when the token is not a decodable JWT. */
 export function tokenSubject(token: string): string | null {
@@ -374,7 +394,13 @@ function createController(deps: Deps): Controller {
     try {
       token = await auth.getIdToken(true);
     } catch (e) {
-      return ACCOUNT_GONE.includes(asAuthError(e).kind) ? 'deleted' : 'unreachable';
+      // Design limit (U2): 'deleted' proves the account's tokens were revoked (the backend revokes and
+      // disables the user before touching any data), not that the wipe finished. That is safe: the backend
+      // writes the deletedUsers/{uid} marker before the wipe, so a half-finished delete takes no more
+      // writes from existing tokens, and a retry (sign in again → delete) completes it. If the backend
+      // failed after disabling the user, signing in again is refused until the delete is finished
+      // server-side.
+      return provesAccountGone(e) ? 'deleted' : 'unreachable';
     }
     if (!token || auth.currentUser()?.uid !== uid) return 'switched';
     if (hadData) {
