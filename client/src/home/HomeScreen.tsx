@@ -25,6 +25,7 @@ import { GoalSheet } from './GoalSheet';
 import { greetingKey } from './greeting';
 import { ContinueCard, GoalCard, HomeHeader, SurpriseCard, VerseCard, type VerseState } from './HomeCards';
 import { lastVerseKey } from './homeKeys';
+import { NEW_READER_START } from './newReader';
 import { shareVerse } from './shareVerse';
 import { pickSurpriseChapter } from './surprise';
 import { useToday } from './useToday';
@@ -68,14 +69,21 @@ export function HomeScreen({
   // Continue reading
   const translation = position.translation;
   const meta = TRANSLATIONS[translation];
-  const readerBook = findBook(books.data, position.bookNumber);
-  const chapterTitle = readerBook
-    ? t('reader.chapterTitle', { book: bookNameForLocale(readerBook, locale), chapter: position.chapter })
-    : null;
-  const continueRef = chapterTitle === null ? t('common.loading') : `${chapterTitle} · ${t(meta.shortKey)}`;
-  // No stored position: a brand-new reader, who is offered the start of the Bible rather than "continue".
+  // No stored position: a brand-new reader, who is offered John 1 in the starting translation rather than "continue".
   const [storedPosition] = useStoredValue(storage, readerPositionKey);
   const fresh = storedPosition === null;
+  const shownBook = fresh ? NEW_READER_START.bookNumber : position.bookNumber;
+  const shownChapter = fresh ? NEW_READER_START.chapter : position.chapter;
+  const readerBook = findBook(books.data, shownBook);
+  const chapterTitle = readerBook
+    ? t('reader.chapterTitle', { book: bookNameForLocale(readerBook, locale), chapter: shownChapter })
+    : null;
+  const continueRef = chapterTitle === null ? t('common.loading') : `${chapterTitle} · ${t(meta.shortKey)}`;
+  // A brand-new reader's press sets that start as the position, so the Bible tab opens there.
+  const continueReading = () => {
+    if (storage.get(readerPositionKey) === null) setPosition({ ...NEW_READER_START, translation });
+    navigate();
+  };
   const continueCaps = t(fresh ? 'home.start' : 'home.continue');
   const continueLabel =
     chapterTitle === null
@@ -197,7 +205,7 @@ export function HomeScreen({
           streakStart={t('home.streakStart')}
         />
         <GoalCard done={progress.goalProgressMinutes} goal={progress.goalMinutes} onPress={openGoal} />
-        <ContinueCard caps={continueCaps} reference={continueRef} sub={t(meta.nameKey)} label={continueLabel} onPress={navigate} />
+        <ContinueCard caps={continueCaps} reference={continueRef} sub={t(meta.nameKey)} label={continueLabel} onPress={continueReading} />
         <VerseCard state={verse} onOpen={openVerse} onShare={share} onRetry={retry} />
         <SurpriseCard
           body={t(progress.exploredCount === 0 ? 'home.surpriseBodyNew' : 'home.surpriseBody')}

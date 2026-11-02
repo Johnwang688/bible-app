@@ -147,7 +147,7 @@ test.describe('Home in Chinese', () => {
   test('a new Chinese reader: Chinese greeting, Start reading in CUV, the verse in Chinese', async ({ page }) => {
     await page.goto('/');
     await expect(page.getByTestId('home-greeting')).toHaveText('早上好');
-    await expect(page.getByTestId('home-continue-ref')).toHaveText('创世记 1 · 和合本');
+    await expect(page.getByTestId('home-continue-ref')).toHaveText('约翰福音 1 · 和合本');
     await expect(page.getByText('开始阅读')).toBeVisible();
     await expect(page.getByTestId('home-streak')).toContainText('开始连续阅读');
     await expect(page.getByTestId('home-votd-text')).toContainText('神爱世人');

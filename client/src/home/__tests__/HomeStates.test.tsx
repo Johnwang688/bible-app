@@ -66,7 +66,7 @@ describe('Home: the header with large text', () => {
 });
 
 describe('Home: a brand-new reader', () => {
-  it('no 0 flame: “Start your streak”; zeros elsewhere; “Start reading” with Genesis 1 in the starting translation', async () => {
+  it('no 0 flame: “Start your streak”; zeros elsewhere; “Start reading” with John 1 in the starting translation (John, 2026-11-02)', async () => {
     const { storage, navigate } = await renderHome();
     const chip = screen.getByTestId('home-streak');
     expect(screen.queryByTestId('home-streak-count')).toBeNull();
@@ -77,12 +77,13 @@ describe('Home: a brand-new reader', () => {
     expect(screen.getByText('A random chapter to get you started.')).toBeTruthy();
     const card = screen.getByTestId('home-continue');
     expect(within(card).getByText('Start reading')).toBeTruthy();
-    expect(card.props.accessibilityLabel).toBe('Start reading Genesis 1');
-    expect(textOf(await screen.findByTestId('home-continue-ref'))).toBe('Genesis 1 · BSB');
+    expect(card.props.accessibilityLabel).toBe('Start reading John 1');
+    expect(textOf(await screen.findByTestId('home-continue-ref'))).toBe('John 1 · BSB');
     expect(textOf(screen.getByTestId('home-continue-sub'))).toBe('Berean Standard Bible');
     await fireEvent.press(card);
     expect(navigate).toHaveBeenCalledTimes(1);
-    expect(storage.get(readerPositionKey)).toBeNull();
+    // A new reader starts at John 1: pressing sets that position, so the Bible tab opens there.
+    expect(storage.get(readerPositionKey)).toEqual({ bookNumber: 43, chapter: 1, translation: 'BSB' });
   });
 
   it('a reader with a streak sees the count, and the usual Surprise me copy once they have explored', async () => {
@@ -100,7 +101,7 @@ describe('Home: a brand-new reader', () => {
     await renderHome({ locales: [ZH] });
     expect(screen.getByText('开始阅读')).toBeTruthy();
     expect(screen.getByText('开始连续阅读')).toBeTruthy();
-    expect(textOf(await screen.findByTestId('home-continue-ref'))).toBe('创世记 1 · 和合本');
+    expect(textOf(await screen.findByTestId('home-continue-ref'))).toBe('约翰福音 1 · 和合本');
   });
 });
 
