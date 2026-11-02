@@ -80,7 +80,7 @@ function fakeAuth(initial: AuthUser | null = null): Fake {
 
 const ALICE: AuthUser = { uid: 'alice', email: 'alice@example.com' };
 
-function renderCard(
+async function renderCard(
   opts: {
     auth?: Fake;
     locales?: DeviceLocale[];
@@ -111,7 +111,7 @@ function renderCard(
       </I18nProvider>
     </SafeAreaProvider>
   );
-  const ui = render(<AccountCard />, { wrapper: Wrapper });
+  const ui = await render(<AccountCard />, { wrapper: Wrapper });
   return { ui, auth, storage, remote, deleteRequest };
 }
 
@@ -124,7 +124,7 @@ const press = async (testID: string) => {
 
 describe('signed out', () => {
   test('shows the sign-in card; Sign in opens the sheet with the merge notice', async () => {
-    renderCard();
+    await renderCard();
     expect(await screen.findByText(en['account.signInTitle'])).toBeTruthy();
     expect(screen.getByText(en['account.signInBody'])).toBeTruthy();
     await press('account-sign-in');
@@ -133,7 +133,7 @@ describe('signed out', () => {
   });
 
   test('sign-in autofill: username email, current password, email keyboard', async () => {
-    renderCard();
+    await renderCard();
     await screen.findByTestId('account-sign-in');
     await press('account-sign-in');
     const email = screen.getByTestId('auth-email');
@@ -150,7 +150,7 @@ describe('signed out', () => {
   });
 
   test('signs in with the typed email and password; the sheet closes and the card shows the account', async () => {
-    const { auth } = renderCard();
+    const { auth } = await renderCard();
     await screen.findByTestId('account-sign-in');
     await press('account-sign-in');
     await type('auth-email', '  alice@example.com ');
@@ -168,7 +168,7 @@ describe('signed out', () => {
   ])('a sign-in error (%s) shows its message and keeps the sheet open', async (_l, error, key) => {
     const auth = fakeAuth();
     auth.fail.signIn = error;
-    renderCard({ auth });
+    await renderCard({ auth });
     await screen.findByTestId('account-sign-in');
     await press('account-sign-in');
     await type('auth-email', 'alice@example.com');
@@ -179,7 +179,7 @@ describe('signed out', () => {
   });
 
   test('a malformed email is caught before any request', async () => {
-    const { auth } = renderCard();
+    const { auth } = await renderCard();
     await screen.findByTestId('account-sign-in');
     await press('account-sign-in');
     await type('auth-email', 'not an email');
@@ -191,7 +191,7 @@ describe('signed out', () => {
 
   test('sign-up: new-password autofill, 8-character minimum, neutral email-in-use copy, privacy link', async () => {
     const auth = fakeAuth();
-    renderCard({ auth });
+    await renderCard({ auth });
     await screen.findByTestId('account-sign-in');
     await press('account-sign-in');
     await press('auth-to-signup');
@@ -219,7 +219,7 @@ describe('signed out', () => {
 
   test('password reset: sends, shows the same message for any email, resend, and send failure', async () => {
     const auth = fakeAuth();
-    renderCard({ auth });
+    await renderCard({ auth });
     await screen.findByTestId('account-sign-in');
     await press('account-sign-in');
     await type('auth-email', 'who@example.com');
@@ -248,7 +248,7 @@ describe('signed out', () => {
       await gate;
       return signIn(m);
     };
-    renderCard({ auth });
+    await renderCard({ auth });
     await screen.findByTestId('account-sign-in');
     await press('account-sign-in');
     await type('auth-email', 'alice@example.com');
@@ -264,7 +264,7 @@ describe('signed out', () => {
 
 describe('signed in', () => {
   test('shows the email, the sync line, Sync now, Sign out and the renamed delete row', async () => {
-    renderCard({ auth: fakeAuth(ALICE) });
+    await renderCard({ auth: fakeAuth(ALICE) });
     expect(await screen.findByText('alice@example.com')).toBeTruthy();
     await waitFor(() => expect(screen.getByTestId('account-sync-status')).toHaveTextContent(en['account.sync.justNow']));
     expect(screen.getByTestId('account-sync-now')).toBeTruthy();
@@ -275,7 +275,7 @@ describe('signed in', () => {
   test('offline: the sync line says so and the button reads Try again; sign-out warns first', async () => {
     const remote = createMemoryRemote();
     remote.failNext(new RemoteError('offline'), undefined, 50);
-    const { auth } = renderCard({ auth: fakeAuth(ALICE), remote });
+    const { auth } = await renderCard({ auth: fakeAuth(ALICE), remote });
     await waitFor(() => expect(screen.getByTestId('account-sync-status')).toHaveTextContent(en['account.sync.offline']));
     expect(within(screen.getByTestId('account-sync-now')).getByText(en['account.tryAgain'])).toBeTruthy();
     await press('account-sign-out');
@@ -286,7 +286,7 @@ describe('signed in', () => {
   });
 
   test('synced: sign-out needs no confirmation', async () => {
-    const { auth } = renderCard({ auth: fakeAuth(ALICE) });
+    const { auth } = await renderCard({ auth: fakeAuth(ALICE) });
     await waitFor(() => expect(screen.getByTestId('account-sync-status')).toHaveTextContent(en['account.sync.justNow']));
     await press('account-sign-out');
     await waitFor(() => expect(auth.log).toContain('signOut'));
@@ -296,7 +296,7 @@ describe('signed in', () => {
 
 describe('delete account and synced data', () => {
   async function openDelete(opts: Parameters<typeof renderCard>[0] = {}) {
-    const r = renderCard({ auth: fakeAuth(ALICE), ...opts });
+    const r = await renderCard({ auth: fakeAuth(ALICE), ...opts });
     await screen.findByText('alice@example.com');
     await press('account-delete');
     return r;
@@ -361,20 +361,20 @@ describe('delete account and synced data', () => {
 
 describe('under 13 and Chinese', () => {
   test('when sign-in is off, one line replaces the sign-in button', async () => {
-    renderCard({ gate: { allowed: () => false, subscribe: () => () => undefined } });
+    await renderCard({ gate: { allowed: () => false, subscribe: () => () => undefined } });
     expect(await screen.findByText(en['account.under13'])).toBeTruthy();
     expect(screen.queryByTestId('account-sign-in')).toBeNull();
   });
 
   test('the card and sheet are in Chinese', async () => {
-    renderCard({ locales: ZH });
+    await renderCard({ locales: ZH });
     expect(await screen.findByText(zhHans['account.signInTitle'])).toBeTruthy();
     await press('account-sign-in');
     expect(screen.getByText(zhHans['auth.signIn.mergeNote'])).toBeTruthy();
   });
 
   test('every control is at least 44 pt and no auth control uses a fixed height', async () => {
-    renderCard();
+    await renderCard();
     await screen.findByTestId('account-sign-in');
     await press('account-sign-in');
     for (const id of ['auth-email', 'auth-password', 'auth-submit', 'auth-forgot', 'auth-close']) {
