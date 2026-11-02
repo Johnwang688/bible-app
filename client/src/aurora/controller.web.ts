@@ -121,12 +121,15 @@ export function createAuroraController(host: HTMLElement, screen: HTMLElement | 
       focused: inputs.focused,
       visible: inputs.visible,
     });
-    if (next === state) return;
-    state = next;
-    if (next === 'off') show(false);
-    loop.setState(next);
-    canvas.setAttribute('data-aurora-state', next);
-    reportFrames();
+    if (next !== state) {
+      state = next;
+      if (next === 'off') show(false);
+      loop.setState(next);
+      canvas.setAttribute('data-aurora-state', next);
+      reportFrames();
+    }
+    // Every change that can end stirring (state, style, loss, the renderer) ends here.
+    settleStir();
   };
 
   /** After the canvas content was lost (resize, restore, new style): put a frame back if it is still. */
@@ -175,13 +178,18 @@ export function createAuroraController(host: HTMLElement, screen: HTMLElement | 
   // Rebuild whatever state creation (or an earlier restore) left: with no renderer, create one.
   const onRestored = () => {
     if (destroyed) return;
+    // A restore always follows an interruption, even one this controller never heard of.
+    releasePointers();
     if (renderer) lost = !renderer.restore();
     else {
       renderer = createAuroraRenderer(canvas, inputs.style, inputs.palette);
       lost = renderer?.style == null;
     }
     reportStyle();
-    if (lost) return;
+    if (lost) {
+      apply(); // could not rebuild: nothing runs (and nothing stirs)
+      return;
+    }
     show(false);
     const prev = state;
     apply();
@@ -195,18 +203,45 @@ export function createAuroraController(host: HTMLElement, screen: HTMLElement | 
   // went down. `touch-action: pan-y pinch-zoom` lets a vertical drag scroll and keeps pinch-zoom (the browser then cancels the pointer).
   const savedTouchAction = screen ? screen.style.touchAction : '';
   if (screen) screen.style.touchAction = 'pan-y pinch-zoom';
-  /** Per pointer id: where it went down, and whether it has started stirring. */
-  const downs = new Map<number, { x: number; y: number; stirring: boolean }>();
+  //
+  // A gesture belongs to one uninterrupted stirrable stretch. Whenever the aurora stops being stirrable
+  // (paused, hidden, unfocused, Reduce Motion, a style other than fluid, context loss, the renderer gone),
+  // every tracked pointer is forgotten (`settleStir`, reached from `apply`, plus `onRestored` and `destroy`):
+  // one that was stirring gets its 'up' (if the renderer can still take it), so the fluid keeps no stuck
+  // splat. A forgotten pointer is never tracked again; only a new pointerdown while stirrable is.
+  /** Per pointer id: where it went down, whether it has started stirring, and the last point sent. */
+  const downs = new Map<number, { x: number; y: number; stirring: boolean; ux: number; uy: number }>();
   const toUnit = (r: DOMRect, x: number, y: number) => [(x - r.left) / r.width, 1 - (y - r.top) / r.height] as const;
   const canStir = () => !!renderer && !lost && state === 'running' && renderer.style === 'fluid';
+  /** Forgets every tracked pointer, ending (with an 'up' at its last point) any that was stirring. */
+  function releasePointers() {
+    if (downs.size === 0) return;
+    const ups = [...downs].filter(([, d]) => d.stirring);
+    downs.clear();
+    // A lost renderer (or one with nothing built) has no splats to end.
+    if (!renderer || lost || renderer.style === null) return;
+    for (const [id, d] of ups) renderer.pointer('up', id, d.ux, d.uy);
+  }
+  /** Pointers are tracked only while the aurora can be stirred. */
+  function settleStir() {
+    if (!canStir()) releasePointers();
+  }
   const onDown = (ev: PointerEvent) => {
     // A pointer that went down while the aurora could not be stirred never stirs, whatever changes later.
-    if (!canStir()) return;
-    downs.set(ev.pointerId, { x: ev.clientX, y: ev.clientY, stirring: false });
+    if (!canStir()) {
+      releasePointers();
+      return;
+    }
+    downs.set(ev.pointerId, { x: ev.clientX, y: ev.clientY, stirring: false, ux: 0, uy: 0 });
   };
   const onMove = (ev: PointerEvent) => {
     const d = downs.get(ev.pointerId);
-    if (!d || !renderer || !canStir()) return;
+    if (!d) return;
+    if (!renderer || !canStir()) {
+      // Stirring ended without a change seen here (the renderer found its context lost): the gesture is over.
+      releasePointers();
+      return;
+    }
     const r = canvas.getBoundingClientRect();
     if (r.width < 1 || r.height < 1) return;
     if (!d.stirring) {
@@ -216,6 +251,8 @@ export function createAuroraController(host: HTMLElement, screen: HTMLElement | 
       renderer.pointer('down', ev.pointerId, x, y);
     }
     const [x, y] = toUnit(r, ev.clientX, ev.clientY);
+    d.ux = x;
+    d.uy = y;
     renderer.pointer('move', ev.pointerId, x, y);
   };
   const onUp = (ev: PointerEvent) => {
@@ -267,7 +304,7 @@ export function createAuroraController(host: HTMLElement, screen: HTMLElement | 
       screen?.removeEventListener('pointermove', onMove, passive);
       screen?.removeEventListener('pointerup', onUp, passive);
       screen?.removeEventListener('pointercancel', onUp, passive);
-      downs.clear();
+      releasePointers();
       if (screen) screen.style.touchAction = savedTouchAction;
       renderer?.dispose();
       renderer = null;

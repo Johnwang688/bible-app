@@ -79,7 +79,8 @@ export function AuroraOption({ storage = getStorage() }: { storage?: Storage }) 
       >
         {label}
       </Text>
-      <View ref={groupRef} accessible role="radiogroup" aria-label={label} style={styles.rows}>
+      {/* Not an accessibility element on iOS: VoiceOver cannot reach the radios nested inside one. */}
+      <View ref={groupRef} accessible={Platform.OS !== 'ios'} role="radiogroup" aria-label={label} style={styles.rows}>
         {AURORA_STYLES.map((id) => {
           const checked = style === id;
           return (
