@@ -18,10 +18,14 @@ import { GOAL_CHOICES, setDailyGoal, stepGoal } from './goal';
 import { MinusIcon, PlusIcon } from './icons';
 import { useSwipeDown } from './swipeDown';
 import { useToday } from './useToday';
+import { escapeIsForModalAbove } from './webModals';
 
 const defaultNow = () => new Date();
 const ROWS = [GOAL_CHOICES.slice(0, 4), GOAL_CHOICES.slice(4)] as const;
 const COLUMNS = 4;
+
+/** What an Escape press has done to this sheet so far (web). */
+type EscapeState = 'none' | 'foreign' | 'closed';
 
 /** Props React Native Web forwards to the DOM but React Native's View types lack. */
 interface WebKeyProps {
@@ -68,37 +72,50 @@ export function GoalSheet({ onClose, storage: storageProp, now = defaultNow }: {
   // The day is read here too, so a sheet mounted without Home moves to the new day at midnight.
   const today = useToday(now);
 
-  // Set when an Escape keydown belonged to a modal above this sheet: the keyup that follows reaches the Modal's
-  // onRequestClose, which must then leave the sheet open.
-  const foreignEscape = useRef(false);
+  // Web: what the current Escape press has done. A keydown for a modal above this sheet makes it 'foreign'; a
+  // keydown that closed the sheet makes it 'closed'. A window capture-phase keyup listener moves it into `keyup`
+  // for that keyup's dispatch only (the Modal's onRequestClose runs during it) and clears it after the dispatch.
+  const press = useRef<EscapeState>('none');
+  const keyup = useRef<EscapeState>('none');
   const onRequestClose = useCallback(() => {
-    if (Platform.OS === 'web' && foreignEscape.current) {
-      foreignEscape.current = false;
-      return;
+    if (Platform.OS === 'web') {
+      if (keyup.current !== 'none') return;
+      keyup.current = 'closed';
     }
     onClose();
   }, [onClose]);
 
   // react-native-web's Modal listens for Escape only once its slide-in has ended (a quarter of a second), and the
   // scrim slides in with the sheet, so an Escape or a tap away from the sheet made as it opens would be lost. These
-  // listen from the start. A press inside the Modal (the real scrim, the sheet) is left to the Modal's own handlers,
-  // and closing unmounts the Modal and its Escape listener with it, so onClose runs once. An Escape made while
-  // another modal is above this sheet is that modal's: it is ignored here, and so is the keyup that follows it.
+  // listen from the start. A press inside the Modal (the real scrim, the sheet) is left to the Modal's own handlers.
+  // An Escape keyup no one handled (no keydown of ours before it, the Modal still sliding in) closes the sheet
+  // from the window bubble phase; each Escape press closes it at most once.
   useEffect(() => {
     if (Platform.OS !== 'web' || typeof document === 'undefined') return;
+    let clearTimer: ReturnType<typeof setTimeout> | undefined;
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key !== 'Escape') return;
-      const modals = Array.from(document.querySelectorAll('[aria-modal="true"]'));
-      const own = modals.find((m) => m.querySelector('[data-testid="goal-sheet"]'));
-      const target = e.target as Element | null;
-      const targetModal = target?.closest?.('[aria-modal="true"]') ?? null;
-      const above = own !== undefined && modals.indexOf(own) < modals.length - 1;
-      if (above || (targetModal !== null && targetModal !== own)) {
-        foreignEscape.current = true;
-        return;
-      }
-      foreignEscape.current = false;
+      press.current = escapeIsForModalAbove('goal-sheet', e.target) ? 'foreign' : 'closed';
+      if (press.current === 'closed') onClose();
+    };
+    const onKeyUpCapture = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      keyup.current = press.current;
+      press.current = 'none';
+      // A timer, not a microtask: microtasks run between listener callbacks, before the Modal's listener.
+      clearTimeout(clearTimer);
+      clearTimer = setTimeout(() => {
+        keyup.current = 'none';
+      }, 0);
+    };
+    const onKeyUp = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape' || keyup.current !== 'none') return;
+      keyup.current = 'closed';
       onClose();
+    };
+    const onBlur = () => {
+      press.current = 'none';
+      keyup.current = 'none';
     };
     const onPointerDown = (e: PointerEvent) => {
       const target = e.target as Element | null;
@@ -106,9 +123,16 @@ export function GoalSheet({ onClose, storage: storageProp, now = defaultNow }: {
       onClose();
     };
     document.addEventListener('keydown', onKeyDown, true);
+    window.addEventListener('keyup', onKeyUpCapture, true);
+    window.addEventListener('keyup', onKeyUp);
+    window.addEventListener('blur', onBlur);
     document.addEventListener('pointerdown', onPointerDown);
     return () => {
+      clearTimeout(clearTimer);
       document.removeEventListener('keydown', onKeyDown, true);
+      window.removeEventListener('keyup', onKeyUpCapture, true);
+      window.removeEventListener('keyup', onKeyUp);
+      window.removeEventListener('blur', onBlur);
       document.removeEventListener('pointerdown', onPointerDown);
     };
   }, [onClose]);
