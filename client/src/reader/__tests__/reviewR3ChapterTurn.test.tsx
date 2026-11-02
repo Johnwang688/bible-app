@@ -3,6 +3,7 @@ import { renderHook } from '@testing-library/react-native';
 
 import { readingProgressKey } from '../../storage/keys';
 import { createStorage, memoryBackend } from '../../storage/storage';
+import type { ChapterInfo } from '../../progress';
 import { useReadingTime } from '../components/useReadingTime';
 
 it('counts reading time until an immediate cached chapter turn', async () => {
@@ -11,7 +12,7 @@ it('counts reading time until an immediate cached chapter turn', async () => {
   const now = () => t;
   const chapter = { bookNumber: 43, chapter: 3, totalVerses: 36 };
   const h = await renderHook(
-    ({ current }) =>
+    ({ current }: { current: ChapterInfo }) =>
       useReadingTime({ storage, now, chapter: current, focused: true }),
     { initialProps: { current: chapter } },
   );
