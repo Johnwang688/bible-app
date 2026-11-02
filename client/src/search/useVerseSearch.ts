@@ -11,12 +11,13 @@ export const SEARCH_LIMIT = 50;
 
 /** `value`, once it has stayed the same for `ms`. The first render returns the initial value at once. */
 export function useDebouncedValue<T>(value: T, ms: number): T {
-  const [debounced, setDebounced] = useState<T>(value);
+  // Wrapped in an object: React calls a function passed to useState or a setter, and T may be a function.
+  const [debounced, setDebounced] = useState<{ value: T }>(() => ({ value }));
   useEffect(() => {
-    const timer = setTimeout(() => setDebounced(value), ms);
+    const timer = setTimeout(() => setDebounced({ value }), ms);
     return () => clearTimeout(timer);
   }, [value, ms]);
-  return debounced;
+  return debounced.value;
 }
 
 export function useVerseSearch(query: string, translation: TranslationId, opts?: { enabled?: boolean }) {

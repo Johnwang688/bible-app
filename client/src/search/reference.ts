@@ -17,6 +17,12 @@ const MAX_VERSE = 176;
  */
 const TAIL = /^(.*?)\s*(\d+)(?:(?:\s*[:.]\s*|\s+)(\d+)(?:\s*[-~–—]\s*(\d+))?|\s*[-~–—]\s*(\d+))?$/u;
 
+/** A book name in Chinese: Han characters, with optional single spaces between words. */
+const CJK_BOOK = /^\p{Script=Han}+(?: \p{Script=Han}+)*$/u;
+
+/** A book name in Latin letters and digits, with optional single spaces and one trailing dot ("1 Cor."). */
+const LATIN_BOOK = /^[a-z0-9]+(?: [a-z0-9]+)*\.?$/;
+
 /** Traditional short names (CUV), canon order. The Simplified ones come from bookAbbreviation. */
 const TRAD_SHORT: readonly string[] = [
   '創', '出', '利', '民', '申', '書', '士', '得', '撒上', '撒下', '王上', '王下', '代上', '代下',
@@ -26,11 +32,92 @@ const TRAD_SHORT: readonly string[] = [
   '彼後', '約壹', '約貳', '約參', '猶', '啟',
 ];
 
-/** Roman numerals that stand for a numbered book when they start a Latin name ("ii kings"). */
-const ROMAN: Readonly<Record<string, string>> = { i: '1', ii: '2', iii: '3' };
+/** Simplified short names (the Traditional ones are in TRAD_SHORT) that bookAbbreviation does not cover. */
+const EXTRA_ZH: readonly (readonly [string, number])[] = [
+  ['约壹', 62],
+  ['约贰', 63],
+  ['约参', 64],
+];
 
-/** Short names the EN code list does not cover. */
-const ALIASES: Readonly<Record<string, number>> = { jn: 43, mt: 40, mk: 41, lk: 42, phil: 50, phlm: 57 };
+/** Roman numerals that stand for a numbered book when they start a Latin name ("ii kings"). */
+const ROMAN: ReadonlyMap<string, string> = new Map([
+  ['i', '1'],
+  ['ii', '2'],
+  ['iii', '3'],
+]);
+
+/**
+ * Common Latin short names, by book number. Each is compacted (spaces removed) before lookup, so
+ * "song of songs" becomes "songofsongs".
+ */
+const ALIASES: Readonly<Record<number, readonly string[]>> = {
+  1: ['gn', 'gen', 'ge'],
+  2: ['ex', 'exo', 'exod'],
+  3: ['lv', 'lev'],
+  4: ['nm', 'num'],
+  5: ['dt', 'deut'],
+  6: ['jos', 'josh'],
+  7: ['jdg', 'judg'],
+  8: ['ru'],
+  9: ['1 sam', '1 sm'],
+  10: ['2 sam', '2 sm'],
+  11: ['1 kgs', '1 ki'],
+  12: ['2 kgs', '2 ki'],
+  13: ['1 chr', '1 ch'],
+  14: ['2 chr', '2 ch'],
+  15: ['ezr'],
+  16: ['neh'],
+  17: ['est', 'esth'],
+  18: ['jb'],
+  19: ['ps', 'pss', 'psa', 'psalm'],
+  20: ['prv', 'prov', 'pr'],
+  21: ['eccl', 'ecc', 'qoh'],
+  22: ['sos', 'song', 'sg', 'song of songs', 'canticles'],
+  23: ['is', 'isa'],
+  24: ['jer'],
+  25: ['lam'],
+  26: ['ezek', 'ezk'],
+  27: ['dn', 'dan'],
+  28: ['hos'],
+  29: ['jl', 'joel'],
+  30: ['am', 'amos'],
+  31: ['ob', 'obad'],
+  32: ['jon', 'jnh'],
+  33: ['mic'],
+  34: ['na', 'nah'],
+  35: ['hab', 'hb'],
+  36: ['zep', 'zeph'],
+  37: ['hag', 'hg'],
+  38: ['zec', 'zech'],
+  39: ['mal'],
+  40: ['mt', 'matt'],
+  41: ['mk', 'mrk', 'mar'],
+  42: ['lk', 'luk'],
+  43: ['jn', 'jhn'],
+  44: ['ac', 'acts'],
+  45: ['rm', 'rom'],
+  46: ['1 cor', '1 co'],
+  47: ['2 cor', '2 co'],
+  48: ['gal'],
+  49: ['eph'],
+  50: ['phil', 'php'],
+  51: ['col'],
+  52: ['1 thess', '1 th'],
+  53: ['2 thess', '2 th'],
+  54: ['1 tim', '1 ti'],
+  55: ['2 tim', '2 ti'],
+  56: ['ti', 'tit'],
+  57: ['phlm', 'phm'],
+  58: ['heb'],
+  59: ['jas', 'jm'],
+  60: ['1 pet', '1 pt'],
+  61: ['2 pet', '2 pt'],
+  62: ['1 jn', '1 jhn'],
+  63: ['2 jn', '2 jhn'],
+  64: ['3 jn', '3 jhn'],
+  65: ['jud', 'jude'],
+  66: ['rev', 'rv'],
+};
 
 interface Hit {
   readonly bookNumber: number;
@@ -79,7 +166,7 @@ function latinTokens(text: string): string[] {
   const tokens = normalizeSearchText(text).split(' ').filter(Boolean);
   const first = tokens[0];
   if (tokens.length > 1 && first !== undefined) {
-    const numbered = ROMAN[first];
+    const numbered = ROMAN.get(first);
     if (numbered !== undefined) tokens[0] = numbered;
   }
   return tokens;
@@ -97,12 +184,20 @@ function putHit(map: Map<string, Hit | null>, key: string, bookNumber: number, b
   }
 }
 
-/** Trim, NFKC (full-width digits and colons), lowercase, and drop wrapping brackets and trailing punctuation. */
+/**
+ * Trim, NFKC (full-width digits and colons), lowercase, drop a leading bracket, then drop trailing
+ * punctuation and closing brackets in any order. A 节 after a number goes too, so "3章16节。" reads as "3 16".
+ */
 function cleanQuery(query: string): string {
   let text = query.normalize('NFKC').trim().toLowerCase();
-  text = text.replace(/^[(（[【]\s*/u, '').replace(/\s*[)）\]】]$/u, '');
-  text = text.replace(/章/gu, ' ').replace(/[节節]$/u, '');
-  text = text.replace(/[.,;:。，；]+$/u, '');
+  text = text.replace(/^[(（[【]\s*/u, '');
+  let previous = '';
+  while (previous !== text) {
+    previous = text;
+    text = text.replace(/[\s.,;:。，；)）\]】]+$/u, '');
+    text = text.replace(/(\d)\s*[节節]$/u, '$1');
+  }
+  text = text.replace(/(\d)\s*章\s*/gu, '$1 ');
   return text.replace(/\s+/g, ' ').trim();
 }
 
@@ -140,20 +235,41 @@ export function buildBookIndex(books: readonly BookInfo[]): BookIndex {
     const trad = TRAD_SHORT[n - 1];
     if (trad) putHit(zhExact, trad, n, false);
   }
-  for (const [alias, n] of Object.entries(ALIASES)) putHit(latinExact, alias, n, alias.length >= 3);
+  for (const [key, names] of Object.entries(ALIASES)) {
+    const n = Number(key);
+    for (const name of names) {
+      const compact = latinTokens(name).join('');
+      putHit(latinExact, compact, n, compact.length >= 3);
+    }
+  }
+  for (const [name, n] of EXTRA_ZH) putHit(zhExact, name, n, false);
 
   const byNumber = new Map(indexed.map((b) => [b.bookNumber, b] as const));
   return { data: { books: indexed, byNumber, latinExact, zhExact } };
 }
 
-/** Exact name, code, or alias first; otherwise a prefix that only one book has. */
-function lookupBook(text: string, data: IndexData): Hit | null {
-  const zh = squash(text);
-  if (zh) {
-    const hit = data.zhExact.get(zh);
-    if (hit !== undefined) return hit;
+/**
+ * The book part of a strict query, as a compact Latin key, or null if it is not a plain Latin name.
+ * Drops one trailing dot and turns a leading i/ii/iii into 1/2/3 when more words follow.
+ */
+function strictLatinKey(text: string): string | null {
+  if (!LATIN_BOOK.test(text)) return null;
+  const tokens = text.replace(/\.$/, '').split(' ');
+  const first = tokens[0];
+  if (tokens.length > 1 && first !== undefined) {
+    const numbered = ROMAN.get(first);
+    if (numbered !== undefined) tokens[0] = numbered;
   }
-  const key = latinTokens(text).join('');
+  return tokens.join('');
+}
+
+/**
+ * The book part of a strict query. Chinese must match a known name exactly. Latin must match a name or
+ * alias exactly, or else a prefix that only one book has. Anything with other characters is no book.
+ */
+function lookupStrict(text: string, data: IndexData): Hit | null {
+  if (CJK_BOOK.test(text)) return data.zhExact.get(squash(text)) ?? null;
+  const key = strictLatinKey(text);
   if (!key) return null;
   const exact = data.latinExact.get(key);
   if (exact !== undefined) return exact;
@@ -192,7 +308,7 @@ export function parseReference(query: string, index: BookIndex): PassageRef | nu
   const text = cleanQuery(query);
   if (!text) return null;
   const tail = splitTail(text);
-  const hit = lookupBook(tail.book, index.data);
+  const hit = lookupStrict(tail.book, index.data);
   if (!hit) return null;
   if (tail.chapter === undefined) return hit.bookOnly ? { bookNumber: hit.bookNumber } : null;
   const book = index.data.byNumber.get(hit.bookNumber);

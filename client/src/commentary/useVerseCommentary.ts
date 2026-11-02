@@ -20,7 +20,7 @@ export function coversVerse(e: CommentaryEntry, verse: number): boolean {
 /** The paragraphs of an entry: split on line breaks, trimmed, blank ones dropped. */
 export function commentaryParagraphs(text: string): string[] {
   return text
-    .split(/\r?\n/)
+    .split(/\r\n|\r|\n/)
     .map((p) => p.trim())
     .filter((p) => p.length > 0);
 }
