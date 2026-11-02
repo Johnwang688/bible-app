@@ -90,35 +90,42 @@ class InMemoryQuota:
         self._per_min = per_min
         self._per_day = per_day
         self._clock = clock
-        self._calls: dict[str, deque[float]] = {}
+        # Each recorded call is (timestamp, ticket); the ticket lets a refund remove exactly that call.
+        self._calls: dict[str, deque[tuple[float, int]]] = {}
+        self._next_ticket = 0
         self._lock = threading.Lock()
 
     @staticmethod
-    def _prune(calls: deque[float], now: float) -> None:
-        while calls and calls[0] <= now - _DAY:
+    def _prune(calls: deque[tuple[float, int]], now: float) -> None:
+        while calls and calls[0][0] <= now - _DAY:
             calls.popleft()
 
     @staticmethod
-    def _last_minute(calls: deque[float], now: float) -> list[float]:
-        return [t for t in calls if t > now - _MINUTE]
+    def _last_minute(calls: deque[tuple[float, int]], now: float) -> list[float]:
+        return [t for t, _ in calls if t > now - _MINUTE]
 
-    def try_consume(self, user_id: str) -> bool:
-        """Record a call only when both windows have room."""
+    def try_consume(self, user_id: str) -> int | None:
+        """Record a call only when both windows have room; return its reservation handle, or None if refused."""
         with self._lock:
             now = self._clock()
             calls = self._calls.setdefault(user_id, deque())
             self._prune(calls, now)
             if len(calls) >= self._per_day or len(self._last_minute(calls, now)) >= self._per_min:
-                return False
-            calls.append(now)
-            return True
+                return None
+            self._next_ticket += 1
+            calls.append((now, self._next_ticket))
+            return self._next_ticket
 
-    def refund(self, user_id: str) -> None:
-        """Remove the user's most recent recorded call."""
+    def refund(self, user_id: str, handle: int) -> None:
+        """Remove exactly the reservation `handle`; a no-op if it is already gone."""
         with self._lock:
             calls = self._calls.get(user_id)
-            if calls:
-                calls.pop()
+            if not calls:
+                return
+            for entry in calls:
+                if entry[1] == handle:
+                    calls.remove(entry)
+                    return
 
     def retry_after(self, user_id: str) -> int:
         """Whole seconds until a refused call could succeed (at least 1)."""
@@ -128,7 +135,7 @@ class InMemoryQuota:
             self._prune(calls, now)
             wait = 0.0
             if len(calls) >= self._per_day:
-                wait = max(wait, calls[0] + _DAY - now)
+                wait = max(wait, calls[0][0] + _DAY - now)
             recent = self._last_minute(calls, now)
             if len(recent) >= self._per_min:
                 wait = max(wait, recent[0] + _MINUTE - now)
@@ -192,7 +199,8 @@ async def transcribe(
 
     asr_code = ASR_CODE.get(lang or "", ASR_CODE["mandarin"])
 
-    if not quota.try_consume(user_id):
+    reservation = quota.try_consume(user_id)
+    if reservation is None:
         raise HTTPException(
             status_code=429,
             detail="rate limited",
@@ -202,7 +210,7 @@ async def transcribe(
     try:
         text = await transcriber.transcribe(audio, content_type, asr_code)
     except (TranscribeUpstreamError, httpx.HTTPError) as exc:
-        quota.refund(user_id)
+        quota.refund(user_id, reservation)
         logger.warning("memory transcription upstream error: %s", exc)
         raise HTTPException(status_code=502, detail="transcription upstream error") from exc
     return {"text": text.strip()}
