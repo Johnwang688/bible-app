@@ -1,6 +1,6 @@
 // Provides the active theme and the reader's Appearance choice and customisation. Both live in
 // storage, so a write from anywhere (the picker, Customise, sync) re-renders every consumer.
-import { createContext, useContext, useMemo, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, useMemo, type ReactNode } from 'react';
 import { useColorScheme } from 'react-native';
 
 import { appearanceCustomKey } from '../storage/appearanceCustomKey';
@@ -17,6 +17,12 @@ interface Appearance {
   /** Reading font and per-preset colour edits (src/theme/custom.ts builds every change). */
   custom: AppearanceCustom;
   setCustom(c: AppearanceCustom): void;
+  /**
+   * Builds the next value from what is stored at the moment of the call (not the value captured at
+   * render), so two quick presses or a write from elsewhere are never lost. Return null to write nothing.
+   */
+  updateChoice(f: (current: AppearanceChoice) => AppearanceChoice | null): void;
+  updateCustom(f: (current: AppearanceCustom) => AppearanceCustom | null): void;
 }
 
 interface ThemeContextValue {
@@ -40,10 +46,24 @@ export function ThemeProvider(props: {
   const [custom, setCustom] = useStoredValue(storage, appearanceCustomKey);
   const presetId = resolvePresetId(choice, system);
   const theme = useMemo(() => applyCustom(presetId, custom), [presetId, custom]);
+  const updateChoice = useCallback(
+    (f: (current: AppearanceChoice) => AppearanceChoice | null) => {
+      const next = f(storage.get(appearanceKey));
+      if (next) storage.set(appearanceKey, next);
+    },
+    [storage],
+  );
+  const updateCustom = useCallback(
+    (f: (current: AppearanceCustom) => AppearanceCustom | null) => {
+      const next = f(storage.get(appearanceCustomKey));
+      if (next) storage.set(appearanceCustomKey, next);
+    },
+    [storage],
+  );
 
   const value = useMemo<ThemeContextValue>(
-    () => ({ theme, appearance: { choice, setChoice, presetId, custom, setCustom } }),
-    [theme, choice, setChoice, presetId, custom, setCustom],
+    () => ({ theme, appearance: { choice, setChoice, presetId, custom, setCustom, updateChoice, updateCustom } }),
+    [theme, choice, setChoice, presetId, custom, setCustom, updateChoice, updateCustom],
   );
 
   return <ThemeContext.Provider value={value}>{props.children}</ThemeContext.Provider>;
