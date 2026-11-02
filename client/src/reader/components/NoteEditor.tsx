@@ -1,0 +1,103 @@
+// The note editor: a sub-view of the verse sheet. The note belongs to the first verse of the selection.
+import { useState } from 'react';
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+
+import { uiFace } from '../../fonts/fonts';
+import { useT } from '../../i18n/I18nProvider';
+import { NOTE_MAX_LENGTH } from '../../storage/keys';
+import { useTheme } from '../../theme/ThemeProvider';
+import { programmaticFocus, useFocusOnMount } from './a11y';
+import { RoundIconButton, SheetFrame } from './sheetParts';
+import { buttonStyle } from './ui';
+
+export function NoteEditor({
+  reference,
+  initial,
+  onBack,
+  onClose,
+  onSave,
+  onDelete,
+}: {
+  /** The first verse's reference, e.g. "John 3:16". */
+  reference: string;
+  /** The saved note, or null. */
+  initial: string | null;
+  onBack(): void;
+  onClose(): void;
+  onSave(text: string): void;
+  onDelete(): void;
+}) {
+  const theme = useTheme();
+  const t = useT();
+  const [text, setText] = useState(initial ?? '');
+  const titleRef = useFocusOnMount();
+  const tooLong = text.length > NOTE_MAX_LENGTH;
+  const bold = uiFace(theme.type.ui, '700');
+
+  return (
+    <SheetFrame
+      testID="note-editor"
+      header={
+        <View style={styles.titleRow}>
+          <RoundIconButton testID="note-back" label={t('note.back')} icon="chevronLeft" onPress={onBack} />
+          <Text
+            ref={titleRef}
+            accessibilityRole="header"
+            {...programmaticFocus}
+            style={[styles.title, { color: theme.colors.text, fontFamily: uiFace(theme.type.head, '700') }]}
+          >
+            {t('note.title', { ref: reference })}
+          </Text>
+          <RoundIconButton testID="sheet-close" label={t('common.close')} icon="close" onPress={onClose} />
+        </View>
+      }
+    >
+      <TextInput
+        testID="note-input"
+        value={text}
+        onChangeText={setText}
+        multiline
+        placeholder={t('note.placeholder')}
+        placeholderTextColor={theme.colors.muted}
+        accessibilityLabel={t('sheet.note')}
+        textAlignVertical="top"
+        style={[styles.input, buttonStyle(theme), { borderRadius: theme.radii.card, color: theme.colors.btnText, fontFamily: uiFace(theme.type.ui, '400') }]}
+      />
+      {tooLong ? (
+        <Text accessibilityRole="alert" style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14 }}>
+          {t('note.tooLong', { max: NOTE_MAX_LENGTH })}
+        </Text>
+      ) : null}
+      <View style={styles.actions}>
+        {initial !== null ? (
+          <Pressable
+            testID="note-delete"
+            accessibilityRole="button"
+            onPress={onDelete}
+            style={[styles.button, buttonStyle(theme)]}
+          >
+            <Text style={{ color: theme.colors.btnText, fontFamily: bold, fontSize: 15 }}>{t('note.delete')}</Text>
+          </Pressable>
+        ) : null}
+        <Pressable
+          testID="note-save"
+          accessibilityRole="button"
+          accessibilityState={{ disabled: tooLong }}
+          disabled={tooLong}
+          onPress={() => onSave(text)}
+          style={[styles.button, buttonStyle(theme), { backgroundColor: theme.colors.accent, opacity: tooLong ? 0.4 : 1 }]}
+        >
+          <Text style={{ color: theme.colors.onAccent, fontFamily: bold, fontSize: 15 }}>{t('note.save')}</Text>
+        </Pressable>
+      </View>
+    </SheetFrame>
+  );
+}
+
+const styles = StyleSheet.create({
+  titleRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  title: { flex: 1, fontSize: 19 },
+  input: { minHeight: 140, padding: 14, fontSize: 16, lineHeight: 23 },
+  actions: { flexDirection: 'row', justifyContent: 'flex-end', gap: 8, flexWrap: 'wrap' },
+  button: { minHeight: 44, paddingHorizontal: 20, alignItems: 'center', justifyContent: 'center' },
+});

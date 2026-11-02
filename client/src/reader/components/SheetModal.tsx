@@ -1,7 +1,7 @@
 // The bottom-sheet frame shared by the book picker, the version picker and the reading settings:
 // a transparent Modal, the scrim, then the sheet with its grabber (Picker.dc.html).
 import type { ReactNode } from 'react';
-import { Modal, Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { GlassSurface } from '../../components/GlassSurface';
@@ -16,12 +16,18 @@ const SHEET_TOP_GAP = 10;
 export function SheetModal({
   testID,
   onClose,
+  onRequestClose,
+  avoidKeyboard = false,
   tall = false,
   header,
   children,
 }: {
   testID: string;
   onClose(): void;
+  /** Escape and the Android back button; defaults to `onClose`. A sheet with sub-views steps back here. */
+  onRequestClose?(): void;
+  /** Lift the sheet above the on-screen keyboard (a sheet with a text field). */
+  avoidKeyboard?: boolean;
   /** Fill the screen below the status bar (the book picker) instead of fitting the content. */
   tall?: boolean;
   /** Pinned above the scrolling body, so it stays visible when the sheet is capped to a short screen. */
@@ -41,9 +47,13 @@ export function SheetModal({
       visible
       statusBarTranslucent
       animationType={reduceMotion ? 'none' : 'slide'}
-      onRequestClose={onClose}
+      onRequestClose={onRequestClose ?? onClose}
     >
-      <View style={[styles.fill, tall && { paddingTop: insets.top + 10 }]}>
+      <KeyboardAvoidingView
+        enabled={avoidKeyboard}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        style={[styles.fill, tall && { paddingTop: insets.top + 10 }]}
+      >
         <Pressable accessible={false} style={[StyleSheet.absoluteFill, styles.scrim]} onPress={onClose} />
         <GlassSurface
           testID={testID}
@@ -79,7 +89,7 @@ export function SheetModal({
             children
           )}
         </GlassSurface>
-      </View>
+      </KeyboardAvoidingView>
     </Modal>
   );
 }
