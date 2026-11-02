@@ -68,7 +68,9 @@ test.describe('reader (English)', () => {
     await page.getByTestId('picker-testament-NT').click();
     await page.getByTestId('picker-book-43').click();
     await page.getByTestId('picker-chapter-3').click();
-    await expect(page.getByText(/For God so loved the world/)).toBeVisible({ timeout: 10_000 });
+    // A new reader is in BSB, which has no fixture, so the mock synthesises the text.
+    await expect(page.getByText(synth('John', 3, 1, 'BSB'))).toBeVisible();
+    await expect(page.getByTestId('reader-book-button')).toContainText('John 3');
   });
 
   test('turns chapters with the arrow keys', async ({ page }) => {
