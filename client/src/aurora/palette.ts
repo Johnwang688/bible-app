@@ -46,13 +46,20 @@ function stopColour(stop: string): string | null {
 
 const RADIAL = /^radial-gradient\((.*)\)$/s;
 
-/** The first colour stop of a radial gradient layer, or null. */
+/**
+ * Whether the first part of a radial gradient is its shape, size and position (`circle 130px at 86% 19%`,
+ * `90% 55% at 0% 0%`, `in oklab`) rather than a colour stop: it starts with a shape or size keyword, `at`,
+ * `in`, or a length.
+ */
+const HEADER = /^(?:circle|ellipse|closest-side|closest-corner|farthest-side|farthest-corner|at|in)\b|^[-+]?\.?\d/i;
+
+/** The first colour stop of a radial gradient layer, or null if it cannot be read (never a later stop). */
 function firstStop(layer: string): string | null {
   const m = RADIAL.exec(layer.trim());
   if (!m) return null;
   const parts = splitTopLevel(m[1]!);
-  // The first part is the shape and position unless it is already a colour stop.
-  return stopColour(parts[0]!) ?? (parts.length > 1 ? stopColour(parts[1]!) : null);
+  if (!HEADER.test(parts[0]!)) return stopColour(parts[0]!);
+  return parts.length > 1 ? stopColour(parts[1]!) : null;
 }
 
 /** The aurora colours as the theme writes them (CSS colours; the three may be translucent). */

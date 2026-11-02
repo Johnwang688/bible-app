@@ -1,5 +1,6 @@
 // The web aurora renderer (R-7a): one WebGL2 context per canvas, running the fluid simulation or
-// the flow shader. Fluid falls back to flow when the GPU cannot render to half-float targets.
+// the flow shader. Fluid falls back to flow on a software renderer, when the GPU cannot render to
+// half-float targets, or when its buffers cannot be (re)built.
 import type { AuroraStyle } from './keys';
 import type { AuroraRenderer } from './loop';
 import type { AuroraPalette } from './palette';
@@ -14,7 +15,10 @@ export interface WebAuroraRenderer extends AuroraRenderer {
   readonly style: AuroraStyle | null;
   setStyle(style: AuroraStyle): void;
   setPalette(palette: AuroraPalette): void;
-  /** The canvas backing size changed (the caller set `canvas.width/height`). */
+  /**
+   * The canvas backing size changed (the caller set `canvas.width/height`). If fluid cannot rebuild its
+   * buffers at the new size it falls back to flow: read `style` afterwards.
+   */
   resize(w: number, h: number): void;
   /** Stirring (fluid only). `x`, `y` are 0..1 over the canvas, `y` up. */
   pointer(kind: PointerKind, id: number, x: number, y: number): void;
@@ -91,7 +95,16 @@ export function createAuroraRenderer(
       if (live()) impl!.setPalette(p);
     },
     resize(w, h) {
-      if (live()) impl!.resize(w, h);
+      if (!live() || impl!.resize(w, h)) return;
+      // The fluid buffers could not be rebuilt at this size: fall back to flow, as at creation.
+      impl!.release();
+      impl = null;
+      if (ctx.isContextLost()) return; // the restore builds the wanted style again
+      try {
+        impl = createFlow(ctx, colours, Math.max(1, w), Math.max(1, h));
+      } catch {
+        impl = null;
+      }
     },
     pointer(kind, id, x, y) {
       if (live()) impl!.pointer(kind, id, x, y);

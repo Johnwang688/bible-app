@@ -53,6 +53,7 @@ export function createAuroraLoop(renderer: AuroraRenderer, clock: AuroraClock): 
 
   const still = () => {
     renderer.step(FIRST_DT);
+    if (dead || state !== 'still') return; // destroyed or switched during the step: no draw
     renderer.draw();
     count++;
   };

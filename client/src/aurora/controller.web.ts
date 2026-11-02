@@ -147,7 +147,15 @@ export function createAuroraController(host: HTMLElement, screen: HTMLElement | 
     canvas.width = size.w;
     canvas.height = size.h;
     if (!renderer || lost) return;
+    const before = renderer.style;
     renderer.resize(size.w, size.h);
+    if (renderer.style !== before) {
+      // Fluid could not rebuild its buffers at this size and fell back to flow (or nothing could run).
+      reportStyle();
+      const prev = state;
+      apply();
+      if (prev !== state) return; // the new state drew (still) or stopped as it should
+    }
     refresh();
   };
   const observer = typeof ResizeObserver === 'function' ? new ResizeObserver(resize) : null;

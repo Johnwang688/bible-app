@@ -58,6 +58,7 @@ export function createFlow(gl: WebGL2RenderingContext, palette: AuroraPalette, w
     resize(nw, nh) {
       width = nw;
       height = nh;
+      return true;
     },
     pointer() {},
     release() {

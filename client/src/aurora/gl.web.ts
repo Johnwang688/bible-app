@@ -51,9 +51,19 @@ export function createProgram(gl: WebGL2RenderingContext, fsBody: string): Progr
     return s;
   };
   const vs = shader(gl.VERTEX_SHADER, VS);
-  const fs = shader(gl.FRAGMENT_SHADER, HEAD + fsBody);
+  let fs: WebGLShader;
+  try {
+    fs = shader(gl.FRAGMENT_SHADER, HEAD + fsBody);
+  } catch (e) {
+    gl.deleteShader(vs); // the vertex shader compiled; release it with the failed fragment shader
+    throw e;
+  }
   const program = gl.createProgram();
-  if (!program) throw new Error('createProgram failed');
+  if (!program) {
+    gl.deleteShader(vs);
+    gl.deleteShader(fs);
+    throw new Error('createProgram failed');
+  }
   gl.attachShader(program, vs);
   gl.attachShader(program, fs);
   gl.bindAttribLocation(program, 0, 'aPos');
@@ -131,7 +141,8 @@ export interface StyleImpl {
   draw(): void;
   /** Uniforms only: takes effect on the next draw. */
   setPalette(p: AuroraPalette): void;
-  resize(w: number, h: number): void;
+  /** False if the style cannot run at the new size (its buffers could not be rebuilt). */
+  resize(w: number, h: number): boolean;
   pointer(kind: 'down' | 'move' | 'up', id: number, x: number, y: number): void;
   /** Deletes this style's GL objects (the context stays). */
   release(): void;

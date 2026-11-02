@@ -112,12 +112,37 @@ function size(short: number, aspect: number): { w: number; h: number } {
   return aspect < 1 ? { w: mn, h: mx } : { w: mx, h: mn };
 }
 
-/** Whether this context can render to half-float colour targets (enables the extension if so). */
+/** Renderer names of GPUs emulated on the CPU, where the simulation would cost the main thread dearly. */
+const SOFTWARE = /swiftshader|llvmpipe|softpipe|software|microsoft basic render/i;
+
+/**
+ * Whether this context renders in software (SwiftShader, llvmpipe, ...). Without the debug renderer
+ * extension (or if reading it fails) it is assumed to be a real GPU.
+ */
+export function isSoftwareRenderer(gl: WebGL2RenderingContext): boolean {
+  try {
+    const ext = gl.getExtension('WEBGL_debug_renderer_info');
+    if (!ext) return false;
+    const name: unknown = gl.getParameter(ext.UNMASKED_RENDERER_WEBGL);
+    return typeof name === 'string' && SOFTWARE.test(name);
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Whether this context can run the simulation: a hardware renderer that can render to half-float
+ * colour targets (enables the extension if so).
+ */
 export function supportsFluid(gl: WebGL2RenderingContext): boolean {
+  if (isSoftwareRenderer(gl)) return false;
   return gl.getExtension('EXT_color_buffer_float') !== null || gl.getExtension('EXT_color_buffer_half_float') !== null;
 }
 
-/** The fluid style, or null when this GPU cannot run it (no half-float targets, incomplete framebuffers). */
+/**
+ * The fluid style, or null when this GPU cannot run it (a software renderer, no half-float targets,
+ * incomplete framebuffers).
+ */
 export function createFluid(gl: WebGL2RenderingContext, palette: AuroraPalette, w: number, h: number): StyleImpl | null {
   if (!supportsFluid(gl)) return null;
 
@@ -384,8 +409,10 @@ export function createFluid(gl: WebGL2RenderingContext, palette: AuroraPalette, 
     resize(nw, nh) {
       width = nw;
       height = nh;
-      // Failing here only happens with a lost context; the restore rebuilds everything.
+      // False when the buffers cannot be rebuilt (an incomplete framebuffer at this size, or a lost
+      // context): the renderer then falls back to flow.
       ready = init();
+      return ready;
     },
     pointer(kind, id, x, y) {
       if (kind === 'down') {
