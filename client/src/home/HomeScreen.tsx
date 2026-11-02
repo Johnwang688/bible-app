@@ -68,7 +68,7 @@ export function HomeScreen({
     ? t('reader.chapterTitle', { book: bookNameForLocale(readerBook, locale), chapter: position.chapter })
     : null;
   const continueRef = chapterTitle === null ? t('common.loading') : `${chapterTitle} · ${t(meta.shortKey)}`;
-  const continueLabel = t('home.continueLabel', { ref: chapterTitle ?? t('home.continue') });
+  const continueLabel = chapterTitle === null ? t('home.continue') : t('home.continueLabel', { ref: chapterTitle });
 
   // Verse of the day
   const daily = verseOfTheDay(dayKey(today));
