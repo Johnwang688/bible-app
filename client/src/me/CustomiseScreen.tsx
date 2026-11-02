@@ -1,0 +1,115 @@
+// Customise (R-6a): the live preview, the look (12 presets), light or dark, accent, reading font
+// and text size. Every change is written through the hooks and shows in the whole app at once.
+import { StyleSheet, Text, View } from 'react-native';
+
+import { GlassSurface } from '../components/GlassSurface';
+import { uiFace } from '../fonts/fonts';
+import { useI18n } from '../i18n/I18nProvider';
+import { Icon } from '../reader/components/icons';
+import { useReadingSettings } from '../reader/state';
+import { resetPreset } from '../theme/custom';
+import { PRESETS } from '../theme/presets';
+import { useAppearance, useTheme } from '../theme/ThemeProvider';
+import type { PresetId } from '../theme/types';
+import { CustomiseAccents, CustomiseFonts, CustomiseModes, CustomiseSize } from './components/CustomiseControls';
+import { CustomiseFrame, CustomiseLabel } from './components/CustomiseFrame';
+import { CustomisePresetRow } from './components/CustomisePresetRow';
+import { CustomisePressable } from './components/CustomisePressable';
+import { CustomisePreview } from './components/CustomisePreview';
+
+export function CustomiseScreen(props: { onBack(): void; onAdvanced(): void }) {
+  const theme = useTheme();
+  const { t } = useI18n();
+  const { choice, setChoice, presetId, custom, setCustom } = useAppearance();
+  const [reading, setReading] = useReadingSettings();
+  const presetName = t(`preset.${presetId}`);
+
+  const pick = (id: PresetId) => {
+    const mode = PRESETS.find((p) => p.id === id)?.mode;
+    // Same mode as now showing: keep the mode setting. Otherwise switch so the new look shows.
+    setChoice({ preset: id, mode: mode === undefined || mode === theme.mode ? choice.mode : mode });
+  };
+
+  return (
+    <CustomiseFrame
+      testID="screen-customise"
+      backTestID="customise-back"
+      titleKey="customise.title"
+      backLabelKey="customise.back"
+      onBack={props.onBack}
+      action={
+        <CustomisePressable
+          testID="customise-reset"
+          role="button"
+          label={t('customise.reset.a11y', { preset: presetName })}
+          onPress={() => setCustom(resetPreset(custom, presetId))}
+          style={[styles.reset, { borderRadius: theme.radii.button, borderWidth: theme.borders.button?.width ?? 1, borderColor: theme.borders.button?.color ?? theme.colors.muted }]}
+        >
+          <Text style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 14 }}>{t('customise.reset')}</Text>
+        </CustomisePressable>
+      }
+    >
+      <View style={styles.top}>
+        <CustomisePreview textSize={reading.textSize} />
+        <View style={styles.side}>
+          <View style={styles.group}>
+            <CustomiseLabel>{t('customise.mode')}</CustomiseLabel>
+            <CustomiseModes />
+          </View>
+          <View style={styles.group}>
+            <CustomiseLabel>{t('customise.size')}</CustomiseLabel>
+            <CustomiseSize textSize={reading.textSize} onChange={(textSize) => setReading({ ...reading, textSize })} />
+          </View>
+        </View>
+      </View>
+
+      <View style={styles.group}>
+        <CustomiseLabel>{t('customise.look')}</CustomiseLabel>
+        <CustomisePresetRow presetId={presetId} onPick={pick} />
+      </View>
+
+      <View style={styles.group}>
+        <CustomiseLabel>{t('customise.accent')}</CustomiseLabel>
+        <CustomiseAccents />
+      </View>
+
+      <View style={styles.group}>
+        <CustomiseLabel>{t('customise.font')}</CustomiseLabel>
+        <CustomiseFonts />
+      </View>
+
+      <GlassSurface
+        background={theme.backgrounds.surface}
+        style={{
+          borderRadius: theme.radii.card,
+          borderWidth: theme.borders.card.width,
+          borderColor: theme.borders.card.color,
+          boxShadow: theme.shadows.card ?? undefined,
+        }}
+      >
+        <CustomisePressable
+          testID="customise-advanced"
+          role="button"
+          label={`${t('customise.advanced')}. ${t('customise.advancedSub')}`}
+          onPress={props.onAdvanced}
+          style={styles.advanced}
+        >
+          <View style={styles.advancedText}>
+            <Text style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 15 }}>{t('customise.advanced')}</Text>
+            <Text style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 12 }}>{t('customise.advancedSub')}</Text>
+          </View>
+          <Icon name="chevronRight" color={theme.colors.text} size={18} />
+        </CustomisePressable>
+      </GlassSurface>
+    </CustomiseFrame>
+  );
+}
+
+const styles = StyleSheet.create({
+  top: { flexDirection: 'row', gap: 14 },
+  side: { flex: 1, minWidth: 0, gap: 14 },
+  group: { gap: 8 },
+  reset: { minHeight: 44, paddingHorizontal: 14, alignItems: 'center', justifyContent: 'center' },
+  advanced: { minHeight: 56, flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 16 },
+  advancedText: { flex: 1, minWidth: 0, gap: 2 },
+});
