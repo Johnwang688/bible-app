@@ -5,10 +5,26 @@ import { zhHans } from '../messages/zh-Hans';
 const placeholders = (s: string) => [...s.matchAll(/\{(\w+)\}/g)].map((m) => m[1]).sort();
 
 /** Strings that are the same in both languages on purpose. */
-const SAME_IN_BOTH = new Set(['language.en', 'language.zh-Hans']);
+const SAME_IN_BOTH = new Set([
+  'language.en',
+  'language.zh-Hans',
+  // English translation names stay English in both interfaces.
+  'translation.BSB.short',
+  'translation.BSB.name',
+  'translation.WEB.short',
+  'translation.WEB.name',
+  'translation.ASV.short',
+  'translation.ASV.name',
+  // "John 3" / "约翰福音 3": the book name is translated, the pattern is the same.
+  'reader.chapterTitle',
+  // Glyphs and joiners, not words.
+  'reader.settingsGlyph',
+  'settings.sizeGlyph',
+  'reader.translationPair',
+]);
 
 /** Common Traditional-only characters: the interface is Simplified Chinese only. */
-const TRADITIONAL = /[體經說書讀設語簡繁聖筆記這們個來時會學習開關選擇顏標籤頁載錯誤連線網絡請試極淺隨機銀藍]/;
+const TRADITIONAL = /[體經說書讀設語簡聖筆記這們個來時會學習開關選擇顏標籤頁載錯誤連線網絡請試極淺隨機銀藍]/;
 
 describe('message catalogue', () => {
   const enKeys = Object.keys(en).sort();

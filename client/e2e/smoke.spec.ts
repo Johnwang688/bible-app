@@ -37,7 +37,13 @@ test.describe('English, light phone', () => {
     for (const [tab, screen, title] of tabs) {
       await page.getByTestId(tab).click();
       await expect(page.getByTestId(screen)).toBeVisible();
-      await expect(page.getByRole('heading', { name: title })).toBeVisible();
+      // Since R-1 the Bible tab is the reader. This suite has no backend, so the reader shows its
+      // load error (after the query client's retries) unless a header has loaded.
+      if (screen === 'screen-bible')
+        await expect(page.getByTestId('reader-error').or(page.getByTestId('reader-book-button')).first()).toBeVisible({
+          timeout: 15_000,
+        });
+      else await expect(page.getByRole('heading', { name: title })).toBeVisible();
     }
   });
 
