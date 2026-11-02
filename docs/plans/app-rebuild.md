@@ -245,6 +245,26 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
 - **Hardware:** the prototype ran smoothly on John's school iPad. A low-end Android phone is still to try (needs EAS builds), as part of R-7's performance budget.
 - **When:** R-7 builds the animation and the Appearance choice.
 
+**Memory merge, part 1: the logic (team MEM, 2026-11-02).** Little Lamb's memory engine is ported into `client/src/memory/` with its tests (roadmap track 5). The screens wait for John's approval of the prototypes (`bible-app-work/design/proposed/mem-*.html`).
+- **Local-first schedule.** Little Lamb computed the review schedule in Postgres. The device now runs the same rules in TypeScript (`schedule.ts`, `dailyLesson.ts`):
+  - mastery +20 on a pass, -60 on a fail;
+  - intervals of 1, 2, 4, 8 and 16 days;
+  - the due-gate (no credit for practising a verse that isn't due);
+  - the five review bands with the lapse cap;
+  - the plan frozen for the day;
+  - a streak that survives until midnight.
+- **No new dependencies.** Pinyin, jyutping and traditional-to-simplified matching use generated per-character tables (`speech/data/`, made by `client/scripts/gen-speech-tables.cjs` from pinyin-pro, to-jyutping and OpenCC), not the three npm packages. A character with several readings gets its usual one (了 is le). Both sides use the same table, so a correct recital still scores 100. One side effect is an improvement: a single mistake no longer costs a neighbouring character (test S13's pinned cases are gone).
+- **Voice transcription** is `POST /memory/transcribe` (`app/memory/`). It proxies OpenRouter Whisper with Little Lamb's limits: 256 KB of audio, and 10 calls a minute or 100 a day per user, refunded when the upstream fails.
+  - Until R-6b's Firebase token check replaces the `require_memory_user` dependency, it refuses every request.
+  - The quota is held in memory, so one Cloud Run instance only. It moves to Firestore with sign-in.
+  - It needs `OPENROUTER_API_KEY` (a paid key, John) on the server; without the key it answers 503.
+- **Storage:** `client/src/storage/memoryKeys.ts` holds `memory.progress`, `memory.lesson`, `memory.history` and `memory.settings`.
+- **Not yet:**
+  - the screens and the audio recorder (`expo-audio` on native is a new dependency, John's call);
+  - the entry point in Study or Home (after R-3/R-4);
+  - English verses (BSB) and memorising highlighted verses;
+  - syncing progress.
+
 Every phase ships its screens in both languages; the missing-key test keeps Chinese from falling behind.
 
 After R-7, new roadmap features are built frontend and backend together:
