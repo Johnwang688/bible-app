@@ -138,7 +138,8 @@ function appRoutes(): Set<string> {
   return out;
 }
 
-describe('S3-1 the privacy link on sign-up', () => {
+// PARKED (orchestrator): /privacy is built by B-1 (PR #29). Re-enable when B-1 is on main.
+describe.skip('S3-1 the privacy link on sign-up', () => {
   test('goes to a route that exists, so the policy can be read before an email is handed over', async () => {
     mockPush.mockClear();
     await renderCard({ auth: fakeAuth(null) });
