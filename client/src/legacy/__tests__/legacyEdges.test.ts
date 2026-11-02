@@ -91,7 +91,7 @@ describe('importLegacyDataOnce edges', () => {
   it('existing highlights and bookmarks win per entry', () => {
     const storage = createStorage(memoryBackend());
     storage.set(studyItemsKey, {
-      highlights: { '43:3:16': 'blue' },
+      highlights: { '43:3:16': { colour: 'blue', updatedAt: '2026-01-01T00:00:00.000Z' } },
       notes: {},
       bookmarks: { '43:3:16': { createdAt: '2026-01-01T00:00:00.000Z' } },
     });
@@ -104,8 +104,8 @@ describe('importLegacyDataOnce edges', () => {
       now,
     });
     const items = storage.get(studyItemsKey);
-    expect(items.highlights['43:3:16']).toBe('blue');
-    expect(items.highlights['43:3:17']).toBe('yellow');
+    expect(items.highlights['43:3:16']).toEqual({ colour: 'blue', updatedAt: '2026-01-01T00:00:00.000Z' });
+    expect(items.highlights['43:3:17']).toEqual({ colour: 'yellow', updatedAt: NOW.toISOString() });
     expect(items.bookmarks['43:3:16']!.createdAt).toBe('2026-01-01T00:00:00.000Z');
   });
 });

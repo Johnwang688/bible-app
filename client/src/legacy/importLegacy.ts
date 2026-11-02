@@ -134,11 +134,11 @@ function oldHighlightColour(source: LegacySource): HighlightId {
 }
 
 /**
- * The stored highlight value. The one place the shape lives: R-3 changes it to `{ colour, updatedAt }`,
- * and after it merges this becomes a one-line change.
+ * The stored highlight value, in R-3's shape `{ colour, updatedAt }`. The one place the import builds it.
+ * The old app stored no time for a highlight, so it is timed at the import, as bookmarks are.
  */
-function highlightValue(colour: HighlightId, _importedAt: Date): StudyItems['highlights'][string] {
-  return colour;
+function highlightValue(colour: HighlightId, importedAt: Date): StudyItems['highlights'][string] {
+  return { colour, updatedAt: importedAt.toISOString() };
 }
 
 function refOf(book: unknown, chapter: unknown, verse: unknown): string | null {
