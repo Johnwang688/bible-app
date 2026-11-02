@@ -15,6 +15,7 @@ export type AuthErrorKind =
   | 'too-many-requests'
   | 'network'
   | 'requires-recent-login'
+  | 'not-allowed' // sign-in is off on this device (the Under 13 age choice)
   | 'unknown';
 
 export class AuthError extends Error {
@@ -51,6 +52,11 @@ export type AccountStatus = 'loading' | 'signedOut' | 'signedIn';
 export interface AccountState {
   status: AccountStatus;
   user: AuthUser | null;
+  /**
+   * False when sign-in is off on this device (first run's Under 13 age choice, John 2026-11-02): no sign-in,
+   * no sync; signIn/signUp reject with 'not-allowed'; a signed-in user is signed out when it turns false.
+   */
+  signInAllowed: boolean;
   /** Null while signed out or loading. */
   sync: SyncStatus | null;
   signIn(method: SignInMethod): Promise<void>;
