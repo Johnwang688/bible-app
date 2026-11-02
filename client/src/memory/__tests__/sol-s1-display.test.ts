@@ -1,6 +1,6 @@
 import { displayDiff, recallDisplay, hintMask } from '../display/diff';
 import { TMS_VERSES } from '../library/tms';
-import { loadSpeechKeyer, MANDARIN_SYNC_KEYER, ZH_PUNCTUATION_CHAR } from '../speech/keyer';
+import { loadSpeechKeyer, MANDARIN_SYNC_KEYER } from '../speech/keyer';
 import { compareRecital } from '../speech/pinyinDiff';
 import { compareFullRecall } from '../speech/fullRecall';
 
