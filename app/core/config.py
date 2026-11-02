@@ -44,6 +44,9 @@ class Settings(BaseSettings):
     ai_max_input_tokens: int = Field(default=100_000, alias="AI_MAX_INPUT_TOKENS")
     ai_max_tool_rounds: int = Field(default=6, alias="AI_MAX_TOOL_ROUNDS")
 
+    # Firebase (Admin SDK uses Application Default Credentials; this only pins the project)
+    firebase_project_id: str = Field(default="bible-app-492520", alias="FIREBASE_PROJECT_ID")
+
     # Google OAuth
     google_client_id: str = Field(default="", alias="GOOGLE_CLIENT_ID")
     google_client_secret: str = Field(default="", alias="GOOGLE_CLIENT_SECRET")

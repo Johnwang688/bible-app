@@ -4,6 +4,7 @@ from fastapi import Depends, FastAPI, HTTPException, Query, Request, Response, s
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
+from app.api.account import router as account_router
 from app.core.config import get_settings
 from app.core.content_db import fetch_all
 from app.core.security import get_current_user
@@ -588,6 +589,9 @@ async def read_mastery_overview(
     current_user: dict = Depends(get_current_user),
 ) -> MasteryOverviewOut:
     return get_mastery_overview(current_user["id"])
+
+
+app.include_router(account_router)
 
 
 # Serve the frontend — must be last so API routes take precedence
