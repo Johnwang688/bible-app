@@ -60,82 +60,84 @@ export function ChunkOrderTrainer({ ctx }: { ctx: TrainerCtx }) {
     fixed: Array.from({ length: n }, () => false),
     shown: [],
   }));
-  const checked = useRef(false);
+  // The live state. Every action reads and writes this synchronously, so a press queued behind another acts on what
+  // that one left, not on the render its handler came from; `setState` only renders it. The mode doubles as the
+  // "already checked" guard: Check leaves 'play' at once, so a second queued Check finds nothing to grade.
+  const live = useRef(state);
+  const commit = (next: State) => {
+    live.current = next;
+    setState(next);
+  };
 
   const filled = state.slots.filter((s) => s !== null).length;
   const right = state.slots.reduce<number>((k, c, i) => k + (c === i ? 1 : 0), 0);
 
-  const place = (c: number) =>
-    setState((s) => {
-      // Read the pool inside the updater: a second queued tap on the same chip finds it already placed.
-      if (s.mode !== 'play' || !s.pool.includes(c)) return s;
-      const at = s.slots.indexOf(null);
-      if (at < 0) return s;
-      const slots = [...s.slots];
-      slots[at] = c;
-      return { ...s, slots, pool: s.pool.filter((x) => x !== c) };
-    });
+  const place = (c: number) => {
+    const s = live.current;
+    if (s.mode !== 'play' || !s.pool.includes(c)) return;
+    const at = s.slots.indexOf(null);
+    if (at < 0) return;
+    const slots = [...s.slots];
+    slots[at] = c;
+    commit({ ...s, slots, pool: s.pool.filter((x) => x !== c) });
+  };
 
-  const unplace = (i: number) =>
-    setState((s) => {
-      const c = s.slots[i];
-      if (s.mode !== 'play' || s.fixed[i] || c === null || c === undefined || s.pool.includes(c)) return s;
-      const slots = [...s.slots];
-      slots[i] = null;
-      return { ...s, slots, pool: [...s.pool, c] };
-    });
+  const unplace = (i: number) => {
+    const s = live.current;
+    const c = s.slots[i];
+    if (s.mode !== 'play' || s.fixed[i] || c === null || c === undefined || s.pool.includes(c)) return;
+    const slots = [...s.slots];
+    slots[i] = null;
+    commit({ ...s, slots, pool: [...s.pool, c] });
+  };
 
   const check = () => {
-    if (checked.current || filled < n) return;
-    checked.current = true;
-    const order = state.slots as number[];
+    const s = live.current;
+    if (s.mode !== 'play' || s.slots.some((c) => c === null)) return;
+    const order = s.slots as number[];
     const verdict = gradeStep(verse.id, 'chunk-order', { kind: 'chunk-order', order });
+    // Commit before recording, so anything the record triggers already sees the graded state.
+    commit({ ...s, mode: verdict.passed ? 'right' : 'wrong' });
     ctx.record(verdict.passed);
-    setState((s) => ({ ...s, mode: verdict.passed ? 'right' : 'wrong' }));
   };
 
   const retryMarked = () => {
-    checked.current = false;
-    setState((s) => {
-      if (s.mode !== 'wrong') return s;
-      const bad = s.slots.map((c, i) => (c === i ? -1 : i)).filter((i) => i >= 0);
-      const slots = [...s.slots];
-      const back: number[] = [];
-      for (const i of bad) {
-        back.push(slots[i]!);
-        slots[i] = null;
-      }
-      return { ...s, mode: 'play', slots, pool: shuffled(back, ctx.random), fixed: s.slots.map((c, i) => c === i), shown: [] };
+    const s = live.current;
+    if (s.mode !== 'wrong') return;
+    const bad = s.slots.map((c, i) => (c === i ? -1 : i)).filter((i) => i >= 0);
+    const slots = [...s.slots];
+    const back: number[] = [];
+    for (const i of bad) {
+      back.push(slots[i]!);
+      slots[i] = null;
+    }
+    commit({ ...s, mode: 'play', slots, pool: shuffled(back, ctx.random), fixed: s.slots.map((c, i) => c === i), shown: [] });
+  };
+
+  const showOrder = () => {
+    const s = live.current;
+    if (s.mode !== 'wrong') return;
+    commit({
+      ...s,
+      mode: 'shown',
+      shown: s.slots.map((c, i) => (c === i ? -1 : i)).filter((i) => i >= 0),
+      slots: Array.from({ length: n }, (_, i) => i),
+      pool: [],
     });
   };
 
-  const showOrder = () =>
-    setState((s) =>
-      s.mode !== 'wrong'
-        ? s
-        : {
-            ...s,
-            mode: 'shown',
-            shown: s.slots.map((c, i) => (c === i ? -1 : i)).filter((i) => i >= 0),
-            slots: Array.from({ length: n }, (_, i) => i),
-            pool: [],
-          },
-    );
-
   const placeMyself = () => {
-    checked.current = false;
-    setState((s) => {
-      if (s.mode !== 'shown') return s;
-      const slots = [...s.slots];
-      for (const i of s.shown) slots[i] = null;
-      return {
-        ...s,
-        mode: 'play',
-        slots,
-        pool: shuffled(s.shown, ctx.random),
-        fixed: slots.map((c) => c !== null),
-        shown: [],
-      };
+    const s = live.current;
+    if (s.mode !== 'shown') return;
+    const slots = [...s.slots];
+    for (const i of s.shown) slots[i] = null;
+    commit({
+      ...s,
+      mode: 'play',
+      slots,
+      pool: shuffled(s.shown, ctx.random),
+      fixed: slots.map((c) => c !== null),
+      shown: [],
     });
   };
 
