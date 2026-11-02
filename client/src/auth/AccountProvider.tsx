@@ -7,6 +7,14 @@
 // starts none, whatever the auth callbacks say. Unmounting releases the auth, AppState and `online`
 // listeners and stops the engine.
 //
+// A delete whose request may have reached the server (it failed with `network`: a timeout or a lost
+// connection) is ambiguous: the server may have wiped the account, or be wiping it still. Resuming
+// sync then would re-upload what the server just deleted. So the account goes "unconfirmed": its
+// sync stays stopped (status `error`) until a probe settles it. The probe forces a token refresh
+// (it fails once the user is deleted or its tokens are revoked: the delete is done) and compares the
+// remote with what it held before the request (emptied: the delete reached the server). The probe
+// runs right after the failure and again on every syncNow (foreground, `online`) until it settles.
+//
 // The injected dependencies are read once, when the provider mounts; the defaults (Firebase, device
 // storage, the Firestore remote, the account API) are created on first use, never at import.
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
@@ -119,6 +127,40 @@ function asAuthError(e: unknown): AuthError {
   return isAuthError(e) ? e : new AuthError('unknown', undefined, { cause: e });
 }
 
+/** Refresh failures that mean the account is gone or its session revoked (user-not-found, user-disabled, user-token-expired, ...). */
+const ACCOUNT_GONE: readonly AuthError['kind'][] = ['wrong-credentials', 'requires-recent-login', 'unknown'];
+
+/** The `sub` claim of a JWT, or null when the token is not a decodable JWT. */
+export function tokenSubject(token: string): string | null {
+  const parts = token.split('.');
+  const payload = parts[1];
+  const atob = (globalThis as { atob?: (s: string) => string }).atob;
+  if (parts.length !== 3 || !payload || typeof atob !== 'function') return null;
+  try {
+    const b64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+    const json = atob(b64 + '='.repeat((4 - (b64.length % 4)) % 4));
+    const sub = (JSON.parse(json) as { sub?: unknown }).sub;
+    return typeof sub === 'string' ? sub : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Whether the remote holds any of the account's documents (the small collections first; items only if they are empty). */
+async function remoteHasData(remote: RemoteStore): Promise<boolean> {
+  const [devices, settings] = await Promise.all([remote.pullDevices(), remote.pullSettings()]);
+  if (devices.length > 0 || settings.length > 0) return true;
+  return (await remote.pullItems(null)).items.length > 0;
+}
+
+/** What a probe after an ambiguous delete found. */
+type ProbeOutcome =
+  | 'alive' // the account exists and its data is still there: sync may resume
+  | 'deleted' // the token refresh failed as for a deleted account: the delete is done
+  | 'wiped' // the account still refreshes but its data is gone: the delete reached the server
+  | 'unreachable' // the probe could not tell (offline): ask again later
+  | 'switched'; // a different user (or none) is signed in now: nothing to decide for this one
+
 function sameUser(a: AuthUser | null, b: AuthUser | null): boolean {
   return a === b || (a !== null && b !== null && a.uid === b.uid && a.email === b.email);
 }
@@ -134,6 +176,15 @@ function createController(deps: Deps): Controller {
   /** An account deleted on this device whose local sign-out failed: never sync it until it signs in afresh. */
   let blockedUid: string | null = null;
   let deleting = false;
+  /**
+   * An account whose delete may have reached the server (see the header): sync stays off for it until
+   * a probe settles it. `hadData`: whether the remote held anything before the request (null: unknown).
+   */
+  let unconfirmed: { uid: string; hadData: boolean | null; lastSyncedAt: number | null } | null = null;
+  /** The probe in flight for `unconfirmed`, so concurrent syncNow calls share one. */
+  let probing: Promise<void> | null = null;
+  /** The last sync time of each uid's most recently stopped engine (shown while unconfirmed). */
+  const lastSynced = new Map<string, number | null>();
   let running: { uid: string; engine: SyncEngine; unsubscribe: () => void } | null = null;
   /** Every engine stop/start runs on this chain, one step at a time. It never rejects. */
   let chain: Promise<void> = Promise.resolve();
@@ -145,8 +196,14 @@ function createController(deps: Deps): Controller {
 
   /** The user sync should run for right now, or null. */
   function target(): AuthUser | null {
-    if (!listeners || holds > 0 || !user || user.uid === blockedUid) return null;
+    if (!listeners || holds > 0 || !user || user.uid === blockedUid || user.uid === unconfirmed?.uid) return null;
     return user;
+  }
+
+  /** The sync status to show while no engine runs: `error` for an unconfirmed account, else none. */
+  function stoppedSync(): SyncStatus | null {
+    if (!listeners || holds > 0 || !user || !unconfirmed || user.uid !== unconfirmed.uid) return null;
+    return { state: 'error', lastSyncedAt: unconfirmed.lastSyncedAt };
   }
 
   /** Brings the running engine in line with `target()`: stops the old engine (awaited), then starts the new one. */
@@ -159,10 +216,15 @@ function createController(deps: Deps): Controller {
       old.unsubscribe();
       emitSync(null);
       await old.engine.stop();
+      lastSynced.set(old.uid, old.engine.status().lastSyncedAt);
     }
     // Things may have moved on while the old engine stopped; start for whoever is wanted now.
     const next = target();
-    if (!next) return;
+    if (!next) {
+      const shown = stoppedSync();
+      if (shown) emitSync(shown);
+      return;
+    }
     const storage = deps.storage();
     const engine = createSyncEngine({
       uid: next.uid,
@@ -221,6 +283,12 @@ function createController(deps: Deps): Controller {
     // whoever is signed in afterwards (or not at all).
     while (busy.size > 0) await Promise.all(busy);
     await chain;
+    // An unconfirmed delete for the signed-in account: ask again before anything syncs.
+    if (unconfirmed && user?.uid === unconfirmed.uid) {
+      probing ??= settleUnconfirmed().finally(() => (probing = null));
+      await probing;
+      await chain;
+    }
     await running?.engine.syncNow();
   }
 
@@ -233,6 +301,7 @@ function createController(deps: Deps): Controller {
         throw asAuthError(e);
       }
       blockedUid = null;
+      unconfirmed = null;
       setUser(auth.currentUser());
     },
 
@@ -244,6 +313,7 @@ function createController(deps: Deps): Controller {
         throw asAuthError(e);
       }
       blockedUid = null;
+      unconfirmed = null;
       setUser(auth.currentUser());
     },
 
@@ -282,6 +352,79 @@ function createController(deps: Deps): Controller {
     }
   }
 
+  /** Throws (before anything reaches the backend) unless `uid` is still the signed-in user. */
+  function requireStillSignedIn(auth: AuthBackend, uid: string): void {
+    if (auth.currentUser()?.uid !== uid) throw new AuthError('unknown', 'the signed-in account changed during the delete');
+  }
+
+  /** Whether `uid`'s remote holds anything, or null when it cannot be read. */
+  async function readHasData(uid: string): Promise<boolean | null> {
+    try {
+      return await remoteHasData(deps.remoteFor(uid));
+    } catch {
+      return null;
+    }
+  }
+
+  /** After an ambiguous delete: is `uid`'s account still there? Never rejects. */
+  async function probe(uid: string, hadData: boolean | null): Promise<ProbeOutcome> {
+    const auth = deps.auth();
+    if (!auth || auth.currentUser()?.uid !== uid) return 'switched';
+    let token: string | null;
+    try {
+      token = await auth.getIdToken(true);
+    } catch (e) {
+      return ACCOUNT_GONE.includes(asAuthError(e).kind) ? 'deleted' : 'unreachable';
+    }
+    if (!token || auth.currentUser()?.uid !== uid) return 'switched';
+    if (hadData) {
+      const hasData = await readHasData(uid);
+      if (hasData === null) return 'unreachable';
+      if (!hasData) return 'wiped';
+    }
+    return 'alive';
+  }
+
+  /**
+   * The account is gone: forget its sync history (after its engine has stopped: it is blocked, and
+   * held while a delete runs), never sync it again from this device unless it signs in afresh, and
+   * sign it out (only if it is still the signed-in user: never sign out someone else).
+   */
+  async function finishDeleted(auth: AuthBackend, uid: string): Promise<void> {
+    blockedUid = uid;
+    if (unconfirmed?.uid === uid) unconfirmed = null;
+    await enqueue(reconcile);
+    await enqueue(() => clearSyncState(deps.storage(), uid));
+    if (auth.currentUser()?.uid === uid) {
+      try {
+        await auth.signOut();
+      } catch (e) {
+        console.warn('[account] the account was deleted but signing out failed', e);
+      }
+    }
+    setUser(auth.currentUser());
+  }
+
+  /** Probes the unconfirmed account again and acts on the answer. Never rejects. */
+  async function settleUnconfirmed(): Promise<void> {
+    const pending = unconfirmed;
+    const auth = deps.auth();
+    if (!pending || !auth) return;
+    try {
+      const outcome = await probe(pending.uid, pending.hadData);
+      if (unconfirmed !== pending) return; // settled meanwhile (a fresh sign-in)
+      if (outcome === 'alive') {
+        unconfirmed = null;
+        kick();
+      } else if (outcome === 'deleted') {
+        await finishDeleted(auth, pending.uid);
+      }
+      // wiped, unreachable, switched: it stays unconfirmed and the next syncNow asks again.
+    } catch (e) {
+      console.warn('[account] checking an unconfirmed delete failed', e);
+    }
+  }
+
   async function deleteAccount(password: string): Promise<void> {
     const auth = requireAuth();
     const who = auth.currentUser() ?? user;
@@ -295,27 +438,44 @@ function createController(deps: Deps): Controller {
         throw asAuthError(e);
       }
       holds++;
+      let requested = false;
+      let hadData: boolean | null = null;
       try {
         await enqueue(reconcile); // stops the engine; the hold keeps it stopped
+        // Another tab (or the SDK) may switch the user while the engine stops: the token must be the
+        // re-authenticated account's, or this password would delete someone else's account.
+        requireStillSignedIn(auth, who.uid);
         const token = await auth.getIdToken(true);
         if (!token) throw new AuthError('unknown', 'no ID token');
+        requireStillSignedIn(auth, who.uid);
+        const sub = tokenSubject(token);
+        if (sub !== null && sub !== who.uid) throw new AuthError('unknown', 'the ID token is for another account');
+        // What the remote holds now, to tell after an ambiguous failure whether the delete reached it.
+        hadData = await readHasData(who.uid);
+        requested = true;
         await deps.deleteRequest(token);
       } catch (e) {
+        const err = asAuthError(e);
+        if (requested && err.kind === 'network') {
+          // The request may have reached the server: sync must not resume until we know.
+          const outcome = await probe(who.uid, hadData);
+          if (outcome === 'deleted') {
+            try {
+              await finishDeleted(auth, who.uid);
+            } finally {
+              holds--;
+              kick();
+            }
+            return;
+          }
+          if (outcome !== 'alive') unconfirmed = { uid: who.uid, hadData, lastSyncedAt: lastSynced.get(who.uid) ?? null };
+        }
         holds--;
-        kick(); // nothing was deleted: sync resumes for the same user
-        throw asAuthError(e);
+        kick(); // nothing was deleted: sync resumes for the same user (an unconfirmed one stays stopped)
+        throw err;
       }
       try {
-        // The account is gone. Forget its sync history (its engine is stopped and the hold keeps it
-        // so), and never sync it again from this device unless it signs in afresh.
-        await enqueue(() => clearSyncState(deps.storage(), who.uid));
-        blockedUid = who.uid;
-        try {
-          await auth.signOut();
-        } catch (e) {
-          console.warn('[account] the account was deleted but signing out failed', e);
-        }
-        setUser(auth.currentUser());
+        await finishDeleted(auth, who.uid);
       } finally {
         holds--;
         kick();

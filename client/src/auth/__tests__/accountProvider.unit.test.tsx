@@ -181,7 +181,8 @@ describe('AccountProvider concurrency', () => {
       done = view.result.current.deleteAccount('pw');
       await new Promise((r) => setTimeout(r, 20));
     });
-    expect(s.deleteRequest).toHaveBeenCalledWith('token-alice');
+    // The delete reads the remote once before the request (R6b-secfix-client F3), so wait for it.
+    await waitFor(() => expect(s.deleteRequest).toHaveBeenCalledWith('token-alice'));
     expect(mockEngines.live.size).toBe(0);
     // Firebase reports the same user again while the request is pending.
     await act(async () => auth.emit(user('alice')));
