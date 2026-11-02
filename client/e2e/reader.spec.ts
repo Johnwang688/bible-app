@@ -189,6 +189,45 @@ test.describe('verse sheet (R-2)', () => {
   });
 });
 
+test.describe('verse sheet labels at 150% display scale (John’s setting)', () => {
+  test.use({ locale: 'en-US', colorScheme: 'light', viewport: { width: 375, height: 812 }, deviceScaleFactor: 1.5 });
+
+  for (const preset of ['strawberry-milk', 'silver']) {
+  test(`verse sheet action labels fit on one line, never breaking a word (${preset})`, async ({ page }) => {
+    await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
+    await seed(page, 'appearance', { preset, mode: 'light' });
+    await page.goto('/bible');
+    await page.getByTestId('verse-16-tools').click();
+    await expect(page.getByTestId('verse-sheet')).toBeVisible();
+    // Fonts load on first use; measure only once the label's own font has loaded.
+    await page.waitForFunction(() => {
+      const btn = document.querySelector('[data-testid="sheet-bookmark"]');
+      const leaf = btn && Array.from(btn.querySelectorAll('*')).find((e) => e.childElementCount === 0 && e.textContent!.trim());
+      if (!leaf) return false;
+      const cs = getComputedStyle(leaf);
+      return document.fonts.check(`${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`);
+    });
+    await page.evaluate(() => document.fonts.ready);
+    const labels = await page.evaluate(() =>
+      ['sheet-note', 'sheet-bookmark', 'sheet-copy', 'sheet-share', 'sheet-original-words'].map((id) => {
+        const btn = document.querySelector(`[data-testid="${id}"]`)!;
+        const leaves = Array.from(btn.querySelectorAll('*')).filter((e) => e.childElementCount === 0 && e.textContent!.trim());
+        return leaves.map((e) => {
+          const cs = getComputedStyle(e);
+          return { id, text: e.textContent, lines: Math.round(e.getBoundingClientRect().height / (parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.2)) };
+        });
+      }).flat(),
+    );
+    for (const l of labels) {
+      // A two-word label may wrap onto two lines; a one-word label must not.
+      const max = l.text!.trim().includes(' ') ? 2 : 1;
+      expect([l.id, l.text, l.lines <= max]).toEqual([l.id, l.text, true]);
+    }
+  });
+  }
+
+});
+
 test.describe('reader (Chinese phone)', () => {
   test.use({ locale: 'zh-CN', colorScheme: 'light' });
 
