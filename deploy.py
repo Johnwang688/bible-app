@@ -45,6 +45,8 @@ DEFAULT_CORS_ORIGINS = (
     "http://127.0.0.1:8081",
     "https://bible-app-492520.web.app",
     "https://bible-app-492520.firebaseapp.com",
+    # Firebase Hosting preview channel `beta-preview` (B-1, PR #29). Remove when the channel is retired.
+    "https://bible-app-492520--beta-preview-hwplo62n.web.app",
 )
 
 # Values the backend reads from .env that must stay secret. Each becomes a Secret Manager secret of the

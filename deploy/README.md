@@ -62,7 +62,7 @@ production defaults to BSB).
 | Var | Value |
 |---|---|
 | `APP_ENV` | `production` |
-| `CORS_ORIGINS` | `http://localhost:8081,http://127.0.0.1:8081,https://bible-app-492520.web.app,https://bible-app-492520.firebaseapp.com` |
+| `CORS_ORIGINS` | `http://localhost:8081,http://127.0.0.1:8081,https://bible-app-492520.web.app,https://bible-app-492520.firebaseapp.com,https://bible-app-492520--beta-preview-hwplo62n.web.app` (the last is B-1's `beta-preview` channel) |
 
 Change the origins with `--cors-origins` or `DEPLOY_CORS_ORIGINS` (comma-separated, exact `http(s)://host[:port]`
 origins; `*`, paths, userinfo and bad ports are rejected, because the API sends credentials-enabled CORS).
