@@ -244,7 +244,22 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
 - **Delete my data** needs the password again (the backend refuses a sign-in older than 5 minutes). It revokes sessions, disables the user, writes a `deletedUsers/{uid}` marker (the rules then refuse writes from older tokens, so another device cannot recreate the data), wipes `users/{uid}`, then deletes the user. Data on the phone stays. A delete that times out keeps sync stopped until the app can tell whether it went through.
 - **Under 13** (John, 2026-11-02): choosing the Under 13 age band in first run turns sign-in and sync off; a signed-in user who picks it is signed out. The provider takes a gate (`client/src/auth/signInGate.ts`) and **fails closed**: until R-7a's `signInGateFor()` is passed in `_layout.tsx` (one line after PR #33), and whenever the first-run state is unknown, sign-in, sign-up, reset and sync are off.
 - **Password reset** links open Firebase's hosted page; the app does not handle them. Email-enumeration protection is on in the Firebase project.
-- **Known, for John:** device documents can hold arbitrary data inside their maps (the rules cannot check map values; App Check and a budget alert are the mitigations); the native session store (MMKV) is not encrypted (needs `expo-secure-store`); a crash inside the engine's one synchronous write block can misjudge one sync (Sol round 2, parked).
+- **Follow-up before merge (John, 2026-11-02; `FOLLOW-UP.md`):**
+  - **Crash safety:** the sync engine journals its writes. Each local write carries a tag inside its own storage envelope, so the value and its evidence land together. A restart settles an interrupted write from the tag alone, never by comparing values (`client/src/sync/journal.ts`; "Crash safety" in `CONFLICTS.md`).
+  - **Schema-tight rules:** every device, setting and item document is checked against the engine's exact schema, including every entry inside maps and lists. On the wire, `activeMs` is one string that a single regex can check, because the rules cannot loop. A custom theme's JSON is capped at 4000 characters, and the push path holds back clocks more than 23 h ahead.
+  - **App Check, monitor mode:**
+    - Web: reCAPTCHA Enterprise.
+    - Firestore: `UNENFORCED`.
+    - Backend: `APP_CHECK_MODE=monitor`.
+    - Native: no attestation yet; it needs `@react-native-firebase/app-check` and EAS builds.
+    - The switch to enforce: `docs/app-check.md`.
+  - **The native session** is in `expo-secure-store`, AFTER_FIRST_UNLOCK_THIS_DEVICE_ONLY and chunked. A reinstall's Keychain items are wiped.
+  - **Under 13 picked while signed in:** the app signs out and offers "Delete account and synced data" (re-auth first, then the delete, then sign out), or "Not now".
+- **Known, for John (parked per 5a step 5):**
+  - Sol sync rounds 3 and 4 found 1 + 2 more cases in the journal's commit. Both are unreachable from today's app code: one needs a crash followed by another account syncing first; the other needs a storage listener that writes a synced key mid-commit.
+  - Sol's Under 13 round 2 found 2 more: an offer after a failed gate sign-out, then an ordinary sign-out and a restore; and Back/Escape closing the delete sheet just after submit.
+  - A held-back future-clock item stays on this device until it is edited again. Fixing that needs the remote contract to report what it held back.
+  - The device-document count per user is not capped. App Check and a budget alert are the controls.
 - **Mounting:** `AccountCard` mounts on Me when R-6a is on main (one line). `appearanceCustomKey` joins the synced settings then too.
 
 **Moving aurora (John, 2026-11-02).** The glass presets' background moves instead of showing fixed orbs. Prototype: https://claude.ai/artifact/7a4knhcqYFhVAn45NwDfrD.
