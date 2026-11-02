@@ -32,12 +32,23 @@ export interface AuroraLoop {
   destroy(): void;
   /** How many frames have been drawn. */
   frames(): number;
+  /**
+   * Caps running frames at `fps` per second (`null`, the default, draws on every clock tick). A tick that
+   * comes sooner than one capped frame after the last drawn frame is skipped: no step, no draw.
+   */
+  setMaxFps(fps: number | null): void;
 }
 
 /** The step for the first frame after (re)starting and for a still frame. */
 const FIRST_DT = 1 / 60;
 /** A slow frame never steps the simulation further than this. */
 const MAX_DT = 1 / 20;
+/**
+ * Display ticks jitter, so a capped frame is drawn once this share of its interval has passed. At 60 Hz a
+ * 30 fps cap then draws every second tick (two ticks are 33 ms, one is 17 ms, either ±3 ms off), and at
+ * 120 Hz every fourth.
+ */
+const CAP_TOLERANCE = 0.85;
 
 export function createAuroraLoop(renderer: AuroraRenderer, clock: AuroraClock): AuroraLoop {
   let state: AuroraState = 'off';
@@ -45,6 +56,8 @@ export function createAuroraLoop(renderer: AuroraRenderer, clock: AuroraClock): 
   let last: number | null = null;
   let count = 0;
   let dead = false;
+  /** The least time (ms) between drawn frames, or null for no cap. */
+  let minInterval: number | null = null;
 
   const cancel = () => {
     if (pending !== null) clock.cancel(pending);
@@ -61,6 +74,10 @@ export function createAuroraLoop(renderer: AuroraRenderer, clock: AuroraClock): 
   const frame = (t: number) => {
     pending = null;
     if (dead || state !== 'running') return;
+    if (minInterval !== null && last !== null && t - last < minInterval) {
+      pending = clock.request(frame); // too soon: neither step nor draw, wait for the next tick
+      return;
+    }
     const dt = last === null ? FIRST_DT : Math.min(Math.max((t - last) / 1000, 0), MAX_DT);
     last = t;
     renderer.step(dt);
@@ -88,5 +105,8 @@ export function createAuroraLoop(renderer: AuroraRenderer, clock: AuroraClock): 
       cancel();
     },
     frames: () => count,
+    setMaxFps(fps) {
+      minInterval = fps !== null && Number.isFinite(fps) && fps > 0 ? (1000 / fps) * CAP_TOLERANCE : null;
+    },
   };
 }

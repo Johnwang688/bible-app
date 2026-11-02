@@ -25,6 +25,8 @@ const RESOLUTION = 0.5;
 const REPORT_MS = 250;
 /** How far (CSS px) a pointer must move from where it went down before it stirs. */
 const STIR_SLOP_PX = 10;
+/** On a software renderer (no GPU) the aurora keeps moving, but at this frame rate at most. */
+const SOFTWARE_MAX_FPS = 30;
 
 /** The canvas backing size for its CSS size, or null while it has no size (a hidden tab). */
 function backingSize(el: HTMLElement): { w: number; h: number } | null {
@@ -101,6 +103,8 @@ export function createAuroraController(host: HTMLElement, screen: HTMLElement | 
     },
   };
   const loop = createAuroraLoop(delegate, clock);
+  const capFps = () => loop.setMaxFps(renderer?.software ? SOFTWARE_MAX_FPS : null);
+  capFps();
 
   function reportFrames() {
     canvas.setAttribute('data-aurora-frames', String(loop.frames()));
@@ -184,6 +188,7 @@ export function createAuroraController(host: HTMLElement, screen: HTMLElement | 
     else {
       renderer = createAuroraRenderer(canvas, inputs.style, inputs.palette);
       lost = renderer?.style == null;
+      capFps();
     }
     reportStyle();
     if (lost) {

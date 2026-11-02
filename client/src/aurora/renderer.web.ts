@@ -5,7 +5,7 @@ import type { AuroraStyle } from './keys';
 import type { AuroraRenderer } from './loop';
 import type { AuroraPalette } from './palette';
 import { createFlow } from './flow.web';
-import { createFluid } from './fluid.web';
+import { createFluid, isSoftwareRenderer } from './fluid.web';
 import { CONTEXT_ATTRIBUTES, createQuad, type StyleImpl } from './gl.web';
 
 export type PointerKind = 'down' | 'move' | 'up';
@@ -16,6 +16,8 @@ export interface WebAuroraRenderer extends AuroraRenderer {
    * could be built, or the context was lost (until `restore()` rebuilds).
    */
   readonly style: AuroraStyle | null;
+  /** Whether the context renders in software (no GPU), read once at creation. */
+  readonly software: boolean;
   setStyle(style: AuroraStyle): void;
   setPalette(palette: AuroraPalette): void;
   /**
@@ -60,6 +62,7 @@ export function createAuroraRenderer(
   }
   if (!gl) return null;
   const ctx = gl;
+  const software = isSoftwareRenderer(ctx);
 
   let wanted = style;
   let colours = palette;
@@ -127,6 +130,7 @@ export function createAuroraRenderer(
   }
 
   return {
+    software,
     get style() {
       return disposed || stale || !impl ? null : impl.style;
     },
