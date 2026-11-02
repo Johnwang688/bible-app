@@ -1,7 +1,7 @@
 // Small pieces the account card and the account sheets share: glyphs, buttons, the text field and the
 // error line. Every colour comes from the theme. No control has a fixed height: each has a `minHeight`
 // (44 pt, fields 48 pt) plus padding, so the text can grow with the phone's font size.
-import { useEffect, useRef, type ComponentRef, type ReactNode, type Ref } from 'react';
+import { useEffect, useState, type ComponentRef, type ReactNode, type Ref, type RefObject } from 'react';
 import {
   Animated,
   Easing,
@@ -51,7 +51,7 @@ export function Glyph({ name, color, size = 18, strokeWidth = 2.2 }: { name: Gly
 /** The sync glyph, turning. Still under Reduce Motion. */
 export function Spinner({ color, size = 18 }: { color: string; size?: number }) {
   const reduceMotion = useReduceMotion();
-  const turn = useRef(new Animated.Value(0)).current;
+  const [turn] = useState(() => new Animated.Value(0));
   useEffect(() => {
     if (reduceMotion) return;
     const loop = Animated.loop(Animated.timing(turn, { toValue: 1, duration: 1100, easing: Easing.linear, useNativeDriver: true }));
@@ -264,6 +264,8 @@ export interface AuthFieldProps {
   /** Keep the keyboard up when Return moves on to another field. */
   keepKeyboard?: boolean;
   onSubmitEditing?(): void;
+  /** Return moves focus to this field instead of calling `onSubmitEditing`. */
+  focusNext?: RefObject<ComponentRef<typeof TextInput> | null>;
   inputRef?: Ref<ComponentRef<typeof TextInput>>;
   /** The show/hide button of a password field. */
   trailing?: ReactNode;
@@ -271,7 +273,7 @@ export interface AuthFieldProps {
   below?: ReactNode;
 }
 
-export function AuthField(p: AuthFieldProps) {
+export function AuthField({ inputRef, focusNext, ...p }: AuthFieldProps) {
   const theme = useTheme();
   const danger = dangerColours(theme).text;
   const pill = theme.radii.button >= 24;
@@ -294,7 +296,7 @@ export function AuthField(p: AuthFieldProps) {
       >
         <TextInput
           testID={p.testID}
-          ref={p.inputRef}
+          ref={inputRef}
           value={p.value}
           onChangeText={p.onChangeText}
           editable={!p.disabled}
@@ -308,7 +310,7 @@ export function AuthField(p: AuthFieldProps) {
           spellCheck={false}
           returnKeyType={p.returnKeyType}
           submitBehavior={p.keepKeyboard ? 'submit' : 'blurAndSubmit'}
-          onSubmitEditing={p.onSubmitEditing}
+          onSubmitEditing={() => (focusNext ? focusNext.current?.focus() : p.onSubmitEditing?.())}
           placeholderTextColor={theme.colors.muted}
           style={[styles.input, { color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '400') }]}
         />

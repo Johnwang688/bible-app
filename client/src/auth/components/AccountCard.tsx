@@ -60,10 +60,12 @@ export function AccountCard() {
     const timer = setTimeout(() => setBanner(false), BANNER_MS);
     return () => clearTimeout(timer);
   }, [banner]);
-  // Signing in again ends the "deleted" news.
-  useEffect(() => {
-    if (account.status === 'signedIn') setBanner(false);
-  }, [account.status]);
+  // Signing in again ends the "deleted" news (adjusted while rendering, when the status changes).
+  const [seenStatus, setSeenStatus] = useState(account.status);
+  if (seenStatus !== account.status) {
+    setSeenStatus(account.status);
+    if (account.status === 'signedIn' && banner) setBanner(false);
+  }
 
   const signedIn = account.status === 'signedIn' && account.user !== null;
   const signedOut = account.status === 'signedOut';

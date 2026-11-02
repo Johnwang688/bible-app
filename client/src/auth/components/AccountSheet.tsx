@@ -88,7 +88,7 @@ export function AccountSheet({
   const [sent, setSent] = useState(false);
   const [busy, setBusy] = useState(false);
   /** Where "back" goes from the reset view. */
-  const resetFrom = useRef<'signIn' | 'delete'>('signIn');
+  const [resetFrom, setResetFrom] = useState<'signIn' | 'delete'>('signIn');
   const passwordInput = useRef<ComponentRef<typeof TextInput>>(null);
 
   const alive = useRef(false);
@@ -123,10 +123,11 @@ export function AccountSheet({
   }, []);
 
   // Signed in (by a sign-in whose view was left meanwhile), or signed out while deleting: nothing left to do here.
+  // (Decided by how the sheet was opened, not by the view: the delete sheet can pass through the reset view.)
   useEffect(() => {
-    if (account.status === 'signedIn' && view !== 'delete') onClose();
-    else if (account.status === 'signedOut' && view === 'delete') onClose();
-  }, [account.status, view, onClose]);
+    if (account.status === 'signedIn' && start === 'signIn') onClose();
+    else if (account.status === 'signedOut' && start === 'delete') onClose();
+  }, [account.status, start, onClose]);
 
   // ---- actions --------------------------------------------------------------------------------------
 
@@ -208,13 +209,13 @@ export function AccountSheet({
 
   const toReset = (from: 'signIn' | 'delete') => {
     const carried = from === 'delete' ? accountEmail : email;
-    resetFrom.current = from;
+    setResetFrom(from);
     go('reset');
     setEmail(carried);
   };
 
   const back = () => {
-    if (view === 'reset') go(resetFrom.current);
+    if (view === 'reset') go(resetFrom);
     else go('signIn');
   };
 
@@ -223,7 +224,7 @@ export function AccountSheet({
   const message = (place: ShownError['place']) =>
     error && error.place === place ? <ErrorLine testID="auth-error" text={t(error.key)} boxed={place === 'form'} /> : undefined;
 
-  const emailField = (autoComplete: 'username' | 'email', contentType: 'username' | 'emailAddress', next: 'next' | 'send', onSubmit: () => void) => (
+  const emailField = (autoComplete: 'username' | 'email', contentType: 'username' | 'emailAddress', next: 'next' | 'send', onSubmit?: () => void) => (
     <AuthField
       testID="auth-email"
       label={t('auth.email')}
@@ -237,6 +238,7 @@ export function AccountSheet({
       returnKeyType={next}
       keepKeyboard={next === 'next'}
       onSubmitEditing={onSubmit}
+      focusNext={next === 'next' ? passwordInput : undefined}
       below={message('email')}
     />
   );
@@ -272,6 +274,13 @@ export function AccountSheet({
     />
   );
 
+  const signInEmail = emailField('username', 'username', 'next');
+  const signUpEmail = emailField('email', 'emailAddress', 'next');
+  const resetEmail = emailField('email', 'emailAddress', 'send', () => void submitReset());
+  const signInPassword = passwordField('current', () => void submitSignIn());
+  const signUpPassword = passwordField('new', () => void submitSignUp());
+  const formMessage = message('form');
+
   const title =
     view === 'signIn' ? t('auth.signIn.title') : view === 'signUp' ? t('auth.signUp.title') : view === 'reset' ? t('auth.reset.title') : t('delete.title');
 
@@ -304,9 +313,9 @@ export function AccountSheet({
               <Para text={t('auth.signIn.mergeNote')} size={13} />
               {/* Room for Continue with Apple / Google later: nothing is drawn. */}
               <View accessible={false} style={styles.socialSlot} />
-              {emailField('username', 'username', 'next', () => passwordInput.current?.focus())}
-              {passwordField('current', () => void submitSignIn())}
-              {message('form')}
+              {signInEmail}
+              {signInPassword}
+              {formMessage}
               <ActionButton testID="auth-submit" label={busy ? t('auth.signIn.busy') : t('auth.signIn.submit')} busy={busy} onPress={() => void submitSignIn()} />
               <TextButton testID="auth-forgot" label={t('auth.forgot')} disabled={busy} onPress={() => toReset('signIn')} />
               <View style={styles.newHere}>
@@ -318,9 +327,9 @@ export function AccountSheet({
 
           {view === 'signUp' ? (
             <>
-              {emailField('email', 'emailAddress', 'next', () => passwordInput.current?.focus())}
-              {passwordField('new', () => void submitSignUp())}
-              {message('form')}
+              {signUpEmail}
+              {signUpPassword}
+              {formMessage}
               <ActionButton testID="auth-submit" label={busy ? t('auth.signUp.busy') : t('auth.signUp.submit')} busy={busy} onPress={() => void submitSignUp()} />
               <Para text={t('auth.signUp.note')} size={13} center />
               <TextButton testID="auth-privacy" label={t('auth.privacy')} onPress={openPrivacy} />
@@ -330,8 +339,8 @@ export function AccountSheet({
           {view === 'reset' && !sent ? (
             <>
               <Para text={t('auth.reset.intro')} />
-              {emailField('email', 'emailAddress', 'send', () => void submitReset())}
-              {message('form')}
+              {resetEmail}
+              {formMessage}
               <ActionButton testID="auth-submit" label={busy ? t('auth.reset.busy') : t('auth.reset.submit')} busy={busy} onPress={() => void submitReset()} />
             </>
           ) : null}
@@ -350,8 +359,8 @@ export function AccountSheet({
                   {t('auth.reset.sent')}
                 </Text>
               </View>
-              {message('form')}
-              <ActionButton testID="auth-reset-back" label={resetFrom.current === 'delete' ? t('auth.back') : t('auth.reset.back')} onPress={back} />
+              {formMessage}
+              <ActionButton testID="auth-reset-back" label={resetFrom === 'delete' ? t('auth.back') : t('auth.reset.back')} onPress={back} />
               <TextButton testID="auth-resend" label={t('auth.reset.resend')} disabled={busy} onPress={() => void submitReset()} />
             </>
           ) : null}
@@ -383,7 +392,7 @@ export function AccountSheet({
                 disabled={deletePassword.length === 0}
                 onPress={() => void submitDelete()}
               />
-              <ActionButton testID="delete-cancel" variant="secondary" label={t('delete.cancel')} disabled={busy} onPress={onClose} />
+              <ActionButton testID="delete-cancel" variant="secondary" label={t('delete.cancel')} onPress={onClose} />
             </>
           ) : null}
         </ScrollView>
@@ -401,5 +410,5 @@ const styles = StyleSheet.create({
   socialSlot: { minHeight: 12 },
   newHere: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' },
   sent: { alignItems: 'center', gap: 14, paddingTop: 8, paddingBottom: 4 },
-  mailCircle: { width: 64, height: 64, borderRadius: 999, alignItems: 'center', justifyContent: 'center' },
+  mailCircle: { minWidth: 64, minHeight: 64, borderRadius: 999, alignItems: 'center', justifyContent: 'center' },
 });
