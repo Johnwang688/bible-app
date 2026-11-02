@@ -262,7 +262,24 @@ prototypes** (John, 2026-11-02), so R-7a ships no new screens. Prototypes in `bi
 - **First run** (`client/src/onboarding/`). `useFirstRun()` holds the state behind the screens: choose a look, finish
   with an optional age range (kept on the device), or skip.
   - **Skipping** gives Silver / Graphite following the phone, but keeps a light/dark mode imported from the old app.
-  - **The gate** in the root layout is mounted together with the approved screens.
+  - **The gate** (`FirstRunGate`) wraps the navigator in the root layout: on a fresh device the intro shows instead
+    of the app, and afterwards the app opens on the page that was asked for.
+  - **The screens** (approved 2026-11-02 as drawn, `bible-app-work/r7a/GO-AHEAD.md`): welcome, pick your look, your
+    age. Steps 2 and 3 have a 44 pt Back and "Skip for now". Skip on step 1 drops the whole intro and gives the
+    default look; "Skip for now" on step 2 or 3 ends the intro keeping the look picked so far, with no age. The look
+    step's middle scrolls under a pinned footer, so Continue never falls off at large text or in Chinese.
+  - **The age step (John, 2026-11-02):** it stays, with "Under 13".
+    - **The age never leaves the device.** It is never synced or sent, so "It stays on this device" stays true
+      (`onboarding/__tests__/ageStaysOnDevice.test.ts`).
+    - **Under 13 turns off sign-in and sync,** so no email or synced data is collected from under-13s. The only
+      thing other modules read is a boolean: `isSignInAllowed` / `useSignInAllowed` / `signInGateFor` in
+      `client/src/onboarding/signIn.ts`. R-6b hides sign-in and never starts sync when it is false.
+    - A line under the question says why the app asks, and that Under 13 keeps everything on the device with no
+      sign-in.
+  - **Text on the aurora:** sub-lines, captions and notes never sit directly on the moving aurora. They sit on a text
+    card in the sheet paint, which keeps text and muted at 4.5:1 or better over every aurora colour
+    (`onboarding/paint.ts`; the test measures over each of the three colours and the base). Headings keep the soft
+    shadow at full strength. Glass chip edges are 3:1 against every aurora colour.
 - **The aurora** (`client/src/aurora/`) runs behind glass presets on screens with the app background, never the
   reader.
   - **Web:** a WebGL2 port of the prototype. The fluid simulation is the default; the flow shader is the option
@@ -321,7 +338,7 @@ After R-7, new roadmap features are built frontend and backend together:
 - **Shipping native builds:** EAS Build accounts (Apple Developer, Google Play).
 - **Translating the English-only content** (commentary, people/places/themes, quizzes) into Chinese: a later project.
 - **Screens still to draw:** search, the chapter tools sheet, the people/places/themes pages, sign-in. Draw each before the phase that builds it.
-- **First run and the aurora option (R-7a), prototyped 2026-11-02**, waiting for John's approval: `bible-app-work/design/proposed/r7a-welcome.html`, `r7a-look.html`, `r7a-age.html`, `r7a-aurora-option.html`. Whether the age list offers "Under 13" goes with "Minimum age and privacy".
+- **First run and the aurora option (R-7a):** approved 2026-11-02 and built. The age list offers "Under 13", which keeps everything on the device with no sign-in (R-7a notes). Mounting the aurora option in Customise waits for R-6a.
 - **Start-up fonts (R-7 budget):** the web waits for 2.0 MB of TTF before its first paint (21 s on fast 4G from an uncompressed server).
   - **Options:** load only the active style's two faces first, and the rest after the first paint; ship WOFF2 subsets on the web; serve with Brotli/gzip.
   - **Owner:** this touches `src/fonts/` and the root layout.
