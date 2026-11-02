@@ -89,6 +89,13 @@ describe('verse sheet', () => {
     expect([hl['43:3:16'], hl['43:3:17'], hl['43:3:18']]).toEqual(['green', 'green', 'green']);
   });
 
+  it('tapping a second verse while the sheet is open extends the selection (plan: Bible: the reader)', async () => {
+    await renderReader({ position: JOHN3_WEB });
+    await openSheetOn(16);
+    await fireEvent.press(screen.getByTestId('verse-18'));
+    expect(within(await screen.findByTestId('verse-sheet')).getByText('John 3:16–18')).toBeTruthy();
+  });
+
   it('opens a commentary placeholder (the commentary sheet itself is R-5)', async () => {
     await renderReader({ position: JOHN3_WEB });
     const sheet = await openSheetOn(16);

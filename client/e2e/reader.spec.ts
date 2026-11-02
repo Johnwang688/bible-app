@@ -180,6 +180,78 @@ test.describe('verse sheet (R-2)', () => {
     await expect(page.getByTestId('verse-sheet')).toHaveCount(0);
   });
 
+  // Verifier round 1 on the verse sheet (GPT-6.1 Sol).
+  test('R2 review F2: Escape restores the words list scroll and row focus', async ({ page }) => {
+    await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
+    await page.route('**/api/v1/words/**', route => {
+      const data = body('words_john3_16');
+      const template = data.words.find((w: { strongs: string }) => w.strongs === 'G0025');
+      return route.fulfill({ json: { ...data, words: Array.from({ length: 80 }, (_, i) => ({
+        ...template, english_order: i + 1, english: 'phrase ' + (i + 1), english_kind: 'text',
+      })) } });
+    });
+    await page.goto('/bible');
+    await page.getByTestId('verse-16-tools').click();
+    await page.getByTestId('sheet-original-words').click();
+    const row = page.getByTestId('word-row-40');
+    await row.scrollIntoViewIfNeeded();
+    const scrollTop = () => page.getByTestId('words-list').evaluate(el => {
+      const nodes = [el, ...el.querySelectorAll('*')];
+      const scroller = nodes.find(n => n.scrollHeight > n.clientHeight + 50 && getComputedStyle(n).overflowY === 'auto');
+      return scroller!.scrollTop;
+    });
+    const before = await scrollTop();
+    expect(before).toBeGreaterThan(0);
+    await row.click();
+    await expect(page.getByTestId('word-card')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(page.getByTestId('words-list')).toBeVisible();
+    await expect.poll(scrollTop).toBe(before);
+    await expect(row).toBeFocused();
+  });
+
+  test('R2 review mutant guard: Back restores the words list scroll and row focus', async ({ page }) => {
+    await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
+    await page.route('**/api/v1/words/**', route => {
+      const data = body('words_john3_16');
+      const template = data.words.find((w: { strongs: string }) => w.strongs === 'G0025');
+      return route.fulfill({ json: { ...data, words: Array.from({ length: 80 }, (_, i) => ({
+        ...template, english_order: i + 1, english: 'phrase ' + (i + 1), english_kind: 'text',
+      })) } });
+    });
+    await page.goto('/bible');
+    await page.getByTestId('verse-16-tools').click();
+    await page.getByTestId('sheet-original-words').click();
+    const row = page.getByTestId('word-row-40');
+    await row.scrollIntoViewIfNeeded();
+    const scrollTop = () => page.getByTestId('words-list').evaluate(el => {
+      const nodes = [el, ...el.querySelectorAll('*')];
+      const scroller = nodes.find(n => n.scrollHeight > n.clientHeight + 50 && getComputedStyle(n).overflowY === 'auto');
+      return scroller!.scrollTop;
+    });
+    const before = await scrollTop();
+    expect(before).toBeGreaterThan(0);
+    await row.click();
+    await expect(page.getByTestId('word-card')).toBeVisible();
+    await page.getByTestId('word-back').click();
+    await expect(page.getByTestId('words-list')).toBeVisible();
+    await expect.poll(scrollTop).toBe(before);
+    await expect(row).toBeFocused();
+  });
+
+  test('R2 review F3: tapping a second verse with the sheet open extends the selection (the chapter stays usable)', async ({ page }) => {
+    await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
+    await page.goto('/bible');
+    await page.getByTestId('verse-16-tools').click();
+    await expect(page.getByTestId('verse-sheet')).toBeVisible();
+    const point = await page.getByTestId('verse-17').evaluate((el) => {
+      const r = Array.from(el.getClientRects()).find((x) => x.width > 5 && x.top >= 0 && x.top < innerHeight - 10)!;
+      return { x: r.left + 3, y: r.top + 3 };
+    });
+    await page.mouse.click(point.x, point.y);
+    await expect(page.getByTestId('verse-sheet').getByText('John 3:16–17', { exact: true })).toBeVisible();
+  });
+
   test('keyboard users open the verse sheet from the verse-tools button with Enter', async ({ page }) => {
     await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
     await page.goto('/bible');
