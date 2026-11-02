@@ -194,3 +194,69 @@ export function compareFullRecall(
   const body = compareRecital(bodyTranscript, expectedHanzi, keyer);
   return { passed: referenceStatus === 'correct' && body.passed, body, bodyTranscript, referenceStatus };
 }
+
+// ---------------------------------------------------------------------------------------------------------
+// For the full-recall screen: the ways a reference may be spoken, and how a heard one was read.
+// ---------------------------------------------------------------------------------------------------------
+
+/** A reference as the grader reads it: the book's full title, the chapter and the verses (`16`, `6,7`, `9,11`). */
+export interface ParsedReference {
+  book: string;
+  chapter: number;
+  verses: string;
+}
+
+/** Reads one whole reference (`提后三章十六节`, `提摩太前书3:16`); null when `text` is anything else. */
+export function parseSpokenReference(text: string): ParsedReference | null {
+  const match = text.match(exactReference);
+  return match ? parseMatch(match) : null;
+}
+
+/** A title in Traditional characters (the grader's own map). */
+export function toTraditionalTitle(text: string): string {
+  return Array.from(text, (ch) => TITLE_TRADITIONAL[ch] ?? ch).join('');
+}
+
+const CN_DIGITS = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
+
+/** 1..999 as spoken: 3 -> 三, 16 -> 十六, 20 -> 二十, 119 -> 一百一十九. */
+function spokenNumber(n: number): string {
+  if (n < 10) return CN_DIGITS[n]!;
+  if (n < 20) return `十${n % 10 === 0 ? '' : CN_DIGITS[n % 10]}`;
+  if (n < 100) return `${CN_DIGITS[Math.floor(n / 10)]}十${n % 10 === 0 ? '' : CN_DIGITS[n % 10]}`;
+  const hundreds = `${CN_DIGITS[Math.floor(n / 100)]}百`;
+  const rest = n % 100;
+  if (rest === 0) return hundreds;
+  if (rest < 10) return `${hundreds}零${CN_DIGITS[rest]}`;
+  return `${hundreds}${rest < 20 ? '一' : ''}${spokenNumber(rest)}`;
+}
+
+/** `9,11` -> 九、十一; `6,7` -> 六、七; a stored span `6-7` -> 六至七. */
+function spokenVerses(verses: string): string {
+  return verses
+    .split(',')
+    .map((span) => span.split(/[-–]/).map((n) => spokenNumber(Number(n))).join('至'))
+    .join('、');
+}
+
+/**
+ * Three ways to say a reference, all of which the grader takes (`提摩太后书 3:16`, `提后三章十六节`,
+ * `提摩太后书第三章第十六节`). `referenceZh` is the library's form (`book chapter:verses`); `shown` is that same
+ * reference as the reader's script spells it. Null when `referenceZh` is not that shape.
+ */
+export function referenceForms(referenceZh: string, shown: string, traditional: boolean): string[] | null {
+  const match = referenceZh.match(/^(\S+)\s+(\d+):([\d,\-–]+)$/);
+  if (!match) return null;
+  const [, book, chapterRaw, versesRaw] = match;
+  const chapter = Number(chapterRaw);
+  const names = BOOKS.find((aliases) => aliases[0] === book);
+  const shortName = names ? [...names].filter((a) => a.length >= 2).sort((a, b) => a.length - b.length)[0] ?? book! : book!;
+  const unit = book === '诗篇' ? '篇' : '章';
+  const verses = spokenVerses(versesRaw!);
+  const forms = [
+    shown,
+    `${shortName}${spokenNumber(chapter)}${unit}${verses}节`,
+    `${book}第${spokenNumber(chapter)}${unit}第${verses}节`,
+  ];
+  return traditional ? [shown, ...forms.slice(1).map((f) => toTraditionalTitle(f).replace(/节/g, '節'))] : forms;
+}
