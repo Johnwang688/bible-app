@@ -358,6 +358,7 @@ describe('people, places and themes', () => {
     const { onOpenEntity } = await renderSearch({ search: async () => many(3) });
     await type('joab');
     await act(async () => jest.advanceTimersByTime(300));
+    await screen.findByTestId('search-verses');
     const group = await screen.findByTestId('search-entities');
     expect(within(group).getByText('People, places and themes')).toBeTruthy();
     const joab = screen.getByTestId('search-entity-person-joab');
@@ -375,6 +376,7 @@ describe('people, places and themes', () => {
     await renderSearch({ search: async () => [] });
     await type('jo');
     await act(async () => jest.advanceTimersByTime(300));
+    await screen.findByTestId('search-no-results');
     await screen.findByTestId('search-entities');
     const rows = screen.getAllByTestId(/^search-entity-/).map((n) => n.props.testID as string);
     const kinds = rows.map((id) => id.split('-')[2]);
