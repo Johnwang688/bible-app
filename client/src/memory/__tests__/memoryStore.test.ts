@@ -68,7 +68,7 @@ describe('createMemoryStore', () => {
   it('a passed chunk order on an untouched verse records it and promotes it to fill_blank', () => {
     const store = createMemoryStore(storage);
     store.submitStep({ index: null, verseId: V1, stage: 'chunk-order', passed: true, now: day(4) });
-    const row = storage.get(memoryProgressKey)[V1];
+    const row = storage.get(memoryProgressKey)[V1]!;
     expect(row.stage).toBe('fill_blank');
     expect(row.successes).toBe(1);
     expect(row.masteryScore).toBe(20);
@@ -77,7 +77,7 @@ describe('createMemoryStore', () => {
   it('a failed attempt is recorded and promotes nothing', () => {
     const store = createMemoryStore(storage);
     store.submitStep({ index: null, verseId: V1, stage: 'chunk-order', passed: false, now: day(4) });
-    const row = storage.get(memoryProgressKey)[V1];
+    const row = storage.get(memoryProgressKey)[V1]!;
     expect(row).toMatchObject({ stage: 'chunk_order', successes: 0, failures: 1 });
     expect(row.lapsedAt).not.toBeNull();
   });
@@ -114,8 +114,8 @@ describe('createMemoryStore', () => {
     });
     expect(last.streak).toBe(1);
     expect(storage.get(memoryHistoryKey)).toEqual({ startedOn: '2026-11-04', completedDates: ['2026-11-04'] });
-    expect(storage.get(memoryProgressKey)[V1].stage).toBe('full_recall');
-    expect(storage.get(memoryProgressKey)[V2].stage).toBe('full_recall');
+    expect(storage.get(memoryProgressKey)[V1]!.stage).toBe('full_recall');
+    expect(storage.get(memoryProgressKey)[V2]!.stage).toBe('full_recall');
   });
 
   it('the plan stays frozen within the day and is replanned the next day; the streak carries', () => {
@@ -144,6 +144,6 @@ describe('createMemoryStore', () => {
     store.todayLesson(day(4));
     const out = store.submitStep({ index: 0, verseId: V1, stage: 'chunk-order', passed: true, now: day(5) });
     expect(out.recorded).toBe(false);
-    expect(storage.get(memoryProgressKey)[V1].successes).toBe(1);
+    expect(storage.get(memoryProgressKey)[V1]!.successes).toBe(1);
   });
 });

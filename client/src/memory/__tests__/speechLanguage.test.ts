@@ -443,12 +443,9 @@ describe('S. speech language', () => {
     language: SpeechLanguage;
     pct: number;
   }[] = [
-    // 借着重生的洗和圣灵的更新 — both 借着 and 重生 are trie words, so losing the
-    // second character of either re-keys its partner as well.
-    { chunk: '借着重生的洗和圣灵的更新', index: 1, op: 'del', language: 'cantonese', pct: 75 },
-    { chunk: '借着重生的洗和圣灵的更新', index: 1, op: 'sub', language: 'cantonese', pct: 75 },
-    { chunk: '借着重生的洗和圣灵的更新', index: 3, op: 'del', language: 'mandarin', pct: 75 },
-    { chunk: '借着重生的洗和圣灵的更新', index: 3, op: 'sub', language: 'mandarin', pct: 75 },
+    // Empty: the table keyers read one character at a time, so a single mistake can never
+    // re-key a neighbour. (to-jyutping and pinyin-pro read 借着 and 重生 as words, which cost
+    // Little Lamb four pinned entries on 借着重生的洗和圣灵的更新.)
   ];
 
   /**

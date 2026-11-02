@@ -58,7 +58,7 @@ describe('completeLessonStep', () => {
     const out = completeLessonStep(before, 1, '2-corinthians-5-17', 'fill-blank', now);
     expect(out.recorded).toBe(true);
     expect(out.dayCompleted).toBe(false);
-    expect(out.lesson.steps[1].completedAt).toBe(now.toISOString());
+    expect(out.lesson.steps[1]!.completedAt).toBe(now.toISOString());
     expect(out.lesson.steps.filter((s) => s.completedAt).length).toBe(1);
     expect(out.lesson.completedAt).toBeNull();
     expect(before).toEqual(copy);
@@ -89,7 +89,7 @@ describe('completeLessonStep', () => {
     const again = completeLessonStep(l, 0, '2-corinthians-5-17', 'chunk-order', later);
     expect(again.recorded).toBe(true);
     expect(again.dayCompleted).toBe(true);
-    expect(again.lesson.steps[0].completedAt).toBe(now.toISOString());
+    expect(again.lesson.steps[0]!.completedAt).toBe(now.toISOString());
     expect(again.lesson.completedAt).toBe(now.toISOString());
   });
 });
