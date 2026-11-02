@@ -290,7 +290,9 @@ prototypes** (John, 2026-11-02), so R-7a ships no new screens. Prototypes in `bi
     when the tab or page is hidden.
   - **Reduce Motion:** one still frame.
   - **Fallbacks:** if the GPU context is lost, the still gradient shows until the context comes back. On a software
-    renderer (no GPU), the fluid simulation falls back to flow.
+    renderer (no GPU), the fluid simulation falls back to flow, and the aurora keeps moving at 30 fps instead of 60
+    (John, 2026-11-02; `SOFTWARE_MAX_FPS` in `aurora/controller.web.ts`, `setMaxFps` in `aurora/loop.ts`). Reduce Motion
+    still draws one still frame there.
   - **Native** has no GPU drawing library, so it shows a lighter drift of the orbs (UI-thread `Animated`). Adding
     Skia or expo-gl for parity is in Open.
   - **Where it shows:** `Screen` mounts it. Screens that build their own frame (Home, Study, Me) mount
@@ -309,20 +311,27 @@ prototypes** (John, 2026-11-02), so R-7a ships no new screens. Prototypes in `bi
   | Measure | Budget | Measured |
   |---|---|---|
   | JS bundle, gzip | ≤ 600 KB | 492 KB (2.0 MB raw) |
-  | Fonts loaded before the first paint | ≤ 500 KB | **2.0 MB** (11 TTF files) ✗ |
-  | Home visible, mid-range phone, no network limit | ≤ 2.5 s | 1.8–2.0 s |
-  | Home visible, mid-range phone, fast 4G (1.6 Mb/s, 150 ms) | ≤ 5 s | **21 s** ✗ (the fonts and uncompressed JS) |
+  | Fonts loaded before the first paint | ≤ 500 KB | 0 KB (was 2.0 MB, 11 TTF files): only the active look's faces load, with `font-display: swap`, and the web never waits for them |
+  | Home visible, mid-range phone, no network limit | ≤ 2.5 s | 1.7 s (was 2.3 s in the same run) |
+  | Fonts fetched at start | — | pastel 5 files, 915 KB; glass 6 files, 1,126 KB (was 11 files, 2,041 KB for every look) |
+  | Home visible, mid-range phone, fast 4G (1.6 Mb/s, 150 ms) | ≤ 5 s | **11.2 s** pastel, 11.7 s glass ✗ (was 22.4 s); what is left is the 2.1 MB of uncompressed JS (DOMContentLoaded 10.2 s) |
   | Aurora frame rate, GPU, at 1x and 4x CPU | 60 fps | 60 (fluid and flow) |
   | Main-thread time per frame, GPU, 4x CPU | ≤ 4 ms | fluid 1.5 ms, flow 0.6 ms, pastel (no aurora) 0.3 ms |
   | Long tasks while animating | 0 | 0 |
-  | No GPU (SwiftShader) | no fluid simulation | flow (fallback works); **8.5–10.6 ms per frame** ✗ |
+  | No GPU (SwiftShader) | no fluid simulation | flow at **30 fps** (was 61): main-thread time 258 ms/s at 1x CPU and 400 ms/s at 4x (was 485 and 645), 9 and 13 ms per drawn frame against a 33 ms frame |
   | JS heap | — | 11–12 MB |
 
-  Two items miss their budget, and neither comes from the aurora:
-  - **Start-up fonts:** the root layout waits for 11 fonts, both styles' UI and Scripture faces, before it draws.
-  - **No GPU:** the flow shader costs half the frame budget there.
-
-  Both are listed in Open.
+  **Follow-up (John, 2026-11-02), re-measured the same day** (before = 45d8dcf, after = this PR; same script and machine,
+  median of 3; the start-up rows ran on SwiftShader):
+  - **Start-up fonts:** at start only the active look's fonts load: its UI font and its Scripture font
+    (`fonts/lookFonts.ts`, `fonts/FontGate.tsx`), plus Noto Serif SC only when the interface or the reader's translation
+    is Chinese. Every face is `font-display: swap`, and the web renders at once in the fallback font. A phone (bundled
+    local fonts) still waits for the first look's fonts, so it never flashes a fallback face. Other looks' fonts load
+    when a look is chosen, and when the look picker shows them. A face that failed to download is downloaded again on
+    the next ask. `e2e/startupFonts.spec.ts` checks the request list.
+  - **Fast 4G:** Home now waits only for the JS bundle. It still misses 5 s because the local server sends the 2.1 MB
+    uncompressed; gzip (517 KB) is a hosting setting (Firebase Hosting compresses), not app code.
+  - **No GPU:** the aurora keeps moving at 30 fps there, which cuts its main-thread time by 38–47%.
 
 **R-3 notes (2026-11-02).**
 - **Study → Saved:** every highlight, note and bookmark, newest first. Verses saved together (a range from the verse sheet) show as one entry, "John 3:16–18". Filters: kind (All, Highlights, Notes, Bookmarks), colour, and book (a sheet listing only the books that have items). Book names and dates follow the interface language; the verse text is in the reader's current translation. Tapping an entry opens it in context: the Bible tab, that chapter in the same translation, the verses selected (sheet closed), scrolled into view, with focus on the first.
@@ -363,10 +372,7 @@ After R-7, new roadmap features are built frontend and backend together:
 - **Translating the English-only content** (commentary, people/places/themes, quizzes) into Chinese: a later project.
 - **Screens still to draw:** search, the chapter tools sheet, the people/places/themes pages, sign-in. Draw each before the phase that builds it.
 - **First run and the aurora option (R-7a):** approved 2026-11-02 and built. The age list offers "Under 13", which keeps everything on the device with no sign-in (R-7a notes). Mounting the aurora option in Customise waits for R-6a.
-- **Start-up fonts (R-7 budget):** the web waits for 2.0 MB of TTF before its first paint (21 s on fast 4G from an uncompressed server).
-  - **Options:** load only the active style's two faces first, and the rest after the first paint; ship WOFF2 subsets on the web; serve with Brotli/gzip.
-  - **Owner:** this touches `src/fonts/` and the root layout.
-- **The aurora without a GPU:** on a software renderer the flow shader costs 8.5–10.6 ms per frame. Choose between drawing at 30 fps or showing the still gradient there.
+- **Start-up fonts (R-7 budget):** done (R-7a follow-up): only the active look's fonts, `font-display: swap`. Still open: WOFF2 subsets on the web (about a third of the TTF size), and serving the JS compressed in the fast-4G measurement.
 - **Native aurora parity:** add `@shopify/react-native-skia` (or `expo-gl`) so iOS and Android run the fluid simulation and the flow shader too. Today they show a lighter UI-thread drift.
 - **Signed off (John, 2026-11-01):** these screens are drawn on the canvas's "All screens" page, in every preset and in both languages:
   - Home and the reader
