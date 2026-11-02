@@ -436,7 +436,7 @@ describe('full recall', () => {
     await fr();
     expect(screen.getByTestId('memory-type-input').props.multiline).toBe(true);
     fireEvent.press(screen.getByTestId('memory-hint'));
-    expect(screen.getByTestId('memory-hint-text')).toHaveTextContent('圣＿＿＿＿＿＿＿＿，于＿＿、＿＿，使＿＿＿、＿＿＿＿＿，都＿＿＿＿。');
+    expect(screen.getByTestId('memory-hint-text')).toHaveTextContent('圣＿＿＿＿＿＿＿＿，于＿＿、＿＿、使＿＿＿、＿＿＿＿＿都＿＿＿＿。');
     fireEvent.press(screen.getByTestId('memory-hint'));
     expect(screen.getByTestId('memory-hint-text')).toHaveTextContent(tim.textZh);
     expect(screen.getByText(/a step only counts when you pass without one/)).toBeTruthy();

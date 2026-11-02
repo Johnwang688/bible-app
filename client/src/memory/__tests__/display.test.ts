@@ -95,7 +95,7 @@ describe('hintMask', () => {
   });
 
   it('recall hint 1: the first character of each phrase', () => {
-    expect(hintMask(tim.textZh, tim.chunks)).toBe('圣＿＿＿＿＿＿＿＿，于＿＿、＿＿，使＿＿＿、＿＿＿＿＿，都＿＿＿＿。');
+    expect(hintMask(tim.textZh, tim.chunks)).toBe('圣＿＿＿＿＿＿＿＿，于＿＿、＿＿、使＿＿＿、＿＿＿＿＿都＿＿＿＿。');
   });
 });
 
