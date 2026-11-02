@@ -41,7 +41,7 @@ it('unread branch picks a book first, so a one-chapter book is as likely as a lo
   expect(pickSurpriseChapter(books, new Set(), null, script(0.1, 0.0, 0.5))).toEqual({ bookNumber: 1, chapter: 26 });
   const rnd = lcg(7);
   let second = 0;
-  for (let i = 0; i < 4000; i++) if (pickSurpriseChapter(books, new Set(), null, rnd).bookNumber === 2) second++;
+  for (let i = 0; i < 4000; i++) if (pickSurpriseChapter(books, new Set(), null, rnd)!.bookNumber === 2) second++;
   // 0.9 × 1/2 + 0.1 × 1/51 ≈ 0.452
   expect(second / 4000).toBeGreaterThan(0.42);
   expect(second / 4000).toBeLessThan(0.49);
@@ -96,7 +96,7 @@ it('weighting: with one chapter unread it is chosen about 90% of the time', () =
   const rnd = lcg(42);
   let hits = 0;
   for (let i = 0; i < 4000; i++) {
-    const p = pickSurpriseChapter(BIBLE, read, null, rnd);
+    const p = pickSurpriseChapter(BIBLE, read, null, rnd)!;
     expect(p.chapter).toBeGreaterThanOrEqual(1);
     expect(p.chapter).toBeLessThanOrEqual(CHAPTER_COUNTS[p.bookNumber - 1]!);
     if (p.bookNumber === 31 && p.chapter === 1) hits++;
