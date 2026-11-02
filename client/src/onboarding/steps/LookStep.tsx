@@ -1,9 +1,11 @@
 // Step 2: pick your look (r7a-look.html, with GO-AHEAD Major 2). A title and a line, two style cards (pastel,
 // then glass), and what light and dark do. The middle scrolls; the header above and the footer below stay
 // put, so Continue never falls off at large text or in Chinese. Picking a look re-themes the screen live.
+import { useEffect } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 
 import { uiFace } from '../../fonts/fonts';
+import { ensureLookFonts } from '../../fonts/lookFonts';
 import { useI18n } from '../../i18n/I18nProvider';
 import { PRESETS, getTheme } from '../../theme/presets';
 import { useAppearance, useTheme } from '../../theme/ThemeProvider';
@@ -30,6 +32,12 @@ export function LookStep({ announce, onNext, onSkip, onBack, chooseLook }: StepP
   const current = PRESETS.find((p) => p.id === presetId)!;
   const pair = current.pair ? PRESETS.find((p) => p.id === current.pair)! : null;
   const followsPhone = choice.mode === 'system';
+  // Each style card previews its look's heading font: load those looks' fonts as the picker appears.
+  const cardIds = STYLES.map((style) => (current.style === style ? presetId : STYLE_DEFAULT[style][theme.mode]));
+  const cardKey = cardIds.join('|');
+  useEffect(() => {
+    for (const id of cardKey.split('|') as PresetId[]) ensureLookFonts(getTheme(id)).catch(() => undefined);
+  }, [cardKey]);
   const small = { color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 13, lineHeight: 18 } as const;
 
   return (
