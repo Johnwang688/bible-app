@@ -36,65 +36,68 @@ export interface Program {
   uniforms: Record<string, WebGLUniformLocation | null>;
 }
 
-/** Compiles a fragment shader body (after HEAD) against the shared vertex shader. Throws on failure. */
+/**
+ * Compiles a fragment shader body (after HEAD) against the shared vertex shader. Throws on failure
+ * (including a `null` from `createShader`/`createProgram` on a lost context), and then every shader
+ * and the program it created are deleted: nothing it made outlives a failure.
+ */
 export function createProgram(gl: WebGL2RenderingContext, fsBody: string): Program {
+  const shaders: WebGLShader[] = [];
+  let program: WebGLProgram | null = null;
   const shader = (type: number, src: string) => {
     const s = gl.createShader(type);
     if (!s) throw new Error('createShader failed');
+    shaders.push(s);
     gl.shaderSource(s, src);
     gl.compileShader(s);
     if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
-      const log = gl.getShaderInfoLog(s);
-      gl.deleteShader(s);
-      throw new Error(`Aurora shader: ${log ?? 'compile failed'}`);
+      throw new Error(`Aurora shader: ${gl.getShaderInfoLog(s) || 'compile failed'}`);
     }
     return s;
   };
-  const vs = shader(gl.VERTEX_SHADER, VS);
-  let fs: WebGLShader;
   try {
-    fs = shader(gl.FRAGMENT_SHADER, HEAD + fsBody);
+    const vs = shader(gl.VERTEX_SHADER, VS);
+    const fs = shader(gl.FRAGMENT_SHADER, HEAD + fsBody);
+    program = gl.createProgram();
+    if (!program) throw new Error('createProgram failed');
+    gl.attachShader(program, vs);
+    gl.attachShader(program, fs);
+    gl.bindAttribLocation(program, 0, 'aPos');
+    gl.linkProgram(program);
+    // The program keeps the compiled code; the shaders can go (deleted below, on every path).
+    gl.detachShader(program, vs);
+    gl.detachShader(program, fs);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      throw new Error(`Aurora program: ${gl.getProgramInfoLog(program) || 'link failed'}`);
+    }
+    const uniforms: Record<string, WebGLUniformLocation | null> = {};
+    const n = (gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS) as number | null) ?? 0;
+    for (let i = 0; i < n; i++) {
+      const info = gl.getActiveUniform(program, i);
+      if (info) uniforms[info.name] = gl.getUniformLocation(program, info.name);
+    }
+    return { program, uniforms };
   } catch (e) {
-    gl.deleteShader(vs); // the vertex shader compiled; release it with the failed fragment shader
+    if (program) gl.deleteProgram(program);
     throw e;
+  } finally {
+    for (const s of shaders) gl.deleteShader(s);
   }
-  const program = gl.createProgram();
-  if (!program) {
-    gl.deleteShader(vs);
-    gl.deleteShader(fs);
-    throw new Error('createProgram failed');
-  }
-  gl.attachShader(program, vs);
-  gl.attachShader(program, fs);
-  gl.bindAttribLocation(program, 0, 'aPos');
-  gl.linkProgram(program);
-  // The program keeps the compiled code; the shaders can go.
-  gl.detachShader(program, vs);
-  gl.detachShader(program, fs);
-  gl.deleteShader(vs);
-  gl.deleteShader(fs);
-  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-    const log = gl.getProgramInfoLog(program);
-    gl.deleteProgram(program);
-    throw new Error(`Aurora program: ${log ?? 'link failed'}`);
-  }
-  const uniforms: Record<string, WebGLUniformLocation | null> = {};
-  const n = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS) as number;
-  for (let i = 0; i < n; i++) {
-    const info = gl.getActiveUniform(program, i);
-    if (info) uniforms[info.name] = gl.getUniformLocation(program, info.name);
-  }
-  return { program, uniforms };
 }
 
-/** The full-screen quad, bound to attribute 0. */
+/** The full-screen quad, bound to attribute 0. Throws on failure, with the buffer deleted. */
 export function createQuad(gl: WebGL2RenderingContext): WebGLBuffer {
   const buf = gl.createBuffer();
   if (!buf) throw new Error('createBuffer failed');
-  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(0);
-  gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+  try {
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0);
+    gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+  } catch (e) {
+    gl.deleteBuffer(buf);
+    throw e;
+  }
   return buf;
 }
 
@@ -144,6 +147,6 @@ export interface StyleImpl {
   /** False if the style cannot run at the new size (its buffers could not be rebuilt). */
   resize(w: number, h: number): boolean;
   pointer(kind: 'down' | 'move' | 'up', id: number, x: number, y: number): void;
-  /** Deletes this style's GL objects (the context stays). */
+  /** Deletes this style's GL objects (the context stays). Safe to call more than once. */
   release(): void;
 }

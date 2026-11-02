@@ -26,19 +26,26 @@ export const FLOW_FS =
   ' w1*=0.55+0.6*vUv.y;w2*=0.55+0.6*vUv.x;w3*=1.15-0.6*vUv.y;\n' +
   ' o=vec4(palette(clamp(vec3(w1,w2,w3)*0.95,0.0,1.0)),1.0);}';
 
+/** The flow style. Throws if it cannot be built, with every object it made deleted. */
 export function createFlow(gl: WebGL2RenderingContext, palette: AuroraPalette, w: number, h: number): StyleImpl {
   const pr = createProgram(gl, FLOW_FS);
   const pal = paletteUniforms();
   let width = w;
   let height = h;
   let time = 0;
+  let released = false;
 
   const setPalette = (p: AuroraPalette) => {
     fillPalette(pal, p);
     gl.useProgram(pr.program);
     applyPalette(gl, pr, pal);
   };
-  setPalette(palette);
+  try {
+    setPalette(palette);
+  } catch (e) {
+    gl.deleteProgram(pr.program);
+    throw e;
+  }
 
   return {
     style: 'flow',
@@ -62,6 +69,8 @@ export function createFlow(gl: WebGL2RenderingContext, palette: AuroraPalette, w
     },
     pointer() {},
     release() {
+      if (released) return;
+      released = true;
       gl.deleteProgram(pr.program);
     },
   };

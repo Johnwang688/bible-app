@@ -11,7 +11,10 @@ import { CONTEXT_ATTRIBUTES, createQuad, type StyleImpl } from './gl.web';
 export type PointerKind = 'down' | 'move' | 'up';
 
 export interface WebAuroraRenderer extends AuroraRenderer {
-  /** The style actually running (fluid falls back to flow), or null if neither could start. */
+  /**
+   * The style actually running (fluid falls back to flow), or null when nothing runs: neither style
+   * could be built, or the context was lost (until `restore()` rebuilds).
+   */
   readonly style: AuroraStyle | null;
   setStyle(style: AuroraStyle): void;
   setPalette(palette: AuroraPalette): void;
@@ -22,11 +25,28 @@ export interface WebAuroraRenderer extends AuroraRenderer {
   resize(w: number, h: number): void;
   /** Stirring (fluid only). `x`, `y` are 0..1 over the canvas, `y` up. */
   pointer(kind: PointerKind, id: number, x: number, y: number): void;
-  /** Rebuilds every GL object after `webglcontextrestored`. False if it could not. */
+  /** True if it drew (never on a lost context, or with nothing built). */
+  draw(): boolean;
+  /** The context was lost (`webglcontextlost`): every GL object died with it; touch none until `restore()`. */
+  contextLost(): void;
+  /**
+   * Rebuilds every GL object (after `webglcontextrestored`), whatever state creation or an earlier
+   * failure left it in. False if it could not (the context was lost again, or nothing could be built).
+   */
   restore(): boolean;
   dispose(): void;
 }
 
+/**
+ * The renderer for `canvas`, or null only when it has no WebGL2 context at all (→ the static CSS
+ * paint). Never throws. If the context exists but nothing could be built (it was lost during
+ * creation, or neither style compiles), the renderer still comes back, with `style === null`, so a
+ * `webglcontextrestored` can `restore()` it and `dispose()` can release the context.
+ *
+ * GL object ownership: every object is held by `quad` or `impl`, or was deleted by the code that made
+ * it when it failed. `stale` marks the objects held as dead with a lost context: they are never used
+ * or deleted again (the restored context does not know them), only dropped.
+ */
 export function createAuroraRenderer(
   canvas: HTMLCanvasElement,
   style: AuroraStyle,
@@ -38,73 +58,103 @@ export function createAuroraRenderer(
   } catch {
     gl = null;
   }
-  if (!gl || gl.isContextLost()) return null;
+  if (!gl) return null;
   const ctx = gl;
 
   let wanted = style;
   let colours = palette;
   let quad: WebGLBuffer | null = null;
   let impl: StyleImpl | null = null;
+  /** The context was lost since the objects above were built: they are gone; only `restore()` builds. */
+  let stale = false;
   let disposed = false;
 
-  const build = (): StyleImpl | null => {
+  /** Whether the context is lost (now or since the last build); notes it. */
+  const isLost = (): boolean => {
+    if (!stale && ctx.isContextLost()) stale = true;
+    return stale;
+  };
+
+  const create = (s: AuroraStyle, w: number, h: number): StyleImpl | null => {
+    try {
+      return s === 'fluid' ? createFluid(ctx, colours, w, h) : createFlow(ctx, colours, w, h);
+    } catch {
+      return null; // createFlow deleted what it made
+    }
+  };
+
+  /** Deletes the live objects (only on a context that still has them). */
+  const releaseAll = () => {
+    impl?.release();
+    impl = null;
+    if (quad) ctx.deleteBuffer(quad);
+    quad = null;
+  };
+
+  /**
+   * Builds the quad (if missing) and the wanted style at the canvas size, fluid falling back to flow.
+   * If no style can run, the quad goes too, so a failure leaves nothing behind.
+   */
+  const build = () => {
     const w = Math.max(1, canvas.width);
     const h = Math.max(1, canvas.height);
-    try {
-      if (wanted === 'fluid') {
-        const fluid = createFluid(ctx, colours, w, h);
-        if (fluid) return fluid;
+    if (!quad) {
+      try {
+        quad = createQuad(ctx);
+      } catch {
+        quad = null; // createQuad deleted its buffer
       }
-      return createFlow(ctx, colours, w, h);
-    } catch {
-      return null;
     }
-  };
-
-  const buildAll = (): boolean => {
-    try {
-      quad = createQuad(ctx);
-    } catch {
+    if (quad) {
+      impl = wanted === 'fluid' ? create('fluid', w, h) : null;
+      // A fluid failure from a lost context is not a reason to fall back: the restore builds fluid.
+      if (!impl && !isLost()) impl = create('flow', w, h);
+    }
+    if (!impl) {
+      if (quad) ctx.deleteBuffer(quad);
       quad = null;
-      return false;
     }
-    impl = build();
-    return impl !== null;
+    isLost(); // lost while building: what was built is gone with the context
   };
 
-  if (!buildAll()) {
-    if (quad) ctx.deleteBuffer(quad);
-    return null;
-  }
+  const live = () => !disposed && impl !== null && !isLost();
 
-  const live = () => !disposed && impl !== null && !ctx.isContextLost();
+  try {
+    if (!isLost()) build();
+  } catch {
+    // Not expected (every step above catches); never let creation throw.
+    if (!isLost()) releaseAll();
+  }
 
   return {
     get style() {
-      return impl?.style ?? null;
+      return disposed || stale || !impl ? null : impl.style;
     },
     setStyle(s) {
       if (disposed || s === wanted) return;
       wanted = s;
-      if (ctx.isContextLost()) return; // the restore builds the wanted style
+      if (isLost()) return; // the restore builds the wanted style
       impl?.release();
-      impl = build();
+      impl = null;
+      build();
     },
     setPalette(p) {
       colours = p;
       if (live()) impl!.setPalette(p);
     },
     resize(w, h) {
-      if (!live() || impl!.resize(w, h)) return;
+      if (!live()) return;
+      const ok = impl!.resize(w, h);
+      // Lost while rebuilding the buffers: they are gone with the context; the restore builds anew.
+      if (isLost() || ok) return;
       // The fluid buffers could not be rebuilt at this size: fall back to flow, as at creation.
       impl!.release();
-      impl = null;
-      if (ctx.isContextLost()) return; // the restore builds the wanted style again
-      try {
-        impl = createFlow(ctx, colours, Math.max(1, w), Math.max(1, h));
-      } catch {
-        impl = null;
+      impl = create('flow', Math.max(1, w), Math.max(1, h));
+      if (!impl) {
+        if (quad) ctx.deleteBuffer(quad);
+        quad = null;
       }
+      isLost();
     },
     pointer(kind, id, x, y) {
       if (live()) impl!.pointer(kind, id, x, y);
@@ -113,25 +163,37 @@ export function createAuroraRenderer(
       if (live()) impl!.step(dt);
     },
     draw() {
-      if (live()) impl!.draw();
+      if (!live()) return false;
+      impl!.draw();
+      return true;
+    },
+    contextLost() {
+      if (!disposed) stale = true;
     },
     restore() {
       if (disposed || ctx.isContextLost()) return false;
-      // Every object from before the loss is gone with it; build afresh.
-      impl = null;
-      quad = null;
-      return buildAll();
+      // Objects from before a loss died with it (drop them); live ones (no loss seen) are deleted.
+      if (stale) {
+        impl = null;
+        quad = null;
+        stale = false;
+      } else {
+        releaseAll();
+      }
+      build();
+      return impl !== null && !stale;
     },
     dispose() {
       if (disposed) return;
       disposed = true;
-      if (!ctx.isContextLost()) {
-        impl?.release();
-        if (quad) ctx.deleteBuffer(quad);
-      }
+      if (!isLost()) releaseAll();
       impl = null;
       quad = null;
-      ctx.getExtension('WEBGL_lose_context')?.loseContext();
+      try {
+        ctx.getExtension('WEBGL_lose_context')?.loseContext();
+      } catch {
+        // the context goes with the canvas anyway
+      }
     },
   };
 }

@@ -136,27 +136,23 @@ export function isSoftwareRenderer(gl: WebGL2RenderingContext): boolean {
  */
 export function supportsFluid(gl: WebGL2RenderingContext): boolean {
   if (isSoftwareRenderer(gl)) return false;
-  return gl.getExtension('EXT_color_buffer_float') !== null || gl.getExtension('EXT_color_buffer_half_float') !== null;
+  try {
+    return gl.getExtension('EXT_color_buffer_float') !== null || gl.getExtension('EXT_color_buffer_half_float') !== null;
+  } catch {
+    return false;
+  }
 }
 
 /**
  * The fluid style, or null when this GPU cannot run it (a software renderer, no half-float targets,
- * incomplete framebuffers).
+ * incomplete framebuffers, a lost context). Never throws; when it returns null, every object it made
+ * has been deleted.
  */
 export function createFluid(gl: WebGL2RenderingContext, palette: AuroraPalette, w: number, h: number): StyleImpl | null {
   if (!supportsFluid(gl)) return null;
 
   const P = {} as Record<ProgramName, Program>;
   const programs: WebGLProgram[] = [];
-  try {
-    for (const name of Object.keys(SHADERS) as ProgramName[]) {
-      P[name] = createProgram(gl, SHADERS[name]);
-      programs.push(P[name].program);
-    }
-  } catch {
-    for (const p of programs) gl.deleteProgram(p);
-    return null;
-  }
 
   const pal = paletteUniforms();
   const scratch = new Float32Array(3);
@@ -175,10 +171,22 @@ export function createFluid(gl: WebGL2RenderingContext, palette: AuroraPalette, 
   let div: Target;
   let curl: Target;
 
+  /**
+   * One render target, tracked in `targets` (and so released with them) as soon as both of its
+   * objects exist. If only one of them could be made (a lost context), that one is deleted here.
+   */
   const target = (tw: number, th: number): Target | null => {
     const tex = gl.createTexture();
-    const fb = gl.createFramebuffer();
-    if (!tex || !fb) return null;
+    if (!tex) return null;
+    let fb: WebGLFramebuffer | null = null;
+    try {
+      fb = gl.createFramebuffer();
+    } finally {
+      if (!fb) gl.deleteTexture(tex); // on a null or a throw: the texture is not left behind
+    }
+    if (!fb) return null;
+    const t0: Target = { tex, fb, w: tw, h: th };
+    targets.push(t0);
     gl.bindTexture(gl.TEXTURE_2D, tex);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
@@ -187,8 +195,6 @@ export function createFluid(gl: WebGL2RenderingContext, palette: AuroraPalette, 
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA16F, tw, th, 0, gl.RGBA, gl.HALF_FLOAT, null);
     gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
     gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
-    const t0: Target = { tex, fb, w: tw, h: th };
-    targets.push(t0);
     if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) !== gl.FRAMEBUFFER_COMPLETE) return null;
     gl.viewport(0, 0, tw, th);
     gl.clearColor(0, 0, 0, 1);
@@ -265,50 +271,69 @@ export function createFluid(gl: WebGL2RenderingContext, palette: AuroraPalette, 
     swap(d);
   };
 
-  /** (Re)creates the buffers for the canvas size and seeds the dye. False if the GPU cannot. */
+  /**
+   * (Re)creates the buffers for the canvas size and seeds the dye. False if the GPU cannot (an
+   * incomplete framebuffer, a lost context), with every buffer released: nothing half-built stays.
+   */
   const init = (): boolean => {
     releaseTargets();
-    const aspect = width / height;
-    const s = size(SIM_RES, aspect);
-    const d = size(DYE_RES, aspect);
-    const v = double(s.w, s.h);
-    const dd = double(d.w, d.h);
-    const p = double(s.w, s.h);
-    const dv = target(s.w, s.h);
-    const c = target(s.w, s.h);
-    if (!v || !dd || !p || !dv || !c) {
+    try {
+      const aspect = width / height;
+      const s = size(SIM_RES, aspect);
+      const d = size(DYE_RES, aspect);
+      // Stop at the first failure: the rest would only be made to be deleted.
+      const v = double(s.w, s.h);
+      const dd = v && double(d.w, d.h);
+      const p = dd && double(s.w, s.h);
+      const dv = p && target(s.w, s.h);
+      const c = dv && target(s.w, s.h);
+      if (!v || !dd || !p || !dv || !c) {
+        releaseTargets();
+        return false;
+      }
+      vel = v;
+      dye = dd;
+      press = p;
+      div = dv;
+      curl = c;
+      for (const [x, y, r, g, b] of SEEDS) {
+        scratch[0] = r;
+        scratch[1] = g;
+        scratch[2] = b;
+        splat(dye, x, y, scratch, 0.06);
+      }
+      return true;
+    } catch {
       releaseTargets();
       return false;
     }
-    vel = v;
-    dye = dd;
-    press = p;
-    div = dv;
-    curl = c;
-    for (const [x, y, r, g, b] of SEEDS) {
-      scratch[0] = r;
-      scratch[1] = g;
-      scratch[2] = b;
-      splat(dye, x, y, scratch, 0.06);
-    }
-    return true;
   };
 
   const releasePrograms = () => {
     for (const p of programs) gl.deleteProgram(p);
+    programs.length = 0;
   };
-
-  if (!init()) {
-    releasePrograms();
-    return null;
-  }
 
   const setPalette = (p: AuroraPalette) => {
     fillPalette(pal, p);
     gl.useProgram(P.show.program);
     applyPalette(gl, P.show, pal);
   };
-  setPalette(palette);
+
+  // Build everything; on any failure (a compile error, a lost context, an incomplete framebuffer)
+  // delete whatever was made and report that fluid cannot run.
+  try {
+    for (const name of Object.keys(SHADERS) as ProgramName[]) {
+      P[name] = createProgram(gl, SHADERS[name]);
+      programs.push(P[name].program);
+    }
+    if (!init()) throw new Error('fluid buffers');
+    setPalette(palette);
+  } catch {
+    releaseTargets();
+    releasePrograms();
+    return null;
+  }
 
   let ready = true;
 
@@ -436,6 +461,7 @@ export function createFluid(gl: WebGL2RenderingContext, palette: AuroraPalette, 
       }
     },
     release() {
+      ready = false;
       releaseTargets();
       releasePrograms();
     },
