@@ -8,10 +8,9 @@ import * as speech from '../speech/keyer';
 import type { StageSlug } from '../types';
 import { LessonScreen } from '../ui/trainer/LessonScreen';
 import { resetVoiceSessionForTesting } from '../voice/availability';
-import type { CheckVoice, Recorder, RecorderStartOptions, VoiceOutcome } from '../voice/types';
+import type { CheckVoice, Recorder, RecorderStartOptions } from '../voice/types';
 import { NOW, renderMemory, SIGNED_IN } from './memoryHarness';
 
-type VoiceStage = 'fill-blank' | 'full-recall';
 const stages = ['fill-blank', 'full-recall'] as const;
 
 function deferred<T>() {
