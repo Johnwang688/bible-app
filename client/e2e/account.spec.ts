@@ -17,8 +17,8 @@ async function expectTargets(page: Page, ids: string[], width = 375) {
   for (const id of ids) {
     const box = await page.getByTestId(id).boundingBox();
     expect(box, id).not.toBeNull();
-    expect(box!.height, `${id} height`).toBeGreaterThanOrEqual(44);
-    expect(box!.width, `${id} width`).toBeGreaterThanOrEqual(44);
+    expect(box!.height, `${id} height`).toBeGreaterThanOrEqual(43.9); // 44 pt; sub-pixel rounding at deviceScaleFactor 1.5
+    expect(box!.width, `${id} width`).toBeGreaterThanOrEqual(43.9);
     expect(box!.x, `${id} left`).toBeGreaterThanOrEqual(0);
     expect(box!.x + box!.width, `${id} right`).toBeLessThanOrEqual(width + 0.5);
   }
