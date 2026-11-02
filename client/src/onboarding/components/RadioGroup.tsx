@@ -1,12 +1,13 @@
-// A radio group's container. `accessible` is set because the test library only finds an element by role when
-// it is an accessibility element; the radios inside are Pressables and stay reachable on Android and the web.
-// (On iOS a container marked accessible can hide its children from VoiceOver: see the report.)
+// A radio group's container. It keeps `role="radiogroup"` and its label. On iOS it must not be `accessible`: a
+// container that is an accessibility element makes VoiceOver treat the group as one item and it cannot reach the
+// radio Pressables inside. On Android and the web it is `accessible`, so the group is announced and found by its
+// role (e2e/firstRun.spec.ts looks it up with getByRole('radiogroup')); the radios stay reachable there.
 import type { ReactNode } from 'react';
-import { View, type StyleProp, type ViewStyle } from 'react-native';
+import { Platform, View, type StyleProp, type ViewStyle } from 'react-native';
 
 export function RadioGroup({ label, style, children }: { label: string; style?: StyleProp<ViewStyle>; children: ReactNode }) {
   return (
-    <View accessible role="radiogroup" aria-label={label} style={style}>
+    <View accessible={Platform.OS !== 'ios'} role="radiogroup" aria-label={label} style={style}>
       {children}
     </View>
   );

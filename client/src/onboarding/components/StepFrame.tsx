@@ -8,6 +8,7 @@ import { AuroraBackground } from '../../aurora';
 import type { MessageKey } from '../../i18n/messages/en';
 import { useT } from '../../i18n/I18nProvider';
 import { useTheme } from '../../theme/ThemeProvider';
+import type { PressHandler } from '../steps/types';
 import { PrimaryButton } from './PrimaryButton';
 import { StepDots } from './StepDots';
 import { StepHeader } from './StepHeader';
@@ -24,9 +25,9 @@ export function StepFrame({
   testID: string;
   step: number;
   ctaKey: Extract<MessageKey, 'onboarding.getStarted' | 'onboarding.continue' | 'onboarding.startReading'>;
-  onCta(): void;
-  onSkip(): void;
-  onBack?: () => void;
+  onCta: PressHandler;
+  onSkip: PressHandler;
+  onBack?: PressHandler;
   children: ReactNode;
 }) {
   const theme = useTheme();

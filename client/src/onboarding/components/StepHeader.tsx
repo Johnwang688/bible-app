@@ -8,6 +8,7 @@ import { useT } from '../../i18n/I18nProvider';
 import { Icon } from '../../reader/components/icons';
 import { useTheme } from '../../theme/ThemeProvider';
 import type { MessageKey } from '../../i18n/messages/en';
+import type { PressHandler } from '../steps/types';
 
 export function StepHeader({
   skipKey,
@@ -15,9 +16,9 @@ export function StepHeader({
   onBack,
 }: {
   skipKey: Extract<MessageKey, 'onboarding.skip' | 'onboarding.skipForNow'>;
-  onSkip(): void;
+  onSkip: PressHandler;
   /** Undefined on step 1, which has no Back. */
-  onBack?: () => void;
+  onBack?: PressHandler;
 }) {
   const theme = useTheme();
   const t = useT();

@@ -5,8 +5,9 @@ import { Pressable, Text } from 'react-native';
 
 import { uiFace } from '../../fonts/fonts';
 import { useTheme } from '../../theme/ThemeProvider';
+import type { PressHandler } from '../steps/types';
 
-export function PrimaryButton({ label, onPress }: { label: string; onPress(): void }) {
+export function PrimaryButton({ label, onPress }: { label: string; onPress: PressHandler }) {
   const theme = useTheme();
   const { colors, borders } = theme;
   return (
