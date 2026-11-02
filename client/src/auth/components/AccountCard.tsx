@@ -1,4 +1,6 @@
 // The account card (R-6b): "Sign in to sync" when signed out, the account and its sync state when signed in.
+// Signed out with an Under 13 offer (FOLLOW-UP item 2: the account was signed out because Under 13 was picked),
+// it also offers to delete that account and its synced data, or "Not now".
 // R-6a mounts it on the Me tab. Everything it shows comes from `useAccount()`; it keeps only which sheet is
 // open and the "account deleted" banner.
 //
@@ -192,6 +194,17 @@ export function AccountCard() {
               </View>
             </View>
             {allowed ? <ActionButton testID="account-sign-in" label={t('account.signIn')} onPress={() => setSheet('signIn')} /> : null}
+            {account.under13Offer ? (
+              <View testID="account-u13-offer" style={styles.offer}>
+                <View accessible={false} style={[styles.rule, { borderTopColor: pastel ? ink : theme.colors.muted, opacity: pastel ? 1 : 0.35 }]} />
+                <Text accessibilityRole="header" style={{ color: ink, fontFamily: bold, fontSize: 15, lineHeight: 21 }}>
+                  {t('account.under13Offer.title')}
+                </Text>
+                <Text style={{ color: soft, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 13, lineHeight: 18 }}>{t('account.under13Offer.body')}</Text>
+                <ActionButton testID="account-u13-delete" label={t('account.delete')} onPress={() => setSheet('offerDelete')} />
+                <ActionButton testID="account-u13-not-now" variant="secondary" label={t('account.under13Offer.notNow')} onPress={account.dismissUnder13Offer} />
+              </View>
+            ) : null}
           </>
         ) : (
           // Auth has not reported yet: the card's shape without words, so nothing jumps when it does.
@@ -225,5 +238,6 @@ const styles = StyleSheet.create({
   syncGlyph: { marginTop: 2 },
   buttons: { flexDirection: 'row', gap: 10 },
   rule: { borderTopWidth: 1, marginTop: 4 },
+  offer: { gap: 10 },
   banner: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 8, paddingLeft: 14, paddingRight: 4, minHeight: 56 },
 });

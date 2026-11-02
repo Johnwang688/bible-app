@@ -23,6 +23,15 @@
 // gate) is signed out through the normal path once in-flight sign-outs and deletes have settled: the
 // engine stops on the chain first, then auth signs out. Opening the gate again does nothing by itself.
 //
+// The Under 13 offer (FOLLOW-UP item 2, John 2026-11-02): when the gate signs out a signed-in account that has
+// an email, the provider records an offer to delete it (under13Offer.ts; it survives a restart). An ordinary
+// sign-out, a delete, or Under 13 picked while signed out records nothing; any sign-in or sign-up drops it.
+// `deleteOfferedAccount` runs while sign-in is off, so it signs in again itself (the delete endpoint needs a
+// recent sign-in) straight through the auth backend, bypassing the gate check. It runs as a hold, like
+// `deleteAccount`: no engine starts during it whatever the gate or the auth callbacks say, enforceGate waits for
+// it instead of signing out underneath it, and the view keeps showing "signed out" while the re-auth is signed
+// in (the flow's own step, not a sign-in the person made). It always ends signed out.
+//
 // The injected dependencies are read once, when the provider mounts; the defaults (Firebase, device
 // storage, the Firestore remote, the account API) are created on first use, never at import.
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
@@ -38,6 +47,7 @@ import { createAccountApi } from './accountApi';
 import { firebaseAuthCode } from './firebaseErrors';
 import { SIGN_IN_OFF, type SignInGate } from './signInGate';
 import { AuthError, type AccountState, type AccountStatus, type AuthBackend, type AuthUser, type SignInMethod } from './types';
+import { clearUnder13Offer, readUnder13Offer, recordUnder13Offer, type Under13Offer } from './under13Offer';
 
 export interface AccountProviderProps {
   children?: ReactNode;
@@ -121,6 +131,7 @@ interface View {
   status: AccountStatus;
   user: AuthUser | null;
   signInAllowed: boolean;
+  under13Offer: AccountState['under13Offer'];
 }
 
 interface Listeners {
@@ -128,7 +139,10 @@ interface Listeners {
   onSync(sync: SyncStatus | null): void;
 }
 
-type Actions = Pick<AccountState, 'signIn' | 'signUp' | 'signOut' | 'sendPasswordReset' | 'syncNow' | 'deleteAccount'>;
+type Actions = Pick<
+  AccountState,
+  'signIn' | 'signUp' | 'signOut' | 'sendPasswordReset' | 'syncNow' | 'deleteAccount' | 'deleteOfferedAccount' | 'dismissUnder13Offer'
+>;
 
 interface Controller {
   /** Starts listening (auth, AppState, `online`). Returns the detach, which also stops sync. */
@@ -221,7 +235,10 @@ function createController(deps: Deps): Controller {
   let holds = 0;
   /** An account deleted on this device whose local sign-out failed: never sync it until it signs in afresh. */
   let blockedUid: string | null = null;
+  /** A delete (`deleteAccount` or `deleteOfferedAccount`) is running: a second one rejects. */
   let deleting = false;
+  /** `deleteOfferedAccount` is running: its re-auth's user is not shown, and enforceGate leaves it alone. */
+  let offerRun = false;
   /**
    * An account whose delete may have reached the server (see the header): sync stays off for it until
    * a probe settles it. `hadData`: whether the remote held anything before the request (null: unknown).
@@ -243,8 +260,36 @@ function createController(deps: Deps): Controller {
 
   const gateAllowed = () => isAllowed(deps.gate);
 
-  const emitView = () =>
-    listeners?.onView({ status: known ? (user ? 'signedIn' : 'signedOut') : 'loading', user, signInAllowed: gateAllowed() });
+  /** The stored Under 13 offer, or null (also when the device store cannot be read). */
+  function offerNow(): Under13Offer | null {
+    try {
+      return readUnder13Offer(deps.storage());
+    } catch (e) {
+      console.warn('[account] the device store is unavailable; no Under 13 offer', e);
+      return null;
+    }
+  }
+
+  /** Drops the Under 13 offer. A failure is logged, never thrown: it must not fail a sign-in or a finished delete. */
+  function dropOffer(): void {
+    try {
+      if (offerNow()) clearUnder13Offer(deps.storage());
+    } catch (e) {
+      console.warn('[account] dropping the Under 13 offer failed', e);
+    }
+  }
+
+  const emitView = () => {
+    // While the offered delete runs, its re-auth is signed in only for the delete: the person stays signed out.
+    const shown = offerRun ? null : user;
+    const offer = offerNow();
+    listeners?.onView({
+      status: known ? (shown ? 'signedIn' : 'signedOut') : 'loading',
+      user: shown,
+      signInAllowed: gateAllowed(),
+      under13Offer: offer ? { email: offer.email } : null,
+    });
+  };
   const emitSync = (sync: SyncStatus | null) => listeners?.onSync(sync);
 
   /** The user sync should run for right now, or null. */
@@ -332,7 +377,13 @@ function createController(deps: Deps): Controller {
         try {
           while (busy.size > 0) await Promise.all(busy);
           await chain;
-          if (listeners && user && !gateAllowed()) await holding(() => signOut());
+          // An offered delete signs its own re-auth out (busy holds this pass back, but the delete may have
+          // started after the wait above).
+          if (listeners && user && !gateAllowed() && !offerRun) {
+            const who = user;
+            await holding(() => signOut());
+            if (user === null) offerDelete(who);
+          }
         } catch (e) {
           console.warn('[account] signing out after sign-in was turned off failed', e);
         }
@@ -341,6 +392,20 @@ function createController(deps: Deps): Controller {
       gateCheck = null;
     });
     return gateCheck;
+  }
+
+  /**
+   * The gate signed `who` out: offer to delete the account (if it has an email to re-auth with, and is not an
+   * account already deleted on this device). Never throws.
+   */
+  function offerDelete(who: AuthUser): void {
+    if (!who.email || who.uid === blockedUid) return;
+    try {
+      recordUnder13Offer(deps.storage(), { uid: who.uid, email: who.email });
+    } catch (e) {
+      console.warn('[account] recording the Under 13 offer failed', e);
+    }
+    emitView();
   }
 
   /** The gate changed: show it, bring the engine in line on the chain, and sign out if it closed. */
@@ -354,6 +419,11 @@ function createController(deps: Deps): Controller {
   /** Throws 'not-allowed' (before anything reaches the auth backend) while the gate is closed. */
   function requireAllowed(): void {
     if (!gateAllowed()) throw new AuthError('not-allowed', 'sign-in is off on this device');
+  }
+
+  /** Throws while the offered delete runs: a sign-in now would switch the account under its re-auth. */
+  function requireNoOfferRun(): void {
+    if (offerRun) throw new AuthError('unknown', 'a delete is in progress');
   }
 
   /** After a sign-in or sign-up resolved: if the gate closed meanwhile, sign the user out again and reject. */
@@ -398,6 +468,7 @@ function createController(deps: Deps): Controller {
   const actions: Actions = {
     async signIn(method: SignInMethod) {
       requireAllowed();
+      requireNoOfferRun();
       const auth = requireAuth();
       try {
         await auth.signIn(method);
@@ -406,12 +477,14 @@ function createController(deps: Deps): Controller {
       }
       blockedUid = null;
       unconfirmed = null;
+      dropOffer(); // a sign-in, to any account, ends the Under 13 offer
       setUser(auth.currentUser());
       await afterSignIn();
     },
 
     async signUp(email: string, password: string) {
       requireAllowed();
+      requireNoOfferRun();
       const auth = requireAuth();
       try {
         await auth.signUp(email, password);
@@ -420,6 +493,7 @@ function createController(deps: Deps): Controller {
       }
       blockedUid = null;
       unconfirmed = null;
+      dropOffer(); // a sign-in, to any account, ends the Under 13 offer
       setUser(auth.currentUser());
       await afterSignIn();
     },
@@ -443,6 +517,17 @@ function createController(deps: Deps): Controller {
 
     deleteAccount(password: string) {
       return holding(() => deleteAccount(password));
+    },
+
+    deleteOfferedAccount(password: string) {
+      return holding(() => deleteOfferedAccount(password));
+    },
+
+    dismissUnder13Offer() {
+      // During a running delete the delete decides what happens to the offer.
+      if (offerRun) return;
+      dropOffer();
+      emitView();
     },
   };
 
@@ -600,6 +685,70 @@ function createController(deps: Deps): Controller {
     }
   }
 
+  /**
+   * The Under 13 offer's delete (see the header and types.ts). Order: re-auth (a sign-in with the offered email,
+   * no engine: the hold and the closed gate keep `target()` null), check it is the offered account, a fresh ID
+   * token (its subject checked), the delete request, then forget the sync history and sign out (finishDeleted),
+   * then drop the offer. Any failure deletes nothing locally, keeps the offer and ends signed out.
+   */
+  async function deleteOfferedAccount(password: string): Promise<void> {
+    const offer = offerNow();
+    if (!offer) throw new AuthError('not-allowed', 'there is no Under 13 offer on this device');
+    if (deleting) throw new AuthError('unknown', 'a delete is already in progress');
+    const auth = requireAuth();
+    const before = auth.currentUser();
+    // The panel shows only while signed out; never sign someone else out (or in over them) to delete this one.
+    if (before && before.uid !== offer.uid) throw new AuthError('unknown', 'another account is signed in');
+    deleting = true;
+    offerRun = true;
+    holds++;
+    let failure: AuthError | null = null;
+    let deleted = false;
+    try {
+      try {
+        await enqueue(reconcile); // whatever ran stops; the hold keeps every engine off until the end
+        try {
+          // Straight to the backend: sign-in is off (the gate), and this sign-in exists only to delete.
+          await auth.signIn({ kind: 'password', email: offer.email, password });
+        } catch (e) {
+          throw asAuthError(e);
+        }
+        // The email may now sign in to another account: never delete that one.
+        requireStillSignedIn(auth, offer.uid);
+        const token = await auth.getIdToken(true);
+        if (!token) throw new AuthError('unknown', 'no ID token');
+        requireStillSignedIn(auth, offer.uid);
+        const sub = tokenSubject(token);
+        if (sub !== null && sub !== offer.uid) throw new AuthError('unknown', 'the ID token is for another account');
+        // A network failure from here on is ambiguous: the server may have deleted the account. The offer is
+        // kept either way (no sync runs for it while it is signed out): a retry's re-auth then fails if the
+        // delete went through, and "Not now" drops the offer. Nothing local is deleted.
+        await deps.deleteRequest(token);
+        deleted = true;
+      } catch (e) {
+        failure = asAuthError(e);
+      }
+      if (deleted) {
+        await finishDeleted(auth, offer.uid); // forgets the sync history, then signs out
+        dropOffer();
+      } else if (auth.currentUser()) {
+        try {
+          await auth.signOut();
+        } catch (e) {
+          // Still signed in: setUser below asks enforceGate to sign out once this hold has settled; no engine
+          // starts meanwhile while the gate is closed.
+          console.warn('[account] signing out after a failed Under 13 delete failed', e);
+        }
+      }
+    } finally {
+      holds--;
+      offerRun = false;
+      deleting = false;
+      setUser(auth.currentUser()); // shows the real state again; kicks; asks enforceGate if still signed in
+    }
+    if (failure) throw failure;
+  }
+
   function attach(next: Listeners): () => void {
     listeners = next;
     const offs: (() => void)[] = [];
@@ -640,7 +789,12 @@ const AccountContext = createContext<AccountState | null>(null);
 
 export function AccountProvider({ children, ...props }: AccountProviderProps) {
   const [controller] = useState(() => createController(createDeps(props)));
-  const [view, setView] = useState<View>(() => ({ status: 'loading', user: null, signInAllowed: isAllowed(props.signInGate ?? SIGN_IN_OFF) }));
+  const [view, setView] = useState<View>(() => ({
+    status: 'loading',
+    user: null,
+    signInAllowed: isAllowed(props.signInGate ?? SIGN_IN_OFF),
+    under13Offer: null,
+  }));
   const [sync, setSync] = useState<SyncStatus | null>(null);
 
   useEffect(
@@ -648,7 +802,12 @@ export function AccountProvider({ children, ...props }: AccountProviderProps) {
       controller.attach({
         onView: (next) =>
           setView((prev) =>
-            prev.status === next.status && sameUser(prev.user, next.user) && prev.signInAllowed === next.signInAllowed ? prev : next,
+            prev.status === next.status &&
+            sameUser(prev.user, next.user) &&
+            prev.signInAllowed === next.signInAllowed &&
+            prev.under13Offer?.email === next.under13Offer?.email
+              ? prev
+              : next,
           ),
         onSync: (next) =>
           setSync((prev) =>
@@ -659,7 +818,14 @@ export function AccountProvider({ children, ...props }: AccountProviderProps) {
   );
 
   const value = useMemo<AccountState>(
-    () => ({ status: view.status, user: view.user, signInAllowed: view.signInAllowed, sync, ...controller.actions }),
+    () => ({
+      status: view.status,
+      user: view.user,
+      signInAllowed: view.signInAllowed,
+      under13Offer: view.under13Offer,
+      sync,
+      ...controller.actions,
+    }),
     [view, sync, controller],
   );
 

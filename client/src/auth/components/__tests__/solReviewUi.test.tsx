@@ -35,6 +35,9 @@ function accountState(signedIn = false): AccountState {
     sendPasswordReset: jest.fn(async () => undefined),
     syncNow: jest.fn(async () => undefined),
     deleteAccount: jest.fn(async () => undefined),
+    under13Offer: null,
+    deleteOfferedAccount: jest.fn(async () => undefined),
+    dismissUnder13Offer: jest.fn(),
   };
 }
 

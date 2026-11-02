@@ -1,5 +1,6 @@
 // The account sheet (R-6b): sign in, create an account, reset the password, and delete the account with its
-// synced data, in one bottom sheet. The sheet keeps only form state; who is signed in, and the actions, come
+// synced data, in one bottom sheet. `offerDelete` is the Under 13 offer's delete (FOLLOW-UP item 2): the same
+// delete idiom for the account that was signed out when Under 13 was picked, run while signed out. The sheet keeps only form state; who is signed in, and the actions, come
 // from `useAccount()`.
 //
 // Concurrency: a request can finish after the sheet was closed, or after the person went to another view.
@@ -23,8 +24,8 @@ import { authError, deleteError, isEmailShaped, MIN_PASSWORD_LENGTH, type ShownE
 import { ActionButton, AuthField, ErrorLine, Glyph, Para, RoundButton, TextButton } from './parts';
 import type { MessageKey } from '../../i18n/translate';
 
-export type AccountSheetStart = 'signIn' | 'delete';
-type SheetView = 'signIn' | 'signUp' | 'reset' | 'delete';
+export type AccountSheetStart = 'signIn' | 'delete' | 'offerDelete';
+type SheetView = 'signIn' | 'signUp' | 'reset' | 'delete' | 'offerDelete';
 
 /** The room the sheet's own chrome takes (grabber, gaps, header row, bottom padding), for the keyboard cap. */
 const CHROME = 8 + 5 + 12 * 3 + 44 + 24;
@@ -102,7 +103,7 @@ export function AccountSheet({
 
   const accountEmail = account.user?.email ?? '';
   /** A delete is running: closing cannot stop it, so nothing may close the sheet until its result is shown. */
-  const deleting = busy && view === 'delete';
+  const deleting = busy && (view === 'delete' || view === 'offerDelete');
   const closeUnlessDeleting = useCallback(() => {
     if (!deleting) onClose();
   }, [deleting, onClose]);
@@ -130,10 +131,14 @@ export function AccountSheet({
 
   // Signed in (by a sign-in whose view was left meanwhile), or signed out while deleting: nothing left to do here.
   // (Decided by how the sheet was opened, not by the view: the delete sheet can pass through the reset view.)
+  // The offer's delete runs signed out; it has nothing left to do once the offer is gone (not while it runs: the
+  // offer goes just before a successful delete resolves, and that result closes the sheet itself).
+  const offerGone = account.under13Offer === null;
   useEffect(() => {
     if (account.status === 'signedIn' && start === 'signIn') onClose();
     else if (account.status === 'signedOut' && start === 'delete') onClose();
-  }, [account.status, start, onClose]);
+    else if (offerGone && start === 'offerDelete' && !busy) onClose();
+  }, [account.status, start, onClose, offerGone, busy]);
 
   // ---- actions --------------------------------------------------------------------------------------
 
@@ -199,6 +204,22 @@ export function AccountSheet({
       if (current()) onClose();
     } catch (e) {
       if (current()) setDeleteMessage(deleteError(e));
+    } finally {
+      if (current()) setBusy(false);
+    }
+  };
+
+  const submitOfferDelete = async () => {
+    if (busy || deletePassword.length === 0) return;
+    const current = begin();
+    try {
+      await account.deleteOfferedAccount(deletePassword);
+      onDeleted();
+      if (current()) onClose();
+    } catch (e) {
+      // Sync is already off here (signed out), so the network message does not mention it.
+      const key = deleteError(e);
+      if (current()) setDeleteMessage(key === 'delete.error.network' ? 'account.under13Offer.network' : key);
     } finally {
       if (current()) setBusy(false);
     }
@@ -373,6 +394,44 @@ export function AccountSheet({
             </>
           ) : null}
 
+          {view === 'offerDelete' ? (
+            <>
+              <Para text={t('delete.body')} tone="text" />
+              <Para text={t('delete.keeps')} />
+              <View style={styles.offerEmail}>
+                <Text style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 13 }}>{t('auth.email')}</Text>
+                <Text testID="offer-email" numberOfLines={1} ellipsizeMode="middle" style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 16 }}>
+                  {account.under13Offer?.email ?? ''}
+                </Text>
+              </View>
+              <AuthField
+                testID="delete-password"
+                label={t('delete.passwordLabel')}
+                value={deletePassword}
+                onChangeText={setDeletePassword}
+                autoComplete="current-password"
+                textContentType="password"
+                secureTextEntry
+                disabled={busy}
+                invalid={deleteMessage !== null}
+                returnKeyType="go"
+                onSubmitEditing={() => void submitOfferDelete()}
+                below={deleteMessage ? <ErrorLine testID="delete-error" text={t(deleteMessage)} /> : undefined}
+              />
+              {/* No "Forgot password?" here: password reset is off behind the sign-in gate (sendPasswordReset
+                  rejects 'not-allowed' while Under 13 is picked), so the link could only fail. */}
+              <ActionButton
+                testID="delete-confirm"
+                variant="danger"
+                label={busy ? t('delete.busy') : t('delete.confirm')}
+                busy={busy}
+                disabled={deletePassword.length === 0}
+                onPress={() => void submitOfferDelete()}
+              />
+              <ActionButton testID="delete-cancel" variant="secondary" label={t('delete.cancel')} disabled={deleting} onPress={closeUnlessDeleting} />
+            </>
+          ) : null}
+
           {view === 'delete' ? (
             <>
               <Para text={t('delete.body')} tone="text" />
@@ -418,5 +477,6 @@ const styles = StyleSheet.create({
   socialSlot: { minHeight: 12 },
   newHere: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' },
   sent: { alignItems: 'center', gap: 14, paddingTop: 8, paddingBottom: 4 },
+  offerEmail: { gap: 4 },
   mailCircle: { minWidth: 64, minHeight: 64, borderRadius: 999, alignItems: 'center', justifyContent: 'center' },
 });
