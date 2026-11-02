@@ -8,7 +8,9 @@
 // device's activeMs travels as one string "YYYY-MM-DD=ms;..." (decoded back to the same record on pull),
 // and settings JSON is written with its object keys sorted. The push path first drops or normalises
 // whatever the storage schemas allow but the rules refuse (the `pushable*` functions, mirroring the
-// rules), so no such entry can make a push fail, forever, for the documents around it.
+// rules), so no such entry can make a push fail, forever, for the documents around it. Client clocks
+// past what the rules accept (a clock more than a day ahead) are held back the same way, and a batch the
+// server refuses anyway is retried document by document (see "The push path").
 import {
   collection,
   doc,
@@ -236,8 +238,31 @@ export const wireDocs = {
 
 // ---- The push path: what the rules would refuse is dropped or normalised first -------------------
 // Mirrors /firestore.rules for what the storage schemas allow but the rules do not (a time that is not
-// an ISO time, a day over the caps, ...). Ids and clocks are not checked: the engine makes those, and a
-// refusal there should surface as an error, not vanish.
+// an ISO time, a day over the caps, ...). Ids are not checked: the engine makes those, and a refusal
+// there should surface as an error, not vanish.
+//
+// Clocks (S4-1). The rules' isClientTime refuses a client clock (an int > 0) more than one day after the
+// server's request.time. An item's or setting's clock is its value's own time, persisted with the value,
+// so a value saved while this device's clock ran ahead (a dead RTC, a date set by hand) keeps that clock
+// after the clock is fixed. The push path holds back (does not write) any item or setting whose clock is
+// past now + CLOCK_AHEAD_MAX_MS and writes the rest, and it sends the device document with a goal stamped
+// that far ahead omitted (goal: null), so reading progress keeps syncing. The margin (23 h, not the
+// rules' 24 h) absorbs up to an hour of skew between this device's clock and the server's. A batch the
+// server refuses anyway (permission-denied) is retried document by document, once, so a document refused
+// on its own does not take the rest of its batch down. Stored local values are never changed: the
+// adapter only shapes what it writes. Each push logs at most one console.warn, with counts only.
+//
+// Can a held-back item or setting ever sync? Not by itself. The push resolves, and the engine takes a
+// resolved push as written: it moves the base to the value and its clock and settles its stamp (the
+// RemoteStore contract says "resolves only when all are written"; the engine cannot learn what was held
+// back). So the value stays on this device only, with no error shown: the user sees it here but not on
+// their other devices, and the sync status stays idle. It reaches the account when the user changes it
+// again (a new own time from the then current clock), or when the engine sends it again with its base
+// clock because another device wrote the same entry with an older clock, accepted if real time has by
+// then come within CLOCK_AHEAD_MAX_MS of its clock. A held-back goal does sync by itself: the engine puts
+// this device's goal in every device document, and once real time is within CLOCK_AHEAD_MAX_MS of its
+// clock it is no longer omitted. Making held-back items sync by themselves needs the engine to keep their
+// stamps (a RemoteStore contract change, outside this adapter).
 
 const DAY = '[0-9]{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])';
 const DAY_RE = new RegExp(`^${DAY}$`);
@@ -250,6 +275,11 @@ const CHAPTERS_MAX = 1189;
 /** The most reading time one day can hold. */
 const DAY_MS_MAX = 86_400_000;
 const NOTE_MAX = 5000;
+/**
+ * How far ahead of this device's clock a client clock may be and still be written. The rules allow one
+ * day ahead of the server's clock; the hour less is the margin for skew between the two clocks.
+ */
+export const CLOCK_AHEAD_MAX_MS = 23 * 3_600_000;
 const LANGUAGES: readonly unknown[] = ['system', 'en', 'zh-Hans'];
 const MODES: readonly unknown[] = ['system', 'light', 'dark'];
 
@@ -263,9 +293,35 @@ function isoTime(t: unknown): string | undefined {
   return ISO_RE.test(iso) ? iso : undefined;
 }
 
-/** One line without user data: how many entries or documents were dropped or normalised. */
-function warnFixed(what: string, count: number): void {
-  if (count > 0) console.warn(`[sync] ${count} ${what} the security rules would refuse were dropped or normalised before the push`);
+/** The latest client clock the push path writes (the rules' isClientTime, with the skew margin). */
+const clockBound = (): number => Date.now() + CLOCK_AHEAD_MAX_MS;
+
+/** A client clock the rules accept: an int > 0, at most `bound`. */
+const isPushableClock = (t: unknown, bound: number): boolean =>
+  typeof t === 'number' && Number.isInteger(t) && t > 0 && t <= bound;
+
+/** What one push held back or normalised, by reason (counts only). */
+interface Held {
+  /** Entries or documents the rules would refuse, dropped or normalised. */
+  refused: number;
+  /** Documents (or a goal) whose clock is past the bound, held back. */
+  ahead: number;
+  /** Documents the server refused on their own after their batch was refused, held back. */
+  denied: number;
+}
+
+const noneHeld = (): Held => ({ refused: 0, ahead: 0, denied: 0 });
+
+/** One line per push, without user data: how many entries or documents were held back or normalised, and why. */
+function warnHeld(what: string, held: Held): void {
+  const total = held.refused + held.ahead + held.denied;
+  if (total === 0) return;
+  const why = [
+    held.refused > 0 ? `${held.refused} the security rules would refuse (dropped or normalised)` : '',
+    held.ahead > 0 ? `${held.ahead} stamped by a clock more than ${CLOCK_AHEAD_MAX_MS / 3_600_000} h ahead (held back)` : '',
+    held.denied > 0 ? `${held.denied} refused by the server on their own (held back)` : '',
+  ].filter((part) => part !== '');
+  console.warn(`[sync] ${total} ${what} were held back or normalised before the push: ${why.join('; ')}`);
 }
 
 /**
@@ -299,9 +355,9 @@ const isGoalMinutes = (m: number): boolean => Number.isInteger(m) && m >= 5 && m
  * activeMs and goalMetDays keep the newest DAYS_MAX days; a day's time is clamped to 0..DAY_MS_MAX (and
  * dropped if it is not an int); chapter times are rewritten as ISO times (the same instant), or dropped
  * when they are not times; goalMetDays loses repeats and is sorted; the goal keeps only its two fields,
- * and a goal the rules refuse becomes null.
+ * and a goal the rules refuse becomes null, as does a goal stamped past `bound` (counted as held back).
  */
-function pushableDevice(p: DeviceProgress): DeviceProgress {
+function pushableDevice(p: DeviceProgress, held: Held, bound: number): DeviceProgress {
   let fixed = 0;
 
   const days = Object.keys(p.activeMs)
@@ -334,11 +390,18 @@ function pushableDevice(p: DeviceProgress): DeviceProgress {
   let goal: DeviceProgress['goal'] = null;
   if (p.goal !== null) {
     const { minutes, updatedAt } = p.goal;
-    if (isGoalMinutes(minutes) && Number.isInteger(updatedAt) && updatedAt > 0) goal = { minutes, updatedAt };
-    if (goal === null || Object.keys(p.goal).length !== 2) fixed++;
+    if (isGoalMinutes(minutes) && isPushableClock(updatedAt, Number.POSITIVE_INFINITY)) {
+      // A goal stamped too far ahead is omitted (null), not re-stamped: the server only ever holds clocks
+      // this device made, and the engine sends the goal again in every document until it is accepted.
+      if (updatedAt <= bound) goal = { minutes, updatedAt };
+      else held.ahead++;
+      if (Object.keys(p.goal).length !== 2) fixed++;
+    } else {
+      fixed++;
+    }
   }
 
-  warnFixed('device progress entries', fixed);
+  held.refused += fixed;
   return { ...p, activeMs, chaptersRead, goalMetDays, goal };
 }
 
@@ -374,16 +437,19 @@ function pushableSetting(s: RemoteSetting): RemoteSetting | null {
   return ok ? { ...s, json } : null;
 }
 
-/** The entries `fix` keeps (non-null), with one warning for the rest. */
-function keepPushable<T>(list: readonly T[], fix: (entry: T) => T | null, what: string): T[] {
+/** The entries `fix` keeps (non-null) whose clock is at most `bound`; the rest are counted in `held`. */
+function keepPushable<T extends { updatedAt: number }>(list: readonly T[], fix: (entry: T) => T | null, held: Held, bound: number): T[] {
   const out: T[] = [];
   for (const entry of list) {
     const kept = fix(entry);
-    if (kept !== null) out.push(kept);
+    if (kept === null) held.refused++;
+    else if (!isPushableClock(kept.updatedAt, bound)) held.ahead++;
+    else out.push(kept);
   }
-  warnFixed(what, list.length - out.length);
   return out;
 }
+
+const isRefused = (e: unknown): boolean => firestoreCode(e) === 'permission-denied';
 
 // ---- The store ---------------------------------------------------------------------------------
 
@@ -392,18 +458,37 @@ export function createFirestoreRemote(db: Firestore, uid: string): RemoteStore {
   const devices = () => collection(db, 'users', uid, 'devices');
   const settings = () => collection(db, 'users', uid, 'settings');
 
-  /** Writes in batches of at most BATCH_MAX, committed one after another. */
+  /**
+   * Writes in batches of at most BATCH_MAX, committed one after another. A batch the server refuses
+   * (permission-denied) is retried document by document, once: the documents refused on their own are
+   * counted in `held.denied` and the push goes on. When every document of the batch is refused on its
+   * own (or the batch has one document), the refusal is about the account or the session rather than a
+   * document (the deletedUsers marker, a sign-in from before it), and the batch's error is thrown, as is
+   * any error other than permission-denied.
+   */
   async function writeAll<T>(
     entries: readonly T[],
     target: (entry: T) => { id: string; data: DocumentData; coll: 'items' | 'settings' },
+    held: Held,
   ): Promise<void> {
     for (let start = 0; start < entries.length; start += BATCH_MAX) {
-      const batch = writeBatch(db);
-      for (const entry of entries.slice(start, start + BATCH_MAX)) {
+      const writes = entries.slice(start, start + BATCH_MAX).map((entry) => {
         const { id, data, coll } = target(entry);
-        batch.set(doc(db, 'users', uid, coll, id), data);
+        return { ref: doc(db, 'users', uid, coll, id), data };
+      });
+      const batch = writeBatch(db);
+      for (const w of writes) batch.set(w.ref, w.data);
+      try {
+        await batch.commit();
+      } catch (e) {
+        if (!isRefused(e) || writes.length < 2) throw e;
+        const results = await Promise.allSettled(writes.map((w) => setDoc(w.ref, w.data)));
+        const failures = results.filter((r): r is PromiseRejectedResult => r.status === 'rejected');
+        const other = failures.find((r) => !isRefused(r.reason));
+        if (other) throw other.reason;
+        if (failures.length === writes.length) throw e;
+        held.denied += failures.length;
       }
-      await batch.commit();
     }
   }
 
@@ -431,22 +516,52 @@ export function createFirestoreRemote(db: Firestore, uid: string): RemoteStore {
       }),
 
     pushItems: (list) =>
-      guarded(() => {
-        const pushable = keepPushable(list, pushableItem, 'study items');
-        return writeAll(pushable, (item) => ({ coll: 'items', id: item.id, data: itemDoc(item) }));
+      guarded(async () => {
+        const held = noneHeld();
+        try {
+          const pushable = keepPushable(list, pushableItem, held, clockBound());
+          await writeAll(pushable, (item) => ({ coll: 'items', id: item.id, data: itemDoc(item) }), held);
+        } finally {
+          warnHeld('study items', held);
+        }
       }),
 
     pullDevices: () => guarded(() => readAll(query(devices()), readDevice)),
 
     pushDevice: (progress) =>
-      guarded(() => setDoc(doc(devices(), progress.deviceId), deviceDoc(pushableDevice(progress)))),
+      guarded(async () => {
+        const held = noneHeld();
+        try {
+          const p = pushableDevice(progress, held, clockBound());
+          const ref = doc(devices(), progress.deviceId);
+          try {
+            await setDoc(ref, deviceDoc(p));
+          } catch (e) {
+            // A goal clock inside the margin but past the server's bound (skew): send the progress without it.
+            if (!isRefused(e) || p.goal === null) throw e;
+            const retried = await setDoc(ref, deviceDoc({ ...p, goal: null })).then(
+              () => true,
+              () => false,
+            );
+            if (!retried) throw e;
+            held.denied++;
+          }
+        } finally {
+          warnHeld('device progress entries', held);
+        }
+      }),
 
     pullSettings: () => guarded(() => readAll(query(settings()), readSetting)),
 
     pushSettings: (list) =>
-      guarded(() => {
-        const pushable = keepPushable(list, pushableSetting, 'settings');
-        return writeAll(pushable, (s) => ({ coll: 'settings', id: s.key, data: settingDoc(s) }));
+      guarded(async () => {
+        const held = noneHeld();
+        try {
+          const pushable = keepPushable(list, pushableSetting, held, clockBound());
+          await writeAll(pushable, (s) => ({ coll: 'settings', id: s.key, data: settingDoc(s) }), held);
+        } finally {
+          warnHeld('settings', held);
+        }
       }),
   };
 }
