@@ -291,9 +291,9 @@ it('a change that keeps the aurora stirrable (a palette change) keeps the gestur
 
 // Sol review r3 (orchestrator-owned). F1 and F2 are contract-level: the real renderer never calls back into the
 // controller from `pointer`, and it ignores every call once its context is lost (`renderer.web.ts`, `live()`), so
-// neither is reachable in the app. Per the 5a loop (caught after an implementer-hard fix) they wait for John and are
-// recorded with `test.failing`: each flips to a failure (and must become `test`) once the controller handles it.
-test.failing('r3 F1: an interruption during the deferred down ends the gesture at the down point', () => {
+// neither is reachable in the app. Per the 5a loop (caught after an implementer-hard fix) they waited for John, who
+// chose to fix them (r7a/FOLLOW-UP.md, 11-02): they are plain tests now.
+test('r3 F1: an interruption during the deferred down ends the gesture at the down point', () => {
   withController((f) => {
     mockPointer.mockImplementationOnce(() => f.controller.update({ ...inputs, focused: false }));
     f.screen.fire('pointerdown', 100, 100);
@@ -305,7 +305,7 @@ test.failing('r3 F1: an interruption during the deferred down ends the gesture a
   });
 });
 
-test.failing('r3 F1: destroy during the deferred down does not crash or send a move', () => {
+test('r3 F1: destroy during the deferred down does not crash or send a move', () => {
   withController((f) => {
     mockPointer.mockImplementationOnce(() => f.controller.destroy());
     f.screen.fire('pointerdown', 100, 100);
@@ -314,7 +314,7 @@ test.failing('r3 F1: destroy during the deferred down does not crash or send a m
   });
 });
 
-test.failing.each(['pointerup', 'pointercancel'])('r3 F2: %s never reaches a renderer that found its context lost', (event) => {
+test.each(['pointerup', 'pointercancel'])('r3 F2: %s never reaches a renderer that found its context lost', (event) => {
   withController((f) => {
     stir(f.screen);
     mockRenderer.style = null;

@@ -244,21 +244,32 @@ export function createAuroraController(host: HTMLElement, screen: HTMLElement | 
     }
     const r = canvas.getBoundingClientRect();
     if (r.width < 1 || r.height < 1) return;
+    // Any renderer call may end the stretch (it pauses or destroys the controller, or the renderer turns flow or
+    // finds its context lost): settle after each one, and go on only while this same gesture is still tracked.
+    const settled = () => {
+      settleStir();
+      return downs.get(ev.pointerId) === d && !!renderer;
+    };
     if (!d.stirring) {
       if (Math.hypot(ev.clientX - d.x, ev.clientY - d.y) < STIR_SLOP_PX) return;
       d.stirring = true;
       const [x, y] = toUnit(r, d.x, d.y);
+      // The down point is the last point sent, so an 'up' from an interruption inside this call lands on it.
+      d.ux = x;
+      d.uy = y;
       renderer.pointer('down', ev.pointerId, x, y);
+      if (!settled()) return;
     }
     const [x, y] = toUnit(r, ev.clientX, ev.clientY);
     d.ux = x;
     d.uy = y;
     renderer.pointer('move', ev.pointerId, x, y);
+    settled();
   };
   const onUp = (ev: PointerEvent) => {
     const d = downs.get(ev.pointerId);
     downs.delete(ev.pointerId);
-    if (!d?.stirring || !renderer || lost) return;
+    if (!d?.stirring || !renderer || lost || renderer.style === null) return;
     const r = canvas.getBoundingClientRect();
     if (r.width < 1 || r.height < 1) return;
     const [x, y] = toUnit(r, ev.clientX, ev.clientY);
