@@ -221,6 +221,9 @@ function isAllowed(gate: SignInGate): boolean {
   }
 }
 
+/** How many times the offered delete tries to sign its re-auth out before leaving it to enforceGate. */
+const OFFER_SIGN_OUT_TRIES = 3;
+
 function sameUser(a: AuthUser | null, b: AuthUser | null): boolean {
   return a === b || (a !== null && b !== null && a.uid === b.uid && a.email === b.email);
 }
@@ -235,6 +238,13 @@ function createController(deps: Deps): Controller {
   let holds = 0;
   /** An account deleted on this device whose local sign-out failed: never sync it until it signs in afresh. */
   let blockedUid: string | null = null;
+  /**
+   * Every account whose delete succeeded (or was proven) on this device while the provider ran. Unlike
+   * `blockedUid`, nothing lifts it (signing out lifts the block): a deleted uid never comes back, and the gate's
+   * sign-out of a deleted account that is still signed in (its own sign-out failed) must not offer to delete it
+   * again.
+   */
+  const deletedUids = new Set<string>();
   /** A delete (`deleteAccount` or `deleteOfferedAccount`) is running: a second one rejects. */
   let deleting = false;
   /** `deleteOfferedAccount` is running: its re-auth's user is not shown, and enforceGate leaves it alone. */
@@ -382,6 +392,7 @@ function createController(deps: Deps): Controller {
           if (listeners && user && !gateAllowed() && !offerRun) {
             const who = user;
             await holding(() => signOut());
+            // (Whether `who` was deleted here comes from deletedUids, not blockedUid: this sign-out lifted that.)
             if (user === null) offerDelete(who);
           }
         } catch (e) {
@@ -399,7 +410,7 @@ function createController(deps: Deps): Controller {
    * account already deleted on this device). Never throws.
    */
   function offerDelete(who: AuthUser): void {
-    if (!who.email || who.uid === blockedUid) return;
+    if (!who.email || deletedUids.has(who.uid)) return;
     try {
       recordUnder13Offer(deps.storage(), { uid: who.uid, email: who.email });
     } catch (e) {
@@ -592,6 +603,7 @@ function createController(deps: Deps): Controller {
    */
   async function finishDeleted(auth: AuthBackend, uid: string): Promise<void> {
     blockedUid = uid;
+    deletedUids.add(uid);
     if (unconfirmed?.uid === uid) unconfirmed = null;
     await enqueue(reconcile);
     await enqueue(() => clearSyncState(deps.storage(), uid));
@@ -689,7 +701,8 @@ function createController(deps: Deps): Controller {
    * The Under 13 offer's delete (see the header and types.ts). Order: re-auth (a sign-in with the offered email,
    * no engine: the hold and the closed gate keep `target()` null), check it is the offered account, a fresh ID
    * token (its subject checked), the delete request, then forget the sync history and sign out (finishDeleted),
-   * then drop the offer. Any failure deletes nothing locally, keeps the offer and ends signed out.
+   * then drop the offer. Any failure deletes nothing locally, keeps the offer and ends signed out. A delete that
+   * succeeded drops the offer whatever fails after it, and still ends signed out.
    */
   async function deleteOfferedAccount(password: string): Promise<void> {
     const offer = offerNow();
@@ -707,13 +720,18 @@ function createController(deps: Deps): Controller {
     try {
       try {
         await enqueue(reconcile); // whatever ran stops; the hold keeps every engine off until the end
+        let reauthed: AuthUser;
         try {
           // Straight to the backend: sign-in is off (the gate), and this sign-in exists only to delete.
-          await auth.signIn({ kind: 'password', email: offer.email, password });
+          reauthed = await auth.signIn({ kind: 'password', email: offer.email, password });
         } catch (e) {
           throw asAuthError(e);
         }
-        // The email may now sign in to another account: never delete that one.
+        // The password must have proven the offered account itself. The sign-in's own result says whom it
+        // authenticated; currentUser does not: the email may now sign in to another account while another tab
+        // restores the offered uid's older session. Never delete on a password that proved someone else.
+        if (reauthed?.uid !== offer.uid) throw new AuthError('unknown', 'the offered email signed in to another account');
+        // And the session the token comes from must still be that account (another tab may switch it).
         requireStillSignedIn(auth, offer.uid);
         const token = await auth.getIdToken(true);
         if (!token) throw new AuthError('unknown', 'no ID token');
@@ -725,20 +743,19 @@ function createController(deps: Deps): Controller {
         // delete went through, and "Not now" drops the offer. Nothing local is deleted.
         await deps.deleteRequest(token);
         deleted = true;
+        deletedUids.add(offer.uid); // from here on nothing may offer this account again
       } catch (e) {
         failure = asAuthError(e);
       }
       if (deleted) {
-        await finishDeleted(auth, offer.uid); // forgets the sync history, then signs out
-        dropOffer();
-      } else if (auth.currentUser()) {
         try {
-          await auth.signOut();
-        } catch (e) {
-          // Still signed in: setUser below asks enforceGate to sign out once this hold has settled; no engine
-          // starts meanwhile while the gate is closed.
-          console.warn('[account] signing out after a failed Under 13 delete failed', e);
+          await finishDeleted(auth, offer.uid); // forgets the sync history, then signs out
+        } finally {
+          await signOutOfferRun(auth);
+          dropOffer();
         }
+      } else {
+        await signOutOfferRun(auth);
       }
     } finally {
       holds--;
@@ -747,6 +764,23 @@ function createController(deps: Deps): Controller {
       setUser(auth.currentUser()); // shows the real state again; kicks; asks enforceGate if still signed in
     }
     if (failure) throw failure;
+  }
+
+  /**
+   * The offered delete's last step in every outcome: sign out whoever its re-auth left signed in, trying again on
+   * a failure. The flow ends signed out by itself rather than counting on enforceGate: the provider may have been
+   * torn down meanwhile (no listeners: enforceGate does nothing). Never throws. If every try fails (a persistent
+   * local failure), setUser afterwards asks enforceGate while mounted (no engine starts meanwhile: the gate is
+   * closed); after a teardown, the next mount's restored session is signed out by the gate as usual.
+   */
+  async function signOutOfferRun(auth: AuthBackend): Promise<void> {
+    for (let attempt = 1; auth.currentUser() !== null && attempt <= OFFER_SIGN_OUT_TRIES; attempt++) {
+      try {
+        await auth.signOut();
+      } catch (e) {
+        console.warn(`[account] signing out after the Under 13 delete failed (try ${attempt} of ${OFFER_SIGN_OUT_TRIES})`, e);
+      }
+    }
   }
 
   function attach(next: Listeners): () => void {
