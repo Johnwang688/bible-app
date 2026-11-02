@@ -16,6 +16,13 @@ const synth = (book: string, chapter: number, verse: number, tr: string) => `${b
 
 async function mockApi(page: Page) {
   await page.route('**/api/v1/books', (route) => route.fulfill({ json: BOOKS }));
+  await page.route('**/api/v1/words/**', (route) => {
+    const p = decodeURIComponent(new URL(route.request().url()).pathname);
+    if (p.endsWith('/John/3/16')) return route.fulfill({ json: body('words_john3_16') });
+    if (p.endsWith('/Genesis/1/1')) return route.fulfill({ json: body('words_genesis1_1') });
+    return route.fulfill({ json: { book: 'x', book_number: 1, chapter: 1, verse: 1, translation: 'BSB', words: [] } });
+  });
+  await page.route('**/api/v1/lexicon/**', (route) => route.fulfill({ json: body('lexicon_g0025') }));
   await page.route('**/api/v1/chapters/**', (route) => {
     const url = new URL(route.request().url());
     const [, , , , bookRaw, chRaw] = url.pathname.split('/');
@@ -130,6 +137,47 @@ test.describe('reader (English)', () => {
     const tab = await page.getByLabel('Bible tab', { exact: true }).boundingBox();
     const btn = await next.boundingBox();
     expect(btn!.y + btn!.height).toBeLessThanOrEqual(tab!.y + 1);
+  });
+});
+
+test.describe('verse sheet (R-2)', () => {
+  test.use({ locale: 'en-US', colorScheme: 'light' });
+
+  test('a highlight made in the verse sheet survives a reload', async ({ page }) => {
+    await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
+    await page.goto('/bible');
+    await page.getByText(/For God so loved the world/).click();
+    await expect(page.getByTestId('verse-sheet')).toBeVisible();
+    await expect(page.getByTestId('verse-sheet').getByText('John 3:16')).toBeVisible();
+    await page.getByTestId('sheet-swatch-yellow').click();
+    await page.getByTestId('sheet-close').click();
+    await expect(page.getByTestId('verse-sheet')).toHaveCount(0);
+    await page.reload();
+    await expect(page.getByText(/For God so loved the world/)).toBeVisible();
+    const bg = await page.getByTestId('verse-16').evaluate((el) => getComputedStyle(el).backgroundColor);
+    expect(bg).not.toBe('rgba(0, 0, 0, 0)');
+  });
+
+  test('Original words opens the word list and a word card', async ({ page }) => {
+    await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
+    await page.goto('/bible');
+    await page.getByTestId('verse-16-tools').click();
+    await page.getByTestId('sheet-original-words').click();
+    await expect(page.getByTestId('words-list')).toBeVisible();
+    await page.getByTestId('words-list').getByText('loved', { exact: true }).click();
+    await expect(page.getByTestId('word-card')).toBeVisible();
+    await expect(page.getByText('Used 143 times in 110 verses')).toBeVisible();
+  });
+
+  test('the verse-tools button is a real button and Escape closes the sheet', async ({ page }) => {
+    await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
+    await page.goto('/bible');
+    await expect(page.getByRole('button', { name: 'Verse 16: verse tools' })).toBeVisible();
+    await expect(page.getByTestId('verse-16')).not.toHaveAttribute('role', 'link');
+    await page.getByRole('button', { name: 'Verse 16: verse tools' }).click();
+    await expect(page.getByTestId('verse-sheet')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(page.getByTestId('verse-sheet')).toHaveCount(0);
   });
 });
 
