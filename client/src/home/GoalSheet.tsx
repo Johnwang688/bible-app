@@ -1,7 +1,7 @@
 // The daily-goal sheet: minutes of reading a day, stepped by 5 between 5 and 120 or picked from a few usual
 // values. Every change is saved at once, so the close button is the one dismiss control. It reads and writes the
 // goal through storage only, so Home and the Me tab can both mount it.
-import { useEffect, useMemo, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useRef, type ReactNode } from 'react';
 import { Platform, Pressable, StyleSheet, Text, View, type ViewProps } from 'react-native';
 
 import { uiFace } from '../fonts/fonts';
@@ -17,6 +17,7 @@ import { useTheme } from '../theme/ThemeProvider';
 import { GOAL_CHOICES, setDailyGoal, stepGoal } from './goal';
 import { MinusIcon, PlusIcon } from './icons';
 import { useSwipeDown } from './swipeDown';
+import { useToday } from './useToday';
 
 const defaultNow = () => new Date();
 const ROWS = [GOAL_CHOICES.slice(0, 4), GOAL_CHOICES.slice(4)] as const;
@@ -64,30 +65,55 @@ export function GoalSheet({ onClose, storage: storageProp, now = defaultNow }: {
   const storage = useMemo(() => storageProp ?? getStorage(), [storageProp]);
   const { progress, goalMinutes: goal } = useReadingProgress({ storage, now });
   const swipe = useSwipeDown(onClose);
+  // The day is read here too, so a sheet mounted without Home moves to the new day at midnight.
+  const today = useToday(now);
+
+  // Set when an Escape keydown belonged to a modal above this sheet: the keyup that follows reaches the Modal's
+  // onRequestClose, which must then leave the sheet open.
+  const foreignEscape = useRef(false);
+  const onRequestClose = useCallback(() => {
+    if (Platform.OS === 'web' && foreignEscape.current) {
+      foreignEscape.current = false;
+      return;
+    }
+    onClose();
+  }, [onClose]);
 
   // react-native-web's Modal listens for Escape only once its slide-in has ended (a quarter of a second), and the
   // scrim slides in with the sheet, so an Escape or a tap away from the sheet made as it opens would be lost. These
   // listen from the start. A press inside the Modal (the real scrim, the sheet) is left to the Modal's own handlers,
-  // and closing unmounts the Modal and its Escape listener with it, so onClose runs once.
+  // and closing unmounts the Modal and its Escape listener with it, so onClose runs once. An Escape made while
+  // another modal is above this sheet is that modal's: it is ignored here, and so is the keyup that follows it.
   useEffect(() => {
     if (Platform.OS !== 'web' || typeof document === 'undefined') return;
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key !== 'Escape') return;
+      const modals = Array.from(document.querySelectorAll('[aria-modal="true"]'));
+      const own = modals.find((m) => m.querySelector('[data-testid="goal-sheet"]'));
+      const target = e.target as Element | null;
+      const targetModal = target?.closest?.('[aria-modal="true"]') ?? null;
+      const above = own !== undefined && modals.indexOf(own) < modals.length - 1;
+      if (above || (targetModal !== null && targetModal !== own)) {
+        foreignEscape.current = true;
+        return;
+      }
+      foreignEscape.current = false;
+      onClose();
     };
     const onPointerDown = (e: PointerEvent) => {
       const target = e.target as Element | null;
       if (target?.closest?.('[aria-modal="true"]')) return;
       onClose();
     };
-    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener('keydown', onKeyDown, true);
     document.addEventListener('pointerdown', onPointerDown);
     return () => {
-      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener('keydown', onKeyDown, true);
       document.removeEventListener('pointerdown', onPointerDown);
     };
   }, [onClose]);
 
-  const metToday = progress.goalMetDays.includes(dayKey(now()));
+  const metToday = progress.goalMetDays.includes(dayKey(today));
   const save = (minutes: number) => setDailyGoal(storage, minutes, dayKey(now()));
   const step = (direction: 1 | -1) => save(stepGoal(goal, direction));
 
@@ -128,7 +154,7 @@ export function GoalSheet({ onClose, storage: storageProp, now = defaultNow }: {
   );
 
   return (
-    <SheetModal testID="goal-sheet" onClose={onClose} header={header}>
+    <SheetModal testID="goal-sheet" onClose={onClose} onRequestClose={onRequestClose} header={header}>
       <Text style={{ color: colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14, lineHeight: 20 }}>{t('goal.hint')}</Text>
 
       <View style={styles.stepper}>

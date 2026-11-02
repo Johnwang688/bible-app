@@ -29,6 +29,7 @@ import { shareVerse } from './shareVerse';
 import { pickSurpriseChapter } from './surprise';
 import { useToday } from './useToday';
 import { verseOfTheDay } from './verseOfTheDay';
+import { VOTD_BOOK_NAMES } from './votdBookNames';
 
 /** Room under the content for the tab bar, so the last card can scroll above it (as Study does). */
 const TAB_BAR_ROOM = 120;
@@ -120,7 +121,18 @@ export function HomeScreen({
     storage.set(lastVerseKey, next);
   }, [storage, fetched, todayKey, translation, daily.bookNumber, daily.chapter, daily.verse]);
 
-  const bookName = daily.bookNumber === 19 ? t('home.psalm') : dailyBook ? bookNameForLocale(dailyBook, locale) : null;
+  // The catalogue's name when it has arrived, else the built-in one, so a verse kept from earlier today shows at once.
+  const fallbackNames = VOTD_BOOK_NAMES[daily.bookNumber];
+  const bookName =
+    daily.bookNumber === 19
+      ? t('home.psalm')
+      : dailyBook
+        ? bookNameForLocale(dailyBook, locale)
+        : fallbackNames
+          ? locale === 'zh-Hans'
+            ? fallbackNames.zhHans
+            : fallbackNames.en
+          : null;
   const verseRef = bookName === null ? null : formatReference(bookName, daily.chapter, [daily.verse]);
   // A refetch of a query that never had data goes back to "pending", so the error count is what remembers a failure.
   const failed = chapter.isError || chapter.errorUpdateCount > 0 || (chapter.isSuccess && fetched === undefined);
