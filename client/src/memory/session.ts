@@ -1,4 +1,5 @@
 // Today's session planner and the lesson hrefs. Ported from Little Lamb's session.ts.
+import type { DailyLessonRecord } from './dailyLesson';
 import { getAllMemoryVerses, getMemoryVerse } from './library';
 import { endOfLocalDay, localDayIndex } from './localDate';
 import { isStageSlug, stageToSlug } from './stages';
@@ -382,18 +383,34 @@ export function getNextStep(items: SessionItem[], currentIndex: number): NextSte
   const nextIndex = currentIndex + 1;
 
   // No session at all: free practice reached straight from the library. There's no
-  // day to finish here, so send them back to a plain /memory. (This path used to
-  // return ?completed=1, which is how that URL ended up in people's bookmarks
-  // and history in the first place.)
+  // day to finish here, so send them back to Memory home, which lives in the Study
+  // tab's stack at /study/memory. (This path used to return ?completed=1, which is how
+  // that URL ended up in people's bookmarks and history in the first place.)
   if (items.length === 0) {
-    return { href: '/memory', kind: 'done', isLast: false };
+    return { href: '/study/memory', kind: 'done', isLast: false };
   }
 
   const next = items[nextIndex];
   if (!next) {
-    // The trainer downgrades this to a plain /memory unless the day actually closed
-    // (the store says so); the param only decides whether to celebrate.
-    return { href: '/memory?completed=1', kind: 'done', isLast: true };
+    // The lesson's end screen decides what to show: the day complete, or the steps still
+    // left (a skipped one is offered there). The trainers themselves stay at
+    // /memory/lesson/<verseId>/<stage>.
+    return { href: '/memory/complete', kind: 'done', isLast: true };
   }
   return { href: buildHref(next, items, nextIndex), kind: 'next', isLast: false };
+}
+
+/**
+ * Where Next goes after step `index` of the stored lesson: the first LATER step not yet
+ * ticked off, or the end screen when none is left. It does not wrap round to an earlier
+ * skipped step: the end screen offers that. Free practice (no lesson or no index) goes
+ * back to Memory home.
+ */
+export function nextHrefAfter(lesson: DailyLessonRecord | null, index: number | null): string {
+  if (!lesson || index === null) return '/study/memory';
+  const items: SessionItem[] = lesson.steps.map((s) => ({ verseId: s.verseId, stage: s.stage }));
+  for (let i = index + 1; i < lesson.steps.length; i++) {
+    if (lesson.steps[i]?.completedAt === null) return stepHref(items, i) ?? '/memory/complete';
+  }
+  return '/memory/complete';
 }
