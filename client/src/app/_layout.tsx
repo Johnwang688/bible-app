@@ -2,16 +2,20 @@
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { ApiProvider } from '../api/ApiProvider';
 import { STARTUP_FONTS } from '../fonts/fonts';
 import { I18nProvider } from '../i18n/I18nProvider';
+import { importLegacyDataOnce, webLegacySource } from '../legacy';
+import { getStorage } from '../storage/storage';
 import { ThemeProvider, useTheme } from '../theme/ThemeProvider';
 
 void SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  // The old web app's data imports once, synchronously, before any provider reads storage.
+  useState(() => importLegacyDataOnce({ storage: getStorage(), source: webLegacySource() }));
   const [loaded, error] = useFonts(STARTUP_FONTS);
 
   useEffect(() => {
