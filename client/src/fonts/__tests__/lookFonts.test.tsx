@@ -188,14 +188,14 @@ describe('FontGate on the web', () => {
 
 describe('FontGate on a phone', () => {
   it('waits for the active look’s fonts (bundled, local), then shows the app', async () => {
-    let resolve!: () => void;
-    loadAsync.mockImplementation(() => new Promise<void>((r) => (resolve = r)));
+    const resolvers: (() => void)[] = [];
+    loadAsync.mockImplementation(() => new Promise<void>((r) => void resolvers.push(r)));
     const onReady = jest.fn();
     await start({ os: 'ios', onReady });
     expect(screen.queryByTestId('app')).toBeNull();
     expect(onReady).not.toHaveBeenCalled();
     expect(names()).toEqual([...GLASS].sort());
-    await act(async () => resolve());
+    await act(async () => resolvers.forEach((r) => r()));
     expect(screen.getByTestId('app')).toBeTruthy();
     expect(onReady).toHaveBeenCalledTimes(1);
   });
