@@ -5,7 +5,7 @@
 // The implementer may not edit this file.
 import { act, fireEvent, render, screen } from '@testing-library/react-native';
 import type { ReactNode } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { BackHandler, Platform as RNPlatform, StyleSheet, Text } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { I18nProvider } from '../../i18n/I18nProvider';
@@ -57,15 +57,35 @@ async function start({ scheme = 'light', locale = EN, appearance }: Opts = {}) {
   return storage;
 }
 
-afterEach(() => setStorageForTesting(null));
+// A mocked clock: every `press` comes a second after the last, like a person reading the step; `pressNow` comes
+// with no time between (the second tap of a fast double tap).
+let clock = 1_000_000;
+beforeEach(() => {
+  jest.spyOn(Date, 'now').mockImplementation(() => clock);
+});
+afterEach(() => {
+  setStorageForTesting(null);
+  jest.restoreAllMocks();
+});
 
-const press = async (el: Parameters<typeof fireEvent.press>[0]) => {
+const pressNow = async (el: Parameters<typeof fireEvent.press>[0]) => {
   await act(async () => fireEvent.press(el));
+};
+const press = async (el: Parameters<typeof fireEvent.press>[0]) => {
+  clock += 1000;
+  await pressNow(el);
 };
 const button = (name: string | RegExp) => screen.getByRole('button', { name });
 const radio = (name: string | RegExp) => screen.getByRole('radio', { name });
 type Host = ReturnType<typeof screen.getByTestId>;
 const isChecked = (el: Host) => el.props['aria-checked'] === true || el.props.accessibilityState?.checked === true;
+/** A radio group by its label. Not by role: on iOS the group must not be an accessibility element (VoiceOver
+ * cannot reach controls nested in one), and the test library's role queries only find accessibility elements. */
+const radioGroup = (name: string) => {
+  const found = screen.container.queryAll((n) => n.type === 'View' && n.props.role === 'radiogroup' && n.props['aria-label'] === name);
+  expect(found).toHaveLength(1);
+  return found[0] as unknown as Host;
+};
 const isInside = (el: Host | null, ancestor: Host) => {
   for (let n = el; n; n = n.parent) if (n === ancestor) return true;
   return false;
@@ -171,8 +191,8 @@ describe('step 2: pick your look', () => {
     expect(screen.getByRole('header', { name: 'Pick your look' })).toBeTruthy();
     expect(screen.getByText('You can change it any time in Me → Appearance.')).toBeTruthy();
     expect(screen.getByLabelText('Step 2 of 3')).toBeTruthy();
-    const pastel = screen.getByRole('radiogroup', { name: 'Neubrutalist pastel' });
-    const glass = screen.getByRole('radiogroup', { name: 'Aurora glass' });
+    const pastel = radioGroup('Neubrutalist pastel');
+    const glass = radioGroup('Aurora glass');
     for (const n of ['Strawberry milk', 'Matcha latte', 'Lavender haze']) expect(isInside(radio(n), pastel)).toBe(true);
     for (const n of ['Liberty', 'Silver', 'Sky']) expect(isInside(radio(n), glass)).toBe(true);
     expect(screen.getAllByRole('radio')).toHaveLength(6);
@@ -261,7 +281,7 @@ describe('step 2: pick your look', () => {
     expect(button('返回')).toBeTruthy();
     expect(button('暂时跳过')).toBeTruthy();
     expect(button('继续')).toBeTruthy();
-    expect(screen.getByRole('radiogroup', { name: '极光玻璃' })).toBeTruthy();
+    expect(radioGroup('极光玻璃')).toBeTruthy();
     expect(radio('银色')).toBeTruthy();
     expect(textOf(screen.getByTestId('look-pair'))).toBe('深色模式：石墨。');
   });
@@ -274,7 +294,7 @@ describe('step 3: your age', () => {
   it('is a radio group of the age bands, none chosen, with why it asks', async () => {
     await toAge();
     expect(screen.getByRole('header', { name: 'Your age' })).toBeTruthy();
-    const group = screen.getByRole('radiogroup', { name: 'Your age' });
+    const group = radioGroup('Your age');
     const radios = screen.getAllByRole('radio');
     expect(radios.map((r) => textOf(r))).toEqual(EN_AGES);
     for (const r of radios) {
@@ -355,7 +375,7 @@ describe('step 3: your age', () => {
 
   it('in Chinese, with consistent bands', async () => {
     await toAge({ locale: ZH });
-    expect(screen.getByRole('radiogroup', { name: '你的年龄' })).toBeTruthy();
+    expect(radioGroup('你的年龄')).toBeTruthy();
     expect(screen.getAllByRole('radio').map((r) => textOf(r))).toEqual(ZH_AGES);
     expect(button('开始阅读')).toBeTruthy();
     expect(button('暂时跳过')).toBeTruthy();
@@ -397,7 +417,7 @@ describe('native accessibility (review r1)', () => {
     ['look', toLook],
     ['age', toAge],
   ] as const)('%s does not nest radios under an iOS accessibility element', async (_step, go) => {
-    const { Platform } = require('react-native');
+    const Platform = RNPlatform as { OS: string };
     const previous = Platform.OS;
     Platform.OS = 'ios';
 
@@ -414,7 +434,7 @@ describe('native accessibility (review r1)', () => {
   });
 
   it('Android Back preserves the look and age while returning through steps', async () => {
-    const { BackHandler, Platform } = require('react-native');
+    const Platform = RNPlatform as { OS: string };
     const previous = Platform.OS;
     Platform.OS = 'android';
 
@@ -453,5 +473,30 @@ describe('native accessibility (review r1)', () => {
       subscription.mockRestore();
       Platform.OS = previous;
     }
+  });
+});
+
+// Acceptance (orchestrator-owned, Sol review r1 F1 on a phone): a fast double tap moves one step, never two.
+describe('a fast double tap (review r1)', () => {
+  it('a double tap on Continue stops at the age step', async () => {
+    const storage = await toLook();
+    await press(button('Continue'));
+    await pressNow(button('Start reading'));
+    expect(screen.getByTestId('first-run-age')).toBeTruthy();
+    expect(storage.get(onboardingKey)).toBeNull();
+  });
+
+  it('a double tap on Get started stops at the look step', async () => {
+    await start();
+    await press(button('Get started'));
+    await pressNow(button('Continue'));
+    expect(screen.getByTestId('first-run-look')).toBeTruthy();
+  });
+
+  it('a double tap on Back goes back one step', async () => {
+    await toAge();
+    await press(button('Back'));
+    await pressNow(button('Back'));
+    expect(screen.getByTestId('first-run-look')).toBeTruthy();
   });
 });
