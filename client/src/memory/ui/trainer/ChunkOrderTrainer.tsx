@@ -67,7 +67,8 @@ export function ChunkOrderTrainer({ ctx }: { ctx: TrainerCtx }) {
 
   const place = (c: number) =>
     setState((s) => {
-      if (s.mode !== 'play') return s;
+      // Read the pool inside the updater: a second queued tap on the same chip finds it already placed.
+      if (s.mode !== 'play' || !s.pool.includes(c)) return s;
       const at = s.slots.indexOf(null);
       if (at < 0) return s;
       const slots = [...s.slots];
@@ -78,7 +79,7 @@ export function ChunkOrderTrainer({ ctx }: { ctx: TrainerCtx }) {
   const unplace = (i: number) =>
     setState((s) => {
       const c = s.slots[i];
-      if (s.mode !== 'play' || s.fixed[i] || c === null || c === undefined) return s;
+      if (s.mode !== 'play' || s.fixed[i] || c === null || c === undefined || s.pool.includes(c)) return s;
       const slots = [...s.slots];
       slots[i] = null;
       return { ...s, slots, pool: [...s.pool, c] };
@@ -96,6 +97,7 @@ export function ChunkOrderTrainer({ ctx }: { ctx: TrainerCtx }) {
   const retryMarked = () => {
     checked.current = false;
     setState((s) => {
+      if (s.mode !== 'wrong') return s;
       const bad = s.slots.map((c, i) => (c === i ? -1 : i)).filter((i) => i >= 0);
       const slots = [...s.slots];
       const back: number[] = [];
@@ -108,17 +110,22 @@ export function ChunkOrderTrainer({ ctx }: { ctx: TrainerCtx }) {
   };
 
   const showOrder = () =>
-    setState((s) => ({
-      ...s,
-      mode: 'shown',
-      shown: s.slots.map((c, i) => (c === i ? -1 : i)).filter((i) => i >= 0),
-      slots: Array.from({ length: n }, (_, i) => i),
-      pool: [],
-    }));
+    setState((s) =>
+      s.mode !== 'wrong'
+        ? s
+        : {
+            ...s,
+            mode: 'shown',
+            shown: s.slots.map((c, i) => (c === i ? -1 : i)).filter((i) => i >= 0),
+            slots: Array.from({ length: n }, (_, i) => i),
+            pool: [],
+          },
+    );
 
   const placeMyself = () => {
     checked.current = false;
     setState((s) => {
+      if (s.mode !== 'shown') return s;
       const slots = [...s.slots];
       for (const i of s.shown) slots[i] = null;
       return {
