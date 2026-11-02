@@ -140,7 +140,12 @@ export const en = {
   'words.noEntry': 'No dictionary entry for this word.',
   'words.credit': 'Alignment: Berean Standard Bible',
   'commentary.title': 'Commentary',
-  'commentary.soon': 'Verse-by-verse commentary is coming soon, with Matthew Henry’s notes.',
+  // R-5b: the commentary sheet (Commentary.dc.html).
+  'commentary.emptyTitle': 'No commentary on this verse yet',
+  'commentary.emptyBody': 'Notes for more verses are on the way.',
+  'commentary.credit': 'Matthew Henry’s Concise Commentary (public domain)',
+  'commentary.readAll': 'Read all',
+  'commentary.error': 'Couldn’t load the commentary.',
   'picker.chapterRead': 'Chapter {n}, read',
   'study.saved': 'Saved',
   'study.progress': 'Progress',

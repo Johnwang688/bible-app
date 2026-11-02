@@ -96,11 +96,14 @@ describe('verse sheet', () => {
     expect(within(await screen.findByTestId('verse-sheet')).getByText('John 3:16–18')).toBeTruthy();
   });
 
-  it('opens a commentary placeholder (the commentary sheet itself is R-5)', async () => {
+  it('opens the commentary view for the first selected verse, and back returns to the actions (R-5b)', async () => {
     await renderReader({ position: JOHN3_WEB });
     const sheet = await openSheetOn(16);
     await fireEvent.press(within(sheet).getByTestId('sheet-commentary'));
-    expect(await screen.findByTestId('commentary-placeholder')).toBeTruthy();
+    const view = await screen.findByTestId('commentary-view');
+    expect(within(view).getByTestId('commentary-range')).toHaveTextContent('John 3:16');
+    await fireEvent.press(within(view).getByTestId('commentary-back'));
+    expect(await screen.findByTestId('sheet-commentary')).toBeTruthy();
   });
 
   it('shows a highlight on both sides in parallel reading (items attach to the reference)', async () => {

@@ -142,7 +142,12 @@ export const zhHans: Record<MessageKey, string> = {
   'words.noEntry': '这个词没有词典条目。',
   'words.credit': '原文对照：Berean Standard Bible',
   'commentary.title': '注释',
-  'commentary.soon': '逐节注释即将推出，采用马太·亨利的注释。',
+  // R-5b: the commentary sheet (Commentary.dc.html).
+  'commentary.emptyTitle': '这节经文暂时还没有注释',
+  'commentary.emptyBody': '更多经文的注释正在陆续添加。',
+  'commentary.credit': '马太·亨利《圣经简明注释》（公有领域），目前只有英文',
+  'commentary.readAll': '阅读全文',
+  'commentary.error': '无法加载注释。',
   'picker.chapterRead': '第 {n} 章，已读',
   'study.saved': '收藏',
   'study.progress': '进度',
