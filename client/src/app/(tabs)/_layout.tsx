@@ -1,16 +1,16 @@
 // The four tabs: Home · Bible · Study · Me.
-import { Tabs } from "expo-router/tabs";
-import { useState } from "react";
-import { StyleSheet } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Tabs } from 'expo-router/tabs';
+import { useState } from 'react';
+import { StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { GlassSurface } from "../../components/GlassSurface";
-import { TabIcon, type TabIconName } from "../../components/TabIcon";
-import { uiFace } from "../../fonts/fonts";
-import { useT } from "../../i18n/I18nProvider";
-import type { MessageKey } from "../../i18n/messages/en";
-import { HideTabBarContext } from "../../reader/components/useHideTabBar";
-import { useTheme } from "../../theme/ThemeProvider";
+import { GlassSurface } from '../../components/GlassSurface';
+import { TabIcon, type TabIconName } from '../../components/TabIcon';
+import { uiFace } from '../../fonts/fonts';
+import { useT } from '../../i18n/I18nProvider';
+import type { MessageKey } from '../../i18n/messages/en';
+import { HideTabBarContext } from '../../reader/components/useHideTabBar';
+import { useTheme } from '../../theme/ThemeProvider';
 
 const TABS: {
   name: string;
@@ -19,24 +19,24 @@ const TABS: {
   a11yKey: MessageKey;
 }[] = [
   {
-    name: "index",
-    icon: "home",
-    labelKey: "tabs.home",
-    a11yKey: "tabs.home.a11y",
+    name: 'index',
+    icon: 'home',
+    labelKey: 'tabs.home',
+    a11yKey: 'tabs.home.a11y',
   },
   {
-    name: "bible",
-    icon: "bible",
-    labelKey: "tabs.bible",
-    a11yKey: "tabs.bible.a11y",
+    name: 'bible',
+    icon: 'bible',
+    labelKey: 'tabs.bible',
+    a11yKey: 'tabs.bible.a11y',
   },
   {
-    name: "study",
-    icon: "study",
-    labelKey: "tabs.study",
-    a11yKey: "tabs.study.a11y",
+    name: 'study',
+    icon: 'study',
+    labelKey: 'tabs.study',
+    a11yKey: 'tabs.study.a11y',
   },
-  { name: "me", icon: "me", labelKey: "tabs.me", a11yKey: "tabs.me.a11y" },
+  { name: 'me', icon: 'me', labelKey: 'tabs.me', a11yKey: 'tabs.me.a11y' },
 ];
 
 export default function TabsLayout() {
@@ -62,7 +62,7 @@ export default function TabsLayout() {
       paddingBottom: insets.bottom,
     },
     floating && {
-      position: "absolute" as const,
+      position: 'absolute' as const,
       left: 16,
       right: 16,
       bottom: Math.max(insets.bottom, 12),
@@ -82,7 +82,7 @@ export default function TabsLayout() {
           tabBarInactiveTintColor: theme.colors.tabOff,
           tabBarActiveBackgroundColor: theme.canvas.tabPill,
           tabBarLabelStyle: {
-            fontFamily: uiFace(theme.type.ui, "700"),
+            fontFamily: uiFace(theme.type.ui, '700'),
             fontSize: 12,
           },
           tabBarItemStyle: {
@@ -107,13 +107,9 @@ export default function TabsLayout() {
               tabBarLabel: t(tab.labelKey),
               tabBarAccessibilityLabel: t(tab.a11yKey),
               tabBarButtonTestID: `tab-${tab.icon}`,
-              tabBarIcon: ({ color }) => (
-                <TabIcon name={tab.icon} color={color} />
-              ),
+              tabBarIcon: ({ color }) => <TabIcon name={tab.icon} color={color} />,
               // A screen's own tabBarStyle replaces the navigator's, so the full style is repeated here.
-              ...(tab.name === "bible" && bibleBarHidden
-                ? { tabBarStyle: [barStyle, styles.hidden] }
-                : null),
+              ...(tab.name === 'bible' && bibleBarHidden ? { tabBarStyle: [barStyle, styles.hidden] } : null),
             }}
           />
         ))}
@@ -125,6 +121,6 @@ export default function TabsLayout() {
 const BAR_HEIGHT = 68;
 
 const styles = StyleSheet.create({
-  bar: { backgroundColor: "transparent", elevation: 0 },
-  hidden: { display: "none" },
+  bar: { backgroundColor: 'transparent', elevation: 0 },
+  hidden: { display: 'none' },
 });
