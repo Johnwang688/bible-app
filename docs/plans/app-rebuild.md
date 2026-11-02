@@ -238,6 +238,13 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
   - the Hebrew and Greek fonts.
 - **Known gap:** changing chapter while a note is half-written drops the unsaved draft. John merged R-2 with it (2026-11-02); fix it in a later phase.
 
+**Moving aurora (John, 2026-11-02).** The glass presets' background moves instead of showing fixed orbs. Prototype: https://claude.ai/artifact/7a4knhcqYFhVAn45NwDfrD.
+- **Two styles, chosen in Me → Appearance:** a fluid simulation, the default, which the reader can stir with a finger; and a lighter flow shader. Both render at half resolution and scale up.
+- **Vivid colours, readable text:** the colours are not capped. Text that sits directly on the aurora gets a soft shadow so it stays readable; R-7 works out how the contrast test measures shadowed text. Scripture still never sits on the aurora.
+- **Motion:** 60 fps. It pauses when the screen is hidden or the app is in the background, and shows a still frame when the device asks for reduced motion.
+- **Hardware:** the prototype ran smoothly on John's school iPad. A low-end Android phone is still to try (needs EAS builds), as part of R-7's performance budget.
+- **When:** R-7 builds the animation and the Appearance choice.
+
 Every phase ships its screens in both languages; the missing-key test keeps Chinese from falling behind.
 
 After R-7, new roadmap features are built frontend and backend together:

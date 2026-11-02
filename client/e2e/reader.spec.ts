@@ -373,7 +373,7 @@ test.describe('reader (Chinese phone)', () => {
 
   test('a new Chinese reader starts in CUV-SIMP with Chinese book names', async ({ page }) => {
     await page.goto('/bible');
-    await expect(page.getByTestId('reader-book-button')).toContainText('创世纪 1');
+    await expect(page.getByTestId('reader-book-button')).toContainText('创世记 1');
     await expect(page.getByText(synth('Genesis', 1, 1, 'CUV-SIMP'))).toBeVisible();
     await expect(page.getByLabel('阅读设置')).toBeVisible();
   });
