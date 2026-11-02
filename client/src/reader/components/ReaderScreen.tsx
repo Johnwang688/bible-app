@@ -23,6 +23,7 @@ import { ReadingSettingsSheet } from './ReadingSettingsSheet';
 import { useArrowKeys } from './useArrowKeys';
 import { useChapterSwipe, type SwipeDirection } from './useChapterSwipe';
 import { useCollapsingHeader } from './useCollapsingHeader';
+import { useTabFocused } from './useTabFocused';
 import { VersionPicker } from './VersionPicker';
 import { buttonStyle } from './ui';
 
@@ -137,7 +138,9 @@ export function ReaderScreen(props: { storage?: Storage; locales?: readonly Devi
   }, [position.bookNumber, position.chapter, resetHeader]);
 
   const swipeHandlers = useChapterSwipe(turn);
-  useArrowKeys({ onNext: goNext, onPrev: goPrev, disabled: sheet !== null });
+  // Keys move the reader only while its tab is showing (the tab stays mounted on web) and no sheet is open.
+  const focused = useTabFocused();
+  useArrowKeys({ onNext: goNext, onPrev: goPrev, disabled: sheet !== null || !focused });
 
   // What to show: always derived from the queries for the current position.
   const queries = secondId ? [books, firstQuery, secondQuery] : [books, firstQuery];
