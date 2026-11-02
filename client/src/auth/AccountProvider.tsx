@@ -23,9 +23,19 @@
 // gate) is signed out through the normal path once in-flight sign-outs and deletes have settled: the
 // engine stops on the chain first, then auth signs out. Opening the gate again does nothing by itself.
 //
-// The Under 13 offer (FOLLOW-UP item 2, John 2026-11-02): when the gate signs out a signed-in account that has
-// an email, the provider records an offer to delete it (under13Offer.ts; it survives a restart). An ordinary
-// sign-out, a delete, or Under 13 picked while signed out records nothing; any sign-in or sign-up drops it.
+// The Under 13 offer (FOLLOW-UP item 2, John 2026-11-02): when the gate goes from open to closed while an account
+// with an email is signed in (Under 13 picked during this run), and the gate then signs that account out, the
+// provider records an offer to delete it (under13Offer.ts; it survives a restart). The gate has other reasons to be
+// closed (the first-run state unknown: an adult whose Keychain session survived a reinstall), so a session restored,
+// or a sign-in completed, with the gate already closed is signed out with no offer, and a gate that was never open
+// in this run never records one (security review 4, S4-3). An ordinary sign-out, a delete, or Under 13 picked while
+// signed out records nothing; any sign-in or sign-up drops it.
+//
+// Deliberately skipped: a session restored while the age is unknown, whose user then picks Under 13 in the intro.
+// The gate was never open for them, so they are signed out with no offer: the account and its synced data stay on
+// the server (as for any sign-out) and the card does not offer to delete them. Telling that apart from an adult's
+// restored session would need the provider to know why the gate is closed; instead a parallel native change wipes
+// a reinstall's Keychain session, so this restored-session case should not arise from a reinstall.
 // `deleteOfferedAccount` runs while sign-in is off, so it signs in again itself (the delete endpoint needs a
 // recent sign-in) straight through the auth backend, bypassing the gate check. It runs as a hold, like
 // `deleteAccount`: no engine starts during it whatever the gate or the auth callbacks say, enforceGate waits for
@@ -268,6 +278,15 @@ function createController(deps: Deps): Controller {
   let gateCheck: Promise<void> | null = null;
   let gateAgain = false;
 
+  /** Whether the gate was open when last looked at (set on attach, updated on every gate change). */
+  let gateWasOpen = false;
+  /**
+   * The uid that was signed in when the gate last went from open to closed (Under 13 picked while signed in),
+   * or null. Only the gate's sign-out of this account records an Under 13 offer (see the header: S4-3). Cleared
+   * when the gate opens again and when the offer is recorded.
+   */
+  let closedOnUid: string | null = null;
+
   const gateAllowed = () => isAllowed(deps.gate);
 
   /** The stored Under 13 offer, or null (also when the device store cannot be read). */
@@ -392,8 +411,12 @@ function createController(deps: Deps): Controller {
           if (listeners && user && !gateAllowed() && !offerRun) {
             const who = user;
             await holding(() => signOut());
-            // (Whether `who` was deleted here comes from deletedUids, not blockedUid: this sign-out lifted that.)
-            if (user === null) offerDelete(who);
+            // Only for the account that was signed in when the gate closed in this run (the header: S4-3). Whether
+            // `who` was deleted here comes from deletedUids, not blockedUid: this sign-out lifted that.
+            if (user === null && who.uid === closedOnUid) {
+              closedOnUid = null;
+              offerDelete(who);
+            }
           }
         } catch (e) {
           console.warn('[account] signing out after sign-in was turned off failed', e);
@@ -422,6 +445,11 @@ function createController(deps: Deps): Controller {
   /** The gate changed: show it, bring the engine in line on the chain, and sign out if it closed. */
   function onGateChange() {
     if (!listeners) return;
+    const open = gateAllowed();
+    // Open → closed with someone signed in (not the offered delete's own re-auth): Under 13 picked while signed in.
+    if (gateWasOpen && !open && user && !offerRun) closedOnUid = user.uid;
+    if (open) closedOnUid = null;
+    gateWasOpen = open;
     emitView();
     kick();
     if (user && !gateAllowed()) void enforceGate();
@@ -785,6 +813,7 @@ function createController(deps: Deps): Controller {
 
   function attach(next: Listeners): () => void {
     listeners = next;
+    gateWasOpen = gateAllowed();
     const offs: (() => void)[] = [];
     offs.push(deps.gate.subscribe(onGateChange));
     const auth = deps.auth();

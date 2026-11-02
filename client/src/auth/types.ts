@@ -76,8 +76,11 @@ export interface AccountState {
   deleteAccount(password: string): Promise<void>;
   /**
    * The offer to delete an account that was signed out because Under 13 was picked while it was signed in
-   * (FOLLOW-UP item 2, John 2026-11-02), or null. It is kept on the device (it survives a restart) until the user
-   * deletes the account, picks "Not now", or signs in again. `email` is the account's, for the re-auth.
+   * (FOLLOW-UP item 2, John 2026-11-02), or null. Recorded only when the sign-in gate went from open to closed
+   * while that account was signed in, in this run of the provider; never for a session restored, or a sign-in
+   * completed, while the gate was already closed (the gate is also closed while the age is unknown, e.g. after a
+   * reinstall: security review 4, S4-3). It is kept on the device (it survives a restart) until the user deletes
+   * the account, picks "Not now", or signs in again. `email` is the account's, for the re-auth.
    */
   under13Offer: { email: string } | null;
   /**
