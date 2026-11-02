@@ -259,13 +259,15 @@ function EmailRow({ theme, t, body }: { theme: Theme; t: TFunction; body: Body }
   const mailto = 'mailto:' + PRIVACY_CONTACT;
 
   const copy = async () => {
+    let ok: boolean;
     try {
-      await Clipboard.setStringAsync(PRIVACY_CONTACT);
+      ok = await Clipboard.setStringAsync(PRIVACY_CONTACT);
     } catch {
       // The clipboard is unavailable; the address is on screen to copy by hand.
       return;
     }
-    if (!mounted.current) return;
+    // A failed copy resolves false; only a real copy is announced.
+    if (ok !== true || !mounted.current) return;
     setCopied(true);
     if (timer.current) clearTimeout(timer.current);
     timer.current = setTimeout(() => setCopied(false), COPIED_MS);
