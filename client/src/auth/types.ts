@@ -74,4 +74,20 @@ export interface AccountState {
    * signs out. Data on the device stays. On failure nothing is deleted locally and sync resumes.
    */
   deleteAccount(password: string): Promise<void>;
+  /**
+   * The offer to delete an account that was signed out because Under 13 was picked while it was signed in
+   * (FOLLOW-UP item 2, John 2026-11-02), or null. It is kept on the device (it survives a restart) until the user
+   * deletes the account, picks "Not now", or signs in again. `email` is the account's, for the re-auth.
+   */
+  under13Offer: { email: string } | null;
+  /**
+   * Deletes the offered account while sign-in is off: re-authenticates first (signs in again with the offered
+   * email and `password`, with no sync engine started), checks it is the same account (uid), calls the backend's
+   * DELETE /api/v1/account with a fresh ID token, forgets the account's sync history and signs out. Clears the offer
+   * only on success. On any failure nothing is deleted locally, the user ends signed out, the offer stays, and it
+   * rejects with AuthError ('not-allowed' when there is no offer).
+   */
+  deleteOfferedAccount(password: string): Promise<void>;
+  /** "Not now": drops the offer (the account and its synced data stay on the server). */
+  dismissUnder13Offer(): void;
 }
