@@ -95,8 +95,8 @@ async function lesson(over: Over = {}, opts: { storage?: Storage; auth?: typeof 
 }
 
 const typeAndCheck = async (text: string) => {
-  fireEvent.changeText(screen.getByTestId('memory-type-input'), text);
-  await act(async () => fireEvent.press(screen.getByTestId('memory-type-check')));
+  await fireEvent.changeText(screen.getByTestId('memory-type-input'), text);
+  await fireEvent.press(screen.getByTestId('memory-type-check'));
 };
 
 beforeEach(() => {
@@ -113,54 +113,54 @@ describe('chunk order', () => {
     expect(screen.getByTestId('memory-step')).toHaveTextContent('1 of 4');
     expect(screen.getByTestId('memory-skip')).toBeTruthy(); // Skip is offered before a wrong answer too
     expect(screen.getByTestId('chunk-check').props.accessibilityState).toMatchObject({ disabled: true });
-    for (let p = 0; p < cor.chunks.length; p++) fireEvent.press(screen.getByTestId(`chunk-chip-${p}`));
+    for (let p = 0; p < cor.chunks.length; p++) await fireEvent.press(screen.getByTestId(`chunk-chip-${p}`));
     expect(screen.getByTestId('chunk-check').props.accessibilityState?.disabled ?? false).toBe(false);
-    await act(async () => fireEvent.press(screen.getByTestId('chunk-check')));
+    await fireEvent.press(screen.getByTestId('chunk-check'));
     expect(screen.getByTestId('memory-result')).toHaveTextContent(/Correct/);
     expect(storage.get(memoryLessonKey)!.steps[0]!.completedAt).not.toBeNull();
     expect(storage.get(memoryProgressKey)[cor.id]!.successes).toBe(1);
-    fireEvent.press(screen.getByTestId('memory-next'));
+    await fireEvent.press(screen.getByTestId('memory-next'));
     expect(onNavigate).toHaveBeenCalledWith(nextHrefAfter(storage.get(memoryLessonKey), 0));
   });
 
   it('tapping a placed phrase sends it back', async () => {
     await co();
-    fireEvent.press(screen.getByTestId('chunk-chip-1'));
-    fireEvent.press(screen.getByTestId('chunk-slot-0'));
+    await fireEvent.press(screen.getByTestId('chunk-chip-1'));
+    await fireEvent.press(screen.getByTestId('chunk-slot-0'));
     expect(screen.getByTestId('chunk-chip-1')).toBeTruthy();
     expect(screen.getByTestId('chunk-slot-0')).not.toHaveTextContent(cor.chunks[1]!);
   });
 
   it('wrong: the right slots stay, only the marked ones go back; Show me the order; a fail is recorded', async () => {
     const { storage } = await co();
-    fireEvent.press(screen.getByTestId('chunk-chip-1'));
-    fireEvent.press(screen.getByTestId('chunk-chip-0'));
-    fireEvent.press(screen.getByTestId('chunk-chip-2'));
-    await act(async () => fireEvent.press(screen.getByTestId('chunk-check')));
+    await fireEvent.press(screen.getByTestId('chunk-chip-1'));
+    await fireEvent.press(screen.getByTestId('chunk-chip-0'));
+    await fireEvent.press(screen.getByTestId('chunk-chip-2'));
+    await fireEvent.press(screen.getByTestId('chunk-check'));
     expect(screen.getByTestId('memory-result')).toHaveTextContent(/Not quite/);
     expect(storage.get(memoryProgressKey)[cor.id]!.failures).toBe(1);
     expect(storage.get(memoryLessonKey)!.steps[0]!.completedAt).toBeNull();
-    fireEvent.press(screen.getByTestId('chunk-retry-marked'));
+    await fireEvent.press(screen.getByTestId('chunk-retry-marked'));
     expect(screen.getByTestId('chunk-chip-0')).toBeTruthy();
     expect(screen.getByTestId('chunk-chip-1')).toBeTruthy();
     expect(screen.queryByTestId('chunk-chip-2')).toBeNull(); // still placed, correct
     expect(screen.getByTestId('chunk-slot-2')).toHaveTextContent(cor.chunks[2]!);
     // Show me the order, then place them myself.
-    fireEvent.press(screen.getByTestId('chunk-chip-1'));
-    fireEvent.press(screen.getByTestId('chunk-chip-0'));
-    await act(async () => fireEvent.press(screen.getByTestId('chunk-check')));
-    fireEvent.press(screen.getByTestId('chunk-show-order'));
+    await fireEvent.press(screen.getByTestId('chunk-chip-1'));
+    await fireEvent.press(screen.getByTestId('chunk-chip-0'));
+    await fireEvent.press(screen.getByTestId('chunk-check'));
+    await fireEvent.press(screen.getByTestId('chunk-show-order'));
     for (let p = 0; p < cor.chunks.length; p++) expect(screen.getByTestId(`chunk-slot-${p}`)).toHaveTextContent(cor.chunks[p]!);
-    fireEvent.press(screen.getByTestId('chunk-place-myself'));
-    fireEvent.press(screen.getByTestId('chunk-chip-0'));
-    fireEvent.press(screen.getByTestId('chunk-chip-1'));
-    await act(async () => fireEvent.press(screen.getByTestId('chunk-check')));
+    await fireEvent.press(screen.getByTestId('chunk-place-myself'));
+    await fireEvent.press(screen.getByTestId('chunk-chip-0'));
+    await fireEvent.press(screen.getByTestId('chunk-chip-1'));
+    await fireEvent.press(screen.getByTestId('chunk-check'));
     expect(screen.getByTestId('memory-result')).toHaveTextContent(/Correct/);
   });
 
   it('Skip leaves the step for later and goes on', async () => {
     const { storage, onNavigate } = await co();
-    fireEvent.press(screen.getByTestId('memory-skip'));
+    await fireEvent.press(screen.getByTestId('memory-skip'));
     expect(storage.get(memoryLessonKey)!.steps[0]!.completedAt).toBeNull();
     expect(onNavigate).toHaveBeenCalledWith(nextHrefAfter(storage.get(memoryLessonKey), 0));
   });
@@ -198,7 +198,7 @@ describe('fill-in, typing', () => {
     expect(screen.getByTestId('memory-alike-note')).toHaveTextContent(/路 heard as 露/);
     expect(screen.getByText(/It stays in today’s lesson/)).toBeTruthy();
     expect(storage.get(memoryProgressKey)[josh.id]!.failures).toBe(1);
-    fireEvent.press(screen.getByTestId('memory-try-again'));
+    await fireEvent.press(screen.getByTestId('memory-try-again'));
     expect(screen.getByTestId('memory-blank').props.dataSet.position).not.toBe(3);
   });
 
@@ -209,9 +209,9 @@ describe('fill-in, typing', () => {
 
   it('progressive hint: first character, then the whole phrase; a pass with a hint does not finish the step', async () => {
     const { storage } = await lesson();
-    fireEvent.press(screen.getByTestId('memory-hint'));
+    await fireEvent.press(screen.getByTestId('memory-hint'));
     expect(screen.getByTestId('memory-hint-text')).toHaveTextContent('如＿，＿＿＿＿＿＿＿＿＿');
-    fireEvent.press(screen.getByTestId('memory-hint'));
+    await fireEvent.press(screen.getByTestId('memory-hint'));
     expect(screen.getByTestId('memory-hint-text')).toHaveTextContent(josh.chunks[3]!);
     await typeAndCheck(josh.chunks[3]!);
     expect(screen.getByTestId('memory-result')).toHaveTextContent(/Right, with a hint/);
@@ -223,7 +223,7 @@ describe('fill-in, typing', () => {
 
   it('Back keeps progress and notes "Progress saved" for Memory home', async () => {
     const { onBack } = await lesson();
-    fireEvent.press(screen.getByTestId('memory-back'));
+    await fireEvent.press(screen.getByTestId('memory-back'));
     expect(onBack).toHaveBeenCalled();
     expect(takeProgressSaved()).toEqual({ step: 2, total: 4 });
   });
@@ -233,14 +233,14 @@ describe('fill-in, typing', () => {
     expect(screen.getByTestId('memory-step')).toHaveTextContent(/Practice/);
     await typeAndCheck(josh.chunks[3]!);
     expect(storage.get(memoryLessonKey)!.steps[1]!.completedAt).toBeNull();
-    fireEvent.press(screen.getByTestId('memory-next'));
+    await fireEvent.press(screen.getByTestId('memory-next'));
     expect(onNavigate).toHaveBeenCalledWith('/study/memory');
   });
 
   it('the last unfinished step goes to the end screen', async () => {
     const { onNavigate } = await lesson({}, { storage: seeded([true, false, true, true]) });
     await typeAndCheck(josh.chunks[3]!);
-    fireEvent.press(screen.getByTestId('memory-next'));
+    await fireEvent.press(screen.getByTestId('memory-next'));
     expect(onNavigate).toHaveBeenCalledWith('/memory/complete');
   });
 
@@ -270,9 +270,9 @@ describe('voice states (fill-in)', () => {
     storage.set(memorySettingsKey, { ...storage.get(memorySettingsKey), voice: false });
     await lesson({ recorder: fakeRecorder().recorder }, { storage, auth: SIGNED_IN });
     expect(screen.getByTestId('memory-notice-voice-off')).toBeTruthy();
-    fireEvent.press(screen.getByTestId('memory-notice-settings'));
+    await fireEvent.press(screen.getByTestId('memory-notice-settings'));
     expect(screen.getByTestId('memory-settings-sheet')).toBeTruthy();
-    await act(async () => fireEvent.press(screen.getByTestId('memory-voice-switch')));
+    await fireEvent.press(screen.getByTestId('memory-voice-switch'));
     expect(storage.get(memorySettingsKey).voice).toBe(true);
   });
 
@@ -285,19 +285,19 @@ describe('voice states (fill-in)', () => {
     const { recorder } = fakeRecorder();
     const checkVoice = answer({ kind: 'text', text: josh.chunks[3]! });
     const { storage } = await lesson({ recorder, checkVoice }, { auth: SIGNED_IN });
-    await act(async () => fireEvent.press(screen.getByTestId('memory-mic')));
+    await fireEvent.press(screen.getByTestId('memory-mic'));
     const consent = screen.getByTestId('memory-consent-sheet');
     expect(consent).toHaveTextContent(/Bible app’s server/);
     expect(consent).toHaveTextContent(/OpenRouter/);
-    fireEvent.press(screen.getByTestId('memory-consent-type'));
+    await fireEvent.press(screen.getByTestId('memory-consent-type'));
     expect(screen.queryByTestId('memory-consent-sheet')).toBeNull();
     expect(recorder.start).not.toHaveBeenCalled();
-    await act(async () => fireEvent.press(screen.getByTestId('memory-mic')));
-    await act(async () => fireEvent.press(screen.getByTestId('memory-consent-allow')));
+    await fireEvent.press(screen.getByTestId('memory-mic'));
+    await fireEvent.press(screen.getByTestId('memory-consent-allow'));
     expect(storage.get(memorySettingsKey).voiceConsent).toBe(true);
     expect(recorder.start).toHaveBeenCalledTimes(1);
     expect(screen.getByTestId('memory-rec-timer')).toHaveTextContent('0:00 / 0:30');
-    await act(async () => fireEvent.press(screen.getByTestId('memory-mic-stop')));
+    await fireEvent.press(screen.getByTestId('memory-mic-stop'));
     await waitFor(() => expect(screen.getByTestId('memory-result')).toHaveTextContent(/Correct/));
     expect(checkVoice).toHaveBeenCalledWith(expect.any(Blob), 'mandarin', expect.objectContaining({ baseUrl: 'https://api.example' }), expect.anything());
     expect(storage.get(memoryLessonKey)!.steps[1]!.completedAt).not.toBeNull();
@@ -309,7 +309,7 @@ describe('voice states (fill-in)', () => {
     const rec = fakeRecorder();
     const checkVoice = answer({ kind: 'text', text: josh.chunks[3]! });
     await lesson({ recorder: rec.recorder, checkVoice }, { storage, auth: SIGNED_IN });
-    await act(async () => fireEvent.press(screen.getByTestId('memory-mic')));
+    await fireEvent.press(screen.getByTestId('memory-mic'));
     expect(screen.queryByTestId('memory-consent-sheet')).toBeNull();
     await rec.tick(20_000);
     expect(screen.getByTestId('memory-rec-timer')).toHaveTextContent('0:20 / 0:30');
@@ -324,8 +324,8 @@ describe('voice states (fill-in)', () => {
     const rec = fakeRecorder();
     const checkVoice = answer({ kind: 'text', text: 'x' });
     await lesson({ recorder: rec.recorder, checkVoice }, { storage, auth: SIGNED_IN });
-    await act(async () => fireEvent.press(screen.getByTestId('memory-mic')));
-    fireEvent.press(screen.getByTestId('memory-mic-cancel'));
+    await fireEvent.press(screen.getByTestId('memory-mic'));
+    await fireEvent.press(screen.getByTestId('memory-mic-cancel'));
     expect(rec.recorder.cancel).toHaveBeenCalled();
     expect(checkVoice).not.toHaveBeenCalled();
     expect(screen.getByTestId('memory-mic')).toBeTruthy();
@@ -343,10 +343,10 @@ describe('voice states (fill-in)', () => {
         }),
     );
     await lesson({ recorder: fakeRecorder().recorder, checkVoice }, { storage, auth: SIGNED_IN });
-    await act(async () => fireEvent.press(screen.getByTestId('memory-mic')));
-    await act(async () => fireEvent.press(screen.getByTestId('memory-mic-stop')));
+    await fireEvent.press(screen.getByTestId('memory-mic'));
+    await fireEvent.press(screen.getByTestId('memory-mic-stop'));
     expect(screen.getByTestId('memory-grading')).toBeTruthy();
-    await act(async () => fireEvent.press(screen.getByTestId('memory-grading-cancel')));
+    await fireEvent.press(screen.getByTestId('memory-grading-cancel'));
     expect(signal?.aborted).toBe(true);
     expect(screen.getByTestId('memory-mic')).toBeTruthy();
     expect(screen.queryByTestId('memory-result')).toBeNull();
@@ -356,7 +356,7 @@ describe('voice states (fill-in)', () => {
     const storage = seeded();
     storage.set(memorySettingsKey, { ...storage.get(memorySettingsKey), voiceConsent: true });
     await lesson({ recorder: fakeRecorder({ start: 'denied' }).recorder, checkVoice: answer({ kind: 'text', text: '' }) }, { storage, auth: SIGNED_IN });
-    await act(async () => fireEvent.press(screen.getByTestId('memory-mic')));
+    await fireEvent.press(screen.getByTestId('memory-mic'));
     expect(screen.getByTestId('memory-notice-denied')).toBeTruthy();
   });
 
@@ -372,8 +372,8 @@ describe('voice states (fill-in)', () => {
     const storage = seeded();
     storage.set(memorySettingsKey, { ...storage.get(memorySettingsKey), voiceConsent: true });
     await lesson({ recorder: fakeRecorder().recorder, checkVoice: answer(outcome) }, { storage, auth: SIGNED_IN });
-    await act(async () => fireEvent.press(screen.getByTestId('memory-mic')));
-    await act(async () => fireEvent.press(screen.getByTestId('memory-mic-stop')));
+    await fireEvent.press(screen.getByTestId('memory-mic'));
+    await fireEvent.press(screen.getByTestId('memory-mic-stop'));
     await waitFor(() => expect(screen.getByTestId(`memory-notice-${notice}`)).toHaveTextContent(copy));
     expect(screen.getByTestId('memory-type-input')).toBeTruthy();
   });
@@ -382,10 +382,10 @@ describe('voice states (fill-in)', () => {
     const storage = seeded();
     storage.set(memorySettingsKey, { ...storage.get(memorySettingsKey), voiceConsent: true });
     await lesson({ recorder: fakeRecorder().recorder, checkVoice: answer({ kind: 'no-service' }) }, { storage, auth: SIGNED_IN });
-    await act(async () => fireEvent.press(screen.getByTestId('memory-mic')));
-    await act(async () => fireEvent.press(screen.getByTestId('memory-mic-stop')));
+    await fireEvent.press(screen.getByTestId('memory-mic'));
+    await fireEvent.press(screen.getByTestId('memory-mic-stop'));
     await waitFor(() => expect(screen.getByTestId('memory-notice-no-service')).toBeTruthy());
-    screen.unmount();
+    await screen.unmount();
     await lesson({ verseId: tim.id, stage: 'full-recall', index: 2, recorder: fakeRecorder().recorder }, { storage, auth: SIGNED_IN });
     expect(screen.getByTestId('memory-notice-no-service')).toBeTruthy();
     expect(screen.queryByTestId('memory-mic')).toBeNull();
@@ -396,10 +396,10 @@ describe('voice states (fill-in)', () => {
     storage.set(memorySettingsKey, { ...storage.get(memorySettingsKey), voiceConsent: true });
     const checkVoice = answer({ kind: 'text', text: '如此你的道露能以通' });
     await lesson({ recorder: fakeRecorder().recorder, checkVoice }, { storage, auth: SIGNED_IN });
-    await act(async () => fireEvent.press(screen.getByTestId('memory-mic')));
-    await act(async () => fireEvent.press(screen.getByTestId('memory-mic-stop')));
+    await fireEvent.press(screen.getByTestId('memory-mic'));
+    await fireEvent.press(screen.getByTestId('memory-mic-stop'));
     await waitFor(() => expect(screen.getByTestId('memory-result')).toHaveTextContent(/73%/));
-    fireEvent.press(screen.getByTestId('memory-heard-differently'));
+    await fireEvent.press(screen.getByTestId('memory-heard-differently'));
     expect(screen.getByTestId('memory-type-input').props.value).toBe('如此你的道露能以通');
     expect(checkVoice).toHaveBeenCalledTimes(1);
   });
@@ -435,9 +435,9 @@ describe('full recall', () => {
   it('hint 1 shows the first character of each phrase; then the whole verse; the typing field is multiline', async () => {
     await fr();
     expect(screen.getByTestId('memory-type-input').props.multiline).toBe(true);
-    fireEvent.press(screen.getByTestId('memory-hint'));
+    await fireEvent.press(screen.getByTestId('memory-hint'));
     expect(screen.getByTestId('memory-hint-text')).toHaveTextContent('圣＿＿＿＿＿＿＿＿，于＿＿、＿＿、使＿＿＿、＿＿＿＿＿都＿＿＿＿。');
-    fireEvent.press(screen.getByTestId('memory-hint'));
+    await fireEvent.press(screen.getByTestId('memory-hint'));
     expect(screen.getByTestId('memory-hint-text')).toHaveTextContent(tim.textZh);
     expect(screen.getByText(/a step only counts when you pass without one/)).toBeTruthy();
   });
@@ -466,7 +466,7 @@ describe('the lesson’s end', () => {
     const { onNavigate } = await end(storage);
     expect(screen.getByTestId('memory-one-left')).toHaveTextContent(/3 of 4 done/);
     expect(screen.getByTestId('memory-one-left')).toHaveTextContent(/2 Corinthians 5:17/);
-    fireEvent.press(screen.getByTestId('memory-do-now'));
+    await fireEvent.press(screen.getByTestId('memory-do-now'));
     expect(onNavigate).toHaveBeenCalledWith(stepHref(STEPS, 0));
     expect(screen.queryByTestId('memory-complete')).toBeNull();
   });
@@ -491,7 +491,7 @@ describe('the lesson’s end', () => {
     expect(screen.getByTestId('memory-complete-learned')).toHaveTextContent(/of 60/);
     expect(screen.getByTestId('memory-next-reviews')).toHaveTextContent(/Joshua 1:8 tomorrow/);
     expect(screen.getByTestId('memory-complete-title').props.accessibilityRole).toBe('header');
-    fireEvent.press(screen.getByTestId('memory-back-to-memory'));
+    await fireEvent.press(screen.getByTestId('memory-back-to-memory'));
     expect(onNavigate).toHaveBeenCalledWith('/study/memory');
   });
 });
