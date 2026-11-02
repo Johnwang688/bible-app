@@ -9,7 +9,8 @@ import type { LanguagePreference } from '../i18n/types';
 import { VersionPicker } from '../reader/components/VersionPicker';
 import { useReaderPosition, useReadingSettings } from '../reader/state';
 import { TRANSLATION_IDS, TRANSLATIONS, type TranslationId } from '../reader/translations';
-import { TEXT_SIZES } from '../storage/keys';
+import { readerPositionKey, readingSettingsKey, TEXT_SIZES } from '../storage/keys';
+import { getStorage } from '../storage/storage';
 import { useAppearance, useTheme } from '../theme/ThemeProvider';
 import { MeChoiceSheet, type MeChoice } from './components/MeChoiceSheet';
 import { MeGroup, MeSettingsRow } from './components/MeSettingsRow';
@@ -38,8 +39,12 @@ export function MeScreen({ onNavigate }: { onNavigate(to: MeRoute): void }) {
   const chooseTranslation = (translation: TranslationId) => {
     if (picked.current) return;
     picked.current = true;
-    setPosition({ ...position, translation });
-    if (settings.parallel === translation) setSettings({ ...settings, parallel: null });
+    // Read at press time: the reader or another screen may have written newer values since this render.
+    const storage = getStorage();
+    const current = storage.get(readerPositionKey) ?? position;
+    setPosition({ ...current, translation });
+    const currentSettings = storage.get(readingSettingsKey);
+    if (currentSettings.parallel === translation) setSettings({ ...currentSettings, parallel: null });
     close();
   };
 
@@ -115,7 +120,7 @@ export function MeScreen({ onNavigate }: { onNavigate(to: MeRoute): void }) {
           titleKey="me.row.parallel"
           choices={parallelChoices}
           selected={settings.parallel ?? 'off'}
-          onChoose={(v) => setSettings({ ...settings, parallel: v === 'off' ? null : v })}
+          onChoose={(v) => setSettings({ ...getStorage().get(readingSettingsKey), parallel: v === 'off' ? null : v })}
           onClose={close}
         />
       ) : null}
