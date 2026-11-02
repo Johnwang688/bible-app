@@ -1,11 +1,12 @@
-// Provides the active theme and the reader's Appearance choice. The choice lives in storage,
-// so a write from anywhere (the picker, sync) re-renders every consumer.
+// Provides the active theme and the reader's Appearance choice and customisation. Both live in
+// storage, so a write from anywhere (the picker, Customise, sync) re-renders every consumer.
 import { createContext, useContext, useMemo, type ReactNode } from 'react';
 import { useColorScheme } from 'react-native';
 
+import { appearanceCustomKey } from '../storage/appearanceCustomKey';
 import { appearanceKey } from '../storage/keys';
 import { getStorage, useStoredValue, type Storage } from '../storage/storage';
-import { getTheme } from './presets';
+import { applyCustom, type AppearanceCustom } from './custom';
 import { resolvePresetId } from './resolve';
 import type { AppearanceChoice, PresetId, Theme, ThemeMode } from './types';
 
@@ -13,6 +14,9 @@ interface Appearance {
   choice: AppearanceChoice;
   setChoice(c: AppearanceChoice): void;
   presetId: PresetId;
+  /** Reading font and per-preset colour edits (src/theme/custom.ts builds every change). */
+  custom: AppearanceCustom;
+  setCustom(c: AppearanceCustom): void;
 }
 
 interface ThemeContextValue {
@@ -33,11 +37,13 @@ export function ThemeProvider(props: {
   const system: ThemeMode | null = raw === 'light' || raw === 'dark' ? raw : null;
 
   const [choice, setChoice] = useStoredValue(storage, appearanceKey);
+  const [custom, setCustom] = useStoredValue(storage, appearanceCustomKey);
   const presetId = resolvePresetId(choice, system);
+  const theme = useMemo(() => applyCustom(presetId, custom), [presetId, custom]);
 
   const value = useMemo<ThemeContextValue>(
-    () => ({ theme: getTheme(presetId), appearance: { choice, setChoice, presetId } }),
-    [choice, setChoice, presetId],
+    () => ({ theme, appearance: { choice, setChoice, presetId, custom, setCustom } }),
+    [theme, choice, setChoice, presetId, custom, setCustom],
   );
 
   return <ThemeContext.Provider value={value}>{props.children}</ThemeContext.Provider>;

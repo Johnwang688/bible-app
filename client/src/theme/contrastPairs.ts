@@ -1,9 +1,10 @@
-// The text/background pairs each preset puts on screen, for the contrast test.
+// The text/background pairs each preset puts on screen. Used by the preset contrast test and by
+// Appearance → Advanced, which refuses an edit that makes any pair harder to read (src/theme/custom.ts).
 // Backdrops come from the canvas: glass text can sit over any glow peak of the wash (the reader)
 // or over the orbs behind the glass cards (Home), so every peak is checked, not an average.
-import { composite, contrastRatio, type Rgb } from '../contrast';
-import type { GlassDarkPalette, GlassLightPalette } from '../palettes';
-import type { CanvasTokens } from '../types';
+import { composite, contrastRatio, type Rgb } from './contrast';
+import { GLOW_D, GLOW_L, type GlassDarkPalette, type GlassLightPalette } from './palettes';
+import type { CanvasTokens, PresetId, ThemeStyle } from './types';
 
 export interface Pair {
   name: string;
@@ -88,4 +89,14 @@ export function glassPairs(t: CanvasTokens, p: GlassLightPalette | GlassDarkPale
   layered('tab', { tabOn: t.tabOn, tabOff: t.tabOff }, t.tabBg, dark ? dp.tab : undefined);
   layered('sheet', { text: t.text, muted: t.muted }, t.sheet, dark ? dp.sheet : undefined);
   return out;
+}
+
+/** Every pair a preset shows, for the given canvas tokens (the preset's own, or edited ones). */
+export function pairsForCanvas(id: PresetId, style: ThemeStyle, canvas: CanvasTokens): Pair[] {
+  if (style === 'pastel') return pastelPairs(canvas);
+  const light = GLOW_L.find((p) => p.id === id);
+  if (light) return glassPairs(canvas, light, false);
+  const dark = GLOW_D.find((p) => p.id === id);
+  if (dark) return glassPairs(canvas, dark, true);
+  throw new Error(`No glass palette for ${id}`);
 }
