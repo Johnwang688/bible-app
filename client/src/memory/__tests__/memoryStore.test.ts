@@ -25,7 +25,7 @@ describe('memoryKeys', () => {
     expect(storage.get(memoryProgressKey)).toEqual({});
     expect(storage.get(memoryLessonKey)).toBeNull();
     expect(storage.get(memoryHistoryKey)).toEqual({ startedOn: null, completedDates: [] });
-    expect(storage.get(memorySettingsKey)).toEqual({ speech: 'mandarin', script: 'simplified' });
+    expect(storage.get(memorySettingsKey)).toEqual({ speech: 'mandarin', script: 'simplified', voice: true, voiceConsent: false });
   });
 
   const good = {
