@@ -245,6 +245,65 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
 - **Hardware:** the prototype ran smoothly on John's school iPad. A low-end Android phone is still to try (needs EAS builds), as part of R-7's performance budget.
 - **When:** R-7 builds the animation and the Appearance choice.
 
+**R-7a notes (2026-11-02).** These are the parts of R-7 that need no other team. **Screens wait for approved
+prototypes** (John, 2026-11-02), so R-7a ships no new screens. Prototypes in `bible-app-work/design/proposed/`:
+`r7a-welcome.html`, `r7a-look.html`, `r7a-age.html` and `r7a-aurora-option.html`.
+- **Old web data import** (`client/src/legacy/`).
+  - **What it imports:** on its first run, the web build reads the old app's localStorage once: the last position,
+    recent passages, highlights, notes, bookmarks and the theme.
+  - **How it maps:** old highlights all showed in the old reader's one colour, so they import in that colour, mapped
+    to the new six. Bookmarks are timed at the import. Light, Dark and Paper map to the default look in their mode
+    (Paper is Silver); Auto follows the phone.
+  - **Safety:** it never overwrites new-app data, never throws, and never changes the old keys, since the old site
+    keeps working until the cut-over.
+  - **Once per part:** each part is recorded once imported. **Reading progress** (goal, goal days, chapters read)
+    is parsed and tested, and is written into R-3's `reading.progress` after R-3 merges; users who have already
+    launched get it on their next launch.
+- **First run** (`client/src/onboarding/`). `useFirstRun()` holds the state behind the screens: choose a look, finish
+  with an optional age range (kept on the device), or skip.
+  - **Skipping** gives Silver / Graphite following the phone, but keeps a light/dark mode imported from the old app.
+  - **The gate** in the root layout is mounted together with the approved screens.
+- **The aurora** (`client/src/aurora/`) runs behind glass presets on screens with the app background, never the
+  reader.
+  - **Web:** a WebGL2 port of the prototype. The fluid simulation is the default; the flow shader is the option
+    (`aurora.style`, set from Customise once its control is approved). It renders at half resolution and pauses
+    when the tab or page is hidden.
+  - **Reduce Motion:** one still frame.
+  - **Fallbacks:** if the GPU context is lost, the still gradient shows until the context comes back. On a software
+    renderer (no GPU), the fluid simulation falls back to flow.
+  - **Native** has no GPU drawing library, so it shows a lighter drift of the orbs (UI-thread `Animated`). Adding
+    Skia or expo-gl for parity is in Open.
+  - **Where it shows:** `Screen` mounts it. Screens that build their own frame (Home, Study, Me) mount
+    `<AuroraBackground />` themselves.
+- **Shadowed text** (how the contrast test measures it): text that sits directly on the aurora gets a soft shadow in
+  the preset's base colour. The test composites the shadow over the aurora colour at half its alpha, since a blurred
+  halo does not fully cover. Measured that way, at full alpha, text and muted pass 4.5:1 over every aurora colour in
+  all six glass presets (`client/src/aurora/__tests__/aurora.test.tsx`).
+- **Performance budget**, measured on the web export with `client/scripts/perf-budget.mjs`:
+  - **Setup:** headless Chromium on John's PC (Intel integrated graphics, D3D11), Pixel 7 viewport, median of 3
+    runs, 2026-11-02.
+  - **"Mid-range phone"** means 4x CPU throttling. A real low-end Android phone and the iPad are still to try (they
+    need EAS builds).
+  - **The local server sends files uncompressed**, so the 4G row is a worst case.
+
+  | Measure | Budget | Measured |
+  |---|---|---|
+  | JS bundle, gzip | ≤ 600 KB | 492 KB (2.0 MB raw) |
+  | Fonts loaded before the first paint | ≤ 500 KB | **2.0 MB** (11 TTF files) ✗ |
+  | Home visible, mid-range phone, no network limit | ≤ 2.5 s | 1.8–2.0 s |
+  | Home visible, mid-range phone, fast 4G (1.6 Mb/s, 150 ms) | ≤ 5 s | **21 s** ✗ (the fonts and uncompressed JS) |
+  | Aurora frame rate, GPU, at 1x and 4x CPU | 60 fps | 60 (fluid and flow) |
+  | Main-thread time per frame, GPU, 4x CPU | ≤ 4 ms | fluid 1.5 ms, flow 0.6 ms, pastel (no aurora) 0.3 ms |
+  | Long tasks while animating | 0 | 0 |
+  | No GPU (SwiftShader) | no fluid simulation | flow (fallback works); **8.5–10.6 ms per frame** ✗ |
+  | JS heap | — | 11–12 MB |
+
+  Two items miss their budget, and neither comes from the aurora:
+  - **Start-up fonts:** the root layout waits for 11 fonts, both styles' UI and Scripture faces, before it draws.
+  - **No GPU:** the flow shader costs half the frame budget there.
+
+  Both are listed in Open.
+
 Every phase ships its screens in both languages; the missing-key test keeps Chinese from falling behind.
 
 After R-7, new roadmap features are built frontend and backend together:
@@ -261,7 +320,13 @@ After R-7, new roadmap features are built frontend and backend together:
 - **Minimum age and privacy:** this matters for accounts and groups.
 - **Shipping native builds:** EAS Build accounts (Apple Developer, Google Play).
 - **Translating the English-only content** (commentary, people/places/themes, quizzes) into Chinese: a later project.
-- **Screens still to draw:** search, the chapter tools sheet, the people/places/themes pages, sign-in, and the first-run intro with "pick your look". Draw each before the phase that builds it.
+- **Screens still to draw:** search, the chapter tools sheet, the people/places/themes pages, sign-in. Draw each before the phase that builds it.
+- **First run and the aurora option (R-7a), prototyped 2026-11-02**, waiting for John's approval: `bible-app-work/design/proposed/r7a-welcome.html`, `r7a-look.html`, `r7a-age.html`, `r7a-aurora-option.html`. Whether the age list offers "Under 13" goes with "Minimum age and privacy".
+- **Start-up fonts (R-7 budget):** the web waits for 2.0 MB of TTF before its first paint (21 s on fast 4G from an uncompressed server).
+  - **Options:** load only the active style's two faces first, and the rest after the first paint; ship WOFF2 subsets on the web; serve with Brotli/gzip.
+  - **Owner:** this touches `src/fonts/` and the root layout.
+- **The aurora without a GPU:** on a software renderer the flow shader costs 8.5–10.6 ms per frame. Choose between drawing at 30 fps or showing the still gradient there.
+- **Native aurora parity:** add `@shopify/react-native-skia` (or `expo-gl`) so iOS and Android run the fluid simulation and the flow shader too. Today they show a lighter UI-thread drift.
 - **Signed off (John, 2026-11-01):** these screens are drawn on the canvas's "All screens" page, in every preset and in both languages:
   - Home and the reader
   - the book and chapter picker
