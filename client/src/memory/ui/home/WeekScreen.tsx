@@ -45,7 +45,7 @@ export function WeekScreen({
   const [history] = useMemoryHistory(storage);
   const lesson = useTodayLesson(storage, now);
 
-  const date = now();
+  const date = lesson.date;
   const today = toLocalDateString(date);
   const streak = dailyStreak(history.completedDates, today);
   const best = Math.max(bestStreak(history.completedDates), streak);
@@ -100,14 +100,12 @@ export function WeekScreen({
             <Text style={{ color: tint.text, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 15, flexShrink: 1 }}>
               {t('memory.streak.unit')}
             </Text>
-            {best > 0 ? (
-              <Text
-                testID="memory-week-best"
-                style={{ marginLeft: 'auto', color: tint.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 13 }}
-              >
-                {t('memory.week.best', { n: best })}
-              </Text>
-            ) : null}
+            <Text
+              testID="memory-week-best"
+              style={{ marginLeft: 'auto', color: tint.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 13 }}
+            >
+              {t('memory.week.best', { n: best })}
+            </Text>
           </View>
           <WeekStrip days={week} size="large" labels today={today} />
           {beforeStart ? (

@@ -433,7 +433,7 @@ export function MemoryHome({
     return () => clearTimeout(timer);
   }, [saved]);
 
-  const date = now();
+  const date = lessonState.date;
   const today = toLocalDateString(date);
   const streak = dailyStreak(history.completedDates, today);
   // A reader who has not started has nothing to miss: the days before today are "before you started".
