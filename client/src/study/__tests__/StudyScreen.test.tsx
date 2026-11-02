@@ -241,7 +241,7 @@ describe('Study: progress', () => {
     expect(screen.getByText('9 / 15 分钟')).toBeTruthy();
     expect(screen.getByTestId('study-day-0').props.accessibilityLabel).toBe('星期一：已达成目标');
     expect(within(await screen.findByTestId('study-map-43')).getByText('约')).toBeTruthy();
-    expect(screen.getByTestId('study-map-1').props.accessibilityLabel).toBe('创世纪：已读 2 章，共 50 章');
+    expect(screen.getByTestId('study-map-1').props.accessibilityLabel).toBe('创世记：已读 2 章，共 50 章');
     expect(screen.getByText('旧约')).toBeTruthy();
   });
 });
