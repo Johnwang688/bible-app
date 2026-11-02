@@ -15,7 +15,8 @@ Security notes:
   ``app_env == "development"``. Anything else with either variable set is refused (503) and logged, before
   any token verification or Firestore call.
 - App Check (``app.core.app_check``): the ``X-Firebase-AppCheck`` header is checked only **after** the ID token
-  is accepted, per ``APP_CHECK_MODE`` (monitor logs, enforce refuses with the same 401, off ignores it).
+  is accepted, per ``APP_CHECK_MODE`` (monitor logs, enforce refuses with the same 401, off ignores it), and never
+  holds the request long (bounded waits; see that module).
 - The uid is used as a Firestore path segment, so a uid outside ``[A-Za-z0-9_-]{1,128}`` is refused (401)
   before any use ('/' would split the path into another user's tree).
 """

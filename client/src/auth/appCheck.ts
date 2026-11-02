@@ -1,8 +1,9 @@
 // Firebase App Check on the web (R-6b follow-up): reCAPTCHA Enterprise, score-based, with the public site
-// key from firebaseConfig.ts. `ensureAppCheck` runs from `getFirebaseDb()` (before Firestore exists), never
-// from `getFirebaseAuth()`, so a signed-out app (and the e2e suite) never loads reCAPTCHA. Firestore then
-// attaches App Check tokens itself; `getAppCheckToken` serves the backend call (accountApi.ts). The backend
-// and Firestore are in monitor mode (docs/app-check.md). iOS and Android use appCheck.native.ts.
+// key from firebaseConfig.ts. `ensureAppCheck` runs from `getFirebaseDb()` (before Firestore exists) and from
+// `getAppCheckTokenForRequest()` (a backend call, accountApi.ts), never from `getFirebaseAuth()`, so a
+// signed-out app that makes no account call (and the e2e suite) never loads reCAPTCHA. Firestore then
+// attaches App Check tokens itself. The backend and Firestore are in monitor mode (docs/app-check.md). iOS
+// and Android use appCheck.native.ts.
 import type { FirebaseApp } from 'firebase/app';
 import { getToken, initializeAppCheck, ReCaptchaEnterpriseProvider, type AppCheck } from 'firebase/app-check';
 
@@ -15,9 +16,9 @@ let settled = false;
 export function ensureAppCheck(app: FirebaseApp): void {
   if (settled) return;
   settled = true;
-  const siteKey = getAppCheckSiteKey();
-  if (!siteKey) return;
   try {
+    const siteKey = getAppCheckSiteKey();
+    if (!siteKey) return;
     appCheck = initializeAppCheck(app, { provider: new ReCaptchaEnterpriseProvider(siteKey), isTokenAutoRefreshEnabled: true });
   } catch {
     // App Check cannot start (for example it was initialised elsewhere with other options): run without it.
@@ -35,4 +36,22 @@ export async function getAppCheckToken(): Promise<string | null> {
   } catch {
     return null;
   }
+}
+
+/**
+ * The App Check token for a backend call (accountApi.ts): starts App Check on the default Firebase app first,
+ * since a call made signed out (the Under 13 delete) never created Firestore, which is what otherwise starts
+ * it (security review 4, S4-2). Only an account call gets here, so a signed-out app that makes none still
+ * never loads reCAPTCHA. Null when off or on any failure; never rejects. The caller bounds the wait.
+ */
+export async function getAppCheckTokenForRequest(): Promise<string | null> {
+  try {
+    // Lazily: loading this file loads no Firebase app (firebaseApp.ts imports it next to firebaseCore).
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { getFirebaseApp } = require('./firebaseCore') as typeof import('./firebaseCore');
+    ensureAppCheck(getFirebaseApp());
+  } catch {
+    // No Firebase app: the request goes without a token.
+  }
+  return getAppCheckToken();
 }
