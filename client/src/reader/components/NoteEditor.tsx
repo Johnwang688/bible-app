@@ -1,4 +1,5 @@
-// The note editor: a sub-view of the verse sheet. The note belongs to the first verse of the selection.
+// The note editor: a sub-view of the verse sheet. It is bound to the verse it opened for (the first verse of
+// the selection then); the sheet saves to that verse even if the selection changes while it is open.
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 

@@ -16,7 +16,7 @@ import { clampPosition, nextPosition, prevPosition } from '../navigation';
 import { useReaderPosition, useReadingSettings } from '../state';
 import type { TranslationId } from '../translations';
 import { usePrefetchAdjacent, useChapter } from '../useChapter';
-import { focusNodeSoon } from './a11y';
+import { useFocusNodeSoon } from './a11y';
 import { BookPicker } from './BookPicker';
 import { ChapterView, NARROW_PADDING, WIDE_BREAKPOINT, WIDE_PADDING } from './ChapterView';
 import { Icon } from './icons';
@@ -40,6 +40,12 @@ interface Selection {
   anchor: number;
   start: number;
   end: number;
+  /**
+   * Whether the verse sheet is showing for it. The sheet's open state lives here, in the selection, so the
+   * two can never disagree: whatever drops the selection (a chapter or translation change, closing) closes
+   * the sheet with it. A reference from a word card selects its verse with the sheet closed.
+   */
+  open: boolean;
 }
 
 /** Room under the text for the floating tab bar (plus the bottom inset). */
@@ -133,25 +139,26 @@ export function ReaderScreen(props: { storage?: Storage; locales?: readonly Devi
   }, [moveTo]);
 
   // The selection is a range in the shown chapter. It belongs to one chapter in one translation: any
-  // change of either discards it. Tapping a verse selects it and opens the verse sheet; a long press
-  // on another verse extends the range. Closing the sheet clears the selection.
+  // change of either discards it, and with it the verse sheet. Tapping a verse selects it and opens the
+  // verse sheet; a long press on another verse extends the range. Closing the sheet clears the selection.
   const selectionKey = `${position.bookNumber}:${position.chapter}:${first}`;
   const [selection, setSelection] = useState<Selection | null>(null);
-  const [sheetOpen, setSheetOpen] = useState(false);
   const range = selection?.key === selectionKey ? selection : null;
   // Adjusting state while rendering: a selection from another chapter or translation is dropped at once,
   // so it can never reappear when the reader comes back to that chapter.
   if (selection && !range) setSelection(null);
+  // The single source of truth for "the verse sheet is open": a selection in this chapter that has the sheet
+  // open, and a chapter to show it for. Key handling, the tab bar and the rendered sheet all read this.
+  const verseSheetOpen = !!(range?.open && book && firstQuery.data);
 
   // Extends the selection from its anchor (the first verse selected) to `verse`; with no selection it starts one.
   const extendTo = useCallback(
     (verse: number) => {
       setSelection((prev) =>
         prev && prev.key === selectionKey
-          ? { ...prev, start: Math.min(prev.anchor, verse), end: Math.max(prev.anchor, verse) }
-          : { key: selectionKey, anchor: verse, start: verse, end: verse },
+          ? { ...prev, start: Math.min(prev.anchor, verse), end: Math.max(prev.anchor, verse), open: true }
+          : { key: selectionKey, anchor: verse, start: verse, end: verse, open: true },
       );
-      setSheetOpen(true);
     },
     [selectionKey],
   );
@@ -159,20 +166,16 @@ export function ReaderScreen(props: { storage?: Storage; locales?: readonly Devi
   // a long press does. With the sheet closed a tap starts a new selection.
   const onVersePress = useCallback(
     (verse: number) => {
-      if (sheetOpen) extendTo(verse);
-      else {
-        setSelection({ key: selectionKey, anchor: verse, start: verse, end: verse });
-        setSheetOpen(true);
-      }
+      if (verseSheetOpen) extendTo(verse);
+      else setSelection({ key: selectionKey, anchor: verse, start: verse, end: verse, open: true });
     },
-    [sheetOpen, extendTo, selectionKey],
+    [verseSheetOpen, extendTo, selectionKey],
   );
   const onVerseLongPress = extendTo;
 
   // The open verse sheet's height: the chapter keeps that much room under its text, so any verse can be
   // scrolled up above the sheet.
   const [sheetHeight, setSheetHeight] = useState(0);
-  const verseSheetOpen = !!(range && sheetOpen && book && firstQuery.data);
   const sheetRoom = verseSheetOpen ? sheetHeight : 0;
   // The sheet takes the bottom of the screen; the (floating) tab bar would cover its last row.
   useHideTabBar(verseSheetOpen);
@@ -183,20 +186,19 @@ export function ReaderScreen(props: { storage?: Storage; locales?: readonly Devi
     if (node) toolsRefs.current.set(verse, node);
     else toolsRefs.current.delete(verse);
   }, []);
+  const focusSoon = useFocusNodeSoon();
 
   const closeVerseSheet = () => {
     const anchor = range?.anchor;
-    setSheetOpen(false);
     setSelection(null);
-    if (anchor !== undefined) focusNodeSoon(toolsRefs.current.get(anchor));
+    if (anchor !== undefined) focusSoon(toolsRefs.current.get(anchor));
   };
 
-  // A reference on a word card: close the sheet, go to that chapter in this translation, select the verse.
+  // A reference on a word card: go to that chapter in this translation and select the verse, sheet closed.
   const goToReference = (bookNumber: number, chapter: number, verse: number) => {
     const here = positionRef.current;
-    setSheetOpen(false);
     moveTo({ bookNumber, chapter, translation: here.translation });
-    setSelection({ key: `${bookNumber}:${chapter}:${here.translation}`, anchor: verse, start: verse, end: verse });
+    setSelection({ key: `${bookNumber}:${chapter}:${here.translation}`, anchor: verse, start: verse, end: verse, open: false });
   };
 
   const hideDistance = insets.top + HEADER_BODY_HEIGHT + 4;
@@ -211,7 +213,7 @@ export function ReaderScreen(props: { storage?: Storage; locales?: readonly Devi
   const swipeHandlers = useChapterSwipe(turn);
   // Keys move the reader only while its tab is showing (the tab stays mounted on web) and no sheet is open.
   const focused = useTabFocused();
-  useArrowKeys({ onNext: goNext, onPrev: goPrev, disabled: sheet !== null || sheetOpen || !focused });
+  useArrowKeys({ onNext: goNext, onPrev: goPrev, disabled: sheet !== null || verseSheetOpen || !focused });
 
   // What to show: always derived from the queries for the current position.
   const queries = secondId ? [books, firstQuery, secondQuery] : [books, firstQuery];
@@ -338,7 +340,7 @@ export function ReaderScreen(props: { storage?: Storage; locales?: readonly Devi
         />
       ) : null}
       {sheet === 'version' ? <VersionPicker current={first} onSelect={chooseTranslation} onClose={closeSheet} /> : null}
-      {range && sheetOpen && book && firstQuery.data ? (
+      {verseSheetOpen && range && book && firstQuery.data ? (
         <VerseSheet
           book={book}
           chapter={firstQuery.data}
@@ -349,6 +351,7 @@ export function ReaderScreen(props: { storage?: Storage; locales?: readonly Devi
           onClose={closeVerseSheet}
           onHeight={setSheetHeight}
           onGoTo={goToReference}
+          covered={sheet !== null}
         />
       ) : null}
       {sheet === 'settings' ? (

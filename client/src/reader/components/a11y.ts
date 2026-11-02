@@ -1,5 +1,5 @@
 // Screen-reader helpers shared by the reader's sheets: announcements and moving focus.
-import { useEffect, useRef, type ComponentRef } from 'react';
+import { useCallback, useEffect, useRef, type ComponentRef } from 'react';
 import { AccessibilityInfo, findNodeHandle, Platform, type Text } from 'react-native';
 
 /** Let a sheet's slide-in finish before focus moves into it. */
@@ -42,7 +42,25 @@ export function useFocusOnMount(enabled = true) {
   return ref;
 }
 
-/** Focus a node after a short delay (returning to the verse-tools button once a sheet has closed). */
-export function focusNodeSoon(node: unknown): void {
-  setTimeout(() => focusNode(node), FOCUS_DELAY_MS);
+/**
+ * Returns a function that focuses a node after a short delay (returning to the verse-tools button once a
+ * sheet has closed). Only the latest request is kept, and a pending one is cancelled when the component
+ * unmounts, so focus never moves (and no timer runs) after the screen is gone.
+ */
+export function useFocusNodeSoon(): (node: unknown) => void {
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(
+    () => () => {
+      if (timer.current !== null) clearTimeout(timer.current);
+      timer.current = null;
+    },
+    [],
+  );
+  return useCallback((node: unknown) => {
+    if (timer.current !== null) clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
+      timer.current = null;
+      focusNode(node);
+    }, FOCUS_DELAY_MS);
+  }, []);
 }

@@ -3,7 +3,7 @@
 // editor, the word list, the word card and the commentary placeholder are views inside the same sheet.
 // Closing the sheet discards the view, so reopening always starts on the actions.
 import * as Clipboard from 'expo-clipboard';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { BackHandler, Platform, Pressable, Share, StyleSheet, Text, View } from 'react-native';
 
 import type { BookInfo, ChapterOut } from '../../api/schemas';
@@ -26,7 +26,19 @@ import { buttonStyle } from './ui';
 import { WordCard } from './WordCard';
 import { WordsList } from './WordsList';
 
-type SheetView = { name: 'actions' } | { name: 'note' } | { name: 'commentary' } | { name: 'words' } | { name: 'word'; row: WordRow };
+// A sub-view is bound to the verse it opened for (the first verse of the selection at that moment).
+//
+// The rule for a selection change while a sub-view is open: the sub-view keeps its target. The sheet is
+// not modal, so tapping or long-pressing verses still changes the selection shown in the chapter, but the
+// note editor keeps its verse, its title and the text typed so far, and Save writes to that verse only;
+// the words list and the word card stay on their verse too. Stepping back to the actions shows the
+// current selection. So a draft is never discarded by a tap, and never lands on another verse's note.
+type SheetView =
+  | { name: 'actions' }
+  | { name: 'note'; verse: number }
+  | { name: 'commentary' }
+  | { name: 'words'; verse: number }
+  | { name: 'word'; verse: number; row: WordRow };
 
 export interface VerseSheetProps {
   book: BookInfo;
@@ -42,9 +54,14 @@ export interface VerseSheetProps {
   onHeight?(height: number): void;
   /** Take the reader to a reference from a word card (the screen closes the sheet). */
   onGoTo(bookNumber: number, chapter: number, verse: number): void;
+  /**
+   * A modal sheet (the book picker, version picker or reading settings) is open above this one. The topmost
+   * sheet handles Escape and the back button, so this sheet ignores them while covered.
+   */
+  covered?: boolean;
 }
 
-export function VerseSheet({ book, chapter, translation, start, end, study, onClose, onHeight, onGoTo }: VerseSheetProps) {
+export function VerseSheet({ book, chapter, translation, start, end, study, onClose, onHeight, onGoTo, covered = false }: VerseSheetProps) {
   const t = useT();
   const [view, setView] = useState<SheetView>({ name: 'actions' });
   // Coming back from a word card: where the list was scrolled to, and the row that was open.
@@ -56,47 +73,53 @@ export function VerseSheet({ book, chapter, translation, start, end, study, onCl
     () => verses.map((verse) => ({ bookNumber: chapter.book_number, chapter: chapter.chapter, verse })),
     [verses, chapter.book_number, chapter.chapter],
   );
-  const firstRef = refs[0]!;
   const reference = formatReference(bookName(book, translation), chapter.chapter, verses);
-  const firstReference = formatReference(bookName(book, translation), chapter.chapter, [start]);
+  const refOf = (verse: number): VerseRef => ({ bookNumber: chapter.book_number, chapter: chapter.chapter, verse });
+  const referenceOf = (verse: number) => formatReference(bookName(book, translation), chapter.chapter, [verse]);
 
-  const note = study.noteOf(firstRef);
+  // The actions view follows the live selection; its note action is about the first selected verse.
+  const hasNote = study.noteOf(refs[0]!) !== null;
   const allBookmarked = refs.every((r) => study.isBookmarked(r));
-  const toActions = useCallback(() => setView({ name: 'actions' }), []);
 
-  // Every way back from a word card (its back button, Escape, the Android back button) comes through here,
-  // so the list always returns to where it was scrolled, with the row that was open focused.
-  const closeWord = (row: WordRow) => {
-    setRestore({ y: listScrollY.current, key: row.key });
-    setView({ name: 'words' });
-  };
-
-  // Escape and the back button step back one view, then close.
+  // The one way back. Every back control (each sub-view's back button), Escape and the Android back
+  // button come through here: it steps back one view, then closes. Back from a word card returns the list
+  // to where it was scrolled, with the row that was open focused.
   const back = () => {
-    if (view.name === 'actions') onClose();
-    else if (view.name === 'word') closeWord(view.row);
-    else setView({ name: 'actions' });
+    switch (view.name) {
+      case 'actions':
+        onClose();
+        return;
+      case 'word':
+        setRestore({ y: listScrollY.current, key: view.row.key });
+        setView({ name: 'words', verse: view.verse });
+        return;
+      default:
+        setView({ name: 'actions' });
+    }
   };
 
   // The sheet is not a Modal (the chapter stays usable above it), so it listens for Escape (web) and the
-  // hardware back button (Android) itself.
-  const backRef = useRef(back);
-  useEffect(() => {
-    backRef.current = back;
+  // hardware back button (Android) itself, but only while it is the topmost sheet. The ref is set in the
+  // layout phase, in the same commit that opens or closes a covering sheet, before another key can arrive.
+  const latest = useRef({ back, covered });
+  useLayoutEffect(() => {
+    latest.current = { back, covered };
   });
   useEffect(() => {
     if (Platform.OS === 'web') {
       if (typeof document === 'undefined') return;
       const onKeyDown = (e: KeyboardEvent) => {
-        if (e.key !== 'Escape' || e.repeat) return;
+        if (e.key !== 'Escape' || e.repeat || latest.current.covered) return;
         e.preventDefault();
-        backRef.current();
+        latest.current.back();
       };
       document.addEventListener('keydown', onKeyDown);
       return () => document.removeEventListener('keydown', onKeyDown);
     }
     const sub = BackHandler.addEventListener('hardwareBackPress', () => {
-      backRef.current();
+      // Covered: not handled here, so the topmost sheet (or the system) gets the press.
+      if (latest.current.covered) return false;
+      latest.current.back();
       return true;
     });
     return () => sub.remove();
@@ -140,41 +163,52 @@ export function VerseSheet({ book, chapter, translation, start, end, study, onCl
     }
   };
 
-  const saveNote = (value: string) => {
+  // Saving and deleting write to the verse the editor is bound to, never to the live selection.
+  const saveNote = (verse: number, value: string) => {
     try {
-      study.setNote(firstRef, value);
+      study.setNote(refOf(verse), value);
     } catch {
       return; // over the limit: the editor already says so and keeps the old note
     }
     announce(t('note.saved'));
-    toActions();
+    setView({ name: 'actions' });
   };
 
-  const deleteNote = () => {
-    study.setNote(firstRef, '');
-    toActions();
+  const deleteNote = (verse: number) => {
+    study.setNote(refOf(verse), '');
+    setView({ name: 'actions' });
   };
 
   let content;
   switch (view.name) {
-    case 'note':
+    case 'note': {
+      const verse = view.verse;
       content = (
-        <NoteEditor reference={firstReference} initial={note?.text ?? null} onBack={toActions} onClose={onClose} onSave={saveNote} onDelete={deleteNote} />
+        <NoteEditor
+          reference={referenceOf(verse)}
+          initial={study.noteOf(refOf(verse))?.text ?? null}
+          onBack={back}
+          onClose={onClose}
+          onSave={(value) => saveNote(verse, value)}
+          onDelete={() => deleteNote(verse)}
+        />
       );
       break;
+    }
     case 'commentary':
-      content = <CommentaryPlaceholder onBack={toActions} onClose={onClose} />;
+      content = <CommentaryPlaceholder onBack={back} onClose={onClose} />;
       break;
-    case 'words':
+    case 'words': {
+      const verse = view.verse;
       content = (
         <WordsList
           book={book}
           chapter={chapter.chapter}
-          verse={start}
-          reference={firstReference}
-          onBack={toActions}
+          verse={verse}
+          reference={referenceOf(verse)}
+          onBack={back}
           onClose={onClose}
-          onOpenWord={(row) => setView({ name: 'word', row })}
+          onOpenWord={(row) => setView({ name: 'word', verse, row })}
           onScrolled={(y) => {
             listScrollY.current = y;
           }}
@@ -183,35 +217,27 @@ export function VerseSheet({ book, chapter, translation, start, end, study, onCl
         />
       );
       break;
-    case 'word': {
-      const row = view.row;
-      content = (
-        <WordCard
-          row={row}
-          onBack={() => closeWord(row)}
-          onClose={onClose}
-          onGoTo={onGoTo}
-        />
-      );
-      break;
     }
+    case 'word':
+      content = <WordCard row={view.row} onBack={back} onClose={onClose} onGoTo={onGoTo} />;
+      break;
     default:
       content = (
         <Actions
           reference={reference}
           study={study}
           refs={refs}
-          hasNote={note !== null}
+          hasNote={hasNote}
           allBookmarked={allBookmarked}
           onClose={onClose}
           onHighlight={highlight}
-          onNote={() => setView({ name: 'note' })}
+          onNote={() => setView({ name: 'note', verse: start })}
           onBookmark={toggleBookmark}
           onCopy={() => void copy()}
           onShare={() => void share()}
           onWords={() => {
             setRestore(null);
-            setView({ name: 'words' });
+            setView({ name: 'words', verse: start });
           }}
           onCommentary={() => setView({ name: 'commentary' })}
         />
