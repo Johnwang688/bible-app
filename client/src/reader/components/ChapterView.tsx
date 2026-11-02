@@ -2,7 +2,7 @@
 // One translation: a single flowing paragraph of tappable verses. Two translations: interleaved
 // verse by verse on a phone, two aligned columns when the window is wide.
 import { useEffect, useState } from 'react';
-import { Pressable, StyleSheet, Text, useWindowDimensions, View, type TextStyle } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, useWindowDimensions, View, type TextStyle } from 'react-native';
 
 import type { ChapterOut } from '../../api/schemas';
 import { scriptureFace, uiFace } from '../../fonts/fonts';
@@ -47,21 +47,19 @@ let chineseFontLoaded = false;
 
 /** Loads the Chinese Scripture font in the background. Text uses the system font until it is ready. */
 function useChineseFont(needed: boolean): string | undefined {
-  const [ready, setReady] = useState(chineseFontLoaded);
+  // The module flag is the source of truth, read on every render; the state only prompts a re-render.
+  // A load that finishes while another translation is shown still counts when we come back.
+  const [, setLoaded] = useState(chineseFontLoaded);
   useEffect(() => {
     if (!needed || chineseFontLoaded) return;
-    let live = true;
     ensureFont('chineseScripture')
       .then(() => {
         chineseFontLoaded = true;
-        if (live) setReady(true);
+        setLoaded(true); // a no-op once unmounted
       })
       .catch(() => undefined); // keep the system font; the next visit tries again
-    return () => {
-      live = false;
-    };
   }, [needed]);
-  return needed && ready ? LAZY_FONT_FAMILY.chineseScripture : undefined;
+  return needed && chineseFontLoaded ? LAZY_FONT_FAMILY.chineseScripture : undefined;
 }
 
 interface Face {
@@ -77,6 +75,17 @@ function face(theme: Theme, translation: TranslationId, size: number, chineseFon
     fontSize: size,
     lineHeight: Math.round(size * (zh ? 1.8 : 1.72)),
   };
+}
+
+/** Enter and Space activate a focused verse on the web (a span does not do this by itself). */
+function webKeys(activate: () => void) {
+  const onKeyDown = (e: { key: string; preventDefault(): void }) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      activate();
+    }
+  };
+  return { onKeyDown } as object;
 }
 
 function Runs({ text, size, color, noteColor }: { text: string; size: number; color: string; noteColor: string }) {
@@ -124,11 +133,14 @@ export function ChapterView({ chapter, translation, second, textSize, selectedVe
   const secondTranslation = second?.translation;
   const chineseFont = useChineseFont(isChineseTranslation(translation) || (!!secondTranslation && isChineseTranslation(secondTranslation)));
 
+  // On the web a "button" role renders an inline-block <button>, which cannot wrap with the text
+  // around it. A "link" role stays an inline, focusable span, so verses flow as one paragraph.
   const verseButton = (n: number) => ({
-    accessibilityRole: 'button' as const,
+    accessibilityRole: (Platform.OS === 'web' ? 'link' : 'button') as 'link' | 'button',
     accessibilityLabel: t('reader.verse', { n }),
     accessibilityState: { selected: selectedVerse === n },
     onPress: () => onVersePress(n),
+    ...(Platform.OS === 'web' ? webKeys(() => onVersePress(n)) : null),
   });
 
   if (!second) {

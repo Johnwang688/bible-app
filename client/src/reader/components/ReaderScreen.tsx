@@ -68,19 +68,26 @@ export function ReaderScreen(props: { storage?: Storage; locales?: readonly Devi
     settingsRef.current = settings;
   }, [position, settings]);
 
-  const moveTo = useCallback(
-    (next: ReaderPosition) => {
-      positionRef.current = next;
-      setPosition(next);
-    },
-    [setPosition],
-  );
   const saveSettings = useCallback(
     (next: ReadingSettings) => {
       settingsRef.current = next;
       setSettings(next);
     },
     [setSettings],
+  );
+  // Every move goes through here, so every translation change follows the same rule: both sides
+  // are never the same, and when the new first is the old second, the old first becomes the second.
+  const moveTo = useCallback(
+    (next: ReaderPosition) => {
+      const here = positionRef.current;
+      const current = settingsRef.current;
+      if (next.translation !== here.translation && current.parallel === next.translation) {
+        saveSettings({ ...current, parallel: here.translation });
+      }
+      positionRef.current = next;
+      setPosition(next);
+    },
+    [setPosition, saveSettings],
   );
 
   const turn = useCallback(
@@ -97,24 +104,18 @@ export function ReaderScreen(props: { storage?: Storage; locales?: readonly Devi
   const chooseTranslation = useCallback(
     (id: TranslationId) => {
       const here = positionRef.current;
-      const current = settingsRef.current;
-      if (id !== here.translation) {
-        // Both sides are never the same: the old first becomes the second.
-        if (current.parallel === id) saveSettings({ ...current, parallel: here.translation });
-        moveTo({ ...here, translation: id });
-      }
+      if (id !== here.translation) moveTo({ ...here, translation: id });
       setSheet(null);
     },
-    [moveTo, saveSettings],
+    [moveTo],
   );
 
   const swap = useCallback(() => {
     const here = positionRef.current;
     const current = settingsRef.current;
     if (!current.parallel || current.parallel === here.translation) return;
-    saveSettings({ ...current, parallel: here.translation });
     moveTo({ ...here, translation: current.parallel });
-  }, [moveTo, saveSettings]);
+  }, [moveTo]);
 
   // Tapping a verse selects it (the verse sheet is R-2); tapping it again clears it.
   const chapterKey = `${position.bookNumber}:${position.chapter}`;
