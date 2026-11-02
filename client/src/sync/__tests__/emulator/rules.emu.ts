@@ -14,6 +14,10 @@ import {
 
 import { clearFirestore, closeAll, dbAs, denied } from './emulator';
 
+// Device ids in the engine's shape (20 url-safe characters); activeMs on the wire is "day=ms;..." (R6b-fu-rules).
+const DEV_A = 'devA0000000000000000';
+const DEV_B = 'devB0000000000000000';
+
 let alice: Firestore;
 let bob: Firestore;
 let anon: Firestore;
@@ -34,15 +38,15 @@ const highlight = (over: Record<string, unknown> = {}) => ({
   deleted: false,
   value: { colour: 'blue' },
   updatedAt: NOW() - 1000,
-  deviceId: 'devA',
+  deviceId: DEV_A,
   serverTime: serverTimestamp(),
   ...over,
 });
 const itemRef = (db: Firestore, id: string, uid = 'alice') => doc(db, 'users', uid, 'items', id);
 
 const device = (over: Record<string, unknown> = {}) => ({
-  deviceId: 'devA',
-  activeMs: { '2026-11-02': 300000 },
+  deviceId: DEV_A,
+  activeMs: '2026-11-02=300000',
   chaptersRead: { '43:3': '2026-11-02T10:00:00.000Z' },
   goalMetDays: ['2026-11-01'],
   goal: { minutes: 15, updatedAt: NOW() - 1000 },
@@ -50,13 +54,13 @@ const device = (over: Record<string, unknown> = {}) => ({
   serverTime: serverTimestamp(),
   ...over,
 });
-const deviceRef = (db: Firestore, id = 'devA', uid = 'alice') => doc(db, 'users', uid, 'devices', id);
+const deviceRef = (db: Firestore, id = DEV_A, uid = 'alice') => doc(db, 'users', uid, 'devices', id);
 
 const setting = (over: Record<string, unknown> = {}) => ({
   key: 'language',
   json: '"zh-Hans"',
   updatedAt: NOW() - 1000,
-  deviceId: 'devA',
+  deviceId: DEV_A,
   serverTime: serverTimestamp(),
   ...over,
 });
@@ -134,7 +138,7 @@ describe('items', () => {
 describe('devices', () => {
   test('the owner can write and read a valid device document; goal may be null', async () => {
     await setDoc(deviceRef(alice), device());
-    await setDoc(deviceRef(alice, 'devB'), device({ deviceId: 'devB', goal: null, activeMs: {}, chaptersRead: {}, goalMetDays: [] }));
+    await setDoc(deviceRef(alice, DEV_B), device({ deviceId: DEV_B, goal: null, activeMs: '', chaptersRead: {}, goalMetDays: [] }));
     expect((await getDocs(collection(alice, 'users', 'alice', 'devices'))).size).toBe(2);
   });
 
@@ -147,17 +151,17 @@ describe('devices', () => {
   });
 
   test.each<[string, string, Record<string, unknown>]>([
-    ['deviceId differs from the id', 'devA', { deviceId: 'devB' }],
+    ['deviceId differs from the id', DEV_A, { deviceId: DEV_B }],
     ['bad id', 'a.b', { deviceId: 'a.b' }],
-    ['activeMs not a map', 'devA', { activeMs: [1] }],
-    ['chaptersRead not a map', 'devA', { chaptersRead: 'x' }],
-    ['goalMetDays not a list', 'devA', { goalMetDays: { a: 1 } }],
-    ['goal below 5', 'devA', { goal: { minutes: 3, updatedAt: 1 } }],
-    ['goal above 120', 'devA', { goal: { minutes: 125, updatedAt: 1 } }],
-    ['goal with an extra field', 'devA', { goal: { minutes: 10, updatedAt: 1, x: 1 } }],
-    ['evidence (device-local)', 'devA', { evidence: { day: '', chapters: {} } }],
-    ['serverTime from the client', 'devA', { serverTime: Timestamp.fromMillis(1) }],
-    ['updatedAt two days ahead', 'devA', { updatedAt: Date.now() + 2 * 86_400_000 }],
+    ['activeMs not a map', DEV_A, { activeMs: [1] }],
+    ['chaptersRead not a map', DEV_A, { chaptersRead: 'x' }],
+    ['goalMetDays not a list', DEV_A, { goalMetDays: { a: 1 } }],
+    ['goal below 5', DEV_A, { goal: { minutes: 3, updatedAt: 1 } }],
+    ['goal above 120', DEV_A, { goal: { minutes: 125, updatedAt: 1 } }],
+    ['goal with an extra field', DEV_A, { goal: { minutes: 10, updatedAt: 1, x: 1 } }],
+    ['evidence (device-local)', DEV_A, { evidence: { day: '', chapters: {} } }],
+    ['serverTime from the client', DEV_A, { serverTime: Timestamp.fromMillis(1) }],
+    ['updatedAt two days ahead', DEV_A, { updatedAt: Date.now() + 2 * 86_400_000 }],
   ])('rejects a device document with %s', async (_why, id, over) => {
     await denied(setDoc(deviceRef(alice, id), device(over)));
   });
@@ -167,7 +171,7 @@ describe('settings', () => {
   test('the owner can write each synced setting', async () => {
     await setDoc(settingRef(alice), setting());
     await setDoc(settingRef(alice, 'appearance'), setting({ key: 'appearance', json: '{"preset":"silver","mode":"light"}' }));
-    await setDoc(settingRef(alice, 'appearance.custom'), setting({ key: 'appearance.custom', json: 'x'.repeat(20000) }));
+    await setDoc(settingRef(alice, 'appearance.custom'), setting({ key: 'appearance.custom', json: JSON.stringify({ a: 'x'.repeat(3990) }) }) /* R-6b follow-up: custom themes are JSON objects of at most 4000 characters */);
     expect((await getDocs(collection(alice, 'users', 'alice', 'settings'))).size).toBe(3);
   });
 

@@ -57,7 +57,7 @@ export interface DeviceProgress {
 /** The synced settings: the storage keys (storage/*.ts `key`) whose whole value syncs. */
 export type SettingKey = 'appearance' | 'appearance.custom' | 'language';
 export const SETTING_KEYS: readonly SettingKey[] = ['appearance', 'appearance.custom', 'language'];
-export const SETTING_JSON_MAX = 20000;
+export const SETTING_JSON_MAX = 4000;
 
 export interface RemoteSetting {
   key: SettingKey;

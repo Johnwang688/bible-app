@@ -20,6 +20,9 @@ import {
 
 import { clearFirestore, closeAll, FIRESTORE_HOST, FIRESTORE_PORT, PROJECT } from './emulator';
 
+// A device id in the engine's shape (20 url-safe characters); activeMs on the wire is "day=ms;..." (R6b-fu-rules).
+const DEV_A = 'devA0000000000000000';
+
 const apps: FirebaseApp[] = [];
 let n = 0;
 
@@ -57,7 +60,7 @@ async function commitHighlights(db: Firestore, uid: string, count: number): Prom
       deleted: false,
       value: { colour: 'blue' },
       updatedAt: Date.now() - 1000,
-      deviceId: 'devA',
+      deviceId: DEV_A,
       serverTime: serverTimestamp(),
     });
   }
