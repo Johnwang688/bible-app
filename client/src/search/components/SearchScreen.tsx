@@ -2,10 +2,8 @@
 // that takes a reference or words. Below it, one scrolling list: with the field empty, the recent passages and a few
 // examples; when typing, passages, then verses, then people, places and themes. A full screen above the tabs.
 import { router, type Href } from 'expo-router';
-import { useEffect, useMemo, useRef, useState, type ComponentRef } from 'react';
+import { useMemo, useRef, useState, type ComponentRef } from 'react';
 import {
-  BackHandler,
-  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -43,6 +41,7 @@ import { hasCjk, searchTranslation } from '../searchTranslation';
 import type { PassageRef } from '../types';
 import { SEARCH_LIMIT, useDebouncedValue, useVerseSearch } from '../useVerseSearch';
 import { useOpenPassage } from '../useOpenPassage';
+import { useScreenBack } from '../useScreenBack';
 import { Card, GroupLabel, ListRow, SearchingPlaceholder, StateBlock } from './parts';
 import { VerseCard } from './VerseCard';
 
@@ -100,28 +99,8 @@ export function SearchScreen({
   const trimmed = query.trim();
   const settled = useDebouncedValue(trimmed, DEBOUNCE_MS);
 
-  // Escape (web) and the Android back button go back.
-  const latestBack = useRef(back);
-  useEffect(() => {
-    latestBack.current = back;
-  });
-  useEffect(() => {
-    if (Platform.OS === 'web') {
-      if (typeof document === 'undefined') return;
-      const onKeyDown = (e: KeyboardEvent) => {
-        if (e.key !== 'Escape' || e.repeat || e.isComposing) return;
-        e.preventDefault();
-        latestBack.current();
-      };
-      document.addEventListener('keydown', onKeyDown);
-      return () => document.removeEventListener('keydown', onKeyDown);
-    }
-    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
-      latestBack.current();
-      return true;
-    });
-    return () => sub.remove();
-  }, []);
+  // Escape (web) and the Android back button go back, while this screen is the focused one.
+  useScreenBack(back);
 
   // Passages are worked out on the phone on every keystroke.
   const passages = useMemo(() => (index ? suggestPassages(query, index) : []), [index, query]);
@@ -136,19 +115,21 @@ export function SearchScreen({
   const scripture = useScriptureFont(theme, translation);
   const terms = useMemo(() => queryWords(settled), [settled]);
 
-  // Ten at a time; a new query or translation starts again at ten.
+  // Ten at a time; the count belongs to the query on screen now, so any change of query or translation (even back
+  // to an earlier one) starts again at ten.
   const resultKey = `${settled}|${translation}`;
   const [shown, setShown] = useState({ key: resultKey, count: PAGE });
+  if (shown.key !== resultKey) setShown({ key: resultKey, count: PAGE });
   const count = shown.key === resultKey ? shown.count : PAGE;
   const results = search.data ?? [];
   const visible = results.slice(0, count);
   const remaining = Math.min(SEARCH_LIMIT, results.length) - visible.length;
 
   // People, places and themes: names, in English, once the query is long enough and is not a reference.
-  const entitiesOn = trimmed.length >= MATCH_MIN && !readsAsReference;
-  // They come last: until the verse search has answered (or failed) there is nothing above them to sit under.
-  const verseAnswered = search.data !== undefined || search.isError;
-  const showEntities = entitiesOn && verseAnswered;
+  // They are fetched once typing has paused, alongside the verse search, so they never flicker while typing.
+  const entitiesOn = trimmed.length >= MATCH_MIN && !readsAsReference && settled === trimmed;
+  // They come last in the list, but do not wait for the verse search: they show as soon as their lists have loaded.
+  const showEntities = entitiesOn;
   const people = useEntityList('person', { enabled: entitiesOn });
   const places = useEntityList('place', { enabled: entitiesOn });
   const themes = useEntityList('theme', { enabled: entitiesOn });
