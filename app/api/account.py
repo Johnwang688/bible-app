@@ -11,7 +11,13 @@ import time
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 from firebase_admin import auth
 
-from app.core.firebase_auth import FirebaseUnavailable, FirebaseUser, get_firebase_app, get_firebase_user
+from app.core.firebase_auth import (
+    FirebaseUnavailable,
+    FirebaseUser,
+    get_firebase_app,
+    get_firebase_identity,
+    get_firebase_user,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -27,7 +33,7 @@ def _delete_failed() -> HTTPException:
 
 
 @router.get("")
-def read_account(user: FirebaseUser = Depends(get_firebase_user)) -> dict[str, str | None]:
+def read_account(user: FirebaseUser = Depends(get_firebase_identity)) -> dict[str, str | None]:
     return {"uid": user.uid, "email": user.email}
 
 
