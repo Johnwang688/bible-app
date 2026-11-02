@@ -71,6 +71,9 @@ class _Path:
     def document(self, doc_id: str) -> "_Path":
         return _Path(f"{self.path}/{doc_id}")
 
+    def set(self, data, *args, **kwargs):
+        pass  # the deletion marker (F1); not one of the destructive steps these tests watch
+
 
 @pytest.fixture()
 def client():

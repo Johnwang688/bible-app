@@ -84,6 +84,18 @@ describe('FINDING: delete-my-data does not stop a still-valid ID token', () => {
     });
     expect(del.ok).toBe(true);
     await clearFirestore();
+    // The backend writes the deletion marker (Admin SDK) before the wipe; the emulator's admin bypass stands
+    // in for it here (orchestrator, after the F1 fix: the review's simulation of the delete had no marker step).
+    await new Promise((r) => setTimeout(r, 1100)); // deletedAt strictly after the token's auth_time (seconds)
+    const marker = await fetch(
+      `http://${FIRESTORE_HOST}:${FIRESTORE_PORT}/v1/projects/${PROJECT}/databases/(default)/documents/deletedUsers/${uid}`,
+      {
+        method: 'PATCH',
+        headers: { Authorization: 'Bearer owner', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fields: { deletedAt: { timestampValue: new Date().toISOString() } } }),
+      },
+    );
+    expect(marker.ok).toBe(true);
 
     // Device B's sync engine runs again with the ID token it still holds.
     await denied(setDoc(doc(db, 'users', uid, 'devices', 'devB'), device({ deviceId: 'devB' })));

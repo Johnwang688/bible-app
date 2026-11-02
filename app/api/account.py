@@ -62,6 +62,10 @@ def delete_account(user: FirebaseUser = Depends(get_firebase_user)) -> Response:
         from firebase_admin import firestore
 
         db = firestore.client(app)
+        # The deletion marker first: the rules refuse writes under users/{uid} from any ID token issued
+        # before it, so another device's still-valid token (up to 1 h) cannot recreate the data (security
+        # review F1). It lives outside users/{uid}, so the wipe keeps it.
+        db.collection("deletedUsers").document(uid).set({"deletedAt": firestore.SERVER_TIMESTAMP})
         db.recursive_delete(db.collection("users").document(uid))
     except Exception as exc:
         logger.warning("Account deletion: Firestore delete failed: %s", type(exc).__name__)

@@ -51,10 +51,14 @@ def fakes(monkeypatch):
             return self
 
         def document(self, doc_id):
-            return doc_id
+            return _Ref(doc_id)
 
         def recursive_delete(self, ref):
-            log.append(("recursive_delete", ref))
+            log.append(("recursive_delete", str(ref)))
+
+    class _Ref(str):
+        def set(self, data, *args, **kwargs):
+            log.append(("set", str(self)))
 
     sentinel = object()
     monkeypatch.setattr(firebase_admin, "get_app", lambda *a, **k: sentinel)
