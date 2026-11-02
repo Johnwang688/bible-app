@@ -47,12 +47,15 @@ export function useStudyItems(opts?: UseStudyItemsOptions): StudyItemsApi {
     };
     return {
       items,
-      highlightOf: (ref) => items.highlights[refKey(ref)] ?? null,
+      highlightOf: (ref) => items.highlights[refKey(ref)]?.colour ?? null,
       setHighlight: (refs, colour) =>
         update((latest) => {
+          const updatedAt = nowRef.current().toISOString();
           for (const ref of refs) {
-            if (colour === null) delete latest.highlights[refKey(ref)];
-            else latest.highlights[refKey(ref)] = colour;
+            const k = refKey(ref);
+            if (colour === null) delete latest.highlights[k];
+            // Setting the colour a verse already has keeps its time.
+            else if (latest.highlights[k]?.colour !== colour) latest.highlights[k] = { colour, updatedAt };
           }
         }),
       isBookmarked: (ref) => refKey(ref) in items.bookmarks,

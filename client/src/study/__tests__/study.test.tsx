@@ -2,7 +2,7 @@
 import { act, render } from '@testing-library/react-native';
 import { useEffect } from 'react';
 
-import { studyItemsKey, type VerseRef } from '../../storage/keys';
+import { studyItemsKey, UNKNOWN_TIME, type VerseRef } from '../../storage/keys';
 import { createStorage, memoryBackend, type Storage } from '../../storage/storage';
 import { formatReference, shareText } from '../share';
 import { useStudyItems } from '../useStudyItems';
@@ -89,9 +89,53 @@ describe('useStudyItems', () => {
       s.current!.setNote(r(3), 'n');
     });
     const items = storage.get(studyItemsKey);
-    expect(items.highlights['43:3:1']).toBe('pink');
+    expect(items.highlights['43:3:1']?.colour).toBe('pink');
     expect(items.bookmarks['43:3:2']).toBeDefined();
     expect(items.notes['43:3:3']?.text).toBe('n');
+  });
+});
+
+describe('study items version 2 (R-3): highlights carry a time', () => {
+  it('stores the time a highlight was set; the same colour again keeps it, a new colour renews it', async () => {
+    const storage = createStorage(memoryBackend());
+    let clock = new Date('2026-11-01T12:00:00.000Z');
+    const ref: { current: Api | null } = { current: null };
+    function Probe() {
+      const api = useStudyItems({ storage, now: () => clock });
+      useEffect(() => {
+        ref.current = api;
+      });
+      return null;
+    }
+    await render(<Probe />);
+    await act(async () => ref.current!.setHighlight([r(16), r(17)], 'yellow'));
+    expect(storage.get(studyItemsKey).highlights['43:3:16']).toEqual({ colour: 'yellow', updatedAt: '2026-11-01T12:00:00.000Z' });
+    clock = new Date('2026-11-02T08:00:00.000Z');
+    await act(async () => ref.current!.setHighlight([r(16), r(17)], 'yellow'));
+    expect(storage.get(studyItemsKey).highlights['43:3:16']?.updatedAt).toBe('2026-11-01T12:00:00.000Z');
+    await act(async () => ref.current!.setHighlight([r(17)], 'blue'));
+    expect(storage.get(studyItemsKey).highlights['43:3:17']).toEqual({ colour: 'blue', updatedAt: '2026-11-02T08:00:00.000Z' });
+    expect(ref.current!.highlightOf(r(17))).toBe('blue');
+  });
+
+  it('reads R-2 (version 1) items, keeping every highlight, note and bookmark', () => {
+    const backend = memoryBackend();
+    const v1 = {
+      highlights: { '43:3:16': 'green' },
+      notes: { '43:3:17': { text: 'n', updatedAt: '2026-11-01T00:00:00.000Z' } },
+      bookmarks: { '1:1:1': { createdAt: '2026-11-01T00:00:00.000Z' } },
+    };
+    backend.set('study.items', JSON.stringify({ v: 1, data: v1 }));
+    expect(createStorage(backend).get(studyItemsKey)).toEqual({
+      ...v1,
+      highlights: { '43:3:16': { colour: 'green', updatedAt: UNKNOWN_TIME } },
+    });
+  });
+
+  it('a version 1 value with a bad colour reads as empty, as any invalid value does', () => {
+    const backend = memoryBackend();
+    backend.set('study.items', JSON.stringify({ v: 1, data: { highlights: { '43:3:16': 'red' }, notes: {}, bookmarks: {} } }));
+    expect(createStorage(backend).get(studyItemsKey)).toEqual({ highlights: {}, notes: {}, bookmarks: {} });
   });
 });
 

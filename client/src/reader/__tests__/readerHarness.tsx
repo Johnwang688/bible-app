@@ -111,6 +111,8 @@ export interface RenderReaderOptions extends FakeApiOptions {
   storage?: Storage;
   position?: ReaderPosition;
   locales?: DeviceLocale[];
+  /** The reading-time clock (R-3); real time when absent. */
+  now?: () => number;
 }
 
 export async function renderReader(opts: RenderReaderOptions = {}) {
@@ -124,7 +126,7 @@ export async function renderReader(opts: RenderReaderOptions = {}) {
       <ApiProvider client={api} queryClient={queryClient}>
         <I18nProvider storage={storage} locales={locales}>
           <ThemeProvider storage={storage} systemScheme="light">
-            <ReaderScreen storage={storage} locales={locales} />
+            <ReaderScreen storage={storage} locales={locales} now={opts.now} />
           </ThemeProvider>
         </I18nProvider>
       </ApiProvider>
