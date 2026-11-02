@@ -109,7 +109,7 @@ export const trainerEn = {
   // Notices
   'memory.notice.voiceOff': 'Voice is off, so it’s typing only.',
   'memory.notice.settings': 'Memory settings',
-  'memory.notice.unsupported': 'Voice answers aren’t in the app yet. Type your answer; voice is coming.',
+  'memory.notice.unsupported': 'Voice answers don’t work on this device. Type your answer.',
   'memory.notice.signedOut': 'Sign in to use voice. Typing works without an account.',
   'memory.notice.signIn': 'Sign in',
   'memory.notice.offline': 'You’re offline. Voice needs the internet; typing works offline.',
@@ -261,7 +261,7 @@ export const trainerZhHans: Record<keyof typeof trainerEn, string> = {
 
   'memory.notice.voiceOff': '语音已关闭，只能输入。',
   'memory.notice.settings': '背诵设置',
-  'memory.notice.unsupported': 'App 暂时还不能用语音作答，请先输入。语音功能即将推出。',
+  'memory.notice.unsupported': '这台设备不能用语音作答，请输入答案。',
   'memory.notice.signedOut': '登录后才能使用语音。不登录也可以输入。',
   'memory.notice.signIn': '登录',
   'memory.notice.offline': '目前处于离线状态。语音识别需要网络，输入不需要。',

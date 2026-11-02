@@ -1,6 +1,7 @@
-// The microphone recorder for the Memory trainers. Web: MediaRecorder (Opus, mono, 32 kbps). Everywhere
-// else it is a stub that says it cannot record; the native adapter (`expo-audio`, not approved yet) fills
-// the same `Recorder` interface later.
+// The microphone recorder for the Memory trainers. Web: MediaRecorder (Opus, mono, 32 kbps). iOS and Android:
+// expo-audio (AAC in .m4a, mono, 32 kbps; `nativeRecorder.ts`), behind the same `Recorder` interface and the
+// same invariant. Anywhere that cannot record (no MediaRecorder, a build without expo-audio's native module, the
+// jest platform when expo-audio does not load) gets a stub that says so.
 //
 // INVARIANT (cancel always wins): after `cancel()` returns, or once a new `start()` has begun, no callback of
 // the old session runs (`onTick`, `onAutoStop`) and nothing of it is returned (its `stop()` resolves null, its
@@ -14,6 +15,7 @@
 //   the final data) checks `live(s)` when it resumes, and delivery is the last step: `live(s)`, then
 //   `complete(s)` (synchronous), then the callback or the return, with no await in between.
 import { Platform } from 'react-native';
+import { createNativeRecorder, type ExpoAudioApi } from './nativeRecorder';
 import {
   RECORDING_BITS_PER_SECOND,
   type MicPermission,
@@ -225,7 +227,7 @@ export function createWebRecorder(env: WebRecorderEnv): Recorder {
   };
 }
 
-/** Everywhere that cannot record yet: says so, and every call is a no-op. */
+/** Anywhere that cannot record: says so, and every call is a no-op. */
 function unsupportedRecorder(): Recorder {
   return {
     supported: false,
@@ -237,10 +239,41 @@ function unsupportedRecorder(): Recorder {
 }
 
 /**
- * The recorder for this platform. A browser with `getUserMedia` and `MediaRecorder` records; native (and
- * the jest platform) gets the stub until the `expo-audio` adapter is approved and fills this interface.
+ * expo-audio, loaded only when it is used and only if its native module is in this build; null otherwise (an
+ * older build without it, or a module that does not have what the adapter needs).
+ */
+function loadExpoAudio(): ExpoAudioApi | null {
+  try {
+    // A lazy, guarded require: a static import would crash at load on a build without the native module.
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const audio = require('expo-audio') as Partial<ExpoAudioApi> | undefined;
+    if (
+      typeof audio?.AudioModule?.AudioRecorder !== 'function' ||
+      typeof audio.getRecordingPermissionsAsync !== 'function' ||
+      typeof audio.requestRecordingPermissionsAsync !== 'function' ||
+      typeof audio.setAudioModeAsync !== 'function'
+    ) {
+      return null;
+    }
+    return audio as ExpoAudioApi;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * The recorder for this platform. A browser with `getUserMedia` and `MediaRecorder` records with MediaRecorder;
+ * iOS and Android record with expo-audio when its native module is in the build; anything else gets the stub.
  */
 export function createRecorder(): Recorder {
+  if (Platform.OS === 'ios' || Platform.OS === 'android') {
+    const audio = loadExpoAudio();
+    if (!audio) return unsupportedRecorder();
+    return createNativeRecorder(audio, {
+      platform: Platform.OS,
+      readFile: (uri) => fetch(uri).then((r) => r.blob()),
+    });
+  }
   const mediaDevices = typeof navigator === 'undefined' ? undefined : navigator.mediaDevices;
   const Ctor = (globalThis as { MediaRecorder?: typeof MediaRecorder }).MediaRecorder;
   if (Platform.OS !== 'web' || !mediaDevices?.getUserMedia || !Ctor) return unsupportedRecorder();

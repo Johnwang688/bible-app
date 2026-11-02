@@ -24,6 +24,7 @@ it('native: createRecorder records through expo-audio', async () => {
     requestRecordingPermissionsAsync: async () => ({ status: 'granted', granted: true, canAskAgain: true }),
     setAudioModeAsync: async () => undefined,
   }));
+  // eslint-disable-next-line @typescript-eslint/no-require-imports -- jest.doMock needs a require after it
   const { createRecorder } = require('../voice/recorder') as typeof import('../voice/recorder');
   const rec = createRecorder();
   expect(rec.supported).toBe(true);
@@ -35,6 +36,7 @@ it('native: createRecorder records through expo-audio', async () => {
 
 it('native without the expo-audio module: the unsupported stub', async () => {
   jest.doMock('expo-audio', () => { throw new Error('Cannot find native module ExpoAudio'); });
+  // eslint-disable-next-line @typescript-eslint/no-require-imports -- jest.doMock needs a require after it
   const { createRecorder } = require('../voice/recorder') as typeof import('../voice/recorder');
   const rec = createRecorder();
   expect(rec.supported).toBe(false);

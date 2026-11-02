@@ -2,9 +2,9 @@
 // transcription client and the availability gate implement these; the screens use only these types.
 import type { SpeechLanguage } from '../speech/types';
 
-/** Recording stops and sends by itself at 30 s (the server takes at most 256 KB; Opus at 32 kbps is ~120 KB). */
+/** Recording stops and sends by itself at 30 s (the server takes at most 256 KB; 32 kbps is ~120 KB). */
 export const MAX_RECORDING_MS = 30_000;
-/** Opus, mono, 32 kbps. */
+/** Mono, 32 kbps (Opus on the web, AAC on iOS / Android). */
 export const RECORDING_BITS_PER_SECOND = 32_000;
 /** The client gives up waiting for a transcription after 30 s (the "timed out" state). */
 export const TRANSCRIBE_TIMEOUT_MS = 30_000;
@@ -27,8 +27,8 @@ export interface RecorderStartOptions {
 }
 
 /**
- * One microphone recorder. Web: MediaRecorder (Opus mono 32 kbps). Native: a stub (`supported: false`) until
- * `expo-audio` is approved; a native adapter fills this same interface later.
+ * One microphone recorder. Web: MediaRecorder (Opus mono 32 kbps). iOS / Android: expo-audio (AAC mono 32 kbps,
+ * uploaded as audio/mp4). Where neither can record: a stub (`supported: false`).
  */
 export interface Recorder {
   /** Whether this platform can record at all. */
@@ -85,7 +85,7 @@ export type CheckVoice = (
 /** A notice that stands in the mic's place; typing is then the main action. */
 export type VoiceNotice =
   | 'voice-off'
-  /** Native, until expo-audio is approved: typing only, with a note. */
+  /** This device or browser cannot record: typing only, with a note. */
   | 'unsupported'
   | 'signed-out'
   | 'offline'
