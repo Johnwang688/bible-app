@@ -19,6 +19,11 @@ const MINUTE = 60_000;
 const HOUR = 60 * MINUTE;
 const DAY = 24 * HOUR;
 
+/** The current client time in ms. The sync line deliberately reads it at render time (a status that just arrived is aged from now). */
+export function clockNow(): number {
+  return Date.now();
+}
+
 /** `now` is the current client time in ms. A last-sync time in the future (clock skew) reads as just now. */
 export function syncLine(sync: SyncStatus | null, now: number): SyncLine {
   switch (sync?.state) {

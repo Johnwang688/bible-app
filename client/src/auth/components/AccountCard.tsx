@@ -17,28 +17,30 @@ import { useAccount } from '../AccountProvider';
 import type { SyncStatus } from '../../sync/types';
 import { AccountSheet, type AccountSheetStart } from './AccountSheet';
 import { ActionButton, Glyph, RoundButton, Spinner, TextButton } from './parts';
-import { nextSyncLineChange, syncLine } from './syncLine';
+import { clockNow, nextSyncLineChange, syncLine } from './syncLine';
 
 /** How long the "account deleted" banner stays up by itself. */
 export const BANNER_MS = 8000;
 
-/** The client time in ms, refreshed when the sync line's wording is due to change ("just now" → "1 min ago"). */
-function useNow(sync: SyncStatus | null): number {
-  const [now, setNow] = useState(() => Date.now());
+/**
+ * Re-renders the card when the sync line's wording is due to change ("just now" → "1 min ago"). The line itself
+ * reads the clock at render time, so a status that arrives on a rerender is never aged from an older clock value.
+ */
+function useClockTick(sync: SyncStatus | null): void {
+  const [, setTick] = useState(0);
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | undefined;
     const schedule = () => {
       const wait = nextSyncLineChange(sync, Date.now());
       if (wait === null) return;
       timer = setTimeout(() => {
-        setNow(Date.now());
+        setTick((n) => n + 1);
         schedule();
       }, wait);
     };
     schedule();
     return () => clearTimeout(timer);
   }, [sync]);
-  return now;
 }
 
 export function AccountCard() {
@@ -46,7 +48,7 @@ export function AccountCard() {
   const { t, formatDate } = useI18n();
   const account = useAccount();
   const danger = dangerColours(theme);
-  const now = useNow(account.sync);
+  useClockTick(account.sync);
 
   const [sheet, setSheet] = useState<AccountSheetStart | null>(null);
   const [confirmSignOut, setConfirmSignOut] = useState(false);
@@ -68,6 +70,9 @@ export function AccountCard() {
   }
 
   const signedIn = account.status === 'signedIn' && account.user !== null;
+  // The sign-out confirmation only makes sense while signed in; any other cause of signing out closes it
+  // (adjusted while rendering, so it is gone in the same pass and does not return on the next sign-in).
+  if (confirmSignOut && !signedIn) setConfirmSignOut(false);
   const signedOut = account.status === 'signedOut';
   // Sign-in is off only when the provider says so (the Under 13 age choice).
   const allowed = account.signInAllowed !== false;
@@ -79,7 +84,7 @@ export function AccountCard() {
 
   const syncState = account.sync?.state;
   const retry = syncState === 'offline' || syncState === 'error';
-  const line = signedIn ? syncLine(account.sync, now) : null;
+  const line = signedIn ? syncLine(account.sync, clockNow()) : null;
 
   const signOut = () => {
     // Offline or failing: what changed on this phone may not have reached the account. Say so first.
@@ -196,7 +201,7 @@ export function AccountCard() {
 
       {sheet !== null ? <AccountSheet key={sheet} start={sheet} onClose={closeSheet} onDeleted={showBanner} /> : null}
 
-      {confirmSignOut ? (
+      {confirmSignOut && signedIn ? (
         <SheetModal testID="account-signout-sheet" onClose={() => setConfirmSignOut(false)}>
           <Text accessibilityRole="header" style={{ color: theme.colors.text, fontFamily: head, fontSize: 21 }}>
             {t('signOut.title')}

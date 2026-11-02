@@ -139,6 +139,7 @@ export function TextButton({
   disabled = false,
   tone = 'accent',
   align = 'center',
+  role = 'button',
 }: {
   testID: string;
   label: string;
@@ -146,13 +147,15 @@ export function TextButton({
   disabled?: boolean;
   tone?: 'accent' | 'danger';
   align?: 'center' | 'flex-start';
+  /** `link` for navigation (it is a link on the web too); `button` for actions. */
+  role?: 'button' | 'link';
 }) {
   const theme = useTheme();
   const colour = tone === 'danger' ? dangerColours(theme).text : theme.colors.accent;
   return (
     <Pressable
       testID={testID}
-      accessibilityRole="button"
+      accessibilityRole={role}
       accessibilityLabel={label}
       accessibilityState={{ disabled }}
       disabled={disabled}

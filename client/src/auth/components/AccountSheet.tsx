@@ -340,7 +340,7 @@ export function AccountSheet({
               {formMessage}
               <ActionButton testID="auth-submit" label={busy ? t('auth.signUp.busy') : t('auth.signUp.submit')} busy={busy} onPress={() => void submitSignUp()} />
               <Para text={t('auth.signUp.note')} size={13} center />
-              <TextButton testID="auth-privacy" label={t('auth.privacy')} onPress={openPrivacy} />
+              <TextButton testID="auth-privacy" role="link" label={t('auth.privacy')} onPress={openPrivacy} />
             </>
           ) : null}
 
