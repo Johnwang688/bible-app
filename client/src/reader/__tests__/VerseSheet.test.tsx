@@ -35,7 +35,7 @@ describe('verse sheet', () => {
     const yellow = within(sheet).getByTestId('sheet-swatch-yellow');
     expect(yellow.props.accessibilityLabel).toBe('Highlight Yellow');
     await fireEvent.press(yellow);
-    expect(storage.get(studyItemsKey).highlights['43:3:16']).toBe('yellow');
+    expect(storage.get(studyItemsKey).highlights['43:3:16']?.colour).toBe('yellow');
     expect(within(sheet).getByTestId('sheet-swatch-yellow').props.accessibilityState?.selected).toBe(true);
     expect(style(screen.getByTestId('verse-16')).backgroundColor).toBe(HIGHLIGHTS.yellow.wash.light);
     await fireEvent.press(within(sheet).getByTestId('sheet-swatch-yellow'));
@@ -86,7 +86,7 @@ describe('verse sheet', () => {
     expect(within(sheet).getByText('John 3:16–18')).toBeTruthy();
     await fireEvent.press(within(sheet).getByTestId('sheet-swatch-green'));
     const hl = storage.get(studyItemsKey).highlights;
-    expect([hl['43:3:16'], hl['43:3:17'], hl['43:3:18']]).toEqual(['green', 'green', 'green']);
+    expect([hl['43:3:16']?.colour, hl['43:3:17']?.colour, hl['43:3:18']?.colour]).toEqual(['green', 'green', 'green']);
   });
 
   it('tapping a second verse while the sheet is open extends the selection (plan: Bible: the reader)', async () => {
@@ -106,7 +106,7 @@ describe('verse sheet', () => {
   it('shows a highlight on both sides in parallel reading (items attach to the reference)', async () => {
     const storage = createStorage(memoryBackend());
     storage.set(readingSettingsKey, { textSize: 2, parallel: 'CUV-SIMP' });
-    storage.set(studyItemsKey, { highlights: { '43:3:16': 'blue' }, notes: {}, bookmarks: {} });
+    storage.set(studyItemsKey, { highlights: { '43:3:16': { colour: 'blue', updatedAt: '2026-11-01T00:00:00.000Z' } }, notes: {}, bookmarks: {} });
     await renderReader({ storage, position: JOHN3_WEB });
     const row = await screen.findByTestId('verse-row-16');
     // The wash sits on the row, or on both translations' text.

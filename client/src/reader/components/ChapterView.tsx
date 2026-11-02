@@ -2,7 +2,17 @@
 // One translation: a single flowing paragraph of tappable verses. Two translations: interleaved
 // verse by verse on a phone, two aligned columns when the window is wide.
 import { useEffect, useState } from 'react';
-import { Platform, Pressable, StyleSheet, Text, useWindowDimensions, View, type TextStyle, type ViewStyle } from 'react-native';
+import {
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View,
+  type LayoutChangeEvent,
+  type TextStyle,
+  type ViewStyle,
+} from 'react-native';
 
 import type { ChapterOut } from '../../api/schemas';
 import { scriptureFace, uiFace } from '../../fonts/fonts';
@@ -17,6 +27,7 @@ import { alignVerses } from '../align';
 import { splitAlternateReadings } from '../alternateReadings';
 import { isChineseTranslation, TRANSLATIONS, type TranslationId } from '../translations';
 import { Icon } from './icons';
+import type { VerseLayoutReport } from './scrollToVerse';
 import { buttonStyle } from './ui';
 
 /** Windows at least this wide (tablets, the web) get two columns. */
@@ -52,6 +63,12 @@ export interface ChapterViewProps {
   registerTools?(verse: number, node: unknown): void;
   /** Swap the two translations (the wide layout's header). */
   onSwap?(): void;
+  /**
+   * Where the verses are laid out, for scrolling to one (native only: the web finds the element). Reports carry
+   * `layoutKey`, which names the chapter and translation they belong to.
+   */
+  onVerseLayout?(report: VerseLayoutReport): void;
+  layoutKey?: string;
 }
 
 // Once the Chinese font has loaded it stays loaded; later screens start with it.
@@ -175,6 +192,7 @@ function VerseTools({
       accessibilityRole="button"
       accessibilityLabel={info.label}
       accessibilityState={{ selected: info.selected }}
+      aria-selected={info.selected}
       onPress={onPress}
       style={style}
     >
@@ -209,6 +227,8 @@ export function ChapterView({
   onVerseLongPress,
   registerTools,
   onSwap,
+  onVerseLayout,
+  layoutKey = '',
 }: ChapterViewProps) {
   const theme = useTheme();
   const t = useT();
@@ -236,12 +256,27 @@ export function ChapterView({
     onLongPress: onVerseLongPress ? () => onVerseLongPress(n) : undefined,
   });
 
+  // Layout reports, only when asked for: the root view's place in the scroll content, each row's place in the
+  // root and the single paragraph's height.
+  const onRoot = onVerseLayout
+    ? (e: LayoutChangeEvent) => onVerseLayout({ key: layoutKey, kind: 'root', y: e.nativeEvent.layout.y })
+    : undefined;
+  const onRow = (verse: number) =>
+    onVerseLayout ? (e: LayoutChangeEvent) => onVerseLayout({ key: layoutKey, kind: 'row', verse, y: e.nativeEvent.layout.y }) : undefined;
+
   if (!second) {
     const f = face(theme, translation, size, chineseFont);
     const space = isChineseTranslation(translation) ? '' : ' ';
     return (
-      <View style={styles.reading}>
-        <Text style={[f, { color: theme.colors.text }]}>
+      <View style={styles.reading} onLayout={onRoot}>
+        <Text
+          style={[f, { color: theme.colors.text }]}
+          onLayout={
+            onVerseLayout
+              ? (e) => onVerseLayout({ key: layoutKey, kind: 'text', height: e.nativeEvent.layout.height })
+              : undefined
+          }
+        >
           {chapter.verses.map((v) => {
             const i = info(v.verse);
             const onColour = i.look.onSelectedColour;
@@ -282,13 +317,13 @@ export function ChapterView({
     const secondSize = size * 0.92;
     const secondFace = face(theme, second.translation, secondSize, chineseFont);
     return (
-      <View style={styles.phoneRows}>
+      <View style={styles.phoneRows} onLayout={onRoot}>
         {rows.map((row) => {
           const i = info(row.verse);
           const onColour = i.look.onSelectedColour;
           const numberColor = onColour ? theme.colors.hlText : theme.colors.vnum;
           return (
-            <View key={row.verse} testID={`verse-row-${row.verse}`} style={[styles.phoneRow, ...rowStyle(i)]}>
+            <View key={row.verse} testID={`verse-row-${row.verse}`} style={[styles.phoneRow, ...rowStyle(i)]} onLayout={onRow(row.verse)}>
               {row.primary ? (
                 <Text testID={`verse-${row.verse}`} {...textPress(row.verse)} style={[firstFace, { color: onColour ? theme.colors.hlText : theme.colors.text }]}>
                   <VerseTools info={i} color={numberColor} onPress={() => onVersePress(row.verse)} registerTools={registerTools} />
@@ -344,7 +379,7 @@ export function ChapterView({
   const secondName = headName(second.translation, 'reader.secondTranslation', 'parallel-second-name');
 
   return (
-    <View testID="parallel-columns" style={styles.columns}>
+    <View testID="parallel-columns" style={styles.columns} onLayout={onRoot}>
       <View style={styles.columnsHeader}>
         <View style={styles.headerCell}>{firstName}</View>
         <Pressable
@@ -365,7 +400,7 @@ export function ChapterView({
         const noteColor = onColour ? theme.colors.hlText : theme.colors.muted;
         const numberColor = onColour ? theme.colors.hlText : theme.colors.vnum;
         return (
-          <View key={row.verse} testID={`verse-row-${row.verse}`} style={[styles.wideRow, ...rowStyle(i)]}>
+          <View key={row.verse} testID={`verse-row-${row.verse}`} style={[styles.wideRow, ...rowStyle(i)]} onLayout={onRow(row.verse)}>
             <View style={styles.cell}>
               {row.primary ? (
                 <Text testID={`verse-${row.verse}`} {...textPress(row.verse)} style={[firstFace, { color: textColor }]}>
@@ -381,6 +416,7 @@ export function ChapterView({
               accessibilityRole="button"
               accessibilityLabel={i.label}
               accessibilityState={{ selected: i.selected }}
+              aria-selected={i.selected}
               onPress={() => onVersePress(row.verse)}
               style={styles.numberCell}
             >

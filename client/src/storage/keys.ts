@@ -94,18 +94,103 @@ const refKeySchema = z.string().regex(/^([1-9]|[1-5]\d|6[0-6]):([1-9]\d{0,2}):([
 export const NOTE_MAX_LENGTH = 5000;
 
 export interface StudyItems {
-  highlights: Record<string, HighlightId>;
+  highlights: Record<string, { colour: HighlightId; updatedAt: string }>;
   notes: Record<string, { text: string; updatedAt: string }>;
   bookmarks: Record<string, { createdAt: string }>;
 }
 
+const studyItemsSchema = z.object({
+  highlights: z.record(refKeySchema, z.object({ colour: z.enum(HIGHLIGHT_IDS), updatedAt: z.string() })),
+  notes: z.record(refKeySchema, z.object({ text: z.string().min(1).max(NOTE_MAX_LENGTH), updatedAt: z.string() })),
+  bookmarks: z.record(refKeySchema, z.object({ createdAt: z.string() })),
+});
+
+/** When a highlight saved before highlights had a time (version 1) says it was made. */
+export const UNKNOWN_TIME = '1970-01-01T00:00:00.000Z';
+
 export const studyItemsKey: StorageKey<StudyItems> = {
   key: 'study.items',
+  // 2 (R-3): highlights carry the time they were set, for the Study list.
+  version: 2,
+  schema: studyItemsSchema,
+  fallback: { highlights: {}, notes: {}, bookmarks: {} },
+  migrate: (from, data) => {
+    if (from !== 1 || !data || typeof data !== 'object') return undefined;
+    const v1 = data as { highlights?: unknown };
+    if (!v1.highlights || typeof v1.highlights !== 'object') return undefined;
+    const highlights = Object.fromEntries(
+      Object.entries(v1.highlights as Record<string, unknown>).map(([k, colour]) => [k, { colour, updatedAt: UNKNOWN_TIME }]),
+    );
+    return { ...(data as object), highlights };
+  },
+};
+
+// ---- Reading progress (R-3): time read per day, the daily goal and the chapters explored ----
+
+/** Chapters per book, in canon order (1,189 in all). Progress keys must name a real chapter. */
+export const CHAPTER_COUNTS = [
+  50, 40, 27, 36, 34, 24, 21, 4, 31, 24, 22, 25, 29, 36, 10, 13, 10, 42, 150, 31, 12, 8, 66, 52, 5, 48, 12, 14, 3, 9, 1, 4,
+  7, 3, 3, 3, 2, 14, 4, 28, 16, 24, 21, 28, 16, 16, 13, 6, 6, 4, 4, 5, 3, 6, 4, 3, 1, 13, 5, 5, 3, 5, 1, 1, 1, 22,
+] as const;
+
+/** `"43:3"`: a chapter, in any translation. */
+export const chapterKey = (bookNumber: number, chapter: number): string => `${bookNumber}:${chapter}`;
+const chapterKeySchema = z
+  .string()
+  .regex(/^([1-9]|[1-5]\d|6[0-6]):([1-9]\d{0,2})$/)
+  .refine((k) => {
+    const [book, chapter] = k.split(':').map(Number) as [number, number];
+    return chapter <= CHAPTER_COUNTS[book - 1]!;
+  });
+/** A local calendar day, `"2026-11-02"`, that exists. */
+const dayKeySchema = z
+  .string()
+  .regex(/^\d{4}-\d{2}-\d{2}$/)
+  .refine((day) => {
+    const [y, m, d] = day.split('-').map(Number) as [number, number, number];
+    const date = new Date(Date.UTC(y, m - 1, d));
+    return date.getUTCFullYear() === y && date.getUTCMonth() === m - 1 && date.getUTCDate() === d;
+  });
+
+export const DEFAULT_GOAL_MINUTES = 10;
+export const MIN_GOAL_MINUTES = 5;
+export const MAX_GOAL_MINUTES = 120;
+
+export interface ChapterEvidence {
+  /** The furthest verse the reader has had on screen. */
+  furthestVerse: number;
+  /** Engaged reading time on the chapter today. */
+  engagedMs: number;
+}
+
+export interface ReadingProgress {
+  /** The daily goal in minutes, a multiple of 5 from MIN_GOAL_MINUTES to MAX_GOAL_MINUTES. */
+  goalMinutes: number;
+  /** Engaged reading time per local day. */
+  activeMs: Record<string, number>;
+  /** The days the goal was met (kept even if the goal changes later), oldest first, no repeats. */
+  goalMetDays: string[];
+  /** Chapters credited as read (any translation), with the time first credited. */
+  chaptersRead: Record<string, string>;
+  /** Today's evidence per chapter; reset when the day changes. */
+  evidence: { day: string; chapters: Record<string, ChapterEvidence> };
+}
+
+export const readingProgressKey: StorageKey<ReadingProgress> = {
+  key: 'reading.progress',
   version: 1,
   schema: z.object({
-    highlights: z.record(refKeySchema, z.enum(HIGHLIGHT_IDS)),
-    notes: z.record(refKeySchema, z.object({ text: z.string().min(1).max(NOTE_MAX_LENGTH), updatedAt: z.string() })),
-    bookmarks: z.record(refKeySchema, z.object({ createdAt: z.string() })),
+    goalMinutes: z.number().int().min(MIN_GOAL_MINUTES).max(MAX_GOAL_MINUTES).multipleOf(5),
+    activeMs: z.record(dayKeySchema, z.number().int().min(0)),
+    goalMetDays: z.array(dayKeySchema),
+    chaptersRead: z.record(chapterKeySchema, z.string()),
+    evidence: z.object({
+      day: z.union([z.literal(''), dayKeySchema]),
+      chapters: z.record(
+        chapterKeySchema,
+        z.object({ furthestVerse: z.number().int().min(0), engagedMs: z.number().int().min(0) }),
+      ),
+    }),
   }),
-  fallback: { highlights: {}, notes: {}, bookmarks: {} },
+  fallback: { goalMinutes: DEFAULT_GOAL_MINUTES, activeMs: {}, goalMetDays: [], chaptersRead: {}, evidence: { day: '', chapters: {} } },
 };
