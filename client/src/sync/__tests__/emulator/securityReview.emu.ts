@@ -106,9 +106,9 @@ describe('FINDING: delete-my-data does not stop a still-valid ID token', () => {
   });
 });
 
-// Not fixed in R-6b: rules cannot iterate map values or count documents. Mitigations (App Check, a budget
-// alert, a restructured device document) are John's call; see the PR. Kept as a record and to re-enable.
-describe.skip('ACCEPTED RISK (pending John): device documents are arbitrary storage', () => {
+// Fixed in the R-6b follow-up (John): schema-tight rules and a checkable wire format. The device-count cap stays
+// open (rules cannot count documents); App Check and a budget alert are the controls.
+describe('formerly an accepted risk: device documents are arbitrary storage', () => {
   test('activeMs / chaptersRead / goalMetDays values are not type-checked: a ~900 KB blob is accepted', async () => {
     const blob = 'x'.repeat(900_000);
     await denied(setDoc(doc(alice, 'users', 'alice', 'devices', DEV_A), device({ activeMs: { '2026-11-02': blob } })));
@@ -123,7 +123,7 @@ describe.skip('ACCEPTED RISK (pending John): device documents are arbitrary stor
     );
   });
 
-  test('the number of device documents per user is unbounded (proposed cap: 20)', async () => {
+  test.skip('the number of device documents per user is unbounded (proposed cap: 20; not enforceable in rules)', async () => {
     for (let i = 0; i < 20; i++) {
       await setDoc(doc(alice, 'users', 'alice', 'devices', `dev${i}`.padEnd(20, '0')), device({ deviceId: `dev${i}`.padEnd(20, '0') }));
     }

@@ -168,10 +168,10 @@ describe('items: exact values', () => {
   });
 
   test.each<[string, Partial<RemoteItem>, Record<string, unknown>?]>([
-    ['a note over the length limit', { value: { text: 'x'.repeat(5001) } }],
-    ['a bookmark whose createdAt is not an ISO time', { id: 'bookmark:43:3:16', kind: 'bookmark', value: { createdAt: 'x'.repeat(40) } }],
+    ['a note over the length limit', { value: { text: 'x'.repeat(5001) } }, {}],
+    ['a bookmark whose createdAt is not an ISO time', { id: 'bookmark:43:3:16', kind: 'bookmark', value: { createdAt: 'x'.repeat(40) } }, {}],
     ['an extra field', {}, { blob: 'x' }],
-    ['a device id that is not the engine shape', { deviceId: 'x'.repeat(64) }],
+    ['a device id that is not the engine shape', { deviceId: 'x'.repeat(64) }, {}],
   ])('%s is refused', async (_name, over, extra) => {
     await denied(pushItem(item(over), extra));
   });

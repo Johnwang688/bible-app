@@ -171,7 +171,7 @@ describe('settings', () => {
   test('the owner can write each synced setting', async () => {
     await setDoc(settingRef(alice), setting());
     await setDoc(settingRef(alice, 'appearance'), setting({ key: 'appearance', json: '{"preset":"silver","mode":"light"}' }));
-    await setDoc(settingRef(alice, 'appearance.custom'), setting({ key: 'appearance.custom', json: 'x'.repeat(20000) }));
+    await setDoc(settingRef(alice, 'appearance.custom'), setting({ key: 'appearance.custom', json: JSON.stringify({ a: 'x'.repeat(3990) }) }) /* R-6b follow-up: custom themes are JSON objects of at most 4000 characters */);
     expect((await getDocs(collection(alice, 'users', 'alice', 'settings'))).size).toBe(3);
   });
 
