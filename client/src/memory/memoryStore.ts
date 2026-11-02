@@ -15,6 +15,9 @@ import { promoteStage, recordAttempt } from './schedule';
 import { nextStageAfter } from './stages';
 import type { ProgressMap, StageSlug, VerseProgress } from './types';
 
+/** The most completed dates the stored history keeps (the schema's cap). */
+const MAX_COMPLETED_DATES = 1000;
+
 export interface SubmitStepInput {
   /** The step's position in today's lesson, or null for free practice. */
   index: number | null;
@@ -63,10 +66,12 @@ export function createMemoryStore(storage: Storage): MemoryStore {
 
       // Two writers, two jobs: the attempt moves the counters and the schedule, the promotion only
       // the stage, and only on a pass (and only as far as the successes have paid for).
+      //
+      // Every new value is computed first and only then written (progress, history, lesson), so a
+      // value the schema rejects throws before anything is stored, never between two writes.
       const map = storage.get(memoryProgressKey);
       let row = recordAttempt(map[verseId], passed, now, endOfLocalDay(now));
       if (passed) row = promoteStage(row, nextStageAfter(stage));
-      storage.set(memoryProgressKey, { ...map, [verseId]: row });
 
       const today = toLocalDateString(now);
       const history = storage.get(memoryHistoryKey);
@@ -78,22 +83,26 @@ export function createMemoryStore(storage: Storage): MemoryStore {
       // over from yesterday's plan must not tick today's.
       let recorded = false;
       let dayCompleted = false;
+      let newLesson: DailyLessonRecord | null = null;
       const stored = storage.get(memoryLessonKey);
       if (passed && index !== null && stored && stored.date === today) {
         const out = completeLessonStep(stored, index, verseId, stage, now);
         recorded = out.recorded;
         dayCompleted = out.dayCompleted;
         if (out.recorded) {
-          storage.set(memoryLessonKey, out.lesson);
+          newLesson = out.lesson;
           if (out.dayCompleted && stored.completedAt === null && !completedDates.includes(today)) {
-            completedDates = [...completedDates, today].sort();
+            // Only the recent run matters to the streak, and the schema caps the list: drop the oldest.
+            completedDates = [...completedDates, today].sort().slice(-MAX_COMPLETED_DATES);
           }
         }
       }
 
+      storage.set(memoryProgressKey, { ...map, [verseId]: row });
       if (startedOn !== history.startedOn || completedDates !== history.completedDates) {
         storage.set(memoryHistoryKey, { startedOn, completedDates });
       }
+      if (newLesson) storage.set(memoryLessonKey, newLesson);
       return { recorded, dayCompleted, streak: streak(now), progress: row };
     },
 

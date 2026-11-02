@@ -30,6 +30,11 @@ export function reviewIntervalDays(mastery: number): number {
   return 1;
 }
 
+/** Add one to a counter when `add` is set, saturating at the largest integer the stored schema accepts. */
+function bumpCounter(value: number, add: boolean): number {
+  return add ? Math.min(Number.MAX_SAFE_INTEGER, value + 1) : value;
+}
+
 /**
  * Count one graded verdict on one verse and advance the review schedule. Never moves the stage;
  * that is `promoteStage`'s only job.
@@ -96,8 +101,8 @@ export function recordAttempt(
   }
   return {
     stage: row.stage,
-    successes: row.successes + (passed ? 1 : 0),
-    failures: row.failures + (passed ? 0 : 1),
+    successes: bumpCounter(row.successes, passed),
+    failures: bumpCounter(row.failures, !passed),
     masteryScore,
     nextDueAt,
     lastReviewedAt: stamp,
