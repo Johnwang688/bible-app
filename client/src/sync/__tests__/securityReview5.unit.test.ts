@@ -1,4 +1,5 @@
-// PARKED for John (claude-workflows 5a step 5): every S5 finding repeats a class implementer-hard already fixed in
+// S5-1 is un-skipped (John, 11-02: fix before merge); it is the acceptance test of R6b-s51-fix.
+// PARKED for John (claude-workflows 5a step 5): every other S5 finding repeats a class implementer-hard already fixed in
 // round 4 (S5-1/2/3: the S4-1 held-back-clock class; S5-4/5: the S4-5 session store under an MMKV failure; S5-6: the
 // S4-3 offer recording). Confirmed failing by the orchestrator; the "sound:" tests stay on. Fix designs are in the
 // reviewer's notes (C:/dev/bible-app-work/r6b/R6b-security-r5-result.json) and the PR.
@@ -150,7 +151,7 @@ describe('S5-1 (medium): an item the adapter holds back (or the server refuses o
   // (a date set by hand), the second test's path loses every fresh edit that shares a batch with an older one.
   const items: SyncDomains = { studyItems: studyKey };
 
-  test.skip('S5-1 a note stamped while the clock ran two days ahead syncs once real time has passed its clock', async () => {
+  test('S5-1 a note stamped while the clock ran two days ahead syncs once real time has passed its clock', async () => {
     const storage = createStorage(memoryBackend());
     const engine = engineFor(storage, items);
 
@@ -171,7 +172,7 @@ describe('S5-1 (medium): an item the adapter holds back (or the server refuses o
     expect(itemOnServer('note:43:3:16')?.value).toEqual({ text: 'written while the clock ran ahead' });
   });
 
-  test.skip('S5-1 a note the server refused on its own in a retried batch is sent again later', async () => {
+  test('S5-1 a note the server refused on its own in a retried batch is sent again later', async () => {
     const storage = createStorage(memoryBackend());
     const engine = engineFor(storage, items);
     fake.state.serverNow = T0;
