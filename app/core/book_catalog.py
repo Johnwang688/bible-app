@@ -2,7 +2,7 @@ from __future__ import annotations
 
 
 BOOK_DATA = [
-    {"number": 1, "osis": "GEN", "name": "Genesis", "name_zh": "創世紀", "testament": "OT", "chapters": 50},
+    {"number": 1, "osis": "GEN", "name": "Genesis", "name_zh": "創世記", "testament": "OT", "chapters": 50},
     {"number": 2, "osis": "EXO", "name": "Exodus", "name_zh": "出埃及記", "testament": "OT", "chapters": 40},
     {"number": 3, "osis": "LEV", "name": "Leviticus", "name_zh": "利未記", "testament": "OT", "chapters": 27},
     {"number": 4, "osis": "NUM", "name": "Numbers", "name_zh": "民數記", "testament": "OT", "chapters": 36},
@@ -71,7 +71,7 @@ BOOK_DATA = [
 ]
 
 BOOK_NAMES_ZH_SIMP = {
-    1: "创世纪",
+    1: "创世记",
     2: "出埃及记",
     3: "利未记",
     4: "民数记",
