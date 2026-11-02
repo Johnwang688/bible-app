@@ -66,6 +66,7 @@ def fakes(monkeypatch):
     monkeypatch.setattr(fb_auth, "verify_id_token", verify_id_token)
     monkeypatch.setattr(fb_auth, "revoke_refresh_tokens", revoke)
     monkeypatch.setattr(fb_auth, "delete_user", delete_user)
+    monkeypatch.setattr(fb_auth, "update_user", lambda uid, app=None, **kw: log.append(("disable" if kw.get("disabled") else "enable", uid)))
     monkeypatch.setattr(fb_firestore, "client", lambda app=None: Db())
     return log, state
 
@@ -210,3 +211,12 @@ def test_tokens_are_never_logged(fakes, client, caplog):
     with caplog.at_level("DEBUG"):
         client.get("/api/v1/account", headers={"Authorization": "Bearer secret-token-xyz"})
     assert all("secret-token-xyz" not in r.getMessage() for r in caplog.records)
+
+
+def test_a_delete_that_fails_after_disabling_reenables_the_user_for_a_retry(fakes, client):
+    """Orchestrator (after secfix2's U1): the user must be able to sign in again and finish the delete."""
+    log, state = fakes
+    state["delete_error"] = RuntimeError("boom")
+    res = client.delete("/api/v1/account", headers=AUTH)
+    assert res.status_code == 503
+    assert log.index(("disable", "alice")) < log.index(("enable", "alice"))

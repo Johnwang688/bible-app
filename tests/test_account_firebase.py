@@ -98,6 +98,7 @@ def fb(monkeypatch):
     monkeypatch.setattr(fb_auth, "verify_id_token", verify_id_token)
     monkeypatch.setattr(fb_auth, "revoke_refresh_tokens", revoke_refresh_tokens)
     monkeypatch.setattr(fb_auth, "delete_user", delete_user)
+    monkeypatch.setattr(fb_auth, "update_user", lambda uid, app=None, **kw: state.log.append(("disable" if kw.get("disabled") else "enable", uid)))
     monkeypatch.setattr(fb_firestore, "client", lambda app=None, *a, **k: FakeDb(state.log, state.firestore_fail))
     monkeypatch.delenv("FIREBASE_AUTH_EMULATOR_HOST", raising=False)
     return state
@@ -173,6 +174,7 @@ def test_delete_removes_the_users_data_then_the_account(fb, client):
     # tokens issued before it (security review F1).
     assert fb.log == [
         ("revoke", "alice"),
+        ("disable", "alice"),
         ("set", "deletedUsers/alice"),
         ("recursive_delete", "users/alice"),
         ("delete_user", "alice"),

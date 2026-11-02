@@ -34,5 +34,5 @@ export function mapFirebaseAuthError(e: unknown): AuthError {
   if (e instanceof AuthError) return e;
   const code = firebaseAuthCode(e);
   const kind = (code !== undefined ? KINDS[code] : undefined) ?? 'unknown';
-  return new AuthError(kind, code !== undefined ? `auth ${kind} (${code})` : undefined, { cause: e });
+  return new AuthError(kind, code !== undefined ? `auth ${kind} (${code})` : undefined, { cause: e, code });
 }

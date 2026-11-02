@@ -20,10 +20,13 @@ export type AuthErrorKind =
 
 export class AuthError extends Error {
   readonly kind: AuthErrorKind;
-  constructor(kind: AuthErrorKind, message?: string, options?: { cause?: unknown }) {
+  /** The Firebase Auth code (`auth/...`) it was mapped from, when there was one. */
+  readonly code?: string;
+  constructor(kind: AuthErrorKind, message?: string, options?: { cause?: unknown; code?: string }) {
     super(message ?? `auth ${kind}`, options);
     this.name = 'AuthError';
     this.kind = kind;
+    if (options?.code !== undefined) this.code = options.code;
   }
 }
 
