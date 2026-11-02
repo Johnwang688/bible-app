@@ -271,3 +271,33 @@ describe('screen-reader pass and targets', () => {
     expect(within(sheet).getByTestId('sheet-swatch-yellow').props.accessibilityLabel).toBe('标记为黄色');
   });
 });
+
+// Verifier round 2 on the verse sheet (GPT-6.1 Sol).
+describe('verse sheet round 2', () => {
+  it('R2 round2: extending a draft backwards must not overwrite another verse note', async () => {
+    const storage = createStorage(memoryBackend());
+    storage.set(studyItemsKey, {
+      highlights: {},
+      bookmarks: {},
+      notes: {
+        '43:3:15': {
+          text: 'Existing verse 15 note',
+          updatedAt: '2026-11-01T00:00:00.000Z',
+        },
+      },
+    });
+
+    await renderReader({ storage, position: JOHN3_WEB });
+    await openSheetOn(16);
+    await fireEvent.press(screen.getByTestId('sheet-note'));
+    await fireEvent.changeText(
+      screen.getByTestId('note-input'),
+      'John 3:16 draft',
+    );
+    await fireEvent.press(screen.getByTestId('verse-15-tools'));
+    await fireEvent.press(screen.getByTestId('note-save'));
+
+    expect(storage.get(studyItemsKey).notes['43:3:15']?.text)
+      .toBe('Existing verse 15 note');
+  });
+});

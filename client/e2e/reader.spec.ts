@@ -270,6 +270,56 @@ test.describe('verse sheet (R-2)', () => {
     });
   }
 
+  // Verifier round 2 on the verse sheet (GPT-6.1 Sol).
+  test('R2 round2: chapter change restores arrow navigation', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await seed(page, 'reader.position', {
+      bookNumber: 43, chapter: 3, translation: 'WEB',
+    });
+    await page.goto('/bible');
+    await page.getByTestId('verse-16-tools').click();
+    await expect(
+      page.getByTestId('verse-sheet').getByRole('heading'),
+    ).toBeFocused();
+
+    if (await page.getByTestId('reader-show-controls').count()) {
+      await page.getByTestId('reader-show-controls').click();
+    }
+    await page.getByTestId('reader-book-button').click();
+    await page.getByTestId('picker-chapter-4').click();
+
+    await expect(page.getByTestId('reader-book-button'))
+      .toContainText('John 4');
+    await expect(page.getByTestId('verse-sheet')).toHaveCount(0);
+
+    await page.keyboard.press('ArrowRight');
+    await expect(page.getByTestId('reader-book-button'))
+      .toContainText('John 5');
+  });
+
+  test('R2 round2: picker Escape preserves the underlying verse sheet', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await seed(page, 'reader.position', {
+      bookNumber: 43, chapter: 3, translation: 'WEB',
+    });
+    await page.goto('/bible');
+    await page.getByTestId('verse-16-tools').click();
+    await expect(
+      page.getByTestId('verse-sheet').getByRole('heading'),
+    ).toBeFocused();
+
+    if (await page.getByTestId('reader-show-controls').count()) {
+      await page.getByTestId('reader-show-controls').click();
+    }
+    await page.getByTestId('reader-book-button').click();
+    await expect(page.getByTestId('book-picker')).toBeVisible();
+    await page.getByTestId('picker-close').focus();
+    await page.keyboard.press('Escape');
+
+    await expect(page.getByTestId('verse-sheet')).toBeVisible();
+    await expect(page.getByTestId('book-picker')).toHaveCount(0);
+  });
+
   test('keyboard users open the verse sheet from the verse-tools button with Enter', async ({ page }) => {
     await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
     await page.goto('/bible');
