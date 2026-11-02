@@ -100,17 +100,14 @@ def fb(monkeypatch):
 
 
 def _mode(monkeypatch, mode):
-    if mode is None:
-        monkeypatch.delenv("APP_CHECK_MODE", raising=False)
-    else:
-        monkeypatch.setenv("APP_CHECK_MODE", mode)
-    get_settings.cache_clear()
+    # Patch the cached settings object (restored after the test) rather than clearing the cache: other test files
+    # patch the settings object the app already holds, and a cleared cache would hand them a fresh one.
+    monkeypatch.setattr(get_settings(), "app_check_mode", "monitor" if mode is None else mode)
 
 
 @pytest.fixture()
 def client():
-    yield TestClient(app_main.app)
-    get_settings.cache_clear()
+    return TestClient(app_main.app)
 
 
 def _deleted(fb):
