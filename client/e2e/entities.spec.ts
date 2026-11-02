@@ -39,9 +39,10 @@ test.describe('Explore and entities (English)', () => {
     await expect(page).toHaveURL(/\/entities\/place$/);
     await page.getByTestId('entity-row-achaia').click();
     await expect(page.getByTestId('entity-title')).toHaveText('Achaia');
-    await page.getByTestId('entity-back').click();
+    // The web stack keeps the list mounted under the page: press the page's own Back.
+    await page.getByTestId('screen-entity').getByTestId('entity-back').click();
     await expect(page).toHaveURL(/\/entities\/place$/);
-    await page.getByTestId('entity-back').click();
+    await page.getByTestId('screen-entity-list').getByTestId('entity-back').click();
     await expect(page).toHaveURL(/\/study$/);
   });
 
