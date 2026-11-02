@@ -72,6 +72,20 @@ function fakeAuth(initial: AuthUser | null | 'pending' = null): FakeAuth {
   };
 }
 
+/** Runs an action inside act and returns what it threw. (RNTL 14's act thenable does not chain, so
+ * `expect(act(...)).rejects` leaves the act open and corrupts later tests.) */
+async function actError(fn: () => Promise<unknown>): Promise<unknown> {
+  let error: unknown;
+  await act(async () => {
+    try {
+      await fn();
+    } catch (e) {
+      error = e;
+    }
+  });
+  return error;
+}
+
 const ALICE: AuthUser = { uid: 'alice', email: 'alice@example.com' };
 
 function setup(opts: { auth?: FakeAuth; deleteRequest?: (token: string) => Promise<void> } = {}) {
@@ -116,9 +130,9 @@ describe('AccountProvider', () => {
     const s = setup();
     const view = await renderHook(() => useAccount(), { wrapper: s.wrapper });
     await waitFor(() => expect(view.result.current.status).toBe('signedOut'));
-    await expect(
-      act(() => view.result.current.signIn({ kind: 'password', email: 'alice@example.com', password: 'nope' })),
-    ).rejects.toMatchObject({ kind: 'wrong-credentials' });
+    expect(
+      await actError(() => view.result.current.signIn({ kind: 'password', email: 'alice@example.com', password: 'nope' })),
+    ).toMatchObject({ kind: 'wrong-credentials' });
     expect(view.result.current.status).toBe('signedOut');
     await act(() => view.result.current.signIn({ kind: 'password', email: 'alice@example.com', password: 'correct horse' }));
     expect(view.result.current.status).toBe('signedIn');
@@ -129,7 +143,7 @@ describe('AccountProvider', () => {
     const s = setup();
     const view = await renderHook(() => useAccount(), { wrapper: s.wrapper });
     await waitFor(() => expect(view.result.current.status).toBe('signedOut'));
-    await expect(act(() => view.result.current.signUp('alice@example.com', 'whatever123'))).rejects.toMatchObject({
+    expect(await actError(() => view.result.current.signUp('alice@example.com', 'whatever123'))).toMatchObject({
       kind: 'email-in-use',
     });
     await act(() => view.result.current.signUp('carol@example.com', 'long enough'));
@@ -206,7 +220,7 @@ describe('AccountProvider', () => {
     const s = setup({ auth: fakeAuth(ALICE) });
     const view = await renderHook(() => useAccount(), { wrapper: s.wrapper });
     await waitFor(() => expect(view.result.current.sync?.state).toBe('idle'));
-    await expect(act(() => view.result.current.deleteAccount('wrong'))).rejects.toMatchObject({ kind: 'wrong-credentials' });
+    expect(await actError(() => view.result.current.deleteAccount('wrong'))).toMatchObject({ kind: 'wrong-credentials' });
     expect(s.deleteRequest).not.toHaveBeenCalled();
     expect(view.result.current.status).toBe('signedIn');
     setNote(s.storage, '4:4:4', 'still syncing', 6000);
@@ -223,7 +237,7 @@ describe('AccountProvider', () => {
     });
     const view = await renderHook(() => useAccount(), { wrapper: s.wrapper });
     await waitFor(() => expect(view.result.current.sync?.state).toBe('idle'));
-    await expect(act(() => view.result.current.deleteAccount('correct horse'))).rejects.toMatchObject({ kind: 'network' });
+    expect(await actError(() => view.result.current.deleteAccount('correct horse'))).toMatchObject({ kind: 'network' });
     expect(view.result.current.status).toBe('signedIn');
     expect(s.auth.log).not.toContain('signOut');
     setNote(s.storage, '5:5:5', 'resumed', 7000);
@@ -235,7 +249,8 @@ describe('AccountProvider', () => {
     const s = setup({ auth: fakeAuth(ALICE) });
     const view = await renderHook(() => useAccount(), { wrapper: s.wrapper });
     setNote(s.storage, '6:6:6', 'kept locally', 8000);
-    await waitFor(() => expect(s.remotes.get('alice')?.items.get('note:6:6:6')).toBeDefined());
+    // The engine's debounce (3 s) sends the note.
+    await waitFor(() => expect(s.remotes.get('alice')?.items.get('note:6:6:6')).toBeDefined(), { timeout: 5000 });
     await act(() => view.result.current.deleteAccount('correct horse'));
     // The backend wiped the account: a fresh, empty remote for the same uid.
     s.remotes.set('alice', createMemoryRemote());
