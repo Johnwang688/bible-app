@@ -4,7 +4,7 @@
 // Closing the sheet discards the view, so reopening always starts on the actions.
 import * as Clipboard from 'expo-clipboard';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Platform, Pressable, Share, StyleSheet, Text, View } from 'react-native';
+import { BackHandler, Platform, Pressable, Share, StyleSheet, Text, View } from 'react-native';
 
 import type { BookInfo, ChapterOut } from '../../api/schemas';
 import { uiFace } from '../../fonts/fonts';
@@ -26,8 +26,6 @@ import { buttonStyle } from './ui';
 import { WordCard } from './WordCard';
 import { WordsList } from './WordsList';
 
-const ignore = () => undefined;
-
 type SheetView = { name: 'actions' } | { name: 'note' } | { name: 'commentary' } | { name: 'words' } | { name: 'word'; row: WordRow };
 
 export interface VerseSheetProps {
@@ -40,11 +38,13 @@ export interface VerseSheetProps {
   end: number;
   study: StudyItemsApi;
   onClose(): void;
+  /** The sheet's height, so the chapter keeps every verse scrollable above it. */
+  onHeight?(height: number): void;
   /** Take the reader to a reference from a word card (the screen closes the sheet). */
   onGoTo(bookNumber: number, chapter: number, verse: number): void;
 }
 
-export function VerseSheet({ book, chapter, translation, start, end, study, onClose, onGoTo }: VerseSheetProps) {
+export function VerseSheet({ book, chapter, translation, start, end, study, onClose, onHeight, onGoTo }: VerseSheetProps) {
   const t = useT();
   const [view, setView] = useState<SheetView>({ name: 'actions' });
   // Coming back from a word card: where the list was scrolled to, and the row that was open.
@@ -64,28 +64,42 @@ export function VerseSheet({ book, chapter, translation, start, end, study, onCl
   const allBookmarked = refs.every((r) => study.isBookmarked(r));
   const toActions = useCallback(() => setView({ name: 'actions' }), []);
 
+  // Every way back from a word card (its back button, Escape, the Android back button) comes through here,
+  // so the list always returns to where it was scrolled, with the row that was open focused.
+  const closeWord = (row: WordRow) => {
+    setRestore({ y: listScrollY.current, key: row.key });
+    setView({ name: 'words' });
+  };
+
   // Escape and the back button step back one view, then close.
   const back = () => {
     if (view.name === 'actions') onClose();
-    else if (view.name === 'word') setView({ name: 'words' });
+    else if (view.name === 'word') closeWord(view.row);
     else setView({ name: 'actions' });
   };
 
-  // On the web Escape steps back too. The Modal only listens once its slide-in has finished (and on key
-  // release), so the sheet listens itself, at once, and the Modal's own handler does nothing.
+  // The sheet is not a Modal (the chapter stays usable above it), so it listens for Escape (web) and the
+  // hardware back button (Android) itself.
   const backRef = useRef(back);
   useEffect(() => {
     backRef.current = back;
   });
   useEffect(() => {
-    if (Platform.OS !== 'web' || typeof document === 'undefined') return;
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key !== 'Escape' || e.repeat) return;
-      e.preventDefault();
+    if (Platform.OS === 'web') {
+      if (typeof document === 'undefined') return;
+      const onKeyDown = (e: KeyboardEvent) => {
+        if (e.key !== 'Escape' || e.repeat) return;
+        e.preventDefault();
+        backRef.current();
+      };
+      document.addEventListener('keydown', onKeyDown);
+      return () => document.removeEventListener('keydown', onKeyDown);
+    }
+    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
       backRef.current();
-    };
-    document.addEventListener('keydown', onKeyDown);
-    return () => document.removeEventListener('keydown', onKeyDown);
+      return true;
+    });
+    return () => sub.remove();
   }, []);
 
   const highlight = (id: HighlightId) => {
@@ -174,10 +188,7 @@ export function VerseSheet({ book, chapter, translation, start, end, study, onCl
       content = (
         <WordCard
           row={row}
-          onBack={() => {
-            setRestore({ y: listScrollY.current, key: row.key });
-            setView({ name: 'words' });
-          }}
+          onBack={() => closeWord(row)}
           onClose={onClose}
           onGoTo={onGoTo}
         />
@@ -208,8 +219,8 @@ export function VerseSheet({ book, chapter, translation, start, end, study, onCl
   }
 
   return (
-    <SheetModal testID="verse-sheet" onClose={onClose} onRequestClose={Platform.OS === 'web' ? ignore : back} avoidKeyboard={view.name === 'note'}>
-      <View accessibilityViewIsModal style={styles.views}>
+    <SheetModal testID="verse-sheet" modal={false} onClose={onClose} onHeight={onHeight} avoidKeyboard={view.name === 'note'}>
+      <View style={styles.views}>
         {content}
       </View>
     </SheetModal>
@@ -353,7 +364,9 @@ const styles = StyleSheet.create({
   swatch: { width: 44, height: 44, borderWidth: 2, padding: 3 },
   swatchFill: { flex: 1 },
   actions: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
-  action: { flexGrow: 1, flexBasis: 0, minWidth: 62, minHeight: 68, paddingHorizontal: 2, alignItems: 'center', justifyContent: 'center', gap: 5 },
-  actionLabel: { fontSize: 12, textAlign: 'center' },
+  action: { flexGrow: 1, flexBasis: 0, minWidth: 62, minHeight: 68, paddingHorizontal: 0, alignItems: 'center', justifyContent: 'center', gap: 5 },
+  // 11 pt, no side padding: a one-word label (Bookmark) fits a 63 px tile at a 150% display scale. On the web
+  // overflowWrap stays normal, so a word is never broken in the middle; only the gap between words wraps.
+  actionLabel: { fontSize: 11, textAlign: 'center', ...(Platform.OS === 'web' ? ({ overflowWrap: 'normal', wordBreak: 'normal' } as object) : null) },
   commentary: { minHeight: 52, paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
 });

@@ -142,14 +142,8 @@ export function ReaderScreen(props: { storage?: Storage; locales?: readonly Devi
   // so it can never reappear when the reader comes back to that chapter.
   if (selection && !range) setSelection(null);
 
-  const onVersePress = useCallback(
-    (verse: number) => {
-      setSelection({ key: selectionKey, anchor: verse, start: verse, end: verse });
-      setSheetOpen(true);
-    },
-    [selectionKey],
-  );
-  const onVerseLongPress = useCallback(
+  // Extends the selection from its anchor (the first verse selected) to `verse`; with no selection it starts one.
+  const extendTo = useCallback(
     (verse: number) => {
       setSelection((prev) =>
         prev && prev.key === selectionKey
@@ -160,6 +154,25 @@ export function ReaderScreen(props: { storage?: Storage; locales?: readonly Devi
     },
     [selectionKey],
   );
+  // The sheet is not modal, so the chapter can be tapped while it is open: that tap extends the range, as
+  // a long press does. With the sheet closed a tap starts a new selection.
+  const onVersePress = useCallback(
+    (verse: number) => {
+      if (sheetOpen) extendTo(verse);
+      else {
+        setSelection({ key: selectionKey, anchor: verse, start: verse, end: verse });
+        setSheetOpen(true);
+      }
+    },
+    [sheetOpen, extendTo, selectionKey],
+  );
+  const onVerseLongPress = extendTo;
+
+  // The open verse sheet's height: the chapter keeps that much room under its text, so any verse can be
+  // scrolled up above the sheet.
+  const [sheetHeight, setSheetHeight] = useState(0);
+  const verseSheetOpen = !!(range && sheetOpen && book && firstQuery.data);
+  const sheetRoom = verseSheetOpen ? sheetHeight : 0;
 
   // Each verse-tools button, so focus can go back to it when the sheet closes.
   const toolsRefs = useRef(new Map<number, unknown>());
@@ -289,7 +302,7 @@ export function ReaderScreen(props: { storage?: Storage; locales?: readonly Devi
           styles.content,
           {
             paddingTop: insets.top + HEADER_BODY_HEIGHT + HEADER_GAP,
-            paddingBottom: TAB_BAR_ROOM + insets.bottom,
+            paddingBottom: TAB_BAR_ROOM + insets.bottom + sheetRoom,
             paddingHorizontal: horizontal,
           },
         ]}
@@ -331,6 +344,7 @@ export function ReaderScreen(props: { storage?: Storage; locales?: readonly Devi
           end={range.end}
           study={study}
           onClose={closeVerseSheet}
+          onHeight={setSheetHeight}
           onGoTo={goToReference}
         />
       ) : null}
