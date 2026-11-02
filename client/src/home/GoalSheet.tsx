@@ -81,9 +81,10 @@ export function GoalSheet({ onClose, storage: storageProp, now = defaultNow }: {
 
   // react-native-web's Modal listens for Escape only once its slide-in has ended (a quarter of a second), and the
   // scrim slides in with the sheet, so an Escape or a tap away from the sheet made as it opens would be lost. These
-  // listen from the start. A press inside the Modal (the real scrim, the sheet) is left to the Modal's own handlers,
-  // and closing unmounts the Modal and its Escape listener with it, so onClose runs once. An Escape made while
-  // another modal is above this sheet is that modal's: it is ignored here, and so is the keyup that follows it.
+  // listen from the start. A press on this sheet's own scrim closes at pointerdown (the scrim's Pressable would lose
+  // it when the Modal moves under the finger); a press inside the sheet or inside another modal is left alone. The
+  // scrim's own onPress may still run after the unmount, and onClose is idempotent. An Escape made while another modal
+  // is above this sheet is that modal's: it is ignored here, and so is the keyup that follows it.
   useEffect(() => {
     if (Platform.OS !== 'web' || typeof document === 'undefined') return;
     const onKeyDown = (e: KeyboardEvent) => {
@@ -102,7 +103,9 @@ export function GoalSheet({ onClose, storage: storageProp, now = defaultNow }: {
     };
     const onPointerDown = (e: PointerEvent) => {
       const target = e.target as Element | null;
-      if (target?.closest?.('[aria-modal="true"]')) return;
+      if (target?.closest?.('[data-testid="goal-sheet"]')) return;
+      const modal = target?.closest?.('[aria-modal="true"]');
+      if (modal && !modal.querySelector('[data-testid="goal-sheet"]')) return;
       onClose();
     };
     document.addEventListener('keydown', onKeyDown, true);
