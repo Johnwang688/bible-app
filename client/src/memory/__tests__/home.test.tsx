@@ -1,7 +1,7 @@
 // Acceptance (orchestrator-owned, MEM screens): Memory home, the library sheet, the settings sheet, the week
 // screen, the settings key's v2 migration and the view helpers. Prototypes: `design/proposed/mem-home.html`,
 // `mem-week.html`; REVIEW-3. Implementers may not edit this file.
-import { act, fireEvent, screen, within } from '@testing-library/react-native';
+import { fireEvent, screen, within } from '@testing-library/react-native';
 
 import { memoryHistoryKey, memoryLessonKey, memoryProgressKey, memorySettingsKey } from '../../storage/memoryKeys';
 import { createStorage, memoryBackend } from '../../storage/storage';
@@ -53,7 +53,7 @@ describe('Memory home: today’s lesson', () => {
     expect(screen.getByTestId('memory-learned')).toHaveTextContent(`0 of ${TOTAL_VERSES}`);
     const start = screen.getByTestId('memory-lesson-start');
     expect(start).toHaveTextContent('Start');
-    fireEvent.press(start);
+    await fireEvent.press(start);
     expect(onNavigate).toHaveBeenCalledWith(stepHref(items(lesson), 0));
   });
 
@@ -62,7 +62,7 @@ describe('Memory home: today’s lesson', () => {
     const { onNavigate } = await home({ storage });
     const start = screen.getByTestId('memory-lesson-start');
     expect(start).toHaveTextContent('Continue');
-    fireEvent.press(start);
+    await fireEvent.press(start);
     expect(onNavigate).toHaveBeenCalledWith(stepHref(items(lesson), 1));
   });
 
@@ -70,7 +70,7 @@ describe('Memory home: today’s lesson', () => {
     const { storage, lesson } = seedLesson(lesson4([false, true, true, true]));
     const { onNavigate } = await home({ storage });
     expect(screen.getByTestId('memory-lesson-card')).toHaveTextContent(/1 step left/);
-    fireEvent.press(screen.getByTestId('memory-lesson-start'));
+    await fireEvent.press(screen.getByTestId('memory-lesson-start'));
     expect(onNavigate).toHaveBeenCalledWith(stepHref(items(lesson), 0));
   });
 
@@ -86,7 +86,7 @@ describe('Memory home: today’s lesson', () => {
 
   it('the streak chip opens the week', async () => {
     const { onNavigate } = await home();
-    fireEvent.press(screen.getByTestId('memory-streak-chip'));
+    await fireEvent.press(screen.getByTestId('memory-streak-chip'));
     expect(onNavigate).toHaveBeenCalledWith('/study/memory/week');
   });
 
@@ -96,7 +96,7 @@ describe('Memory home: today’s lesson', () => {
     expect(screen.getByTestId('memory-saved-toast')).toHaveTextContent('Progress saved · step 3 of 4');
     const toast = screen.getByTestId('memory-saved-toast');
     expect(toast.props['aria-live'] ?? toast.props.accessibilityLiveRegion).toBe('polite');
-    screen.unmount();
+    await screen.unmount();
     await home();
     expect(screen.queryByTestId('memory-saved-toast')).toBeNull();
   });
@@ -136,12 +136,12 @@ describe('Memory home: the library', () => {
     });
     const { onNavigate } = await home({ storage });
     expect(screen.getByTestId('memory-row-2-corinthians-5-17')).toHaveTextContent(/Fill-in/);
-    fireEvent.press(screen.getByTestId('memory-row-2-corinthians-5-17'));
+    await fireEvent.press(screen.getByTestId('memory-row-2-corinthians-5-17'));
     const sheet = screen.getByTestId('memory-verse-sheet');
     expect(sheet).toHaveTextContent(/若有人在基督里/);
     expect(sheet).toHaveTextContent(/in 4 days/);
     expect(sheet).toHaveTextContent(/doesn’t count toward today’s lesson/);
-    fireEvent.press(screen.getByTestId('memory-practise'));
+    await fireEvent.press(screen.getByTestId('memory-practise'));
     const href = onNavigate.mock.calls[0][0] as string;
     expect(href).toMatch(/^\/memory\/lesson\/2-corinthians-5-17\/fill-blank/);
     expect(href).not.toMatch(/[?&]i=/);
@@ -165,7 +165,7 @@ describe('Memory settings sheet', () => {
     expect(sw.props.accessibilityRole).toBe('switch');
     expect(sw.props.accessibilityState).toMatchObject({ checked: true });
     expect(screen.getByTestId('memory-settings-sheet')).toHaveTextContent(/OpenRouter/);
-    await act(async () => fireEvent.press(sw));
+    await fireEvent.press(sw);
     expect(storage.get(memorySettingsKey).voice).toBe(false);
     expect(screen.getByTestId('memory-voice-switch').props.accessibilityState).toMatchObject({ checked: false });
     expect(screen.getByTestId('memory-settings-sheet')).toHaveTextContent(/Nothing is recorded or uploaded/);
@@ -174,8 +174,8 @@ describe('Memory settings sheet', () => {
 
   it('script and speech are stored', async () => {
     const { storage } = await sheet();
-    await act(async () => fireEvent.press(screen.getByTestId('memory-script-traditional')));
-    await act(async () => fireEvent.press(screen.getByTestId('memory-speech-cantonese')));
+    await fireEvent.press(screen.getByTestId('memory-script-traditional'));
+    await fireEvent.press(screen.getByTestId('memory-speech-cantonese'));
     expect(storage.get(memorySettingsKey)).toMatchObject({ script: 'traditional', speech: 'cantonese' });
   });
 
@@ -186,7 +186,7 @@ describe('Memory settings sheet', () => {
 
   it('the settings button on home opens it', async () => {
     await home();
-    fireEvent.press(screen.getByTestId('memory-settings-button'));
+    await fireEvent.press(screen.getByTestId('memory-settings-button'));
     expect(screen.getByTestId('memory-settings-sheet')).toBeTruthy();
   });
 });
@@ -220,7 +220,7 @@ describe('Week screen', () => {
   it('today not done: "Do today’s lesson" opens the first unfinished step', async () => {
     const { storage, lesson } = seedLesson(lesson4([true, false, false, false]));
     const { onNavigate } = await week(storage);
-    fireEvent.press(screen.getByTestId('memory-week-today'));
+    await fireEvent.press(screen.getByTestId('memory-week-today'));
     expect(onNavigate).toHaveBeenCalledWith(stepHref(items(lesson), 1));
   });
 
