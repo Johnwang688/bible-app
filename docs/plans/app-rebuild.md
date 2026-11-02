@@ -250,7 +250,11 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
 - **Build config:** `client/.env.production` (committed, public values only) gives the API origin (W5's Cloud Run `bible-api`), `EXPO_PUBLIC_RELEASE_CHANNEL=beta` and the Firebase web config. `client/src/api/config.ts` reads them: a production build with no API URL, or a non-https one, throws rather than calling localhost. R-6b reads `getFirebaseWebConfig()`.
 - **Hosting:** `firebase.json` `hosting` serves `client/dist` with a single-page rewrite. HTML is `no-cache` and the content-hashed `/_expo` and `/assets` trees are immutable for a year; checked on the real host. A strict CSP (scripts `'self'` only; the API, Firebase Auth and Firestore in `connect-src`; Google Fonts for the Chinese font), nosniff and Referrer-Policy go on every response. `ignore` is empty on purpose, because font paths contain `node_modules`.
 - **Beta label:** in beta builds, Simplified Chinese is offered as "简体中文（测试版）", with a one-line note (`beta.*` keys, `client/src/beta/`). Mounting it in Me's language sheet waits for R-6a.
-- **Privacy policy** at `/privacy`, in English and Chinese, for the App Store too. It is written to match what the app does (local-first; API requests carry only references and search words; Firebase only when signed in). Prototype: `design/proposed/b1-privacy.html`. It must change whenever the app sends data somewhere new.
+- **Privacy policy** at `/privacy`, in English and Chinese, also for the App Store. The prototype `design/proposed/b1-privacy.html` was approved 11-02; the build also takes in a UI/UX review.
+  - It matches what the app does: local-first; API requests carry only references and search words; Firebase only when signed in. It must change whenever the app sends data somewhere new.
+  - It has a short-version box, a card on deleting your data, and a children-and-teens card.
+  - **Minimum age (John, 11-02):** first run asks an optional age range that stays on the device. Choosing Under 13 turns sign-in and sync off. R-7a and R-6b build that; the policy already says it.
+  - The contact email is a temporary address (`PRIVACY_CONTACT` in `client/src/privacy/index.ts`), to confirm before App Store review.
 
 Every phase ships its screens in both languages; the missing-key test keeps Chinese from falling behind.
 
