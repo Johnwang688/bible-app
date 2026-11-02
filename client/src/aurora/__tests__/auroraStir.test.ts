@@ -10,6 +10,7 @@ const mockCalls: [PointerKind, number, number, number][] = [];
 jest.mock('../renderer.web', () => ({
   createAuroraRenderer: (): WebAuroraRenderer => ({
     style: 'fluid',
+    software: false,
     step: () => undefined,
     draw: () => true,
     setStyle: () => undefined,

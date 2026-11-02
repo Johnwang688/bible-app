@@ -38,7 +38,7 @@ function bundle() {
   return { files: files.length, rawKB: Math.round(raw / 1024), gzipKB: Math.round(gz / 1024) };
 }
 
-/** The font files the export ships (the startup set blocks the first paint until it loads). */
+/** The font files the export ships (only the active look's are fetched at start; see startup().fontsAtStart). */
 function fonts() {
   const out = { files: 0, KB: 0 };
   const walk = (dir) => {
@@ -89,15 +89,27 @@ async function phonePage(browser, init, network = true) {
   return { context, page, cdp };
 }
 
-/** Cold start: navigation to Home visible, plus the browser's paint timings. */
-async function startup(browser, network) {
+/** Cold start: navigation to Home visible, the browser's paint timings, and the font files fetched at start. */
+async function startup(browser, network, preset = 'matcha-latte') {
   const runs = [];
+  let fontsAtStart = null;
   for (let i = 0; i < RUNS; i++) {
-    const { context, page } = await phonePage(browser, [['appearance', JSON.stringify({ v: 1, data: { preset: 'matcha-latte', mode: 'system' } })]], network);
+    const { context, page } = await phonePage(browser, [['appearance', JSON.stringify({ v: 1, data: { preset, mode: 'system' } })]], network);
+    const fontReqs = [];
+    page.on('requestfinished', (r) => {
+      if (/\.(ttf|otf|woff2?)(\?|$)/.test(r.url())) fontReqs.push(r);
+    });
     const t0 = Date.now();
     await page.goto(BASE + '/');
     await page.getByTestId('screen-home').waitFor({ state: 'visible', timeout: 60_000 });
     const homeMs = Date.now() - t0;
+    if (i === 0) {
+      // Let the start-up font requests finish (they no longer hold Home back), then count them.
+      await page.waitForTimeout(network ? 15_000 : 2_000);
+      let bytes = 0;
+      for (const r of fontReqs) bytes += (await r.sizes()).responseBodySize;
+      fontsAtStart = { files: fontReqs.length, KB: Math.round(bytes / 1024), names: fontReqs.map((r) => decodeURIComponent(r.url().split('/').pop()).replace(/\.[0-9a-f]{32}\./, '.')) };
+    }
     const paint = await page.evaluate(() => {
       const fcp = performance.getEntriesByName('first-contentful-paint')[0];
       const nav = performance.getEntriesByType('navigation')[0];
@@ -107,6 +119,8 @@ async function startup(browser, network) {
     await context.close();
   }
   return {
+    preset,
+    fontsAtStart,
     homeVisibleMs: median(runs.map((r) => r.homeMs)),
     fcpMs: median(runs.map((r) => r.fcp)),
     domContentLoadedMs: median(runs.map((r) => r.domContentLoaded)),
@@ -125,8 +139,13 @@ async function motion(browser, label, init, throttle) {
     const ext = gl && gl.getExtension('WEBGL_debug_renderer_info');
     return ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : gl ? 'webgl2 (renderer hidden)' : 'no webgl2';
   });
+  const auroraFrames = async () => {
+    const c = page.getByTestId('screen-home').getByTestId('aurora-canvas');
+    return (await c.count()) ? Number((await c.getAttribute('data-aurora-frames')) ?? 0) : 0;
+  };
   await cdp.send('Performance.enable');
   const before = await cdp.send('Performance.getMetrics');
+  const framesBefore = await auroraFrames();
   const sample = await page.evaluate(
     () =>
       new Promise((resolve) => {
@@ -153,6 +172,8 @@ async function motion(browser, label, init, throttle) {
       }),
   );
   const after = await cdp.send('Performance.getMetrics');
+  // The canvas writes its count at most every 250 ms, so this is good to about ±0.5 fps over 5 s.
+  const drawn = (await auroraFrames()) - framesBefore;
   const metric = (m, n) => m.metrics.find((x) => x.name === n)?.value ?? 0;
   const frames = sample.gaps.length;
   const seconds = sample.gaps.reduce((a, b) => a + b, 0) / 1000;
@@ -168,6 +189,10 @@ async function motion(browser, label, init, throttle) {
     fps: Math.round((frames / seconds) * 10) / 10,
     p95FrameMs: Math.round(sorted[Math.floor(sorted.length * 0.95)] * 10) / 10,
     longTasks: sample.longTasks,
+    // The aurora's own frames (it may draw less often than the display: 30 fps on a software renderer).
+    auroraFps: Math.round((drawn / seconds) * 10) / 10,
+    taskMsPerAuroraFrame: drawn ? Math.round((((metric(after, 'TaskDuration') - metric(before, 'TaskDuration')) * 1000) / drawn) * 100) / 100 : null,
+    taskMsPerSecond: Math.round(((metric(after, 'TaskDuration') - metric(before, 'TaskDuration')) * 1000) / seconds),
     scriptMsPerFrame: Math.round(((metric(after, 'ScriptDuration') - metric(before, 'ScriptDuration')) * 1000 / frames) * 100) / 100,
     taskMsPerFrame: Math.round(((metric(after, 'TaskDuration') - metric(before, 'TaskDuration')) * 1000 / frames) * 100) / 100,
     heapMB: Math.round(metric(after, 'JSHeapUsedSize') / 1024 / 1024),
@@ -186,7 +211,7 @@ try {
     ['Silver, fluid', [['aurora.style', JSON.stringify({ v: 1, data: 'fluid' })]]],
     ['Silver, flow', [['aurora.style', JSON.stringify({ v: 1, data: 'flow' })]]],
   ];
-  const out = { date: new Date().toISOString(), bundle: bundle(), startup: { fast4g: await startup(browser, true), noNetworkLimit: await startup(browser, false) }, fonts: fonts(), motion: [] };
+  const out = { date: new Date().toISOString(), bundle: bundle(), startup: { fast4g: await startup(browser, true), fast4gGlass: await startup(browser, true, 'silver'), noNetworkLimit: await startup(browser, false) }, fonts: fonts(), motion: [] };
   for (const throttle of [false, true]) for (const [label, init] of looks) out.motion.push(await motion(browser, label, init, throttle));
   console.log(JSON.stringify(out, null, 2));
 } finally {
