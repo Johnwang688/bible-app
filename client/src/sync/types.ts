@@ -87,14 +87,21 @@ export interface RemoteStore {
    * `since` and the largest `serverTime` returned (null only when both are absent); it never goes back.
    */
   pullItems(since: number | null): Promise<{ items: PulledItem[]; cursor: number | null }>;
-  /** Writes the items (each replaces the document with that id). Resolves only when all are written. */
-  pushItems(items: readonly RemoteItem[]): Promise<void>;
+  /**
+   * Writes the items (each replaces the document with that id). Resolves with the ids of the items it
+   * did not write (`held`): resolving means every item not in `held` was written. An item is held when
+   * it cannot be written now but may be later (firestoreRemote.ts: a clock too far ahead, or a document
+   * the server refused on its own); the caller keeps it pending and sends it again on a later run.
+   * Rejects when it cannot tell which items were written (the caller then treats none as written).
+   */
+  pushItems(items: readonly RemoteItem[]): Promise<{ held: readonly string[] }>;
   /** Every device's progress document, this device's included. */
   pullDevices(): Promise<DeviceProgress[]>;
   /** Replaces this device's progress document. */
   pushDevice(progress: DeviceProgress): Promise<void>;
   pullSettings(): Promise<RemoteSetting[]>;
-  pushSettings(settings: readonly RemoteSetting[]): Promise<void>;
+  /** Writes the settings (each replaces the document with its key). Resolves and rejects as pushItems; `held` holds setting keys. */
+  pushSettings(settings: readonly RemoteSetting[]): Promise<{ held: readonly string[] }>;
 }
 
 export type SyncState = 'idle' | 'syncing' | 'offline' | 'error';

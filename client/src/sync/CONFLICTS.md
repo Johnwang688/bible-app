@@ -56,6 +56,16 @@ therefore ends up exactly as if the interrupted sync had either finished or neve
 sent back as newer than it is, no minutes are counted twice or lost, no clock is lost.
 (`journal.ts`; `__tests__/journal.unit.test.ts` crashes after every single write.)
 
+## Changes the account cannot take yet
+16. **A change the account cannot take yet stays pending and is retried.** The account refuses a
+    change time more than a day ahead of the server's clock (a device whose clock ran ahead when the
+    change was made). Such a study item or setting is held back on this device, as is one the server
+    refuses on its own while the rest of its batch is written. It keeps its pending change (its
+    first-seen stamp and its last-synced value stay as they were) and is sent again on every later
+    sync, until the account takes it. This shows no error and starts no extra sync: it waits for the
+    next ordinary one. A value the account can never take (it fails the account's rules) is not
+    retried; it stays on the device. (`firestoreRemote.ts`; `__tests__/s51HeldBack.unit.test.ts`.)
+
 ## Not synced (yet)
 Reading position, reading settings (text size, parallel translation) and recent passages stay on each
 device. Sync runs on sign-in, on app start and return to the foreground, a few seconds after a local

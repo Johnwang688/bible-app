@@ -26,6 +26,12 @@ export interface MemoryRemote extends RemoteStore {
    * release time (a push writes then, a pull reads then).
    */
   hold(call: RemoteCall): { release: () => void; started: Promise<void> };
+  /**
+   * Makes pushItems and pushSettings hold back (not write, and report as `held`) every entry whose id
+   * (item id, setting key) `which` returns true for, as the Firestore adapter does for a clock too far
+   * ahead (S5-1). Null (the default) holds nothing back.
+   */
+  holdBack(which: ((id: string) => boolean) | null): void;
   /** Writes an item as another device would (gets a serverTime). */
   putItem(item: RemoteItem): void;
   putDevice(progress: DeviceProgress): void;
@@ -42,6 +48,7 @@ export function createMemoryRemote(): MemoryRemote {
   const failures: { error: RemoteError; call?: RemoteCall }[] = [];
   const holds = new Map<RemoteCall, { gate: Promise<void>; markStarted: () => void }[]>();
   let clock = 1000;
+  let heldBack: ((id: string) => boolean) | null = null;
 
   async function enter(call: RemoteCall): Promise<void> {
     calls.push(call);
@@ -77,6 +84,9 @@ export function createMemoryRemote(): MemoryRemote {
       holds.get(call)!.push({ gate, markStarted });
       return { release, started };
     },
+    holdBack(which) {
+      heldBack = which;
+    },
     putItem,
     putDevice: (p) => void devices.set(p.deviceId, copy(p)),
     putSetting: (s) => void settings.set(s.key, copy(s)),
@@ -89,10 +99,13 @@ export function createMemoryRemote(): MemoryRemote {
     },
     async pushItems(list) {
       await enter('pushItems');
+      const held: string[] = [];
       for (const it of list) {
         if ((it.value === null) !== it.deleted) throw new RemoteError('denied', 'value must be null exactly when deleted');
-        putItem(it);
+        if (heldBack?.(it.id)) held.push(it.id);
+        else putItem(it);
       }
+      return { held };
     },
     async pullDevices() {
       await enter('pullDevices');
@@ -108,7 +121,12 @@ export function createMemoryRemote(): MemoryRemote {
     },
     async pushSettings(list) {
       await enter('pushSettings');
-      for (const s of list) settings.set(s.key, copy(s));
+      const held: string[] = [];
+      for (const s of list) {
+        if (heldBack?.(s.key)) held.push(s.key);
+        else settings.set(s.key, copy(s));
+      }
+      return { held };
     },
   };
 }

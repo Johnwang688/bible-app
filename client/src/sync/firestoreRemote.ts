@@ -252,17 +252,17 @@ export const wireDocs = {
 // on its own does not take the rest of its batch down. Stored local values are never changed: the
 // adapter only shapes what it writes. Each push logs at most one console.warn, with counts only.
 //
-// Can a held-back item or setting ever sync? Not by itself. The push resolves, and the engine takes a
-// resolved push as written: it moves the base to the value and its clock and settles its stamp (the
-// RemoteStore contract says "resolves only when all are written"; the engine cannot learn what was held
-// back). So the value stays on this device only, with no error shown: the user sees it here but not on
-// their other devices, and the sync status stays idle. It reaches the account when the user changes it
-// again (a new own time from the then current clock), or when the engine sends it again with its base
-// clock because another device wrote the same entry with an older clock, accepted if real time has by
-// then come within CLOCK_AHEAD_MAX_MS of its clock. A held-back goal does sync by itself: the engine puts
-// this device's goal in every device document, and once real time is within CLOCK_AHEAD_MAX_MS of its
-// clock it is no longer omitted. Making held-back items sync by themselves needs the engine to keep their
-// stamps (a RemoteStore contract change, outside this adapter).
+// Does a held-back item or setting still sync? Yes (S5-1). pushItems and pushSettings resolve with the
+// ids (items) or keys (settings) they did not write: those held back for their clock (`ahead`) and the
+// documents the server refused on their own in the per-document retry (`denied`). The engine leaves
+// those entries pending (their base, stamp and ignored entry as they were before the push) and sends
+// them again on its later ordinary runs, so one reaches the account once real time has come within
+// CLOCK_AHEAD_MAX_MS of its clock (or the server's clock agrees), with the sync status idle meanwhile.
+// Entries the shape check drops as invalid (`refused`, the `pushable*` function returned null) are NOT
+// reported: the rules can never accept them, so sending them again would only fail again; they stay on
+// this device only, as before. Normalised entries are written, so they are not held either. A held-back
+// goal syncs by itself: the engine puts this device's goal in every device document, and once real
+// time is within CLOCK_AHEAD_MAX_MS of its clock it is no longer omitted.
 
 const DAY = '[0-9]{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])';
 const DAY_RE = new RegExp(`^${DAY}$`);
@@ -300,7 +300,7 @@ const clockBound = (): number => Date.now() + CLOCK_AHEAD_MAX_MS;
 const isPushableClock = (t: unknown, bound: number): boolean =>
   typeof t === 'number' && Number.isInteger(t) && t > 0 && t <= bound;
 
-/** What one push held back or normalised, by reason (counts only). */
+/** What one push held back or normalised, by reason (counts, for the log), and the ids it held back. */
 interface Held {
   /** Entries or documents the rules would refuse, dropped or normalised. */
   refused: number;
@@ -308,9 +308,11 @@ interface Held {
   ahead: number;
   /** Documents the server refused on their own after their batch was refused, held back. */
   denied: number;
+  /** The ids (item ids, setting keys) of the documents counted in `ahead` and `denied`: the push's result. Never logged. */
+  ids: string[];
 }
 
-const noneHeld = (): Held => ({ refused: 0, ahead: 0, denied: 0 });
+const noneHeld = (): Held => ({ refused: 0, ahead: 0, denied: 0, ids: [] });
 
 /** One line per push, without user data: how many entries or documents were held back or normalised, and why. */
 function warnHeld(what: string, held: Held): void {
@@ -437,14 +439,28 @@ function pushableSetting(s: RemoteSetting): RemoteSetting | null {
   return ok ? { ...s, json } : null;
 }
 
-/** The entries `fix` keeps (non-null) whose clock is at most `bound`; the rest are counted in `held`. */
-function keepPushable<T extends { updatedAt: number }>(list: readonly T[], fix: (entry: T) => T | null, held: Held, bound: number): T[] {
+/**
+ * The entries `fix` keeps (non-null) whose clock is at most `bound`; the rest are counted in `held`.
+ * Those held back for their clock are also reported by id (`idOf`); dropped ones are not (see above).
+ */
+function keepPushable<T extends { updatedAt: number }>(
+  list: readonly T[],
+  fix: (entry: T) => T | null,
+  idOf: (entry: T) => string,
+  held: Held,
+  bound: number,
+): T[] {
   const out: T[] = [];
   for (const entry of list) {
     const kept = fix(entry);
-    if (kept === null) held.refused++;
-    else if (!isPushableClock(kept.updatedAt, bound)) held.ahead++;
-    else out.push(kept);
+    if (kept === null) {
+      held.refused++;
+    } else if (!isPushableClock(kept.updatedAt, bound)) {
+      held.ahead++;
+      held.ids.push(idOf(entry));
+    } else {
+      out.push(kept);
+    }
   }
   return out;
 }
@@ -461,7 +477,7 @@ export function createFirestoreRemote(db: Firestore, uid: string): RemoteStore {
   /**
    * Writes in batches of at most BATCH_MAX, committed one after another. A batch the server refuses
    * (permission-denied) is retried document by document, once: the documents refused on their own are
-   * counted in `held.denied` and the push goes on. When every document of the batch is refused on its
+   * counted in `held.denied`, their ids added to `held.ids`, and the push goes on. When every document of the batch is refused on its
    * own (or the batch has one document), the refusal is about the account or the session rather than a
    * document (the deletedUsers marker, a sign-in from before it), and the batch's error is thrown, as is
    * any error other than permission-denied.
@@ -474,7 +490,7 @@ export function createFirestoreRemote(db: Firestore, uid: string): RemoteStore {
     for (let start = 0; start < entries.length; start += BATCH_MAX) {
       const writes = entries.slice(start, start + BATCH_MAX).map((entry) => {
         const { id, data, coll } = target(entry);
-        return { ref: doc(db, 'users', uid, coll, id), data };
+        return { id, ref: doc(db, 'users', uid, coll, id), data };
       });
       const batch = writeBatch(db);
       for (const w of writes) batch.set(w.ref, w.data);
@@ -488,6 +504,9 @@ export function createFirestoreRemote(db: Firestore, uid: string): RemoteStore {
         if (other) throw other.reason;
         if (failures.length === writes.length) throw e;
         held.denied += failures.length;
+        results.forEach((r, i) => {
+          if (r.status === 'rejected') held.ids.push(writes[i]!.id);
+        });
       }
     }
   }
@@ -519,11 +538,12 @@ export function createFirestoreRemote(db: Firestore, uid: string): RemoteStore {
       guarded(async () => {
         const held = noneHeld();
         try {
-          const pushable = keepPushable(list, pushableItem, held, clockBound());
+          const pushable = keepPushable(list, pushableItem, (item) => item.id, held, clockBound());
           await writeAll(pushable, (item) => ({ coll: 'items', id: item.id, data: itemDoc(item) }), held);
         } finally {
           warnHeld('study items', held);
         }
+        return { held: held.ids };
       }),
 
     pullDevices: () => guarded(() => readAll(query(devices()), readDevice)),
@@ -557,11 +577,12 @@ export function createFirestoreRemote(db: Firestore, uid: string): RemoteStore {
       guarded(async () => {
         const held = noneHeld();
         try {
-          const pushable = keepPushable(list, pushableSetting, held, clockBound());
+          const pushable = keepPushable(list, pushableSetting, (s) => s.key, held, clockBound());
           await writeAll(pushable, (s) => ({ coll: 'settings', id: s.key, data: settingDoc(s) }), held);
         } finally {
           warnHeld('settings', held);
         }
+        return { held: held.ids };
       }),
   };
 }

@@ -19,7 +19,9 @@
 // A push whose outcome is unknown (the run stopped or failed after the remote may have written it) is
 // treated as not acknowledged: its stamps stay, and the next run's merge is right either way. A pulled
 // value equal to the pending local one with a clock that is not older is adopted (items, settings),
-// and this device's own progress document tells which goal it last sent (rule 14).
+// and this device's own progress document tells which goal it last sent (rule 14). An item or setting
+// the remote reports as held (resolved but not written, types.ts) is likewise not acknowledged: it
+// stays pending and goes out again on a later ordinary run (rule 16).
 import type { Storage, StorageKey } from '../storage/storage';
 import { checkPulledItem, fingerprint, localItemOf, readLocalFingerprints, readLocalItems, setLocalItem, toRemoteItem, type CheckedItem, type LocalItem } from './domains/items';
 import { bestGoal, checkDevices, deviceDoc, mergeProgress, progressSig, sameDoc, type CleanDoc } from './domains/progress';
@@ -70,6 +72,8 @@ interface ItemPush {
   /** The stamp of the change pushed: cleared on success only if no newer change replaced it. */
   stamp: StampEntry | undefined;
   item: RemoteItem;
+  /** Whether this run pulled the account's copy of the item: held back, it holds the cursor. */
+  pulled: boolean;
 }
 
 /** A setting value a run writes locally. */
@@ -333,25 +337,38 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
     const settingPushes = settingWrite.pushes;
     const devicePush = progressWrite.push;
 
-    // Push: items, then settings, then this device's document. The base moves only on success.
+    // Push: items, then settings, then this device's document. The base moves only on success, and
+    // only for what the remote wrote: an entry it reports as held (not written, S5-1) keeps its base,
+    // stamp and ignored entry exactly as before the push, so it stays pending and the next ordinary
+    // run (a change, start, foreground, the interval) plans and sends it again. Held entries do not
+    // fail the run or schedule an extra one. A held item that this run pulled also holds the cursor
+    // (as rule 5 does): the next run must see the account's copy again to decide to send it again.
+    let holdCursor = itemWrite.holdCursor;
     if (itemWrite.pushes.length > 0) {
       alive();
-      await remote.pushItems(itemWrite.pushes.map((p) => p.item));
+      const { held } = await remote.pushItems(itemWrite.pushes.map((p) => p.item));
       alive();
+      const heldIds = new Set(held);
       for (const p of itemWrite.pushes) {
+        if (heldIds.has(p.id)) {
+          if (p.pulled) holdCursor = true;
+          continue;
+        }
         put(state.items.base, p.id, { s: p.sig, t: p.item.updatedAt, d: p.item.deviceId, f: p.fp });
         delete state.items.ignored[p.id];
         if (sameStamp(lookup(state.items.stamps, p.id), p.stamp)) delete state.items.stamps[p.id];
       }
     }
-    if (pulledItems && !itemWrite.holdCursor) state.items.cursor = pulledItems.cursor;
+    if (pulledItems && !holdCursor) state.items.cursor = pulledItems.cursor;
     saveState();
 
     if (settingPushes.length > 0) {
       alive();
-      await remote.pushSettings(settingPushes.map((p) => p.setting));
+      const { held } = await remote.pushSettings(settingPushes.map((p) => p.setting));
       alive();
+      const heldKeys = new Set(held);
       for (const p of settingPushes) {
+        if (heldKeys.has(p.key)) continue;
         put(state.settings.base, p.key, { s: p.sig, t: p.setting.updatedAt, d: p.setting.deviceId });
         if (sameStamp(lookup(state.settings.stamps, p.key), p.stamp)) delete state.settings.stamps[p.key];
       }
@@ -495,7 +512,7 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
           break;
         case 'push': {
           const item = toRemoteItem(id, l0, decision.clock);
-          if (item) pushes.push({ id, sig: l0?.sig ?? null, fp: fingerprint(l0), stamp: lookup(stamps, id), item });
+          if (item) pushes.push({ id, sig: l0?.sig ?? null, fp: fingerprint(l0), stamp: lookup(stamps, id), item, pulled });
           break;
         }
         case 'none':
