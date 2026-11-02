@@ -57,21 +57,25 @@ export function ReadingSettingsSheet({
   const larger = sizeButton('settings-larger', t('settings.larger'), 20, atLargest, 1);
 
   return (
-    <SheetModal testID="reading-settings" onClose={onClose}>
-      <View style={styles.titleRow}>
-        <Text accessibilityRole="header" style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.head, '700'), fontSize: 20 }}>
-          {t('settings.title')}
-        </Text>
-        <Pressable
-          testID="settings-done"
-          accessibilityRole="button"
-          onPress={onClose}
-          style={[styles.done, buttonStyle(theme), { backgroundColor: theme.colors.accent }]}
-        >
-          <Text style={{ color: theme.colors.onAccent, fontFamily: bold, fontSize: 15 }}>{t('settings.done')}</Text>
-        </Pressable>
-      </View>
-
+    <SheetModal
+      testID="reading-settings"
+      onClose={onClose}
+      header={
+        <View style={styles.titleRow}>
+          <Text accessibilityRole="header" style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.head, '700'), fontSize: 20 }}>
+            {t('settings.title')}
+          </Text>
+          <Pressable
+            testID="settings-done"
+            accessibilityRole="button"
+            onPress={onClose}
+            style={[styles.done, buttonStyle(theme), { backgroundColor: theme.colors.accent }]}
+          >
+            <Text style={{ color: theme.colors.onAccent, fontFamily: bold, fontSize: 15 }}>{t('settings.done')}</Text>
+          </Pressable>
+        </View>
+      }
+    >
       <View style={[styles.sizeRow, groupStyle(theme)]}>
         <Text style={{ color: theme.colors.btnText, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 15 }}>{t('settings.textSize')}</Text>
         <View style={styles.sizeButtons}>
@@ -92,6 +96,7 @@ export function ReadingSettingsSheet({
             accessibilityLabel={t('settings.parallel')}
             accessibilityHint={t('settings.parallelHint')}
             accessibilityState={{ checked: secondOn }}
+            aria-checked={secondOn}
             onPress={() => onChange({ ...settings, parallel: secondOn ? null : defaultSecondTranslation(translation) })}
             style={styles.switchHit}
           >
@@ -129,6 +134,7 @@ export function ReadingSettingsSheet({
                   testID={`settings-second-${id}`}
                   accessibilityRole="radio"
                   accessibilityState={{ checked }}
+                  aria-checked={checked}
                   onPress={() => onChange({ ...settings, parallel: id })}
                   style={[styles.option, { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: theme.borders.sheet.color }]}
                 >

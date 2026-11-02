@@ -132,6 +132,7 @@ export function BookPicker({
                 testID={`picker-testament-${id}`}
                 accessibilityRole="tab"
                 accessibilityState={{ selected: on }}
+                aria-selected={on}
                 onPress={() => setTestament(id)}
                 style={[styles.tab, { borderRadius: theme.radii.button, backgroundColor: on ? theme.colors.cta : 'transparent' }]}
               >
@@ -197,6 +198,7 @@ export function BookPicker({
                           accessibilityRole="button"
                           accessibilityLabel={t('picker.chapter', { n })}
                           accessibilityState={{ selected: here }}
+                          aria-selected={here}
                           onPress={() => choose(book.book_number, n)}
                           style={[
                             styles.chapter,

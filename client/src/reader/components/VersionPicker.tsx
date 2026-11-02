@@ -22,21 +22,26 @@ export function VersionPicker({
   const t = useT();
 
   return (
-    <SheetModal testID="version-picker" onClose={onClose}>
-      <View style={styles.titleRow}>
-        <Text accessibilityRole="header" style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.head, '700'), fontSize: 20 }}>
-          {t('versions.title')}
-        </Text>
-        <Pressable
-          testID="version-close"
-          accessibilityRole="button"
-          accessibilityLabel={t('common.close')}
-          onPress={onClose}
-          style={[styles.close, buttonStyle(theme), { borderRadius: 999 }]}
-        >
-          <Icon name="close" color={theme.colors.btnText} />
-        </Pressable>
-      </View>
+    <SheetModal
+      testID="version-picker"
+      onClose={onClose}
+      header={
+        <View style={styles.titleRow}>
+          <Text accessibilityRole="header" style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.head, '700'), fontSize: 20 }}>
+            {t('versions.title')}
+          </Text>
+          <Pressable
+            testID="version-close"
+            accessibilityRole="button"
+            accessibilityLabel={t('common.close')}
+            onPress={onClose}
+            style={[styles.close, buttonStyle(theme), { borderRadius: 999 }]}
+          >
+            <Icon name="close" color={theme.colors.btnText} />
+          </Pressable>
+        </View>
+      }
+    >
       <View style={groupStyle(theme)}>
         {TRANSLATION_IDS.map((id, i) => {
           const checked = id === current;
@@ -46,6 +51,7 @@ export function VersionPicker({
               testID={`version-${id}`}
               accessibilityRole="radio"
               accessibilityState={{ checked }}
+              aria-checked={checked}
               onPress={() => onSelect(id)}
               style={[styles.row, i > 0 && { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: theme.borders.sheet.color }]}
             >
