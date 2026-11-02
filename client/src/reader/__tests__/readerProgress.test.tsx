@@ -120,7 +120,7 @@ describe('opening a passage in context', () => {
 
   it('a target that arrives while the reader is open moves it there (the tab stays mounted on web)', async () => {
     const { storage } = await renderReader({ position: { bookNumber: 1, chapter: 1, translation: 'WEB' } });
-    await screen.findByText('Genesis 1:1 WEB');
+    await screen.findByText(/In the beginning, God created/);
     await act(async () => {
       readerTargets.set({ bookNumber: 43, chapter: 3, start: 3, end: 3 });
       storage.set(readerPositionKey, JOHN3_WEB);
