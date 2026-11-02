@@ -245,7 +245,7 @@ describe('lifecycle', () => {
     await a.engine.stop();
   });
 
-  test('the registry syncs R-3's study items and reading progress and the settings (orchestrator, after R-3 merged)', async () => {
+  test('the registry syncs the R-3 study items and reading progress and the settings (orchestrator, after R-3 merged)', async () => {
     const storage = createStorage(memoryBackend());
     storage.set(languageKey, 'zh-Hans');
     storage.set(studyItemsKey, {
