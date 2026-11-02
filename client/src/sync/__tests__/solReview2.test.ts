@@ -1,8 +1,5 @@
-// KNOWN, NOT FIXED IN R-6b (orchestrator judgment call; see the PR). Sol round 2 found four cases of one class:
-// the process dies *between* the engine's local writes and its state save. Those happen in one synchronous block
-// (engine.ts, "Merge and write the local values together with the base"), so the window is inside a single JS
-// tick (power loss or an OOM kill mid-statement). Round 1's crash case was already fixed once by implementer-hard;
-// per claude-workflows 5a step 5 a repeat goes to John rather than another fix round. Kept as a record.
+// Sol round 2's crash-window counterexamples (R-6b). Parked in PR #36, then made the acceptance tests of the
+// sync write journal (FOLLOW-UP item 1, John 2026-11-02). The fixer may not edit them.
 // Round-two counterexamples. Production code and existing tests are intentionally unchanged.
 import { languageKey } from '../../storage/keys';
 import { createStorage, memoryBackend, type KeyValueBackend, type Storage } from '../../storage/storage';
@@ -24,7 +21,7 @@ function snapshot(backend: KeyValueBackend, keys: readonly string[]): Storage {
   return createStorage(copy);
 }
 
-test.skip('rule 12: a pre-write crash marker must not consume reading recorded before sync restarts', async () => {
+test('rule 12: a pre-write crash marker must not consume reading recorded before sync restarts', async () => {
   const remote = createMemoryRemote();
   const backend = memoryBackend();
   const storage = createStorage(backend);
@@ -63,7 +60,7 @@ test.skip('rule 12: a pre-write crash marker must not consume reading recorded b
   }).toEqual({ total: 250_000, own: 150_000 });
 });
 
-test.skip('rule 14: a downloaded goal must retain its clock after a crash following the progress write', async () => {
+test('rule 14: a downloaded goal must retain its clock after a crash following the progress write', async () => {
   const remote = createMemoryRemote();
   const backend = memoryBackend();
   const storage = createStorage(backend);
@@ -104,7 +101,7 @@ test.skip('rule 14: a downloaded goal must retain its clock after a crash follow
   }).toEqual({ local: 30, observer: 30 });
 });
 
-test.skip('rule 9: a downloaded setting must not become a newer local edit after a crash before base save', async () => {
+test('rule 9: a downloaded setting must not become a newer local edit after a crash before base save', async () => {
   const remote = createMemoryRemote();
   const backend = memoryBackend();
   const storage = createStorage(backend);
@@ -139,7 +136,7 @@ test.skip('rule 9: a downloaded setting must not become a newer local edit after
   }).toEqual({ local: 'system', observer: 'system', remote: '"system"' });
 });
 
-test.skip('rule 3: a downloaded tombstone must not be restamped after a crash and defeat a newer edit', async () => {
+test('rule 3: a downloaded tombstone must not be restamped after a crash and defeat a newer edit', async () => {
   const remote = createMemoryRemote();
   const backend = memoryBackend();
   const storage = createStorage(backend);

@@ -5,8 +5,11 @@
 //
 // Concurrency: one run at a time. Every `await` lets the app write storage, so a run reads the local
 // values at its start (L0) and again just before writing (L1); an entry that changed in between keeps
-// its new value and stays pending for the next run (rule 5). The local write and the base update happen
-// synchronously together. After stop() resolves, no local write, base write or remote call happens.
+// its new value and stays pending for the next run (rule 5). The local writes and the state update
+// happen synchronously together, journaled so that a crash between the key writes is settled on the
+// next start (journal.ts). While they are written, the watchers stamp nothing (each write notifies them
+// before the next lands, so they would take the engine's own half-written values for local changes);
+// the commit stamps their domains once every write has landed. After stop() resolves, no local write, base write or remote call happens.
 // Runs never overlap, however syncNow is reached (a status listener calling it during a run included).
 //
 // Change detection: a first-seen stamp means "a local change is pending" until that exact change is
@@ -21,6 +24,7 @@ import type { Storage, StorageKey } from '../storage/storage';
 import { checkPulledItem, fingerprint, localItemOf, readLocalFingerprints, readLocalItems, setLocalItem, toRemoteItem, type CheckedItem, type LocalItem } from './domains/items';
 import { bestGoal, checkDevices, deviceDoc, mergeProgress, progressSig, sameDoc, type CleanDoc } from './domains/progress';
 import { checkPulledSetting, isSettingKey, settingSig, toRemoteSetting, type CheckedSetting } from './domains/settings';
+import { journaledState, randomId, recoverJournal, type JournalKeys } from './journal';
 import { beats, decide, decideWhole, lookup, put, restamp, sameStamp, stableStringify, type Decision, type RemoteSide, type StampEntry } from './merge';
 import type { ProgressShape, StudyItemsShape, SyncDomains } from './shapes';
 import { deviceIdKey, isDeviceId, isValidUid, syncStateKey, type ItemBase, type SyncStateData } from './state';
@@ -40,17 +44,11 @@ export interface SyncEngineOptions {
 /** Retry delays after a failed run while started. */
 const BACKOFF_MS = [5_000, 30_000, 2 * 60_000, 5 * 60_000];
 
-const ID_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-';
-
 /** This install's device id: random, url-safe, 20 characters, created once and stored. */
 export function getDeviceId(storage: Storage): string {
   const stored = storage.get(deviceIdKey);
   if (isDeviceId(stored)) return stored;
-  const bytes = new Uint8Array(20);
-  const cryptoApi = (globalThis as { crypto?: { getRandomValues?: (a: Uint8Array) => Uint8Array } }).crypto;
-  if (cryptoApi?.getRandomValues) cryptoApi.getRandomValues(bytes);
-  else for (let i = 0; i < bytes.length; i++) bytes[i] = Math.floor(Math.random() * 256);
-  const id = Array.from(bytes, (b) => ID_ALPHABET[b & 63]).join('');
+  const id = randomId(20);
   storage.set(deviceIdKey, id);
   return id;
 }
@@ -74,6 +72,12 @@ interface ItemPush {
   item: RemoteItem;
 }
 
+/** A setting value a run writes locally. */
+interface SettingWrite {
+  key: StorageKey<unknown> & { key: SettingKey };
+  value: unknown;
+}
+
 interface SettingPush {
   key: SettingKey;
   sig: string;
@@ -95,8 +99,8 @@ function baseFingerprint(b: ItemBase | undefined, local: LocalItem | undefined):
   return b.s === null ? null : `\u0000${b.s}`;
 }
 
-const copyStamps = (stamps: Record<string, StampEntry>): Record<string, StampEntry> =>
-  JSON.parse(JSON.stringify(stamps)) as Record<string, StampEntry>;
+const clone = <T>(v: T): T => JSON.parse(JSON.stringify(v)) as T;
+const copyStamps = (stamps: Record<string, StampEntry>): Record<string, StampEntry> => clone(stamps);
 
 export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
   const { uid, storage, remote, domains, deviceId: self } = opts;
@@ -108,6 +112,7 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
   const progressKey = domains.progress;
   // Only keys that are synced settings (types.ts SettingKey) can sync; anything else is ignored.
   const settingKeys = (domains.settings ?? []).filter((k) => isSettingKey(k.key)) as (StorageKey<unknown> & { key: SettingKey })[];
+  const journalKeys: JournalKeys = { items: studyKey, progress: progressKey, settings: settingKeys };
 
   let state: SyncStateData = storage.get(stateKey);
   let status: SyncStatus = { state: 'idle', lastSyncedAt: null };
@@ -119,6 +124,13 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
   let again: Promise<void> | null = null;
   let unsubscribes: (() => void)[] = [];
   let failures = 0;
+  /**
+   * True while commit writes. The engine's own writes notify the watchers while the local values are
+   * only partly written (the in-memory state already describes all of them), so a watcher then stamps
+   * nothing: it notes its domain, and commit stamps those domains once every write has landed.
+   */
+  let committing = false;
+  const deferred = new Set<(at: number) => { stamped: boolean; dirty: boolean }>();
   const timers: { first?: ReturnType<typeof setTimeout>; debounce?: ReturnType<typeof setTimeout>; retry?: ReturnType<typeof setTimeout>; interval?: ReturnType<typeof setInterval> } = {};
 
   // ---- status ----
@@ -135,8 +147,12 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
   }
 
   const saveState = () => storage.set(stateKey, state);
-  // A crash marker from a progress write is settled as early as possible (see writeProgress).
-  resolvePendingFold();
+  /** Settles a journal left by an interrupted write (journal.ts). Runs before anything reads the state against local values. */
+  const recover = () => {
+    if (recoverJournal(state, storage, journalKeys)) saveState();
+  };
+  // A journal from a previous start is settled as early as possible.
+  recover();
 
   // ---- stamps (rule 4) and change detection ----
 
@@ -181,6 +197,12 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
 
   function onLocalChange(stamp: (at: number) => { stamped: boolean; dirty: boolean }) {
     if (phase !== 'started') return;
+    if (committing) {
+      // Mid-commit: no recovery and no stamping against half-written values (commit stamps after).
+      deferred.add(stamp);
+      return;
+    }
+    recover();
     const res = stamp(now());
     if (res.dirty) saveState();
     if (res.stamped) scheduleDebounce();
@@ -265,7 +287,7 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
   }
 
   async function syncOnce(alive: () => void): Promise<void> {
-    resolvePendingFold();
+    recover();
     // Stamp what changed while not watching (rule 4), then read the local values (L0).
     const t0 = now();
     const s1 = stampItems(t0);
@@ -288,23 +310,28 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
     const pulledItems = studyKey ? await remote.pullItems(state.items.cursor) : null;
     alive();
 
-    // Merge and write the local values together with the base (synchronous: nothing interleaves).
+    // Merge, then write the local values together with the state (synchronous: nothing interleaves).
     const itemPlan = studyKey && items0 && pulledItems ? planItems(studyKey, items0.items, pulledItems.items) : null;
     const settingPlan = planSettings(settings0, pulledSettings);
     const progressPlan = progressKey && progress0 ? planProgress(progressKey, progress0, pulledDevices) : null;
 
-    // Each domain updates its base, then writes its local value. Should a write throw (it cannot for
-    // values that passed the schema), that domain's base goes back to what it was.
-    let itemWrite: { pushes: ItemPush[]; holdCursor: boolean } = { pushes: [], holdCursor: false };
-    let settingPushes: SettingPush[] = [];
-    let devicePush: ReturnType<typeof writeProgress> = null;
+    // Each domain updates the in-memory state and says which local values to write; commit writes
+    // them, journaled. Should the merge throw, the state goes back to what it was.
+    const before = clone(state);
+    let itemWrite: ReturnType<typeof writeItems> = { pushes: [], holdCursor: false, value: null };
+    let settingWrite: ReturnType<typeof writeSettings> = { pushes: [], values: [] };
+    let progressWrite: ReturnType<typeof writeProgress> = { push: null, value: null };
     try {
-      if (itemPlan && studyKey) itemWrite = guarded('items', () => writeItems(studyKey, items0!, itemPlan));
-      settingPushes = guarded('settings', () => writeSettings(settings0, settingStamps0, settingPlan));
-      if (progressPlan && progressKey) devicePush = guarded('progress', () => writeProgress(progressKey, progress0!, goalStamp0, progressPlan));
-    } finally {
-      saveState();
+      if (itemPlan && studyKey) itemWrite = writeItems(studyKey, items0!, itemPlan);
+      settingWrite = writeSettings(settings0, settingStamps0, settingPlan);
+      if (progressPlan && progressKey) progressWrite = writeProgress(progressKey, progress0!, goalStamp0, progressPlan);
+    } catch (e) {
+      state = before;
+      throw e;
     }
+    commit(before, itemWrite.value, settingWrite.values, progressWrite.value);
+    const settingPushes = settingWrite.pushes;
+    const devicePush = progressWrite.push;
 
     // Push: items, then settings, then this device's document. The base moves only on success.
     if (itemWrite.pushes.length > 0) {
@@ -343,14 +370,48 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
     }
   }
 
-  function guarded<T>(part: keyof SyncStateData, write: () => T): T {
-    const snapshot = JSON.stringify(state[part]);
+  /**
+   * Writes the merged local values and the state that goes with them (`state`, already updated; `before`
+   * is the state before the merge), crash-safely: journal, local writes tagged with its id, final state
+   * (journal.ts). Should a write throw, the in-memory state becomes the journaled one, which recovery
+   * settles before it is used again.
+   */
+  function commit(before: SyncStateData, items: StudyItemsShape | null, settings: readonly SettingWrite[], progress: ProgressShape | null) {
+    if (!items && settings.length === 0 && !progress) {
+      saveState();
+      return;
+    }
+    const id = randomId(16);
+    let journaled: SyncStateData;
     try {
-      return write();
+      journaled = journaledState(before, state, id, { items: items !== null, settings: settings.map((w) => w.key.key), progress });
     } catch (e) {
-      (state as Record<keyof SyncStateData, unknown>)[part] = JSON.parse(snapshot);
+      state = before; // nothing written yet
       throw e;
     }
+    committing = true;
+    deferred.clear();
+    let stamped = false;
+    try {
+      storage.set(stateKey, journaled);
+      // Each write notifies the watchers before the next lands: they defer to the stamping below.
+      if (items && studyKey) storage.set(studyKey, items, { tag: id });
+      for (const w of settings) storage.set(w.key, w.value, { tag: id });
+      if (progress && progressKey) storage.set(progressKey, progress, { tag: id });
+      committing = false;
+      // Every local value now matches the in-memory state, so only a real change (an app listener
+      // writing in response to one of these writes) is stamped, as the watcher would have (rule 5).
+      const at = now();
+      for (const stamp of deferred) if (stamp(at).stamped) stamped = true;
+      deferred.clear();
+      saveState();
+    } catch (e) {
+      committing = false;
+      deferred.clear();
+      state = clone(journaled);
+      throw e;
+    }
+    if (stamped) scheduleDebounce();
   }
 
   // ---- study items ----
@@ -443,9 +504,7 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
           break;
       }
     }
-    // The base is already updated, so the write's own change notification finds nothing new.
-    if (changed) storage.set(key, value);
-    return { pushes, holdCursor };
+    return { pushes, holdCursor, value: changed ? value : null };
   }
 
   // ---- settings ----
@@ -478,8 +537,9 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
     return plan;
   }
 
-  function writeSettings(local0: Map<SettingKey, string>, stamps0: Record<string, StampEntry>, plan: SettingPlanEntry[]): SettingPush[] {
+  function writeSettings(local0: Map<SettingKey, string>, stamps0: Record<string, StampEntry>, plan: SettingPlanEntry[]) {
     const pushes: SettingPush[] = [];
+    const values: SettingWrite[] = [];
     const { stamps } = state.settings;
     for (const { key: k, decision, remote: r } of plan) {
       const current = storage.get(k);
@@ -491,7 +551,7 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
           const side = r!.side;
           put(state.settings.base, k.key, { s: side.sig!, t: side.clock.t, d: side.clock.d });
           delete state.settings.stamps[k.key];
-          if (decision.do === 'take') storage.set(k, r!.value);
+          if (decision.do === 'take') values.push({ key: k, value: r!.value });
           break;
         }
         case 'push': {
@@ -504,7 +564,7 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
           break;
       }
     }
-    return pushes;
+    return { pushes, values };
   }
 
   // ---- reading progress ----
@@ -550,26 +610,14 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
   }
 
   /**
-   * Writes the merged progress (rule 12). The merged `activeMs` and the fold that describes it must
-   * agree, or minutes are counted twice (new progress, old fold: own = local − old fold) or lost (old
-   * progress, new fold). Storage writes of two keys are not atomic, so the write goes:
-   *   1. save the sync state as it was, with the OLD fold, plus `progress.pending` = { the new fold,
-   *      the activeMs about to be written };
-   *   2. write the progress;
-   *   3. save the state with the new fold and no `pending` (the caller's saveState).
-   * A crash before 1 or after 3 leaves a matching pair. A crash between 1 and 3 leaves `pending`, and
-   * the next engine (resolvePendingFold, at creation and at each run) decides which side landed:
-   * reading only ever adds to a day's count, so if every day of the stored activeMs is at least what
-   * step 2 wrote, step 2 landed (take the new fold), and otherwise it did not (keep the old one).
-   * The only misjudgement: step 2 did not land and, before the engine was created again, the app
-   * recorded on every day step 2 would have raised at least as much new reading as step 2 would have
-   * added. Then this device's own minutes come out low by that amount; they are never counted twice.
-   * The goal and the other state for this write are also saved only in step 3, so a crash after step 2
-   * at worst sends the taken goal back with a newer time (the same value).
+   * Merges the progress (rule 12) into the in-memory state and returns the value to write (null when
+   * it is unchanged) and the device document to push. The merged `activeMs` and the fold that
+   * describes it must agree, or minutes are counted twice (new progress, old fold: own = local − old
+   * fold) or lost (old progress, new fold): commit writes them through the journal (journal.ts), whose
+   * recovery takes the new fold, goal and stamps exactly when this write landed.
    */
   function writeProgress(key: StorageKey<ProgressShape>, local0: ProgressShape, goalStamp0: StampEntry | null, plan: ProgressPlan) {
     const local1 = storage.get(key);
-    const durable: SyncStateData['progress'] = JSON.parse(JSON.stringify(state.progress)) as SyncStateData['progress'];
     const { docs, goal: decision, remoteGoal } = plan;
     // Rule 5 for the goal: a goal changed during the run (even back to the same value) keeps its new
     // value and waits for the next run.
@@ -589,38 +637,21 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
     const merged = mergeProgress(local1, docs, state.progress.fold, self, goalMinutes);
     state.progress.fold = merged.others;
     state.progress.sig = progressSig(merged.value);
-    state.progress.pending = null;
-    if (stableStringify(merged.value) !== stableStringify(local1)) {
-      // The in-memory state is already the new one, so the write's own change notification finds
-      // nothing new; the durable copy keeps the old progress state until the write is done.
-      storage.set(stateKey, { ...state, progress: { ...durable, pending: { fold: merged.others, expect: merged.value.activeMs } } });
-      storage.set(key, merged.value);
-    }
+    const value = stableStringify(merged.value) !== stableStringify(local1) ? merged.value : null;
 
     const goalStamp = state.progress.goalStamp ? { ...state.progress.goalStamp } : null;
     const doc = deviceDoc(self, merged.own, merged.value, pushedGoal ?? state.progress.ownGoal);
     const mine = docs.find((d) => d.deviceId === self);
-    if (!sameDoc(mine, doc)) return { doc, goal: pushedGoal, goalStamp };
+    if (!sameDoc(mine, doc)) return { value, push: { doc, goal: pushedGoal, goalStamp } };
     // The account already holds exactly this document: nothing to send.
     if (pushedGoal) recordPushedGoal(pushedGoal, goalStamp);
-    return null;
+    return { value, push: null };
   }
 
   function recordPushedGoal({ minutes, updatedAt }: { minutes: number; updatedAt: number }, stamp: StampEntry | null) {
     state.progress.ownGoal = { minutes, updatedAt };
     state.progress.goal = { m: minutes, t: updatedAt, d: self };
     if (sameStamp(state.progress.goalStamp, stamp)) state.progress.goalStamp = null;
-  }
-
-  /** Settles a crash marker left by writeProgress (see there). */
-  function resolvePendingFold() {
-    const pending = state.progress.pending;
-    if (!pending || !progressKey) return;
-    const activeMs = storage.get(progressKey).activeMs;
-    const landed = Object.entries(pending.expect).every(([day, ms]) => (lookup(activeMs, day) ?? 0) >= ms);
-    if (landed) state.progress.fold = pending.fold;
-    state.progress.pending = null;
-    saveState();
   }
 
   // ---- the public face ----
