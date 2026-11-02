@@ -85,24 +85,46 @@ def image_base(project: str, region: str) -> str:
     return f"{region}-docker.pkg.dev/{project}/{REPOSITORY}/{SERVICE}"
 
 
+_DEFAULT_PORTS = {"http": 80, "https": 443}
+
+
+def canonical_origin(origin: str) -> str:
+    """Return `origin` in the form a browser sends it (lowercase, no default port), or raise ValueError.
+
+    Starlette's CORSMiddleware compares origins as exact strings, so `http://LOCALHOST:8081` or
+    `https://x.app:443` would silently never match.
+    """
+    bad = ValueError(f"not an exact http(s) origin: {origin!r}")
+    if "*" in origin or "@" in origin or any(ch.isspace() for ch in origin):
+        raise bad
+    parts = urlsplit(origin)
+    scheme = parts.scheme.lower()
+    if scheme not in _DEFAULT_PORTS or not parts.hostname or parts.path or parts.query or parts.fragment:
+        raise bad
+    try:
+        port = parts.port
+    except ValueError:
+        raise bad from None
+    if port == 0 or (port is None and parts.netloc.endswith(":")):
+        raise bad
+    host = parts.hostname  # already lowercased by urlsplit
+    if ":" in host:
+        host = f"[{host}]"
+    suffix = f":{port}" if port is not None and port != _DEFAULT_PORTS[scheme] else ""
+    return f"{scheme}://{host}{suffix}"
+
+
 def parse_cors_origins(raw: str) -> list[str]:
-    """Split and validate a comma-separated origin list: exact http(s) origins, no wildcard, no path."""
-    origins = [part.strip() for part in raw.split(",") if part.strip()]
+    """Split and validate a comma-separated origin list into canonical, de-duplicated exact origins."""
+    origins: list[str] = []
+    for part in raw.split(","):
+        part = part.strip()
+        if part:
+            origin = canonical_origin(part)
+            if origin not in origins:
+                origins.append(origin)
     if not origins:
         raise ValueError("CORS origin list is empty")
-    for origin in origins:
-        parts = urlsplit(origin)
-        if (
-            parts.scheme not in ("http", "https")
-            or not parts.hostname
-            or "*" in origin
-            or parts.path
-            or parts.query
-            or parts.fragment
-            or parts.username
-            or parts.password
-        ):
-            raise ValueError(f"not an exact http(s) origin: {origin!r}")
     return origins
 
 
@@ -130,12 +152,14 @@ def deploy_args(
         "--allow-unauthenticated",
         "--port", "8080",
         "--min-instances", str(RUN_SETTINGS["min_instances"]),
+        "--min", str(RUN_SETTINGS["min_instances"]),  # service-level minimum, separate from the revision's
         "--max-instances", str(max_instances),
         "--memory", RUN_SETTINGS["memory"],
         "--cpu", RUN_SETTINGS["cpu"],
         "--concurrency", str(RUN_SETTINGS["concurrency"]),
         "--timeout", str(RUN_SETTINGS["timeout"]),
         "--cpu-boost",
+        "--cpu-throttling",  # request-based billing, even if an earlier revision had always-on CPU
         "--labels", f"app={SERVICE}",
         # A file, not --set-env-vars: the origin list has commas, and gcloud's ^delim^ escape is
         # mangled by cmd.exe when gcloud is gcloud.cmd on Windows. Replaces all plain env vars.
@@ -220,24 +244,25 @@ def sync_secrets(
         else:
             gcloud(["secrets", "versions", "add", name, "--project", project, "--data-file=-"], value).check_returncode()
             log(f"updated {name}")
-            listed = gcloud(
-                [
-                    "secrets", "versions", "list", name, "--project", project,
-                    "--sort-by=~createTime", "--format=value(name,state)",
-                ],
+        # Always (not only after an add), so a retry finishes a cleanup that an earlier run left half done.
+        listed = gcloud(
+            [
+                "secrets", "versions", "list", name, "--project", project,
+                "--sort-by=~createTime", "--format=value(name,state)",
+            ],
+            None,
+        )
+        listed.check_returncode()
+        live = []
+        for line in listed.stdout.splitlines():
+            fields = line.split()
+            if len(fields) >= 2 and fields[1].upper() != "DESTROYED":
+                live.append(fields[0].rsplit("/", 1)[-1])
+        for version in live[1:]:  # newest first; keep only the latest version
+            gcloud(
+                ["secrets", "versions", "destroy", version, "--secret", name, "--project", project, "--quiet"],
                 None,
-            )
-            listed.check_returncode()
-            live = []
-            for line in listed.stdout.splitlines():
-                fields = line.split()
-                if len(fields) >= 2 and fields[1].upper() != "DESTROYED":
-                    live.append(fields[0].rsplit("/", 1)[-1])
-            for version in live[1:]:  # newest first; keep only the version just added
-                gcloud(
-                    ["secrets", "versions", "destroy", version, "--secret", name, "--project", project, "--quiet"],
-                    None,
-                ).check_returncode()
+            ).check_returncode()
         gcloud(
             [
                 "secrets", "add-iam-policy-binding", name, "--project", project,
@@ -247,6 +272,20 @@ def sync_secrets(
         ).check_returncode()
         synced.append(name)
     return synced
+
+
+def make_gcloud_runner(gcloud_path: str) -> GcloudFn:
+    """gcloud adapter for sync_secrets. Bytes mode, so Windows never rewrites \\n as \\r\\n in a secret
+    on stdin, and an unchanged value containing \\r\\n reads back equal."""
+
+    def run(cmd: list[str], stdin: str | None) -> subprocess.CompletedProcess:
+        result = subprocess.run([gcloud_path, *cmd], input=(stdin or "").encode("utf-8"), capture_output=True)
+        return subprocess.CompletedProcess(
+            result.args, result.returncode,
+            result.stdout.decode("utf-8", errors="replace"), result.stderr.decode("utf-8", errors="replace"),
+        )
+
+    return run
 
 
 def existing_secrets(gcloud_path: str, project: str) -> list[str]:
@@ -305,14 +344,10 @@ def main(argv: list[str] | None = None) -> int:
                 print(f"[dry-run] would sync {name} ({'set' if values.get(name) else 'empty, skipped'})")
             return 0
 
-        def gcloud(cmd: list[str], stdin: str | None) -> subprocess.CompletedProcess:
-            return subprocess.run(
-                [gcloud_path, *cmd], input=stdin if stdin is not None else "",
-                capture_output=True, text=True, encoding="utf-8",
-            )
-
         try:
-            synced = sync_secrets(values, project=args.project, region=args.region, gcloud=gcloud)
+            synced = sync_secrets(
+                values, project=args.project, region=args.region, gcloud=make_gcloud_runner(gcloud_path)
+            )
         except subprocess.CalledProcessError as error:
             # gcloud's stderr never holds a secret value: values only travel on stdin.
             print(f"gcloud failed ({' '.join(map(str, error.cmd[1:4]))} ...):\n{error.stderr}", file=sys.stderr)
@@ -322,6 +357,11 @@ def main(argv: list[str] | None = None) -> int:
 
     image = args.image or f"{image_base(args.project, args.region)}:{git_image_tag(root)}"
     secrets = list(SECRET_ENV_VARS) if args.dry_run else existing_secrets(gcloud_path, args.project)
+    missing = [name for name in SECRET_ENV_VARS if name not in secrets]
+    if missing:
+        print(f"Secret Manager has no {', '.join(missing)}: run `python deploy.py --sync-secrets` first.",
+              file=sys.stderr)
+        return 1
 
     def run(cmd: list[str]) -> None:
         if args.dry_run:
