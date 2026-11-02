@@ -7,7 +7,11 @@ export interface MemoryAuth {
   signedIn: boolean;
   /** The Firebase ID token, or null when signed out. */
   getIdToken(): Promise<string | null>;
-  /** Opens sign-in. Absent: there is no sign-in screen yet, so the notice shows no Sign in button. */
+  /**
+   * Opens sign-in. Absent: there is no sign-in screen yet, so the notice shows no Sign in button. It may return a
+   * promise that settles when sign-in is over: a server 401's notice is lifted only if it resolves and `getIdToken`
+   * then gives a different, non-null token (or `signedIn` goes false -> true).
+   */
   signIn?: () => void;
 }
 
