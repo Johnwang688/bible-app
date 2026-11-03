@@ -18,7 +18,8 @@ import { ALWAYS_ALLOWED } from '../signInGate';
 import { AuthError, type AccountState, type AuthBackend } from '../types';
 import { readVerifyRecord, RESEND_COOLDOWN_MS, TOO_MANY_HOLD_MS } from '../verifyStore';
 
-const mockEngines = { started: [] as string[] };
+/** Engine starts, also written into `sink` (an auth fake's log) when set, to order them against auth calls. */
+const mockEngines = { started: [] as string[], sink: null as string[] | null };
 jest.mock('../../sync/engine', () => {
   const actual = jest.requireActual<typeof import('../../sync/engine')>('../../sync/engine');
   return {
@@ -29,6 +30,7 @@ jest.mock('../../sync/engine', () => {
         ...engine,
         start() {
           mockEngines.started.push(opts.uid);
+          mockEngines.sink?.push(`engine:${opts.uid}`);
           engine.start();
         },
       };
@@ -43,11 +45,18 @@ jest.mock('../firebaseApp', () => ({
 
 beforeEach(() => {
   mockEngines.started = [];
+  mockEngines.sink = null;
 });
 
 const fakeAuth = verifyingAuth;
 
-function setup(auth: AuthBackend, opts: { storage?: Storage; now?: () => number } = {}) {
+interface SetupOptions {
+  storage?: Storage;
+  now?: () => number;
+  deleteAccountRequest?: (idToken: string) => Promise<void>;
+}
+
+function setup(auth: AuthBackend, opts: SetupOptions = {}) {
   const storage = opts.storage ?? createStorage(memoryBackend());
   const remotes = new Map<string, MemoryRemote>();
   const remoteFor = (uid: string) => {
@@ -63,11 +72,12 @@ function setup(auth: AuthBackend, opts: { storage?: Storage; now?: () => number 
       domains={DOMAINS}
       continueUrl="https://app.test/me?verified=1"
       now={opts.now}
+      deleteAccountRequest={opts.deleteAccountRequest}
     >
       {children}
     </AccountProvider>
   );
-  return { storage, wrapper };
+  return { storage, wrapper, remotes };
 }
 
 async function mount(auth: AuthBackend, opts: Parameters<typeof setup>[1] = {}) {
@@ -305,6 +315,135 @@ describe('email verification: Change email', () => {
     expect(error.kind).toBe('wrong-credentials');
     expect(auth.log.some((l) => l.startsWith('change:'))).toBe(false);
     expect(view.result.current.verify?.pendingEmail).toBeNull();
+  });
+});
+
+describe('email verification: no engine before the forced token refresh (security review)', () => {
+  test("the SDK's reload reports the user confirmed before the refresh: no engine starts before token:forced", async () => {
+    const auth = fakeAuth(unconfirmed('alice'));
+    auth.reloadNotifies = true;
+    mockEngines.sink = auth.log;
+    const { view } = await mount(auth);
+    auth.server.emailVerified = true;
+    expect(await run(() => view.result.current.checkVerified())).toBe(true);
+    await waitFor(() => expect(mockEngines.started).toEqual(['alice']));
+    const forced = auth.log.indexOf('token:forced');
+    expect(forced).toBeGreaterThan(auth.log.indexOf('reload'));
+    expect(auth.log.indexOf('engine:alice')).toBeGreaterThan(forced);
+    expect(view.result.current.notice).toEqual({ kind: 'confirmed' });
+  });
+
+  test.each([
+    ['notifies on reload', true],
+    ['does not notify on reload', false],
+  ])('a failed refresh (backend %s) starts no engine; the next check refreshes again, then starts it', async (_l, notifies) => {
+    const auth = fakeAuth(unconfirmed('alice'));
+    auth.reloadNotifies = notifies;
+    auth.refreshFails = new AuthError('network');
+    mockEngines.sink = auth.log;
+    const { view } = await mount(auth);
+    auth.server.emailVerified = true;
+    const error = await failure(() => view.result.current.checkVerified());
+    expect(error.kind).toBe('network');
+    await settle();
+    expect(mockEngines.started).toEqual([]);
+    expect(view.result.current.verify).toBeNull(); // auth says confirmed; sync waits for the token
+    expect(view.result.current.notice).toBeNull();
+    // A check while the refresh still fails does not answer true without one.
+    expect((await failure(() => view.result.current.checkVerified())).kind).toBe('network');
+    await settle();
+    expect(mockEngines.started).toEqual([]);
+
+    auth.refreshFails = null;
+    expect(await run(() => view.result.current.checkVerified())).toBe(true);
+    await waitFor(() => expect(mockEngines.started).toEqual(['alice']));
+    expect(auth.log.indexOf('engine:alice')).toBeGreaterThan(auth.log.indexOf('token:forced'));
+    expect(auth.log.filter((l) => l === 'token:forced:failed').length).toBeGreaterThanOrEqual(2);
+    expect(view.result.current.notice).toEqual({ kind: 'confirmed' });    await settle();
+  });
+
+  test('a confirmation seen outside a check (another tab) is held until a refresh; syncNow retries a failed one', async () => {
+    const auth = fakeAuth(unconfirmed('alice'));
+    auth.refreshFails = new AuthError('network');
+    mockEngines.sink = auth.log;
+    const { view } = await mount(auth);
+    await act(async () => auth.emit({ ...unconfirmed('alice'), emailVerified: true }));
+    await settle();
+    expect(auth.log).toContain('token:forced:failed'); // the provider asked for the refresh itself
+    expect(mockEngines.started).toEqual([]);
+    expect(auth.log).not.toContain('reload');
+
+    auth.refreshFails = null;
+    await run(() => view.result.current.syncNow());
+    await waitFor(() => expect(mockEngines.started).toEqual(['alice']));
+    expect(auth.log.indexOf('engine:alice')).toBeGreaterThan(auth.log.indexOf('token:forced'));
+  });
+
+  test('a session restored already confirmed is not held', async () => {
+    const auth = fakeAuth({ ...unconfirmed('alice'), emailVerified: true });
+    await mount(auth);
+    await waitFor(() => expect(mockEngines.started).toEqual(['alice']));
+    expect(auth.log).not.toContain('token:forced');
+  });
+});
+
+describe('email verification: a session found gone (security review)', () => {
+  test('the SDK signed itself out inside reload: signed out, the "email changed" notice, the record gone', async () => {
+    const auth = fakeAuth(unconfirmed('alice'));
+    const { view, storage } = await mount(auth);
+    await run(() => view.result.current.changeEmail('alice.new@example.com', 'pw', 'en'));
+    auth.server.sessionGone = true;
+    auth.onReload = () => auth.emit(null);
+    expect(await run(() => view.result.current.checkVerified())).toBe(false);
+    expect(view.result.current.status).toBe('signedOut');
+    expect(view.result.current.notice).toEqual({ kind: 'emailChanged', email: 'alice.new@example.com' });
+    expect(readVerifyRecord(storage, 'alice')).toBeNull();
+    expect(auth.log).not.toContain('signOut'); // nothing left to sign out
+  });
+
+  test('another account is signed in when the gone error arrives: it is not signed out', async () => {
+    const auth = fakeAuth(unconfirmed('alice'));
+    const { view, storage } = await mount(auth);
+    await run(() => view.result.current.changeEmail('alice.new@example.com', 'pw', 'en'));
+    auth.server.sessionGone = true;
+    auth.onReload = () => auth.emit({ ...unconfirmed('bob'), emailVerified: true });
+    expect(await run(() => view.result.current.checkVerified())).toBe(false);
+    await settle();
+    expect(auth.log).not.toContain('signOut');
+    expect(view.result.current.status).toBe('signedIn');
+    expect(view.result.current.user?.uid).toBe('bob');
+    expect(readVerifyRecord(storage, 'alice')).toBeNull();
+    expect(view.result.current.notice).toEqual({ kind: 'emailChanged', email: 'alice.new@example.com' });
+  });
+});
+
+describe('email verification: delete and sign-out (security review)', () => {
+  test("an unconfirmed account's delete reads nothing remote", async () => {
+    const auth = fakeAuth(unconfirmed('alice'));
+    const requests: string[] = [];
+    const { view, remotes } = await mount(auth, { deleteAccountRequest: async (token) => void requests.push(token) });
+    await run(() => view.result.current.deleteAccount('pw'));
+    expect(requests).toEqual(['token-alice']);
+    expect(view.result.current.status).toBe('signedOut');
+    expect([...remotes.values()].flatMap((r) => r.calls)).toEqual([]);
+  });
+
+  test('an ordinary sign-out forgets the pending address, and keeps the cooldown, sent and fresh', async () => {
+    const auth = fakeAuth(null);
+    let now = 1_000_000;
+    const { view, storage } = await mount(auth, { now: () => now });
+    await run(() => view.result.current.signUp('alice@example.com', 'longenough'));
+    now += RESEND_COOLDOWN_MS + 1;
+    await run(() => view.result.current.changeEmail('alice.new@example.com', 'pw'));
+    expect(readVerifyRecord(storage, 'alice')?.pending).toBe('alice.new@example.com');
+    await run(() => view.result.current.signOut());
+    expect(view.result.current.status).toBe('signedOut');
+    expect(readVerifyRecord(storage, 'alice')).toMatchObject({
+      pending: null,
+      sent: true,
+      fresh: true,
+      resendAt: now + RESEND_COOLDOWN_MS,
+    });
   });
 });
 

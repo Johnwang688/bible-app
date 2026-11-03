@@ -1,5 +1,6 @@
 // A fake AuthBackend that verifies emails (email verification tests): `server` is what Firebase holds; reload()
-// copies it into the session's user, which fires no auth-state event (as Firebase's reload does not).
+// copies it into the session's user. By default that fires no auth-state event; with `reloadNotifies` it notifies the
+// listeners with the reloaded user before resolving, as the Firebase SDK's reload does (through onIdTokenChanged).
 import { VERIFY_SHIPPED_AT } from '../AccountProvider';
 import { AuthError, type AuthBackend, type AuthUser, type EmailActionOptions } from '../types';
 
@@ -11,6 +12,12 @@ export interface VerifyFake extends AuthBackend {
   /** What the server holds: reload() copies it into the session's user. */
   server: { emailVerified: boolean; sessionGone: boolean };
   sendFails: AuthError | null;
+  /** reload() notifies the listeners with the reloaded user before it resolves (the SDK's behaviour). */
+  reloadNotifies: boolean;
+  /** Runs at the start of reload() (after it is logged): e.g. the SDK signing itself out, or another tab switching. */
+  onReload: (() => void) | null;
+  /** getIdToken(true) rejects with this (logged as `token:forced:failed`). */
+  refreshFails: AuthError | null;
 }
 
 export function verifyingAuth(initial: AuthUser | null): VerifyFake {
@@ -26,6 +33,9 @@ export function verifyingAuth(initial: AuthUser | null): VerifyFake {
     log,
     server: { emailVerified: initial?.emailVerified === true, sessionGone: false },
     sendFails: null,
+    reloadNotifies: false,
+    onReload: null,
+    refreshFails: null,
     verifiesEmail: true,
     currentUser: () => user,
     onAuthStateChanged(l) {
@@ -54,15 +64,26 @@ export function verifyingAuth(initial: AuthUser | null): VerifyFake {
       if (m.password !== 'pw') throw new AuthError('wrong-credentials');
     },
     async getIdToken(force) {
+      if (force && fake.refreshFails) {
+        log.push('token:forced:failed');
+        throw fake.refreshFails;
+      }
       log.push(force ? 'token:forced' : 'token');
       return user ? `token-${user.uid}` : null;
     },
     async reload() {
       log.push('reload');
+      fake.onReload?.();
       if (fake.server.sessionGone) throw new AuthError('requires-recent-login', undefined, { code: 'auth/user-token-expired' });
       if (!user) return null;
-      // reload() updates the user in place and fires no auth-state event.
+      // reload() updates the user in place; the SDK then notifies the ID-token listeners before resolving.
       user = { ...user, emailVerified: fake.server.emailVerified };
+      if (fake.reloadNotifies) {
+        await Promise.resolve();
+        emit(user);
+        // Resolves a little later, so anything the notification set off has run by then.
+        await new Promise((r) => setTimeout(r, 0));
+      }
       return user;
     },
     async sendEmailVerification(options: EmailActionOptions) {

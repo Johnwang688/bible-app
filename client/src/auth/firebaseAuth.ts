@@ -61,8 +61,10 @@ export function createFirebaseAuthBackend(auth: Auth): AuthBackend {
 
     onAuthStateChanged(listener) {
       const offState = firebaseOnAuthStateChanged(auth, (user) => listener(user ? toAuthUser(user) : null));
-      // reload() does not fire onAuthStateChanged; a new ID token (a refresh in this tab) does fire this one, so a
-      // user whose email was confirmed shows as soon as either happens. Sign-in and sign-out come from the first.
+      // reload() does not fire onAuthStateChanged, but it ends by notifying this one (before it resolves, and before
+      // any token refresh: the provider holds sync for a newly confirmed user until its forced refresh), and so does a
+      // new ID token. A user whose email was confirmed shows as soon as either happens. Sign-in and sign-out come
+      // from the first.
       const offToken = firebaseOnIdTokenChanged(auth, (user) => {
         if (user) listener(toAuthUser(user));
       });

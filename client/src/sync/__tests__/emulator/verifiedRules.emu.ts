@@ -103,6 +103,10 @@ async function refusedAll(db: Firestore, c: Collection): Promise<void> {
   await denied(getDocs(collection(db, 'users', 'alice', c.name)));
   await denied(setDoc(ref(db, c), c.doc(1))); // update
   expect((await getDoc(ref(verified, c))).data()).toMatchObject({ updatedAt: seed.updatedAt }); // unchanged
+  // The same update from the verified owner is accepted: the refusal above is the claim, not the document.
+  const next = c.doc(1);
+  await setDoc(ref(verified, c), next);
+  expect((await getDoc(ref(verified, c))).data()).toMatchObject({ updatedAt: next.updatedAt });
 }
 
 describe.each(COLLECTIONS)('$name', (c) => {
@@ -122,6 +126,49 @@ describe.each(COLLECTIONS)('$name', (c) => {
     const listed = await getDocs(collection(verified, 'users', 'alice', c.name));
     expect(listed.docs.map((d) => d.id)).toEqual([c.id]);
     expect(listed.docs[0]!.data()).toMatchObject({ updatedAt: next.updatedAt });
+  });
+});
+
+// email_verified must be the boolean true: any other value (a string, a number, null) is refused like false.
+const OTHER_CLAIMS: [string, unknown][] = [
+  ['the string "true"', 'true'],
+  ['the number 1', 1],
+  ['null', null],
+];
+const ITEMS_AND_MEMORY = COLLECTIONS.filter((c) => c.name === 'items' || c.name === 'memory');
+
+describe.each(ITEMS_AND_MEMORY)('$name: a non-boolean claim', (c) => {
+  test.each(OTHER_CLAIMS)('email_verified as %s is refused for get, list, create and update', async (_label, value) => {
+    await refusedAll(dbAs('alice', { email_verified: value }), c);
+  });
+});
+
+/** Writes deletedUsers/{uid} as the backend does (the emulator's admin bypass stands in for the Admin SDK). */
+async function writeMarker(uid: string, deletedAtMs: number): Promise<void> {
+  const url = `http://${FIRESTORE_HOST}:${FIRESTORE_PORT}/v1/projects/${PROJECT}/databases/(default)/documents/deletedUsers/${uid}`;
+  const res = await fetch(url, {
+    method: 'PATCH',
+    headers: { Authorization: 'Bearer owner', 'Content-Type': 'application/json' },
+    body: JSON.stringify({ fields: { deletedAt: { timestampValue: new Date(deletedAtMs).toISOString() } } }),
+  });
+  if (!res.ok) throw new Error(`marker write failed: ${res.status} ${await res.text()}`);
+}
+
+describe.each(ITEMS_AND_MEMORY)('$name: after a delete marker', (c) => {
+  test('an unverified token signed in after the marker is refused for read and write (a verified one is not)', async () => {
+    const now = Date.now();
+    await writeMarker('alice', now - 60_000);
+    const after = Math.floor(now / 1000); // auth_time (seconds) after deletedAt
+    const verifiedAfter = dbAs('alice', { iat: after, auth_time: after });
+    const unverifiedAfter = dbAs('alice', { email_verified: false, iat: after, auth_time: after });
+    await denied(setDoc(ref(unverifiedAfter, c), c.doc(0))); // create
+    await setDoc(ref(verifiedAfter, c), c.doc(0)); // the marker alone does not refuse this later sign-in
+    await denied(getDoc(ref(unverifiedAfter, c)));
+    await denied(getDocs(collection(unverifiedAfter, 'users', 'alice', c.name)));
+    await denied(setDoc(ref(unverifiedAfter, c), c.doc(1))); // update
+    const next = c.doc(1);
+    await setDoc(ref(verifiedAfter, c), next);
+    expect((await getDoc(ref(verifiedAfter, c))).data()).toMatchObject({ updatedAt: next.updatedAt });
   });
 });
 

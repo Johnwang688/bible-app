@@ -140,9 +140,10 @@ export interface AccountState {
    */
   sendVerification(languageCode?: string): Promise<void>;
   /**
-   * Asks Firebase whether the email is confirmed now (reload). Resolves true when it is (the ID token is then
-   * refreshed, so Firestore sees the claim, and sync starts), false when not yet. A session the email change ended
-   * signs out (with the `emailChanged` notice). Rejects with AuthError (network).
+   * Asks Firebase whether the email is confirmed now (reload). Resolves true when it is and the ID token has been
+   * refreshed (so Firestore sees the claim; only then does sync start), false when not yet. A failed refresh rejects
+   * and keeps sync off; the next call refreshes again. A session the email change ended signs out (with the
+   * `emailChanged` notice). Rejects with AuthError (network).
    */
   checkVerified(): Promise<boolean>;
   /** Re-authenticates with `password`, then emails a link to `newEmail` (verifyBeforeUpdateEmail). */

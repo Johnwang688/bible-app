@@ -64,8 +64,20 @@
 // sends the verification email; Send again, I've confirmed (checkVerified: reload, then a forced token refresh so
 // Firestore gets the claim) and Change email (verifyBeforeUpdateEmail) are actions here. The app comes to the front:
 // an unconfirmed account checks once. The cooldown and a pending change of address are kept per uid on the device
-// (verifyStore.ts). A check that finds the session ended (an email change revokes every session, and so does a
-// delete) signs out, with the "email changed" notice when a change was pending. Sign-out and delete work as before.
+// (verifyStore.ts); an ordinary sign-out forgets the pending address. A check that finds the session ended (an email
+// change revokes every session, and so does a delete; decided on the error code alone, since for some codes the SDK
+// has signed out inside reload already) drops the account's record, shows the "email changed" notice when a change
+// was pending, and signs that account out if auth still has it (never another account another tab switched to).
+// Delete works as before, except that it reads nothing remote for an unconfirmed account (the rules refuse it).
+//
+// A confirmation is not enough to start the engine: the claim lives in the ID token, and the SDK's reload() ends by
+// notifying the auth listeners, so setUser sees the account confirmed while its token still says email_verified:
+// false. An account that became confirmed in this run is held (`tokenStale`: from the start of a check, or from
+// setUser seeing it go unconfirmed → confirmed) until a forced refresh (`getIdToken(true)`) has succeeded for it
+// after that; `target()` wants no engine meanwhile. A failed refresh (offline) keeps the hold, and the next check
+// (I've confirmed, the app coming to the front, the sheet's timer, syncNow) refreshes again instead of answering
+// true. A confirmation seen outside a check (another tab) starts one. An account already confirmed when first
+// reported (a restored session, a sign-in) is not held.
 //
 // The injected dependencies are read once, when the provider mounts; the defaults (Firebase, device
 // storage, the Firestore remote, the account API) are created on first use, never at import.
@@ -416,6 +428,13 @@ function createController(deps: Deps): Controller {
   let notice: AccountNotice | null = null;
   /** The check in flight (I've confirmed, the app coming to the front, the sheet's timer share one). */
   let checking: Promise<boolean> | null = null;
+  /**
+   * Accounts whose confirmed email is not yet backed by a refreshed ID token (see the header): a uid is added when a
+   * check starts for it, and when auth reports it going from unconfirmed to confirmed in this run; it leaves only
+   * after a forced token refresh succeeded for it after that (checkVerifiedNow). `target()` wants no engine for them.
+   * Cleared when the signed-in account changes: a new session's token is minted with the current claim.
+   */
+  const tokenStale = new Set<string>();
 
   const gateAllowed = () => isAllowed(deps.gate);
 
@@ -538,6 +557,8 @@ function createController(deps: Deps): Controller {
     if (!gateAllowed()) return null;
     // An unconfirmed email: nothing syncs (the rules would refuse it) until checkVerified sees it confirmed.
     if (needsVerify(user)) return null;
+    // Confirmed in this run, but the ID token may still carry email_verified: false until a forced refresh.
+    if (tokenStale.has(user.uid)) return null;
     return user;
   }
 
@@ -599,12 +620,26 @@ function createController(deps: Deps): Controller {
     const firstReport = !known;
     known = true;
     if (!sameUser(user, next)) user = next ? copyUser(next) : null;
+    // Another account (or none): a stale-token hold belonged to the session that ended.
+    if (!next || before?.uid !== next.uid) tokenStale.clear();
+    let refresh = false;
     // Confirmed: this device no longer needs the cooldown or a pending change for it.
-    if (next && next.emailVerified === true && before?.uid === next.uid && before.emailVerified !== true) dropVerifyRecord(next.uid);
+    if (next && next.emailVerified === true && before?.uid === next.uid && before.emailVerified !== true) {
+      dropVerifyRecord(next.uid);
+      // The SDK reports the confirmation (reload ends by notifying the listeners) before any token refresh: hold
+      // the engine until one succeeds, and ask for a check: it shares the one in flight (the usual case), and outside
+      // one (another tab confirmed) it is the refresh.
+      if (deps.auth()?.verifiesEmail === true) {
+        tokenStale.add(next.uid);
+        refresh = true;
+      }
+    }
     if (!next) offerClosedSignedOut(firstReport, before);
     emitView();
     kick();
     if (user && !gateAllowed()) void enforceGate();
+    // After this turn, so a check that is starting has registered itself and is shared.
+    if (refresh) queueMicrotask(() => void actions.checkVerified().catch(() => undefined));
   }
 
   /**
@@ -718,6 +753,15 @@ function createController(deps: Deps): Controller {
     }
   }
 
+  /** Sets `uid`'s pending change of address to null (the cooldown, `sent` and `fresh` stay). Never throws. */
+  function forgetPendingEmail(uid: string): void {
+    try {
+      if (readVerifyRecord(deps.storage(), uid)?.pending) writeVerify(uid, { pending: null });
+    } catch (e) {
+      console.warn('[account] forgetting the pending email failed', e);
+    }
+  }
+
   function actionOptions(languageCode: string | undefined): EmailActionOptions {
     return { url: deps.continueUrl(), languageCode: languageCode ?? 'en' };
   }
@@ -761,24 +805,24 @@ function createController(deps: Deps): Controller {
     const auth = deps.auth();
     const who = user;
     if (!auth || !who || offerRun) return false;
-    if (!needsVerify(who)) return true;
+    if (!needsVerify(who)) {
+      // Confirmed. If no forced refresh has succeeded since (it failed, or the confirmation came from another tab),
+      // this check is that refresh.
+      return tokenStale.has(who.uid) ? refreshAfterConfirm(auth, who, who) : true;
+    }
     if (!auth.reload) throw new AuthError('unknown', 'this backend cannot reload the user');
+    // A confirmation this check finds holds the engine until the token is refreshed: the SDK's reload notifies the
+    // auth listeners (setUser: confirmed) before it resolves, so the hold must be in place before reload starts.
+    tokenStale.add(who.uid);
     let fresh: AuthUser | null;
     try {
       fresh = await auth.reload();
     } catch (e) {
       const code = isAuthError(e) ? e.code : firebaseAuthCode(e);
-      // The session is gone: an email change (the new link was opened) or a delete revokes every session.
-      if (code !== undefined && SESSION_GONE_CODES.includes(code) && auth.currentUser()?.uid === who.uid && user?.uid === who.uid) {
-        const pending = readVerifyRecord(deps.storage(), who.uid)?.pending ?? null;
-        dropVerifyRecord(who.uid);
-        dropClosing();
-        try {
-          await holding(() => signOut());
-        } finally {
-          if (pending) notice = { kind: 'emailChanged', email: pending };
-          emitView();
-        }
+      // The session is gone: an email change (the new link was opened) or a delete revokes every session. Decided on
+      // the code alone: for some codes the SDK has signed out already, inside reload.
+      if (code !== undefined && SESSION_GONE_CODES.includes(code)) {
+        await sessionGone(auth, who);
         return false;
       }
       throw asAuthError(e);
@@ -791,17 +835,55 @@ function createController(deps: Deps): Controller {
       setUser(fresh);
       return false;
     }
-    // Confirmed. A new ID token first, so Firestore (the rules read email_verified from it) sees the claim before the
-    // engine's first request; then the user (sameUser now differs: reconcile starts the engine).
+    return refreshAfterConfirm(auth, who, fresh);
+  }
+
+  /**
+   * `who`'s email is confirmed (`fresh`: auth's user after the reload): force a new ID token, so Firestore (the rules
+   * read email_verified from the token) sees the claim before the engine's first request; then lift the hold, show
+   * the "confirmed" notice and let reconcile start the engine. A failed refresh keeps the hold (the next check
+   * retries) and rejects. False when the signed-in account changed meanwhile (the hold stays with `who`).
+   */
+  async function refreshAfterConfirm(auth: AuthBackend, who: AuthUser, fresh: AuthUser): Promise<boolean> {
+    if (auth.currentUser()?.uid !== who.uid) return false;
     try {
       await auth.getIdToken(true);
     } catch (e) {
+      // Show what auth knows (confirmed); the engine stays off: the uid is still in tokenStale.
+      if (user?.uid === who.uid && auth.currentUser()?.uid === who.uid) setUser(auth.currentUser() ?? fresh);
       throw asAuthError(e);
     }
-    if (user?.uid !== who.uid) return false;
+    if (user?.uid !== who.uid || auth.currentUser()?.uid !== who.uid) return false;
     notice = { kind: 'confirmed' };
-    setUser(auth.currentUser()?.uid === who.uid ? (auth.currentUser() ?? fresh) : fresh);
+    // The user first (a confirmation setUser sees now finds the uid held already), then the hold goes.
+    setUser(auth.currentUser() ?? fresh);
+    tokenStale.delete(who.uid);
+    kick();
     return true;
+  }
+
+  /**
+   * A check found `who`'s session gone. Its verify record goes (with the "email changed" notice when a change of
+   * address was pending); if auth still has `who` signed in, it is signed out through the normal path (never another
+   * account another tab switched to). Rejects only when that sign-out fails.
+   */
+  async function sessionGone(auth: AuthBackend, who: AuthUser): Promise<void> {
+    let pending: string | null = null;
+    try {
+      pending = readVerifyRecord(deps.storage(), who.uid)?.pending ?? null;
+    } catch {
+      pending = null;
+    }
+    dropVerifyRecord(who.uid);
+    if (pending) notice = { kind: 'emailChanged', email: pending };
+    try {
+      if (auth.currentUser()?.uid === who.uid) {
+        dropClosing();
+        await holding(() => signOut(who.uid));
+      }
+    } finally {
+      setUser(auth.currentUser());
+    }
   }
 
   /** Throws 'not-allowed' (before anything reaches the auth backend) while the gate is closed. */
@@ -848,6 +930,11 @@ function createController(deps: Deps): Controller {
     if (unconfirmed && user?.uid === unconfirmed.uid) {
       probing ??= settleUnconfirmed().finally(() => (probing = null));
       await probing;
+      await chain;
+    }
+    // Confirmed, but its token refresh has not succeeded yet (it failed: offline): try it again first.
+    if (user && !needsVerify(user) && tokenStale.has(user.uid)) {
+      await actions.checkVerified().catch(() => undefined);
       await chain;
     }
     await running?.engine.syncNow();
@@ -963,7 +1050,12 @@ function createController(deps: Deps): Controller {
       // themselves, and a later restore of that session behind the closed gate is not Under 13 picked on it (U13-R2-1).
       // Dropped before auth.signOut() is called: auth may report nobody before signOut's continuation runs.
       dropClosing();
-      return holding(() => signOut());
+      const who = user;
+      return holding(async () => {
+        await signOut();
+        // A pending change of address is an address the person typed: it does not stay on the device signed out.
+        if (who) forgetPendingEmail(who.uid);
+      });
     },
 
     async sendPasswordReset(email: string) {
@@ -995,11 +1087,17 @@ function createController(deps: Deps): Controller {
     },
   };
 
-  async function signOut(): Promise<void> {
+  /** Stops sync, then signs out. `onlyUid`: only if that account is still the signed-in one when auth would sign out. */
+  async function signOut(onlyUid?: string): Promise<void> {
     const auth = requireAuth();
     holds++;
     try {
       await enqueue(reconcile); // stops the engine
+      // Another tab may have switched the account while the engine stopped: never sign that one out.
+      if (onlyUid !== undefined && auth.currentUser()?.uid !== onlyUid) {
+        setUser(auth.currentUser());
+        return;
+      }
       await auth.signOut();
       setUser(auth.currentUser());
     } catch (e) {
@@ -1116,8 +1214,9 @@ function createController(deps: Deps): Controller {
         requireStillSignedIn(auth, who.uid);
         const sub = tokenSubject(token);
         if (sub !== null && sub !== who.uid) throw new AuthError('unknown', 'the ID token is for another account');
-        // What the remote holds now, to tell after an ambiguous failure whether the delete reached it.
-        hadData = await readHasData(who.uid);
+        // What the remote holds now, to tell after an ambiguous failure whether the delete reached it. Not for an
+        // unconfirmed email: the rules refuse its reads (hadData stays unknown).
+        if (!needsVerify(who)) hadData = await readHasData(who.uid);
         requested = true;
         await deps.deleteRequest(token);
       } catch (e) {
