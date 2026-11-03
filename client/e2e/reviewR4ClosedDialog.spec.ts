@@ -1,6 +1,5 @@
-// KNOWN GAP (R-4, Sol goal review rounds 2-3): Escape with a second modal above the goal sheet. No screen opens one
-// today; the 5a loop stopped after implementer-hard (see the R-4 notes in docs/plans/app-rebuild.md). fixme until
-// John decides.
+// Was a known gap (R-4, Sol goal review rounds 2-3); fixed by the shared Escape stack (GAPS, board 11-03), which
+// counts only open modals.
 // Sol R-4 goal review round 2, F1 (orchestrator-owned): a closed dialog left in the page is not a modal above the
 // goal sheet, so the next Escape closes the sheet.
 import { expect, test } from '@playwright/test';
@@ -8,7 +7,7 @@ import { mockApi } from './helpers';
 
 test.use({ locale: 'en-US' });
 
-test.fixme('Escape closes the sheet after the upper dialog closes', async ({ page }) => {
+test('Escape closes the sheet after the upper dialog closes', async ({ page }) => {
   await mockApi(page);
   await page.clock.install({ time: new Date(2026, 10, 4, 9) });
   await page.goto('/');

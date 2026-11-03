@@ -49,13 +49,24 @@ export function WordsList({
   const scrollRef = useRef<ComponentRef<typeof ScrollView>>(null);
   const rowRefs = useRef(new Map<string, unknown>());
 
-  // Back from a word card: the same place in the list, with focus on the row that was open.
+  // Back from a word card: the same place in the list, with focus on the row that was open. The focus does not
+  // scroll (web): the list is already where it was, and a row that was only partly in view would move it.
   const ready = rows.length > 0;
+  // React Native Web's ScrollView reports the end of a scroll 100 ms after the last one, from a timer it does not
+  // clear on unmount. Opening a word within that time unmounts the list first, and the late report then reads the
+  // detached node's offset, 0, over the place to come back to. Reports after the list is gone are not the list's.
+  const alive = useRef(true);
+  useEffect(() => {
+    alive.current = true;
+    return () => {
+      alive.current = false;
+    };
+  }, []);
   useEffect(() => {
     if (!ready || restoreFocusKey === undefined) return;
     const id = setTimeout(() => {
       if (restoreScrollY) scrollRef.current?.scrollTo({ y: restoreScrollY, animated: false });
-      focusNode(rowRefs.current.get(restoreFocusKey));
+      focusNode(rowRefs.current.get(restoreFocusKey), { preventScroll: restoreScrollY !== undefined });
     }, 0);
     return () => clearTimeout(id);
   }, [ready, restoreFocusKey, restoreScrollY]);
@@ -166,7 +177,9 @@ export function WordsList({
   }
 
   return (
-    <SheetFrame testID="words-list" header={header} scrollRef={scrollRef} onScroll={(e) => onScrolled?.(e.nativeEvent.contentOffset.y)}>
+    <SheetFrame testID="words-list" header={header} scrollRef={scrollRef} onScroll={(e) => {
+        if (alive.current) onScrolled?.(e.nativeEvent.contentOffset.y);
+      }}>
       {body}
     </SheetFrame>
   );

@@ -63,7 +63,8 @@ test.describe('Home (English)', () => {
     await expect(page.getByTestId('home-explored')).toHaveText('1,188 of 1,189 explored');
     await page.getByTestId('home-surprise-go').click();
     await expect(page).toHaveURL(/\/bible$/);
-    await expect(page.getByText(/For God so loved the world/)).toBeVisible();
+    // In the reader: Home, still mounted behind it, shows John 3:16 too (the verse of the day on 4 November).
+    await expect(page.getByTestId('screen-bible').getByText(/For God so loved the world/)).toBeVisible();
     expect(await stored(page, 'reader.position')).toEqual({ bookNumber: 43, chapter: 3, translation: 'WEB' });
   });
 

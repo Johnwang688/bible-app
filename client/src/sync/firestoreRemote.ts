@@ -1,8 +1,9 @@
 // The Firestore RemoteStore (R-6b): one signed-in user's sync data under users/{uid} (layout and
 // shapes in types.ts; /firestore.rules enforces them). Writes replace whole documents and stamp
 // `serverTime` with serverTimestamp(); pulls read from the server, never from the local cache, so a
-// pull while offline fails as `offline` instead of returning stale data. The adapter keeps no state
-// between calls.
+// pull while offline fails as `offline` instead of returning stale data. The adapter's only state
+// between calls is which batch the server last refused as a whole, and when (so an engine retry does not
+// repeat the per-document retry for it; see writeAll).
 //
 // The wire format is one the schema-tight rules can check entry by entry (see the rules' header): a
 // device's activeMs travels as one string "YYYY-MM-DD=ms;..." (decoded back to the same record on pull),
@@ -29,6 +30,7 @@ import {
 
 import { HIGHLIGHT_IDS, type HighlightId } from '../theme/highlights';
 import { PRESET_IDS } from '../theme/types';
+import { CLOCK_AHEAD_MAX_MS } from './clock';
 import { put, stableStringify } from './merge';
 import {
   ITEM_KINDS,
@@ -49,6 +51,15 @@ import {
 const BATCH_MAX = 450;
 /** Incremental pulls re-read this far back, so a write that became visible late is not missed. */
 const PULL_OVERLAP_MS = 60_000;
+/**
+ * How long a batch the server refused as a whole (every document refused on its own too) is taken as
+ * still refused as a whole: the same documents refused again within this time of that per-document
+ * retry throw at once, without retrying each document again. An hour: the engine retries a failed run
+ * after 5 s, 30 s, 2 min, then every 5 min, so this spares about a dozen retries' worth of 1 + N
+ * requests, while a refusal that has turned per-document (a clock now within the rules for some
+ * documents only) is still found within the hour.
+ */
+const REFAN_MS = 60 * 60_000;
 
 // ---- Errors ------------------------------------------------------------------------------------
 
@@ -249,8 +260,10 @@ export const wireDocs = {
 // that far ahead omitted (goal: null), so reading progress keeps syncing. The margin (23 h, not the
 // rules' 24 h) absorbs up to an hour of skew between this device's clock and the server's. A batch the
 // server refuses anyway (permission-denied) is retried document by document, once, so a document refused
-// on its own does not take the rest of its batch down. Stored local values are never changed: the
-// adapter only shapes what it writes. Each push logs at most one console.warn, with counts only.
+// on its own does not take the rest of its batch down (and not again for the same documents within
+// REFAN_MS once every one of them was refused on its own: S5-2, writeAll). Stored local values are never
+// changed: the adapter only shapes what it writes. Each push logs at most one console.warn, with counts
+// only.
 //
 // Does a held-back item or setting still sync? Yes (S5-1). pushItems and pushSettings resolve with the
 // ids (items) or keys (settings) they did not write: those held back for their clock (`ahead`) and the
@@ -275,11 +288,8 @@ const CHAPTERS_MAX = 1189;
 /** The most reading time one day can hold. */
 const DAY_MS_MAX = 86_400_000;
 const NOTE_MAX = 5000;
-/**
- * How far ahead of this device's clock a client clock may be and still be written. The rules allow one
- * day ahead of the server's clock; the hour less is the margin for skew between the two clocks.
- */
-export const CLOCK_AHEAD_MAX_MS = 23 * 3_600_000;
+/** How far ahead of this device's clock a client clock may be and still be written (clock.ts). */
+export { CLOCK_AHEAD_MAX_MS };
 const LANGUAGES: readonly unknown[] = ['system', 'en', 'zh-Hans'];
 const MODES: readonly unknown[] = ['system', 'light', 'dark'];
 
@@ -467,6 +477,19 @@ function keepPushable<T extends { updatedAt: number }>(
 
 const isRefused = (e: unknown): boolean => firestoreCode(e) === 'permission-denied';
 
+/**
+ * A batch's documents as one string (S5-2): collection, id and the data written, without `serverTime`
+ * (a serverTimestamp() sentinel, the same every time). Equal strings: the same writes.
+ */
+function batchSig(writes: readonly { coll: string; id: string; data: DocumentData }[]): string {
+  return stableStringify(
+    writes.map(({ coll, id, data }) => {
+      const { serverTime: _serverTime, ...rest } = data;
+      return [coll, id, rest];
+    }),
+  );
+}
+
 // ---- The store ---------------------------------------------------------------------------------
 
 export function createFirestoreRemote(db: Firestore, uid: string): RemoteStore {
@@ -475,12 +498,29 @@ export function createFirestoreRemote(db: Firestore, uid: string): RemoteStore {
   const settings = () => collection(db, 'users', uid, 'settings');
 
   /**
+   * The batch this adapter last proved refused as a whole (every document refused on its own in the
+   * per-document retry): its signature (batchSig) and when that retry ran (Date.now()). Only writeAll
+   * reads or sets it. Should two pushes of this adapter interleave (the engine runs one at a time, so
+   * they should not), the worst case is one extra per-document retry or one skipped: harmless either way.
+   */
+  let refusedBatch: { sig: string; at: number } | null = null;
+
+  /**
    * Writes in batches of at most BATCH_MAX, committed one after another. A batch the server refuses
    * (permission-denied) is retried document by document, once: the documents refused on their own are
    * counted in `held.denied`, their ids added to `held.ids`, and the push goes on. When every document of the batch is refused on its
    * own (or the batch has one document), the refusal is about the account or the session rather than a
-   * document (the deletedUsers marker, a sign-in from before it), and the batch's error is thrown, as is
-   * any error other than permission-denied.
+   * document (the deletedUsers marker, a sign-in from before it, every document stamped by a clock the
+   * server's is behind), and the batch's error is thrown, as is any error other than permission-denied.
+   *
+   * S5-2: such a batch is remembered (`refusedBatch`), and when the same documents (same collection, ids
+   * and data) are refused again within REFAN_MS of that per-document retry, the batch's error is thrown
+   * at once, without the retry: every engine retry would otherwise cost 1 + N requests (up to 451), each a
+   * rules evaluation with the deletedUsers reads. The batch itself is still committed every time, which is
+   * how recovery is noticed (the marker gone, the clock fixed). Different documents (an edit, a new one, a
+   * held-back one now released), or the same ones after REFAN_MS (or after this device's clock went
+   * back), get the per-document retry again; a batch that commits, or a retry that wrote some documents,
+   * forgets the memory for its signature.
    */
   async function writeAll<T>(
     entries: readonly T[],
@@ -490,19 +530,29 @@ export function createFirestoreRemote(db: Firestore, uid: string): RemoteStore {
     for (let start = 0; start < entries.length; start += BATCH_MAX) {
       const writes = entries.slice(start, start + BATCH_MAX).map((entry) => {
         const { id, data, coll } = target(entry);
-        return { id, ref: doc(db, 'users', uid, coll, id), data };
+        return { coll, id, ref: doc(db, 'users', uid, coll, id), data };
       });
       const batch = writeBatch(db);
       for (const w of writes) batch.set(w.ref, w.data);
+      const sig = () => batchSig(writes);
       try {
         await batch.commit();
+        if (refusedBatch !== null && refusedBatch.sig === sig()) refusedBatch = null;
       } catch (e) {
         if (!isRefused(e) || writes.length < 2) throw e;
+        const s = sig();
+        const t = Date.now();
+        // The same batch, already refused as a whole within REFAN_MS (and not since this clock went back).
+        if (refusedBatch !== null && refusedBatch.sig === s && t >= refusedBatch.at && t - refusedBatch.at < REFAN_MS) throw e;
         const results = await Promise.allSettled(writes.map((w) => setDoc(w.ref, w.data)));
         const failures = results.filter((r): r is PromiseRejectedResult => r.status === 'rejected');
         const other = failures.find((r) => !isRefused(r.reason));
         if (other) throw other.reason;
-        if (failures.length === writes.length) throw e;
+        if (failures.length === writes.length) {
+          refusedBatch = { sig: s, at: t };
+          throw e;
+        }
+        if (refusedBatch !== null && refusedBatch.sig === s) refusedBatch = null;
         held.denied += failures.length;
         results.forEach((r, i) => {
           if (r.status === 'rejected') held.ids.push(writes[i]!.id);
