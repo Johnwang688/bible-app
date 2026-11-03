@@ -5,8 +5,9 @@ rules_version = '2';
 //   users/{uid}/items/{kind}:{ref}   one study item (highlight, note, bookmark) or its tombstone
 //   users/{uid}/devices/{deviceId}   one device's own reading progress
 //   users/{uid}/settings/{key}       one synced setting
+//   users/{uid}/memory/{deviceId}    one device's Memory progress and history (each device writes its own)
 //
-// Only those three collections are open, and only to their owner. Clients may read and write (create
+// Only those four collections are open, and only to their owner. Clients may read and write (create
 // or replace) a document whose shape validates; they may never delete one (a deleted study item is a
 // tombstone; only the backend's Admin SDK, which bypasses these rules, removes documents). Every other
 // path, including users/{uid} itself, matches no rule and is therefore denied.
@@ -15,6 +16,8 @@ rules_version = '2';
 //                                    Closed to clients. While it exists, only a sign-in after deletedAt
 //                                    may write under users/{uid}, so an ID token issued before the delete
 //                                    (still valid for up to an hour on another device) cannot recreate data.
+//                                    The backend's wipe (app/api/account.py) is a recursive_delete of
+//                                    users/{uid}, so it removes every subcollection here, memory/ included.
 //
 // Schema-tight (R-6b follow-up 3b). Every document a client may write is checked against the exact schema
 // the sync engine writes: its keys, the type and size of every field, and every entry inside its maps and
@@ -175,9 +178,9 @@ service cloud.firestore {
       );
     }
 
-    // goalMetDays: a list of at most 20000 distinct days (10 characters each).
-    function isDayList(l) {
-      return l is list && l.size() <= 20000 && (
+    // A list of at most `max` distinct days (10 characters each): goalMetDays (20000), Memory's completedDates (1000).
+    function isDayList(l, max) {
+      return l is list && l.size() <= max && (
         l.size() == 0 || (
           l.join(';').matches(listRe(dayRe()))
           && l.join(';').size() == l.size() * 11 - 1
@@ -203,8 +206,50 @@ service cloud.firestore {
         && d.deviceId == deviceId
         && isActiveMs(d.activeMs)
         && isChaptersRead(d.chaptersRead)
-        && isDayList(d.goalMetDays)
+        && isDayList(d.goalMetDays, 20000)
         && isGoal(d.goal)
+        && isClientTime(d.updatedAt)
+        && isServerTime(d.serverTime);
+    }
+
+    // ---- Memory: users/{uid}/memory/{deviceId} --------------------------------------------------
+    // The wire form is client/src/sync/domains/memory.ts (encodeMemoryProgress); firestoreRemote.ts
+    // pushableMemory drops or normalises what these rules refuse.
+
+    // One row of a Memory document's progress string: stage, verse id, successes, failures (0..9999999),
+    // mastery (0..100), then nextDueAt, lastReviewedAt and lapsedAt, each an ISO time or empty (null).
+    // Counts have no leading zeros. The stage is first so that nothing can be put in front of a row.
+    function memoryRowRe() {
+      return '(chunk_order|fill_blank|full_recall|review),[a-z0-9]+(-[a-z0-9]+)*'
+        + ',(0|[1-9][0-9]{0,6}),(0|[1-9][0-9]{0,6}),(0|[1-9][0-9]?|100)'
+        + ',(' + isoRe() + ')?,(' + isoRe() + ')?,(' + isoRe() + ')?';
+    }
+
+    // The progress string: at most 2000 rows (four times the ~500 verses of future libraries), ';'-separated.
+    // A row is at most 171 characters (a 64-character verse id, the storage cap; an 11-character stage; two
+    // 7-digit counts; a 3-digit mastery; three 24-character times; 7 commas), so 2000 rows are at most
+    // 2000 * 172 - 1 = 343999 characters. The size is bounded before the regex runs (as isActiveMs).
+    function isMemoryProgress(s) {
+      return s is string
+        && s.size() <= 343999
+        && s.matches(listRe(memoryRowRe()))
+        && s.split(';').size() <= 2000;
+    }
+
+    function isDayOrNull(d) {
+      return d == null || (d is string && d.matches('^' + dayRe() + '$'));
+    }
+
+    // The completed days are at most 1000 (storage/memoryKeys.ts memoryHistoryKey's cap); the streak is
+    // derived from them on the device, never stored. The day's lesson plan and the Memory settings
+    // (voice consent included) never leave the device, so they have no field here.
+    function isMemory(deviceId, d) {
+      return isDeviceId(deviceId)
+        && hasExactly(d, ['deviceId', 'progress', 'completedDates', 'startedOn', 'updatedAt', 'serverTime'])
+        && d.deviceId == deviceId
+        && isMemoryProgress(d.progress)
+        && isDayList(d.completedDates, 1000)
+        && isDayOrNull(d.startedOn)
         && isClientTime(d.updatedAt)
         && isServerTime(d.serverTime);
     }
@@ -253,7 +298,7 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
-    // users/{uid} itself has no rule: denied. Only these three subcollections are open.
+    // users/{uid} itself has no rule: denied. Only these four subcollections are open.
     // Reads stay open to the owner; writes also need canWrite (the deletion marker check).
     match /users/{uid} {
 
@@ -270,6 +315,11 @@ service cloud.firestore {
       match /settings/{key} {
         allow get, list: if isOwner(uid);
         allow create, update: if canWrite(uid) && isSetting(key, request.resource.data);
+      }
+
+      match /memory/{deviceId} {
+        allow get, list: if isOwner(uid);
+        allow create, update: if canWrite(uid) && isMemory(deviceId, request.resource.data);
       }
     }
   }

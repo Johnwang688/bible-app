@@ -7,7 +7,8 @@
 //
 // The wire format is one the schema-tight rules can check entry by entry (see the rules' header): a
 // device's activeMs travels as one string "YYYY-MM-DD=ms;..." (decoded back to the same record on pull),
-// and settings JSON is written with its object keys sorted. The push path first drops or normalises
+// settings JSON is written with its object keys sorted, and a Memory document's progress travels as one
+// string of rows (domains/memory.ts encodeMemoryProgress) with its history as two plain fields. The push path first drops or normalises
 // whatever the storage schemas allow but the rules refuse (the `pushable*` functions, mirroring the
 // rules), so no such entry can make a push fail, forever, for the documents around it. Client clocks
 // past what the rules accept (a clock more than a day ahead) are held back the same way, and a batch the
@@ -30,7 +31,9 @@ import {
 
 import { HIGHLIGHT_IDS, type HighlightId } from '../theme/highlights';
 import { PRESET_IDS } from '../theme/types';
+import type { ProgressMap, VerseProgress } from '../memory/types';
 import { CLOCK_AHEAD_MAX_MS } from './clock';
+import { decodeMemoryProgress, encodeMemoryProgress, MEMORY_COUNT_MAX, MEMORY_DAYS_MAX, MEMORY_ROWS_MAX } from './domains/memory';
 import { put, stableStringify } from './merge';
 import {
   ITEM_KINDS,
@@ -39,6 +42,7 @@ import {
   SETTING_KEYS,
   type DeviceProgress,
   type ItemKind,
+  type MemoryDoc,
   type PulledItem,
   type RemoteItem,
   type RemoteItemValue,
@@ -181,6 +185,21 @@ function readDevice(id: string, d: DocumentData): DeviceProgress | undefined {
   };
 }
 
+/**
+ * A Memory document: its progress string must decode exactly (domains/memory.ts), its history fields be a
+ * list of strings and a string or null. Anything else is dropped; the engine checks the values against
+ * the storage schemas.
+ */
+function readMemory(id: string, d: DocumentData): MemoryDoc | undefined {
+  const { deviceId, progress, completedDates, startedOn, updatedAt } = d;
+  if (!isString(deviceId) || deviceId !== id || !isNumber(updatedAt) || !isString(progress)) return undefined;
+  if (!Array.isArray(completedDates) || !completedDates.every(isString)) return undefined;
+  if (startedOn !== null && !isString(startedOn)) return undefined;
+  const decoded = decodeMemoryProgress(progress);
+  if (decoded === null) return undefined;
+  return { deviceId, progress: decoded, history: { startedOn, completedDates: [...completedDates] }, updatedAt };
+}
+
 function readSetting(id: string, d: DocumentData): RemoteSetting | undefined {
   const { key, json, updatedAt, deviceId } = d;
   if (!SETTING_KEYS.includes(key) || key !== id) return undefined;
@@ -240,11 +259,21 @@ const settingDoc = (s: RemoteSetting) => ({
   serverTime: serverTimestamp(),
 });
 
+const memoryDoc = (m: MemoryDoc) => ({
+  deviceId: m.deviceId,
+  progress: encodeMemoryProgress(m.progress),
+  completedDates: [...m.history.completedDates],
+  startedOn: m.history.startedOn,
+  updatedAt: m.updatedAt,
+  serverTime: serverTimestamp(),
+});
+
 /** The documents exactly as the adapter writes them, each with `serverTime: serverTimestamp()`. */
 export const wireDocs = {
   item: (i: RemoteItem) => itemDoc(i),
   device: (p: DeviceProgress) => deviceDoc(p),
   setting: (s: RemoteSetting) => settingDoc(s),
+  memory: (m: MemoryDoc) => memoryDoc(m),
 };
 
 // ---- The push path: what the rules would refuse is dropped or normalised first -------------------
@@ -417,6 +446,67 @@ function pushableDevice(p: DeviceProgress, held: Held, bound: number): DevicePro
   return { ...p, activeMs, chaptersRead, goalMetDays, goal };
 }
 
+const MEMORY_STAGES: readonly unknown[] = ['chunk_order', 'fill_blank', 'full_recall', 'review'];
+/** A verse id as the rules and the storage schema take it (storage/memoryKeys.ts verseId: at most 64 characters). */
+const VERSE_ID_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const VERSE_ID_MAX = 64;
+
+/** A count as the rules take it: an int, clamped to 0..max; undefined when it is not an int. */
+function clampInt(n: unknown, max: number): number | undefined {
+  if (typeof n !== 'number' || !Number.isInteger(n)) return undefined;
+  return Math.min(max, Math.max(0, n));
+}
+
+/**
+ * The Memory document the rules accept: a row whose verse id, stage or a count is not one, or whose time
+ * is not a time, is dropped; counts are clamped (0..MEMORY_COUNT_MAX, mastery 0..100) and times rewritten
+ * as ISO times (the same instant); the MEMORY_ROWS_MAX most recently reviewed rows are kept. The completed
+ * days lose repeats and non-days and keep the latest MEMORY_DAYS_MAX; a start that is not a day becomes
+ * null. Its clock (`updatedAt`, the push time) is sent as it is, as a device document's is.
+ */
+function pushableMemory(m: MemoryDoc, held: Held): MemoryDoc {
+  let fixed = 0;
+  const rows: [string, VerseProgress, number][] = [];
+  for (const id of Object.keys(m.progress)) {
+    const r = m.progress[id]!;
+    const successes = clampInt(r.successes, MEMORY_COUNT_MAX);
+    const failures = clampInt(r.failures, MEMORY_COUNT_MAX);
+    const masteryScore = clampInt(r.masteryScore, 100);
+    const time = (t: string | null): string | null | undefined => (t === null ? null : isoTime(t));
+    const nextDueAt = time(r.nextDueAt);
+    const lastReviewedAt = time(r.lastReviewedAt);
+    const lapsedAt = time(r.lapsedAt);
+    if (
+      id.length > VERSE_ID_MAX || !VERSE_ID_RE.test(id) || !MEMORY_STAGES.includes(r.stage) ||
+      successes === undefined || failures === undefined || masteryScore === undefined ||
+      nextDueAt === undefined || lastReviewedAt === undefined || lapsedAt === undefined
+    ) {
+      fixed++;
+      continue;
+    }
+    const row: VerseProgress = { stage: r.stage, successes, failures, masteryScore, nextDueAt, lastReviewedAt, lapsedAt };
+    if (stableStringify(row) !== stableStringify(r)) fixed++;
+    rows.push([id, row, lastReviewedAt === null ? -Infinity : Date.parse(lastReviewedAt)]);
+  }
+  if (rows.length > MEMORY_ROWS_MAX) {
+    fixed += rows.length - MEMORY_ROWS_MAX;
+    rows.sort((a, b) => b[2] - a[2] || (a[0] < b[0] ? -1 : 1));
+    rows.length = MEMORY_ROWS_MAX;
+  }
+  const progress: ProgressMap = {};
+  for (const [id, row] of rows) put(progress, id, row);
+
+  const raw = m.history.completedDates;
+  const days = [...new Set(raw.filter((day) => isString(day) && DAY_RE.test(day)))].sort();
+  fixed += raw.length - days.length + Math.max(0, days.length - MEMORY_DAYS_MAX);
+  const s = m.history.startedOn;
+  const startedOn = isString(s) && DAY_RE.test(s) ? s : null;
+  if (startedOn !== s) fixed++;
+
+  held.refused += fixed;
+  return { ...m, progress, history: { startedOn, completedDates: days.slice(-MEMORY_DAYS_MAX) } };
+}
+
 const isObject = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v);
 
 /** The setting with canonical JSON (keys sorted) if the rules accept its value, else null. */
@@ -492,10 +582,11 @@ function batchSig(writes: readonly { coll: string; id: string; data: DocumentDat
 
 // ---- The store ---------------------------------------------------------------------------------
 
-export function createFirestoreRemote(db: Firestore, uid: string): RemoteStore {
+export function createFirestoreRemote(db: Firestore, uid: string): Required<RemoteStore> {
   const items = () => collection(db, 'users', uid, 'items');
   const devices = () => collection(db, 'users', uid, 'devices');
   const settings = () => collection(db, 'users', uid, 'settings');
+  const memory = () => collection(db, 'users', uid, 'memory');
 
   /**
    * The batch this adapter last proved refused as a whole (every document refused on its own in the
@@ -633,6 +724,18 @@ export function createFirestoreRemote(db: Firestore, uid: string): RemoteStore {
           warnHeld('settings', held);
         }
         return { held: held.ids };
+      }),
+
+    pullMemory: () => guarded(() => readAll(query(memory()), readMemory)),
+
+    pushMemory: (m) =>
+      guarded(async () => {
+        const held = noneHeld();
+        try {
+          await setDoc(doc(memory(), m.deviceId), memoryDoc(pushableMemory(m, held)));
+        } finally {
+          warnHeld('Memory entries', held);
+        }
       }),
   };
 }
