@@ -24,14 +24,26 @@ export function useFirstRun(storage: Storage = getStorage()): FirstRun {
   const mode = choice.mode;
 
   const chooseLook = useCallback((preset: PresetId) => setChoice({ preset, mode }), [setChoice, mode]);
+  // Both read the stored state at the press, not this render's: on the web another tab may have finished the intro
+  // since (storage only notifies its own tab). Then the stricter answer wins: Under 13 from either tab always stands,
+  // and any other answer keeps the stored one, so a stale tab can never replace a stored Under 13 nor drop a new one
+  // (INT security review F1, R1). Writing the answer again also closes this tab's intro.
   const finish = useCallback(
-    (ageRange: AgeRange | null) => setOnboarding({ done: true, ageRange }),
-    [setOnboarding],
+    (ageRange: AgeRange | null) => {
+      const current = storage.get(onboardingKey);
+      setOnboarding(!current.done || ageRange === 'under-13' ? { done: true, ageRange } : current);
+    },
+    [storage, setOnboarding],
   );
   const skip = useCallback(() => {
+    const current = storage.get(onboardingKey);
+    if (current.done) {
+      setOnboarding(current);
+      return;
+    }
     setChoice({ preset: null, mode });
     setOnboarding({ done: true, ageRange: null });
-  }, [setChoice, setOnboarding, mode]);
+  }, [storage, setChoice, setOnboarding, mode]);
 
   return useMemo(
     () => ({ needed: !onboarding.done, chooseLook, finish, skip }),

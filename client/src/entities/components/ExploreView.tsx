@@ -7,6 +7,7 @@ import { useMemo, useState, type ReactNode } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import type { EntityKind, SummaryEntityListItemOut } from '../../api/schemas';
+import { auroraTextShadow } from '../../aurora';
 import { GlassSurface } from '../../components/GlassSurface';
 import { uiFace } from '../../fonts/fonts';
 import { useI18n } from '../../i18n/I18nProvider';
@@ -146,6 +147,7 @@ function MatchGroup({
             fontSize: 12,
             letterSpacing: 0.6,
             textTransform: 'uppercase',
+            ...auroraTextShadow(theme),
           }}
         >
           {t(TITLE_KEY[kind])}
@@ -157,7 +159,7 @@ function MatchGroup({
           onPress={() => onOpen(entityListHref(kind, query))}
           style={styles.seeAll}
         >
-          <Text style={{ color: theme.colors.accent, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 13 }}>
+          <Text style={{ color: theme.colors.accent, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 13, ...auroraTextShadow(theme) }}>
             {t('explore.seeAll', { n: formatNumber(total) })}
           </Text>
         </Pressable>
@@ -285,7 +287,9 @@ export function ExploreView({
   );
   const groups = ENTITY_KINDS.map((kind) => ({ kind, rows: matches.filter((m) => m.kind === kind) })).filter((g) => g.rows.length > 0);
 
-  const muted = { color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14, lineHeight: 21 };
+  // Every use of `muted` and the error title sits on the screen background, which runs the aurora in the glass looks.
+  const halo = auroraTextShadow(theme);
+  const muted = { color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14, lineHeight: 21, ...halo };
   let body: ReactNode;
   if (error) {
     body = (
@@ -295,7 +299,7 @@ export function ExploreView({
         </View>
         <Text
           accessibilityRole="header"
-          style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.head, '700'), fontSize: 17, textAlign: 'center' }}
+          style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.head, '700'), fontSize: 17, textAlign: 'center', ...halo }}
         >
           {t('explore.errorTitle')}
         </Text>

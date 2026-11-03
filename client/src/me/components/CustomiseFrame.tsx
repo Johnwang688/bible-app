@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { AuroraBackground, auroraTextShadow } from '../../aurora';
 import { uiFace } from '../../fonts/fonts';
 import { useT } from '../../i18n/I18nProvider';
 import type { MessageKey } from '../../i18n/messages/en';
@@ -34,6 +35,7 @@ export function CustomiseFrame({
   const insets = useSafeAreaInsets();
   return (
     <View testID={testID} style={[styles.fill, theme.backgrounds.app]}>
+      <AuroraBackground />
       <View style={[styles.header, { paddingTop: insets.top + 8 }]}>
         <CustomisePressable
           testID={backTestID}
@@ -52,6 +54,7 @@ export function CustomiseFrame({
               color: theme.colors.text,
               fontFamily: uiFace(theme.type.head, theme.type.headWeight),
               letterSpacing: theme.type.headLetterSpacing,
+              ...auroraTextShadow(theme),
             },
           ]}
         >
@@ -70,7 +73,7 @@ export function CustomiseLabel({ children }: { children: string }) {
   return (
     <Text
       accessibilityRole="header"
-      style={[styles.caps, { color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '700') }]}
+      style={[styles.caps, { color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '700'), ...auroraTextShadow(theme) }]}
     >
       {children}
     </Text>

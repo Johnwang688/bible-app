@@ -2,6 +2,7 @@
 // next value from the current one with src/theme/custom.ts and writes it through the hooks.
 import { StyleSheet, Text, View } from 'react-native';
 
+import { auroraTextShadow } from '../../aurora';
 import { scriptureFace, uiFace } from '../../fonts/fonts';
 import { useI18n } from '../../i18n/I18nProvider';
 import type { MessageKey } from '../../i18n/messages/en';
@@ -18,7 +19,6 @@ import {
 import { getTheme } from '../../theme/presets';
 import { useAppearance, useTheme } from '../../theme/ThemeProvider';
 import type { ModePreference } from '../../theme/types';
-import { useShowingPreset } from '../showingPreset';
 import { CustomisePressable } from './CustomisePressable';
 
 const MODES: readonly ModePreference[] = ['light', 'dark', 'system'];
@@ -73,8 +73,7 @@ interface AccentOption {
 export function CustomiseAccents() {
   const theme = useTheme();
   const { t } = useI18n();
-  const { presetId, custom, updateCustom } = useAppearance();
-  const showing = useShowingPreset();
+  const { presetId, custom, updateCustom, showingPresetId } = useAppearance();
   const own = getTheme(presetId).colors.accent;
   const current = editedAccent(custom, presetId);
   const options: AccentOption[] = [
@@ -102,7 +101,7 @@ export function CustomiseAccents() {
             disabled={blocked}
             onPress={() => {
               // The preset showing at the press, not at render: a look picked just before is counted.
-              const id = showing();
+              const id = showingPresetId();
               updateCustom((current) => {
                 const result = setAccent(current, id, o.fixed ? o.color : null);
                 return result.ok ? result.custom : null;
@@ -147,7 +146,10 @@ export function CustomiseFonts() {
         })}
       </View>
       {locale === 'zh-Hans' ? (
-        <Text testID="customise-font-note" style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 13 }}>
+        <Text
+          testID="customise-font-note"
+          style={[{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 13 }, auroraTextShadow(theme)]}
+        >
           {t('customise.font.zhNote')}
         </Text>
       ) : null}
@@ -170,7 +172,10 @@ export function CustomiseSize({ textSize, onStep }: { textSize: number; onStep(d
       />
       <Text
         testID="customise-size-value"
-        style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 16, minWidth: 28, textAlign: 'center' }}
+        style={[
+          { color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 16, minWidth: 28, textAlign: 'center' },
+          auroraTextShadow(theme),
+        ]}
       >
         {formatNumber(TEXT_SIZES[textSize] ?? TEXT_SIZES[0])}
       </Text>

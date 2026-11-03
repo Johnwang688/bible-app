@@ -3,6 +3,7 @@
 import type { ReactNode } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { auroraTextShadow } from '../../aurora';
 import { GlassSurface } from '../../components/GlassSurface';
 import { uiFace } from '../../fonts/fonts';
 import { useT } from '../../i18n/I18nProvider';
@@ -18,7 +19,7 @@ export function MeGroup({ titleKey, children }: { titleKey: MessageKey; children
     <View style={styles.group}>
       <Text
         accessibilityRole="header"
-        style={[styles.groupTitle, { color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '700') }]}
+        style={[styles.groupTitle, { color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '700'), ...auroraTextShadow(theme) }]}
       >
         {t(titleKey)}
       </Text>

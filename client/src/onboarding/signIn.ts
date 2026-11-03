@@ -34,6 +34,21 @@ export function signInGateFor(storage: Storage = getStorage()): SignInGate {
   };
 }
 
+/**
+ * The gate the app gives AccountProvider (`_layout.tsx`): closed until the intro is done, then `signInGateFor`.
+ * Until the intro is finished or skipped the age is unknown, so a restored session cannot sync before the reader
+ * has had the chance to pick Under 13 (R-6b's note in auth/signInGate.ts). Live on the same stored value.
+ */
+export function appSignInGateFor(storage: Storage = getStorage()): SignInGate {
+  return {
+    allowed: () => {
+      const onboarding = storage.get(onboardingKey);
+      return onboarding.done === true && isSignInAllowed(onboarding);
+    },
+    subscribe: (listener) => storage.subscribe(onboardingKey, listener),
+  };
+}
+
 /** Hook form of `signInGateFor`, stable for the storage. */
 export function useSignInGate(storage: Storage = getStorage()): SignInGate {
   return useMemo(() => signInGateFor(storage), [storage]);

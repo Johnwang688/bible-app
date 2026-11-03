@@ -40,7 +40,7 @@ describe('Sources and credits', () => {
 
 describe('About and privacy', () => {
   it('says what stays on the device and shows the version', async () => {
-    await renderMe(<AboutScreen onBack={() => {}} />);
+    await renderMe(<AboutScreen onBack={() => {}} onPrivacy={() => {}} />);
     expect(screen.getByTestId('screen-about')).toBeTruthy();
     expect(screen.getByText('Privacy')).toBeTruthy();
     expect(screen.getByText(/stay on this device/)).toBeTruthy();

@@ -3,20 +3,25 @@
 import { useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import { AccountCard } from '../auth/components/AccountCard';
+import { languageLabelKey, showChineseBetaNote } from '../beta';
 import { Screen } from '../components/Screen';
+import { GoalSheet } from '../home/GoalSheet';
 import { useI18n } from '../i18n/I18nProvider';
 import type { LanguagePreference } from '../i18n/types';
 import { VersionPicker } from '../reader/components/VersionPicker';
 import { useReaderPosition, useReadingSettings } from '../reader/state';
 import { TRANSLATION_IDS, TRANSLATIONS, type TranslationId } from '../reader/translations';
-import { readerPositionKey, readingSettingsKey, TEXT_SIZES } from '../storage/keys';
-import { getStorage } from '../storage/storage';
+import { readerPositionKey, readingProgressKey, readingSettingsKey, TEXT_SIZES } from '../storage/keys';
+import { getStorage, useStoredValue } from '../storage/storage';
 import { useAppearance, useTheme } from '../theme/ThemeProvider';
 import { MeChoiceSheet, type MeChoice } from './components/MeChoiceSheet';
 import { MeGroup, MeSettingsRow } from './components/MeSettingsRow';
 import type { MeRoute } from './routes';
 
-type Sheet = 'language' | 'translation' | 'parallel' | null;
+type Sheet = 'language' | 'translation' | 'parallel' | 'goal' | null;
+
+const nowDate = () => new Date();
 
 const LANGUAGES: readonly LanguagePreference[] = ['system', 'en', 'zh-Hans'];
 
@@ -26,6 +31,8 @@ export function MeScreen({ onNavigate }: { onNavigate(to: MeRoute): void }) {
   const { choice, presetId } = useAppearance();
   const { position, setPosition } = useReaderPosition();
   const [settings, setSettings] = useReadingSettings();
+  const [progress] = useStoredValue(getStorage(), readingProgressKey);
+  const goalMinutes = progress.goalMinutes;
   const [sheet, setSheet] = useState<Sheet>(null);
   // The picker is closing once a choice is made: a second tap in that moment must not write again.
   const picked = useRef(false);
@@ -62,7 +69,7 @@ export function MeScreen({ onNavigate }: { onNavigate(to: MeRoute): void }) {
   const languageChoices: MeChoice<LanguagePreference>[] = LANGUAGES.map((value) => ({
     value,
     testID: `me-language-${value}`,
-    label: t(`language.${value}`),
+    label: t(languageLabelKey(value)),
   }));
   const parallelChoices: MeChoice<'off' | TranslationId>[] = [
     { value: 'off', testID: 'me-parallel-off', label: t('me.value.off') },
@@ -76,6 +83,8 @@ export function MeScreen({ onNavigate }: { onNavigate(to: MeRoute): void }) {
   return (
     <Screen titleKey="screen.me.title" testID="screen-me">
       <View style={styles.groups}>
+        <AccountCard />
+
         <MeGroup titleKey="me.group.appearance">
           <MeSettingsRow id="me-row-look" first labelKey="me.row.look" value={t(`preset.${presetId}`)} onPress={() => onNavigate('customise')} />
           <MeSettingsRow id="me-row-mode" labelKey="me.row.mode" value={t(`mode.${choice.mode}`)} onPress={() => onNavigate('customise')} />
@@ -89,7 +98,7 @@ export function MeScreen({ onNavigate }: { onNavigate(to: MeRoute): void }) {
         </MeGroup>
 
         <MeGroup titleKey="me.group.language">
-          <MeSettingsRow id="me-row-language" first labelKey="me.row.language" value={t(`language.${preference}`)} onPress={() => open('language')} />
+          <MeSettingsRow id="me-row-language" first labelKey="me.row.language" value={t(languageLabelKey(preference))} onPress={() => open('language')} />
         </MeGroup>
 
         <MeGroup titleKey="me.group.reading">
@@ -101,6 +110,7 @@ export function MeScreen({ onNavigate }: { onNavigate(to: MeRoute): void }) {
             onPress={() => open('translation')}
           />
           <MeSettingsRow id="me-row-parallel" labelKey="me.row.parallel" value={parallelValue} onPress={() => open('parallel')} />
+          <MeSettingsRow id="me-row-goal" labelKey="goal.title" value={t('goal.minutes', { n: goalMinutes })} onPress={() => open('goal')} />
         </MeGroup>
 
         <MeGroup titleKey="me.group.more">
@@ -118,6 +128,7 @@ export function MeScreen({ onNavigate }: { onNavigate(to: MeRoute): void }) {
           selected={preference}
           onChoose={setPreference}
           onClose={close}
+          note={showChineseBetaNote() ? { id: 'me-language-beta-note', text: t('beta.language.note'), describes: 'zh-Hans' } : undefined}
         />
       ) : null}
       {sheet === 'translation' ? (
@@ -133,6 +144,7 @@ export function MeScreen({ onNavigate }: { onNavigate(to: MeRoute): void }) {
           onClose={close}
         />
       ) : null}
+      {sheet === 'goal' ? <GoalSheet storage={getStorage()} now={nowDate} onClose={close} /> : null}
     </Screen>
   );
 }

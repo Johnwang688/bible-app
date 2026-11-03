@@ -16,6 +16,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { isBetaBuild } from '../api/config';
+import { AuroraBackground, auroraTextShadow } from '../aurora';
 import { GlassSurface } from '../components/GlassSurface';
 import { uiFace } from '../fonts/fonts';
 import { useI18n } from '../i18n/I18nProvider';
@@ -76,6 +77,7 @@ export function PrivacyScreen({ lang, canGoBack, onBack, onOpenApp, onLocaleChan
 
   return (
     <View testID="screen-privacy" {...langProps} style={[styles.fill, theme.backgrounds.app]}>
+      <AuroraBackground />
       <View style={{ paddingTop: topInset }}>
         {scrolled ? <GlassSurface background={theme.backgrounds.tabBar} style={StyleSheet.absoluteFill} /> : null}
         {scrolled ? (
@@ -106,7 +108,7 @@ export function PrivacyScreen({ lang, canGoBack, onBack, onOpenApp, onLocaleChan
               style={({ pressed }) => [styles.control, styles.rowControl, pressed && styles.pressed]}
             >
               <HouseIcon color={theme.colors.text} />
-              <Text style={[styles.controlText, { color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '700') }]}>
+              <Text style={[styles.controlText, { color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '700'), ...auroraTextShadow(theme) }]}>
                 {t('privacy.openApp')}
               </Text>
             </Pressable>
@@ -120,7 +122,7 @@ export function PrivacyScreen({ lang, canGoBack, onBack, onOpenApp, onLocaleChan
             <Text
               style={[
                 styles.controlText,
-                { color: theme.colors.accent, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 14 },
+                { color: theme.colors.accent, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 14, ...auroraTextShadow(theme) },
               ]}
             >
               {t('privacy.switchLanguage')}
@@ -143,11 +145,12 @@ export function PrivacyScreen({ lang, canGoBack, onBack, onOpenApp, onLocaleChan
                 fontFamily: uiFace(theme.type.head, theme.type.headWeight),
                 fontSize: theme.type.headSize,
                 letterSpacing: 0,
+                ...auroraTextShadow(theme),
               }}
             >
               {t('privacy.title')}
             </Text>
-            <Text style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: zh ? 14 : 13, lineHeight: 20 }}>
+            <Text style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: zh ? 14 : 13, lineHeight: 20, ...auroraTextShadow(theme) }}>
               {t('privacy.updated')}
             </Text>
           </View>
@@ -166,6 +169,7 @@ export function PrivacyScreen({ lang, canGoBack, onBack, onOpenApp, onLocaleChan
               fontSize: zh ? 18 : 17,
               lineHeight: zh ? 28 : 26,
               paddingVertical: 2,
+              ...auroraTextShadow(theme),
             }}
           >
             {t('privacy.intro')}

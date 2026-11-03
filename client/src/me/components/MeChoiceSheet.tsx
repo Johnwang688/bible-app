@@ -24,6 +24,7 @@ export function MeChoiceSheet<V extends string>({
   selected,
   onChoose,
   onClose,
+  note,
 }: {
   testID: string;
   titleKey: MessageKey;
@@ -31,6 +32,8 @@ export function MeChoiceSheet<V extends string>({
   selected: V;
   onChoose(value: V): void;
   onClose(): void;
+  /** A line under the options (full text colour), read out with the option it describes. */
+  note?: { id: string; text: string; describes: V };
 }) {
   const theme = useTheme();
   const t = useT();
@@ -76,6 +79,7 @@ export function MeChoiceSheet<V extends string>({
               testID={c.testID}
               accessibilityRole="radio"
               accessibilityLabel={c.label}
+              aria-describedby={note !== undefined && note.describes === c.value ? note.id : undefined}
               accessibilityState={{ selected: isSelected, checked: isSelected }}
               onPress={() => choose(c.value)}
               style={[styles.option, i > 0 && { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: theme.borders.sheet.color }]}
@@ -88,6 +92,15 @@ export function MeChoiceSheet<V extends string>({
           );
         })}
       </View>
+      {note !== undefined ? (
+        <Text
+          testID={note.id}
+          nativeID={note.id}
+          style={[styles.note, { color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '400') }]}
+        >
+          {note.text}
+        </Text>
+      ) : null}
     </SheetModal>
   );
 }
@@ -98,4 +111,5 @@ const styles = StyleSheet.create({
   close: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
   option: { minHeight: 50, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12, paddingHorizontal: 14, paddingVertical: 6 },
   optionText: { flex: 1, fontSize: 15 },
+  note: { fontSize: 14, lineHeight: 20, marginTop: 10 },
 });

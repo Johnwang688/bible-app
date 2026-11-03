@@ -7,6 +7,7 @@ import { Pressable, ScrollView, SectionList, StyleSheet, Text, TextInput, View }
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import type { EntityKind, SummaryEntityListItemOut } from '../../api/schemas';
+import { AuroraBackground, auroraTextShadow } from '../../aurora';
 import { uiFace } from '../../fonts/fonts';
 import { useI18n } from '../../i18n/I18nProvider';
 import type { MessageKey } from '../../i18n/messages/en';
@@ -59,6 +60,7 @@ export function EntityListScreen({
   const back = useEntityBack(onBack);
   return (
     <View testID="screen-entity-list" style={[styles.fill, theme.backgrounds.app]}>
+      <AuroraBackground />
       <EntityTopBar onBack={back} />
       {kind === null ? (
         <View style={styles.padded}>
@@ -167,7 +169,7 @@ function EntityListBody({ kind, initialFilter, onOpenEntity }: { kind: EntityKin
       <Text
         testID="entity-list-loading"
         accessibilityLiveRegion="polite"
-        style={[styles.note, { color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400') }]}
+        style={[styles.note, { color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), ...auroraTextShadow(theme) }]}
       >
         {t('common.loading')}
       </Text>
@@ -177,18 +179,18 @@ function EntityListBody({ kind, initialFilter, onOpenEntity }: { kind: EntityKin
       <View testID="entity-no-match" style={styles.note}>
         {/* A Chinese query can never match an English name, so the rule is no help: say why instead. */}
         {hasCjk(trimmed) ? null : (
-          <Text style={[styles.noteText, { color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '700') }]}>
+          <Text style={[styles.noteText, { color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '700'), ...auroraTextShadow(theme) }]}>
             {t('entity.noMatch', { q: trimmed })}
           </Text>
         )}
-        <Text style={[styles.noteText, { color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400') }]}>
+        <Text style={[styles.noteText, { color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), ...auroraTextShadow(theme) }]}>
           {hasCjk(trimmed) ? t('entity.englishNames') : t('entity.matchRule')}
         </Text>
       </View>
     );
   } else if (kind === 'theme') {
     empty = (
-      <Text testID="entity-themes-prompt" style={[styles.note, styles.noteText, { color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400') }]}>
+      <Text testID="entity-themes-prompt" style={[styles.note, styles.noteText, { color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), ...auroraTextShadow(theme) }]}>
         {t('entity.themesPrompt', { n: formatNumber(list.length) })}
       </Text>
     );
@@ -205,7 +207,7 @@ function EntityListBody({ kind, initialFilter, onOpenEntity }: { kind: EntityKin
             accessibilityRole="header"
             style={[
               entityHeadStyle(theme, theme.type.headSize, theme.type.headWeight),
-              { letterSpacing: theme.type.headLetterSpacing, lineHeight: Math.round(theme.type.headSize * 1.15), flexShrink: 1 },
+              { letterSpacing: theme.type.headLetterSpacing, lineHeight: Math.round(theme.type.headSize * 1.15), flexShrink: 1, ...auroraTextShadow(theme) },
             ]}
           >
             {t(TITLE[kind])}
@@ -213,7 +215,7 @@ function EntityListBody({ kind, initialFilter, onOpenEntity }: { kind: EntityKin
           <EnglishBadge />
         </View>
         {count !== null ? (
-          <Text testID="entity-list-count" style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14 }}>
+          <Text testID="entity-list-count" style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14, ...auroraTextShadow(theme) }}>
             {count}
           </Text>
         ) : null}

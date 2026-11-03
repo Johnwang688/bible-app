@@ -5,6 +5,7 @@ import type { ReactNode } from 'react';
 import { Pressable, StyleSheet, Text, View, type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { auroraTextShadow } from '../../aurora';
 import { useScreenBack } from '../../search/useScreenBack';
 import { GlassSurface } from '../../components/GlassSurface';
 import { uiFace } from '../../fonts/fonts';
@@ -77,6 +78,8 @@ export function EntityLabel({ children, testID, header = true }: { children: Rea
         fontSize: 12,
         letterSpacing: 0.6,
         textTransform: 'uppercase',
+        // Section labels sit on the screen background, which runs the aurora in the glass looks.
+        ...auroraTextShadow(theme),
       }}
     >
       {children}
@@ -121,10 +124,15 @@ export function EntityStateBlock({
       >
         <Glyph name={glyph} color={theme.colors.muted} size={26} strokeWidth={1.9} />
       </View>
-      <Text accessibilityRole="header" style={[entityHeadStyle(theme, 17), styles.stateTitle]}>
+      <Text accessibilityRole="header" style={[entityHeadStyle(theme, 17), styles.stateTitle, auroraTextShadow(theme)]}>
         {title}
       </Text>
-      <Text style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14, lineHeight: 21, textAlign: 'center' }}>
+      <Text
+        style={[
+          { color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14, lineHeight: 21, textAlign: 'center' },
+          auroraTextShadow(theme),
+        ]}
+      >
         {body}
       </Text>
       {actionLabel ? (

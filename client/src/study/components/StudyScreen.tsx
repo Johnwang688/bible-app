@@ -6,6 +6,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { AuroraBackground, auroraTextShadow } from '../../aurora';
 import { GlassSurface } from '../../components/GlassSurface';
 import { uiFace } from '../../fonts/fonts';
 import { useT } from '../../i18n/I18nProvider';
@@ -76,6 +77,7 @@ export function StudyScreen({
           fontFamily: uiFace(theme.type.head, theme.type.headWeight),
           fontSize: theme.type.headSize,
           letterSpacing: theme.type.headLetterSpacing,
+          ...auroraTextShadow(theme),
         }}
       >
         {t('screen.study.title')}
@@ -140,6 +142,7 @@ export function StudyScreen({
 
   return (
     <View testID="screen-study" style={[styles.fill, theme.backgrounds.app]}>
+      <AuroraBackground />
       {view === 'saved' ? (
         <SavedList
           header={header}

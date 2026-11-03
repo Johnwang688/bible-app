@@ -2,6 +2,7 @@
 // and text size. Every change is written through the hooks and shows in the whole app at once.
 import { StyleSheet, Text, View } from 'react-native';
 
+import { AuroraOption, auroraTextShadow } from '../aurora';
 import { GlassSurface } from '../components/GlassSurface';
 import { uiFace } from '../fonts/fonts';
 import { useI18n } from '../i18n/I18nProvider';
@@ -18,25 +19,27 @@ import { CustomiseFrame, CustomiseLabel } from './components/CustomiseFrame';
 import { CustomisePresetRow } from './components/CustomisePresetRow';
 import { CustomisePressable } from './components/CustomisePressable';
 import { CustomisePreview } from './components/CustomisePreview';
-import { useShowingPreset } from './showingPreset';
 
 const modeOf = (id: PresetId) => PRESETS.find((p) => p.id === id)?.mode;
 
 export function CustomiseScreen(props: { onBack(): void; onAdvanced(): void }) {
   const theme = useTheme();
   const { t } = useI18n();
-  const { presetId, updateChoice, updateCustom } = useAppearance();
+  const { presetId, updateChoice, updateCustom, showingPresetId } = useAppearance();
   const [reading] = useReadingSettings();
   const presetName = t(`preset.${presetId}`);
-
-  const showing = useShowingPreset();
 
   const pick = (id: PresetId) => {
     const mode = modeOf(id);
     // Same mode as the preset showing at the press: keep the mode setting. Otherwise switch so the
     // new look shows. Both read from the stored choice, so a mode press just before is counted.
-    const shownMode = modeOf(showing());
-    updateChoice((current) => ({ preset: id, mode: mode === undefined || mode === shownMode ? current.mode : mode }));
+    const shownMode = modeOf(showingPresetId());
+    updateChoice((current) => {
+      const next = { preset: id, mode: mode === undefined || mode === shownMode ? current.mode : mode };
+      // A look with no light/dark partner (Liberty, Northern lights) shows in either mode, so its mode can be the
+      // opposite of its own: keeping it would show the picked look's partner. Then take the picked look's mode (F10).
+      return mode === undefined || showingPresetId(next) === id ? next : { preset: id, mode };
+    });
   };
 
   // Built from the stored settings at the moment of the press, so quick presses each count and
@@ -61,12 +64,12 @@ export function CustomiseScreen(props: { onBack(): void; onAdvanced(): void }) {
           role="button"
           label={t('customise.reset.a11y', { preset: presetName })}
           onPress={() => {
-            const id = showing();
+            const id = showingPresetId();
             updateCustom((current) => resetPreset(current, id));
           }}
           style={[styles.reset, { borderRadius: theme.radii.button, borderWidth: theme.borders.button?.width ?? 1, borderColor: theme.borders.button?.color ?? theme.colors.muted }]}
         >
-          <Text style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 14 }}>{t('customise.reset')}</Text>
+          <Text style={[{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 14 }, auroraTextShadow(theme)]}>{t('customise.reset')}</Text>
         </CustomisePressable>
       }
     >
@@ -87,6 +90,10 @@ export function CustomiseScreen(props: { onBack(): void; onAdvanced(): void }) {
       <View style={styles.group}>
         <CustomiseLabel>{t('customise.look')}</CustomiseLabel>
         <CustomisePresetRow presetId={presetId} onPick={pick} />
+      </View>
+
+      <View style={styles.group}>
+        <AuroraOption />
       </View>
 
       <View style={styles.group}>
