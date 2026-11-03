@@ -483,6 +483,8 @@ prototypes** (John, 2026-11-02), so R-7a ships no new screens. Prototypes in `bi
 - **Parked (follow-ups):**
   - **Cross-tab storage events (review F2, minor):** a stale tab doesn't hear another tab's writes. One case remains: an adult signs in in tab A, then picks Under 13 in tab B's stale intro. The account is signed out with no delete offer. The fix is a `storage` event listener in the shared `storage/storage.ts`.
   - **Review F3:** a future `onboardingKey` version bump must bring a `migrate`, or every Under 13 device sees the intro again.
+  - **Sol r2 (sync size):** Advanced accepts edits until `appearance.custom` passes sync's 4,000-character limit (about 230 colour edits across nearly every look). From then on the setting stops syncing, the font included. Fix: Advanced refuses an edit that would cross the limit, with its own message (new catalogue keys), or the limit is raised in `sync/types.ts` and `firestore.rules` (team AUTH). The failing test is parked in `C:/dev/bible-app-work/int/pending/intSolR2Sync.test.ts.pending`.
+  - **Memory Week's done label** (`StatusLabel`, `memory/ui/parts.tsx`, team MEM) sits on the aurora without the halo.
 
 **Memory merge, part 1: the logic (team MEM, 2026-11-02).** Little Lamb's memory engine is ported into `client/src/memory/` with its tests (roadmap track 5). The screens wait for John's approval of the prototypes (`bible-app-work/design/proposed/mem-*.html`).
 - **Local-first schedule.** Little Lamb computed the review schedule in Postgres. The device now runs the same rules in TypeScript (`schedule.ts`, `dailyLesson.ts`):
