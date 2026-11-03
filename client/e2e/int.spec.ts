@@ -169,7 +169,9 @@ test.describe('the aurora on app-background screens (Silver, a glass look)', () 
     await page.getByTestId('customise-advanced').click();
     await expect(aurora(page, 'screen-advanced')).toHaveCount(1);
 
+    // A fresh page load: wait for the screen itself (slow under a loaded machine) before counting.
     await page.goto('/privacy');
+    await expect(page.getByTestId('screen-privacy')).toBeVisible({ timeout: 15_000 });
     await expect(aurora(page, 'screen-privacy')).toHaveCount(1);
   });
 
