@@ -9,6 +9,6 @@ export {
   type RequestOptions,
   type SearchRequest,
 } from './client';
-export { getApiBaseUrl } from './config';
+export { getApiBaseUrl, getFirebaseWebConfig, isBetaBuild, type FirebaseWebConfig } from './config';
 export { createQueryClient, queryKeys, shouldRetry } from './queryClient';
 export { ApiProvider, useApi } from './ApiProvider';

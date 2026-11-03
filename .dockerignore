@@ -15,4 +15,7 @@ tests
 tmp*
 *.md
 .gitignore
-.next
+.nextclient
+build
+docs
+deploy

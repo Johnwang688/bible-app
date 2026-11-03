@@ -1,0 +1,12 @@
+[
+  {
+    "name": "keep-latest-3",
+    "action": {"type": "Keep"},
+    "mostRecentVersions": {"packageNamePrefixes": ["bible-api"], "keepCount": 3}
+  },
+  {
+    "name": "delete-older-than-14d",
+    "action": {"type": "Delete"},
+    "condition": {"tagState": "any", "olderThan": "1209600s"}
+  }
+]
