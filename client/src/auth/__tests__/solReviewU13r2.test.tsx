@@ -1,5 +1,5 @@
-// Sol round 2 on the Under 13 offer. Confirmed failing by the orchestrator (2 tests) and PARKED for John
-// (claude-workflows 5a step 5: both repeat a class implementer-hard already fixed).
+// Sol round 2 on the Under 13 offer. Parked for John on 11-02 (claude-workflows 5a step 5); un-skipped as the
+// acceptance tests of team AUTH's fixes (board 11-03, row 2).
 // U13-R2-1 (the offer recorded where it must not be; S4-3/S4-4 class): needs the gate's own sign-out to fail, then an
 //   ordinary sign-out and a restored session; the offer then names an account that never picked Under 13 ("Not now"
 //   clears it). Fix design: clear closedOnUid on any sign-out that is not the gate's.

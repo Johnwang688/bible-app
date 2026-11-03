@@ -1,7 +1,5 @@
-// PARKED for John (claude-workflows 5a step 5): every S5 finding repeats a class implementer-hard already fixed in
-// round 4 (S5-1/2/3: the S4-1 held-back-clock class; S5-4/5: the S4-5 session store under an MMKV failure; S5-6: the
-// S4-3 offer recording). Confirmed failing by the orchestrator; the "sound:" tests stay on. Fix designs are in the
-// reviewer's notes (C:/dev/bible-app-work/r6b/R6b-security-r5-result.json) and the PR.
+// S5-4, S5-5 and S5-6 were parked for John on 11-02 (claude-workflows 5a step 5); they are un-skipped as the
+// acceptance tests of team AUTH's fixes (board 11-03, row 2). The "sound:" tests stay on.
 // Security review round 5 (R-6b follow-up): the fixes for round 4 in the native session store (firebaseApp.native.ts:
 // the migration retry, the legacy-copy removal, the reinstall wipe) and in the Under 13 offer recording
 // (AccountProvider.tsx, S4-3). Reviewer-owned. A test named "S5-n ..." encodes a finding and fails on the code as

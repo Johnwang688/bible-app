@@ -38,3 +38,37 @@ export function recordUnder13Offer(storage: Storage, offer: Under13Offer): void 
 export function clearUnder13Offer(storage: Storage): void {
   storage.remove(under13OfferKey);
 }
+
+// The closing (security review 5, S5-6; Sol round 2, U13-R2-1): the gate went from open to closed while this account
+// was signed in (Under 13 picked during that run), and the gate has not yet signed it out. Only the gate's sign-out of
+// this account turns it into an offer (the provider's header: S4-3). It is stored, not kept in memory, so a close of
+// the app between Under 13 being picked and the gate's sign-out (which first waits for the sync run in flight), or
+// right after that sign-out, still ends in the offer on the next launch. Cleared when the gate opens again, when anyone
+// signs in, when an ordinary sign-out starts, when the account is deleted, and when it becomes the offer. Like the
+// offer, the auth layer's own key (not in storage/keys.ts), and it holds only the uid and the email for the offer.
+export type Under13Closing = Under13Offer;
+
+export const under13ClosingKey: StorageKey<Under13Closing | null> = {
+  key: 'account.under13Closing',
+  version: 1,
+  schema: z.object({ uid: z.string().min(1), email: z.string().min(1) }).nullable(),
+  fallback: null,
+};
+
+/** The stored closing, or null (none, or unreadable: a closing that cannot be read records no offer). */
+export function readUnder13Closing(storage: Storage): Under13Closing | null {
+  try {
+    return storage.get(under13ClosingKey);
+  } catch (e) {
+    console.warn('[account] reading the Under 13 closing failed', e);
+    return null;
+  }
+}
+
+export function recordUnder13Closing(storage: Storage, closing: Under13Closing): void {
+  storage.set(under13ClosingKey, { uid: closing.uid, email: closing.email });
+}
+
+export function clearUnder13Closing(storage: Storage): void {
+  storage.remove(under13ClosingKey);
+}

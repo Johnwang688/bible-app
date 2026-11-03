@@ -104,9 +104,6 @@ export function AccountSheet({
   const accountEmail = account.user?.email ?? '';
   /** A delete is running: closing cannot stop it, so nothing may close the sheet until its result is shown. */
   const deleting = busy && (view === 'delete' || view === 'offerDelete');
-  const closeUnlessDeleting = useCallback(() => {
-    if (!deleting) onClose();
-  }, [deleting, onClose]);
 
   /**
    * The request that owns the current view's form (its seq), or 0. Set synchronously: a second submit in the same
@@ -115,6 +112,18 @@ export function AccountSheet({
    * Close/Cancel unlocked while the first request (a delete) still ran.
    */
   const owner = useRef(0);
+
+  /**
+   * Every close path of the sheet (Close, Cancel, the scrim, Escape and Android Back through `onRequestClose`). Reads
+   * the same synchronous lock the submits take, not only `deleting`: Back arriving in the turn of a Return that
+   * submitted a delete comes before React commits `busy`, and must not close the sheet while the delete runs
+   * (U13-R2-2). `owner` equals `seq` only while the current view's request runs (leaving the view takes a new seq).
+   */
+  const closeUnlessDeleting = useCallback(() => {
+    const requestRunning = owner.current !== 0 && owner.current === seq.current;
+    if (deleting || (requestRunning && (view === 'delete' || view === 'offerDelete'))) return;
+    onClose();
+  }, [deleting, view, onClose]);
 
   /**
    * Starts a request, or returns null when one is already running for this view (leaving the view with `go`

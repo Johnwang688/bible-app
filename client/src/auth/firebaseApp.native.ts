@@ -22,7 +22,10 @@
 //   stops MMKV ever being opened again. A failed migration (SecureStore refusing reads before the first
 //   unlock, say) is retried on every later store call until it succeeds, and until then a set or remove of
 //   a key also removes that key from the legacy MMKV store: a session the user signed out of can never come
-//   back from the old clear copy (security review 4, S4-5).
+//   back from the old clear copy (security review 4, S4-5). When MMKV itself cannot be opened that removal
+//   fails too, so the write first records a SecureStore flag `bible-app-auth.legacy-drop-v1` (awaited, before
+//   the write goes ahead); a migration that finds the flag drops every legacy key without importing any
+//   (security review 5, S5-5). The person then signs in again, which is the safe direction.
 // - A new install starts signed out. The iOS Keychain survives an uninstall (the app's files do not), so a
 //   reinstall would otherwise restore the old session. getFirebaseAuth passes the keys Firebase Auth reads
 //   (`firebaseSessionKeys`); on the first launch of an install (no marker in the MMKV store
@@ -30,6 +33,16 @@
 //   are deleted before any read, then the marker is set. SecureStore cannot list its keys, so the wipe is by
 //   name: exactly the keys this Firebase app reads (from its API key and app name), each item's header and
 //   chunks. Until a key is wiped it reads as null (signed out); a set or remove of it counts as wiping it.
+//   While the install marker cannot be read (MMKV failing to open) every read is null, and the first set or
+//   remove of the run first deletes exactly what that wipe would (a pre-wipe), then sets a SecureStore flag
+//   `bible-app-auth.prewiped-v1`. A later launch that opens MMKV and finds no marker but the flag skips the
+//   wipe (everything under those keys was written by this install after it deleted them), so a sign-in made
+//   while MMKV was down survives (security review 5, S5-4); without the flag (a pre-wipe that failed, or
+//   none) it wipes as before. The one residual: an install whose MMKV failed on every launch after a
+//   sign-in, then uninstalled before any launch where MMKV opened, leaves the flag in the Keychain, so a
+//   reinstall on that phone keeps that install's own last session (iOS only; Android removes Keystore data
+//   with the app). SecureStore is the only store that works while MMKV is down, and it survives an iOS
+//   uninstall, so this cannot be closed without a store that goes with the app's files.
 // - Why not MMKV encrypted with a key kept in SecureStore: that key must come from a CSPRNG, and this app has
 //   none on native (no expo-crypto; React Native has no crypto.getRandomValues). The write ids below need
 //   only to differ between writes, not to be secret.
@@ -48,6 +61,12 @@ let db: Firestore | null = null;
 const LEGACY_MMKV_ID = 'bible-app-auth';
 const KEY_PREFIX = 'bible-app-auth';
 const MIGRATED_KEY = `${KEY_PREFIX}.migrated-v1`;
+/** Set by a pre-wipe: every session key was deleted on an install whose marker could not be read (S5-4). */
+const PREWIPED_KEY = `${KEY_PREFIX}.prewiped-v1`;
+/** Set when a write could not remove its key from the legacy clear store: the migration then imports nothing. */
+const LEGACY_DROP_KEY = `${KEY_PREFIX}.legacy-drop-v1`;
+/** Items wiped by their own name (not a Firebase key's header and chunks). */
+const RAW_KEYS: ReadonlySet<string> = new Set([MIGRATED_KEY, PREWIPED_KEY]);
 /** The MMKV store holding the install marker: app data, so an uninstall removes it (unlike the Keychain). */
 const INSTALL_MMKV_ID = 'bible-app-install';
 const INSTALL_MARKER = 'auth-keychain-wiped-v1';
@@ -140,7 +159,25 @@ function openMmkv(id: string): Mmkv {
 async function migrateLegacyMmkv(): Promise<boolean> {
   try {
     if ((await SecureStore.getItemAsync(MIGRATED_KEY, SECURE_OPTIONS)) === '1') return true;
+    // A write made while MMKV was down could not remove its key from the clear copy (S5-5): importing that copy
+    // could restore a session the user signed out of, so nothing is imported. A failed read of the flag rejects
+    // and the migration is retried, so the import never runs on a flag it could not read.
+    const dropAll = (await SecureStore.getItemAsync(LEGACY_DROP_KEY, SECURE_OPTIONS)) === '1';
     const mmkv = openMmkv(LEGACY_MMKV_ID);
+    if (dropAll) {
+      for (const key of mmkv.getAllKeys()) mmkv.remove(key);
+      mmkv.clearAll();
+      await SecureStore.setItemAsync(MIGRATED_KEY, '1', SECURE_OPTIONS);
+      // After the marker: a crash or failed delete here leaves the flag with the marker set, which is harmless
+      // (the marker stops the migration ever reading it; an install wipe deletes the marker, and a later
+      // migration then finds the legacy store empty: an install's files never hold another install's copy).
+      try {
+        await SecureStore.deleteItemAsync(LEGACY_DROP_KEY, SECURE_OPTIONS);
+      } catch {
+        // Harmless, as above.
+      }
+      return true;
+    }
     for (const key of mmkv.getAllKeys()) {
       const value = mmkv.getString(key);
       try {
@@ -162,13 +199,23 @@ async function migrateLegacyMmkv(): Promise<boolean> {
   }
 }
 
-/** Removes `key` from the legacy clear MMKV store (best effort; only while the migration is pending). */
-function dropLegacyCopy(key: string): void {
+/**
+ * Removes `key` from the legacy clear MMKV store (only while the migration is pending). False when MMKV could
+ * not be opened: the copy may still be there, and a later launch that opens MMKV could import it.
+ */
+function dropLegacyCopy(key: string): boolean {
   try {
     openMmkv(LEGACY_MMKV_ID).remove(key);
+    return true;
   } catch {
-    // MMKV unavailable: then the migration cannot import from it either.
+    return false;
   }
+}
+
+/** Deletes what an earlier install may have left under `key`: a raw item, or a Firebase key's header and chunks. */
+async function deleteSessionItem(key: string): Promise<void> {
+  if (RAW_KEYS.has(key)) await SecureStore.deleteItemAsync(key, SECURE_OPTIONS);
+  else await secureRemove(secureKeyStem(key));
 }
 
 /** The storage keys Firebase Auth's React Native persistence uses for one app (its API key and name). */
@@ -193,23 +240,73 @@ export function createSecureAuthStorage(options: SecureAuthStorageOptions = {}):
   let pendingWipe: Set<string> | null = null;
   let migrated = false;
   let attempt: Promise<void> | null = null;
+  /** This run's pre-wipe (at most one per run, shared by concurrent writes, like `attempt`). Never rejects. */
+  let prewipe: Promise<void> | null = null;
+  /** The legacy-drop flag was stored in this run (no need to store it again). */
+  let legacyDropRecorded = false;
 
-  function checkInstall(): void {
+  /** Everything an install wipe deletes. The legacy-drop flag is kept: see `checkInstall`. */
+  const installWipeSet = () => new Set([...(wipeKeys ?? []), MIGRATED_KEY, PREWIPED_KEY]);
+
+  async function checkInstall(): Promise<void> {
+    let marker: string | undefined;
     try {
-      if (openMmkv(INSTALL_MMKV_ID).getString(INSTALL_MARKER) === undefined) {
-        pendingWipe = new Set([...(wipeKeys ?? []), MIGRATED_KEY]);
-      }
-      installKnown = true;
+      marker = openMmkv(INSTALL_MMKV_ID).getString(INSTALL_MARKER);
     } catch {
       // MMKV unavailable: the install is unknown, so reads stay null and the check is retried.
+      return;
     }
+    if (marker !== undefined) {
+      installKnown = true;
+      // A pre-wipe on a launch whose MMKV failed leaves the flag behind on an install that has its marker; were
+      // it kept, a reinstall would skip its wipe. Best effort (a failure is retried at the next launch).
+      try {
+        await SecureStore.deleteItemAsync(PREWIPED_KEY, SECURE_OPTIONS);
+      } catch {
+        // Retried at the next launch.
+      }
+      return;
+    }
+    // No marker: a new install, unless a pre-wipe of this install already deleted everything under the keys.
+    // A flag that cannot be read counts as absent (the ordinary wipe: one more sign-out, safe).
+    let prewiped = false;
+    try {
+      prewiped = (await SecureStore.getItemAsync(PREWIPED_KEY, SECURE_OPTIONS)) === '1';
+    } catch {
+      // As absent.
+    }
+    if (prewiped) {
+      // The flag goes first, then the marker. A crash between the two leaves neither, so the next launch wipes
+      // (it loses this install's own session: safe). The other order could leave the flag next to the marker,
+      // and a reinstall would then skip its wipe. If the delete fails, nothing is skipped: the ordinary wipe
+      // (which retries the flag's delete) runs instead, and the marker is set only once it is done.
+      try {
+        await SecureStore.deleteItemAsync(PREWIPED_KEY, SECURE_OPTIONS);
+      } catch {
+        pendingWipe = installWipeSet();
+        installKnown = true;
+        return;
+      }
+      installKnown = true;
+      try {
+        openMmkv(INSTALL_MMKV_ID).set(INSTALL_MARKER, '1');
+      } catch {
+        // The marker did not stick: no flag and no marker, so the next launch wipes (one more sign-out; safe).
+      }
+      return;
+    }
+    // The ordinary wipe also deletes a pre-wipe flag (an unreadable one, say). It keeps the legacy-drop flag on
+    // purpose: on an upgrade whose pre-wipe failed, deleting it would let the migration import the clear copy of
+    // a session the user signed out of (S5-5). A flag kept from an earlier install is harmless: a new install's
+    // files hold no legacy copy, so the migration drops nothing anyone would miss.
+    pendingWipe = installWipeSet();
+    installKnown = true;
   }
 
   async function wipe(keys: Set<string>): Promise<void> {
     for (const key of [...keys]) {
       try {
-        if (key === MIGRATED_KEY) await SecureStore.deleteItemAsync(MIGRATED_KEY, SECURE_OPTIONS);
-        else await secureRemove(secureKeyStem(key));
+        await deleteSessionItem(key);
         keys.delete(key);
       } catch {
         // SecureStore refused (before the first unlock, say): the key stays pending and reads as null.
@@ -225,7 +322,9 @@ export function createSecureAuthStorage(options: SecureAuthStorageOptions = {}):
   }
 
   async function prepare(): Promise<void> {
-    if (!installKnown) checkInstall();
+    // A pre-wipe in flight finishes first, so the check below reads its flag as it ends up, never half-way.
+    if (prewipe) await prewipe;
+    if (!installKnown) await checkInstall();
     if (pendingWipe) await wipe(pendingWipe);
     // Only after the wipe, so a session migrated on an upgrade is never wiped afterwards.
     if (installKnown && !pendingWipe && !migrated) migrated = await migrateLegacyMmkv();
@@ -240,9 +339,53 @@ export function createSecureAuthStorage(options: SecureAuthStorageOptions = {}):
     return attempt;
   };
 
-  /** A set or remove made while the migration is pending must not leave the old clear copy behind. */
-  const beforeWrite = (key: string) => {
-    if (!migrated) dropLegacyCopy(key);
+  /**
+   * S5-4. Deletes exactly what the install wipe would delete, then sets the pre-wipe flag, only if every delete
+   * succeeded. Order: a crash after the deletes and before the flag leaves no flag, so the next launch wipes
+   * (nothing of this install is lost that was not already going to be); a crash after the flag and before the
+   * write leaves the keys empty under the flag, which is what the flag says. Any failed delete: no flag, and the
+   * write goes ahead as before (the next launch wipes it: fail safe). Not retried in the run: a retry after this
+   * run's own writes would only delete them.
+   */
+  async function runPrewipe(): Promise<void> {
+    let ok = true;
+    for (const key of installWipeSet()) {
+      if (key === PREWIPED_KEY) continue;
+      try {
+        await deleteSessionItem(key);
+      } catch {
+        ok = false;
+      }
+    }
+    if (!ok) return;
+    try {
+      await SecureStore.setItemAsync(PREWIPED_KEY, '1', SECURE_OPTIONS);
+    } catch {
+      // No flag: the next launch wipes, as before.
+    }
+  }
+
+  /** Before a set or remove while the install is unknown: this run's pre-wipe (once), never overlapping `prepare`. */
+  async function prewipeIfUnknown(): Promise<void> {
+    if (wipeKeys === undefined) return;
+    // Wait out a prepare in flight (it may learn the install). `attempt` is read and `prewipe` set in the same
+    // turn, so a prepare started later sees `prewipe` and waits for it: the two never interleave.
+    while (attempt) await attempt;
+    if (installKnown) return;
+    prewipe ??= runPrewipe();
+    await prewipe;
+  }
+
+  /**
+   * A set or remove made while the migration is pending must not leave the old clear copy behind. When MMKV
+   * cannot be opened to remove it, the legacy-drop flag is stored first (awaited: a crash before the write then
+   * still drops the copy, losing only a session the user never changed). If the flag cannot be stored either,
+   * the write is refused (rejects) rather than made without the guard.
+   */
+  const beforeWrite = async (key: string) => {
+    if (migrated || dropLegacyCopy(key) || legacyDropRecorded) return;
+    await SecureStore.setItemAsync(LEGACY_DROP_KEY, '1', SECURE_OPTIONS);
+    legacyDropRecorded = true;
   };
   /** The write replaced or removed whatever an earlier install left under `key`. */
   const afterWrite = (key: string) => {
@@ -257,13 +400,15 @@ export function createSecureAuthStorage(options: SecureAuthStorageOptions = {}):
     },
     setItem: async (key, value) => {
       await ready();
-      beforeWrite(key);
+      await prewipeIfUnknown();
+      await beforeWrite(key);
       await secureSet(secureKeyStem(key), value);
       afterWrite(key);
     },
     removeItem: async (key) => {
       await ready();
-      beforeWrite(key);
+      await prewipeIfUnknown();
+      await beforeWrite(key);
       await secureRemove(secureKeyStem(key));
       afterWrite(key);
     },
