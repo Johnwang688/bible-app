@@ -1,6 +1,6 @@
-// The Study tab. Empty in R-0; its screens arrive in later phases.
-import { Screen } from '../../components/Screen';
+// The Study tab: saved highlights, notes and bookmarks, and reading progress.
+import { StudyScreen } from '../../study/components/StudyScreen';
 
-export default function StudyScreen() {
-  return <Screen titleKey="screen.study.title" background="app" testID="screen-study" />;
+export default function StudyRoute() {
+  return <StudyScreen />;
 }
