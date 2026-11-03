@@ -122,9 +122,38 @@ test.describe('Send feedback (English)', () => {
     await expect(page.getByTestId('feedback-counter')).toHaveText('Remove 112 characters to send. The limit is 2,000.');
     await expect(page.getByTestId('feedback-send')).toHaveAttribute('aria-disabled', 'true');
     await expect(page.getByTestId('feedback-input')).toHaveValue('a'.repeat(2112));
+    // Screen readers hear it: the field is invalid and described by the counter, and the live region said it.
+    await expect(page.getByTestId('feedback-input')).toHaveAttribute('aria-invalid', 'true');
+    await expect(page.getByTestId('feedback-input')).toHaveAttribute('aria-describedby', 'feedback-counter-text');
+    await expect(page.getByTestId('feedback-live')).toHaveText('Remove 112 characters to send. The limit is 2,000.');
     await page.getByTestId('feedback-send').focus();
     await page.keyboard.press('Enter');
     expect(fb.requests).toHaveLength(0);
+  });
+
+  test('from the keyboard: focus stays on Send through Sending and an error, with the preset’s own ring', async ({ page }) => {
+    await mockApi(page);
+    let release: () => void = () => undefined;
+    await mockFeedback(page, (route) => new Promise<void>((r) => (release = r)).then(() => route.abort('internetdisconnected')));
+    await openSheet(page);
+    // The sheet moves focus to its heading once it has settled; start after that.
+    await expect(page.getByTestId('feedback-sheet').getByRole('heading', { name: 'Send feedback' })).toBeFocused();
+    await page.getByTestId('feedback-input').fill('From the keyboard');
+    await page.getByTestId('feedback-send').focus();
+    await page.keyboard.press('Enter');
+    await expect(page.getByTestId('feedback-send')).toHaveAttribute('aria-busy', 'true');
+    await expect(page.getByTestId('feedback-live')).toHaveText('Sending…');
+    const focusedId = () => page.evaluate(() => document.activeElement?.getAttribute('data-testid') ?? document.activeElement?.tagName);
+    expect(await focusedId()).toBe('feedback-send');
+    release();
+    await expect(page.getByTestId('feedback-error')).toBeVisible();
+    expect(await focusedId()).toBe('feedback-send');
+    // Silver's text colour (#111418), not the browser's amber. Desktop only: on the touch phone profile
+    // react-native-web does not mark programmatic focus as keyboard focus.
+    if (test.info().project.name !== 'phone') {
+      const ring = await page.getByTestId('feedback-send').evaluate((el) => getComputedStyle(el).outlineColor);
+      expect(ring).toBe('rgb(17, 20, 24)');
+    }
   });
 
   test('Escape closes the sheet, and the draft comes back', async ({ page }) => {
