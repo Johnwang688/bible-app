@@ -60,13 +60,44 @@ When signed in, the sync engine (`engine.ts`) merges the device with the account
 23. **The day's lesson plan (`memory.lesson`) and the Memory settings (`memory.settings`, which carries the
     voice consent: a per-device answer) stay on the device.** A new device builds its own plan from the
     synced progress.
+24. **Pulled Memory is untrusted.** Anyone holding the user's sign-in token can write any number of
+    documents the rules accept, and no client can delete them. So, before the merge, a device ignores:
+    - a row whose `lastReviewedAt` or `lapsedAt` is **more than one day ahead of its own clock** (the
+      one-day slack the rules give `updatedAt`). `nextDueAt` is a schedule, ahead by design, and is
+      not bounded beyond the schema;
+    - a completed day, or a start, **more than one day after its local today**;
+    - a row of a **verse its library does not know** (the 60 TMS verses today). This is what bounds
+      local Memory progress.
+
+    Each check covers one row or one day and depends only on the clock and the library, so the merge
+    stays a join over what is accepted. A row skipped while this device's clock lags is joined on a
+    later sync: the documents stay on the account. **A device never publishes such a row or day
+    either.** Its push holds back rows reviewed or lapsed more than 23 hours ahead of its clock, and
+    days after its local tomorrow. A held-back row goes out once real time reaches it. The merged
+    progress keeps **at most 2000 rows**, the highest by rule 18–19's order. This backstop is still a
+    join. A device reads **at most the 50 Memory documents written most recently** (by server time).
+    That covers a person's real devices and reinstalls with room, and an old document's values are
+    already merged into newer documents. **A Memory write that fails** (web storage full) does not stop
+    study items, settings or reading progress: they still save and upload in that sync. The sync then
+    reports the error and Memory retries on the next one.
 
 These merges are joins (commutative, associative, idempotent): any number of devices syncing in any
 order, any number of times, end with the same values, and merging a value in again changes nothing. A
-change made during a sync is joined into, never overwritten (rule 5). Known limits: a device whose clock
-runs fast wins a verse until real time passes its review time (Memory rows carry their own times, so
-there is no first-seen cap as for study items, rule 4); and the document of a device no longer used
-keeps contributing what it last held (harmless: a join only adds what the account already had).
+change made during a sync is joined into, never overwritten (rule 5). Known limits:
+- A device whose clock runs fast wins a verse until real time passes its review time. Memory rows carry
+  their own times, so there is no first-seen cap as for study items (rule 4). Rule 24 limits the lead to
+  one day.
+- A device clock that reads before 2026 (one reset to 1970, say) is known to be wrong. While it does, rule
+  24's time checks are off on that device, and Memory syncs as it would without them.
+- Someone writing with the user's token can push the real devices out of the 50 documents a device reads.
+  Memory then stops syncing (a denial of sync), but no local progress is lost.
+- A verse added to the library by a newer app version is ignored by devices on an older version until they
+  update.
+- The rules check every row's shape, but they cannot cap a verse id at 64 characters (the rules' regex
+  engine, RE2, has no lookahead). They also accept impossible dates such as `2026-02-31`. A device drops a
+  document like that whole when it reads it, history included.
+- The document of a device no longer used keeps contributing what it last held. That is harmless: a join
+  only adds what the account already had.
 
 ## Crash safety
 The app can be killed at any moment, also between two storage writes of one sync. A sync that

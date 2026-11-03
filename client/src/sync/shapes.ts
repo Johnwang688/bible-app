@@ -37,4 +37,9 @@ export interface SyncDomains {
    * are not part of it: they stay on the device.
    */
   memory?: { progress: StorageKey<ProgressMap>; history: StorageKey<MemoryHistory> };
+  /**
+   * Which verse ids this device's Memory library knows: a pulled Memory row of any other verse is ignored
+   * (CONFLICTS.md rule 24; the library is what bounds the local progress). Absent: any verse id is taken.
+   */
+  memoryVerses?: (id: string) => boolean;
 }

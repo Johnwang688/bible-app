@@ -18,6 +18,8 @@ import {
   doc,
   FirestoreError,
   getDocsFromServer,
+  limit,
+  orderBy,
   query,
   serverTimestamp,
   setDoc,
@@ -33,7 +35,16 @@ import { HIGHLIGHT_IDS, type HighlightId } from '../theme/highlights';
 import { PRESET_IDS } from '../theme/types';
 import type { ProgressMap, VerseProgress } from '../memory/types';
 import { CLOCK_AHEAD_MAX_MS } from './clock';
-import { decodeMemoryProgress, encodeMemoryProgress, MEMORY_COUNT_MAX, MEMORY_DAYS_MAX, MEMORY_ROWS_MAX } from './domains/memory';
+import {
+  capMemoryProgress,
+  decodeMemoryProgress,
+  encodeMemoryProgress,
+  MEMORY_COUNT_MAX,
+  MEMORY_DAYS_MAX,
+  MEMORY_PULL_MAX,
+  MEMORY_WIRE_MAX,
+  pushableMemoryValues,
+} from './domains/memory';
 import { put, stableStringify } from './merge';
 import {
   ITEM_KINDS,
@@ -188,12 +199,15 @@ function readDevice(id: string, d: DocumentData): DeviceProgress | undefined {
 /**
  * A Memory document: its progress string must decode exactly (domains/memory.ts), its history fields be a
  * list of strings and a string or null. Anything else is dropped; the engine checks the values against
- * the storage schemas.
+ * the storage schemas (and drops what CONFLICTS.md rule 24 says is untrusted). Nothing past the rules'
+ * bounds is decoded: a progress string over MEMORY_WIRE_MAX characters or more than MEMORY_DAYS_MAX days
+ * drops the document before any parsing.
  */
 function readMemory(id: string, d: DocumentData): MemoryDoc | undefined {
   const { deviceId, progress, completedDates, startedOn, updatedAt } = d;
   if (!isString(deviceId) || deviceId !== id || !isNumber(updatedAt) || !isString(progress)) return undefined;
-  if (!Array.isArray(completedDates) || !completedDates.every(isString)) return undefined;
+  if (progress.length > MEMORY_WIRE_MAX) return undefined;
+  if (!Array.isArray(completedDates) || completedDates.length > MEMORY_DAYS_MAX || !completedDates.every(isString)) return undefined;
   if (startedOn !== null && !isString(startedOn)) return undefined;
   const decoded = decodeMemoryProgress(progress);
   if (decoded === null) return undefined;
@@ -460,13 +474,15 @@ function clampInt(n: unknown, max: number): number | undefined {
 /**
  * The Memory document the rules accept: a row whose verse id, stage or a count is not one, or whose time
  * is not a time, is dropped; counts are clamped (0..MEMORY_COUNT_MAX, mastery 0..100) and times rewritten
- * as ISO times (the same instant); the MEMORY_ROWS_MAX most recently reviewed rows are kept. The completed
- * days lose repeats and non-days and keep the latest MEMORY_DAYS_MAX; a start that is not a day becomes
- * null. Its clock (`updatedAt`, the push time) is sent as it is, as a device document's is.
+ * as ISO times (the same instant); the MEMORY_ROWS_MAX highest ranked rows are kept (the join's order). The
+ * completed days lose repeats and non-days and keep the latest MEMORY_DAYS_MAX; a start that is not a day
+ * becomes null. Then rows reviewed or lapsed past `bound` and days past local tomorrow are held back
+ * (rule 24; the engine already sends its values so, this applies it to any caller). Its clock
+ * (`updatedAt`, the push time) is sent as it is, as a device document's is.
  */
-function pushableMemory(m: MemoryDoc, held: Held): MemoryDoc {
+function pushableMemory(m: MemoryDoc, held: Held, nowMs: number): MemoryDoc {
   let fixed = 0;
-  const rows: [string, VerseProgress, number][] = [];
+  const rows: [string, VerseProgress][] = [];
   for (const id of Object.keys(m.progress)) {
     const r = m.progress[id]!;
     const successes = clampInt(r.successes, MEMORY_COUNT_MAX);
@@ -486,15 +502,12 @@ function pushableMemory(m: MemoryDoc, held: Held): MemoryDoc {
     }
     const row: VerseProgress = { stage: r.stage, successes, failures, masteryScore, nextDueAt, lastReviewedAt, lapsedAt };
     if (stableStringify(row) !== stableStringify(r)) fixed++;
-    rows.push([id, row, lastReviewedAt === null ? -Infinity : Date.parse(lastReviewedAt)]);
+    rows.push([id, row]);
   }
-  if (rows.length > MEMORY_ROWS_MAX) {
-    fixed += rows.length - MEMORY_ROWS_MAX;
-    rows.sort((a, b) => b[2] - a[2] || (a[0] < b[0] ? -1 : 1));
-    rows.length = MEMORY_ROWS_MAX;
-  }
-  const progress: ProgressMap = {};
-  for (const [id, row] of rows) put(progress, id, row);
+  const all: ProgressMap = {};
+  for (const [id, row] of rows) put(all, id, row);
+  const capped = capMemoryProgress(all);
+  fixed += rows.length - Object.keys(capped).length;
 
   const raw = m.history.completedDates;
   const days = [...new Set(raw.filter((day) => isString(day) && DAY_RE.test(day)))].sort();
@@ -504,7 +517,13 @@ function pushableMemory(m: MemoryDoc, held: Held): MemoryDoc {
   if (startedOn !== s) fixed++;
 
   held.refused += fixed;
-  return { ...m, progress, history: { startedOn, completedDates: days.slice(-MEMORY_DAYS_MAX) } };
+  const clean = { progress: capped, history: { startedOn, completedDates: days.slice(-MEMORY_DAYS_MAX) } };
+  const bounded = pushableMemoryValues(clean, nowMs, CLOCK_AHEAD_MAX_MS);
+  held.ahead +=
+    Object.keys(clean.progress).length - Object.keys(bounded.progress).length +
+    clean.history.completedDates.length - bounded.history.completedDates.length +
+    (clean.history.startedOn !== bounded.history.startedOn ? 1 : 0);
+  return { ...m, progress: bounded.progress, history: bounded.history };
 }
 
 const isObject = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v);
@@ -726,13 +745,14 @@ export function createFirestoreRemote(db: Firestore, uid: string): Required<Remo
         return { held: held.ids };
       }),
 
-    pullMemory: () => guarded(() => readAll(query(memory()), readMemory)),
+    // At most MEMORY_PULL_MAX documents, the most recently written (domains/memory.ts says why; rule 24).
+    pullMemory: () => guarded(() => readAll(query(memory(), orderBy('serverTime', 'desc'), limit(MEMORY_PULL_MAX)), readMemory)),
 
     pushMemory: (m) =>
       guarded(async () => {
         const held = noneHeld();
         try {
-          await setDoc(doc(memory(), m.deviceId), memoryDoc(pushableMemory(m, held)));
+          await setDoc(doc(memory(), m.deviceId), memoryDoc(pushableMemory(m, held, Date.now())));
         } finally {
           warnHeld('Memory entries', held);
         }

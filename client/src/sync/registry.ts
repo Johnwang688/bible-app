@@ -1,4 +1,5 @@
 // What the app syncs (R-6b): the storage keys wired into the sync engine.
+import { getMemoryVerse } from '../memory/library';
 import { appearanceCustomKey } from '../storage/appearanceCustomKey';
 import { appearanceKey, languageKey, readingProgressKey, studyItemsKey } from '../storage/keys';
 import { memoryHistoryKey, memoryProgressKey } from '../storage/memoryKeys';
@@ -18,4 +19,7 @@ export const DEFAULT_DOMAINS: SyncDomains = {
   // frozen plan, rebuilt from the synced progress on each device) and `memory.settings` (it carries the
   // voice consent, which stays a per-device answer).
   memory: { progress: memoryProgressKey, history: memoryHistoryKey },
+  // Only verses this library knows are taken from other devices (rule 24): pulled documents are untrusted,
+  // and the library (60 verses today) is what bounds the local Memory progress.
+  memoryVerses: (id) => getMemoryVerse(id) !== undefined,
 };
