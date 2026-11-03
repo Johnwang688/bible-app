@@ -8,6 +8,8 @@
 //    to the current one until it settles.
 //  - Chrome cuts long utterances off: the controller speaks one verse (or piece of one) at a time.
 //  - Pause and resume are unreliable across browsers; the controller never uses them (decision 6).
+//  - Mobile Safari starts speech only from a user tap: `unlock` speaks an empty utterance inside it.
+//  - Chrome sometimes never sends `end` at all; the controller's watchdog covers that.
 import { interruptedError, type SpeakOptions, type SpeechEngine, type SpeechVoice } from './types';
 
 /** The parts of `SpeechSynthesisVoice` we read. */
@@ -57,6 +59,7 @@ function toVoice(v: WebVoiceLike): SpeechVoice {
 export function createWebSpeechEngine(deps: WebSpeechDeps): SpeechEngine {
   const { synth, makeUtterance, voiceWaitMs = 3000, pollMs = 250 } = deps;
   let current: WebUtteranceLike | null = null;
+  let unlocked = false;
 
   const detach = () => {
     const u = current;
@@ -126,6 +129,13 @@ export function createWebSpeechEngine(deps: WebSpeechDeps): SpeechEngine {
     stop() {
       detach();
       synth.cancel();
+    },
+
+    // Mobile Safari only starts speech from a tap; an empty utterance spoken inside the tap unlocks it.
+    unlock() {
+      if (unlocked) return;
+      unlocked = true;
+      synth.speak(makeUtterance(''));
     },
   };
 }

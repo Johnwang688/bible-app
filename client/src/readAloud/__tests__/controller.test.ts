@@ -1,5 +1,5 @@
 // The playback state machine, driven through a fake speech engine.
-import { ReadAloudController, memoryPrefs, readAloudKey, type ReadAloudChapter } from '../controller';
+import { ReadAloudController, memoryPrefs, readAloudKey, watchdogMs, type ReadAloudChapter } from '../controller';
 import { DEFAULT_PREFS } from '../keys';
 import { FakeEngine, VOICES } from './fakeEngine';
 
@@ -25,7 +25,71 @@ async function playing(chapter = john3, fromVerse?: number, prefs = memoryPrefs(
   return { engine, c, prefs };
 }
 
+// The controller's watchdog uses timers; fake ones keep tests from leaving real timers behind.
+beforeEach(() => jest.useFakeTimers());
+afterEach(() => jest.useRealTimers());
+
+describe('watchdog', () => {
+  it('pauses on the verse when a piece never calls back (Chrome’s cut-off, a phone call on iOS)', async () => {
+    const { engine, c } = await playing(john3, 16);
+    const stops = engine.stops;
+    jest.advanceTimersByTime(watchdogMs(engine.current!.text, 'zh-Hans', 1) - 1);
+    expect(c.getState().status).toBe('playing');
+    jest.advanceTimersByTime(1);
+    expect(c.getState()).toMatchObject({ status: 'paused', verse: 16 });
+    expect(engine.stops).toBe(stops + 1);
+  });
+
+  it('never fires for a piece that ended, or after a pause', async () => {
+    const { engine, c } = await playing(john3, 16);
+    engine.finish();
+    c.pause();
+    jest.advanceTimersByTime(10 * 60 * 1000);
+    expect(c.getState()).toMatchObject({ status: 'paused', verse: 17 });
+  });
+
+  it('gives a long piece at a slow speed more time than a short one', () => {
+    expect(watchdogMs('神'.repeat(33), 'zh-Hans', 0.75)).toBeGreaterThan(watchdogMs('神爱世人。', 'zh-Hans', 1));
+  });
+});
+
 describe('starting', () => {
+  it('unlocks the engine before waiting for voices (mobile Safari)', async () => {
+    const engine = new FakeEngine();
+    const unlock = jest.fn();
+    engine.unlock = unlock;
+    engine.holdVoices = true;
+    const c = new ReadAloudController({ engine });
+    const started = c.start(john3);
+    expect(unlock).toHaveBeenCalledTimes(1);
+    engine.releaseVoices();
+    await started;
+  });
+
+  it('Pause pressed while the voices load lands on the start verse, paused', async () => {
+    const engine = new FakeEngine();
+    engine.holdVoices = true;
+    const c = new ReadAloudController({ engine });
+    const started = c.start(john3, 15);
+    c.toggle();
+    engine.releaseVoices();
+    await started;
+    expect(c.getState()).toMatchObject({ status: 'paused', verse: 15 });
+    expect(engine.spoken).toHaveLength(0);
+  });
+
+  it('Pause then Play while the voices load still plays', async () => {
+    const engine = new FakeEngine();
+    engine.holdVoices = true;
+    const c = new ReadAloudController({ engine });
+    const started = c.start(john3, 15);
+    c.toggle();
+    c.toggle();
+    engine.releaseVoices();
+    await started;
+    expect(c.getState()).toMatchObject({ status: 'playing', verse: 15 });
+  });
+
   it('reads from the first verse on screen, with a Chinese voice for 和合本', async () => {
     const { engine, c } = await playing(john3, 15);
     expect(c.getState()).toMatchObject({ status: 'playing', verse: 15, position: 2, total: 4, group: 'zh-Hans' });
@@ -123,10 +187,19 @@ describe('reading through', () => {
     expect(c.getState()).toMatchObject({ status: 'paused', verse: 16 });
   });
 
-  it('shows an error for other failures', async () => {
+  it('shows an error for other failures; Play tries the verse again', async () => {
     const { engine, c } = await playing(john3, 16);
     engine.fail('synthesis-failed', 'speech failed: synthesis-failed');
     expect(c.getState()).toMatchObject({ status: 'error', error: 'speech failed: synthesis-failed' });
+    c.resume();
+    expect(c.getState()).toMatchObject({ status: 'playing', verse: 16, error: null });
+  });
+
+  it('a verse that starts by itself keeps the user’s scroll: following stays off', async () => {
+    const { engine, c } = await playing(john3, 16);
+    c.userScrolled();
+    engine.finish();
+    expect(c.getState()).toMatchObject({ verse: 17, following: false });
   });
 });
 
@@ -253,6 +326,26 @@ describe('end of the chapter', () => {
     expect(c.getState().status).toBe('idle');
   });
 
+  it('the offer survives the reader turning the page before Play next is pressed', async () => {
+    const { engine, c } = await playing(john3, 17);
+    engine.finish();
+    c.chapterChanged(null);
+    c.chapterChanged(JOHN_4);
+    expect(c.getState().status).toBe('ended');
+    c.playNextChapter();
+    c.continueInto(john4);
+    await Promise.resolve();
+    expect(c.getState()).toMatchObject({ status: 'playing', chapterKey: JOHN_4 });
+  });
+
+  it('Next past the last verse while paused ends, even with auto-advance on', async () => {
+    const { c } = await playing(john3, 17);
+    c.setAutoAdvance(true);
+    c.pause();
+    c.next();
+    expect(c.getState().status).toBe('ended');
+  });
+
   it('at the end of the Bible there is nothing to advance to', async () => {
     const { engine, c } = await playing(cuv([[21, '愿主耶稣的恩惠常与众圣徒同在。阿们！']], readAloudKey(66, 22, 'CUV-SIMP'), null));
     c.setAutoAdvance(true);
@@ -327,6 +420,15 @@ describe('voice and speed', () => {
     engine.finish();
     expect(c.getState()).toMatchObject({ status: 'paused', verse: 16 });
     c.resume();
+    expect(engine.current?.text.startsWith('神爱世人')).toBe(true);
+  });
+
+  it('Play during a sample stops the sample first', async () => {
+    const { engine, c } = await playing(john3, 16);
+    c.sample('meijia', '你好');
+    const stops = engine.stops;
+    c.resume();
+    expect(engine.stops).toBe(stops + 1);
     expect(engine.current?.text.startsWith('神爱世人')).toBe(true);
   });
 

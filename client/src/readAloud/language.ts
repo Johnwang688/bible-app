@@ -59,10 +59,25 @@ function rank(voice: SpeechVoice, group: SpeechGroup): number | null {
   return 2;
 }
 
+/** The region each group's text is usually heard in, first; any other region after. */
+const HOME_REGIONS: Record<SpeechGroup, readonly string[]> = { en: ['us', 'gb'], 'zh-Hans': ['cn'], 'zh-Hant': ['tw'] };
+
+function regionRank(voice: SpeechVoice, group: SpeechGroup): number {
+  const region = voice.lang.replace(/_/g, '-').toLowerCase().split('-').slice(1).find((p) => p.length === 2) ?? '';
+  const i = HOME_REGIONS[group].indexOf(region);
+  return i < 0 ? HOME_REGIONS[group].length : i;
+}
+
+/** iOS's novelty voices (Albert, Bells, Bad News …) and the Eloquence set: never a sensible default. */
+export function isNoveltyVoice(voice: SpeechVoice): boolean {
+  return /^com\.apple\.(speech\.synthesis\.voice|eloquence)\./i.test(voice.id);
+}
+
 /**
  * The voices that may read `translation`, best first: the matching locale (zh-CN for 和合本 in
  * simplified, zh-TW for traditional), then other Mandarin, then Cantonese last. Within a step:
- * the platform default, then offline voices, then enhanced ones, then by name.
+ * the platform default, then ordinary voices before novelty ones, then the home region (en-US, then
+ * en-GB), then offline voices, then enhanced ones, then by name.
  */
 export function voicesFor(voices: readonly SpeechVoice[], translation: TranslationId): SpeechVoice[] {
   const { group } = speechLanguageFor(translation);
@@ -73,6 +88,8 @@ export function voicesFor(voices: readonly SpeechVoice[], translation: Translati
       (a, b) =>
         a.r - b.r ||
         Number(b.v.isDefault) - Number(a.v.isDefault) ||
+        Number(isNoveltyVoice(a.v)) - Number(isNoveltyVoice(b.v)) ||
+        regionRank(a.v, group) - regionRank(b.v, group) ||
         Number(b.v.localService) - Number(a.v.localService) ||
         Number(b.v.enhanced) - Number(a.v.enhanced) ||
         a.v.name.localeCompare(b.v.name),

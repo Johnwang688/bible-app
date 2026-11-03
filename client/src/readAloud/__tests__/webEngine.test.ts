@@ -180,6 +180,15 @@ describe('speak', () => {
   });
 });
 
+describe('unlock', () => {
+  it('speaks one empty utterance, the first time only (mobile Safari needs speech started in a tap)', () => {
+    const { engine, synth } = setup();
+    engine.unlock?.();
+    engine.unlock?.();
+    expect(synth.spoken.map((u) => u.text)).toEqual(['']);
+  });
+});
+
 describe('createSpeechEngine (web)', () => {
   it('has no voices where the browser has no speech', async () => {
     await expect(createWebEngine().getVoices()).resolves.toEqual([]);

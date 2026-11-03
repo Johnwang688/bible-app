@@ -6,6 +6,10 @@ import { readAloudPrefsKey } from '../keys';
 import { readAloudChapter, useReadAloud, type UseReadAloudOptions } from '../useReadAloud';
 import { FakeEngine } from './fakeEngine';
 
+// The controller's watchdog uses timers; fake ones keep tests from leaving real timers behind.
+beforeEach(() => jest.useFakeTimers());
+afterEach(() => jest.useRealTimers());
+
 const bsb = { verses: [{ verse: 16, text: 'For God so loved the world.' }, { verse: 17, text: 'For God did not send His Son.' }] };
 const cuv = { verses: [{ verse: 16, text: '神爱世人。' }, { verse: 17, text: '因为神差他的儿子降世。' }] };
 

@@ -10,10 +10,14 @@
 //
 // Every engine call carries the generation it was made in; anything that stops or restarts speech
 // bumps the generation, so a callback from older speech can never move the queue.
+//
+// A watchdog runs with each piece of speech: platforms sometimes never call back (Chrome's cut-off,
+// a phone call interrupting iOS speech, an unknown voice on iOS). If a piece runs far past its
+// expected length, it is treated as interrupted: reading pauses on the verse instead of hanging.
 import type { TranslationId } from '../reader/translations';
 import { DEFAULT_PREFS, type ReadAloudPrefs } from './keys';
 import { pickVoice, speechLanguageFor, voicesFor, type SpeechGroup } from './language';
-import { chunkForSpeech, maxPieceLength, speakableText } from './text';
+import { chunkForSpeech, estimateSeconds, maxPieceLength, speakableText } from './text';
 import { RATES, type SpeechEngine, type SpeechVoice } from './types';
 
 export type ReadAloudStatus = 'idle' | 'preparing' | 'playing' | 'paused' | 'ended' | 'advancing' | 'no-voice' | 'error';
@@ -72,6 +76,21 @@ interface Queued {
   text: string;
 }
 
+export interface Timers {
+  setTimeout(fn: () => void, ms: number): unknown;
+  clearTimeout(handle: unknown): void;
+}
+
+const GLOBAL_TIMERS: Timers = {
+  setTimeout: (fn, ms) => setTimeout(fn, ms),
+  clearTimeout: (h) => clearTimeout(h as ReturnType<typeof setTimeout>),
+};
+
+/** How long a piece may run before the watchdog calls it interrupted: twice the (slow) estimate, plus slack. */
+export function watchdogMs(text: string, group: SpeechGroup, rate: number): number {
+  return Math.round(estimateSeconds(text, group, rate) * 2000) + 5000;
+}
+
 export class ReadAloudController {
   private readonly engine: SpeechEngine;
   private readonly prefs: PrefsStore;
@@ -86,10 +105,15 @@ export class ReadAloudController {
   /** The voice the current verse started with: a new choice applies from the next verse. */
   private verseVoice: SpeechVoice | null = null;
   private voices: SpeechVoice[] = [];
+  /** Pause pressed while the voices were loading: start lands on `paused` instead of speaking. */
+  private pauseRequested = false;
+  private readonly timers: Timers;
+  private watchdog: unknown = null;
 
-  constructor(opts: { engine: SpeechEngine; prefs?: PrefsStore }) {
+  constructor(opts: { engine: SpeechEngine; prefs?: PrefsStore; timers?: Timers }) {
     this.engine = opts.engine;
     this.prefs = opts.prefs ?? memoryPrefs();
+    this.timers = opts.timers ?? GLOBAL_TIMERS;
     const p = this.prefs.get();
     this.state = idleState(p);
   }
@@ -105,7 +129,9 @@ export class ReadAloudController {
 
   /** Reads `chapter` from `fromVerse` (the first verse on screen, decision 3), or from its start. */
   async start(chapter: ReadAloudChapter, fromVerse?: number): Promise<void> {
+    this.engine.unlock?.();
     this.halt();
+    this.pauseRequested = false;
     const gen = this.gen;
     const { group } = speechLanguageFor(chapter.translation);
     this.chapter = chapter;
@@ -143,23 +169,43 @@ export class ReadAloudController {
       return;
     }
     this.index = start;
+    if (this.pauseRequested) {
+      this.pauseRequested = false;
+      const item = this.queue[start];
+      this.set({ status: 'paused', verse: item?.verse ?? null, position: start + 1 });
+      return;
+    }
     this.speakVerse();
   }
 
   /** Stops after the current word; Play restarts the verse from its beginning (decision 6). */
   pause(): void {
+    if (this.state.status === 'preparing') {
+      this.pauseRequested = true;
+      return;
+    }
     if (this.state.status !== 'playing') return;
     this.halt();
     this.set({ status: 'paused' });
   }
 
+  /** Plays the current verse from its beginning: after a pause, an interruption or an error. */
   resume(): void {
-    if (this.state.status !== 'paused') return;
+    const s = this.state.status;
+    if (s === 'preparing') {
+      this.pauseRequested = false;
+      return;
+    }
+    if (s !== 'paused' && s !== 'error') return;
+    // A sample may still be speaking: native speech would queue the verse behind it.
+    this.halt();
+    this.set({ following: true });
     this.speakVerse();
   }
 
   toggle(): void {
-    if (this.state.status === 'playing') this.pause();
+    const s = this.state.status;
+    if (s === 'playing' || (s === 'preparing' && !this.pauseRequested)) this.pause();
     else this.resume();
   }
 
@@ -192,7 +238,10 @@ export class ReadAloudController {
   chapterChanged(key: string | null): void {
     const s = this.state;
     if (s.status === 'idle' || key === s.chapterKey) return;
-    if (s.status === 'advancing' && (key === null || key === this.chapter?.nextKey)) return;
+    // Turning to the next chapter keeps the end-of-chapter offer, in whichever order the UI turns the
+    // page and calls playNextChapter.
+    const waiting = s.status === 'advancing' || s.status === 'ended';
+    if (waiting && (key === null || key === this.chapter?.nextKey)) return;
     this.stop();
   }
 
@@ -288,13 +337,16 @@ export class ReadAloudController {
   private move(to: number): void {
     if (!this.isActive()) return;
     if (to >= this.queue.length) {
+      // Paused, Next past the end only ends: it never starts the next chapter by itself.
+      const playing = this.state.status === 'playing';
       this.halt();
-      this.finishChapter();
+      this.finishChapter(playing);
       return;
     }
     this.index = to;
     if (this.state.status === 'playing') {
       this.halt();
+      this.set({ following: true });
       this.speakVerse();
     } else {
       this.set({ verse: this.queue[to]?.verse ?? null, position: to + 1, following: true });
@@ -309,7 +361,8 @@ export class ReadAloudController {
     this.verseVoice = this.state.voice;
     this.pieces = chunkForSpeech(item.text, maxPieceLength(group, this.state.rate));
     this.piece = 0;
-    this.set({ status: 'playing', verse: item.verse, position: this.index + 1, following: true, error: null });
+    // `following` is left as it is: a verse that starts by itself never scrolls back a user who scrolled away.
+    this.set({ status: 'playing', verse: item.verse, position: this.index + 1, error: null });
     this.speakPiece();
   }
 
@@ -317,14 +370,23 @@ export class ReadAloudController {
     const text = this.pieces[this.piece];
     const voice = this.verseVoice;
     const translation = this.state.translation;
-    if (text === undefined || !voice || !translation) return;
+    const group = this.state.group;
+    if (text === undefined || !voice || !translation || !group) return;
     const gen = ++this.gen;
+    const rate = this.state.rate;
+    this.clearWatchdog();
+    this.watchdog = this.timers.setTimeout(() => {
+      if (gen !== this.gen) return;
+      this.halt();
+      this.set({ status: 'paused' });
+    }, watchdogMs(text, group, rate));
     this.engine.speak(text, {
       lang: langOf(voice, translation),
       voiceId: voice.id,
-      rate: this.state.rate,
+      rate,
       onDone: () => {
         if (gen !== this.gen) return;
+        this.clearWatchdog();
         this.piece++;
         if (this.piece < this.pieces.length) {
           this.speakPiece();
@@ -336,6 +398,7 @@ export class ReadAloudController {
       },
       onError: (err) => {
         if (gen !== this.gen) return;
+        this.clearWatchdog();
         this.gen++;
         // Cut off from outside (a call, another app's audio, the browser): pause on this verse.
         if (err.name === 'interrupted') this.set({ status: 'paused' });
@@ -344,16 +407,23 @@ export class ReadAloudController {
     });
   }
 
-  private finishChapter(): void {
+  private finishChapter(mayAdvance = true): void {
     this.gen++;
-    const advance = this.state.autoAdvance && !!this.chapter?.nextKey;
+    this.clearWatchdog();
+    const advance = mayAdvance && this.state.autoAdvance && !!this.chapter?.nextKey;
     this.set({ status: advance ? 'advancing' : 'ended', verse: null, position: this.queue.length, following: true });
   }
 
   /** Silences the engine and invalidates every callback from speech started before now. */
   private halt(): void {
     this.gen++;
+    this.clearWatchdog();
     this.engine.stop();
+  }
+
+  private clearWatchdog(): void {
+    if (this.watchdog !== null) this.timers.clearTimeout(this.watchdog);
+    this.watchdog = null;
   }
 
   private savePrefs(patch: Partial<ReadAloudPrefs>): void {

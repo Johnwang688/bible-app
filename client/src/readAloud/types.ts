@@ -36,6 +36,11 @@ export interface SpeechEngine {
   getVoices(): Promise<SpeechVoice[]>;
   speak(text: string, opts: SpeakOptions): void;
   stop(): void;
+  /**
+   * Called synchronously inside the user's tap that starts reading, before anything is awaited. Mobile
+   * Safari only lets a page start speech from a tap, and the first real verse comes after the voice list.
+   */
+  unlock?(): void;
 }
 
 /** The speeds offered, slowest first (decision 7). */

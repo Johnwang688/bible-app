@@ -25,6 +25,7 @@ export class FakeEngine implements SpeechEngine {
   spoken: Spoken[] = [];
   current: Spoken | null = null;
   stops = 0;
+  unlock?: () => void;
   /** When set, getVoices waits for `releaseVoices()`. */
   private held: ((v: SpeechVoice[]) => void) | null = null;
   holdVoices = false;

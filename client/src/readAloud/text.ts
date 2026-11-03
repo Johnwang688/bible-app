@@ -22,6 +22,11 @@ const CHARS_PER_SECOND: Record<SpeechGroup, number> = { en: 14, 'zh-Hans': 4.5, 
 const SECONDS_PER_PIECE = 10;
 const MIN_PIECE = 24;
 
+/** A generous guess at how long `text` takes to speak (the estimate runs slow, so real speech is quicker). */
+export function estimateSeconds(text: string, group: SpeechGroup, rate: number): number {
+  return text.length / (CHARS_PER_SECOND[group] * rate);
+}
+
 export function maxPieceLength(group: SpeechGroup, rate: number): number {
   return Math.max(MIN_PIECE, Math.floor(CHARS_PER_SECOND[group] * rate * SECONDS_PER_PIECE));
 }

@@ -1,7 +1,10 @@
 // The native adapter against a fake `expo-speech` module.
 import type * as Speech from 'expo-speech';
 
-import { createNativeSpeechEngine, type SpeechModule } from '../engine';
+import { createNativeSpeechEngine as create, type NativeSpeechOptions, type SpeechModule } from '../engine';
+
+const createNativeSpeechEngine = (mod: SpeechModule, options: NativeSpeechOptions = {}) =>
+  create(mod, { platform: 'ios', prepareAudio: async () => {}, ...options });
 
 type Options = NonNullable<Parameters<typeof Speech.speak>[1]>;
 
@@ -29,6 +32,14 @@ describe('getVoices', () => {
       { id: tingting.identifier, name: 'Tingting', lang: 'zh-CN', isDefault: false, localService: true, enhanced: false },
       { id: 'meijia-premium', name: 'Meijia', lang: 'zh-TW', isDefault: false, localService: true, enhanced: true },
     ]);
+  });
+
+  it('marks Google voices that need the network', async () => {
+    const local = { identifier: 'en-us-x-sfg-local', name: 'en-us-x-sfg-local', language: 'en-US', quality: 'Default' } as Speech.Voice;
+    const network = { identifier: 'en-us-x-sfg-network', name: 'en-us-x-sfg-network', language: 'en-US', quality: 'Default' } as Speech.Voice;
+    const { mod } = fakeModule([[local, network]]);
+    const voices = await createNativeSpeechEngine(mod).getVoices();
+    expect(voices.map((v) => v.localService)).toEqual([true, false]);
   });
 
   it('asks again while Android’s speech engine is still starting', async () => {
@@ -107,6 +118,38 @@ describe('speak', () => {
     createNativeSpeechEngine(mod).speak('text', o);
     calls[0]!.options.onError?.(new Error('engine busy'));
     expect(o.onError).toHaveBeenCalledWith(expect.objectContaining({ message: 'engine busy' }));
+  });
+
+  it('stops a live utterance before the next, since expo-speech would queue it behind', () => {
+    const { mod, calls } = fakeModule([[]]);
+    const engine = createNativeSpeechEngine(mod);
+    engine.speak('sample', opts());
+    engine.speak('verse', opts());
+    expect(mod.stop).toHaveBeenCalledTimes(1);
+    calls[1]!.options.onDone?.();
+    engine.speak('next verse', opts());
+    expect(mod.stop).toHaveBeenCalledTimes(1);
+  });
+
+  it('sends Android the bare language, which its Locale.Builder accepts; iOS the full tag', () => {
+    const android = fakeModule([[]]);
+    createNativeSpeechEngine(android.mod, { platform: 'android' }).speak('神爱世人', opts());
+    expect(android.calls[0]?.options.language).toBe('zh');
+    const ios = fakeModule([[]]);
+    createNativeSpeechEngine(ios.mod).speak('神爱世人', opts());
+    expect(ios.calls[0]?.options.language).toBe('zh-CN');
+  });
+
+  it('sets the audio session once, before the first utterance, and survives it failing', () => {
+    const { mod } = fakeModule([[]]);
+    const prepareAudio = jest.fn(async () => {
+      throw new Error('no session');
+    });
+    const engine = createNativeSpeechEngine(mod, { prepareAudio });
+    engine.speak('one', opts());
+    engine.speak('two', opts());
+    expect(prepareAudio).toHaveBeenCalledTimes(1);
+    expect(mod.speak).toHaveBeenCalledTimes(2);
   });
 
   it('swallows a rejected stop', async () => {

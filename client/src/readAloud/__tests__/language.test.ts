@@ -50,6 +50,32 @@ describe('voicesFor', () => {
   });
 });
 
+describe('voicesFor on real device lists', () => {
+  it('iOS: novelty and Eloquence voices go last', () => {
+    const list = [
+      voice('com.apple.speech.synthesis.voice.Albert', 'en-US', { name: 'Albert' }),
+      voice('com.apple.eloquence.en-US.Eddy', 'en-US', { name: 'Eddy' }),
+      voice('com.apple.voice.compact.en-US.Samantha', 'en-US', { name: 'Samantha' }),
+    ];
+    expect(voicesFor(list, 'BSB').map((v) => v.name)).toEqual(['Samantha', 'Albert', 'Eddy']);
+  });
+
+  it('Android: en-US first, then en-GB, and offline before network within a region', () => {
+    const list = [
+      voice('en-au-x-aua-local', 'en-AU', { name: 'en-au-x-aua-local' }),
+      voice('en-gb-x-gba-local', 'en-GB', { name: 'en-gb-x-gba-local' }),
+      voice('en-us-x-sfg-network', 'en-US', { name: 'en-us-x-sfg-network', localService: false }),
+      voice('en-us-x-iob-local', 'en-US', { name: 'en-us-x-iob-local' }),
+    ];
+    expect(voicesFor(list, 'BSB').map((v) => v.id)).toEqual([
+      'en-us-x-iob-local',
+      'en-us-x-sfg-network',
+      'en-gb-x-gba-local',
+      'en-au-x-aua-local',
+    ]);
+  });
+});
+
 describe('pickVoice', () => {
   const all = Object.values(VOICES);
 
