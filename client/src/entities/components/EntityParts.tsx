@@ -124,10 +124,15 @@ export function EntityStateBlock({
       >
         <Glyph name={glyph} color={theme.colors.muted} size={26} strokeWidth={1.9} />
       </View>
-      <Text accessibilityRole="header" style={[entityHeadStyle(theme, 17), styles.stateTitle]}>
+      <Text accessibilityRole="header" style={[entityHeadStyle(theme, 17), styles.stateTitle, auroraTextShadow(theme)]}>
         {title}
       </Text>
-      <Text style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14, lineHeight: 21, textAlign: 'center' }}>
+      <Text
+        style={[
+          { color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14, lineHeight: 21, textAlign: 'center' },
+          auroraTextShadow(theme),
+        ]}
+      >
         {body}
       </Text>
       {actionLabel ? (

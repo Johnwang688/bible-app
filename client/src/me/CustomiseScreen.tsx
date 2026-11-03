@@ -2,7 +2,7 @@
 // and text size. Every change is written through the hooks and shows in the whole app at once.
 import { StyleSheet, Text, View } from 'react-native';
 
-import { AuroraOption } from '../aurora';
+import { AuroraOption, auroraTextShadow } from '../aurora';
 import { GlassSurface } from '../components/GlassSurface';
 import { uiFace } from '../fonts/fonts';
 import { useI18n } from '../i18n/I18nProvider';
@@ -69,7 +69,7 @@ export function CustomiseScreen(props: { onBack(): void; onAdvanced(): void }) {
           }}
           style={[styles.reset, { borderRadius: theme.radii.button, borderWidth: theme.borders.button?.width ?? 1, borderColor: theme.borders.button?.color ?? theme.colors.muted }]}
         >
-          <Text style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 14 }}>{t('customise.reset')}</Text>
+          <Text style={[{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 14 }, auroraTextShadow(theme)]}>{t('customise.reset')}</Text>
         </CustomisePressable>
       }
     >

@@ -3,6 +3,7 @@
 import { useEffect, useRef, type ComponentRef } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import { auroraTextShadow } from '../../aurora';
 import { uiFace } from '../../fonts/fonts';
 import { useT } from '../../i18n/I18nProvider';
 import { getTheme, PRESETS } from '../../theme/presets';
@@ -54,7 +55,10 @@ export function CustomisePresetRow({ presetId, onPick }: { presetId: PresetId; o
             </View>
             <Text
               numberOfLines={1}
-              style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.ui, on ? '700' : '400'), fontSize: 11, maxWidth: ITEM_WIDTH }}
+              style={[
+                { color: theme.colors.text, fontFamily: uiFace(theme.type.ui, on ? '700' : '400'), fontSize: 11, maxWidth: ITEM_WIDTH },
+                auroraTextShadow(theme),
+              ]}
             >
               {name}
             </Text>

@@ -2,6 +2,7 @@
 // next value from the current one with src/theme/custom.ts and writes it through the hooks.
 import { StyleSheet, Text, View } from 'react-native';
 
+import { auroraTextShadow } from '../../aurora';
 import { scriptureFace, uiFace } from '../../fonts/fonts';
 import { useI18n } from '../../i18n/I18nProvider';
 import type { MessageKey } from '../../i18n/messages/en';
@@ -145,7 +146,10 @@ export function CustomiseFonts() {
         })}
       </View>
       {locale === 'zh-Hans' ? (
-        <Text testID="customise-font-note" style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 13 }}>
+        <Text
+          testID="customise-font-note"
+          style={[{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 13 }, auroraTextShadow(theme)]}
+        >
           {t('customise.font.zhNote')}
         </Text>
       ) : null}
@@ -168,7 +172,10 @@ export function CustomiseSize({ textSize, onStep }: { textSize: number; onStep(d
       />
       <Text
         testID="customise-size-value"
-        style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 16, minWidth: 28, textAlign: 'center' }}
+        style={[
+          { color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 16, minWidth: 28, textAlign: 'center' },
+          auroraTextShadow(theme),
+        ]}
       >
         {formatNumber(TEXT_SIZES[textSize] ?? TEXT_SIZES[0])}
       </Text>

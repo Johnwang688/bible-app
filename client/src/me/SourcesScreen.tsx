@@ -1,6 +1,7 @@
 // Sources and credits: every text the app shows, with its licence.
 import { Linking, Pressable, StyleSheet, Text } from 'react-native';
 
+import { auroraTextShadow } from '../aurora';
 import { uiFace } from '../fonts/fonts';
 import { useT } from '../i18n/I18nProvider';
 import type { MessageKey } from '../i18n/messages/en';
@@ -17,7 +18,7 @@ export function SourcesScreen({ onBack }: { onBack(): void }) {
   const body = { color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '400') };
   return (
     <MeInfoScreen testID="screen-sources" backID="sources-back" titleKey="credits.title" onBack={onBack}>
-      <Text style={[styles.text, body]}>{t('credits.intro')}</Text>
+      <Text style={[styles.text, body, auroraTextShadow(theme)]}>{t('credits.intro')}</Text>
       <MeCard>
         {BEFORE_STEP.map((key) => (
           <Text key={key} style={[styles.text, body]}>

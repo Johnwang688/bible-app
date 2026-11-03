@@ -4,6 +4,7 @@
 import { useMemo, useState, type ReactNode } from 'react';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { auroraTextShadow } from '../../aurora';
 import { uiFace } from '../../fonts/fonts';
 import { useI18n } from '../../i18n/I18nProvider';
 import type { MessageKey } from '../../i18n/messages/en';
@@ -67,6 +68,7 @@ function Filters({ all, filter, onChange }: { all: readonly StudyEntry[]; filter
             letterSpacing: 0.6,
             textTransform: 'uppercase',
             marginRight: 4,
+            ...auroraTextShadow(theme),
           }}
         >
           {t('study.byColour')}
@@ -140,12 +142,14 @@ export function SavedList({
   const theme = useTheme();
   const { t } = useI18n();
   const shown = useMemo(() => filterStudyList(all, filter), [all, filter]);
-  const muted = { color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14, textAlign: 'center' as const };
+  // The empty states sit on the screen background, which runs the aurora in the glass looks.
+  const halo = auroraTextShadow(theme);
+  const muted = { color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14, textAlign: 'center' as const, ...halo };
 
   const empty =
     all.length === 0 ? (
       <View testID="study-empty" style={styles.empty}>
-        <Text style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.head, '700'), fontSize: 17, textAlign: 'center' }}>
+        <Text style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.head, '700'), fontSize: 17, textAlign: 'center', ...halo }}>
           {t('study.empty')}
         </Text>
         <Text style={muted}>{t('study.emptyHint')}</Text>

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Text } from 'react-native';
 
+import { auroraTextShadow } from '../aurora';
 import { uiFace } from '../fonts/fonts';
 import { useI18n } from '../i18n/I18nProvider';
 import { ACCENT_CHOICES, editableTokens, setTokenEdit, type ColorToken, type EditResult } from '../theme/custom';
@@ -54,7 +55,7 @@ export function AdvancedScreen(props: { onBack(): void }) {
       backLabelKey="customise.title"
       onBack={props.onBack}
     >
-      <Text style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14, lineHeight: 20 }}>
+      <Text style={[{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14, lineHeight: 20 }, auroraTextShadow(theme)]}>
         {t('advanced.intro', { preset: t(`preset.${presetId}`) })}
       </Text>
       {editableTokens(presetId).map((token) => (
