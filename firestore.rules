@@ -12,6 +12,12 @@ rules_version = '2';
 // tombstone; only the backend's Admin SDK, which bypasses these rules, removes documents). Every other
 // path, including users/{uid} itself, matches no rule and is therefore denied.
 //
+// Verified email (email verification, 11-03). Only a verified owner may read or write: the ID token must
+// carry email_verified == true, and a token without the claim fails the comparison. The claim changes only
+// when a new ID token is minted, so after the user confirms the link the client reloads the user and forces
+// a token refresh before it syncs. Deploy the client first, then these rules: an older client never sent a
+// verification link, so rules first would lock every existing account out of sync.
+//
 //   deletedUsers/{uid}               { deletedAt }: written by the backend's "delete my data" (Admin SDK).
 //                                    Closed to clients. While it exists, only a sign-in after deletedAt
 //                                    may write under users/{uid}, so an ID token issued before the delete
@@ -45,11 +51,16 @@ service cloud.firestore {
       return request.auth != null && request.auth.uid == uid;
     }
 
-    // The owner may write under users/{uid} unless the account's data was deleted after this sign-in.
+    // The signed-in owner of users/{uid}, with an email Firebase considers verified (email verification, 11-03).
+    function isVerifiedOwner(uid) {
+      return isOwner(uid) && request.auth.token.email_verified == true;
+    }
+
+    // The verified owner may write under users/{uid} unless the account's data was deleted after this sign-in.
     // A uid that was never deleted has no marker; deletedAt is a timestamp, auth_time is in seconds.
     function canWrite(uid) {
       let marker = /databases/$(database)/documents/deletedUsers/$(uid);
-      return isOwner(uid) && (
+      return isVerifiedOwner(uid) && (
         !exists(marker)
         || request.auth.token.auth_time * 1000 > get(marker).data.deletedAt.toMillis()
       );
@@ -305,26 +316,26 @@ service cloud.firestore {
     }
 
     // users/{uid} itself has no rule: denied. Only these four subcollections are open.
-    // Reads stay open to the owner; writes also need canWrite (the deletion marker check).
+    // Reads stay open to the verified owner; writes also need canWrite (the deletion marker check).
     match /users/{uid} {
 
       match /items/{itemId} {
-        allow get, list: if isOwner(uid);
+        allow get, list: if isVerifiedOwner(uid);
         allow create, update: if canWrite(uid) && isItem(itemId, request.resource.data);
       }
 
       match /devices/{deviceId} {
-        allow get, list: if isOwner(uid);
+        allow get, list: if isVerifiedOwner(uid);
         allow create, update: if canWrite(uid) && isDevice(deviceId, request.resource.data);
       }
 
       match /settings/{key} {
-        allow get, list: if isOwner(uid);
+        allow get, list: if isVerifiedOwner(uid);
         allow create, update: if canWrite(uid) && isSetting(key, request.resource.data);
       }
 
       match /memory/{deviceId} {
-        allow get, list: if isOwner(uid);
+        allow get, list: if isVerifiedOwner(uid);
         allow create, update: if canWrite(uid) && isMemory(deviceId, request.resource.data);
       }
     }
