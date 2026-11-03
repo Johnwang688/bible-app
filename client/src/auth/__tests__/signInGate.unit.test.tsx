@@ -287,7 +287,7 @@ test('a gate that throws fails closed', async () => {
     expect(auth.log).toEqual(['signOut']);
     expect(mockEngines.started).toEqual([]);
     const state: AccountState = view.result.current;
-    const error = await rejection(() => state.signUp('kid@example.com', 'whatever1'));
+    const error = await rejection(() => state.signUp('kid@example.com', 'whatever1').then(() => undefined));
     expect((error as AuthError).kind).toBe('not-allowed');
   } finally {
     warn.mockRestore();

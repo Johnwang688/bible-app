@@ -6,8 +6,12 @@ import {
   EmailAuthProvider,
   getIdToken as firebaseGetIdToken,
   onAuthStateChanged as firebaseOnAuthStateChanged,
+  onIdTokenChanged as firebaseOnIdTokenChanged,
   reauthenticateWithCredential,
+  reload as firebaseReload,
+  sendEmailVerification as firebaseSendEmailVerification,
   sendPasswordResetEmail,
+  verifyBeforeUpdateEmail as firebaseVerifyBeforeUpdateEmail,
   signInWithEmailAndPassword,
   signOut as firebaseSignOut,
   type Auth,
@@ -16,13 +20,21 @@ import {
 } from 'firebase/auth';
 
 import { firebaseAuthCode, mapFirebaseAuthError } from './firebaseErrors';
-import { AuthError, type AuthBackend, type AuthUser, type SignInMethod } from './types';
+import { AuthError, type AuthBackend, type AuthUser, type EmailActionOptions, type SignInMethod } from './types';
 
 /** Deliberately lenient: something@something, no spaces. The server does the real check. */
 const LOOKS_LIKE_EMAIL = /^[^\s@]+@[^\s@]+$/;
 
 function toAuthUser(user: User): AuthUser {
-  return { uid: user.uid, email: user.email };
+  const created = Date.parse(user.metadata?.creationTime ?? '');
+  // emailVerified is always a boolean here (anything but true is unconfirmed): this backend verifies emails.
+  return { uid: user.uid, email: user.email, emailVerified: user.emailVerified === true, ...(Number.isFinite(created) ? { createdAt: created } : {}) };
+}
+
+/** Firebase's settings for an email action: the continue URL, and the email's language. */
+function actionSettings(auth: Auth, options: EmailActionOptions) {
+  auth.languageCode = options.languageCode;
+  return { url: options.url };
 }
 
 function credentialFor(method: SignInMethod): AuthCredential {
@@ -48,7 +60,43 @@ export function createFirebaseAuthBackend(auth: Auth): AuthBackend {
     },
 
     onAuthStateChanged(listener) {
-      return firebaseOnAuthStateChanged(auth, (user) => listener(user ? toAuthUser(user) : null));
+      const offState = firebaseOnAuthStateChanged(auth, (user) => listener(user ? toAuthUser(user) : null));
+      // reload() does not fire onAuthStateChanged; a new ID token (a refresh in this tab) does fire this one, so a
+      // user whose email was confirmed shows as soon as either happens. Sign-in and sign-out come from the first.
+      const offToken = firebaseOnIdTokenChanged(auth, (user) => {
+        if (user) listener(toAuthUser(user));
+      });
+      return () => {
+        offState();
+        offToken();
+      };
+    },
+
+    verifiesEmail: true,
+
+    reload() {
+      return mapped(async () => {
+        const user = auth.currentUser;
+        if (!user) return null;
+        await firebaseReload(user);
+        return auth.currentUser ? toAuthUser(auth.currentUser) : null;
+      });
+    },
+
+    sendEmailVerification(options) {
+      return mapped(async () => {
+        const user = auth.currentUser;
+        if (!user) throw new AuthError('unknown', 'sendEmailVerification: nobody is signed in');
+        await firebaseSendEmailVerification(user, actionSettings(auth, options));
+      });
+    },
+
+    verifyBeforeUpdateEmail(newEmail, options) {
+      return mapped(async () => {
+        const user = auth.currentUser;
+        if (!user) throw new AuthError('unknown', 'verifyBeforeUpdateEmail: nobody is signed in');
+        await firebaseVerifyBeforeUpdateEmail(user, newEmail.trim(), actionSettings(auth, options));
+      });
     },
 
     signIn(method) {
