@@ -894,14 +894,15 @@ function createController(deps: Deps): Controller {
       // The account exists either way; a failed send is reported, and Send again retries it.
       let sendError: AuthError | null = null;
       const who = auth.currentUser();
-      if (who && created && who.uid === created.uid && needsVerify(user)) {
+      const confirm = !!who && !!created && who.uid === created.uid && needsVerify(user);
+      if (confirm) {
         try {
           await sendVerificationFor(auth, who, languageCode);
         } catch (e) {
           sendError = asAuthError(e);
         }
       }
-      return { sendError };
+      return { confirm, sendError };
     },
 
     async sendVerification(languageCode?: string) {

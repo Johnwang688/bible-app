@@ -106,6 +106,8 @@ export type AccountNotice = { kind: 'confirmed' } | { kind: 'emailChanged'; emai
 
 /** What a sign-up reports: the account exists; whether its verification email went out. */
 export interface SignUpResult {
+  /** The new account's email must be confirmed before it syncs (the sheet turns into "Confirm your email"). */
+  confirm: boolean;
   /** Why the verification email could not be sent, or null when it was (or the backend sends none). */
   sendError: AuthError | null;
 }

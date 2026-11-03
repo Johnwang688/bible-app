@@ -23,7 +23,7 @@ import { dangerColours } from '../../theme/danger';
 import { buttonStyle } from '../../reader/components/ui';
 import { fieldBorderColour, fieldBorderWidth } from './fieldStyle';
 
-export type GlyphName = 'person' | 'check' | 'sync' | 'offline' | 'alert' | 'close' | 'back' | 'eye' | 'eyeOff' | 'mail';
+export type GlyphName = 'person' | 'check' | 'sync' | 'offline' | 'alert' | 'close' | 'back' | 'eye' | 'eyeOff' | 'mail' | 'info' | 'pause' | 'chevron';
 
 const PATHS: Record<GlyphName, string> = {
   person: 'M12 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8zM4 21a8 8 0 0 1 16 0',
@@ -38,6 +38,9 @@ const PATHS: Record<GlyphName, string> = {
   eyeOff:
     'M3 3l18 18M10.6 5.1A9.8 9.8 0 0 1 12 5c6.5 0 10 7 10 7a17 17 0 0 1-3.2 4.1M6.6 6.6A16.7 16.7 0 0 0 2 12s3.5 7 10 7a9.7 9.7 0 0 0 4.2-.9M9.9 9.9a3 3 0 0 0 4.2 4.2',
   mail: 'M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zM3.5 7.5 12 13l8.5-5.5',
+  info: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 11v5M12 7.5h.01',
+  pause: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM10 9v6M14 9v6',
+  chevron: 'm9 6 6 6-6 6',
 };
 
 export function Glyph({ name, color, size = 18, strokeWidth = 2.2 }: { name: GlyphName; color: string; size?: number; strokeWidth?: number }) {
@@ -140,6 +143,8 @@ export function TextButton({
   tone = 'accent',
   align = 'center',
   role = 'button',
+  waiting = false,
+  waitColour,
 }: {
   testID: string;
   label: string;
@@ -149,20 +154,37 @@ export function TextButton({
   align?: 'center' | 'flex-start';
   /** `link` for navigation (it is a link on the web too); `button` for actions. */
   role?: 'button' | 'link';
+  /**
+   * Cooling down (Send again's countdown): off, but fully readable in `waitColour` (muted ink, no fade), with
+   * tabular figures so the count does not jiggle.
+   */
+  waiting?: boolean;
+  waitColour?: string;
 }) {
   const theme = useTheme();
-  const colour = tone === 'danger' ? dangerColours(theme).text : theme.colors.accent;
+  const colour = waiting ? (waitColour ?? theme.colors.muted) : tone === 'danger' ? dangerColours(theme).text : theme.colors.accent;
+  const off = disabled || waiting;
   return (
     <Pressable
       testID={testID}
       accessibilityRole={role}
       accessibilityLabel={label}
-      accessibilityState={{ disabled }}
-      disabled={disabled}
+      accessibilityState={{ disabled: off }}
+      disabled={off}
       onPress={onPress}
-      style={[styles.textButton, { alignSelf: align, opacity: disabled ? 0.45 : 1 }]}
+      style={[styles.textButton, { alignSelf: align, opacity: disabled && !waiting ? 0.45 : 1 }]}
     >
-      <Text style={{ color: colour, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 15, textAlign: 'center' }}>{label}</Text>
+      <Text
+        style={{
+          color: colour,
+          fontFamily: uiFace(theme.type.ui, '700'),
+          fontSize: 15,
+          textAlign: 'center',
+          fontVariant: waiting ? ['tabular-nums'] : undefined,
+        }}
+      >
+        {label}
+      </Text>
     </Pressable>
   );
 }

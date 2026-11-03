@@ -23,7 +23,7 @@ function accountState(signedIn = false): AccountState {
     signInAllowed: true,
     sync: signedIn ? { state: 'idle', lastSyncedAt: null } : null,
     signIn: jest.fn(async () => undefined),
-    signUp: jest.fn(async () => ({ sendError: null })),
+    signUp: jest.fn(async () => ({ confirm: false, sendError: null })),
     verify: null,
     notice: null,
     dismissNotice: jest.fn(),

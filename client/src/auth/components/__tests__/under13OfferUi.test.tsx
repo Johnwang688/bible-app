@@ -110,7 +110,7 @@ function offerState(over: Partial<AccountState> = {}): AccountState {
     signInAllowed: false,
     sync: null,
     signIn: jest.fn(async () => undefined),
-    signUp: jest.fn(async () => ({ sendError: null })),
+    signUp: jest.fn(async () => ({ confirm: false, sendError: null })),
     verify: null,
     notice: null,
     dismissNotice: jest.fn(),
