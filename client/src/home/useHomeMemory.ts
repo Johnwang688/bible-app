@@ -9,6 +9,7 @@ import { useTodayLesson } from '../memory/ui/home/useTodayLesson';
 import { useMemorySettings } from '../memory/useMemorySettings';
 import { learnedCount } from '../memory/view';
 import type { AppLocale } from '../i18n/types';
+import { memoryLessonKey } from '../storage/memoryKeys';
 import type { Storage } from '../storage/storage';
 
 /** Where the Memory card's Week button goes: the streak and the last weeks, in the Study tab's stack. */
@@ -65,7 +66,10 @@ export function useHomeMemory(storage: Storage, now: () => Date, locale: AppLoca
   }
   // Memory's own write-through: today's stored plan, or today's opened now (never an older day's).
   const target = useCallback(() => {
-    const current = createMemoryStore(storage).todayLesson(now());
+    const opened = createMemoryStore(storage).todayLesson(now());
+    // Read back what is stored: a writer told of that plan may already have moved it on.
+    const stored = storage.get(memoryLessonKey);
+    const current = stored !== null && stored.date === opened.date ? stored : opened;
     const items = current.steps.map((s) => ({ verseId: s.verseId, stage: s.stage }));
     const next = current.steps.findIndex((s) => s.completedAt === null);
     return (next === -1 ? null : stepHref(items, next)) ?? MEMORY_WEEK_HREF;
