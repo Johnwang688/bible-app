@@ -57,6 +57,28 @@ async function seed(page: Page, key: string, data: unknown) {
 
 test.beforeEach(async ({ page }) => mockApi(page));
 
+/**
+ * Records where the words list is scrolled when the next press lands on it. A click can scroll its target into view
+ * again first (under load the list reflows as the Greek font arrives), so the place to come back to is the list as
+ * it was at the press, not an earlier reading (GAPS, board 11-03).
+ */
+async function recordScrollAtPress(page: Page) {
+  await page.evaluate(() => {
+    document.addEventListener(
+      'pointerdown',
+      () => {
+        const list = document.querySelector('[data-testid="words-list"]');
+        const nodes = list ? [list, ...list.querySelectorAll('*')] : [];
+        const scroller = nodes.find(n => n.scrollHeight > n.clientHeight + 50 && getComputedStyle(n).overflowY === 'auto');
+        (window as unknown as { scrollAtPress?: number }).scrollAtPress = scroller?.scrollTop;
+      },
+      { capture: true, once: true },
+    );
+  });
+}
+
+const scrollAtPress = (page: Page) => page.evaluate(() => (window as unknown as { scrollAtPress?: number }).scrollAtPress ?? -1);
+
 test.describe('reader (English)', () => {
   test.use({ locale: 'en-US', colorScheme: 'light' });
 
@@ -195,14 +217,15 @@ test.describe('verse sheet (R-2)', () => {
     await page.getByTestId('sheet-original-words').click();
     const row = page.getByTestId('word-row-40');
     await row.scrollIntoViewIfNeeded();
+    await recordScrollAtPress(page);
     const scrollTop = () => page.getByTestId('words-list').evaluate(el => {
       const nodes = [el, ...el.querySelectorAll('*')];
       const scroller = nodes.find(n => n.scrollHeight > n.clientHeight + 50 && getComputedStyle(n).overflowY === 'auto');
       return scroller!.scrollTop;
     });
-    const before = await scrollTop();
-    expect(before).toBeGreaterThan(0);
     await row.click();
+    const before = await scrollAtPress(page);
+    expect(before).toBeGreaterThan(0);
     await expect(page.getByTestId('word-card')).toBeVisible();
     await page.keyboard.press('Escape');
     await expect(page.getByTestId('words-list')).toBeVisible();
@@ -224,14 +247,15 @@ test.describe('verse sheet (R-2)', () => {
     await page.getByTestId('sheet-original-words').click();
     const row = page.getByTestId('word-row-40');
     await row.scrollIntoViewIfNeeded();
+    await recordScrollAtPress(page);
     const scrollTop = () => page.getByTestId('words-list').evaluate(el => {
       const nodes = [el, ...el.querySelectorAll('*')];
       const scroller = nodes.find(n => n.scrollHeight > n.clientHeight + 50 && getComputedStyle(n).overflowY === 'auto');
       return scroller!.scrollTop;
     });
-    const before = await scrollTop();
-    expect(before).toBeGreaterThan(0);
     await row.click();
+    const before = await scrollAtPress(page);
+    expect(before).toBeGreaterThan(0);
     await expect(page.getByTestId('word-card')).toBeVisible();
     await page.getByTestId('word-back').click();
     await expect(page.getByTestId('words-list')).toBeVisible();
@@ -346,14 +370,15 @@ test.describe('verse sheet (R-2)', () => {
     await page.getByTestId('sheet-original-words').click();
     const row = page.getByTestId('word-row-40');
     await row.scrollIntoViewIfNeeded();
+    await recordScrollAtPress(page);
     const scrollTop = () => page.getByTestId('words-list').evaluate(el => {
       const nodes = [el, ...el.querySelectorAll('*')];
       const scroller = nodes.find(n => n.scrollHeight > n.clientHeight + 50 && getComputedStyle(n).overflowY === 'auto');
       return scroller!.scrollTop;
     });
-    const before = await scrollTop();
-    expect(before).toBeGreaterThan(0);
     await row.click();
+    const before = await scrollAtPress(page);
+    expect(before).toBeGreaterThan(0);
     await expect(page.getByTestId('word-card')).toBeVisible();
     await page.clock.runFor(500); // the list's late scroll-end report fires now, with the list gone
     await page.getByTestId('word-back').click();
