@@ -1,7 +1,10 @@
 // What Home's Memory card shows: today's Memory lesson, read through Memory's own hooks (read-only: Home never
 // changes Memory's data beyond what opening today's lesson does on Memory's home too).
+import { useCallback } from 'react';
+
 import { getMemoryVerse, TOTAL_VERSES } from '../memory/library';
-import { useMemoryProgress } from '../memory/memoryStore';
+import { createMemoryStore, useMemoryProgress } from '../memory/memoryStore';
+import { stepHref } from '../memory/session';
 import { useTodayLesson } from '../memory/ui/home/useTodayLesson';
 import { useMemorySettings } from '../memory/useMemorySettings';
 import { learnedCount } from '../memory/view';
@@ -19,6 +22,11 @@ export interface HomeMemory {
   learned: number;
   total: number;
   state: HomeMemoryState;
+  /**
+   * Where a press on the card goes, worked out at the press from storage and the clock: a step finished since the
+   * last render, or a midnight not yet noticed, must not send the reader to a stale step (the R-4 Surprise me rule).
+   */
+  target(): string;
 }
 
 /**
@@ -55,5 +63,13 @@ export function useHomeMemory(storage: Storage, now: () => Date, locale: AppLoca
       href: lesson.href,
     };
   }
-  return { learned: learnedCount(progress), total: TOTAL_VERSES, state };
+  // Memory's own write-through: today's stored plan, or today's opened now (never an older day's).
+  const target = useCallback(() => {
+    const current = createMemoryStore(storage).todayLesson(now());
+    const items = current.steps.map((s) => ({ verseId: s.verseId, stage: s.stage }));
+    const next = current.steps.findIndex((s) => s.completedAt === null);
+    return (next === -1 ? null : stepHref(items, next)) ?? MEMORY_WEEK_HREF;
+  }, [storage, now]);
+
+  return { learned: learnedCount(progress), total: TOTAL_VERSES, state, target };
 }

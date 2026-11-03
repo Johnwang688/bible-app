@@ -29,7 +29,7 @@ import { lastVerseKey } from './homeKeys';
 import { NEW_READER_START } from './newReader';
 import { shareVerse } from './shareVerse';
 import { pickSurpriseChapter } from './surprise';
-import { MEMORY_WEEK_HREF, useHomeMemory } from './useHomeMemory';
+import { useHomeMemory } from './useHomeMemory';
 import { useToday } from './useToday';
 import { verseOfTheDay } from './verseOfTheDay';
 import { VOTD_BOOK_NAMES } from './votdBookNames';
@@ -199,7 +199,8 @@ export function HomeScreen({
   const explored = formatNumber(progress.exploredCount);
   const total = formatNumber(TOTAL_CHAPTERS);
 
-  // Memory: today's lesson. Start and Continue open its next step; once it is done, Week opens the week.
+  // Memory: today's lesson. Start and Continue open its next step; once it is done, Week opens the week. Where a
+  // press goes is read at the press (`memory.target`), not from this render.
   const memory = useHomeMemory(storage, now, locale);
   const lesson = memory.state;
   const memoryCaps = t('home.memory.label', { n: formatNumber(memory.learned), total: formatNumber(memory.total) });
@@ -209,7 +210,7 @@ export function HomeScreen({
           sub: t('home.memory.done'),
           action: { text: t('home.memory.week'), primary: false },
           label: t('home.memory.weekLabel'),
-          onPress: () => go(MEMORY_WEEK_HREF),
+          onPress: () => go(memory.target()),
         }
       : {
           sub: t('home.memory.step', { n: formatNumber(lesson.step), total: formatNumber(lesson.total) }),
@@ -218,7 +219,7 @@ export function HomeScreen({
             lesson.reference === ''
               ? t(lesson.kind === 'start' ? 'home.memory.startLabelPlain' : 'home.memory.continueLabelPlain')
               : t(lesson.kind === 'start' ? 'home.memory.startLabel' : 'home.memory.continueLabel', { ref: lesson.reference }),
-          onPress: () => go(lesson.href),
+          onPress: () => go(memory.target()),
         };
 
   return (
