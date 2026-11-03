@@ -156,9 +156,13 @@ function EntityListBody({ kind, initialFilter, onOpenEntity }: { kind: EntityKin
       if (retryTimer.current) clearTimeout(retryTimer.current);
       retryTimer.current = setTimeout(() => {
         retryTimer.current = null;
-        // Only for the jump still landing: the reader's own scrolling, a new filter or a newer jump ended it.
+        // Only for the jump still landing, within its time: the reader's own scrolling, a new filter or a newer jump
+        // ended it.
         const target = landing.current;
-        if (!target || target.sectionIndex >= sections.length) return;
+        if (!target || Date.now() > target.until || target.sectionIndex >= sections.length) {
+          landing.current = null;
+          return;
+        }
         listRef.current?.scrollToLocation({ sectionIndex: target.sectionIndex, itemIndex: 0, viewPosition: 0, animated: true });
       }, 100);
     },
