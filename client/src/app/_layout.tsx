@@ -5,6 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 
 import { ApiProvider } from '../api/ApiProvider';
+import { AccountProvider } from '../auth';
 import { FontGate } from '../fonts/FontGate';
 import { I18nProvider } from '../i18n/I18nProvider';
 import { importLegacyDataOnce, webLegacySource } from '../legacy';
@@ -20,13 +21,15 @@ export default function RootLayout() {
 
   return (
     <ApiProvider>
-      <I18nProvider>
-        <ThemeProvider>
-          <FontGate onReady={() => void SplashScreen.hideAsync()}>
-            <ThemedStack />
-          </FontGate>
-        </ThemeProvider>
-      </I18nProvider>
+      <AccountProvider>
+        <I18nProvider>
+          <ThemeProvider>
+            <FontGate onReady={() => void SplashScreen.hideAsync()}>
+              <ThemedStack />
+            </FontGate>
+          </ThemeProvider>
+        </I18nProvider>
+      </AccountProvider>
     </ApiProvider>
   );
 }

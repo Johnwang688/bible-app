@@ -3,6 +3,11 @@
 // Every value is stored as JSON `{ v, data }`; a value that is corrupt, from another version
 // or fails its schema reads as the key's fallback, so bad data never reaches the app. A key with
 // `migrate` reads an older version through it instead (the next write stores the new version).
+//
+// Write tags (R-6b sync journal): a write may carry a short tag, stored in the same envelope as the
+// value (`{ j, v, data }`, `j` first), so the value and its tag land in one atomic key write. A plain
+// `set` keeps the key's existing tag, so a tagged write stays recognisable after the app edits the
+// value again; `remove` drops it. `get` ignores the tag, and values stored without one read as before.
 import { useCallback, useSyncExternalStore } from 'react';
 import type { z } from 'zod';
 
@@ -26,11 +31,25 @@ export interface StorageKey<T> {
 
 export interface Storage {
   get<T>(k: StorageKey<T>): T;
-  /** Validates against the key's schema and throws (writing nothing) if it fails. */
-  set<T>(k: StorageKey<T>, value: T): void;
+  /**
+   * Validates against the key's schema and throws (writing nothing) if it fails. With `tag`, the value
+   * is stored with that tag (`[A-Za-z0-9_-]`, 1–64 characters; anything else throws, writing nothing);
+   * without it, the key keeps the tag it had.
+   */
+  set<T>(k: StorageKey<T>, value: T, opts?: { tag?: string }): void;
+  /** The tag stored with the key's value, or undefined (no value, or one written without a tag). */
+  tagOf<T>(k: StorageKey<T>): string | undefined;
   remove<T>(k: StorageKey<T>): void;
   /** Calls `listener` after each set or remove of this key. Returns the unsubscribe. */
   subscribe<T>(k: StorageKey<T>, listener: () => void): () => void;
+}
+
+const TAG_RE = /^[A-Za-z0-9_-]{1,64}$/;
+/** A tagged envelope starts `{"j":"<tag>",`, so the tag is read without parsing the whole value. */
+const TAGGED_RE = /^\{"j":"([A-Za-z0-9_-]{1,64})",/;
+
+function tagIn(raw: string | undefined): string | undefined {
+  return raw === undefined ? undefined : TAGGED_RE.exec(raw)?.[1];
 }
 
 export function createStorage(backend: KeyValueBackend): Storage {
@@ -60,10 +79,16 @@ export function createStorage(backend: KeyValueBackend): Storage {
       }
       return clone(k.fallback);
     },
-    set(k, value) {
+    set(k, value, opts) {
       const data = k.schema.parse(value);
-      backend.set(k.key, JSON.stringify({ v: k.version, data }));
+      let tag = opts?.tag;
+      if (tag !== undefined && !TAG_RE.test(tag)) throw new Error('storage: invalid tag');
+      tag ??= tagIn(backend.getString(k.key));
+      backend.set(k.key, JSON.stringify(tag === undefined ? { v: k.version, data } : { j: tag, v: k.version, data }));
       notify(k.key);
+    },
+    tagOf(k) {
+      return tagIn(backend.getString(k.key));
     },
     remove(k) {
       backend.remove(k.key);

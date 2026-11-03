@@ -28,5 +28,15 @@
         "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
       }
     ]
+  },
+  "firestore": {
+    "database": "(default)",
+    "rules": "firestore.rules"
+  },
+  "emulators": {
+    "auth": { "host": "127.0.0.1", "port": 9180 },
+    "firestore": { "host": "127.0.0.1", "port": 8180 },
+    "ui": { "enabled": false },
+    "singleProjectMode": true
   }
 }
