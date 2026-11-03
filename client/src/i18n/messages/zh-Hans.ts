@@ -312,7 +312,7 @@ export const zhHans: Record<MessageKey, string> = {
 
   // ---- Privacy policy (B-1) ----
   'privacy.title': '隐私政策',
-  'privacy.updated': '最后更新：2026 年 11 月 2 日',
+  'privacy.updated': '最后更新：2026 年 11 月 3 日',
   'privacy.switchLanguage': 'English',
   'privacy.back': '返回',
   'privacy.openApp': '打开应用',

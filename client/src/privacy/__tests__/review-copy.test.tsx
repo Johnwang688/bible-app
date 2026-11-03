@@ -10,8 +10,8 @@ const approved = [
   ],
   [
     "privacy.updated",
-    "Last updated 2 November 2026",
-    "最后更新：2026 年 11 月 2 日"
+    "Last updated 3 November 2026",
+    "最后更新：2026 年 11 月 3 日"
   ],
   [
     "privacy.switchLanguage",

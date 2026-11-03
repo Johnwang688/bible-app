@@ -311,7 +311,7 @@ export const en = {
 
   // ---- Privacy policy (B-1) ----
   'privacy.title': 'Privacy policy',
-  'privacy.updated': 'Last updated 2 November 2026',
+  'privacy.updated': 'Last updated 3 November 2026',
   'privacy.switchLanguage': '简体中文',
   'privacy.back': 'Back',
   'privacy.openApp': 'Open the app',

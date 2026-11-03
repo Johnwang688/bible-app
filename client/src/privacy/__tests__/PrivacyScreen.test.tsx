@@ -108,7 +108,7 @@ describe('PrivacyScreen', () => {
     await renderPage(page());
     expect(screen.getByTestId('screen-privacy')).toBeTruthy();
     expect(headings()).toEqual(EN_HEADINGS);
-    expect(screen.getByText('Last updated 2 November 2026')).toBeTruthy();
+    expect(screen.getByText('Last updated 3 November 2026')).toBeTruthy();
     const short = within(screen.getByTestId('privacy-short'));
     for (const line of [
       'No account needed. What you save stays on your device.',
@@ -167,7 +167,7 @@ describe('PrivacyScreen', () => {
   it('follows a Chinese interface', async () => {
     await renderPage(page(), [ZH]);
     expect(headings()).toEqual(ZH_HEADINGS);
-    expect(screen.getByText('最后更新：2026 年 11 月 2 日')).toBeTruthy();
+    expect(screen.getByText('最后更新：2026 年 11 月 3 日')).toBeTruthy();
     expect(screen.getByTestId('privacy-language')).toHaveTextContent('English');
     // Chinese headings use no letter spacing.
     for (const n of screen.getAllByRole('header')) {
