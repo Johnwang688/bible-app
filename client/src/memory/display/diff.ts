@@ -1,13 +1,15 @@
 // What the Memory result screens draw, derived from the SAME alignment the grader scores with: the match
 // percentage and the verdict are `compareRecital`'s own, and the per-character marks come from the grader's
 // `align` over the keyer's per-character keys, so the picture can never disagree with the number beside it.
-import type { ChineseScript, MemoryVerse } from '../types';
+import type { ChineseScript, LibraryVerse, MemoryVerse } from '../types';
+import type { VerseLanguage } from '../verseLanguage';
+import { compareEnglishFullRecall, compareEnglishRecital, englishTokens, sameEnglishWord } from '../speech/english';
 import { compareFullRecall } from '../speech/fullRecall';
 import { MANDARIN_SYNC_KEYER, ZH_PUNCTUATION_CHAR, type SpeechKeyer } from '../speech/keyer';
 import { align, compareRecital, dropWhitespaceTokens } from '../speech/pinyinDiff';
 
 export type DiffOp =
-  /** `heard !== char`: a sound-alike, and it counts. */
+  /** `heard !== char`: a sound-alike (in English, a one-letter slip), and it counts. */
   | { kind: 'match'; char: string; heard: string }
   | { kind: 'sub'; char: string; heard: string }
   | { kind: 'del'; char: string }
@@ -209,9 +211,17 @@ const BLANK = '＿';
 
 /**
  * The hint text: each chunk (found in order in `text`) shows its first non-punctuation character, every
- * other non-punctuation character becomes `＿`, and punctuation and whitespace stay.
+ * other non-punctuation character becomes `＿`, and punctuation and whitespace stay. In English every word shows its
+ * first letter and the rest become `_` (`T________ i_ a_____`), punctuation and spaces kept.
  */
-export function hintMask(text: string, chunks: readonly string[]): string {
+export function hintMask(text: string, chunks: readonly string[], language: VerseLanguage = 'zh'): string {
+  if (language === 'en') {
+    // A word with an apostrophe inside (God’s) is one word: only its first letter shows.
+    return text.replace(/[\p{L}\p{M}\p{N}]+(?:['’‘ʼ][\p{L}\p{M}\p{N}]+)*/gu, (word) => {
+      const [head = '', ...rest] = Array.from(word);
+      return head + rest.map((ch) => (/['’‘ʼ]/.test(ch) ? ch : '_')).join('');
+    });
+  }
   const chars = Array.from(text);
   // Work in code-point indices: map each chunk to its code-point range in the text.
   const shown = new Set<number>();
@@ -230,4 +240,111 @@ export function hintMask(text: string, chunks: readonly string[]): string {
     searchFrom = at + chunk.length;
   }
   return chars.map((ch, i) => (isGap(ch) || shown.has(i) ? ch : BLANK)).join('');
+}
+
+// ---------------------------------------------------------------------------------------------------------
+// English
+// ---------------------------------------------------------------------------------------------------------
+
+/**
+ * The English analogue of `displayDiff`: the word alignment the English grader scores with (`align` with
+ * `sameEnglishWord`), drawn on the expected text as written. Each op's `char` is the expected word as shown; the
+ * spaces and punctuation between words come back as `punct` ops in their places, so the non-`ins` ops spell out
+ * `expected` exactly. A match whose words differ (a one-letter slip) carries the said word in `heard`; a sub carries
+ * the said word; an ins is a said word with no counterpart. `matchPct` and `passed` are `compareEnglishRecital`'s.
+ *
+ * A number written in digits is several words to the grader (`10,000` -> ten thousand): its text is drawn on the
+ * first of them, the others draw nothing.
+ */
+export function englishDisplayDiff(said: string, expected: string): DisplayDiff {
+  const grade = compareEnglishRecital(said, expected);
+  const exp = englishTokens(expected);
+  const heard = englishTokens(said);
+
+  const charAt = (e: number): string => {
+    const tok = exp[e]!;
+    return tok.first ? expected.slice(tok.start, tok.end) : '';
+  };
+  /** The text after expected word `e` up to the next run, when `e` ends its run. */
+  const tailAt = (e: number): DiffOp[] => {
+    const tok = exp[e]!;
+    const next = exp[e + 1];
+    if (next && next.start === tok.start) return [];
+    const end = next ? next.start : expected.length;
+    return end > tok.end ? [{ kind: 'punct', char: expected.slice(tok.end, end) }] : [];
+  };
+  const heardAt = (t: number): string => {
+    const tok = heard[t]!;
+    const sameRun = (heard[t - 1]?.start ?? -1) === tok.start || (heard[t + 1]?.start ?? -1) === tok.start;
+    return sameRun ? tok.word : said.slice(tok.start, tok.end);
+  };
+
+  const counts = { ok: 0, alike: 0, wrong: 0, miss: 0, extra: 0 };
+  const ops: DiffOp[] = [];
+  const leadEnd = exp[0]?.start ?? expected.length;
+  if (leadEnd > 0) ops.push({ kind: 'punct', char: expected.slice(0, leadEnd) });
+
+  const aligned = align(
+    exp.map((t) => t.word),
+    heard.map((t) => t.word),
+    sameEnglishWord,
+  );
+  for (const op of aligned) {
+    if (op.kind === 'match') {
+      const char = charAt(op.e);
+      const slip = exp[op.e]!.word !== heard[op.t]!.word && char !== '';
+      counts.ok++;
+      if (slip) counts.alike++;
+      ops.push({ kind: 'match', char, heard: slip ? heardAt(op.t) : char });
+    } else if (op.kind === 'sub') {
+      counts.wrong++;
+      ops.push({ kind: 'sub', char: charAt(op.e), heard: heardAt(op.t) });
+    } else if (op.kind === 'del') {
+      counts.miss++;
+      ops.push({ kind: 'del', char: charAt(op.e) });
+    } else {
+      counts.extra++;
+      ops.push({ kind: 'ins', heard: heardAt(op.t) });
+    }
+    if (op.kind !== 'ins') ops.push(...tailAt(op.e));
+  }
+
+  return { ops, matchPct: grade.matchPct, passed: grade.passed, counts };
+}
+
+/** The display diff for a verse language: `englishDisplayDiff` in English, else `displayDiff`. */
+export function displayDiffFor(
+  language: VerseLanguage,
+  said: string,
+  expected: string,
+  keyer: SpeechKeyer = MANDARIN_SYNC_KEYER,
+  shownExpected?: string,
+): DisplayDiff {
+  return language === 'en' ? englishDisplayDiff(said, expected) : displayDiff(said, expected, keyer, shownExpected);
+}
+
+/**
+ * The English full-recall result: the English grader's verdict, the body drawn against `textEn` word by word, and
+ * the reference as the grader took it off the start or the end.
+ */
+export function englishRecallDisplay(transcript: string, verse: LibraryVerse): RecallDisplay {
+  const graded = compareEnglishFullRecall(transcript, verse.textEn, verse.referenceEn);
+  return {
+    passed: graded.passed,
+    body: englishDisplayDiff(graded.bodyTranscript, verse.textEn),
+    bodyTranscript: graded.bodyTranscript,
+    referenceStatus: graded.referenceStatus,
+    heardReference: graded.heardReference,
+  };
+}
+
+/** The full-recall result for a verse language: `englishRecallDisplay` in English, else `recallDisplay`. */
+export function recallDisplayFor(
+  language: VerseLanguage,
+  transcript: string,
+  verse: LibraryVerse,
+  keyer: SpeechKeyer = MANDARIN_SYNC_KEYER,
+  script: ChineseScript = 'simplified',
+): RecallDisplay {
+  return language === 'en' ? englishRecallDisplay(transcript, verse) : recallDisplay(transcript, verse, keyer, script);
 }

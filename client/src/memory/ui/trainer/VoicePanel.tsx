@@ -17,7 +17,9 @@ import { ActivityIndicator, Linking, Platform, Pressable, StyleSheet, Text, Text
 import { uiFace } from '../../../fonts/fonts';
 import { useI18n } from '../../../i18n/I18nProvider';
 import { useTheme } from '../../../theme/ThemeProvider';
+import type { TranscribeLanguage } from '../../speech/types';
 import { useMemorySettings } from '../../useMemorySettings';
+import { verseView } from '../../verseLanguage';
 import { VoiceAttempts, type AttemptPhase } from '../../voice/attempt';
 import { useMemoryAuth } from '../../voice/auth';
 import { recordVoiceOutcome, useVoiceSession, voiceGate } from '../../voice/availability';
@@ -99,9 +101,11 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
   const typedAbort = useRef<AbortController | null>(null);
   const checking = useRef(false);
   // The latest render's answer, auth and voice settings: the machine outlives renders and reads these when it acts.
-  const latest = useRef({ onAnswer, auth, voice: ctx.voice, speech: ctx.settings.speech });
+  // An English verse is transcribed as English; a Chinese one in the stored Mandarin/Cantonese preference.
+  const speech: TranscribeLanguage = ctx.language === 'en' ? 'english' : ctx.settings.speech;
+  const latest = useRef({ onAnswer, auth, voice: ctx.voice, speech });
   useLayoutEffect(() => {
-    latest.current = { onAnswer, auth, voice: ctx.voice, speech: ctx.settings.speech };
+    latest.current = { onAnswer, auth, voice: ctx.voice, speech };
   });
 
   // The 401 latch: the server 401 behind a signed-out notice (the token it was for). It is lifted by a new session
@@ -297,7 +301,7 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
       onChange={setTyped}
       onCheck={submitTyped}
       autoFocus={focusField}
-      lang={ctx.script === 'traditional' ? 'zh-Hant' : 'zh-Hans'}
+      lang={verseView(ctx.verse, ctx.language, ctx.script).lang}
     />
   );
 

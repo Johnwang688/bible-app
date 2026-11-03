@@ -1,5 +1,6 @@
-// The Memory settings sheet: the Chinese script, the voice switch and the spoken language. Self-contained (it reads
-// and writes the stored settings itself), so the trainers open this same sheet over a lesson.
+// The Memory settings sheet: which verses are shown (they follow the app language), the Chinese script, the voice
+// switch and the spoken language for the Chinese verses. Self-contained (it reads and writes the stored settings
+// itself), so the trainers open this same sheet over a lesson.
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { uiFace } from '../../fonts/fonts';
@@ -9,8 +10,11 @@ import { SheetModal } from '../../reader/components/SheetModal';
 import { buttonStyle } from '../../reader/components/ui';
 import type { Storage } from '../../storage/storage';
 import { useTheme } from '../../theme/ThemeProvider';
+import { TMS_ENGLISH_TRANSLATION } from '../library';
 import { useMemorySettings } from '../useMemorySettings';
+import { useVerseLanguage } from '../verseLanguage';
 import { MemButton } from './parts';
+import { ScriptureNotice } from './ScriptureNotice';
 
 interface SegItem {
   id: string;
@@ -104,6 +108,7 @@ export function MemorySettingsSheet({ visible, onClose, storage }: { visible: bo
   const theme = useTheme();
   const { t, locale } = useI18n();
   const [settings, update] = useMemorySettings(storage);
+  const language = useVerseLanguage();
   if (!visible) return null;
 
   const en = locale === 'en';
@@ -123,6 +128,13 @@ export function MemorySettingsSheet({ visible, onClose, storage }: { visible: bo
         </View>
       }
     >
+      <View style={styles.section}>
+        <Text testID="memory-settings-verses" style={hint}>
+          {t('memory.settings.englishNote', { translation: TMS_ENGLISH_TRANSLATION })}
+        </Text>
+        <ScriptureNotice language={language} />
+      </View>
+
       <View style={styles.section}>
         <Text style={[heading, styles.label]}>{t('memory.settings.script')}</Text>
         <Segmented
@@ -155,6 +167,7 @@ export function MemorySettingsSheet({ visible, onClose, storage }: { visible: bo
 
       <View style={styles.section}>
         <Text style={[heading, styles.label, !settings.voice && { color: theme.colors.muted }]}>{t('memory.settings.speech')}</Text>
+        {language === 'en' ? <Text style={hint}>{t('memory.settings.forChinese')}</Text> : null}
         <Segmented
           label={t('memory.settings.speech')}
           value={settings.speech}
@@ -167,8 +180,6 @@ export function MemorySettingsSheet({ visible, onClose, storage }: { visible: bo
         />
         <Text style={hint}>{t(settings.voice ? 'memory.settings.speechHint' : 'memory.settings.speechOff')}</Text>
       </View>
-
-      <Text style={hint}>{t('memory.settings.englishNote')}</Text>
 
       <MemButton testID="memory-settings-done" label={t('memory.settings.done')} kind="primary" block onPress={onClose} />
     </SheetModal>

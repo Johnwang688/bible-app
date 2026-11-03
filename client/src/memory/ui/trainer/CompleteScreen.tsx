@@ -16,8 +16,9 @@ import { getMemoryVerse, TOTAL_VERSES } from '../../library';
 import { toLocalDateString } from '../../localDate';
 import { useMemoryHistory, useMemoryProgress } from '../../memoryStore';
 import { stepHref } from '../../session';
-import type { ChineseScript, MemoryVerse, ProgressMap } from '../../types';
+import type { LibraryVerse, ProgressMap } from '../../types';
 import { useMemorySettings } from '../../useMemorySettings';
+import { useVerseLanguage, verseView } from '../../verseLanguage';
 import { daysUntilDue, learnedCount } from '../../view';
 import { useTodayLesson } from '../home/useTodayLesson';
 import { MemoryIcon } from '../icons';
@@ -38,9 +39,6 @@ function kindKey(stage: string, progress: ProgressMap, verseId: string): Message
   if (stage === 'fill-blank') return 'memory.kind.fillIn';
   return progress[verseId]?.stage === 'review' ? 'memory.kind.review' : 'memory.kind.recall';
 }
-
-const referenceOf = (verse: MemoryVerse, script: ChineseScript, english: boolean) =>
-  english ? verse.referenceEn : script === 'traditional' ? verse.referenceZhHant : verse.referenceZh;
 
 export function CompleteScreen({
   storage: storageProp,
@@ -65,7 +63,11 @@ export function CompleteScreen({
     focusSoon(heading.current);
   }, [focusSoon, lesson.allDone]);
 
-  const english = locale === 'en';
+  const language = useVerseLanguage();
+  // The reference in the verse language; a Chinese verse in the English interface (only where the verse language is
+  // pinned) keeps the English reference, as before.
+  const referenceOf = (verse: LibraryVerse): string =>
+    language === 'zh' && locale === 'en' ? verse.referenceEn : verseView(verse, language, settings.script).reference;
   const date = now();
   const today = toLocalDateString(date);
   const streak = dailyStreak(history.completedDates, today);
@@ -115,7 +117,7 @@ export function CompleteScreen({
               if (!verse) return null;
               return (
                 <View key={`${step.verseId}/${step.stage}`} style={styles.step}>
-                  <Text style={[head, { fontSize: 16, flexShrink: 1 }]}>{referenceOf(verse, settings.script, english)}</Text>
+                  <Text style={[head, { fontSize: 16, flexShrink: 1 }]}>{referenceOf(verse)}</Text>
                   <Text style={[muted, { fontSize: 13 }]}>{t(kindKey(step.stage, progress, step.verseId))}</Text>
                 </View>
               );
@@ -147,11 +149,11 @@ export function CompleteScreen({
     const verseIds = [...new Set(lesson.items.map((i) => i.verseId))];
     const reviews = verseIds
       .map((id) => ({ verse: getMemoryVerse(id), days: daysUntilDue(progress[id]?.nextDueAt ?? null, date) }))
-      .filter((r): r is { verse: MemoryVerse; days: number } => r.verse !== undefined && r.days !== null)
+      .filter((r): r is { verse: LibraryVerse; days: number } => r.verse !== undefined && r.days !== null)
       .sort((a, b) => a.days - b.days)
       .map(({ verse, days }) => {
         const when = days === 0 ? t('memory.end.whenToday') : days === 1 ? t('memory.end.whenTomorrow') : t('memory.end.whenDays', { n: days });
-        return `${referenceOf(verse, settings.script, english)} ${when}`;
+        return `${referenceOf(verse)} ${when}`;
       });
     content = (
       <>

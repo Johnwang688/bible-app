@@ -23,6 +23,17 @@ export interface MemoryVerse {
 }
 
 /**
+ * A verse as the library hands it out: the Chinese row of `library/tms.ts` (typed `MemoryVerse`, which that file
+ * declares its rows as) with the English text merged in by `library/index.ts` from `library/tmsEnglish.ts`.
+ */
+export interface LibraryVerse extends MemoryVerse {
+  /** The English text (ESV, or BSB until the ESV key is set: `TMS_ENGLISH_TRANSLATION`). */
+  textEn: string;
+  /** The English phrase chunks; `chunksEn.join(' ') === textEn`. Not position-for-position with `chunks`. */
+  chunksEn: readonly string[];
+}
+
+/**
  * The stage ladder. Stages graduate monotonically:
  *   chunk_order -> fill_blank -> full_recall -> review
  * A verse with no progress row is brand new (it starts at chunk_order).

@@ -1,6 +1,6 @@
 // The voice-answer contracts for the Memory trainers (team MEM, orchestrator-owned). The recorder, the
 // transcription client and the availability gate implement these; the screens use only these types.
-import type { SpeechLanguage } from '../speech/types';
+import type { TranscribeLanguage } from '../speech/types';
 
 /** Recording stops and sends by itself at 30 s (the server takes at most 256 KB; 32 kbps is ~120 KB). */
 export const MAX_RECORDING_MS = 30_000;
@@ -82,7 +82,8 @@ export interface VoiceClientDeps {
 
 export type CheckVoice = (
   audio: Blob,
-  language: SpeechLanguage,
+  /** `english` for an English verse, else the stored Mandarin/Cantonese preference. */
+  language: TranscribeLanguage,
   deps: VoiceClientDeps,
   signal?: AbortSignal,
 ) => Promise<VoiceOutcome>;

@@ -6,17 +6,20 @@ import { StyleSheet, Text, View } from 'react-native';
 import { uiFace } from '../../../fonts/fonts';
 import { useI18n } from '../../../i18n/I18nProvider';
 import { useTheme } from '../../../theme/ThemeProvider';
-import { hintMask, recallDisplay, type RecallDisplay } from '../../display/diff';
+import { hintMask, recallDisplayFor, type RecallDisplay } from '../../display/diff';
 import { gradeStep } from '../../grading';
+import { englishReferenceForms, parseEnglishReference } from '../../speech/english';
 import { loadSpeechKeyer, MANDARIN_SYNC_KEYER, type SpeechKeyer } from '../../speech/keyer';
 import { parseSpokenReference, referenceForms, toTraditionalTitle } from '../../speech/fullRecall';
+import { verseView } from '../../verseLanguage';
 import { MemButton, MemCard, SectionLabel } from '../parts';
-import { useChineseFont } from '../useChineseFont';
+import { ScriptureNotice } from '../ScriptureNotice';
+import { useVerseFont } from '../useVerseFont';
 import { AlikeNote, DiffText, Legend } from './DiffText';
 import { useAttempt } from './hooks';
 import { TrainerIcon } from './icons';
 import { HintPassNote, Note, ResultActions, ResultHeader, type Verdict } from './ResultPanel';
-import { referenceOf, RefBlock, StepTitle, TrainerShell } from './TrainerShell';
+import { RefBlock, StepTitle, TrainerShell } from './TrainerShell';
 import type { TrainerCtx } from './types';
 import { VoicePanel } from './VoicePanel';
 
@@ -31,13 +34,11 @@ interface Result {
 export function FullRecallTrainer({ ctx }: { ctx: TrainerCtx }) {
   const theme = useTheme();
   const { t, locale } = useI18n();
-  const font = useChineseFont();
-  const { verse } = ctx;
+  const { verse, language } = ctx;
+  const font = useVerseFont(language);
+  const en = language === 'en';
   const traditional = ctx.script === 'traditional';
-  const lang = traditional ? 'zh-Hant' : 'zh-Hans';
-  const chunks = traditional ? verse.chunksHant : verse.chunks;
-  const text = traditional ? verse.textZhHant : verse.textZh;
-  const reference = referenceOf(verse, ctx.script);
+  const { chunks, text, reference, lang } = verseView(verse, language, ctx.script);
 
   const [hint, setHint] = useState<0 | 1 | 2>(0);
   const [result, setResult] = useState<Result | null>(null);
@@ -49,13 +50,14 @@ export function FullRecallTrainer({ ctx }: { ctx: TrainerCtx }) {
     const ticket = attempt.begin(signal, confirm);
     if (!ticket) return;
     try {
+      // English is graded word by word: no speech keyer to load.
       let keyer: SpeechKeyer = MANDARIN_SYNC_KEYER;
-      if (via === 'voice') keyer = await loadSpeechKeyer(ctx.settings.speech).catch(() => MANDARIN_SYNC_KEYER);
+      if (via === 'voice' && !en) keyer = await loadSpeechKeyer(ctx.settings.speech).catch(() => MANDARIN_SYNC_KEYER);
       // Cancelled, a new round, an auth change, left, or the token replaced by another session while the keyer
       // loaded: the answer no longer belongs to the attempt on screen (a voice answer re-reads the token here).
       if (!(await ticket.confirm())) return;
-      const verdict = gradeStep(verse.id, 'full-recall', { kind: 'recall', transcript }, keyer);
-      const display = recallDisplay(transcript, verse, keyer, ctx.script);
+      const verdict = gradeStep(verse.id, 'full-recall', { kind: 'recall', transcript }, keyer, language);
+      const display = recallDisplayFor(language, transcript, verse, keyer, ctx.script);
       // A hint or a peek is shown, never recorded: the step only counts when it passes without one. Hint use is read
       // now, so a hint opened while recording or while this answer was graded counts.
       const hinted = attempt.hinted();
@@ -90,8 +92,8 @@ export function FullRecallTrainer({ ctx }: { ctx: TrainerCtx }) {
     setRound((r) => r + 1);
   };
 
-  const topic = locale === 'en' ? `${verse.topicZh} · ${verse.topicEn}` : verse.topicZh;
-  const forms = referenceForms(verse.referenceZh, reference, traditional) ?? [reference];
+  const topic = en ? verse.topicEn : locale === 'en' ? `${verse.topicZh} · ${verse.topicEn}` : verse.topicZh;
+  const forms = (en ? englishReferenceForms(verse.referenceEn) : referenceForms(verse.referenceZh, reference, traditional)) ?? [reference];
 
   /** How the reference fared, in a few words (it is also read out with the verdict). */
   const referenceHead = (display: RecallDisplay): string =>
@@ -105,6 +107,17 @@ export function FullRecallTrainer({ ctx }: { ctx: TrainerCtx }) {
       line = t('memory.recall.heardOk', { heard: display.heardReference ?? '', ref: reference });
     } else if (status === 'missing') {
       line = t('memory.recall.heardNone');
+    } else if (en) {
+      // `Book c:v`: the book is everything before the last space.
+      const expected = parseEnglishReference(verse.referenceEn);
+      const heard = display.heardReference === null ? null : parseEnglishReference(display.heardReference);
+      const heardText = display.heardReference ?? '';
+      const cut = verse.referenceEn.lastIndexOf(' ');
+      if (expected && heard && heard.book === expected.book) {
+        line = t('memory.recall.heardChapter', { heard: heardText, ref: verse.referenceEn.slice(cut + 1) });
+      } else {
+        line = t('memory.recall.heardBook', { heard: heardText, book: verse.referenceEn.slice(0, cut) });
+      }
     } else {
       const expected = parseSpokenReference(verse.referenceZh);
       const heard = display.heardReference === null ? null : parseSpokenReference(display.heardReference);
@@ -125,7 +138,7 @@ export function FullRecallTrainer({ ctx }: { ctx: TrainerCtx }) {
             <Text style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 13, flexShrink: 1 }}>{head}</Text>
           </View>
         </View>
-        <Text {...({ lang: 'zh-Hans' } as object)} style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14, lineHeight: 21 }}>
+        <Text {...({ lang: en ? 'en' : 'zh-Hans' } as object)} style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14, lineHeight: 21 }}>
           {line}
         </Text>
       </MemCard>
@@ -144,15 +157,16 @@ export function FullRecallTrainer({ ctx }: { ctx: TrainerCtx }) {
     body = (
       <>
         <ResultHeader verdict={result.verdict} pct={`${result.pct}%`} detail={referenceHead(result.display)} />
-        <RefBlock verse={verse} script={ctx.script} />
+        <RefBlock verse={verse} script={ctx.script} language={language} />
         <MemCard>
           <SectionLabel>{t('memory.recall.verse')}</SectionLabel>
-          <DiffText diff={result.display.body} font={font} size={21} lang={lang} />
+          <DiffText diff={result.display.body} font={font} size={21} lang={lang} language={language} />
         </MemCard>
+        <ScriptureNotice language={language} />
         {refCard(result.display)}
         {result.verdict === 'hint-pass' ? <HintPassNote /> : null}
-        <Legend />
-        <AlikeNote ops={result.display.body.ops} />
+        <Legend language={language} />
+        <AlikeNote ops={result.display.body.ops} language={language} />
         <Note>{t('memory.res.needsBoth')}</Note>
       </>
     );
@@ -190,7 +204,7 @@ export function FullRecallTrainer({ ctx }: { ctx: TrainerCtx }) {
               {...({ lang } as object)}
               style={{ color: theme.canvas.c1t ?? theme.colors.text, fontFamily: font, fontSize: 21, lineHeight: 36, letterSpacing: 1 }}
             >
-              {hintMask(text, chunks)}
+              {hintMask(text, chunks, language)}
             </Text>
           </MemCard>
         ) : null}
@@ -203,9 +217,10 @@ export function FullRecallTrainer({ ctx }: { ctx: TrainerCtx }) {
             >
               {text}
             </Text>
-            <RefBlock verse={verse} script={ctx.script} />
+            <RefBlock verse={verse} script={ctx.script} language={language} />
           </MemCard>
         ) : null}
+        <ScriptureNotice language={language} />
         {hint > 0 ? <Note>{t('memory.hint.note')}</Note> : null}
         <View style={styles.hintRow}>
           <MemButton
