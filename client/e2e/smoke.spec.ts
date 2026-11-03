@@ -1,6 +1,8 @@
 // Web smoke tests for R-0: the four empty tabs, both languages, the default looks and a stored look.
 import { expect, test, type Page } from '@playwright/test';
 
+import { mockApi } from './helpers';
+
 const rgb = (hex: string) => {
   const n = parseInt(hex.slice(1), 16);
   return `rgb(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255})`;
@@ -16,6 +18,15 @@ async function seed(page: Page, key: string, v: number, data: unknown) {
     JSON.stringify({ v, data }),
   ] as const);
 }
+
+// The API is mocked here as in every other spec (GAPS, board 11-03). Unmocked, this suite depended on whatever
+// answered at the build's API origin (localhost:8000, then the production backend until #40, now a dead port),
+// and the reader waited out its retries or a real backend's replies; under a full parallel run that was the smoke
+// timeouts. Any endpoint the mock does not know answers 404 at once (no retries).
+test.beforeEach(async ({ page }) => {
+  await page.route('**/api/**', (route) => route.fulfill({ status: 404, json: { detail: 'not mocked' } }));
+  await mockApi(page);
+});
 
 async function screenBackground(page: Page, testId: string) {
   return page.getByTestId(testId).evaluate((el) => getComputedStyle(el).backgroundColor);
@@ -38,12 +49,8 @@ test.describe('English, light phone', () => {
     for (const [tab, screen, title] of tabs) {
       await page.getByTestId(tab).click();
       await expect(page.getByTestId(screen)).toBeVisible();
-      // Since R-1 the Bible tab is the reader. This suite has no backend, so the reader shows its
-      // load error (after the query client's retries) unless a header has loaded.
-      if (screen === 'screen-bible')
-        await expect(page.getByTestId('reader-error').or(page.getByTestId('reader-book-button')).first()).toBeVisible({
-          timeout: 15_000,
-        });
+      // Since R-1 the Bible tab is the reader; with the API mocked its header loads at once.
+      if (screen === 'screen-bible') await expect(page.getByTestId('reader-book-button')).toBeVisible();
       else if (screen === 'screen-home') await expect(page.getByTestId('home-greeting')).toBeVisible();
       else await expect(page.getByRole('heading', { name: title })).toBeVisible();
     }

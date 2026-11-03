@@ -5,9 +5,9 @@ import { mockApi } from './helpers';
 
 test.use({ locale: 'en-US' });
 
-// Known gap after the 11-02 merges (passed on R-4's branch alone): another screen's Escape handling now also
-// closes the goal sheet. The R-4 Escape follow-up (GAPS team, board-2026-11-03) owns it.
-test.fixme('window-captured Escape dismisses only the upper modal', async ({ page }) => {
+// Failed after the 11-02 merges (it had passed on R-4's branch only by timing): the goal sheet's Modal closed on the
+// Escape keyup that the upper modal had not consumed. Fixed by the shared Escape stack (GAPS, board 11-03).
+test('window-captured Escape dismisses only the upper modal', async ({ page }) => {
   await mockApi(page);
   await page.clock.install({ time: new Date(2026, 10, 4, 9) });
   await page.goto('/');

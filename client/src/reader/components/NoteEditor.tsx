@@ -1,5 +1,7 @@
 // The note editor: a sub-view of the verse sheet. It is bound to the verse it opened for (the first verse of
 // the selection then); the sheet saves to that verse even if the selection changes while it is open.
+// Every change is reported (`onDraft`), so the sheet can keep the unsaved text when it closes under the editor
+// (a chapter change); opened again with that draft, the editor starts from it and says so.
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
@@ -14,6 +16,8 @@ import { buttonStyle } from './ui';
 export function NoteEditor({
   reference,
   initial,
+  draft,
+  onDraft,
   onBack,
   onClose,
   onSave,
@@ -23,6 +27,10 @@ export function NoteEditor({
   reference: string;
   /** The saved note, or null. */
   initial: string | null;
+  /** Unsaved text kept from an earlier visit; the editor starts from it instead of the saved note. */
+  draft?: string;
+  /** The text after each change. */
+  onDraft?(text: string): void;
   onBack(): void;
   onClose(): void;
   onSave(text: string): void;
@@ -30,7 +38,13 @@ export function NoteEditor({
 }) {
   const theme = useTheme();
   const t = useT();
-  const [text, setText] = useState(initial ?? '');
+  const [text, setText] = useState(draft ?? initial ?? '');
+  // Fixed for this visit: the hint says the editor opened on a draft.
+  const [restored] = useState(draft !== undefined);
+  const change = (value: string) => {
+    setText(value);
+    onDraft?.(value);
+  };
   const titleRef = useFocusOnMount();
   const tooLong = text.length > NOTE_MAX_LENGTH;
   const bold = uiFace(theme.type.ui, '700');
@@ -56,7 +70,7 @@ export function NoteEditor({
       <TextInput
         testID="note-input"
         value={text}
-        onChangeText={setText}
+        onChangeText={change}
         multiline
         placeholder={t('note.placeholder')}
         placeholderTextColor={theme.colors.muted}
@@ -64,6 +78,11 @@ export function NoteEditor({
         textAlignVertical="top"
         style={[styles.input, buttonStyle(theme), { borderRadius: theme.radii.card, color: theme.colors.btnText, fontFamily: uiFace(theme.type.ui, '400') }]}
       />
+      {restored ? (
+        <Text testID="note-draft" style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14 }}>
+          {t('note.draftRestored')}
+        </Text>
+      ) : null}
       {tooLong ? (
         <Text accessibilityRole="alert" style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14 }}>
           {t('note.tooLong', { max: NOTE_MAX_LENGTH })}
