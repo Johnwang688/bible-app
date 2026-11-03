@@ -327,6 +327,88 @@ test.describe('verse sheet (R-2)', () => {
     await page.keyboard.press('Enter');
     await expect(page.getByTestId('verse-sheet')).toBeVisible();
   });
+
+  // GAPS (board 11-03): the flaky "restores the words list scroll" tests. React Native Web's ScrollView reports a
+  // scroll's end 100 ms later, from a timer it never clears; a word opened inside that window got the detached
+  // list's offset (0) as the place to come back to. The clock holds that timer until the word card is open.
+  test('GAPS: a word opened right after a scroll still comes back to the same place', async ({ page }) => {
+    await page.clock.install();
+    await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
+    await page.route('**/api/v1/words/**', route => {
+      const data = body('words_john3_16');
+      const template = data.words.find((w: { strongs: string }) => w.strongs === 'G0025');
+      return route.fulfill({ json: { ...data, words: Array.from({ length: 80 }, (_, i) => ({
+        ...template, english_order: i + 1, english: 'phrase ' + (i + 1), english_kind: 'text',
+      })) } });
+    });
+    await page.goto('/bible');
+    await page.getByTestId('verse-16-tools').click();
+    await page.getByTestId('sheet-original-words').click();
+    const row = page.getByTestId('word-row-40');
+    await row.scrollIntoViewIfNeeded();
+    const scrollTop = () => page.getByTestId('words-list').evaluate(el => {
+      const nodes = [el, ...el.querySelectorAll('*')];
+      const scroller = nodes.find(n => n.scrollHeight > n.clientHeight + 50 && getComputedStyle(n).overflowY === 'auto');
+      return scroller!.scrollTop;
+    });
+    const before = await scrollTop();
+    expect(before).toBeGreaterThan(0);
+    await row.click();
+    await expect(page.getByTestId('word-card')).toBeVisible();
+    await page.clock.runFor(500); // the list's late scroll-end report fires now, with the list gone
+    await page.getByTestId('word-back').click();
+    await expect(page.getByTestId('words-list')).toBeVisible();
+    await page.clock.runFor(50);
+    await expect.poll(scrollTop).toBe(before);
+    await expect(row).toBeFocused();
+  });
+
+  // GAPS (board 11-03), the R-2 gap: a chapter change while a note is half-written keeps the draft.
+  test('GAPS: a chapter change keeps the unsaved note; it comes back on that verse until saved', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
+    await page.goto('/bible');
+    await page.getByTestId('verse-16-tools').click();
+    await page.getByTestId('sheet-note').click();
+    await page.getByTestId('note-input').fill('Half a thou');
+
+    const goToChapter = async (chapter: number) => {
+      if (await page.getByTestId('reader-show-controls').count()) await page.getByTestId('reader-show-controls').click();
+      await page.getByTestId('reader-book-button').click();
+      await page.getByTestId(`picker-chapter-${chapter}`).click();
+      await expect(page.getByTestId('reader-book-button')).toContainText(`John ${chapter}`);
+    };
+    await goToChapter(4);
+    await expect(page.getByTestId('verse-sheet')).toHaveCount(0);
+    await goToChapter(3);
+
+    await page.getByTestId('verse-16-tools').click();
+    await page.getByTestId('sheet-note').click();
+    await expect(page.getByTestId('note-input')).toHaveValue('Half a thou');
+    await expect(page.getByTestId('note-draft')).toBeVisible();
+    await page.getByTestId('note-input').fill('Half a thought, finished');
+    await page.getByTestId('note-save').click();
+
+    await page.getByTestId('sheet-note').click();
+    await expect(page.getByTestId('note-input')).toHaveValue('Half a thought, finished');
+    await expect(page.getByTestId('note-draft')).toHaveCount(0);
+  });
+
+  // GAPS (board 11-03): Escape is one shared stack now, heard from inside the note field too. It steps back to the
+  // actions (one layer), and the typing is kept as the draft.
+  test('GAPS: Escape in the note field steps back one view and keeps the draft', async ({ page }) => {
+    await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
+    await page.goto('/bible');
+    await page.getByTestId('verse-16-tools').click();
+    await page.getByTestId('sheet-note').click();
+    await page.getByTestId('note-input').fill('Typed');
+    await page.getByTestId('note-input').focus();
+    await page.keyboard.press('Escape');
+    await expect(page.getByTestId('note-editor')).toHaveCount(0);
+    await expect(page.getByTestId('verse-sheet')).toBeVisible();
+    await page.getByTestId('sheet-note').click();
+    await expect(page.getByTestId('note-input')).toHaveValue('Typed');
+  });
 });
 
 test.describe('verse sheet labels at 150% display scale (John’s setting)', () => {

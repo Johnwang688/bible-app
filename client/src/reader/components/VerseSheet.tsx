@@ -1,13 +1,15 @@
 // The verse sheet (the bottom of Reader.dc.html): acts on the selected verses. Its actions view holds
 // the highlight swatches and the note, bookmark, copy, share and Original words actions; the note
 // editor, the word list, the word card and the commentary are views inside the same sheet.
-// Closing the sheet discards the view, so reopening always starts on the actions.
+// Closing the sheet discards the view, so reopening always starts on the actions. An unsaved note is kept per
+// verse (`../noteDrafts`) until it is saved or deleted, so a chapter change under the editor loses no typing.
 import * as Clipboard from 'expo-clipboard';
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { BackHandler, Platform, Pressable, Share, StyleSheet, Text, View } from 'react-native';
 
 import type { BookInfo, ChapterOut } from '../../api/schemas';
 import { CommentaryView } from '../../commentary/CommentaryView';
+import { useEscapeKey } from '../../components/escapeStack';
 import { uiFace } from '../../fonts/fonts';
 import { useT } from '../../i18n/I18nProvider';
 import type { VerseRef } from '../../storage/keys';
@@ -15,12 +17,14 @@ import { formatReference, shareText, type StudyItemsApi } from '../../study';
 import { HIGHLIGHT_IDS, HIGHLIGHTS, type HighlightId } from '../../theme/highlights';
 import { useTheme } from '../../theme/ThemeProvider';
 import { bookName } from '../books';
+import { clearNoteDraft, keepNoteDraft, noteDraftOf } from '../noteDrafts';
 import { isChineseTranslation, TRANSLATIONS, type TranslationId } from '../translations';
 import type { WordRow } from '../words';
 import { announce, programmaticFocus, useFocusOnMount } from './a11y';
 import { Icon, type IconName } from './icons';
 import { NoteEditor } from './NoteEditor';
 import { SheetModal } from './SheetModal';
+import { useTabFocused } from './useTabFocused';
 import { RoundIconButton, SheetFrame } from './sheetParts';
 import { buttonStyle } from './ui';
 import { WordCard } from './WordCard';
@@ -98,24 +102,18 @@ export function VerseSheet({ book, chapter, translation, start, end, study, onCl
     }
   };
 
-  // The sheet is not a Modal (the chapter stays usable above it), so it listens for Escape (web) and the
-  // hardware back button (Android) itself, but only while it is the topmost sheet. The ref is set in the
-  // layout phase, in the same commit that opens or closes a covering sheet, before another key can arrive.
+  // The sheet is not a Modal (the chapter stays usable above it), so it takes Escape (web) and the hardware back
+  // button (Android) itself, but only while it is the topmost sheet and its tab is the one showing. Escape goes
+  // through the shared Escape stack: a sheet or screen opened above this one takes the press first. The ref is set
+  // in the layout phase, in the same commit that opens or closes a covering sheet, before another key can arrive.
+  const focused = useTabFocused();
+  useEscapeKey(back, { enabled: !covered && focused });
   const latest = useRef({ back, covered });
   useLayoutEffect(() => {
     latest.current = { back, covered };
   });
   useEffect(() => {
-    if (Platform.OS === 'web') {
-      if (typeof document === 'undefined') return;
-      const onKeyDown = (e: KeyboardEvent) => {
-        if (e.key !== 'Escape' || e.repeat || latest.current.covered) return;
-        e.preventDefault();
-        latest.current.back();
-      };
-      document.addEventListener('keydown', onKeyDown);
-      return () => document.removeEventListener('keydown', onKeyDown);
-    }
+    if (Platform.OS === 'web') return;
     const sub = BackHandler.addEventListener('hardwareBackPress', () => {
       // Covered: not handled here, so the topmost sheet (or the system) gets the press.
       if (latest.current.covered) return false;
@@ -164,18 +162,21 @@ export function VerseSheet({ book, chapter, translation, start, end, study, onCl
   };
 
   // Saving and deleting write to the verse the editor is bound to, never to the live selection.
+  // Both clear the verse's unsaved draft (`noteDrafts`); a failed save keeps it.
   const saveNote = (verse: number, value: string) => {
     try {
       study.setNote(refOf(verse), value);
     } catch {
       return; // over the limit: the editor already says so and keeps the old note
     }
+    clearNoteDraft(refOf(verse));
     announce(t('note.saved'));
     setView({ name: 'actions' });
   };
 
   const deleteNote = (verse: number) => {
     study.setNote(refOf(verse), '');
+    clearNoteDraft(refOf(verse));
     setView({ name: 'actions' });
   };
 
@@ -183,10 +184,13 @@ export function VerseSheet({ book, chapter, translation, start, end, study, onCl
   switch (view.name) {
     case 'note': {
       const verse = view.verse;
+      const saved = study.noteOf(refOf(verse))?.text ?? null;
       content = (
         <NoteEditor
           reference={referenceOf(verse)}
-          initial={study.noteOf(refOf(verse))?.text ?? null}
+          initial={saved}
+          draft={noteDraftOf(refOf(verse))}
+          onDraft={(text) => keepNoteDraft(refOf(verse), text, study.noteOf(refOf(verse))?.text ?? null)}
           onBack={back}
           onClose={onClose}
           onSave={(value) => saveNote(verse, value)}

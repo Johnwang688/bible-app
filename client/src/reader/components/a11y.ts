@@ -13,12 +13,15 @@ export function announce(message: string): void {
   }
 }
 
-/** Moves screen-reader (and, on the web, keyboard) focus to a rendered node. */
-export function focusNode(node: unknown): void {
+/**
+ * Moves screen-reader (and, on the web, keyboard) focus to a rendered node. `preventScroll` (web): the browser
+ * does not scroll the node into view, for a caller that has just put the scroll where it belongs.
+ */
+export function focusNode(node: unknown, { preventScroll = false }: { preventScroll?: boolean } = {}): void {
   if (!node) return;
   try {
     if (Platform.OS === 'web') {
-      (node as { focus?: () => void }).focus?.();
+      (node as { focus?: (options?: { preventScroll?: boolean }) => void }).focus?.(preventScroll ? { preventScroll } : undefined);
       return;
     }
     const tag = findNodeHandle(node as never);

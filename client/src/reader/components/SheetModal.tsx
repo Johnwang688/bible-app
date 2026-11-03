@@ -1,16 +1,21 @@
 // The bottom-sheet frame shared by the book picker, the version picker, the reading settings and the verse
 // sheet: a transparent Modal, the scrim, then the sheet with its grabber (Picker.dc.html). The verse sheet
 // opts out of the Modal and the scrim (`modal={false}`): the chapter stays usable above it.
+// Escape on the web goes through the shared Escape stack (`components/escapeStack`), not the Modal's own keyup
+// handler, so a press closes only the topmost layer.
 import type { ReactNode } from 'react';
 import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { useEscapeKey } from '../../components/escapeStack';
 import { GlassSurface } from '../../components/GlassSurface';
 import { SCRIM } from '../../theme/overlays';
 import { useTheme } from '../../theme/ThemeProvider';
 import { useReduceMotion } from './useReduceMotion';
 
 export const SHEET_MAX_WIDTH = 560;
+/** The web Modal's own Escape (on keyup) is ignored: the Escape stack handles the keydown. */
+const ignoreRequestClose = () => {};
 /** Space kept between a capped sheet and the top safe area. */
 const SHEET_TOP_GAP = 10;
 /** A non-modal sheet takes at most this share of the window, so the chapter stays in view above it. */
@@ -29,7 +34,7 @@ export function SheetModal({
 }: {
   testID: string;
   onClose(): void;
-  /** Escape and the Android back button; defaults to `onClose`. A sheet with sub-views steps back here. */
+  /** Escape (web, via the Escape stack) and the Android back button; defaults to `onClose`. A sheet with sub-views steps back here. */
   onRequestClose?(): void;
   /** Lift the sheet above the on-screen keyboard (a sheet with a text field). */
   avoidKeyboard?: boolean;
@@ -51,6 +56,10 @@ export function SheetModal({
   const { height: windowHeight } = useWindowDimensions();
   const reduceMotion = useReduceMotion();
   const radius = theme.radii.sheet;
+  // A modal sheet is a layer of the Escape stack, found by its test ID inside its Modal. On the web the Modal gets
+  // no Escape handler of its own (it would act on the keyup, after the stack has handled the keydown).
+  const requestClose = onRequestClose ?? onClose;
+  useEscapeKey(requestClose, { enabled: modal, modalTestID: modal ? testID : null });
   const border = theme.borders.sheet;
 
   const sheet = (
@@ -109,7 +118,7 @@ export function SheetModal({
       visible
       statusBarTranslucent
       animationType={reduceMotion ? 'none' : 'slide'}
-      onRequestClose={onRequestClose ?? onClose}
+      onRequestClose={Platform.OS === 'web' ? ignoreRequestClose : requestClose}
     >
       <KeyboardAvoidingView
         enabled={avoidKeyboard}

@@ -437,6 +437,7 @@ export const zhHans: Record<MessageKey, string> = {
   'note.back': '返回经文',
   'note.saved': '笔记已保存',
   'note.tooLong': '笔记最多 {max} 个字。',
+  'note.draftRestored': '已恢复未保存的修改。保存后才会保留。',
   'words.title': '原文',
   'words.greek': '希腊文',
   'words.hebrew': '希伯来文',

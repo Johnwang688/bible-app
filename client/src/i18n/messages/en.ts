@@ -436,6 +436,7 @@ export const en = {
   'note.back': 'Back to the verse',
   'note.saved': 'Note saved',
   'note.tooLong': 'Notes can be up to {max} characters.',
+  'note.draftRestored': 'Your unsaved changes are back. Save to keep them.',
   'words.title': 'Original words',
   'words.greek': 'Greek',
   'words.hebrew': 'Hebrew',
