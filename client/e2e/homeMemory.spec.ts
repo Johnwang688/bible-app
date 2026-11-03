@@ -66,6 +66,7 @@ test.describe('Home: the Memory card (English)', () => {
 
   test('the card is one control: its button is hidden from screen readers', async ({ page }) => {
     await seed(page, 'memory.lesson', lesson(0));
+    await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
     await page.goto('/');
     await expect(page.getByTestId('home-memory')).toBeVisible();
     await expect(page.getByTestId('home-memory').getByRole('button')).toHaveCount(0);
@@ -98,6 +99,10 @@ for (const [lang, locale, translation] of [
         await seed(page, 'appearance', { preset, mode: 'system' });
         await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation });
         await seed(page, 'memory.lesson', lesson(1));
+        // The design's state: a morning, a reader with a streak (the chip reads "1 day streak").
+        await seed(page, 'reading.progress', {
+          goalMinutes: 10, activeMs: {}, goalMetDays: ['2026-11-03'], chaptersRead: {}, evidence: { day: '', chapters: {} },
+        });
         await page.goto('/');
         await expectAllAboveTabBar(page);
       });

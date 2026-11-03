@@ -248,5 +248,5 @@ export function HomeScreen({
 
 const styles = StyleSheet.create({
   fill: { flex: 1 },
-  content: { paddingHorizontal: 20, gap: 14 },
+  content: { paddingHorizontal: 16, gap: 14 },
 });
