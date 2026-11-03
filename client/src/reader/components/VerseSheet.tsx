@@ -184,13 +184,13 @@ export function VerseSheet({ book, chapter, translation, start, end, study, onCl
   switch (view.name) {
     case 'note': {
       const verse = view.verse;
-      const saved = study.noteOf(refOf(verse))?.text ?? null;
+      const saved = study.noteOf(refOf(verse));
       content = (
         <NoteEditor
           reference={referenceOf(verse)}
-          initial={saved}
+          initial={saved?.text ?? null}
           draft={noteDraftOf(refOf(verse), saved)}
-          onDraft={(text) => keepNoteDraft(refOf(verse), text, study.noteOf(refOf(verse))?.text ?? null)}
+          onDraft={(text) => keepNoteDraft(refOf(verse), text, study.noteOf(refOf(verse)))}
           onBack={back}
           onClose={onClose}
           onSave={(value) => saveNote(verse, value)}

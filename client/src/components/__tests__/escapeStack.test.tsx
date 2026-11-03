@@ -38,7 +38,8 @@ class FakeElement {
 let page: FakeElement[] = [];
 const listeners = new Map<string, Set<(e: KeyboardEvent) => void>>();
 
-const fakeDocument = {
+/** A new fake document per test, as a page load would give (the stack drops listeners left on an old one). */
+const makeDocument = () => ({
   addEventListener: jest.fn((type: string, fn: (e: KeyboardEvent) => void, capture?: boolean) => {
     expect(capture).toBe(true);
     if (!listeners.has(type)) listeners.set(type, new Set());
@@ -46,7 +47,7 @@ const fakeDocument = {
   }),
   removeEventListener: jest.fn((type: string, fn: (e: KeyboardEvent) => void) => listeners.get(type)?.delete(fn)),
   querySelectorAll: () => page.filter((el) => el.modal),
-};
+});
 
 let os: { restore(): void };
 let previousDocument: PropertyDescriptor | undefined;
@@ -57,7 +58,7 @@ beforeEach(() => {
   os = jest.replaceProperty(Platform, 'OS', 'web');
   previousDocument = Object.getOwnPropertyDescriptor(globalThis, 'document');
   previousElement = Object.getOwnPropertyDescriptor(globalThis, 'Element');
-  Object.defineProperty(globalThis, 'document', { configurable: true, value: fakeDocument });
+  Object.defineProperty(globalThis, 'document', { configurable: true, value: makeDocument() });
   Object.defineProperty(globalThis, 'Element', { configurable: true, value: FakeElement });
 });
 afterEach(() => {

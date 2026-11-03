@@ -39,8 +39,9 @@ interface Layer {
 const layers: Layer[] = [];
 let nextOrder = 0;
 let swallowKeyup = false;
-/** The document the listeners are on, while any layer is registered. */
+/** The document the listeners are on: while any layer is registered, and keyup until a swallowed keyup is in. */
 let listeningOn: Document | null = null;
+let keydownOn = false;
 
 const MODAL_SELECTOR = '[aria-modal="true"], dialog';
 
@@ -122,22 +123,43 @@ function onKeyUp(event: KeyboardEvent) {
   if (event.key !== 'Escape' || !swallowKeyup) return;
   swallowKeyup = false;
   event.stopImmediatePropagation();
+  unlistenIfEmpty();
+}
+
+function stopListening() {
+  if (!listeningOn) return;
+  if (keydownOn) listeningOn.removeEventListener('keydown', onKeyDown, true);
+  listeningOn.removeEventListener('keyup', onKeyUp, true);
+  listeningOn = null;
+  keydownOn = false;
+  swallowKeyup = false;
 }
 
 function listen() {
-  if (listeningOn) return;
-  listeningOn = document;
-  listeningOn.addEventListener('keydown', onKeyDown, true);
-  listeningOn.addEventListener('keyup', onKeyUp, true);
+  // Listeners left on another document (a test's fake one) are dropped first.
+  if (listeningOn && listeningOn !== document) stopListening();
+  if (!listeningOn) {
+    listeningOn = document;
+    listeningOn.addEventListener('keyup', onKeyUp, true);
+  }
+  if (!keydownOn) {
+    listeningOn.addEventListener('keydown', onKeyDown, true);
+    keydownOn = true;
+  }
 }
 
-/** With no layer left, nothing listens (and a later layer listens on the document of its own time). */
+/**
+ * With no layer left, nothing listens (and a later layer listens on the document of its own time). Except: when the
+ * last layer closed on a press, the keyup listener stays until that press's keyup is swallowed, or a modal outside
+ * the stack under it would act on it too.
+ */
 function unlistenIfEmpty() {
   if (layers.length > 0 || !listeningOn) return;
-  listeningOn.removeEventListener('keydown', onKeyDown, true);
-  listeningOn.removeEventListener('keyup', onKeyUp, true);
-  listeningOn = null;
-  swallowKeyup = false;
+  if (keydownOn) {
+    listeningOn.removeEventListener('keydown', onKeyDown, true);
+    keydownOn = false;
+  }
+  if (!swallowKeyup) stopListening();
 }
 
 /**
