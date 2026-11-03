@@ -8,7 +8,7 @@
 //   users/{uid}/memory/{deviceId}      one device's Memory progress and history (MemoryDoc); each device
 //                                      writes only its own, every device merges them all (a join)
 // Every document also carries `serverTime`, set by the server (request.time) on each write; pulls of
-// items are incremental on it. The client never deletes documents: a deleted study item is a
+// items and of Memory documents are incremental on it. The client never deletes documents: a deleted study item is a
 // tombstone (`deleted: true`, `value: null`). Only the backend's "delete my data" removes documents.
 import type { ProgressMap } from '../memory/types';
 import type { MemoryHistory } from '../storage/memoryKeys';
@@ -73,6 +73,12 @@ export interface MemoryDoc {
   updatedAt: number;
 }
 
+/**
+ * A Memory pull (RemoteStore.pullMemory): the documents that decoded, as a plain array, and the cursor
+ * the next incremental pull starts from (a non-enumerable property: domains/memory.ts memoryPull).
+ */
+export type MemoryPull = MemoryDoc[] & { readonly cursor: number | null };
+
 /** The synced settings: the storage keys (storage/*.ts `key`) whose whole value syncs. */
 export type SettingKey = 'appearance' | 'appearance.custom' | 'language';
 export const SETTING_KEYS: readonly SettingKey[] = ['appearance', 'appearance.custom', 'language'];
@@ -122,11 +128,17 @@ export interface RemoteStore {
   /** Writes the settings (each replaces the document with its key). Resolves and rejects as pushItems; `held` holds setting keys. */
   pushSettings(settings: readonly RemoteSetting[]): Promise<{ held: readonly string[] }>;
   /**
-   * Every device's Memory document, this device's included. Optional only so that test doubles written
-   * before Memory synced (outside sync/) still type-check: the engine syncs Memory only when its domain
-   * is set and the remote has both Memory methods. Both real remotes have them.
+   * Memory documents, this device's included. With `since` null or absent, a full pull: the most recently
+   * written ones (by `serverTime`), newest first. With `since` (server ms), an incremental pull: those
+   * written after it, oldest first, so a pull that stops at its bounds skips nothing. Either reads at most
+   * MEMORY_PULL_MAX documents and MEMORY_PULL_CHARS_MAX characters (domains/memory.ts). The result's
+   * `cursor` is the largest `serverTime` it read, documents that did not decode included (or `since` when
+   * it read none; null only when both are absent): an incremental pull from it returns exactly the
+   * documents written since this one's last. Optional only so that test doubles written before Memory
+   * synced (outside sync/) still type-check: the engine syncs Memory only when its domain is set and the
+   * remote has both Memory methods. Both real remotes have them.
    */
-  pullMemory?(): Promise<MemoryDoc[]>;
+  pullMemory?(since?: number | null): Promise<MemoryPull>;
   /** Replaces this device's Memory document. */
   pushMemory?(doc: MemoryDoc): Promise<void>;
 }

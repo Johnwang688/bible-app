@@ -225,19 +225,21 @@ service cloud.firestore {
         + ',(' + isoRe() + ')?,(' + isoRe() + ')?,(' + isoRe() + ')?';
     }
 
-    // The progress string: at most 2000 rows (four times the ~500 verses of future libraries), ';'-separated.
-    // The client writes rows of at most 171 characters (a 64-character verse id, the storage cap; an
-    // 11-character stage; two 7-digit counts; a 3-digit mastery; three 24-character times; 7 commas), so
-    // 2000 rows are at most 2000 * 172 - 1 = 343999 characters, the bound here. The size is bounded before
+    // The progress string: at most 600 rows (the ~500 verses of future libraries plus a fifth; 60 today),
+    // ';'-separated. Every device reads documents of this kind on its syncs, so the bound is also what one
+    // document can cost them (domains/memory.ts MEMORY_ROWS_MAX, MEMORY_PULL_CHARS_MAX). The client writes
+    // rows of at most 171 characters (a 64-character verse id, the storage cap; an 11-character stage; two
+    // 7-digit counts; a 3-digit mastery; three 24-character times; 7 commas), so 600 rows are at most
+    // 600 * 172 - 1 = 103199 characters, the bound here. The size is bounded before
     // the regex runs (as isActiveMs). These rules do not cap a single verse id at 64 (RE2 has no lookahead),
     // and dayRe takes a day such as 2026-02-31: the client drops such a document whole when it reads it
     // (domains/memory.ts decodeMemoryProgress). Pulled Memory is untrusted on the client in any case
-    // (CONFLICTS.md rule 24: far-future times and days, unknown verses, the pull limit).
+    // (CONFLICTS.md rules 24-25: far-future times and days, unknown verses, the pull limits).
     function isMemoryProgress(s) {
       return s is string
-        && s.size() <= 343999
+        && s.size() <= 103199
         && s.matches(listRe(memoryRowRe()))
-        && s.split(';').size() <= 2000;
+        && s.split(';').size() <= 600;
     }
 
     function isDayOrNull(d) {

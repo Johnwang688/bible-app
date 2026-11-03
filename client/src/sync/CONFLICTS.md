@@ -63,23 +63,47 @@ When signed in, the sync engine (`engine.ts`) merges the device with the account
 24. **Pulled Memory is untrusted.** Anyone holding the user's sign-in token can write any number of
     documents the rules accept, and no client can delete them. So, before the merge, a device ignores:
     - a row whose `lastReviewedAt` or `lapsedAt` is **more than one day ahead of its own clock** (the
-      one-day slack the rules give `updatedAt`). `nextDueAt` is a schedule, ahead by design, and is
-      not bounded beyond the schema;
+      one-day slack the rules give `updatedAt`);
+    - a row whose `nextDueAt` is **more than 18 days after its `lastReviewedAt`**: the longest interval
+      the scheduler gives (16 days, `memory/schedule.ts` `reviewIntervalDays`; the bound is derived from
+      it) plus two days for the end-of-day stamp (up to 36 hours after the review) and a DST hour. A row
+      never reviewed may be due at most 18 days after the device's clock. A far-later date would take the
+      verse out of the review schedule for good: a pass on a verse that is not yet due keeps its date;
     - a completed day, or a start, **more than one day after its local today**;
     - a row of a **verse its library does not know** (the 60 TMS verses today). This is what bounds
       local Memory progress.
 
     Each check covers one row or one day and depends only on the clock and the library, so the merge
     stays a join over what is accepted. A row skipped while this device's clock lags is joined on a
-    later sync: the documents stay on the account. **A device never publishes such a row or day
-    either.** Its push holds back rows reviewed or lapsed more than 23 hours ahead of its clock, and
-    days after its local tomorrow. A held-back row goes out once real time reaches it. The merged
-    progress keeps **at most 2000 rows**, the highest by rule 18–19's order. This backstop is still a
-    join. A device reads **at most the 50 Memory documents written most recently** (by server time).
-    That covers a person's real devices and reinstalls with room, and an old document's values are
-    already merged into newer documents. **A Memory write that fails** (web storage full) does not stop
+    later full pull (rule 25): the documents stay on the account. **A device never publishes such a
+    row or day either.** Its push holds back rows reviewed or lapsed more than 23 hours ahead of its
+    clock, rows due past the 18-day bound, and days after its local tomorrow. A held-back row goes out
+    once real time reaches it. A document carries **at most 600 rows** (the ~500 verses of future
+    libraries plus a fifth; the rules refuse more, at most 103 199 characters), and the merged progress
+    keeps at most 600 too, the highest by rule 18–19's order. This backstop is still a join. **One pull
+    reads at most 50 documents and at most about 1.5 MB** (it asks for no more documents than fit in
+    what is left, each counted at the rules' largest), so a crowd of documents written once costs a
+    device at most that, once (rule 25). **A Memory write that fails** (web storage full) does not stop
     study items, settings or reading progress: they still save and upload in that sync. The sync then
-    reports the error and Memory retries on the next one.
+    reports the error and Memory pulls the same documents again on the next one.
+25. **Memory pulls are incremental, and a device repairs its own document.** A device keeps a cursor
+    per account: the latest server time of the Memory documents it has merged. A sync reads only the
+    documents written after it, oldest first, at most rule 24's 50 documents / 1.5 MB; a pull cut short
+    there goes on from where it stopped on the next sync, so nothing written after the cursor is
+    skipped. This is sound because the merge is a join: what was merged is already in the device's
+    values. The cursor moves only once both Memory values are saved. Documents the device ignores
+    (rule 21) still move it, so they are read once. **A full pull** (the newest documents, newest first)
+    runs when there is no cursor (the first sync of this account on this device, or after its sync
+    history was reset) and once a day: it picks up rows skipped for a clock bound or a verse the library
+    did not know yet, which an incremental pull would not read again. A full pull never moves an existing
+    cursor back or forward, so the incremental pulls still read everything after it.
+    **A device uploads its document whenever the account's copy does not say what it would send.** Its
+    own document, when a pull returns it, is compared with its values (both as the upload would write
+    them and within rule 24's bounds): anyone with the token can overwrite it, and that write is new to
+    the next incremental pull, so a blanked or altered copy is repaired by the next sync. When a pull does
+    not return it, an incremental pull means no one wrote it since, and the device uploads only if its
+    values changed since its last acknowledged upload; a full pull means it is missing or crowded out of
+    the newest documents, and the device uploads it so a new device's first pull finds it.
 
 These merges are joins (commutative, associative, idempotent): any number of devices syncing in any
 order, any number of times, end with the same values, and merging a value in again changes nothing. A
@@ -88,9 +112,19 @@ change made during a sync is joined into, never overwritten (rule 5). Known limi
   their own times, so there is no first-seen cap as for study items (rule 4). Rule 24 limits the lead to
   one day.
 - A device clock that reads before 2026 (one reset to 1970, say) is known to be wrong. While it does, rule
-  24's time checks are off on that device, and Memory syncs as it would without them.
-- Someone writing with the user's token can push the real devices out of the 50 documents a device reads.
-  Memory then stops syncing (a denial of sync), but no local progress is lost.
+  24's clock checks are off on that device (the 18-day due bound after a review still applies), and
+  Memory syncs as it would without them.
+- Someone writing with the user's token can push the real devices out of the newest documents a full pull
+  reads (as few as 13 at the rules' largest size). The real devices upload theirs again at their next
+  full pull, and incremental pulls skip nothing, so this delays a new device's first sync rather than
+  losing anything; written continuously, it is a denial of sync, but no local progress is lost. A device
+  that is no longer used does not upload again, so its last document can stay crowded out; its values
+  are in the other devices' documents if they ever pulled it.
+- Documents written in one commit share one server time. When a pull stops in the middle of them, the
+  rest are skipped by the incremental pulls (the next starts after that time). Only a token holder
+  writes several Memory documents in one commit; a device writes its own alone.
+- A row ignored when it was pulled (a clock bound, an unknown verse) waits for the next full pull, up to
+  a day, unless its device writes again first.
 - A verse added to the library by a newer app version is ignored by devices on an older version until they
   update.
 - The rules check every row's shape, but they cannot cap a verse id at 64 characters (the rules' regex

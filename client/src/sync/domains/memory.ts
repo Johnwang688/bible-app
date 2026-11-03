@@ -1,4 +1,4 @@
-// Memory progress and history across devices (MEM 3; CONFLICTS.md "Memory", rules 17–24). Pure: no I/O.
+// Memory progress and history across devices (MEM 3; CONFLICTS.md "Memory", rules 17–25). Pure: no I/O.
 //
 // Both merges are joins (commutative, associative, idempotent), so the order in which devices sync, how
 // often a value is merged in again, and whether a document is stale or a copy of another device's merged
@@ -13,12 +13,14 @@
 //
 // Pulled documents are untrusted (CONFLICTS.md rule 24): anyone holding the user's token can write any
 // number of rule-valid ones, and no client can delete them. So before the join a pulled row is ignored
-// when its review or lapse time is more than a day ahead of this device's clock, or its verse is not one
+// when its review or lapse time is more than a day ahead of this device's clock, its next review is
+// further from its last one than the scheduler ever sets (MEMORY_DUE_SPAN_MS), or its verse is not one
 // this device's library knows; a pulled completed day (or start) more than a day after this device's
 // local today is ignored too (checkMemoryDocs, boundMemory*). Each is per row or per day and depends on
 // the clock (and the library) only, so the merge stays a join over what is accepted; a row skipped while
-// this clock lags is joined on a later run (the documents stay on the account). The push holds back rows
-// and days past the same time bounds (pushableMemoryValues), so a device never re-publishes them.
+// this clock lags is joined on a later full pull (the documents stay on the account; MEMORY_FULL_PULL_MS).
+// The push holds back rows and days past the same bounds (pushableMemoryValues), so a device never
+// re-publishes them.
 //
 // The wire form of progress is one compact string that the Firestore rules check with one anchored
 // regex plus size bounds (/firestore.rules isMemoryProgress): one row per verse, sorted by verse id,
@@ -28,14 +30,18 @@
 // The stage comes first because no stage stays a stage with a character in front of it: a string with
 // anything put before an encoding is not an encoding (a verse id would just read as a longer id).
 import { toLocalDateString } from '../../memory/localDate';
+import { reviewIntervalDays } from '../../memory/schedule';
 import type { ProgressMap, VerseProgress } from '../../memory/types';
 import { memoryProgressKey, type MemoryHistory } from '../../storage/memoryKeys';
 import type { StorageKey } from '../../storage/storage';
 import { hash53, lookup, put, stableStringify } from '../merge';
-import type { MemoryDoc } from '../types';
+import type { MemoryDoc, MemoryPull } from '../types';
 
-/** The most verses one Memory document carries: room for four times the ~500 verses of future libraries. */
-export const MEMORY_ROWS_MAX = 2000;
+/**
+ * The most verses one Memory document carries: the ~500 verses of future libraries plus a fifth (the
+ * library is 60 today). It also bounds what one document costs every device that reads it (about 103 KB).
+ */
+export const MEMORY_ROWS_MAX = 600;
 /** The largest success or failure count the wire carries (seven digits). */
 export const MEMORY_COUNT_MAX = 9_999_999;
 /** The most completed days kept (memoryHistoryKey's cap). */
@@ -48,9 +54,22 @@ export const MEMORY_DAYS_MAX = 1000;
 export const MEMORY_WIRE_MAX = MEMORY_ROWS_MAX * 172 - 1;
 /**
  * How far ahead of this device's clock a pulled review or lapse time may be: the one day the rules allow
- * a document's `updatedAt` (isClientTime). `nextDueAt` is a schedule, weeks ahead by design: not bounded.
+ * a document's `updatedAt` (isClientTime). `nextDueAt` is bounded by MEMORY_DUE_SPAN_MS instead.
  */
 export const MEMORY_AHEAD_MAX_MS = 86_400_000;
+const DAY_MS = 86_400_000;
+/** The longest interval the scheduler gives (memory/schedule.ts reviewIntervalDays over mastery 0..100: 16 days today). */
+const LONGEST_INTERVAL_DAYS = Math.max(...Array.from({ length: 101 }, (_, mastery) => reviewIntervalDays(mastery)));
+/**
+ * How far after its `lastReviewedAt` a row's `nextDueAt` may be (rule 24): the longest interval plus two
+ * days, 18 days today. The scheduler stamps the next review from the end of the local day, which it trusts
+ * up to 36 hours from the review (schedule.ts DAY_END_WINDOW_MS), and adds local calendar days (a DST hour);
+ * a pass on a verse that is not due keeps an earlier, nearer date; a fail sets it to the review time. So an
+ * honest row is always within this; a row past it (a year-9999 date, say) would take the verse out of the
+ * review schedule for good, since a pass on a verse not yet due keeps its date. A row never reviewed may
+ * be due at most this far past now. Derived from reviewIntervalDays, so a longer ladder widens it.
+ */
+export const MEMORY_DUE_SPAN_MS = (LONGEST_INTERVAL_DAYS + 2) * DAY_MS;
 /**
  * 2026-01-01T00:00:00.000Z, before the app's first release. A device clock that reads earlier is known
  * wrong (a clock reset to 1970, say), so it cannot say what is "far ahead": the time bounds are off then,
@@ -58,14 +77,32 @@ export const MEMORY_AHEAD_MAX_MS = 86_400_000;
  */
 export const MEMORY_CLOCK_MIN_MS = Date.UTC(2026, 0, 1);
 /**
- * The most Memory documents a sync reads: the most recently written (by `serverTime`). A person's real
- * devices fit with room, reinstalls included (each install is a new device id, and no client can delete
- * an old document); an old document's values are already joined into the newer documents of the devices
- * that saw it. It bounds a pull at about 50 * 344 KB however many documents a token holder writes. Such a
- * writer can still crowd the real devices out of the window: that stops Memory syncing (a denial of
- * sync) but never loses local progress.
+ * The most Memory documents one pull reads. A full pull (the first on a device for an account, then one a
+ * day: MEMORY_FULL_PULL_MS) reads the most recently written (by `serverTime`), newest first; an incremental
+ * pull reads those written after its cursor, oldest first, so a pull that stops at a bound skips nothing
+ * (the next one goes on from there). A person's real devices fit with room, reinstalls included (each
+ * install is a new device id, and no client can delete an old document); an old document's values are
+ * already joined into the newer documents of the devices that saw it. A pull also stops at
+ * MEMORY_PULL_CHARS_MAX, whichever comes first.
  */
 export const MEMORY_PULL_MAX = 50;
+/** The most characters of a Memory document the rules let through: progress, the days, the start and the device id. */
+export const MEMORY_DOC_CHARS_MAX = MEMORY_WIRE_MAX + MEMORY_DAYS_MAX * 10 + 10 + 20;
+/**
+ * The most characters one Memory pull downloads (memoryDocChars), about 1.5 MB: 13 documents at the
+ * rules' bounds, or 50 honest ones of a 500-verse library. A pull asks for no more documents than fit in
+ * what is left of it (each counted at MEMORY_DOC_CHARS_MAX), so it never goes over, however many
+ * documents a token holder writes. Such a writer can still crowd the real devices out of a full pull:
+ * a device that does not find its own document there sends it again (engine.ts), and no local progress
+ * is ever lost.
+ */
+export const MEMORY_PULL_CHARS_MAX = 1_500_000;
+/**
+ * How often a device reads the newest Memory documents again in full, though it has a cursor: rows it
+ * skipped (a review time past its clock bound, a verse its library did not know yet) are in documents it
+ * already read, and an incremental pull never returns those again until their device writes.
+ */
+export const MEMORY_FULL_PULL_MS = DAY_MS;
 
 const STAGES = ['chunk_order', 'fill_blank', 'full_recall', 'review'] as const;
 
@@ -201,6 +238,11 @@ export interface MemoryKeys {
 export interface MemoryBounds {
   /** A row reviewed or lapsed later than this (ms) is ignored. */
   latestMs: number;
+  /**
+   * A row never reviewed that is due later than this (ms) is ignored. (A reviewed row is ignored when it
+   * is due more than MEMORY_DUE_SPAN_MS after its review, whatever the clock.)
+   */
+  latestDueMs: number;
   /** A completed day or start later than this local day is ignored. */
   latestDay: string;
   /** Rows of a verse it refuses are ignored (absent: any verse). */
@@ -218,14 +260,30 @@ function localTomorrow(nowMs: number): string {
  * before MEMORY_CLOCK_MIN_MS is known wrong (a reset clock, or a test's): it bounds no time or day.
  */
 export function memoryBounds(nowMs: number, aheadMs: number, knownVerse?: (id: string) => boolean): MemoryBounds {
-  if (!(nowMs >= MEMORY_CLOCK_MIN_MS)) return { latestMs: Number.POSITIVE_INFINITY, latestDay: '9999-12-31', knownVerse };
-  return { latestMs: nowMs + aheadMs, latestDay: localTomorrow(nowMs), knownVerse };
+  if (!(nowMs >= MEMORY_CLOCK_MIN_MS)) {
+    return { latestMs: Number.POSITIVE_INFINITY, latestDueMs: Number.POSITIVE_INFINITY, latestDay: '9999-12-31', knownVerse };
+  }
+  return { latestMs: nowMs + aheadMs, latestDueMs: nowMs + MEMORY_DUE_SPAN_MS, latestDay: localTomorrow(nowMs), knownVerse };
+}
+
+/**
+ * Whether a row's next review is one the scheduler could have set: at most MEMORY_DUE_SPAN_MS after its
+ * last review (clock-free), or, never reviewed, at most `latestDueMs`. No next review is always fine.
+ */
+function dueInBounds(r: VerseProgress, latestDueMs: number): boolean {
+  const due = reviewMs(r.nextDueAt);
+  if (due === -Infinity) return true;
+  const reviewed = reviewMs(r.lastReviewedAt);
+  return reviewed === -Infinity ? due <= latestDueMs : due <= reviewed + MEMORY_DUE_SPAN_MS;
 }
 
 /** The rows within the bounds (each row on its own). The same map when none is dropped. */
 export function boundMemoryProgress(p: ProgressMap, b: MemoryBounds): ProgressMap {
   const ok = (id: string, r: VerseProgress) =>
-    (b.knownVerse === undefined || b.knownVerse(id)) && reviewMs(r.lastReviewedAt) <= b.latestMs && reviewMs(r.lapsedAt) <= b.latestMs;
+    (b.knownVerse === undefined || b.knownVerse(id)) &&
+    reviewMs(r.lastReviewedAt) <= b.latestMs &&
+    reviewMs(r.lapsedAt) <= b.latestMs &&
+    dueInBounds(r, b.latestDueMs);
   const ids = Object.keys(p);
   if (ids.every((id) => ok(id, p[id]!))) return p;
   const out: ProgressMap = {};
@@ -243,9 +301,9 @@ export function boundMemoryHistory(h: MemoryHistory, b: MemoryBounds): MemoryHis
 
 /**
  * This device's own values as it may publish them (rule 24): rows and days within the push bounds
- * (`nowMs + CLOCK_AHEAD_MAX_MS`, local tomorrow; any verse). The engine signs and sends this, so a row
- * held back now goes out once real time reaches it (the value then differs from the last one sent);
- * the Firestore adapter applies it again (pushableMemory).
+ * (`nowMs + CLOCK_AHEAD_MAX_MS`, a due date the scheduler could have set, local tomorrow; any verse). The
+ * engine signs and sends this, so a row held back now goes out once real time reaches it (the value then
+ * differs from the last one sent); the Firestore adapter applies it again (pushableMemory).
  */
 export function pushableMemoryValues(
   v: { progress: ProgressMap; history: MemoryHistory },
@@ -254,6 +312,125 @@ export function pushableMemoryValues(
 ): { progress: ProgressMap; history: MemoryHistory } {
   const b = memoryBounds(nowMs, aheadMs);
   return { progress: boundMemoryProgress(v.progress, b), history: boundMemoryHistory(v.history, b) };
+}
+
+const ISO_TIME_RE = new RegExp(`^${ISO}$`);
+const DAY_ONLY_RE = new RegExp(`^${DAY}$`);
+const VERSE_ID_RE = new RegExp(`^${VERSE_ID}$`);
+/** The longest verse id (storage/memoryKeys.ts verseId); the rules cannot cap it (no lookahead in RE2). */
+const VERSE_ID_MAX = 64;
+
+/** A time as the wire writes it (the same instant as an ISO time); null stays null; undefined when it is not a time. */
+function wireTime(t: unknown): string | null | undefined {
+  if (t === null) return null;
+  if (typeof t !== 'string') return undefined;
+  if (ISO_TIME_RE.test(t)) return t;
+  const ms = Date.parse(t);
+  if (!Number.isFinite(ms)) return undefined;
+  const iso = new Date(ms).toISOString();
+  return ISO_TIME_RE.test(iso) ? iso : undefined;
+}
+
+/** A count as the wire takes it: an int, clamped to 0..max; undefined when it is not an int. */
+function wireInt(n: unknown, max: number): number | undefined {
+  if (typeof n !== 'number' || !Number.isInteger(n)) return undefined;
+  return Math.min(max, Math.max(0, n));
+}
+
+/**
+ * Memory values as the Firestore rules take them and a pull reads them back: a row whose verse id, stage
+ * or a count is not one, or whose time is not a time, is dropped; counts are clamped (0..MEMORY_COUNT_MAX,
+ * mastery 0..100) and times rewritten as ISO times (the same instant); the MEMORY_ROWS_MAX highest ranked
+ * rows are kept (the join's order). The completed days lose repeats and non-days and keep the latest
+ * MEMORY_DAYS_MAX; a start that is not a day becomes null. `refused` counts what was dropped or changed.
+ * Idempotent. The adapter sends this (firestoreRemote.ts pushableMemory); the engine compares this
+ * device's document with it (sameAsSent).
+ */
+export function wireMemoryValues(v: { progress: ProgressMap; history: MemoryHistory }): {
+  value: { progress: ProgressMap; history: MemoryHistory };
+  refused: number;
+} {
+  let refused = 0;
+  const all: ProgressMap = {};
+  let kept = 0;
+  for (const id of Object.keys(v.progress)) {
+    const r = v.progress[id]!;
+    const successes = wireInt(r.successes, MEMORY_COUNT_MAX);
+    const failures = wireInt(r.failures, MEMORY_COUNT_MAX);
+    const masteryScore = wireInt(r.masteryScore, 100);
+    const nextDueAt = wireTime(r.nextDueAt);
+    const lastReviewedAt = wireTime(r.lastReviewedAt);
+    const lapsedAt = wireTime(r.lapsedAt);
+    if (
+      id.length > VERSE_ID_MAX || !VERSE_ID_RE.test(id) || !(STAGES as readonly unknown[]).includes(r.stage) ||
+      successes === undefined || failures === undefined || masteryScore === undefined ||
+      nextDueAt === undefined || lastReviewedAt === undefined || lapsedAt === undefined
+    ) {
+      refused++;
+      continue;
+    }
+    const row: VerseProgress = { stage: r.stage, successes, failures, masteryScore, nextDueAt, lastReviewedAt, lapsedAt };
+    if (stableStringify(row) !== stableStringify(r)) refused++;
+    put(all, id, row);
+    kept++;
+  }
+  const progress = capMemoryProgress(all);
+  refused += kept - Object.keys(progress).length;
+
+  const raw = v.history.completedDates;
+  const days = [...new Set(raw.filter((day) => typeof day === 'string' && DAY_ONLY_RE.test(day)))].sort();
+  refused += raw.length - days.length + Math.max(0, days.length - MEMORY_DAYS_MAX);
+  const s = v.history.startedOn;
+  const startedOn = typeof s === 'string' && DAY_ONLY_RE.test(s) ? s : null;
+  if (startedOn !== s) refused++;
+  return { value: { progress, history: { startedOn, completedDates: days.slice(-MEMORY_DAYS_MAX) } }, refused };
+}
+
+/**
+ * Whether this device's document, as a pull returned it (checked and bounded: checkMemoryDocs), already
+ * says what the device would send now (`values`: its pushable values). Both sides are put through the
+ * wire normalisation and the same bounds first, so what the adapter normalises or a pull ignores never
+ * counts as a difference (no push would change it), while anything else written over the document does:
+ * the device then sends its own values again (rule 25).
+ */
+export function sameAsSent(
+  mine: CheckedMemory,
+  values: { progress: ProgressMap; history: MemoryHistory },
+  bounds: MemoryBounds,
+  pushBounds: MemoryBounds,
+): boolean {
+  if (mine.progress === null || mine.history === null) return false;
+  const canon = (v: { progress: ProgressMap; history: MemoryHistory }) => {
+    const w = wireMemoryValues(v).value;
+    return {
+      progress: boundMemoryProgress(boundMemoryProgress(w.progress, bounds), pushBounds),
+      history: boundMemoryHistory(boundMemoryHistory(w.history, bounds), pushBounds),
+    };
+  };
+  return sameMemory(canon({ progress: mine.progress, history: mine.history }), canon(values));
+}
+
+// ---- the pull ----
+
+/** A Memory pull's result: the documents, and the cursor (non-enumerable: the array reads as a plain list). */
+export function memoryPull(docs: MemoryDoc[], cursor: number | null): MemoryPull {
+  return Object.defineProperty(docs, 'cursor', { value: cursor, enumerable: false }) as MemoryPull;
+}
+
+/** What a pulled document costs against MEMORY_PULL_CHARS_MAX: the characters of its strings (raw, before any check). */
+export function memoryDocChars(d: Record<string, unknown>): number {
+  const len = (v: unknown) => (typeof v === 'string' ? v.length : 0);
+  const days = Array.isArray(d.completedDates) ? d.completedDates.reduce<number>((n, day) => n + len(day), 0) : 0;
+  return len(d.progress) + days + len(d.startedOn) + len(d.deviceId);
+}
+
+/**
+ * How many documents the next page of a pull may ask for, having read `docs` documents of `chars`
+ * characters: what is left of MEMORY_PULL_MAX, and no more than fit in what is left of
+ * MEMORY_PULL_CHARS_MAX at MEMORY_DOC_CHARS_MAX each. 0: the pull stops.
+ */
+export function memoryPageSize(docs: number, chars: number): number {
+  return Math.max(0, Math.min(MEMORY_PULL_MAX - docs, Math.floor((MEMORY_PULL_CHARS_MAX - chars) / MEMORY_DOC_CHARS_MAX)));
 }
 
 /** A pulled document's parts the device can store; a part the storage schema refuses is null (rule 21). */

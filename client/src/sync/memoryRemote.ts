@@ -1,6 +1,9 @@
 // An in-memory RemoteStore (R-6b, orchestrator-owned): the test double for the engine, with hooks to
 // fail or hold calls. It behaves like the Firestore adapter: pushes replace documents by id, every
-// write gets a strictly increasing serverTime, and incremental pulls return items written after `since`.
+// write gets a strictly increasing serverTime, and incremental pulls return items (and Memory documents)
+// written after `since`. Memory pulls keep the adapter's order and its MEMORY_PULL_MAX cap (not its
+// character budget: test documents are small).
+import { MEMORY_PULL_MAX, memoryPull } from './domains/memory';
 import {
   RemoteError,
   type DeviceProgress,
@@ -26,7 +29,7 @@ export interface MemoryRemote extends Required<RemoteStore> {
   readonly items: Map<string, PulledItem>;
   readonly devices: Map<string, DeviceProgress>;
   readonly settings: Map<string, RemoteSetting>;
-  /** Memory documents by device id. */
+  /** Memory documents by device id (each write also gets a serverTime, kept apart). */
   readonly memory: Map<string, MemoryDoc>;
   /** Every call made, in order. */
   readonly calls: RemoteCall[];
@@ -58,6 +61,7 @@ export function createMemoryRemote(): MemoryRemote {
   const devices = new Map<string, DeviceProgress>();
   const settings = new Map<string, RemoteSetting>();
   const memory = new Map<string, MemoryDoc>();
+  const memoryTimes = new Map<string, number>();
   const calls: RemoteCall[] = [];
   const failures: { error: RemoteError; call?: RemoteCall }[] = [];
   const holds = new Map<RemoteCall, { gate: Promise<void>; markStarted: () => void }[]>();
@@ -80,6 +84,10 @@ export function createMemoryRemote(): MemoryRemote {
   }
 
   const putItem = (item: RemoteItem) => void items.set(item.id, { ...copy(item), serverTime: ++clock });
+  const putMemory = (d: MemoryDoc) => {
+    memory.set(d.deviceId, copy(d));
+    memoryTimes.set(d.deviceId, ++clock);
+  };
 
   return {
     items,
@@ -105,7 +113,7 @@ export function createMemoryRemote(): MemoryRemote {
     putItem,
     putDevice: (p) => void devices.set(p.deviceId, copy(p)),
     putSetting: (s) => void settings.set(s.key, copy(s)),
-    putMemory: (d) => void memory.set(d.deviceId, copy(d)),
+    putMemory,
 
     async pullItems(since) {
       await enter('pullItems');
@@ -144,13 +152,24 @@ export function createMemoryRemote(): MemoryRemote {
       }
       return { held };
     },
-    async pullMemory() {
+    async pullMemory(since) {
       await enter('pullMemory');
-      return [...memory.values()].map(copy);
+      // A document cleared from `memory` by a test has no time either.
+      const time = (id: string) => memoryTimes.get(id) ?? 0;
+      const ids = [...memory.keys()];
+      const page =
+        since === null || since === undefined
+          ? ids.sort((a, b) => time(b) - time(a) || (a < b ? 1 : -1)).slice(0, MEMORY_PULL_MAX)
+          : ids
+              .filter((id) => time(id) > since)
+              .sort((a, b) => time(a) - time(b) || (a < b ? -1 : 1))
+              .slice(0, MEMORY_PULL_MAX);
+      const cursor = page.reduce<number | null>((m, id) => (m === null || time(id) > m ? time(id) : m), since ?? null);
+      return memoryPull(page.map((id) => copy(memory.get(id)!)), cursor);
     },
     async pushMemory(d) {
       await enter('pushMemory');
-      memory.set(d.deviceId, copy(d));
+      putMemory(d);
     },
   };
 }

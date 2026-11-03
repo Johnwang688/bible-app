@@ -108,8 +108,8 @@ const stateSchema = z.object({
   }),
   /**
    * Memory (domains/memory.ts). Absent until the first run that syncs Memory (and in states saved
-   * before Memory synced). Neither value is journaled: the Memory merge is a join, so a crash between
-   * its writes loses nothing (engine.ts "Memory").
+   * before Memory synced). None of it is journaled: the Memory merge is a join, so a crash between
+   * its writes loses nothing, and the cursor moves only after both have landed (engine.ts "Memory").
    */
   memory: z
     .object({
@@ -117,6 +117,13 @@ const stateSchema = z.object({
       sig: z.string().nullable(),
       /** memorySig of the last document this device's push of this account was acknowledged for. */
       pushed: z.string().nullable(),
+      /**
+       * pullMemory cursor (server ms): every document written up to it has been joined into the local
+       * values. Null (or absent, in states saved before it) until a pull returns one: the next pull is full.
+       */
+      cursor: z.number().nullable().default(null),
+      /** Client ms of the last full Memory pull joined (MEMORY_FULL_PULL_MS), or null. */
+      fullAt: z.number().nullable().default(null),
     })
     .optional(),
   /** The write journal (journal.ts). States saved before it existed read as null. */

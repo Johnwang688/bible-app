@@ -23,21 +23,33 @@
 // the remote reports as held (resolved but not written, types.ts) is likewise not acknowledged: it
 // stays pending and goes out again on a later ordinary run (rule 16).
 //
-// Memory (rules 17–24) needs none of the stamps, bases or journal: its merge is a join (domains/memory.ts).
+// Memory (rules 17–25) needs none of the stamps, bases or journal: its merge is a join (domains/memory.ts).
 // A run joins every pulled Memory document into the local values at the commit, re-reading them at the
 // write (a change made during the run is joined, never overwritten: rule 5), and pushes this device's
 // document as the joined values. Why no journal: every Memory write is `local := join(local now, remote)`,
 // which only adds to what is there, and nothing in the sync state describes it except two change-detection
-// hashes. A crash between the progress and the history write leaves one key joined and the other as the
-// app left it: nothing is lost (a join keeps every row and day either side had), nothing is mistaken for
-// a newer change (a row's own review time is its only clock; no stamp is taken), and the next run joins
-// the same documents again (they are still on the account), which repairs the other key; joining what is
-// already joined changes nothing. A stale hash costs at most one extra sync or one extra push.
+// hashes and the pull cursor (saved only after both writes, below). A crash between the progress and the
+// history write leaves one key joined and the other as the app left it: nothing is lost (a join keeps
+// every row and day either side had), nothing is mistaken for a newer change (a row's own review time is
+// its only clock; no stamp is taken), and the next run joins the same documents again (they are still on
+// the account, and the cursor has not passed them), which repairs the other key; joining what is already
+// joined changes nothing. A stale hash costs at most one extra sync or one extra push.
 // Pulled Memory is untrusted (rule 24): before the join the engine ignores rows reviewed or lapsed more than
-// a day past its clock, rows of verses its library does not know (SyncDomains.memoryVerses), and days
-// past its local tomorrow; it pushes its values less what is past the push bounds; and the join keeps at
-// most MEMORY_ROWS_MAX rows. A Memory write that throws (web storage full) fails the run only after the
-// other domains have pushed, so it can never stop them syncing.
+// a day past its clock, rows due further from their review than the scheduler sets, rows of verses its
+// library does not know (SyncDomains.memoryVerses), and days past its local tomorrow; it pushes its values
+// less what is past the push bounds; and the join keeps at most MEMORY_ROWS_MAX rows. A Memory write that
+// throws (web storage full) fails the run only after the other domains have pushed, so it can never stop
+// them syncing.
+// Memory pulls are incremental (rule 25): the state keeps a cursor, the largest serverTime pulled, and a
+// run reads only the documents written after it (oldest first, so a pull cut short at its bounds goes on
+// from there next time). That is sound because the merge is a join: what was pulled is in the local values.
+// The cursor moves only once both Memory writes have landed, so a run that fails or crashes before then
+// pulls the same documents again. With no cursor (the first sync of this account on this device, or a reset
+// state), and once a day (MEMORY_FULL_PULL_MS), the pull is full: the newest documents, which also picks up
+// rows skipped for a clock bound or an unknown verse, and lets the device see whether its own document is
+// still among the newest. The device decides to push by its own document as pulled, not by trusting that
+// only it writes there: anyone with the token can overwrite it, and that write is a new document to the
+// next incremental pull.
 import type { ProgressMap } from '../memory/types';
 import type { MemoryHistory } from '../storage/memoryKeys';
 import type { Storage, StorageKey } from '../storage/storage';
@@ -47,14 +59,16 @@ import { bestGoal, checkDevices, deviceDoc, mergeProgress, progressSig, sameDoc,
 import {
   checkMemoryDocs,
   joinMemoryDocs,
+  MEMORY_FULL_PULL_MS,
   MEMORY_AHEAD_MAX_MS,
   memoryBounds,
   memorySig,
   mergeMemoryHistory,
   mergeMemoryProgress,
   pushableMemoryValues,
-  sameMemory,
+  sameAsSent,
   type CheckedMemory,
+  type MemoryBounds,
   type MemoryKeys,
 } from './domains/memory';
 import { checkPulledSetting, isSettingKey, settingSig, toRemoteSetting, type CheckedSetting } from './domains/settings';
@@ -119,6 +133,14 @@ interface SettingPush {
   sig: string;
   stamp: StampEntry | undefined;
   setting: RemoteSetting;
+}
+
+/** What a run writes to Memory: the join of the pulled documents, and the cursor and full-pull time it records once that has landed. */
+interface MemoryWrite {
+  progress: ProgressMap;
+  history: MemoryHistory;
+  cursor: number | null;
+  fullAt: number | null;
 }
 
 /** The study items a run read at its start (L0), with their stamps: rule 5 compares with both. */
@@ -355,7 +377,11 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
     alive();
     const pulledDevices = progressKey ? await remote.pullDevices() : [];
     alive();
-    const pulledMemory = memoryKeys ? await remote.pullMemory!() : null;
+    // Memory: incremental from the cursor, or full (no cursor yet, or a day since the last full pull).
+    const memoryCursor = state.memory?.cursor ?? null;
+    const memoryFullAt = state.memory?.fullAt ?? null;
+    const memoryFull = memoryCursor === null || memoryFullAt === null || t0 < memoryFullAt || t0 - memoryFullAt >= MEMORY_FULL_PULL_MS;
+    const pulledMemory = memoryKeys ? await remote.pullMemory!(memoryFull ? null : memoryCursor) : null;
     alive();
     const pulledItems = studyKey ? await remote.pullItems(state.items.cursor) : null;
     alive();
@@ -367,9 +393,19 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
     // Memory: the join of every valid part of the pulled documents (rule 21), joined into the local values at the commit.
     // Pulled documents are untrusted (rule 24): rows reviewed or lapsed more than a day past this clock,
     // rows of verses the library does not know, and days past local tomorrow are ignored before the join.
-    const memoryDocs: CheckedMemory[] | null =
-      memoryKeys && pulledMemory ? checkMemoryDocs(memoryKeys, pulledMemory, memoryBounds(now(), MEMORY_AHEAD_MAX_MS, domains.memoryVerses)) : null;
-    const memoryJoin = memoryDocs ? joinMemoryDocs(memoryDocs) : null;
+    const memoryPullBounds: MemoryBounds = memoryBounds(now(), MEMORY_AHEAD_MAX_MS, domains.memoryVerses);
+    const memoryDocs: CheckedMemory[] | null = memoryKeys && pulledMemory ? checkMemoryDocs(memoryKeys, pulledMemory, memoryPullBounds) : null;
+    // What the commit records once the Memory writes land: the cursor (a full pull keeps one the device
+    // already has: the incremental pulls go on from it, so nothing written after it is skipped) and the
+    // time of a full pull.
+    const memoryJoin: MemoryWrite | null =
+      memoryDocs && pulledMemory
+        ? {
+            ...joinMemoryDocs(memoryDocs),
+            cursor: memoryFull ? (memoryCursor ?? pulledMemory.cursor) : pulledMemory.cursor,
+            fullAt: memoryFull ? t0 : memoryFullAt,
+          }
+        : null;
 
     // Each domain updates the in-memory state and says which local values to write; commit writes
     // them, journaled. Should the merge throw, the state goes back to what it was.
@@ -446,20 +482,21 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
       // This device's document is its joined values, read now (a change since the commit goes out too),
       // less the rows and days past the push bounds (rule 24: a device never re-publishes a far-future
       // time; such a row goes out once real time reaches it, as the value sent then differs).
-      // Not sent when the account already holds them: this device's document says the same, or it is
-      // there and the last push this device made (acknowledged, none attempted since) sent exactly these
-      // values (the adapter may have normalised them, so the document need not read back equal). Only
-      // this device writes its document, so that document is then exactly that push.
+      // Not sent when the account already holds them (rule 25). Pulled this run, this device's document
+      // decides: it is sent unless it says the same, compared after the adapter's normalisation and the
+      // bounds on both sides (sameAsSent), so a copy anyone else wrote over it is repaired by this push.
+      // Not pulled: an incremental pull returns only documents written since the cursor, so the document
+      // is as this device's last acknowledged push left it, and it is sent when these values differ from
+      // that push's. A full pull that does not return it (never written, or crowded out of the newest by
+      // other documents) sends it, so it is among the newest again for a new device's first pull.
+      const pushBounds = memoryBounds(now(), CLOCK_AHEAD_MAX_MS);
       const values = pushableMemoryValues(readMemory(memoryKeys), now(), CLOCK_AHEAD_MAX_MS);
       const sig = memorySig(values.progress, values.history);
       const mine = memoryDocs.find((d) => d.deviceId === self);
-      const holds =
-        mine !== undefined &&
-        ((mine.progress !== null && mine.history !== null && sameMemory({ progress: mine.progress, history: mine.history }, values)) ||
-          state.memory?.pushed === sig);
+      const holds = mine !== undefined ? sameAsSent(mine, values, memoryPullBounds, pushBounds) : !memoryFull && state.memory?.pushed === sig;
       const setPushed = (pushed: string | null) => {
         if ((state.memory?.pushed ?? null) === pushed) return;
-        state.memory = { sig: state.memory?.sig ?? null, pushed };
+        state.memory = { sig: state.memory?.sig ?? null, cursor: state.memory?.cursor ?? null, fullAt: state.memory?.fullAt ?? null, pushed };
         saveState();
       };
       if (!holds) {
@@ -489,7 +526,7 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
     items: StudyItemsShape | null,
     settings: readonly SettingWrite[],
     progress: ProgressShape | null,
-    memory: { progress: ProgressMap; history: MemoryHistory } | null,
+    memory: MemoryWrite | null,
   ): { error: unknown } | undefined {
     const journaling = items !== null || settings.length > 0 || progress !== null;
     let memoryFailure: { error: unknown } | undefined;
@@ -548,11 +585,12 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
   /**
    * Joins the account's Memory into each local key as it is at the write (rule 5: what the app wrote
    * during the run, or in a listener of an earlier write, is joined, never replaced), writing a key only
-   * when the join changes it. Then records the values' hash, so the watchers' deferred check sees no change.
-   * A key whose write throws (web storage full) does not stop the other key's; the first error is thrown
-   * once both are tried (commit returns it, see there).
+   * when the join changes it. Then records the values' hash, so the watchers' deferred check sees no change,
+   * and, only when both keys hold the join, the pull's cursor and full-pull time (rule 25): a run whose
+   * write fails pulls the same documents again. A key whose write throws (web storage full) does not stop
+   * the other key's; the first error is thrown once both are tried (commit returns it, see there).
    */
-  function writeMemory(keys: MemoryKeys, remoteJoin: { progress: ProgressMap; history: MemoryHistory }) {
+  function writeMemory(keys: MemoryKeys, remoteJoin: MemoryWrite) {
     let failure: { error: unknown } | undefined;
     const attempt = (write: () => void) => {
       try {
@@ -572,7 +610,13 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
       if (stableStringify(h1) !== stableStringify(h0)) storage.set(keys.history, h1);
     });
     const after = readMemory(keys);
-    state.memory = { sig: memorySig(after.progress, after.history), pushed: state.memory?.pushed ?? null };
+    const prev = state.memory;
+    state.memory = {
+      sig: memorySig(after.progress, after.history),
+      pushed: prev?.pushed ?? null,
+      cursor: failure ? (prev?.cursor ?? null) : remoteJoin.cursor,
+      fullAt: failure ? (prev?.fullAt ?? null) : remoteJoin.fullAt,
+    };
     if (failure) throw failure.error;
   }
 

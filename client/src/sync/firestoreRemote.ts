@@ -23,27 +23,30 @@ import {
   query,
   serverTimestamp,
   setDoc,
+  startAfter,
   Timestamp,
   where,
   writeBatch,
   type DocumentData,
   type Firestore,
   type Query,
+  type QueryConstraint,
+  type QueryDocumentSnapshot,
 } from 'firebase/firestore';
 
 import { HIGHLIGHT_IDS, type HighlightId } from '../theme/highlights';
 import { PRESET_IDS } from '../theme/types';
-import type { ProgressMap, VerseProgress } from '../memory/types';
 import { CLOCK_AHEAD_MAX_MS } from './clock';
 import {
-  capMemoryProgress,
   decodeMemoryProgress,
   encodeMemoryProgress,
-  MEMORY_COUNT_MAX,
   MEMORY_DAYS_MAX,
-  MEMORY_PULL_MAX,
   MEMORY_WIRE_MAX,
+  memoryDocChars,
+  memoryPageSize,
+  memoryPull,
   pushableMemoryValues,
+  wireMemoryValues,
 } from './domains/memory';
 import { put, stableStringify } from './merge';
 import {
@@ -110,6 +113,18 @@ function toRemoteError(e: unknown): RemoteError {
   }
   if (isNetworkFailure(e)) return new RemoteError('offline', (e as Error).message, { cause: e });
   return new RemoteError('other', e instanceof Error ? e.message : undefined, { cause: e });
+}
+
+/**
+ * A server time in ms (a Timestamp's toMillis(), as the cursors hold it) as that Timestamp again, exactly:
+ * the server keeps whole microseconds, which a double in ms still tells apart, so rounding to them undoes
+ * the conversion. (An incremental Memory pull starts strictly after it; one a microsecond early would
+ * read the last document again, and a page of documents written together could then repeat for ever.)
+ */
+function serverTimestampAt(ms: number): Timestamp {
+  const micros = Math.round(ms * 1000);
+  const seconds = Math.floor(micros / 1e6);
+  return new Timestamp(seconds, (micros - seconds * 1e6) * 1000);
 }
 
 async function guarded<T>(work: () => Promise<T>): Promise<T> {
@@ -460,64 +475,16 @@ function pushableDevice(p: DeviceProgress, held: Held, bound: number): DevicePro
   return { ...p, activeMs, chaptersRead, goalMetDays, goal };
 }
 
-const MEMORY_STAGES: readonly unknown[] = ['chunk_order', 'fill_blank', 'full_recall', 'review'];
-/** A verse id as the rules and the storage schema take it (storage/memoryKeys.ts verseId: at most 64 characters). */
-const VERSE_ID_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-const VERSE_ID_MAX = 64;
-
-/** A count as the rules take it: an int, clamped to 0..max; undefined when it is not an int. */
-function clampInt(n: unknown, max: number): number | undefined {
-  if (typeof n !== 'number' || !Number.isInteger(n)) return undefined;
-  return Math.min(max, Math.max(0, n));
-}
-
 /**
- * The Memory document the rules accept: a row whose verse id, stage or a count is not one, or whose time
- * is not a time, is dropped; counts are clamped (0..MEMORY_COUNT_MAX, mastery 0..100) and times rewritten
- * as ISO times (the same instant); the MEMORY_ROWS_MAX highest ranked rows are kept (the join's order). The
- * completed days lose repeats and non-days and keep the latest MEMORY_DAYS_MAX; a start that is not a day
- * becomes null. Then rows reviewed or lapsed past `bound` and days past local tomorrow are held back
+ * The Memory document the rules accept (domains/memory.ts wireMemoryValues: invalid rows dropped, counts
+ * clamped, times rewritten, at most MEMORY_ROWS_MAX rows and MEMORY_DAYS_MAX days). Then rows reviewed or
+ * lapsed past `bound`, due further out than the scheduler sets, and days past local tomorrow are held back
  * (rule 24; the engine already sends its values so, this applies it to any caller). Its clock
  * (`updatedAt`, the push time) is sent as it is, as a device document's is.
  */
 function pushableMemory(m: MemoryDoc, held: Held, nowMs: number): MemoryDoc {
-  let fixed = 0;
-  const rows: [string, VerseProgress][] = [];
-  for (const id of Object.keys(m.progress)) {
-    const r = m.progress[id]!;
-    const successes = clampInt(r.successes, MEMORY_COUNT_MAX);
-    const failures = clampInt(r.failures, MEMORY_COUNT_MAX);
-    const masteryScore = clampInt(r.masteryScore, 100);
-    const time = (t: string | null): string | null | undefined => (t === null ? null : isoTime(t));
-    const nextDueAt = time(r.nextDueAt);
-    const lastReviewedAt = time(r.lastReviewedAt);
-    const lapsedAt = time(r.lapsedAt);
-    if (
-      id.length > VERSE_ID_MAX || !VERSE_ID_RE.test(id) || !MEMORY_STAGES.includes(r.stage) ||
-      successes === undefined || failures === undefined || masteryScore === undefined ||
-      nextDueAt === undefined || lastReviewedAt === undefined || lapsedAt === undefined
-    ) {
-      fixed++;
-      continue;
-    }
-    const row: VerseProgress = { stage: r.stage, successes, failures, masteryScore, nextDueAt, lastReviewedAt, lapsedAt };
-    if (stableStringify(row) !== stableStringify(r)) fixed++;
-    rows.push([id, row]);
-  }
-  const all: ProgressMap = {};
-  for (const [id, row] of rows) put(all, id, row);
-  const capped = capMemoryProgress(all);
-  fixed += rows.length - Object.keys(capped).length;
-
-  const raw = m.history.completedDates;
-  const days = [...new Set(raw.filter((day) => isString(day) && DAY_RE.test(day)))].sort();
-  fixed += raw.length - days.length + Math.max(0, days.length - MEMORY_DAYS_MAX);
-  const s = m.history.startedOn;
-  const startedOn = isString(s) && DAY_RE.test(s) ? s : null;
-  if (startedOn !== s) fixed++;
-
-  held.refused += fixed;
-  const clean = { progress: capped, history: { startedOn, completedDates: days.slice(-MEMORY_DAYS_MAX) } };
+  const { value: clean, refused } = wireMemoryValues({ progress: m.progress, history: m.history });
+  held.refused += refused;
   const bounded = pushableMemoryValues(clean, nowMs, CLOCK_AHEAD_MAX_MS);
   held.ahead +=
     Object.keys(clean.progress).length - Object.keys(bounded.progress).length +
@@ -745,8 +712,40 @@ export function createFirestoreRemote(db: Firestore, uid: string): Required<Remo
         return { held: held.ids };
       }),
 
-    // At most MEMORY_PULL_MAX documents, the most recently written (domains/memory.ts says why; rule 24).
-    pullMemory: () => guarded(() => readAll(query(memory(), orderBy('serverTime', 'desc'), limit(MEMORY_PULL_MAX)), readMemory)),
+    // A full pull reads the newest documents first; an incremental one those written after `since`,
+    // oldest first. Page by page, each asking for no more than fits in what is left of MEMORY_PULL_MAX
+    // and MEMORY_PULL_CHARS_MAX (domains/memory.ts memoryPageSize), so the pull never goes over either,
+    // whatever the documents hold (rule 24). The cursor counts every document read, those that do not
+    // decode too, so such documents are never read again by an incremental pull.
+    pullMemory: (since) =>
+      guarded(async () => {
+        const full = since === null || since === undefined;
+        const docs: MemoryDoc[] = [];
+        let cursor = full ? null : since;
+        let read = 0;
+        let chars = 0;
+        let last: QueryDocumentSnapshot | null = null;
+        for (;;) {
+          const size = memoryPageSize(read, chars);
+          if (size === 0) break;
+          const order = full ? orderBy('serverTime', 'desc') : orderBy('serverTime', 'asc');
+          const parts: QueryConstraint[] = full ? [order] : [where('serverTime', '>', serverTimestampAt(since)), order];
+          if (last !== null) parts.push(startAfter(last));
+          const snap = await getDocsFromServer(query(memory(), ...parts, limit(size)));
+          for (const d of snap.docs) {
+            const data = d.data();
+            read++;
+            chars += memoryDocChars(data);
+            const t = data.serverTime;
+            if (isTimestamp(t) && (cursor === null || t.toMillis() > cursor)) cursor = t.toMillis();
+            const m = readMemory(d.id, data);
+            if (m !== undefined) docs.push(m);
+          }
+          if (snap.docs.length < size) break;
+          last = snap.docs[snap.docs.length - 1]!;
+        }
+        return memoryPull(docs, cursor);
+      }),
 
     pushMemory: (m) =>
       guarded(async () => {
