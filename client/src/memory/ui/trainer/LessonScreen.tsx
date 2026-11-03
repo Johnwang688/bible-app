@@ -17,7 +17,7 @@ import { nextHrefAfter } from '../../session';
 import { isStageSlug } from '../../stages';
 import type { StageSlug } from '../../types';
 import { useMemorySettings } from '../../useMemorySettings';
-import { useVerseLanguage, useVerseLanguageChange } from '../../verseLanguage';
+import { useLanguagePreferenceChange, useVerseLanguage } from '../../verseLanguage';
 import { createRecorder } from '../../voice/recorder';
 import type { CheckVoice, Recorder } from '../../voice/types';
 import { checkVoice as realCheckVoice } from '../../voice/voiceClient';
@@ -87,8 +87,9 @@ export function LessonScreen({
   const language = useVerseLanguage();
   // One scope per step: a new step (the trainers are keyed on it too) starts a fresh one. The verse language is part
   // of the step: switching it mid-step unmounts the trainer (its attempt ends) and renews the scope.
-  // `renewals` counts scopes left to a language switch, so a switch there and back before a render (the language in
-  // the key unchanged) still mounts a fresh trainer with a fresh scope.
+  // `renewals` counts scopes left to a language preference change, so a switch there and back before a render (the
+  // language in the key unchanged), or a change that keeps the verse language, still mounts a fresh trainer with a
+  // fresh scope.
   const [renewals, setRenewals] = useState(0);
   const key = `${verseId}/${stage}/${index ?? 'practice'}/${language}/${renewals}`;
   // eslint-disable-next-line react-hooks/exhaustive-deps -- `key` is the step: the scope is renewed only for a new one
@@ -96,14 +97,16 @@ export function LessonScreen({
   // A scope that is replaced (a new step, or the verse language switched mid-step) or unmounted is left: nothing
   // that still holds it records afterwards.
   useEffect(() => () => controller.abort(), [controller]);
-  // The verse language switching leaves the step at once, from the storage write, not at the re-render: an old
-  // trainer's Check (or a pending grade, a voice attempt) that runs before the new trainer mounts is void.
+  // Any change of the stored language preference leaves the step at once, from the storage write, not at the
+  // re-render, whatever the new preference resolves to: an old trainer's Check (or a pending grade, a voice attempt)
+  // that runs before the new trainer mounts is void. Renewing a step on a preference that keeps the verse language
+  // is harmless (it is changed from the Me tab), and the rule cannot miss a switch.
   const leaveForLanguage = useCallback(() => {
     if (controller.signal.aborted) return;
     controller.abort();
     setRenewals((n) => n + 1);
   }, [controller]);
-  useVerseLanguageChange(storage, language, leaveForLanguage);
+  useLanguagePreferenceChange(storage, leaveForLanguage);
 
   const leave = () => (onBack ? onBack() : onNavigate(HOME));
   const verse = getMemoryVerse(verseId);

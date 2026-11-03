@@ -144,6 +144,22 @@ describe('the trainers follow the app language', () => {
     expect(Object.keys(s.get(memoryProgressKey))).toEqual([verse.id]);
     expect(s.get(memoryProgressKey)[verse.id]).toMatchObject({ successes: 2, failures: 0 });
   });
+
+  it('any change of the language preference renews the step, even one that keeps the verse language', async () => {
+    const storage = createStorage(memoryBackend());
+    storage.set(languageKey, 'en');
+    await step(verse.id, 'chunk-order', { storage });
+    for (let i = 0; i < verse.chunksEn.length; i++) await fireEvent.press(screen.getByTestId(`chunk-chip-${i}`));
+    const check = screen.getByTestId('chunk-check');
+    // `system` resolves to English here (the harness's English locales): the verses stay English, the step is left.
+    await act(async () => {
+      storage.set(languageKey, 'system');
+      await fireEvent.press(check);
+    });
+    expect(storage.get(memoryProgressKey)).toEqual({});
+    expect(screen.queryByTestId('memory-result-title')).toBeNull();
+    expect(screen.getByTestId('chunk-chip-0')).toHaveTextContent(verse.chunksEn[0]!);
+  });
 });
 
 describe('English grading in the trainers', () => {

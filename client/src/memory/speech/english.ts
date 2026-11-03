@@ -217,6 +217,8 @@ const BOOK_ALIASES: readonly { words: readonly string[]; book: string }[] = LEGA
 const RANGE_WORDS = new Set(['to', 'through', 'thru']);
 const RANGE_SEPS = new Set(['-', '–', '—']);
 const VERSE_LABELS = new Set(['verse', 'verses']);
+/** Punctuation that may sit between (and after) the parts of a spoken reference. */
+const REF_MARKS = new Set([',', '.', ':', ';', '–', '—']);
 const MAX_CHAPTER = 150;
 const MAX_VERSE = 200;
 
@@ -331,20 +333,31 @@ class RefReader {
     return { verses, next };
   }
 
-  /** A reference starting at token `i`: book, chapter, then the verses (optional), or null. */
+  /** Past any punctuation said between the parts of a reference (`John, chapter fifteen, verse seven`). */
+  private marks(i: number): number {
+    let j = i;
+    while (REF_MARKS.has(this.sep(j) ?? '')) j++;
+    return j;
+  }
+
+  /**
+   * A reference starting at token `i`: book, chapter, then the verses (optional), or null. Punctuation may sit
+   * between the parts; `and` joins the chapter to a `verse` label (`chapter fifteen and verse seven`), but an
+   * unlabelled `fifteen and seven` reads as chapter 15 with `and seven` left to the body.
+   */
   reference(i: number): { ref: ParsedEnglishReference; next: number } | null {
     const book = this.book(i);
     if (!book) return null;
-    let j = book.next;
-    if (this.word(j) === 'chapter') j++;
+    let j = this.marks(book.next);
+    if (this.word(j) === 'chapter') j = this.marks(j + 1);
     const chapter = this.number(j);
     if (!chapter || chapter.value < 1 || chapter.value > MAX_CHAPTER) return null;
     j = chapter.next;
     let k = j;
     for (;;) {
-      const s = this.sep(k);
       const w = this.word(k);
-      if (s === ':' || s === ',' || s === '.' || (w !== undefined && VERSE_LABELS.has(w))) k++;
+      if (REF_MARKS.has(this.sep(k) ?? '') || (w !== undefined && VERSE_LABELS.has(w))) k++;
+      else if (w === 'and' && VERSE_LABELS.has(this.word(this.marks(k + 1)) ?? '')) k++;
       else break;
     }
     const spans = this.spans(k);
