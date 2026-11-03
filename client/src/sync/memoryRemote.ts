@@ -4,19 +4,30 @@
 import {
   RemoteError,
   type DeviceProgress,
+  type MemoryDoc,
   type PulledItem,
   type RemoteItem,
   type RemoteSetting,
   type RemoteStore,
 } from './types';
 
-export type RemoteCall = 'pullItems' | 'pushItems' | 'pullDevices' | 'pushDevice' | 'pullSettings' | 'pushSettings';
+export type RemoteCall =
+  | 'pullItems'
+  | 'pushItems'
+  | 'pullDevices'
+  | 'pushDevice'
+  | 'pullSettings'
+  | 'pushSettings'
+  | 'pullMemory'
+  | 'pushMemory';
 
-export interface MemoryRemote extends RemoteStore {
+export interface MemoryRemote extends Required<RemoteStore> {
   /** The stored documents (copies). */
   readonly items: Map<string, PulledItem>;
   readonly devices: Map<string, DeviceProgress>;
   readonly settings: Map<string, RemoteSetting>;
+  /** Memory documents by device id. */
+  readonly memory: Map<string, MemoryDoc>;
   /** Every call made, in order. */
   readonly calls: RemoteCall[];
   /** Makes the next call(s) of `call` (or of any call when omitted) throw. */
@@ -36,6 +47,8 @@ export interface MemoryRemote extends RemoteStore {
   putItem(item: RemoteItem): void;
   putDevice(progress: DeviceProgress): void;
   putSetting(setting: RemoteSetting): void;
+  /** Writes a Memory document as another device would (stored as given, unvalidated). */
+  putMemory(doc: MemoryDoc): void;
 }
 
 const copy = <T>(v: T): T => JSON.parse(JSON.stringify(v)) as T;
@@ -44,6 +57,7 @@ export function createMemoryRemote(): MemoryRemote {
   const items = new Map<string, PulledItem>();
   const devices = new Map<string, DeviceProgress>();
   const settings = new Map<string, RemoteSetting>();
+  const memory = new Map<string, MemoryDoc>();
   const calls: RemoteCall[] = [];
   const failures: { error: RemoteError; call?: RemoteCall }[] = [];
   const holds = new Map<RemoteCall, { gate: Promise<void>; markStarted: () => void }[]>();
@@ -71,6 +85,7 @@ export function createMemoryRemote(): MemoryRemote {
     items,
     devices,
     settings,
+    memory,
     calls,
     failNext(error, call, times = 1) {
       for (let n = 0; n < times; n++) failures.push({ error, call });
@@ -90,6 +105,7 @@ export function createMemoryRemote(): MemoryRemote {
     putItem,
     putDevice: (p) => void devices.set(p.deviceId, copy(p)),
     putSetting: (s) => void settings.set(s.key, copy(s)),
+    putMemory: (d) => void memory.set(d.deviceId, copy(d)),
 
     async pullItems(since) {
       await enter('pullItems');
@@ -127,6 +143,14 @@ export function createMemoryRemote(): MemoryRemote {
         else settings.set(s.key, copy(s));
       }
       return { held };
+    },
+    async pullMemory() {
+      await enter('pullMemory');
+      return [...memory.values()].map(copy);
+    },
+    async pushMemory(d) {
+      await enter('pushMemory');
+      memory.set(d.deviceId, copy(d));
     },
   };
 }

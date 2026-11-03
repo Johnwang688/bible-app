@@ -2,6 +2,8 @@
 // R-3's storage shapes (`studyItemsKey` version 2 and `readingProgressKey` in storage/keys.ts), so
 // the sync layer builds on main before R-3 merges; the registry wires the real keys, and the
 // typecheck proves they match.
+import type { ProgressMap } from '../memory/types';
+import type { MemoryHistory } from '../storage/memoryKeys';
 import type { StorageKey } from '../storage/storage';
 import type { HighlightId } from '../theme/highlights';
 
@@ -29,4 +31,10 @@ export interface SyncDomains {
   progress?: StorageKey<ProgressShape>;
   /** Keys whose `key` is a SettingKey (types.ts). The whole value syncs, last writer wins. */
   settings?: readonly StorageKey<unknown>[];
+  /**
+   * Memory (the verse trainer): per-verse progress and the completed days, merged as a join across
+   * devices (domains/memory.ts, CONFLICTS.md "Memory"). The day's lesson plan and the Memory settings
+   * are not part of it: they stay on the device.
+   */
+  memory?: { progress: StorageKey<ProgressMap>; history: StorageKey<MemoryHistory> };
 }

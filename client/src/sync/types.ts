@@ -5,9 +5,13 @@
 //   users/{uid}/items/{kind}:{ref}     one study item, last writer wins (RemoteItem)
 //   users/{uid}/devices/{deviceId}     one device's own reading progress (DeviceProgress)
 //   users/{uid}/settings/{key}         one synced setting, last writer wins (RemoteSetting)
+//   users/{uid}/memory/{deviceId}      one device's Memory progress and history (MemoryDoc); each device
+//                                      writes only its own, every device merges them all (a join)
 // Every document also carries `serverTime`, set by the server (request.time) on each write; pulls of
 // items are incremental on it. The client never deletes documents: a deleted study item is a
 // tombstone (`deleted: true`, `value: null`). Only the backend's "delete my data" removes documents.
+import type { ProgressMap } from '../memory/types';
+import type { MemoryHistory } from '../storage/memoryKeys';
 import type { HighlightId } from '../theme/highlights';
 
 export type ItemKind = 'highlight' | 'note' | 'bookmark';
@@ -50,6 +54,21 @@ export interface DeviceProgress {
   goalMetDays: string[];
   /** The daily goal as this device last set it, or null if this device never changed it. */
   goal: { minutes: number; updatedAt: number } | null;
+  /** Client time in ms of this write. */
+  updatedAt: number;
+}
+
+/**
+ * One device's Memory progress and history (decoded; the wire form is the adapter's). Each device writes
+ * only its own; it carries the device's merged values, so every document is a lower bound of the account's
+ * Memory and merging any of them in is harmless (domains/memory.ts: the merge is a join).
+ */
+export interface MemoryDoc {
+  deviceId: string;
+  /** Verse id -> progress (storage/memoryKeys.ts memoryProgressKey). */
+  progress: ProgressMap;
+  /** The completed days and the start day (memoryHistoryKey). The streak is derived, never stored. */
+  history: MemoryHistory;
   /** Client time in ms of this write. */
   updatedAt: number;
 }
@@ -102,6 +121,14 @@ export interface RemoteStore {
   pullSettings(): Promise<RemoteSetting[]>;
   /** Writes the settings (each replaces the document with its key). Resolves and rejects as pushItems; `held` holds setting keys. */
   pushSettings(settings: readonly RemoteSetting[]): Promise<{ held: readonly string[] }>;
+  /**
+   * Every device's Memory document, this device's included. Optional only so that test doubles written
+   * before Memory synced (outside sync/) still type-check: the engine syncs Memory only when its domain
+   * is set and the remote has both Memory methods. Both real remotes have them.
+   */
+  pullMemory?(): Promise<MemoryDoc[]>;
+  /** Replaces this device's Memory document. */
+  pushMemory?(doc: MemoryDoc): Promise<void>;
 }
 
 export type SyncState = 'idle' | 'syncing' | 'offline' | 'error';

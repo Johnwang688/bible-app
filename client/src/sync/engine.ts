@@ -22,16 +22,30 @@
 // and this device's own progress document tells which goal it last sent (rule 14). An item or setting
 // the remote reports as held (resolved but not written, types.ts) is likewise not acknowledged: it
 // stays pending and goes out again on a later ordinary run (rule 16).
+//
+// Memory (rules 17–23) needs none of the stamps, bases or journal: its merge is a join (domains/memory.ts).
+// A run joins every pulled Memory document into the local values at the commit, re-reading them at the
+// write (a change made during the run is joined, never overwritten: rule 5), and pushes this device's
+// document as the joined values. Why no journal: every Memory write is `local := join(local now, remote)`,
+// which only adds to what is there, and nothing in the sync state describes it except two change-detection
+// hashes. A crash between the progress and the history write leaves one key joined and the other as the
+// app left it: nothing is lost (a join keeps every row and day either side had), nothing is mistaken for
+// a newer change (a row's own review time is its only clock; no stamp is taken), and the next run joins
+// the same documents again (they are still on the account), which repairs the other key; joining what is
+// already joined changes nothing. A stale hash costs at most one extra sync or one extra push.
+import type { ProgressMap } from '../memory/types';
+import type { MemoryHistory } from '../storage/memoryKeys';
 import type { Storage, StorageKey } from '../storage/storage';
 import { CLOCK_AHEAD_MAX_MS } from './clock';
 import { checkPulledItem, fingerprint, localItemOf, readLocalFingerprints, readLocalItems, setLocalItem, toRemoteItem, type CheckedItem, type LocalItem } from './domains/items';
 import { bestGoal, checkDevices, deviceDoc, mergeProgress, progressSig, sameDoc, type CleanDoc } from './domains/progress';
+import { checkMemoryDocs, joinMemoryDocs, memorySig, mergeMemoryHistory, mergeMemoryProgress, sameMemory, type CheckedMemory, type MemoryKeys } from './domains/memory';
 import { checkPulledSetting, isSettingKey, settingSig, toRemoteSetting, type CheckedSetting } from './domains/settings';
 import { journaledState, randomId, recoverJournal, type JournalKeys } from './journal';
 import { beats, decide, decideWhole, lookup, put, restamp, sameStamp, stableStringify, type Decision, type RemoteSide, type StampEntry } from './merge';
 import type { ProgressShape, StudyItemsShape, SyncDomains } from './shapes';
 import { deviceIdKey, isDeviceId, isValidUid, syncStateKey, type ItemBase, type SyncStateData } from './state';
-import { RemoteError, type DeviceProgress, type PulledItem, type RemoteItem, type RemoteSetting, type RemoteStore, type SettingKey, type SyncEngine, type SyncStatus } from './types';
+import { RemoteError, type DeviceProgress, type MemoryDoc, type PulledItem, type RemoteItem, type RemoteSetting, type RemoteStore, type SettingKey, type SyncEngine, type SyncStatus } from './types';
 
 export interface SyncEngineOptions {
   uid: string;
@@ -118,6 +132,8 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
   // Only keys that are synced settings (types.ts SettingKey) can sync; anything else is ignored.
   const settingKeys = (domains.settings ?? []).filter((k) => isSettingKey(k.key)) as (StorageKey<unknown> & { key: SettingKey })[];
   const journalKeys: JournalKeys = { items: studyKey, progress: progressKey, settings: settingKeys };
+  // Memory syncs only with its domain and a remote that has both Memory methods (types.ts RemoteStore).
+  const memoryKeys: MemoryKeys | undefined = domains.memory && remote.pullMemory && remote.pushMemory ? domains.memory : undefined;
 
   let state: SyncStateData = storage.get(stateKey);
   let status: SyncStatus = { state: 'idle', lastSyncedAt: null };
@@ -194,6 +210,16 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
     // Minutes, chapters and goal-met days have no stamps, but a change to them is worth a sync.
     if (progressSig(p) !== state.progress.sig) res.stamped = true;
     return res;
+  }
+
+  /** The local Memory values (progress and history). */
+  const readMemory = (keys: MemoryKeys) => ({ progress: storage.get(keys.progress), history: storage.get(keys.history) });
+
+  /** Memory has no stamps (its merge is a join): a change only asks for a sync. */
+  function stampMemory(): { stamped: boolean; dirty: boolean } {
+    if (!memoryKeys) return { stamped: false, dirty: false };
+    const { progress, history } = readMemory(memoryKeys);
+    return { stamped: memorySig(progress, history) !== (state.memory?.sig ?? null), dirty: false };
   }
 
   function note(res: { stamped: boolean; dirty: boolean }, r: 'stamped' | null) {
@@ -312,6 +338,8 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
     alive();
     const pulledDevices = progressKey ? await remote.pullDevices() : [];
     alive();
+    const pulledMemory = memoryKeys ? await remote.pullMemory!() : null;
+    alive();
     const pulledItems = studyKey ? await remote.pullItems(state.items.cursor) : null;
     alive();
 
@@ -319,6 +347,9 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
     const itemPlan = studyKey && items0 && pulledItems ? planItems(studyKey, items0.items, pulledItems.items) : null;
     const settingPlan = planSettings(settings0, pulledSettings);
     const progressPlan = progressKey && progress0 ? planProgress(progressKey, progress0, pulledDevices) : null;
+    // Memory: the join of every valid part of the pulled documents (rule 21), joined into the local values at the commit.
+    const memoryDocs: CheckedMemory[] | null = memoryKeys && pulledMemory ? checkMemoryDocs(memoryKeys, pulledMemory) : null;
+    const memoryJoin = memoryDocs ? joinMemoryDocs(memoryDocs) : null;
 
     // Each domain updates the in-memory state and says which local values to write; commit writes
     // them, journaled. Should the merge throw, the state goes back to what it was.
@@ -334,7 +365,7 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
       state = before;
       throw e;
     }
-    commit(before, itemWrite.value, settingWrite.values, progressWrite.value);
+    commit(before, itemWrite.value, settingWrite.values, progressWrite.value, memoryJoin);
     const settingPushes = settingWrite.pushes;
     const devicePush = progressWrite.push;
 
@@ -386,6 +417,35 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
         saveState();
       }
     }
+
+    if (memoryKeys && memoryDocs) {
+      // This device's document is its joined values, read now (a change since the commit goes out too).
+      // Not sent when the account already holds them: this device's document says the same, or it is
+      // there and the last push this device made (acknowledged, none attempted since) sent exactly these
+      // values (the adapter may have normalised them, so the document need not read back equal). Only
+      // this device writes its document, so that document is then exactly that push.
+      const values = readMemory(memoryKeys);
+      const sig = memorySig(values.progress, values.history);
+      const mine = memoryDocs.find((d) => d.deviceId === self);
+      const holds =
+        mine !== undefined &&
+        ((mine.progress !== null && mine.history !== null && sameMemory({ progress: mine.progress, history: mine.history }, values)) ||
+          state.memory?.pushed === sig);
+      const setPushed = (pushed: string | null) => {
+        if ((state.memory?.pushed ?? null) === pushed) return;
+        state.memory = { sig: state.memory?.sig ?? null, pushed };
+        saveState();
+      };
+      if (!holds) {
+        // A push whose outcome is unknown (it fails, or the app dies) may have written: forget the last one first.
+        setPushed(null);
+        alive();
+        const doc: MemoryDoc = { deviceId: self, progress: values.progress, history: values.history, updatedAt: now() };
+        await remote.pushMemory!(doc);
+        alive();
+      }
+      setPushed(sig);
+    }
   }
 
   /**
@@ -394,28 +454,39 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
    * (journal.ts). Should a write throw, the in-memory state becomes the journaled one, which recovery
    * settles before it is used again.
    */
-  function commit(before: SyncStateData, items: StudyItemsShape | null, settings: readonly SettingWrite[], progress: ProgressShape | null) {
-    if (!items && settings.length === 0 && !progress) {
+  function commit(
+    before: SyncStateData,
+    items: StudyItemsShape | null,
+    settings: readonly SettingWrite[],
+    progress: ProgressShape | null,
+    memory: { progress: ProgressMap; history: MemoryHistory } | null,
+  ) {
+    const journaling = items !== null || settings.length > 0 || progress !== null;
+    if (!journaling && !memory) {
       saveState();
       return;
     }
     const id = randomId(16);
-    let journaled: SyncStateData;
-    try {
-      journaled = journaledState(before, state, id, { items: items !== null, settings: settings.map((w) => w.key.key), progress });
-    } catch (e) {
-      state = before; // nothing written yet
-      throw e;
+    // Memory writes are not journaled (see the header): a run that writes only Memory saves no journal.
+    let journaled: SyncStateData | null = null;
+    if (journaling) {
+      try {
+        journaled = journaledState(before, state, id, { items: items !== null, settings: settings.map((w) => w.key.key), progress });
+      } catch (e) {
+        state = before; // nothing written yet
+        throw e;
+      }
     }
     committing = true;
     deferred.clear();
     let stamped = false;
     try {
-      storage.set(stateKey, journaled);
+      if (journaled) storage.set(stateKey, journaled);
       // Each write notifies the watchers before the next lands: they defer to the stamping below.
       if (items && studyKey) storage.set(studyKey, items, { tag: id });
       for (const w of settings) storage.set(w.key, w.value, { tag: id });
       if (progress && progressKey) storage.set(progressKey, progress, { tag: id });
+      if (memory && memoryKeys) writeMemory(memoryKeys, memory);
       committing = false;
       // Every local value now matches the in-memory state, so only a real change (an app listener
       // writing in response to one of these writes) is stamped, as the watcher would have (rule 5).
@@ -426,10 +497,28 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
     } catch (e) {
       committing = false;
       deferred.clear();
-      state = clone(journaled);
+      if (journaled) state = clone(journaled);
       throw e;
     }
     if (stamped) scheduleDebounce();
+  }
+
+  // ---- Memory ----
+
+  /**
+   * Joins the account's Memory into each local key as it is at the write (rule 5: what the app wrote
+   * during the run, or in a listener of an earlier write, is joined, never replaced), writing a key only
+   * when the join changes it. Then records the values' hash, so the watchers' deferred check sees no change.
+   */
+  function writeMemory(keys: MemoryKeys, remoteJoin: { progress: ProgressMap; history: MemoryHistory }) {
+    const p0 = storage.get(keys.progress);
+    const p1 = mergeMemoryProgress(p0, remoteJoin.progress);
+    if (stableStringify(p1) !== stableStringify(p0)) storage.set(keys.progress, p1);
+    const h0 = storage.get(keys.history);
+    const h1 = mergeMemoryHistory(h0, remoteJoin.history);
+    if (stableStringify(h1) !== stableStringify(h0)) storage.set(keys.history, h1);
+    const after = readMemory(keys);
+    state.memory = { sig: memorySig(after.progress, after.history), pushed: state.memory?.pushed ?? null };
   }
 
   // ---- study items ----
@@ -692,6 +781,10 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
       if (studyKey) watch(studyKey, stampItems);
       for (const k of settingKeys) watch(k, stampSettings);
       if (progressKey) watch(progressKey, stampProgress);
+      if (memoryKeys) {
+        watch(memoryKeys.progress, stampMemory);
+        watch(memoryKeys.history, stampMemory);
+      }
       timers.first = setTimeout(() => {
         timers.first = undefined;
         void kick();

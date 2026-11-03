@@ -106,6 +106,19 @@ const stateSchema = z.object({
       .nullable()
       .default(null),
   }),
+  /**
+   * Memory (domains/memory.ts). Absent until the first run that syncs Memory (and in states saved
+   * before Memory synced). Neither value is journaled: the Memory merge is a join, so a crash between
+   * its writes loses nothing (engine.ts "Memory").
+   */
+  memory: z
+    .object({
+      /** memorySig of the local Memory values after the last run: a different one is a change worth a sync. */
+      sig: z.string().nullable(),
+      /** memorySig of the last document this device's push of this account was acknowledged for. */
+      pushed: z.string().nullable(),
+    })
+    .optional(),
   /** The write journal (journal.ts). States saved before it existed read as null. */
   journal: journalSchema.nullable().default(null),
 });
