@@ -272,6 +272,94 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
 - **Hardware:** the prototype ran smoothly on John's school iPad. A low-end Android phone is still to try (needs EAS builds), as part of R-7's performance budget.
 - **When:** R-7 builds the animation and the Appearance choice.
 
+**R-7a notes (2026-11-02).** These are the parts of R-7 that need no other team. **Screens wait for approved
+prototypes** (John, 2026-11-02), so R-7a ships no new screens. Prototypes in `bible-app-work/design/proposed/`:
+`r7a-welcome.html`, `r7a-look.html`, `r7a-age.html` and `r7a-aurora-option.html`.
+- **Old web data import** (`client/src/legacy/`).
+  - **What it imports:** on its first run, the web build reads the old app's localStorage once: the last position,
+    recent passages, highlights, notes, bookmarks and the theme.
+  - **How it maps:** old highlights all showed in the old reader's one colour, so they import in that colour, mapped
+    to the new six. Bookmarks are timed at the import. Light, Dark and Paper map to the default look in their mode
+    (Paper is Silver); Auto follows the phone.
+  - **Safety:** it never overwrites new-app data, never throws, and never changes the old keys, since the old site
+    keeps working until the cut-over.
+  - **Once per part:** each part is recorded once imported. **Reading progress** (goal, goal days, chapters read)
+    is parsed and tested, and is written into R-3's `reading.progress` after R-3 merges; users who have already
+    launched get it on their next launch.
+- **First run** (`client/src/onboarding/`). `useFirstRun()` holds the state behind the screens: choose a look, finish
+  with an optional age range (kept on the device), or skip.
+  - **Skipping** gives Silver / Graphite following the phone, but keeps a light/dark mode imported from the old app.
+  - **The gate** (`FirstRunGate`) wraps the navigator in the root layout: on a fresh device the intro shows instead
+    of the app, and afterwards the app opens on the page that was asked for.
+  - **`/privacy` is never covered** (B-1, #29): the privacy policy opens directly on a fresh device, for the App Store
+    review URL and links from outside the app, and the intro stays not done. Exempt paths are exact matches in
+    `FIRST_RUN_EXEMPT_PATHS` (`onboarding/FirstRunGate.tsx`).
+  - **The screens** (approved 2026-11-02 as drawn, `bible-app-work/r7a/GO-AHEAD.md`): welcome, pick your look, your
+    age. Steps 2 and 3 have a 44 pt Back and "Skip for now". Skip on step 1 drops the whole intro and gives the
+    default look; "Skip for now" on step 2 or 3 ends the intro keeping the look picked so far, with no age. The look
+    step's middle scrolls under a pinned footer, so Continue never falls off at large text or in Chinese.
+  - **The age step (John, 2026-11-02):** it stays, with "Under 13".
+    - **The age never leaves the device.** It is never synced or sent, so "It stays on this device" stays true
+      (`onboarding/__tests__/ageStaysOnDevice.test.ts`).
+    - **Under 13 turns off sign-in and sync,** so no email or synced data is collected from under-13s. The only
+      thing other modules read is a boolean: `isSignInAllowed` / `useSignInAllowed` / `signInGateFor` in
+      `client/src/onboarding/signIn.ts`. R-6b hides sign-in and never starts sync when it is false.
+    - A line under the question says why the app asks, and that Under 13 keeps everything on the device with no
+      sign-in.
+  - **Text on the aurora:** sub-lines, captions and notes never sit directly on the moving aurora. They sit on a text
+    card in the sheet paint, which keeps text and muted at 4.5:1 or better over every aurora colour
+    (`onboarding/paint.ts`; the test measures over each of the three colours and the base). Headings keep the soft
+    shadow at full strength. Glass chip edges are 3:1 against every aurora colour.
+- **The aurora** (`client/src/aurora/`) runs behind glass presets on screens with the app background, never the
+  reader.
+  - **Web:** a WebGL2 port of the prototype. The fluid simulation is the default; the flow shader is the option
+    (`aurora.style`, set from Customise once its control is approved). It renders at half resolution and pauses
+    when the tab or page is hidden.
+  - **Reduce Motion:** one still frame.
+  - **Fallbacks:** if the GPU context is lost, the still gradient shows until the context comes back. On a software
+    renderer (no GPU), the fluid simulation falls back to flow, and the aurora keeps moving at 30 fps instead of 60
+    (John, 2026-11-02; `SOFTWARE_MAX_FPS` in `aurora/controller.web.ts`, `setMaxFps` in `aurora/loop.ts`). Reduce Motion
+    still draws one still frame there.
+  - **Native** has no GPU drawing library, so it shows a lighter drift of the orbs (UI-thread `Animated`). Adding
+    Skia or expo-gl for parity is in Open.
+  - **Where it shows:** `Screen` mounts it. Screens that build their own frame (Home, Study, Me) mount
+    `<AuroraBackground />` themselves.
+- **Shadowed text** (how the contrast test measures it): text that sits directly on the aurora gets a soft shadow in
+  the preset's base colour. The test composites the shadow over the aurora colour at half its alpha, since a blurred
+  halo does not fully cover. Measured that way, at full alpha, text and muted pass 4.5:1 over every aurora colour in
+  all six glass presets (`client/src/aurora/__tests__/aurora.test.tsx`).
+- **Performance budget**, measured on the web export with `client/scripts/perf-budget.mjs`:
+  - **Setup:** headless Chromium on John's PC (Intel integrated graphics, D3D11), Pixel 7 viewport, median of 3
+    runs, 2026-11-02.
+  - **"Mid-range phone"** means 4x CPU throttling. A real low-end Android phone and the iPad are still to try (they
+    need EAS builds).
+  - **The local server sends files uncompressed**, so the 4G row is a worst case.
+
+  | Measure | Budget | Measured |
+  |---|---|---|
+  | JS bundle, gzip | ≤ 600 KB | 492 KB (2.0 MB raw) |
+  | Fonts loaded before the first paint | ≤ 500 KB | 0 KB (was 2.0 MB, 11 TTF files): only the active look's faces load, with `font-display: swap`, and the web never waits for them |
+  | Home visible, mid-range phone, no network limit | ≤ 2.5 s | 1.7 s (was 2.3 s in the same run) |
+  | Fonts fetched at start | — | pastel 5 files, 915 KB; glass 6 files, 1,126 KB (was 11 files, 2,041 KB for every look) |
+  | Home visible, mid-range phone, fast 4G (1.6 Mb/s, 150 ms) | ≤ 5 s | **11.2 s** pastel, 11.7 s glass ✗ (was 22.4 s); what is left is the 2.1 MB of uncompressed JS (DOMContentLoaded 10.2 s) |
+  | Aurora frame rate, GPU, at 1x and 4x CPU | 60 fps | 60 (fluid and flow) |
+  | Main-thread time per frame, GPU, 4x CPU | ≤ 4 ms | fluid 1.5 ms, flow 0.6 ms, pastel (no aurora) 0.3 ms |
+  | Long tasks while animating | 0 | 0 |
+  | No GPU (SwiftShader) | no fluid simulation | flow at **30 fps** (was 61): main-thread time 258 ms/s at 1x CPU and 400 ms/s at 4x (was 485 and 645), 9 and 13 ms per drawn frame against a 33 ms frame |
+  | JS heap | — | 11–12 MB |
+
+  **Follow-up (John, 2026-11-02), re-measured the same day** (before = 45d8dcf, after = this PR; same script and machine,
+  median of 3; the start-up rows ran on SwiftShader):
+  - **Start-up fonts:** at start only the active look's fonts load: its UI font and its Scripture font
+    (`fonts/lookFonts.ts`, `fonts/FontGate.tsx`), plus Noto Serif SC only when the interface or the reader's translation
+    is Chinese. Every face is `font-display: swap`, and the web renders at once in the fallback font. A phone (bundled
+    local fonts) still waits for the first look's fonts, so it never flashes a fallback face. Other looks' fonts load
+    when a look is chosen, and when the look picker shows them. A face that failed to download is downloaded again on
+    the next ask. `e2e/startupFonts.spec.ts` checks the request list.
+  - **Fast 4G:** Home now waits only for the JS bundle. It still misses 5 s because the local server sends the 2.1 MB
+    uncompressed; gzip (517 KB) is a hosting setting (Firebase Hosting compresses), not app code.
+  - **No GPU:** the aurora keeps moving at 30 fps there, which cuts its main-thread time by 38–47%.
+
 **R-3 notes (2026-11-02).**
 - **Study → Saved:** every highlight, note and bookmark, newest first. Verses saved together (a range from the verse sheet) show as one entry, "John 3:16–18". Filters: kind (All, Highlights, Notes, Bookmarks), colour, and book (a sheet listing only the books that have items). Book names and dates follow the interface language; the verse text is in the reader's current translation. Tapping an entry opens it in context: the Bible tab, that chapter in the same translation, the verses selected (sheet closed), scrolled into view, with focus on the first.
 - **Study → Progress:** the streak (with the best streak) and this week, Monday first; today's minutes against the daily goal; chapters explored, "N / 1,189", and the coverage map, one square per book, shaded from none to every chapter. English uses three-letter book codes and Chinese the CUV abbreviations; screen readers hear the full book name and the count. The design's third segment, Explore (people, places and themes), comes with R-5.
@@ -343,7 +431,10 @@ After R-7, new roadmap features are built frontend and backend together:
 - **Minimum age and privacy:** this matters for accounts and groups.
 - **Shipping native builds:** EAS Build accounts (Apple Developer, Google Play).
 - **Translating the English-only content** (commentary, people/places/themes, quizzes) into Chinese: a later project.
-- **Screens still to draw:** search, the chapter tools sheet, the people/places/themes pages, sign-in, and the first-run intro with "pick your look". Draw each before the phase that builds it.
+- **Screens still to draw:** search, the chapter tools sheet, the people/places/themes pages, sign-in. Draw each before the phase that builds it.
+- **First run and the aurora option (R-7a):** approved 2026-11-02 and built. The age list offers "Under 13", which keeps everything on the device with no sign-in (R-7a notes). Mounting the aurora option in Customise waits for R-6a.
+- **Start-up fonts (R-7 budget):** done (R-7a follow-up): only the active look's fonts, `font-display: swap`. Still open: WOFF2 subsets on the web (about a third of the TTF size), and serving the JS compressed in the fast-4G measurement.
+- **Native aurora parity:** add `@shopify/react-native-skia` (or `expo-gl`) so iOS and Android run the fluid simulation and the flow shader too. Today they show a lighter UI-thread drift.
 - **Signed off (John, 2026-11-01):** these screens are drawn on the canvas's "All screens" page, in every preset and in both languages:
   - Home and the reader
   - the book and chapter picker
