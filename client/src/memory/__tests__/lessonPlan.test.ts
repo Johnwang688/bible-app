@@ -179,7 +179,7 @@ describe('session navigation (daily-lesson)', () => {
   // The origin of the bookmarked `?completed=1`.
   it('E1 free practice (no session) never links to ?completed=1', () => {
     const next = getNextStep([], 0);
-    expect(next.href).toBe('/memory');
+    expect(next.href).toBe('/study/memory'); // Memory home sits in the Study tab's stack (MEM screens)
     expect(next.kind).toBe('done');
     expect(next.isLast).toBe(false); // a session-less step is not a last step
   });
@@ -190,7 +190,7 @@ describe('session navigation (daily-lesson)', () => {
       { verseId: verse.id, stage: 'fill-blank' },
     ];
     const next = getNextStep(items, 1);
-    expect(next.href).toBe('/memory?completed=1');
+    expect(next.href).toBe('/memory/complete'); // the lesson's end screen decides: complete, or N steps left
     expect(next.kind).toBe('done');
     expect(next.isLast).toBe(true);
   });

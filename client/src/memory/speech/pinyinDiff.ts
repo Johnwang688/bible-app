@@ -50,7 +50,7 @@ const splitKey = (key: string): string[] => key.split(/\s+/).filter(Boolean);
 
 // ── Alignment ────────────────────────────────────────────────────────────────
 
-type Op =
+export type Op =
   | { kind: 'match'; e: number; t: number }
   | { kind: 'sub';   e: number; t: number }
   | { kind: 'del';   e: number }
@@ -67,7 +67,7 @@ type Op =
  * over a del+ins pair keeps the natural "you said the wrong word here"
  * read in the common single-mistake case.
  */
-function align(expected: string[], transcribed: string[]): Op[] {
+export function align(expected: string[], transcribed: string[]): Op[] {
   const m = expected.length;
   const n = transcribed.length;
   const dp: number[][] = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
@@ -324,7 +324,7 @@ export function diffHanzi(
  * whitespace exactly when its code point is, so this drops whole positions, not
  * halves of one.
  */
-function dropWhitespaceTokens(
+export function dropWhitespaceTokens(
   chars: string[],
   tokens: string[],
 ): { chars: string[]; tokens: string[] } {

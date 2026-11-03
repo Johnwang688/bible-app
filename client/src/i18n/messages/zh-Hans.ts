@@ -1,6 +1,7 @@
 // 简体中文 message catalogue. Drafted with the English; John and Chinese-speaking friends
 // review it before launch (R-7). Terms follow CUV-style church usage.
 import type { MessageKey } from './en';
+import { memoryZhHans } from './memory';
 
 export const zhHans: Record<MessageKey, string> = {
   'app.name': '圣经',
@@ -586,6 +587,9 @@ export const zhHans: Record<MessageKey, string> = {
   'study.bookCoverage': '{book}：已读 {read} 章，共 {total} 章',
   'study.legendNone': '未读',
   'study.legendAll': '全部读过',
+
+  // Memory (team MEM): the block lives in ./memory.ts.
+  ...memoryZhHans,
 
   'common.loading': '加载中…',
   'common.retry': '重试',

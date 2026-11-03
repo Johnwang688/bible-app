@@ -1,15 +1,18 @@
 // The Study tab: Saved (highlights, notes and bookmarks, filtered) and Progress (streak, goal, chapters
 // explored). Both read the device's storage through hooks, so a change made in the reader shows at once. This
 // screen never writes them.
+import { router } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { GlassSurface } from '../../components/GlassSurface';
 import { uiFace } from '../../fonts/fonts';
 import { useT } from '../../i18n/I18nProvider';
 import type { DeviceLocale } from '../../i18n/types';
 import type { MessageKey } from '../../i18n/messages/en';
 import { useReadingProgress } from '../../progress';
+import { Icon } from '../../reader/components/icons';
 import { buttonStyle } from '../../reader/components/ui';
 import { useReaderPosition } from '../../reader/state';
 import { useOpenInReader } from '../../reader/target';
@@ -37,11 +40,14 @@ export function StudyScreen({
   locales,
   now,
   navigate,
+  openMemory,
 }: {
   storage?: Storage;
   locales?: readonly DeviceLocale[];
   now?: () => Date;
   navigate?: () => void;
+  /** Opens Memory (default: the router, to /study/memory). */
+  openMemory?: () => void;
 }) {
   const theme = useTheme();
   const t = useT();
@@ -74,6 +80,36 @@ export function StudyScreen({
       >
         {t('screen.study.title')}
       </Text>
+      <Pressable
+        testID="study-memory-entry"
+        accessibilityRole="button"
+        accessibilityLabel={`${t('memory.title')}. ${t('memory.entry.sub')}`}
+        onPress={openMemory ?? (() => router.push('/study/memory'))}
+        style={({ pressed }) => ({ opacity: pressed ? 0.85 : 1 })}
+      >
+        <GlassSurface
+          background={theme.backgrounds.surface}
+          style={[
+            styles.memoryEntry,
+            {
+              borderRadius: theme.radii.card,
+              borderWidth: theme.borders.card.width,
+              borderColor: theme.borders.card.color,
+              boxShadow: theme.shadows.card ?? undefined,
+            },
+          ]}
+        >
+          <View style={styles.memoryText}>
+            <Text style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.head, '700'), fontSize: 17 }}>
+              {t('memory.title')}
+            </Text>
+            <Text style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 13 }}>
+              {t('memory.entry.sub')}
+            </Text>
+          </View>
+          <Icon name="chevronRight" size={20} color={theme.colors.muted} />
+        </GlassSurface>
+      </Pressable>
       <View accessibilityRole="tablist" style={[styles.segments, button, { borderRadius: theme.radii.button }]}>
         {TABS.map((tab) => {
           const selected = view === tab.id;
@@ -127,5 +163,7 @@ const styles = StyleSheet.create({
   fill: { flex: 1 },
   header: { gap: 14 },
   segments: { flexDirection: 'row', gap: 4, padding: 4 },
+  memoryEntry: { minHeight: 60, flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 12, paddingHorizontal: 16 },
+  memoryText: { flex: 1, gap: 2 },
   segment: { flex: 1, minHeight: 44, alignItems: 'center', justifyContent: 'center' },
 });

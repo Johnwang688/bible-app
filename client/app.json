@@ -33,7 +33,13 @@
       "expo-font",
       "expo-splash-screen",
       "expo-asset",
-      ["expo-secure-store", { "configureAndroidBackup": true, "faceIDPermission": false }]
+      ["expo-secure-store", { "configureAndroidBackup": true, "faceIDPermission": false }],
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "Bible App uses the microphone only while you answer a memory verse by voice."
+        }
+      ]
     ]
   }
 }
