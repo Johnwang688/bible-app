@@ -91,19 +91,31 @@ When signed in, the sync engine (`engine.ts`) merges the device with the account
     documents written after it, oldest first, at most rule 24's 50 documents / 1.5 MB; a pull cut short
     there goes on from where it stopped on the next sync, so nothing written after the cursor is
     skipped. This is sound because the merge is a join: what was merged is already in the device's
-    values. The cursor moves only once both Memory values are saved. Documents the device ignores
-    (rule 21) still move it, so they are read once. **A full pull** (the newest documents, newest first)
+    values. Should those values be lost, the read of the device's own document below restores them.
+    The cursor moves only once both Memory values are saved. Documents the device ignores (rule 21)
+    still move it, so they are read once. **A full pull** (the newest documents, newest first)
     runs when there is no cursor (the first sync of this account on this device, or after its sync
     history was reset) and once a day: it picks up rows skipped for a clock bound or a verse the library
     did not know yet, which an incremental pull would not read again. A full pull never moves an existing
     cursor back or forward, so the incremental pulls still read everything after it.
-    **A device uploads its document whenever the account's copy does not say what it would send.** Its
-    own document, when a pull returns it, is compared with its values (both as the upload would write
-    them and within rule 24's bounds): anyone with the token can overwrite it, and that write is new to
-    the next incremental pull, so a blanked or altered copy is repaired by the next sync. When a pull does
-    not return it, an incremental pull means no one wrote it since, and the device uploads only if its
-    values changed since its last acknowledged upload; a full pull means it is missing or crowded out of
-    the newest documents, and the device uploads it so a new device's first pull finds it.
+    **A device uploads its document whenever the account's copy does not say what it would send.** The
+    device takes the account's copy of its own document from the pull. When the pull does not return it,
+    the device reads it by id (one document, bounded by the rules' size) in three cases: the pull was full,
+    the incremental pull read any document (one may have been this device's and did not decode), or the
+    device's values differ from its last acknowledged upload (they may have been lost: a key that reads
+    back empty). Whatever of that copy passes rule 24 is merged into the device's values first, like any
+    pulled document. So an upload never sends less than the account's copy held, and a device that lost
+    its values gets them back. The copy is then compared with the values (both as the upload would write
+    them and within rule 24's bounds), and the device uploads when they differ. A copy that is there but
+    does not decode counts as differing. So **a blanked, altered or unreadable copy is repaired by the
+    first sync that reads it**: the next one when the overwrite is new to an incremental pull, and the
+    next full pull otherwise (the tie case below). It is not read when the incremental pull read nothing
+    and the values were those of the last upload when the sync began. Then nobody wrote the copy since
+    (except for the tie case below), and the device uploads only if its values changed during the sync,
+    after reading its copy then and merging that copy into what it sends. Two more cases upload anyway.
+    If the copy is missing, the device uploads it. On a full pull that did not return the copy, the device
+    also uploads it, because the copy may have been crowded out of the newest documents, and a new
+    device's first pull then finds it.
 
 These merges are joins (commutative, associative, idempotent): any number of devices syncing in any
 order, any number of times, end with the same values, and merging a value in again changes nothing. A
@@ -122,7 +134,8 @@ change made during a sync is joined into, never overwritten (rule 5). Known limi
   are in the other devices' documents if they ever pulled it.
 - Documents written in one commit share one server time. When a pull stops in the middle of them, the
   rest are skipped by the incremental pulls (the next starts after that time). Only a token holder
-  writes several Memory documents in one commit; a device writes its own alone.
+  writes several Memory documents in one commit; a device writes its own alone. An overwrite of a
+  device's own document skipped this way is repaired at that device's next full pull (rule 25).
 - A row ignored when it was pulled (a clock bound, an unknown verse) waits for the next full pull, up to
   a day, unless its device writes again first.
 - A verse added to the library by a newer app version is ignored by devices on an older version until they

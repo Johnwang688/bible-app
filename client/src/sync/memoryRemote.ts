@@ -2,7 +2,7 @@
 // fail or hold calls. It behaves like the Firestore adapter: pushes replace documents by id, every
 // write gets a strictly increasing serverTime, and incremental pulls return items (and Memory documents)
 // written after `since`. Memory pulls keep the adapter's order and its MEMORY_PULL_MAX cap (not its
-// character budget: test documents are small).
+// character budget: test documents are small); getMemory reads one Memory document by id.
 import { MEMORY_PULL_MAX, memoryPull } from './domains/memory';
 import {
   RemoteError,
@@ -22,7 +22,8 @@ export type RemoteCall =
   | 'pullSettings'
   | 'pushSettings'
   | 'pullMemory'
-  | 'pushMemory';
+  | 'pushMemory'
+  | 'getMemory';
 
 export interface MemoryRemote extends Required<RemoteStore> {
   /** The stored documents (copies). */
@@ -170,6 +171,13 @@ export function createMemoryRemote(): MemoryRemote {
     async pushMemory(d) {
       await enter('pushMemory');
       putMemory(d);
+    },
+    // Documents are stored unvalidated (putMemory), so nothing here is 'invalid': the engine's checks
+    // (checkMemoryDocs) refuse what does not fit the storage schemas, as they do for a pulled document.
+    async getMemory(id) {
+      await enter('getMemory');
+      const d = memory.get(id);
+      return d === undefined ? 'missing' : copy(d);
     },
   };
 }

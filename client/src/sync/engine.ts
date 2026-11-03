@@ -43,13 +43,15 @@
 // Memory pulls are incremental (rule 25): the state keeps a cursor, the largest serverTime pulled, and a
 // run reads only the documents written after it (oldest first, so a pull cut short at its bounds goes on
 // from there next time). That is sound because the merge is a join: what was pulled is in the local values.
+// Nothing trusts that blindly: should the local values be lost (a key that reads back empty), they no
+// longer match the last push, and the run reads this device's own document by id and joins it back in.
 // The cursor moves only once both Memory writes have landed, so a run that fails or crashes before then
 // pulls the same documents again. With no cursor (the first sync of this account on this device, or a reset
 // state), and once a day (MEMORY_FULL_PULL_MS), the pull is full: the newest documents, which also picks up
 // rows skipped for a clock bound or an unknown verse, and lets the device see whether its own document is
-// still among the newest. The device decides to push by its own document as pulled, not by trusting that
-// only it writes there: anyone with the token can overwrite it, and that write is a new document to the
-// next incremental pull.
+// still among the newest. The device decides to push by its own document as the account has it (pulled, or
+// read by id when the pull did not return it and the push depends on it), not by trusting that only it
+// writes there: anyone with the token can overwrite it, readably or not.
 import type { ProgressMap } from '../memory/types';
 import type { MemoryHistory } from '../storage/memoryKeys';
 import type { Storage, StorageKey } from '../storage/storage';
@@ -142,6 +144,11 @@ interface MemoryWrite {
   cursor: number | null;
   fullAt: number | null;
 }
+
+/** Where a run's view of this device's own Memory document came from (rule 25). */
+type OwnMemory = 'pulled' | 'read' | 'missing' | 'unread';
+
+const EMPTY_HISTORY: MemoryHistory = { startedOn: null, completedDates: [] };
 
 /** The study items a run read at its start (L0), with their stamps: rule 5 compares with both. */
 interface ItemsL0 {
@@ -383,6 +390,25 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
     const memoryFull = memoryCursor === null || memoryFullAt === null || t0 < memoryFullAt || t0 - memoryFullAt >= MEMORY_FULL_PULL_MS;
     const pulledMemory = memoryKeys ? await remote.pullMemory!(memoryFull ? null : memoryCursor) : null;
     alive();
+    // This device's own document, read by id when the pull did not return it and the push depends on it
+    // (rule 25): a full pull; an incremental one that read documents (one of them may have been this
+    // device's, dropped as undecodable); or local values that differ from the last push (they may have
+    // been lost: a key that reads back empty). It is joined into the local values like any pulled document,
+    // so the push that follows never sends less than the account holds. Otherwise (nothing written since
+    // the cursor and nothing changed here) the document is as this device's last acknowledged push left it.
+    let own: OwnMemory = 'unread';
+    let ownRead: MemoryDoc | 'missing' | 'invalid' | null = null;
+    if (memoryKeys && pulledMemory) {
+      if (pulledMemory.some((d) => (d as Partial<MemoryDoc> | null)?.deviceId === self)) own = 'pulled';
+      else if (
+        remote.getMemory &&
+        (memoryFull || pulledMemory.cursor !== memoryCursor || state.memory?.pushed !== pushableSig(memoryKeys, t0))
+      ) {
+        ownRead = await remote.getMemory(self);
+        alive();
+        own = ownRead === 'missing' ? 'missing' : 'read';
+      }
+    }
     const pulledItems = studyKey ? await remote.pullItems(state.items.cursor) : null;
     alive();
 
@@ -394,7 +420,10 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
     // Pulled documents are untrusted (rule 24): rows reviewed or lapsed more than a day past this clock,
     // rows of verses the library does not know, and days past local tomorrow are ignored before the join.
     const memoryPullBounds: MemoryBounds = memoryBounds(now(), MEMORY_AHEAD_MAX_MS, domains.memoryVerses);
-    const memoryDocs: CheckedMemory[] | null = memoryKeys && pulledMemory ? checkMemoryDocs(memoryKeys, pulledMemory, memoryPullBounds) : null;
+    const memoryDocs: CheckedMemory[] | null =
+      memoryKeys && pulledMemory
+        ? [...checkMemoryDocs(memoryKeys, pulledMemory, memoryPullBounds), ...checkOwn(memoryKeys, ownRead, memoryPullBounds)]
+        : null;
     // What the commit records once the Memory writes land: the cursor (a full pull keeps one the device
     // already has: the incremental pulls go on from it, so nothing written after it is skipped) and the
     // time of a full pull.
@@ -482,18 +511,37 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
       // This device's document is its joined values, read now (a change since the commit goes out too),
       // less the rows and days past the push bounds (rule 24: a device never re-publishes a far-future
       // time; such a row goes out once real time reaches it, as the value sent then differs).
-      // Not sent when the account already holds them (rule 25). Pulled this run, this device's document
-      // decides: it is sent unless it says the same, compared after the adapter's normalisation and the
-      // bounds on both sides (sameAsSent), so a copy anyone else wrote over it is repaired by this push.
-      // Not pulled: an incremental pull returns only documents written since the cursor, so the document
-      // is as this device's last acknowledged push left it, and it is sent when these values differ from
-      // that push's. A full pull that does not return it (never written, or crowded out of the newest by
-      // other documents) sends it, so it is among the newest again for a new device's first pull.
+      // Not sent when the account already holds them (rule 25), judged by this device's own document as the
+      // account has it: pulled, or read by id (see the pull). It is sent unless it says the same, compared after
+      // the adapter's normalisation and the bounds on both sides (sameAsSent), so a copy anyone else wrote over
+      // it, readable or not, is repaired by this push; and as it was joined into the local values first, the
+      // push never drops what it held. A full pull that does not return it (never written, or crowded out of
+      // the newest by other documents) sends it, so it is among the newest again for a new device's first pull.
+      // Not read (nothing written since the cursor, and the values were those of the last acknowledged push at
+      // the run's start): it is as that push left it, and it is sent only when the values changed during the
+      // run, after reading it then and joining it into what is sent.
       const pushBounds = memoryBounds(now(), CLOCK_AHEAD_MAX_MS);
-      const values = pushableMemoryValues(readMemory(memoryKeys), now(), CLOCK_AHEAD_MAX_MS);
+      let local = readMemory(memoryKeys);
+      let values = pushableMemoryValues(local, now(), CLOCK_AHEAD_MAX_MS);
+      let mine = memoryDocs.find((d) => d.deviceId === self);
+      let holds: boolean;
+      if (memoryFull && own !== 'pulled') holds = false;
+      else if (mine) holds = sameAsSent(mine, values, memoryPullBounds, pushBounds);
+      else if (own === 'missing') holds = false;
+      // Left: an incremental pull, the document not read.
+      else if (state.memory?.pushed === memorySig(values.progress, values.history)) holds = true;
+      else if (!remote.getMemory) holds = false;
+      else {
+        alive();
+        mine = checkOwn(memoryKeys, await remote.getMemory(self), memoryPullBounds)[0];
+        alive();
+        if (mine) {
+          local = { progress: mergeMemoryProgress(local.progress, mine.progress ?? {}), history: mergeMemoryHistory(local.history, mine.history ?? EMPTY_HISTORY) };
+          values = pushableMemoryValues(local, now(), CLOCK_AHEAD_MAX_MS);
+        }
+        holds = mine !== undefined && sameAsSent(mine, values, memoryPullBounds, pushBounds);
+      }
       const sig = memorySig(values.progress, values.history);
-      const mine = memoryDocs.find((d) => d.deviceId === self);
-      const holds = mine !== undefined ? sameAsSent(mine, values, memoryPullBounds, pushBounds) : !memoryFull && state.memory?.pushed === sig;
       const setPushed = (pushed: string | null) => {
         if ((state.memory?.pushed ?? null) === pushed) return;
         state.memory = { sig: state.memory?.sig ?? null, cursor: state.memory?.cursor ?? null, fullAt: state.memory?.fullAt ?? null, pushed };
@@ -581,6 +629,23 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
   }
 
   // ---- Memory ----
+
+  /** The hash of the local Memory values as a push would send them (pushableMemoryValues). */
+  function pushableSig(keys: MemoryKeys, at: number): string {
+    const v = pushableMemoryValues(readMemory(keys), at, CLOCK_AHEAD_MAX_MS);
+    return memorySig(v.progress, v.history);
+  }
+
+  /**
+   * This device's own document as read by id (RemoteStore.getMemory), checked as any pulled document:
+   * none when it is missing (or was not read), and one with no valid part when it does not decode or
+   * does not check out, which sameAsSent counts as differing (so the push repairs it).
+   */
+  function checkOwn(keys: MemoryKeys, got: MemoryDoc | 'missing' | 'invalid' | null, bounds: MemoryBounds): CheckedMemory[] {
+    if (got === null || got === 'missing') return [];
+    const checked = got !== 'invalid' && got?.deviceId === self ? checkMemoryDocs(keys, [got], bounds) : [];
+    return checked.length === 1 ? checked : [{ deviceId: self, progress: null, history: null }];
+  }
 
   /**
    * Joins the account's Memory into each local key as it is at the write (rule 5: what the app wrote

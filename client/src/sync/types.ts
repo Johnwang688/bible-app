@@ -141,6 +141,14 @@ export interface RemoteStore {
   pullMemory?(since?: number | null): Promise<MemoryPull>;
   /** Replaces this device's Memory document. */
   pushMemory?(doc: MemoryDoc): Promise<void>;
+  /**
+   * One Memory document by id, read from the server (one document read, bounded by the rules' size):
+   * the document when it decodes, 'missing' when there is none, 'invalid' when there is one that does
+   * not decode. The engine reads its own document this way when a pull did not return it and the push
+   * depends on it (CONFLICTS.md rule 25). Optional as the other Memory methods are; without it the
+   * engine trusts its last acknowledged push instead.
+   */
+  getMemory?(deviceId: string): Promise<MemoryDoc | 'missing' | 'invalid'>;
 }
 
 export type SyncState = 'idle' | 'syncing' | 'offline' | 'error';

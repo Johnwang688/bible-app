@@ -17,6 +17,7 @@ import {
   collection,
   doc,
   FirestoreError,
+  getDocFromServer,
   getDocsFromServer,
   limit,
   orderBy,
@@ -745,6 +746,15 @@ export function createFirestoreRemote(db: Firestore, uid: string): Required<Remo
           last = snap.docs[snap.docs.length - 1]!;
         }
         return memoryPull(docs, cursor);
+      }),
+
+    // One document by id (the engine's own, CONFLICTS.md rule 25): bounded by the rules' size, and
+    // readMemory bounds the progress string before decoding it, as for a pulled document.
+    getMemory: (deviceId) =>
+      guarded(async () => {
+        const snap = await getDocFromServer(doc(memory(), deviceId));
+        if (!snap.exists()) return 'missing';
+        return readMemory(deviceId, snap.data()) ?? 'invalid';
       }),
 
     pushMemory: (m) =>
