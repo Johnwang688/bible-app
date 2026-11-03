@@ -143,11 +143,17 @@ describe('S3 integrity checks', () => {
     expect(onNavigate).toHaveBeenCalledWith(nextHrefAfter(storage.get(memoryLessonKey), 0));
   });
 
-  it('free-practice Back does not note progress and Next goes home', async () => {
-    const { onBack, onNavigate } = await lesson('full-recall', null);
+  // Split 11-03 (MEM): after Back the step is left and an answer there shows nothing (sol-sm1-lifecycle), so Next is
+  // checked on a screen that was not left. In the app Back unmounts the screen.
+  it('free-practice Back does not note progress', async () => {
+    const { onBack } = await lesson('full-recall', null);
     await fireEvent.press(screen.getByTestId('memory-back'));
     expect(onBack).toHaveBeenCalledTimes(1);
     expect(takeProgressSaved()).toBeNull();
+  });
+
+  it('free-practice Next goes home', async () => {
+    const { onNavigate } = await lesson('full-recall', null);
     await typeAnswer(tim.textZh + tim.referenceZh);
     await fireEvent.press(screen.getByTestId('memory-next'));
     expect(onNavigate).toHaveBeenCalledWith('/study/memory');
