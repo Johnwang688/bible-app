@@ -58,6 +58,27 @@
 // it instead of signing out underneath it, and the view keeps showing "signed out" while the re-auth is signed
 // in (the flow's own step, not a sign-in the person made). It always ends signed out.
 //
+// Email verification (11-03, prototype design/proposed/r6b-verify.html): with a backend that verifies emails (Firebase),
+// sync runs only for a user whose email is confirmed. `target()` wants no engine while `emailVerified` is anything but
+// true, so the Firestore rules (which refuse unverified tokens) never see a request from an unconfirmed account. Sign-up
+// sends the verification email; Send again, I've confirmed (checkVerified: reload, then a forced token refresh so
+// Firestore gets the claim) and Change email (verifyBeforeUpdateEmail) are actions here. The app comes to the front:
+// an unconfirmed account checks once. The cooldown and a pending change of address are kept per uid on the device
+// (verifyStore.ts); an ordinary sign-out forgets the pending address. A check that finds the session ended (an email
+// change revokes every session, and so does a delete; decided on the error code alone, since for some codes the SDK
+// has signed out inside reload already) drops the account's record, shows the "email changed" notice when a change
+// was pending, and signs that account out if auth still has it (never another account another tab switched to).
+// Delete works as before, except that it reads nothing remote for an unconfirmed account (the rules refuse it).
+//
+// A confirmation is not enough to start the engine: the claim lives in the ID token, and the SDK's reload() ends by
+// notifying the auth listeners, so setUser sees the account confirmed while its token still says email_verified:
+// false. An account that became confirmed in this run is held (`tokenStale`: from the start of a check, or from
+// setUser seeing it go unconfirmed → confirmed) until a forced refresh (`getIdToken(true)`) has succeeded for it
+// after that; `target()` wants no engine meanwhile. A failed refresh (offline) keeps the hold, and the next check
+// (I've confirmed, the app coming to the front, the sheet's timer, syncNow) refreshes again instead of answering
+// true. A confirmation seen outside a check (another tab) starts one. An account already confirmed when first
+// reported (a restored session, a sign-in) is not held.
+//
 // The injected dependencies are read once, when the provider mounts; the defaults (Firebase, device
 // storage, the Firestore remote, the account API) are created on first use, never at import.
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
@@ -71,8 +92,21 @@ import type { SyncDomains } from '../sync/shapes';
 import type { RemoteStore, SyncEngine, SyncStatus } from '../sync/types';
 import { createAccountApi } from './accountApi';
 import { firebaseAuthCode } from './firebaseErrors';
+import { syncStateKey } from '../sync/state';
 import { SIGN_IN_OFF, type SignInGate } from './signInGate';
-import { AuthError, type AccountState, type AccountStatus, type AuthBackend, type AuthUser, type SignInMethod } from './types';
+import {
+  AuthError,
+  type AccountNotice,
+  type AccountState,
+  type AccountStatus,
+  type AuthBackend,
+  type AuthUser,
+  type EmailActionOptions,
+  type SignInMethod,
+  type SignUpResult,
+  type VerifyState,
+} from './types';
+import { clearVerifyRecord, readVerifyRecord, RESEND_COOLDOWN_MS, TOO_MANY_HOLD_MS, writeVerifyRecord } from './verifyStore';
 import {
   clearUnder13Closing,
   clearUnder13Offer,
@@ -101,6 +135,33 @@ export interface AccountProviderProps {
    * Default: `SIGN_IN_OFF` (fail closed). `_layout.tsx` passes R-7a's `signInGateFor()` once PR #33 merges.
    */
   signInGate?: SignInGate;
+  /** Where the verification link continues to. Default: this web origin's `/me?verified=1`, else the web app's. */
+  continueUrl?: string;
+  /** The client clock (ms). Default: Date.now. */
+  now?: () => number;
+}
+
+/** The web app's address, for a link sent from a native build (it has no origin of its own). */
+const WEB_APP_CONTINUE_URL = 'https://bible-app-492520.web.app/me?verified=1';
+
+/**
+ * Accounts made before verification shipped were never sent a link: their card says "Sync is paused". Accounts made
+ * after it by this app's sign-up are marked fresh on that device; an account seen first on another device after the
+ * cutoff counts as new. The client ships 11-03 (CST); midnight after that, in UTC.
+ */
+export const VERIFY_SHIPPED_AT = Date.parse('2026-11-04T06:00:00Z');
+
+function defaultContinueUrl(): string {
+  if (Platform.OS === 'web' && typeof window !== 'undefined') {
+    const origin = window.location?.origin;
+    if (typeof origin === 'string' && /^https?:\/\//.test(origin)) return `${origin}/me?verified=1`;
+  }
+  return WEB_APP_CONTINUE_URL;
+}
+
+/** Firebase's language code for an email in the app's language. */
+export function emailLanguage(locale: string | undefined): string {
+  return locale === 'zh-Hans' ? 'zh-CN' : 'en';
 }
 
 // ---- dependencies --------------------------------------------------------------------------------
@@ -113,6 +174,8 @@ interface Deps {
   domains: SyncDomains;
   deleteRequest(idToken: string): Promise<void>;
   gate: SignInGate;
+  continueUrl(): string;
+  now(): number;
 }
 
 function createDeps(p: AccountProviderProps): Deps {
@@ -150,6 +213,8 @@ function createDeps(p: AccountProviderProps): Deps {
     },
     domains: p.domains ?? DEFAULT_DOMAINS,
     gate: p.signInGate ?? SIGN_IN_OFF,
+    continueUrl: () => p.continueUrl ?? defaultContinueUrl(),
+    now: p.now ?? (() => Date.now()),
     deleteRequest(idToken) {
       if (!deleteRequest) {
         const api = createAccountApi({ baseUrl: getApiBaseUrl() });
@@ -167,6 +232,8 @@ interface View {
   user: AuthUser | null;
   signInAllowed: boolean;
   under13Offer: AccountState['under13Offer'];
+  verify: VerifyState | null;
+  notice: AccountNotice | null;
 }
 
 interface Listeners {
@@ -176,7 +243,19 @@ interface Listeners {
 
 type Actions = Pick<
   AccountState,
-  'signIn' | 'signUp' | 'signOut' | 'sendPasswordReset' | 'syncNow' | 'deleteAccount' | 'deleteOfferedAccount' | 'dismissUnder13Offer'
+  | 'signIn'
+  | 'signUp'
+  | 'signOut'
+  | 'sendPasswordReset'
+  | 'syncNow'
+  | 'deleteAccount'
+  | 'deleteOfferedAccount'
+  | 'dismissUnder13Offer'
+  | 'sendVerification'
+  | 'checkVerified'
+  | 'changeEmail'
+  | 'keepOldEmail'
+  | 'dismissNotice'
 >;
 
 interface Controller {
@@ -260,8 +339,36 @@ function isAllowed(gate: SignInGate): boolean {
 const OFFER_SIGN_OUT_TRIES = 3;
 
 function sameUser(a: AuthUser | null, b: AuthUser | null): boolean {
-  return a === b || (a !== null && b !== null && a.uid === b.uid && a.email === b.email);
+  return (
+    a === b ||
+    (a !== null && b !== null && a.uid === b.uid && a.email === b.email && a.emailVerified === b.emailVerified && a.createdAt === b.createdAt)
+  );
 }
+
+/** A copy of `u` with only its own fields (undefined ones left out). */
+function copyUser(u: AuthUser): AuthUser {
+  return {
+    uid: u.uid,
+    email: u.email,
+    ...(u.emailVerified !== undefined ? { emailVerified: u.emailVerified } : {}),
+    ...(u.createdAt !== undefined ? { createdAt: u.createdAt } : {}),
+  };
+}
+
+function sameVerify(a: VerifyState | null, b: VerifyState | null): boolean {
+  return (
+    a === b ||
+    (a !== null && b !== null && a.kind === b.kind && a.sent === b.sent && a.resendAt === b.resendAt && a.pendingEmail === b.pendingEmail)
+  );
+}
+
+function sameNotice(a: AccountNotice | null, b: AccountNotice | null): boolean {
+  if (a === null || b === null) return a === b;
+  return a.kind === b.kind && (a.kind !== 'emailChanged' || (b.kind === 'emailChanged' && a.email === b.email));
+}
+
+/** An ID token from a session that is gone (an email change or a delete revokes it): sign out. */
+const SESSION_GONE_CODES: readonly string[] = ['auth/user-token-expired', 'auth/invalid-user-token', 'auth/user-not-found', 'auth/user-disabled'];
 
 function createController(deps: Deps): Controller {
   let listeners: Listeners | null = null;
@@ -316,6 +423,18 @@ function createController(deps: Deps): Controller {
    */
   let closing: Under13Closing | null = null;
   let closingUnstored = false;
+
+  /** The card's one-time news (confirmed, email changed), or null. */
+  let notice: AccountNotice | null = null;
+  /** The check in flight (I've confirmed, the app coming to the front, the sheet's timer share one). */
+  let checking: Promise<boolean> | null = null;
+  /**
+   * Accounts whose confirmed email is not yet backed by a refreshed ID token (see the header): a uid is added when a
+   * check starts for it, and when auth reports it going from unconfirmed to confirmed in this run; it leaves only
+   * after a forced token refresh succeeded for it after that (checkVerifiedNow). `target()` wants no engine for them.
+   * Cleared when the signed-in account changes: a new session's token is minted with the current claim.
+   */
+  const tokenStale = new Set<string>();
 
   const gateAllowed = () => isAllowed(deps.gate);
 
@@ -383,6 +502,40 @@ function createController(deps: Deps): Controller {
     }
   }
 
+  /** Whether `u` must confirm its email before it syncs: the backend verifies emails, and it is not confirmed. */
+  function needsVerify(u: AuthUser | null): boolean {
+    if (!u) return false;
+    const auth = deps.auth();
+    return auth?.verifiesEmail === true && u.emailVerified !== true;
+  }
+
+  /** Whether `uid` synced on this device before (its sync history has a pull cursor). Never throws. */
+  function hasSyncHistory(uid: string): boolean {
+    try {
+      return deps.storage().get(syncStateKey(uid)).items.cursor !== null;
+    } catch {
+      return false;
+    }
+  }
+
+  /** What the card shows for `u`'s unconfirmed email, or null. */
+  function verifyStateFor(u: AuthUser | null): VerifyState | null {
+    if (!u || !needsVerify(u)) return null;
+    let rec = null;
+    try {
+      rec = readVerifyRecord(deps.storage(), u.uid);
+    } catch {
+      rec = null;
+    }
+    const older = (u.createdAt !== undefined && u.createdAt < VERIFY_SHIPPED_AT) || hasSyncHistory(u.uid);
+    return {
+      kind: rec?.fresh ? 'new' : older ? 'paused' : 'new',
+      sent: rec?.sent ?? false,
+      resendAt: rec && rec.resendAt > 0 ? rec.resendAt : null,
+      pendingEmail: rec?.pending ?? null,
+    };
+  }
+
   const emitView = () => {
     // While the offered delete runs, its re-auth is signed in only for the delete: the person stays signed out.
     const shown = offerRun ? null : user;
@@ -392,6 +545,8 @@ function createController(deps: Deps): Controller {
       user: shown,
       signInAllowed: gateAllowed(),
       under13Offer: offer ? { email: offer.email } : null,
+      verify: gateAllowed() ? verifyStateFor(shown) : null,
+      notice,
     });
   };
   const emitSync = (sync: SyncStatus | null) => listeners?.onSync(sync);
@@ -400,6 +555,10 @@ function createController(deps: Deps): Controller {
   function target(): AuthUser | null {
     if (!listeners || holds > 0 || !user || user.uid === blockedUid || user.uid === unconfirmed?.uid) return null;
     if (!gateAllowed()) return null;
+    // An unconfirmed email: nothing syncs (the rules would refuse it) until checkVerified sees it confirmed.
+    if (needsVerify(user)) return null;
+    // Confirmed in this run, but the ID token may still carry email_verified: false until a forced refresh.
+    if (tokenStale.has(user.uid)) return null;
     return user;
   }
 
@@ -460,11 +619,27 @@ function createController(deps: Deps): Controller {
     const before = user;
     const firstReport = !known;
     known = true;
-    if (!sameUser(user, next)) user = next ? { uid: next.uid, email: next.email } : null;
+    if (!sameUser(user, next)) user = next ? copyUser(next) : null;
+    // Another account (or none): a stale-token hold belonged to the session that ended.
+    if (!next || before?.uid !== next.uid) tokenStale.clear();
+    let refresh = false;
+    // Confirmed: this device no longer needs the cooldown or a pending change for it.
+    if (next && next.emailVerified === true && before?.uid === next.uid && before.emailVerified !== true) {
+      dropVerifyRecord(next.uid);
+      // The SDK reports the confirmation (reload ends by notifying the listeners) before any token refresh: hold
+      // the engine until one succeeds, and ask for a check: it shares the one in flight (the usual case), and outside
+      // one (another tab confirmed) it is the refresh.
+      if (deps.auth()?.verifiesEmail === true) {
+        tokenStale.add(next.uid);
+        refresh = true;
+      }
+    }
     if (!next) offerClosedSignedOut(firstReport, before);
     emitView();
     kick();
     if (user && !gateAllowed()) void enforceGate();
+    // After this turn, so a check that is starting has registered itself and is shared.
+    if (refresh) queueMicrotask(() => void actions.checkVerified().catch(() => undefined));
   }
 
   /**
@@ -562,6 +737,155 @@ function createController(deps: Deps): Controller {
     if (user && !gateAllowed()) void enforceGate();
   }
 
+  function dropVerifyRecord(uid: string): void {
+    try {
+      clearVerifyRecord(deps.storage(), uid);
+    } catch (e) {
+      console.warn('[account] clearing the verification record failed', e);
+    }
+  }
+
+  function writeVerify(uid: string, change: Parameters<typeof writeVerifyRecord>[2]): void {
+    try {
+      writeVerifyRecord(deps.storage(), uid, change, deps.now());
+    } catch (e) {
+      console.warn('[account] storing the verification record failed', e);
+    }
+  }
+
+  /** Sets `uid`'s pending change of address to null (the cooldown, `sent` and `fresh` stay). Never throws. */
+  function forgetPendingEmail(uid: string): void {
+    try {
+      if (readVerifyRecord(deps.storage(), uid)?.pending) writeVerify(uid, { pending: null });
+    } catch (e) {
+      console.warn('[account] forgetting the pending email failed', e);
+    }
+  }
+
+  function actionOptions(languageCode: string | undefined): EmailActionOptions {
+    return { url: deps.continueUrl(), languageCode: languageCode ?? 'en' };
+  }
+
+  /**
+   * Sends the verification link (to the pending new address while a change of address waits) for the signed-in,
+   * unconfirmed `who`, and starts the cooldown. too-many-requests holds Send again for 5 minutes. Rejects with AuthError.
+   */
+  async function sendVerificationFor(auth: AuthBackend, who: AuthUser, languageCode: string | undefined): Promise<void> {
+    const rec = readVerifyRecord(deps.storage(), who.uid);
+    if (rec && rec.resendAt > deps.now()) throw new AuthError('unknown', 'send again is cooling down');
+    const options = actionOptions(languageCode);
+    try {
+      if (rec?.pending) {
+        if (!auth.verifyBeforeUpdateEmail) throw new AuthError('unknown', 'this backend cannot change the email');
+        await auth.verifyBeforeUpdateEmail(rec.pending, options);
+      } else {
+        if (!auth.sendEmailVerification) throw new AuthError('unknown', 'this backend sends no verification email');
+        await auth.sendEmailVerification(options);
+      }
+    } catch (e) {
+      const err = asAuthError(e);
+      if (err.kind === 'too-many-requests') writeVerify(who.uid, { resendAt: deps.now() + TOO_MANY_HOLD_MS });
+      emitView();
+      throw err;
+    }
+    writeVerify(who.uid, { resendAt: deps.now() + RESEND_COOLDOWN_MS, sent: true });
+    emitView();
+  }
+
+  /** The signed-in user if it has an email to confirm; else throws. */
+  function requireUnconfirmed(auth: AuthBackend): AuthUser {
+    const who = auth.currentUser();
+    if (!who || who.uid !== user?.uid) throw new AuthError('unknown', 'nobody is signed in');
+    if (!needsVerify(user)) throw new AuthError('unknown', 'the email is already confirmed');
+    return user;
+  }
+
+  /** checkVerified's body (see types.ts). Concurrent calls share one run. */
+  async function checkVerifiedNow(): Promise<boolean> {
+    const auth = deps.auth();
+    const who = user;
+    if (!auth || !who || offerRun) return false;
+    if (!needsVerify(who)) {
+      // Confirmed. If no forced refresh has succeeded since (it failed, or the confirmation came from another tab),
+      // this check is that refresh.
+      return tokenStale.has(who.uid) ? refreshAfterConfirm(auth, who, who) : true;
+    }
+    if (!auth.reload) throw new AuthError('unknown', 'this backend cannot reload the user');
+    // A confirmation this check finds holds the engine until the token is refreshed: the SDK's reload notifies the
+    // auth listeners (setUser: confirmed) before it resolves, so the hold must be in place before reload starts.
+    tokenStale.add(who.uid);
+    let fresh: AuthUser | null;
+    try {
+      fresh = await auth.reload();
+    } catch (e) {
+      const code = isAuthError(e) ? e.code : firebaseAuthCode(e);
+      // The session is gone: an email change (the new link was opened) or a delete revokes every session. Decided on
+      // the code alone: for some codes the SDK has signed out already, inside reload.
+      if (code !== undefined && SESSION_GONE_CODES.includes(code)) {
+        await sessionGone(auth, who);
+        return false;
+      }
+      throw asAuthError(e);
+    }
+    if (!fresh || fresh.uid !== who.uid || user?.uid !== who.uid) {
+      setUser(auth.currentUser());
+      return false;
+    }
+    if (fresh.emailVerified !== true) {
+      setUser(fresh);
+      return false;
+    }
+    return refreshAfterConfirm(auth, who, fresh);
+  }
+
+  /**
+   * `who`'s email is confirmed (`fresh`: auth's user after the reload): force a new ID token, so Firestore (the rules
+   * read email_verified from the token) sees the claim before the engine's first request; then lift the hold, show
+   * the "confirmed" notice and let reconcile start the engine. A failed refresh keeps the hold (the next check
+   * retries) and rejects. False when the signed-in account changed meanwhile (the hold stays with `who`).
+   */
+  async function refreshAfterConfirm(auth: AuthBackend, who: AuthUser, fresh: AuthUser): Promise<boolean> {
+    if (auth.currentUser()?.uid !== who.uid) return false;
+    try {
+      await auth.getIdToken(true);
+    } catch (e) {
+      // Show what auth knows (confirmed); the engine stays off: the uid is still in tokenStale.
+      if (user?.uid === who.uid && auth.currentUser()?.uid === who.uid) setUser(auth.currentUser() ?? fresh);
+      throw asAuthError(e);
+    }
+    if (user?.uid !== who.uid || auth.currentUser()?.uid !== who.uid) return false;
+    notice = { kind: 'confirmed' };
+    // The user first (a confirmation setUser sees now finds the uid held already), then the hold goes.
+    setUser(auth.currentUser() ?? fresh);
+    tokenStale.delete(who.uid);
+    kick();
+    return true;
+  }
+
+  /**
+   * A check found `who`'s session gone. Its verify record goes (with the "email changed" notice when a change of
+   * address was pending); if auth still has `who` signed in, it is signed out through the normal path (never another
+   * account another tab switched to). Rejects only when that sign-out fails.
+   */
+  async function sessionGone(auth: AuthBackend, who: AuthUser): Promise<void> {
+    let pending: string | null = null;
+    try {
+      pending = readVerifyRecord(deps.storage(), who.uid)?.pending ?? null;
+    } catch {
+      pending = null;
+    }
+    dropVerifyRecord(who.uid);
+    if (pending) notice = { kind: 'emailChanged', email: pending };
+    try {
+      if (auth.currentUser()?.uid === who.uid) {
+        dropClosing();
+        await holding(() => signOut(who.uid));
+      }
+    } finally {
+      setUser(auth.currentUser());
+    }
+  }
+
   /** Throws 'not-allowed' (before anything reaches the auth backend) while the gate is closed. */
   function requireAllowed(): void {
     if (!gateAllowed()) throw new AuthError('not-allowed', 'sign-in is off on this device');
@@ -608,6 +932,11 @@ function createController(deps: Deps): Controller {
       await probing;
       await chain;
     }
+    // Confirmed, but its token refresh has not succeeded yet (it failed: offline): try it again first.
+    if (user && !needsVerify(user) && tokenStale.has(user.uid)) {
+      await actions.checkVerified().catch(() => undefined);
+      await chain;
+    }
     await running?.engine.syncNow();
   }
 
@@ -623,13 +952,14 @@ function createController(deps: Deps): Controller {
       }
       blockedUid = null;
       unconfirmed = null;
+      notice = null; // "sign in with your new email" is done
       dropOffer(); // a sign-in, to any account, ends the Under 13 offer
       dropClosing(); // ...and any closing: the gate's later sign-out of this session is not Under 13 picked on it
       setUser(auth.currentUser());
       await afterSignIn();
     },
 
-    async signUp(email: string, password: string) {
+    async signUp(email: string, password: string, languageCode?: string): Promise<SignUpResult> {
       requireAllowed();
       requireNoOfferRun();
       const auth = requireAuth();
@@ -640,10 +970,79 @@ function createController(deps: Deps): Controller {
       }
       blockedUid = null;
       unconfirmed = null;
+      notice = null;
       dropOffer(); // a sign-in, to any account, ends the Under 13 offer
       dropClosing(); // ...and any closing: the gate's later sign-out of this session is not Under 13 picked on it
-      setUser(auth.currentUser());
+      const created = auth.currentUser();
+      // Made here by this sign-up: a new account (sent a link now), never a paused one.
+      if (created && needsVerify(created)) writeVerify(created.uid, { fresh: true });
+      setUser(created);
       await afterSignIn();
+      // The account exists either way; a failed send is reported, and Send again retries it.
+      let sendError: AuthError | null = null;
+      const who = auth.currentUser();
+      const confirm = !!who && !!created && who.uid === created.uid && needsVerify(user);
+      if (confirm) {
+        try {
+          await sendVerificationFor(auth, who, languageCode);
+        } catch (e) {
+          sendError = asAuthError(e);
+        }
+      }
+      return { confirm, sendError };
+    },
+
+    async sendVerification(languageCode?: string) {
+      requireAllowed();
+      requireNoOfferRun();
+      const auth = requireAuth();
+      await sendVerificationFor(auth, requireUnconfirmed(auth), languageCode);
+    },
+
+    checkVerified() {
+      if (!gateAllowed()) return Promise.resolve(false);
+      checking ??= checkVerifiedNow().finally(() => (checking = null));
+      return checking;
+    },
+
+    async changeEmail(newEmail: string, password: string, languageCode?: string) {
+      requireAllowed();
+      requireNoOfferRun();
+      const auth = requireAuth();
+      const who = auth.currentUser();
+      if (!who || who.uid !== user?.uid) throw new AuthError('unknown', 'nobody is signed in');
+      const address = newEmail.trim();
+      if (!auth.verifyBeforeUpdateEmail) throw new AuthError('unknown', 'this backend cannot change the email');
+      try {
+        // verifyBeforeUpdateEmail needs a recent sign-in.
+        await auth.reauthenticate({ kind: 'password', email: who.email ?? '', password });
+      } catch (e) {
+        throw asAuthError(e);
+      }
+      if (auth.currentUser()?.uid !== who.uid) throw new AuthError('unknown', 'the signed-in account changed');
+      try {
+        await auth.verifyBeforeUpdateEmail(address, actionOptions(languageCode));
+      } catch (e) {
+        const err = asAuthError(e);
+        if (err.kind === 'too-many-requests') writeVerify(who.uid, { resendAt: deps.now() + TOO_MANY_HOLD_MS });
+        emitView();
+        throw err;
+      }
+      writeVerify(who.uid, { pending: address, resendAt: deps.now() + RESEND_COOLDOWN_MS });
+      emitView();
+    },
+
+    keepOldEmail() {
+      const who = user;
+      if (!who) return;
+      writeVerify(who.uid, { pending: null });
+      emitView();
+    },
+
+    dismissNotice() {
+      if (notice === null) return;
+      notice = null;
+      emitView();
     },
 
     signOut() {
@@ -651,7 +1050,12 @@ function createController(deps: Deps): Controller {
       // themselves, and a later restore of that session behind the closed gate is not Under 13 picked on it (U13-R2-1).
       // Dropped before auth.signOut() is called: auth may report nobody before signOut's continuation runs.
       dropClosing();
-      return holding(() => signOut());
+      const who = user;
+      return holding(async () => {
+        await signOut();
+        // A pending change of address is an address the person typed: it does not stay on the device signed out.
+        if (who) forgetPendingEmail(who.uid);
+      });
     },
 
     async sendPasswordReset(email: string) {
@@ -683,11 +1087,17 @@ function createController(deps: Deps): Controller {
     },
   };
 
-  async function signOut(): Promise<void> {
+  /** Stops sync, then signs out. `onlyUid`: only if that account is still the signed-in one when auth would sign out. */
+  async function signOut(onlyUid?: string): Promise<void> {
     const auth = requireAuth();
     holds++;
     try {
       await enqueue(reconcile); // stops the engine
+      // Another tab may have switched the account while the engine stopped: never sign that one out.
+      if (onlyUid !== undefined && auth.currentUser()?.uid !== onlyUid) {
+        setUser(auth.currentUser());
+        return;
+      }
       await auth.signOut();
       setUser(auth.currentUser());
     } catch (e) {
@@ -745,6 +1155,7 @@ function createController(deps: Deps): Controller {
   async function finishDeleted(auth: AuthBackend, uid: string): Promise<void> {
     blockedUid = uid;
     markDeleted(uid);
+    dropVerifyRecord(uid);
     if (unconfirmed?.uid === uid) unconfirmed = null;
     await enqueue(reconcile);
     await enqueue(() => clearSyncState(deps.storage(), uid));
@@ -803,8 +1214,9 @@ function createController(deps: Deps): Controller {
         requireStillSignedIn(auth, who.uid);
         const sub = tokenSubject(token);
         if (sub !== null && sub !== who.uid) throw new AuthError('unknown', 'the ID token is for another account');
-        // What the remote holds now, to tell after an ambiguous failure whether the delete reached it.
-        hadData = await readHasData(who.uid);
+        // What the remote holds now, to tell after an ambiguous failure whether the delete reached it. Not for an
+        // unconfirmed email: the rules refuse its reads (hadData stays unknown).
+        if (!needsVerify(who)) hadData = await readHasData(who.uid);
         requested = true;
         await deps.deleteRequest(token);
       } catch (e) {
@@ -942,7 +1354,10 @@ function createController(deps: Deps): Controller {
     emitView();
 
     const appState = AppState.addEventListener('change', (s) => {
-      if (s === 'active') void syncNow();
+      if (s !== 'active') return;
+      // Back at the front with an unconfirmed email: it may have been confirmed meanwhile (decision 4).
+      if (needsVerify(user) && gateAllowed()) void actions.checkVerified().catch(() => undefined);
+      else void syncNow();
     });
     offs.push(() => appState.remove());
     if (Platform.OS === 'web' && typeof window !== 'undefined' && typeof window.addEventListener === 'function') {
@@ -973,6 +1388,8 @@ export function AccountProvider({ children, ...props }: AccountProviderProps) {
     user: null,
     signInAllowed: isAllowed(props.signInGate ?? SIGN_IN_OFF),
     under13Offer: null,
+    verify: null,
+    notice: null,
   }));
   const [sync, setSync] = useState<SyncStatus | null>(null);
 
@@ -984,7 +1401,9 @@ export function AccountProvider({ children, ...props }: AccountProviderProps) {
             prev.status === next.status &&
             sameUser(prev.user, next.user) &&
             prev.signInAllowed === next.signInAllowed &&
-            prev.under13Offer?.email === next.under13Offer?.email
+            prev.under13Offer?.email === next.under13Offer?.email &&
+            sameVerify(prev.verify, next.verify) &&
+            sameNotice(prev.notice, next.notice)
               ? prev
               : next,
           ),
@@ -1002,6 +1421,8 @@ export function AccountProvider({ children, ...props }: AccountProviderProps) {
       user: view.user,
       signInAllowed: view.signInAllowed,
       under13Offer: view.under13Offer,
+      verify: view.verify,
+      notice: view.notice,
       sync,
       ...controller.actions,
     }),
@@ -1009,6 +1430,11 @@ export function AccountProvider({ children, ...props }: AccountProviderProps) {
   );
 
   return <AccountContext.Provider value={value}>{children}</AccountContext.Provider>;
+}
+
+/** The account state and actions, or null outside an AccountProvider (Home's banner, in screens tested bare). */
+export function useOptionalAccount(): AccountState | null {
+  return useContext(AccountContext);
 }
 
 /** The account state and actions. Throws outside an AccountProvider. */

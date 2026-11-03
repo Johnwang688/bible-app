@@ -6,13 +6,22 @@
 //
 // The banner sits at the top of the card's own column, which the screen already places below the top safe
 // area, so it can never run under the notch or the status bar. It goes away after BANNER_MS or when dismissed.
-import { useCallback, useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+//
+// Email verification (11-03, prototype r6b-verify.html): signed in with an unconfirmed email, the card's sync line
+// says why nothing syncs ("Sync starts after you confirm your email.", or "Sync is paused." for an account that synced
+// before), and its notice takes the place of Sync now: I've confirmed, Send again with its countdown, Change email; an
+// older account first offers "Send confirmation email"; a pending change of address offers Send again and "Keep the
+// old email". Sign out and Delete stay. The provider's one-time news (confirmed, email changed) and landing on
+// /me?verified=1 show as the banner, which takes focus when it appears.
+import { useCallback, useEffect, useRef, useState, type ComponentRef } from 'react';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 
 import { GlassSurface } from '../../components/GlassSurface';
 import { uiFace } from '../../fonts/fonts';
 import { useI18n } from '../../i18n/I18nProvider';
+import { focusNode, programmaticFocus } from '../../reader/components/a11y';
 import { SheetModal } from '../../reader/components/SheetModal';
+import type { MessageKey } from '../../i18n/translate';
 import { useTheme } from '../../theme/ThemeProvider';
 import { dangerColours } from '../../theme/danger';
 import { useAccount } from '../AccountProvider';
@@ -20,9 +29,33 @@ import type { SyncStatus } from '../../sync/types';
 import { AccountSheet, type AccountSheetStart } from './AccountSheet';
 import { ActionButton, Glyph, RoundButton, Spinner, TextButton } from './parts';
 import { clockNow, nextSyncLineChange, syncLine } from './syncLine';
+import { StatusSlot, useCountdown, useVerifyActions, WithAddresses } from './verifyParts';
 
 /** How long the "account deleted" banner stays up by itself. */
 export const BANNER_MS = 8000;
+
+/** The banner's message and its address, if any. */
+interface Banner {
+  key: MessageKey;
+  email?: string;
+}
+
+/**
+ * Whether this page was opened from the verification email's Continue (`/me?verified=1`, web only). Read once and
+ * dropped from the address, so a reload does not say it again.
+ */
+function takeVerifiedParam(): boolean {
+  if (Platform.OS !== 'web' || typeof window === 'undefined') return false;
+  try {
+    const url = new URL(window.location.href);
+    if (url.searchParams.get('verified') !== '1') return false;
+    url.searchParams.delete('verified');
+    window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 /**
  * Re-renders the card when the sync line's wording is due to change ("just now" → "1 min ago"). The line itself
@@ -54,24 +87,68 @@ export function AccountCard() {
 
   const [sheet, setSheet] = useState<AccountSheetStart | null>(null);
   const [confirmSignOut, setConfirmSignOut] = useState(false);
-  const [banner, setBanner] = useState(false);
+  const [banner, setBanner] = useState<Banner | null>(null);
+  const verifyActions = useVerifyActions(account);
+  const wait = useCountdown(account.verify?.resendAt ?? null);
 
   const closeSheet = useCallback(() => setSheet(null), []);
-  const showBanner = useCallback(() => setBanner(true), []);
+  const showBanner = useCallback(() => setBanner({ key: 'account.deleted' }), []);
+
+  // The provider's one-time news shows as the banner (the card may mount after it was given: Me opened later); the
+  // card's own banner (deleted, landed from the link) comes first.
+  const { notice, dismissNotice } = account;
+  const noticeBanner: Banner | null = !notice
+    ? null
+    : notice.kind === 'confirmed'
+      ? { key: account.status === 'signedIn' ? 'account.verify.confirmed' : 'account.verify.confirmedSignedOut' }
+      : { key: 'account.verify.changedSignedOut', email: notice.email };
+  const shown = banner ?? noticeBanner;
+  const ownBanner = banner !== null;
+  const closeBanner = useCallback(() => {
+    if (ownBanner) setBanner(null);
+    else dismissNotice();
+  }, [ownBanner, dismissNotice]);
+  const shownKey = shown ? `${shown.key}:${shown.email ?? ''}` : null;
 
   useEffect(() => {
-    if (!banner) return;
-    const timer = setTimeout(() => setBanner(false), BANNER_MS);
+    if (shownKey === null) return;
+    const timer = setTimeout(closeBanner, BANNER_MS);
     return () => clearTimeout(timer);
-  }, [banner]);
+  }, [shownKey, closeBanner]);
   // Signing in again ends the "deleted" news (adjusted while rendering, when the status changes).
   const [seenStatus, setSeenStatus] = useState(account.status);
   if (seenStatus !== account.status) {
     setSeenStatus(account.status);
-    if (account.status === 'signedIn' && banner) setBanner(false);
+    if (account.status === 'signedIn' && banner?.key === 'account.deleted') setBanner(null);
   }
 
+  // Landed from the verification email's Continue (adjusted while rendering, once auth has reported): signed out
+  // here (another browser) says to sign in; already confirmed says so; otherwise check once, and a confirmation
+  // shows through the provider's notice.
+  const [fromLink, setFromLink] = useState(takeVerifiedParam);
+  const [checkFromLink, setCheckFromLink] = useState(false);
+  if (fromLink && account.status !== 'loading') {
+    setFromLink(false);
+    if (account.status === 'signedOut') setBanner({ key: 'account.verify.confirmedSignedOut' });
+    else if (account.verify === null) setBanner({ key: 'account.verify.confirmed' });
+    else setCheckFromLink(true);
+  }
+  const { checkVerified } = account;
+  useEffect(() => {
+    if (checkFromLink) void checkVerified().catch(() => undefined);
+  }, [checkFromLink, checkVerified]);
+
+  // The banner takes focus when it appears (a view that changes in place moves focus to its news, never the page).
+  const bannerText = useRef<ComponentRef<typeof Text>>(null);
+  const focusKey = shown && shown.key !== 'account.deleted' ? shownKey : null;
+  useEffect(() => {
+    if (focusKey === null) return;
+    const id = setTimeout(() => focusNode(bannerText.current), 150);
+    return () => clearTimeout(id);
+  }, [focusKey]);
+
   const signedIn = account.status === 'signedIn' && account.user !== null;
+  const verify = signedIn ? account.verify : null;
   // The sign-out confirmation only makes sense while signed in; any other cause of signing out closes it
   // (adjusted while rendering, so it is gone in the same pass and does not return on the next sign-in).
   if (confirmSignOut && !signedIn) setConfirmSignOut(false);
@@ -118,7 +195,7 @@ export function AccountCard() {
 
   return (
     <View style={styles.column}>
-      {banner ? (
+      {shown ? (
         <View
           testID="account-toast"
           accessibilityRole="alert"
@@ -135,8 +212,14 @@ export function AccountCard() {
           ]}
         >
           <Glyph name="check" size={18} strokeWidth={2.4} color={theme.colors.text} />
-          <Text style={{ flex: 1, color: theme.colors.text, fontFamily: bold, fontSize: 14, lineHeight: 19 }}>{t('account.deleted')}</Text>
-          <RoundButton testID="account-toast-dismiss" label={t('account.dismiss')} glyph="close" surface={false} colour={theme.colors.text} onPress={() => setBanner(false)} />
+          <Text
+            ref={bannerText}
+            {...programmaticFocus}
+            style={{ flex: 1, color: theme.colors.text, fontFamily: bold, fontSize: 14, lineHeight: 19 }}
+          >
+            {shown.email !== undefined ? t(shown.key, { email: shown.email }) : t(shown.key)}
+          </Text>
+          <RoundButton testID="account-toast-dismiss" label={t('account.dismiss')} glyph="close" surface={false} colour={theme.colors.text} onPress={closeBanner} />
         </View>
       ) : null}
 
@@ -148,7 +231,21 @@ export function AccountCard() {
           { borderRadius: theme.radii.card, borderWidth: theme.borders.card.width, borderColor: theme.borders.card.color, boxShadow: theme.shadows.card ?? undefined },
         ]}
       >
-        {signedIn && line ? (
+        {verify ? (
+          <VerifyBody
+            email={email}
+            avatar={avatar}
+            verify={verify}
+            actions={verifyActions}
+            wait={wait}
+            ink={ink}
+            soft={soft}
+            pastel={pastel}
+            onChangeEmail={() => setSheet('changeEmail')}
+            onSignOut={signOut}
+            onDelete={() => setSheet('delete')}
+          />
+        ) : signedIn && line ? (
           <>
             <View style={styles.head}>
               {avatar}
@@ -228,7 +325,131 @@ export function AccountCard() {
   );
 }
 
+/** The card while the email is unconfirmed (prototype states 2, 3, 5 and 6's "card after Done"). */
+function VerifyBody({
+  email,
+  avatar,
+  verify,
+  actions,
+  wait,
+  ink,
+  soft,
+  pastel,
+  onChangeEmail,
+  onSignOut,
+  onDelete,
+}: {
+  email: string;
+  avatar: React.ReactNode;
+  verify: NonNullable<ReturnType<typeof useAccount>['verify']>;
+  actions: ReturnType<typeof useVerifyActions>;
+  wait: string | null;
+  ink: string;
+  soft: string;
+  pastel: boolean;
+  onChangeEmail(): void;
+  onSignOut(): void;
+  onDelete(): void;
+}) {
+  const theme = useTheme();
+  const { t } = useI18n();
+  const account = useAccount();
+  const danger = dangerColours(theme);
+  const head = uiFace(theme.type.head, '700');
+  const paused = verify.kind === 'paused';
+  const pending = verify.pendingEmail;
+  const firstSend = paused && !verify.sent && !pending;
+  const body = { color: soft, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 13, lineHeight: 19 };
+  const rule = <View accessible={false} style={[styles.rule, { borderTopColor: pastel ? ink : theme.colors.muted, opacity: pastel ? 1 : 0.35 }]} />;
+
+  const resend = async () => {
+    const outcome = await actions.send();
+    if (outcome === 'reauth') onChangeEmail(); // a pending change needs the password again
+  };
+  const resendButton = (
+    <TextButton
+      testID="verify-card-resend"
+      label={wait ? t('account.verify.resendIn', { t: wait }) : t('account.verify.resend')}
+      waiting={wait !== null}
+      waitColour={soft}
+      disabled={actions.sending}
+      onPress={() => void resend()}
+    />
+  );
+
+  return (
+    <>
+      <View style={styles.head}>
+        {avatar}
+        <View style={styles.headText}>
+          <Text numberOfLines={1} ellipsizeMode="tail" style={{ color: ink, fontFamily: head, fontSize: 17 }}>
+            {email}
+          </Text>
+          <View testID="account-sync-status" accessibilityLiveRegion="polite" style={styles.syncLine}>
+            <View style={styles.syncGlyph}>
+              <Glyph name={paused ? 'pause' : 'mail'} size={14} strokeWidth={paused ? 2.2 : 2} color={paused ? danger.text : soft} />
+            </View>
+            <Text style={{ flex: 1, ...body, lineHeight: 18 }}>{t(paused ? 'account.verify.pausedLine' : 'account.verify.line')}</Text>
+          </View>
+        </View>
+      </View>
+      {rule}
+      <View testID="verify-card" style={styles.notice}>
+        <Text accessibilityRole="header" style={{ color: ink, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 15, lineHeight: 21 }}>
+          {t(pending ? 'account.verify.pendingTitle' : firstSend ? 'account.verify.pausedTitle' : 'account.verify.title')}
+        </Text>
+        <WithAddresses
+          testID="verify-card-body"
+          template={t(pending ? 'account.verify.pendingBody' : firstSend ? 'account.verify.pausedBody' : 'account.verify.cardBody')}
+          email={pending ?? email}
+          old={email}
+          style={body}
+        />
+        <StatusSlot testID="verify-card-status" status={actions.status} ink={soft} />
+        {pending ? (
+          <View style={styles.textRow}>
+            {resendButton}
+            <TextButton
+              testID="verify-card-keep"
+              label={t('account.verify.keepOld')}
+              onPress={() => {
+                account.keepOldEmail();
+                actions.setStatus(null);
+              }}
+            />
+          </View>
+        ) : firstSend ? (
+          <>
+            <ActionButton testID="verify-card-first-send" label={t('account.verify.pausedSend')} busy={actions.sending} onPress={() => void resend()} />
+            <View style={styles.textRow}>
+              <TextButton testID="verify-card-change" label={t('account.verify.change')} onPress={onChangeEmail} />
+            </View>
+          </>
+        ) : (
+          <>
+            <ActionButton
+              testID="verify-card-done"
+              label={actions.checking ? t('account.verify.checking') : t('account.verify.done')}
+              busy={actions.checking}
+              onPress={() => void actions.check()}
+            />
+            <View style={styles.textRow}>
+              {resendButton}
+              <TextButton testID="verify-card-change" label={t('account.verify.change')} onPress={onChangeEmail} />
+            </View>
+          </>
+        )}
+      </View>
+      {rule}
+      <ActionButton testID="account-sign-out" variant="secondary" label={t('account.signOut')} onPress={onSignOut} />
+      <TextButton testID="account-delete" tone="danger" label={t('account.delete')} onPress={onDelete} />
+    </>
+  );
+}
+
 const styles = StyleSheet.create({
+  notice: { gap: 8 },
+  textRow: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', columnGap: 8 },
   column: { gap: 10 },
   card: { padding: 16, gap: 10 },
   head: { flexDirection: 'row', alignItems: 'center', gap: 12 },

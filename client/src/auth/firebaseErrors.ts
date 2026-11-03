@@ -13,6 +13,7 @@ const KINDS: Record<string, AuthErrorKind> = {
   'auth/user-mismatch': 'wrong-credentials',
   'auth/invalid-email': 'invalid-email',
   'auth/missing-email': 'invalid-email',
+  'auth/invalid-new-email': 'invalid-email',
   'auth/email-already-in-use': 'email-in-use',
   'auth/weak-password': 'weak-password',
   'auth/password-does-not-meet-requirements': 'weak-password',

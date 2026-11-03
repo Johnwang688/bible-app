@@ -14,6 +14,7 @@
 //   `cancelled`.
 import { SPEECH_QUERY_PARAM } from '../speech/types';
 import {
+  EMAIL_NOT_VERIFIED_DETAIL,
   MINUTE_LIMIT_MAX_RETRY_S,
   TRANSCRIBE_TIMEOUT_MS,
   type CheckVoice,
@@ -99,6 +100,16 @@ export const checkVoice: CheckVoice = async (audio, language, deps, signal) => {
       ),
     );
     if (res === ABORTED || decided()) return settle(ERROR);
+    if (res.status === 403) {
+      // Only the email-not-confirmed 403 is its own outcome; its detail is read like the body (raced, never thrown).
+      const refused = await race(
+        Promise.resolve()
+          .then(() => res.json() as Promise<{ detail?: unknown } | null>)
+          .catch(() => null),
+      );
+      if (refused === ABORTED || decided()) return settle(ERROR);
+      return settle(refused?.detail === EMAIL_NOT_VERIFIED_DETAIL ? { kind: 'email-unverified' } : ERROR);
+    }
     if (res.status < 200 || res.status >= 300) return settle(outcomeForStatus(res.status, res.headers?.get('Retry-After')));
 
     const body = await race(Promise.resolve().then(() => res.json() as Promise<{ text?: unknown } | null>));

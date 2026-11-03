@@ -21,7 +21,7 @@ import type { ProgressMap, VerseProgress } from '../../../memory/types';
 import { MEMORY_ROWS_MAX, MEMORY_WIRE_MAX } from '../../domains/memory';
 import { wireDocs } from '../../firestoreRemote';
 import type { MemoryDoc } from '../../types';
-import { clearFirestore, closeAll, dbAs, denied, FIRESTORE_HOST, FIRESTORE_PORT, PROJECT } from './emulator';
+import { clearFirestore, closeAll, dbAs, denied, FIRESTORE_HOST, FIRESTORE_PORT, mockToken, PROJECT } from './emulator';
 
 const apps: FirebaseApp[] = [];
 let n = 0;
@@ -245,7 +245,7 @@ function dbSignedInAt(uid: string, authTimeMs: number): Firestore {
   apps.push(app);
   const db = getFirestore(app);
   const authTime = Math.floor(authTimeMs / 1000);
-  connectFirestoreEmulator(db, FIRESTORE_HOST, FIRESTORE_PORT, { mockUserToken: { sub: uid, user_id: uid, iat: authTime, auth_time: authTime } });
+  connectFirestoreEmulator(db, FIRESTORE_HOST, FIRESTORE_PORT, { mockUserToken: mockToken(uid, { iat: authTime, auth_time: authTime }) });
   return db;
 }
 

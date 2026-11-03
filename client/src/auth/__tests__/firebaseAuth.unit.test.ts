@@ -11,6 +11,10 @@ const mockSdk = {
   reauthenticateWithCredential: jest.fn(),
   getIdToken: jest.fn(),
   onAuthStateChanged: jest.fn(),
+  onIdTokenChanged: jest.fn(),
+  reload: jest.fn(),
+  sendEmailVerification: jest.fn(),
+  verifyBeforeUpdateEmail: jest.fn(),
   credential: jest.fn((email: string, password: string) => ({ email, password })),
 };
 
@@ -22,6 +26,10 @@ jest.mock('firebase/auth', () => ({
   reauthenticateWithCredential: (...a: unknown[]) => mockSdk.reauthenticateWithCredential(...a),
   getIdToken: (...a: unknown[]) => mockSdk.getIdToken(...a),
   onAuthStateChanged: (...a: unknown[]) => mockSdk.onAuthStateChanged(...a),
+  onIdTokenChanged: (...a: unknown[]) => mockSdk.onIdTokenChanged(...a),
+  reload: (...a: unknown[]) => mockSdk.reload(...a),
+  sendEmailVerification: (...a: unknown[]) => mockSdk.sendEmailVerification(...a),
+  verifyBeforeUpdateEmail: (...a: unknown[]) => mockSdk.verifyBeforeUpdateEmail(...a),
   EmailAuthProvider: { credential: (e: string, p: string) => mockSdk.credential(e, p) },
 }));
 
@@ -29,6 +37,8 @@ const fbError = (code: string) => Object.assign(new Error(`Firebase: Error (${co
 
 type FakeAuth = Parameters<typeof createFirebaseAuthBackend>[0];
 const fbUser = { uid: 'u1', email: 'a@example.com' };
+/** What the adapter reports for fbUser: emailVerified is always a boolean (this backend verifies emails). */
+const mapped = { ...fbUser, emailVerified: false };
 
 beforeEach(() => {
   for (const fn of Object.values(mockSdk)) fn.mockReset();
@@ -40,7 +50,7 @@ describe('createFirebaseAuthBackend', () => {
     mockSdk.signInWithEmailAndPassword.mockResolvedValue({ user: { ...fbUser, extra: 1 } });
     const auth = { currentUser: null } as unknown as FakeAuth;
     const user = await createFirebaseAuthBackend(auth).signIn({ kind: 'password', email: '  a@example.com ', password: 'pw' });
-    expect(user).toEqual(fbUser);
+    expect(user).toEqual(mapped);
     expect(mockSdk.signInWithEmailAndPassword).toHaveBeenCalledWith(auth, 'a@example.com', 'pw');
   });
 
@@ -87,18 +97,58 @@ describe('createFirebaseAuthBackend', () => {
 
   test('onAuthStateChanged maps users and returns the unsubscribe', () => {
     const off = jest.fn();
+    const offToken = jest.fn();
     let cb: (u: unknown) => void = () => undefined;
+    let tokenCb: (u: unknown) => void = () => undefined;
     mockSdk.onAuthStateChanged.mockImplementation((_auth: unknown, l: (u: unknown) => void) => {
       cb = l;
       return off;
+    });
+    mockSdk.onIdTokenChanged.mockImplementation((_auth: unknown, l: (u: unknown) => void) => {
+      tokenCb = l;
+      return offToken;
     });
     const seen: unknown[] = [];
     const unsubscribe = createFirebaseAuthBackend({ currentUser: null } as unknown as FakeAuth).onAuthStateChanged((u) => seen.push(u));
     cb({ ...fbUser, providerData: [] });
     cb(null);
-    expect(seen).toEqual([fbUser, null]);
+    // A new ID token reports the user again (a confirmed email shows); a null token report is left to the first.
+    tokenCb({ ...fbUser, emailVerified: true, metadata: { creationTime: 'Tue, 03 Nov 2026 10:00:00 GMT' } });
+    tokenCb(null);
+    expect(seen).toEqual([mapped, null, { ...fbUser, emailVerified: true, createdAt: Date.parse('2026-11-03T10:00:00Z') }]);
     unsubscribe();
     expect(off).toHaveBeenCalled();
+    expect(offToken).toHaveBeenCalled();
+  });
+
+  test('the verification actions: languageCode and continue URL, mapped errors, reload', async () => {
+    const user = { ...fbUser, emailVerified: false };
+    const auth = { currentUser: user, languageCode: null } as unknown as FakeAuth & { languageCode: string | null };
+    const backend = createFirebaseAuthBackend(auth);
+    expect(backend.verifiesEmail).toBe(true);
+
+    mockSdk.sendEmailVerification.mockResolvedValue(undefined);
+    await backend.sendEmailVerification!({ url: 'https://x.test/me?verified=1', languageCode: 'zh-CN' });
+    expect(mockSdk.sendEmailVerification).toHaveBeenCalledWith(user, { url: 'https://x.test/me?verified=1' });
+    expect(auth.languageCode).toBe('zh-CN');
+
+    mockSdk.verifyBeforeUpdateEmail.mockRejectedValue(fbError('auth/invalid-new-email'));
+    const bad = await backend.verifyBeforeUpdateEmail!(' new@x.test ', { url: 'u', languageCode: 'en' }).catch((e: unknown) => e);
+    expect(mockSdk.verifyBeforeUpdateEmail).toHaveBeenCalledWith(user, 'new@x.test', { url: 'u' });
+    expect((bad as AuthError).kind).toBe('invalid-email');
+
+    mockSdk.reload.mockImplementation(async (u: { emailVerified: boolean }) => {
+      u.emailVerified = true;
+    });
+    expect(await backend.reload!()).toEqual({ ...fbUser, emailVerified: true });
+
+    mockSdk.reload.mockRejectedValue(fbError('auth/user-token-expired'));
+    const gone = await backend.reload!().catch((e: unknown) => e);
+    expect((gone as AuthError).code).toBe('auth/user-token-expired');
+
+    // An emailVerified that is not exactly true is unconfirmed.
+    (auth as unknown as { currentUser: unknown }).currentUser = { ...fbUser, emailVerified: 'true' };
+    expect(backend.currentUser()).toEqual(mapped);
   });
 });
 

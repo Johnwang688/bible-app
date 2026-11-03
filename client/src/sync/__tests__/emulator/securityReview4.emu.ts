@@ -7,7 +7,7 @@ import { connectFirestoreEmulator, doc, getFirestore, setDoc, terminate, type Fi
 
 import { createFirestoreRemote, wireDocs } from '../../firestoreRemote';
 import type { DeviceProgress, RemoteItem, RemoteSetting } from '../../types';
-import { clearFirestore, closeAll, dbAs, denied, FIRESTORE_HOST, FIRESTORE_PORT, PROJECT } from './emulator';
+import { clearFirestore, closeAll, dbAs, denied, FIRESTORE_HOST, FIRESTORE_PORT, mockToken, PROJECT } from './emulator';
 
 const DEV = 'Ab3_-xYz0123456789Qw';
 const DAY_MS = 86_400_000;
@@ -39,7 +39,7 @@ function signedInNow(uid: string): Firestore {
   ownApps.push(app);
   const db = getFirestore(app);
   const t = Math.floor(Date.now() / 1000);
-  connectFirestoreEmulator(db, FIRESTORE_HOST, FIRESTORE_PORT, { mockUserToken: { sub: uid, user_id: uid, iat: t, auth_time: t } });
+  connectFirestoreEmulator(db, FIRESTORE_HOST, FIRESTORE_PORT, { mockUserToken: mockToken(uid, { iat: t, auth_time: t }) });
   return db;
 }
 
