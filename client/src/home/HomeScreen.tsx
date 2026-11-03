@@ -7,6 +7,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { AuroraBackground } from '../aurora';
 import { useI18n } from '../i18n/I18nProvider';
 import type { DeviceLocale } from '../i18n/types';
 import { TOTAL_CHAPTERS, dayKey, useReadingProgress } from '../progress';
@@ -195,6 +196,7 @@ export function HomeScreen({
 
   return (
     <View testID="screen-home" style={[styles.fill, theme.backgrounds.app]}>
+      <AuroraBackground />
       <ScrollView style={styles.fill} contentContainerStyle={[styles.content, { paddingTop: insets.top + 16, paddingBottom: TAB_BAR_ROOM }]}>
         <HomeHeader
           date={formatDate(today, { weekday: 'long', month: 'long', day: 'numeric' })}

@@ -39,7 +39,14 @@ const steps = [
   },
   !quick && !offline && { name: 'expo-doctor', covers: 'native config and SDK versions', cmd: 'npx --yes expo-doctor' },
   // --clear: worktrees share node_modules, so Metro's cache can serve another worktree's stale bundle (R-3).
-  !quick && { name: 'export web', covers: 'builds for web', cmd: 'npx expo export -p web --clear --output-dir dist' },
+  // The e2e suite has no backend, and this export is what it serves: a dead local API origin overrides
+  // .env.production's Cloud Run one (B-1), so the suite never calls production (Expo keeps a var already set).
+  !quick && {
+    name: 'export web',
+    covers: 'builds for web',
+    cmd: 'npx expo export -p web --clear --output-dir dist',
+    env: { EXPO_PUBLIC_API_BASE_URL: 'http://127.0.0.1:59999' },
+  },
   !quick && {
     name: 'export ios + android',
     covers: 'builds for iOS and Android (Metro + Hermes bundles)',
@@ -65,7 +72,7 @@ const results = [];
 for (const step of steps) {
   console.log(`\n=== ${step.name}: ${step.cmd}`);
   const started = Date.now();
-  const run = spawnSync(step.cmd, { cwd: client, stdio: 'inherit', shell: true });
+  const run = spawnSync(step.cmd, { cwd: client, stdio: 'inherit', shell: true, env: { ...process.env, ...step.env } });
   let ok = run.status === 0;
   if (step.after) {
     try {

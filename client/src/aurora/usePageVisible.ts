@@ -8,7 +8,7 @@ export function usePageVisible(): boolean {
   const [visible, setVisible] = useState(() => isActive(AppState.currentState));
   useEffect(() => {
     const sub = AppState.addEventListener('change', (s) => setVisible(isActive(s)));
-    return () => sub.remove();
+    return () => sub?.remove(); // jest's AppState mock returns no subscription (as in home/useToday.ts)
   }, []);
   return visible;
 }
