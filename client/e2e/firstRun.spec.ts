@@ -13,7 +13,8 @@ function watchErrors(page: Page): string[] {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(String(e)));
   page.on('console', (m) => {
-    if (m.type() === 'error') errors.push(m.text());
+    // Home now loads data, and the e2e build's API origin is a closed local port (scripts/gate.mjs).
+    if (m.type() === 'error' && !m.text().includes('net::ERR_CONNECTION_REFUSED')) errors.push(m.text());
   });
   return errors;
 }

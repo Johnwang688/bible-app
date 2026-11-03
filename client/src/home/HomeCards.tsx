@@ -3,6 +3,7 @@
 import type { ReactNode } from 'react';
 import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { auroraTextShadow } from '../aurora';
 import { GlassSurface } from '../components/GlassSurface';
 import { uiFace } from '../fonts/fonts';
 import { useI18n } from '../i18n/I18nProvider';
@@ -90,10 +91,11 @@ export function HomeHeader({
   streakStart: string;
 }) {
   const theme = useTheme();
+  const shadow = auroraTextShadow(theme); // the date and greeting sit straight on the aurora
   return (
     <View testID="home-header" style={styles.header}>
       <View style={styles.headerText}>
-        <Text testID="home-date" style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 13 }}>
+        <Text testID="home-date" style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 13, ...shadow }}>
           {date}
         </Text>
         <Text
@@ -104,6 +106,7 @@ export function HomeHeader({
             fontFamily: uiFace(theme.type.head, theme.type.headWeight),
             fontSize: theme.type.headSize,
             letterSpacing: theme.type.headLetterSpacing,
+            ...shadow,
           }}
         >
           {greeting}

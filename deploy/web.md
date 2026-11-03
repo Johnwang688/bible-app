@@ -122,12 +122,14 @@ Channels expire on their own (`--expires`, max 30d). Delete a preview you no lon
 
 - `Cache-Control: no-cache`, so the HTML is always revalidated and a new deploy shows up at once.
 - `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`,
-  `Permissions-Policy` (camera, microphone, geolocation and payment off), and
+  `Permissions-Policy` (camera, geolocation and payment off; the microphone for this site only, for
+  Memory's voice answers), and
   `Cross-Origin-Opener-Policy: same-origin-allow-popups` (keeps the Firebase sign-in popup working).
 - `Content-Security-Policy`: scripts, objects, framing and the base URL are locked down. `connect-src`
   lists the backend and the Firebase APIs. `style-src` has `'unsafe-inline'` because react-native-web
-  and the export's `expo-reset` style tag write inline styles; scripts stay `'self'` only.
-  `frame-src` allows the Firebase auth domain.
+  and the export's `expo-reset` style tag write inline styles. Scripts are `'self'` plus reCAPTCHA
+  Enterprise (App Check on the web, loaded only once sync starts); `connect-src` and `frame-src` add
+  App Check and reCAPTCHA too. `frame-src` also allows the Firebase auth domain.
 
 `/_expo/**` and `/assets/**` get `Cache-Control: public, max-age=31536000, immutable`. They hold only
 content-hashed file names. These rules come later in the file so they override `no-cache` for the same

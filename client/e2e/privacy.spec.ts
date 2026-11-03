@@ -30,7 +30,7 @@ test.describe('privacy page, English phone', () => {
     await expect(page.getByRole('heading', { name: 'Privacy policy' })).toBeVisible();
     // The app's own language was not changed.
     await page.getByRole('button', { name: 'Open the app' }).click();
-    await expect(page.getByRole('heading', { name: 'Home' })).toBeVisible();
+    await expect(page.getByTestId('home-greeting')).toBeVisible();
   });
 
   test('has the "Email us" link', async ({ page }) => {

@@ -222,7 +222,12 @@ describe('S4-2 (medium): web App Check starts only with Firestore, which the Und
   function loadWeb(): Web {
     jest.resetModules();
     jest.doMock('firebase/app-check', () => ({ initializeAppCheck, getToken, ReCaptchaEnterpriseProvider }));
-    jest.doMock('firebase/auth', () => ({ getAuth: jest.fn(() => ({ kind: 'auth' })) }));
+    jest.doMock('firebase/auth', () => ({
+      initializeAuth: jest.fn(() => ({ kind: 'auth' })),
+      indexedDBLocalPersistence: {},
+      browserLocalPersistence: {},
+      browserSessionPersistence: {},
+    }));
     jest.doMock('firebase/firestore', () => ({ getFirestore: jest.fn(() => ({ kind: 'db' })) }));
     jest.doMock('../firebaseCore', () => ({
       getFirebaseApp: () => ({ name: '[DEFAULT]' }),

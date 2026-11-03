@@ -1,8 +1,11 @@
 // Firebase on the web (R-6b): Auth keeps its default persistence (IndexedDB, falling back to local
-// storage); Firestore has no offline cache (the device store is the local copy). App Check starts with
+// storage) but has no popup/redirect resolver: `getAuth()` would add one, which loads Google's script
+// (apis.google.com) on every page, signed in or not. Email sign-in needs none; Google sign-in passes
+// `browserPopupRedirectResolver` to its own popup call.
+// Firestore has no offline cache (the device store is the local copy). App Check starts with
 // Firestore, never with Auth, so a signed-out app never loads reCAPTCHA (appCheck.ts). iOS and Android use
 // firebaseApp.native.ts instead. Everything is created once, on first use.
-import { getAuth, type Auth } from 'firebase/auth';
+import { browserLocalPersistence, browserSessionPersistence, indexedDBLocalPersistence, initializeAuth, type Auth } from 'firebase/auth';
 import { getFirestore, type Firestore } from 'firebase/firestore';
 
 import { ensureAppCheck } from './appCheck';
@@ -14,7 +17,10 @@ let auth: Auth | null = null;
 let db: Firestore | null = null;
 
 export function getFirebaseAuth(): Auth {
-  if (!auth) auth = withAuthEmulator(getAuth(getFirebaseApp()));
+  if (!auth)
+    auth = withAuthEmulator(
+      initializeAuth(getFirebaseApp(), { persistence: [indexedDBLocalPersistence, browserLocalPersistence, browserSessionPersistence] }),
+    );
   return auth;
 }
 

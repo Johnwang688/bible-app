@@ -16,7 +16,8 @@ function watchErrors(page: Page): string[] {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(String(e)));
   page.on('console', (m) => {
-    if (m.type() === 'error') errors.push(m.text());
+    // Home now loads data, and the e2e build's API origin is a closed local port (scripts/gate.mjs).
+    if (m.type() === 'error' && !m.text().includes('net::ERR_CONNECTION_REFUSED')) errors.push(m.text());
   });
   return errors;
 }
@@ -118,7 +119,7 @@ test.describe('aurora', () => {
 
   test('gives the title on the aurora a soft shadow', async ({ page }) => {
     await page.goto('/');
-    const shadow = await page.getByRole('heading', { name: 'Home' }).evaluate((el) => getComputedStyle(el).textShadow);
+    const shadow = await page.getByTestId('home-greeting').evaluate((el) => getComputedStyle(el).textShadow);
     expect(shadow).not.toBe('none');
   });
 
@@ -133,7 +134,7 @@ test.describe('aurora', () => {
     await page.goto('/');
     await expect(page.getByTestId('screen-home')).toBeVisible();
     await expect(page.getByTestId('aurora-canvas')).toHaveCount(0);
-    const shadow = await page.getByRole('heading', { name: 'Home' }).evaluate((el) => getComputedStyle(el).textShadow);
+    const shadow = await page.getByTestId('home-greeting').evaluate((el) => getComputedStyle(el).textShadow);
     expect(shadow).toBe('none');
   });
 });
