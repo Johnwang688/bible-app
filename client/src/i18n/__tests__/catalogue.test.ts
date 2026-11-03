@@ -8,6 +8,7 @@ const placeholders = (s: string) => [...s.matchAll(/\{(\w+)\}/g)].map((m) => m[1
 const SAME_IN_BOTH = new Set([
   'language.en',
   'language.zh-Hans',
+  'beta.language.zh-Hans',
   // English translation names stay English in both interfaces.
   'translation.BSB.short',
   'translation.BSB.name',
