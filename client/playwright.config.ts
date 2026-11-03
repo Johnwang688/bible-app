@@ -9,7 +9,23 @@ export default defineConfig({
   fullyParallel: true,
   retries: 0,
   reporter: [['list']],
-  use: { baseURL: `http://127.0.0.1:${PORT}`, trace: 'retain-on-failure' },
+  use: {
+    baseURL: `http://127.0.0.1:${PORT}`,
+    trace: 'retain-on-failure',
+    // The real GPU (ANGLE on D3D11, this PC), not SwiftShader: the glass looks run a WebGL aurora (R-7a), which
+    // on the CPU slows every test. Other platforms ignore the flag and get SwiftShader (the aurora then uses flow).
+    launchOptions: { args: ['--use-angle=d3d11', '--enable-gpu', '--ignore-gpu-blocklist'] },
+    // Every spec starts with the first-run intro done (R-7a); e2e/firstRun.spec.ts starts from an empty device.
+    storageState: {
+      cookies: [],
+      origins: [
+        {
+          origin: `http://127.0.0.1:${PORT}`,
+          localStorage: [{ name: 'bible-app\\onboarding', value: JSON.stringify({ v: 1, data: { done: true, ageRange: null } }) }],
+        },
+      ],
+    },
+  },
   projects: [
     { name: 'phone', use: { ...devices['Pixel 7'] } },
     { name: 'desktop', use: { ...devices['Desktop Chrome'] } },

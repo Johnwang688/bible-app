@@ -1,0 +1,20 @@
+# What `gcloud builds submit` uploads for the backend image (deploy.py). An allowlist: everything is
+# ignored except the Dockerfile's inputs, so .env, client/ and node_modules can never be uploaded.
+# Keep in sync with BUILD_INPUTS in deploy.py.
+/*
+!/Dockerfile
+!/.dockerignore
+!/requirements.txt
+!/app/
+!/scripts/
+/scripts/*
+!/scripts/build_content.py
+!/content/
+/content/*
+!/content/source/
+
+# Never, even inside the allowed folders.
+.env
+.env.*
+__pycache__/
+*.pyc
