@@ -202,8 +202,8 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
 | **R-2 Verse sheet** ✅ done 2026-11-01 | the bottom sheet: highlight, note, bookmark, share/copy, Original words and the word card | the HG-3a behaviours ported; 44 pt targets; the screen-reader pass |
 | **R-3 Study tab** ✅ done 2026-11-02 | lists of study items, progress, chapters explored and the coverage map | local-first; filters; opening in context |
 | **R-4 Home** | streak, goal, continue reading, verse of the day, Surprise me | the SM-1 picker tests ported |
-| **R-5 Search, commentary, entities** | search, the commentary sheet, people/places/themes | the reference parser ported with tests; English and Chinese search |
-| **R-6 Me and accounts** (with W2) | settings, the language setting, appearance and the customisation screen with live preview; Firebase Auth (Apple, Google, email); the backend verifies Firebase tokens; user data on Firestore; optional sync; delete my data; import any real Supabase users | needs John's Firebase project; an Opus security review of the new auth path; sync conflict rules; nothing left importing `supabase` in user paths |
+| **R-5 Search, commentary, entities** ✅ done 2026-11-02 | search, the commentary sheet, people/places/themes | the reference parser ported with tests; English and Chinese search |
+| **R-6 Me and accounts** (with W2): R-6a (Me, no accounts) ✅ 2026-11-02; R-6b (accounts) in progress | settings, the language setting, appearance and the customisation screen with live preview; Firebase Auth (Apple, Google, email); the backend verifies Firebase tokens; user data on Firestore; optional sync; delete my data; import any real Supabase users | needs John's Firebase project; an Opus security review of the new auth path; sync conflict rules; nothing left importing `supabase` in user paths |
 | **R-7 Web parity and cut-over** | old-localStorage import, read aloud, first-run intro with the "pick your look" screen, a performance budget (including the aurora animation), the review of the Chinese copy (John and friends, from the review sheet) | the new web build replaces `frontend-next/`; the old frontend is archived |
 
 **R-0 notes (2026-11-01).**
@@ -237,6 +237,21 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
   - the Android back button in the sheet;
   - the Hebrew and Greek fonts.
 - **Known gap:** changing chapter while a note is half-written drops the unsaved draft. John merged R-2 with it (2026-11-02); fix it in a later phase.
+
+**R-5 notes (2026-11-02, part 1: data layer and the commentary view).**
+- **The reference parser** (`client/src/search/reference.ts`) replaces the old `parseReference` regex. It reads full names, the coverage map's three-letter codes and common abbreviations (`jn`, `gn`, `dt`, `1 kgs`, `sos`, `rm`…), joined forms (`jn3:16`), a space or a full stop between chapter and verse, unique prefixes (`genes`), and Simplified, Traditional and short CUV names (`约 3:16`, `約翰福音3章16節`, full-width digits). It checks chapter and verse bounds and reads `Jude 5` as a verse. The book part is checked strictly: anything that is not a book name makes the whole query a word search. Bare `cor`, `tim` and the like stay ambiguous and are offered as suggestions instead. Not supported: Chinese numerals, cross-chapter ranges and verse lists.
+- **Search language:** the backend indexes one translation per call, so a query with Chinese characters searches a Chinese translation (the reader's own or its parallel one, else CUV-SIMP), and other queries search an English one (else BSB).
+- **Commentary on a verse** (built from Commentary.dc.html): Matthew Henry only, with the verse pinned on top and the note's own range under the title. Long notes show a preview cut at a sentence end, then "Read all". Where no note covers the verse, the empty state shows. The 英文 badge appears only when a note shows. The backend returns every open-ended entry that starts at or before the verse, so the client keeps only the entries that cover it.
+- **People, places and themes:** the data hooks read today's `/summary-entities`.
+
+**R-5 notes (2026-11-02, part 2: search, Explore, the people, places and themes pages).** Built from the approved prototypes (`design/proposed/r5-search.html`, `r5-entities.html`, `r5-explore.html`) with the fixes John approved alongside them.
+- **Search** is a full screen above the tabs, opened from the reader header's new search button. With the field empty it shows recent passages (with Clear) and four examples. A query that reads as a reference offers passages only; anything else also searches verses in the matching language's translation, 10 at a time up to 50, each card a button whose excerpt starts near the first match so the 3-line clamp never hides it. People, places and themes come last. Enter opens an exact passage; scrolling dismisses the keyboard; offline, passages still show ("they open once the chapter loads").
+- **One matching rule everywhere** (search, Explore, the list filters): a name matches when it, or a word in it, starts with what is typed. The filter fields state it to screen readers. Names are English only, so a Chinese query explains that ("人物、地点和主题目前只有英文名称，请用英文查找") rather than finding nothing silently.
+- **Study → Explore** is Study's third segment: a find field and a card per kind (count, hint, sample names). From two letters, up to three matches per kind, with "See all N" opening that list already filtered.
+- **The lists:** people and places A to Z with letter headings; people also have a row of A–Z jump buttons, 44 pt each (a vertical index would need smaller letters). The 2,989 themes are search-first: a prompt until something is typed.
+- **An entity's page:** kind, name, "Appears in N chapters", the overview (3 lines, then Read more / Show less), the life-and-times timeline (5 events, then "Show 10 more events"; the header row expands, and each reference is its own 44 pt row that opens the verse in context), then the chapters by book as 44 pt chips. Themes have only the chapters. A page the server doesn't know shows "This page isn't here"; a failed load offers Try again.
+- **Back:** each screen's Back, Escape on the web and the Android back button go back exactly one screen. Only the focused screen listens, because the web stack keeps the screens below mounted.
+- **Large text:** every control has a minimum height, never a fixed one.
 
 **R-4 notes (2026-11-02).**
 - **Home is built as signed off** (Home.dc.html, the stack layout). It shows the greeting and streak chip, today's goal, continue reading, the verse of the day and Surprise me, in both languages and every preset. Home only reads progress and the position, so whatever the reader records shows at once.
@@ -277,6 +292,40 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
   - **The end marker cannot tell translations apart:** a late report from the same chapter in the previous translation, with the same verse count, is accepted.
   - **A chapter laid out while the reader is hidden** keeps no marker measurement, so a short chapter that fits is credited only once it lays out again or is scrolled.
 - **Still to check on a device (needs EAS builds):** reading time with the app going to the background, and scroll-to-verse on native (it estimates a verse's position inside the single-paragraph view from its share of the text).
+
+**B-1 web beta notes (2026-11-02).** The new web app ships as a public beta on Firebase Hosting (John, 11-02).
+- **Where:** site `bible-app-492520`, https://bible-app-492520.web.app, a new URL. The old site keeps running, and beta testers start fresh, so the old-`localStorage` import does nothing there. The live channel waits for John after the phase PRs merge; runbook in `deploy/web.md`.
+- **Build config:** `client/.env.production` (committed, public values only) gives the API origin (W5's Cloud Run `bible-api`), `EXPO_PUBLIC_RELEASE_CHANNEL=beta` and the Firebase web config. `client/src/api/config.ts` reads them: a production build with no API URL, or a non-https one, throws rather than calling localhost. R-6b reads `getFirebaseWebConfig()`.
+- **Hosting:** `firebase.json` `hosting` serves `client/dist` with a single-page rewrite. HTML is `no-cache` and the content-hashed `/_expo` and `/assets` trees are immutable for a year; checked on the real host. A strict CSP (scripts `'self'` only; the API, Firebase Auth and Firestore in `connect-src`; Google Fonts for the Chinese font), nosniff and Referrer-Policy go on every response. `ignore` is empty on purpose, because font paths contain `node_modules`.
+- **Beta label:** in beta builds, Simplified Chinese is offered as "简体中文（测试版）", with a one-line note (`beta.*` keys, `client/src/beta/`). Mounting it in Me's language sheet waits for R-6a.
+- **Privacy policy** at `/privacy`, in English and Chinese, also for the App Store. The prototype `design/proposed/b1-privacy.html` was approved 11-02; the build also takes in a UI/UX review.
+  - It matches what the app does: local-first; API requests carry only references and search words; Firebase only when signed in. It must change whenever the app sends data somewhere new.
+  - It has a short-version box, a card on deleting your data, and a children-and-teens card.
+  - **Minimum age (John, 11-02):** first run asks an optional age range that stays on the device. Choosing Under 13 turns sign-in and sync off. R-7a and R-6b build that; the policy already says it.
+  - The contact email is a temporary address (`PRIVACY_CONTACT` in `client/src/privacy/index.ts`), to confirm before App Store review.
+
+**R-6a notes (2026-11-02): the Me tab, without accounts.**
+- **Me:** Appearance (look, light or dark, reading font, text size), Language (app language), Reading (translation, parallel translation), More (Sources and credits, About and privacy, Help). The Me tab is now a stack: Me → Customise → Advanced, and the three info screens.
+  - Left for other phases: the account card (R-6b), the daily goal row (R-4's goal sheet, mounted here once both merge), the read-aloud voice (R-7).
+- **Customise** (from the signed-off design): a live preview of Home, the 12 presets, light/dark/follow the phone, the accent, the reading font, text size and Reset.
+  - Picking a preset of the other mode switches to that mode, so the preset shows.
+  - The accent and colour edits are kept per preset, so a light preset and its dark partner each keep their own.
+  - An accent that would be hard to read on the look is disabled and says why.
+- **Advanced:** edit every plain-colour token of the preset that shows (gradients, borders and shadows stay the preset's).
+  - **The contrast guard:** an edit is refused if any text pair the preset shows falls below 4.5:1 and below the preset's own ratio. So the glass presets' known gaps are allowed as they are, but never made worse.
+  - Stored edits are checked again when the theme is built, and a set that fails is ignored as a whole.
+  - Line height isn't in the signed-off design, so it isn't built.
+- **Reading font:** the choice applies to Latin-script Scripture. Chinese Scripture always uses Noto Serif SC, and Customise says so in Chinese.
+- **Storage:** the new key `appearance.custom` (`src/storage/appearanceCustomKey.ts`) holds the reading font and the per-preset edits. The text size reuses R-1's reading settings.
+- **Review:** Sol ran 3 rounds; every finding became a permanent test.
+  - **Round 1:** a rounding gap in the contrast guard (4.495:1 passed as 4.50), quick presses losing changes, a translation change overwriting a newer position, and the size row overflowing at 150%.
+  - **Round 2:** the same "value captured at render" class on other paths, escalated to `implementer-hard`.
+  - **Round 3:** it again, after the escalation (5a step 5). John chose to ship and fix in a follow-up.
+- **Known gaps (a follow-up PR; Sol's failing tests are parked in `C:/dev/bible-app-work/r6a/pending/`):**
+  - **F10:** coming from Liberty or Northern lights (no light/dark partner), choosing a paired preset can show its opposite partner.
+  - **F11:** if the phone switches light/dark between render and a press, an edit or reset can target the previous preset.
+  - **Root cause:** the ThemeProvider has no "preset showing now" call, so the screens infer it. The fix is a ThemeProvider call that resolves the stored choice against the phone's current scheme, then dropping `src/me/showingPreset.ts`.
+- **Flaky on main (not R-6a's):** `e2e/reader.spec.ts` "Back restores the words list scroll" fails about 1 run in 3 under load.
 
 Every phase ships its screens in both languages; the missing-key test keeps Chinese from falling behind.
 
