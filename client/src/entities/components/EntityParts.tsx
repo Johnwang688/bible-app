@@ -5,6 +5,7 @@ import type { ReactNode } from 'react';
 import { Pressable, StyleSheet, Text, View, type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { auroraTextShadow } from '../../aurora';
 import { useScreenBack } from '../../search/useScreenBack';
 import { GlassSurface } from '../../components/GlassSurface';
 import { uiFace } from '../../fonts/fonts';
@@ -77,6 +78,8 @@ export function EntityLabel({ children, testID, header = true }: { children: Rea
         fontSize: 12,
         letterSpacing: 0.6,
         textTransform: 'uppercase',
+        // Section labels sit on the screen background, which runs the aurora in the glass looks.
+        ...auroraTextShadow(theme),
       }}
     >
       {children}
