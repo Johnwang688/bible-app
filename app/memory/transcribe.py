@@ -16,7 +16,7 @@ from collections import deque
 from typing import Callable, Protocol
 
 import httpx
-from fastapi import APIRouter, Depends, HTTPException, Query, Request
+from fastapi import APIRouter, Depends, HTTPException, Query, Request, status
 
 from app.core.firebase_auth import FirebaseUser, get_firebase_user
 
@@ -32,6 +32,9 @@ RATE_PER_DAY = 100
 ASR_CODE = {"mandarin": "zh", "cantonese": "yue", "english": "en"}
 DEFAULT_MODEL = "openai/whisper-large-v3-turbo"
 OPENROUTER_URL = "https://openrouter.ai/api/v1/audio/transcriptions"
+
+# The 403 detail for a signed-in caller whose email is not confirmed (the client matches it exactly).
+EMAIL_NOT_VERIFIED_DETAIL = "email_not_verified"
 
 _MINUTE = 60.0
 _DAY = 86_400.0
@@ -149,12 +152,17 @@ _quota = InMemoryQuota(per_min=RATE_PER_MIN, per_day=RATE_PER_DAY)
 
 
 def require_memory_user(user: FirebaseUser = Depends(get_firebase_user)) -> str:
-    """The signed-in user's uid: the Bearer Firebase ID token, then App Check per ``APP_CHECK_MODE``.
+    """The signed-in user's uid: the Bearer Firebase ID token, then App Check per ``APP_CHECK_MODE``, then a
+    confirmed email.
 
     ``get_firebase_user`` (not the identity-only variant) because a call spends the paid upstream. It answers 401
-    for a missing or bad token and 503 when verification can't run, before the body is read; the quota keys on
-    the uid.
+    for a missing or bad token and 503 when verification can't run; a verified token whose ``email_verified``
+    claim is not exactly True gets 403 ``EMAIL_NOT_VERIFIED_DETAIL`` (so throwaway, unconfirmed accounts can't
+    each get a quota). All of these come before the body is read and before the quota is touched; the quota
+    keys on the uid.
     """
+    if user.email_verified is not True:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=EMAIL_NOT_VERIFIED_DETAIL)
     return user.uid
 
 

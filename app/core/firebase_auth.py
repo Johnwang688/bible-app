@@ -19,6 +19,8 @@ Security notes:
   holds the request long (bounded waits; see that module).
 - The uid is used as a Firestore path segment, so a uid outside ``[A-Za-z0-9_-]{1,128}`` is refused (401)
   before any use ('/' would split the path into another user's tree).
+- ``FirebaseUser.email_verified`` is True only when the verified token's ``email_verified`` claim is exactly ``True``
+  (missing, a string or anything else is False); endpoints that spend a paid quota check it themselves.
 """
 
 from __future__ import annotations
@@ -71,6 +73,8 @@ class FirebaseUser:
     uid: str
     email: str | None
     auth_time: int | None
+    # Exactly the token's `email_verified` claim being True; False for anything else (missing, "true", 1, ...).
+    email_verified: bool = False
 
 
 def get_firebase_app() -> firebase_admin.App:
@@ -191,7 +195,9 @@ def _verify(
     except AppCheckRefused as refused:
         raise (_unavailable() if refused.unavailable else _unauthorized()) from None
 
-    return FirebaseUser(uid=uid, email=email, auth_time=auth_time)
+    email_verified = claims.get("email_verified") is True
+
+    return FirebaseUser(uid=uid, email=email, auth_time=auth_time, email_verified=email_verified)
 
 
 def get_firebase_user(

@@ -8,6 +8,8 @@ export const MAX_RECORDING_MS = 30_000;
 export const RECORDING_BITS_PER_SECOND = 32_000;
 /** The client gives up waiting for a transcription after 30 s (the "timed out" state). */
 export const TRANSCRIBE_TIMEOUT_MS = 30_000;
+/** The server's 403 detail for a signed-in account whose email isn't confirmed (app/memory/transcribe.py). */
+export const EMAIL_NOT_VERIFIED_DETAIL = 'email_not_verified';
 /** A 429 whose Retry-After is at most this many seconds is the per-minute limit; longer is the rolling 24 h one. */
 export const MINUTE_LIMIT_MAX_RETRY_S = 60;
 
@@ -48,6 +50,11 @@ export type VoiceOutcome =
   | { kind: 'text'; text: string }
   /** 401, or no ID token (then nothing is uploaded). */
   | { kind: 'signed-out' }
+  /**
+   * 403 with the detail EMAIL_NOT_VERIFIED_DETAIL: signed in, but the account's email isn't confirmed yet (confirmed
+   * on Me). Nothing was transcribed or charged. Not a sign-out: the session stays as it is. Any other 403 is `error`.
+   */
+  | { kind: 'email-unverified' }
   /** 413. */
   | { kind: 'too-long' }
   /** 429. `window` is 'minute' when Retry-After <= MINUTE_LIMIT_MAX_RETRY_S, else 'day' (rolling 24 h). */

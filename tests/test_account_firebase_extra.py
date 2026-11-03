@@ -220,3 +220,17 @@ def test_a_delete_that_fails_after_disabling_reenables_the_user_for_a_retry(fake
     res = client.delete("/api/v1/account", headers=AUTH)
     assert res.status_code == 503
     assert log.index(("disable", "alice")) < log.index(("enable", "alice"))
+
+
+@pytest.mark.parametrize("claim", [False, "true", None, "missing"])
+def test_delete_still_works_for_an_unconfirmed_email(fakes, client, claim):
+    """Email verification: an account whose email was never confirmed can still delete itself."""
+    log, state = fakes
+    claims = {"uid": "alice", "email": "a@example.com", "auth_time": int(time.time())}
+    if claim != "missing":
+        claims["email_verified"] = claim
+    state["claims"] = claims
+    res = client.delete("/api/v1/account", headers=AUTH)
+    assert res.status_code == 204, res.text
+    assert ("recursive_delete", "alice") in log
+    assert ("delete_user", "alice") in log

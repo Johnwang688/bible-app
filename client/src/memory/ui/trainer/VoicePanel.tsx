@@ -33,8 +33,9 @@ import type { TrainerCtx } from './types';
 
 /** After an attempt: the notices that come with a Try again. */
 type RetryNotice = 'too-long' | 'timeout' | 'error';
-type NoticeKind = VoiceNotice | RetryNotice;
-type LocalNotice = RetryNotice | 'signed-out' | 'offline' | 'unsupported';
+type NoticeKind = VoiceNotice | RetryNotice | 'email-unverified';
+/** 'email-unverified': a 403 for an account whose email isn't confirmed (confirmed on Me); typing still works. */
+type LocalNotice = RetryNotice | 'signed-out' | 'email-unverified' | 'offline' | 'unsupported';
 type Mode = 'idle' | 'starting' | 'recording' | 'grading';
 
 /** What the mic shows for each phase of the attempt. */
@@ -118,6 +119,9 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
     setLocal(next);
   }, []);
   const clearSignedOut = useCallback(() => setLocal((cur) => (cur === 'signed-out' ? null : cur)), []);
+  // The email-not-confirmed notice is lifted by a new session too (signing in again, or another user), never by a
+  // sign-out (the gate's signed-out notice stands in front of it then); otherwise it lasts until the panel remounts.
+  const clearEmailUnverified = useCallback(() => setLocal((cur) => (cur === 'email-unverified' ? null : cur)), []);
 
   // ---- the attempt machine ---------------------------------------------------------------------------------------
   const machine = useRef<VoiceAttempts | null>(null);
@@ -142,6 +146,7 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
         recordVoiceOutcome(outcome, now);
         if (outcome.kind === 'limit') lastLimit = { until: now + outcome.retryAfterS * 1000, window: outcome.window };
         if (outcome.kind === 'signed-out') showLocal('signed-out', token);
+        else if (outcome.kind === 'email-unverified') showLocal('email-unverified');
         else if (outcome.kind === 'offline') showLocal('offline');
         else if (outcome.kind === 'too-long' || outcome.kind === 'timeout' || outcome.kind === 'error') showLocal(outcome.kind);
       },
@@ -228,8 +233,9 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
     if (auth.signedIn && (!was.signedIn || anotherUser)) {
       latch.current = null;
       clearSignedOut();
+      clearEmailUnverified();
     }
-  }, [auth.signedIn, user, clearSignedOut]);
+  }, [auth.signedIn, user, clearSignedOut, clearEmailUnverified]);
   const authSignIn = auth.signIn;
   const signIn = authSignIn
     ? () => {
@@ -524,6 +530,7 @@ const NOTICE_ICON: Record<NoticeKind, TrainerIconName> = {
   'voice-off': 'micOff',
   unsupported: 'micOff',
   'signed-out': 'user',
+  'email-unverified': 'user',
   offline: 'wifiOff',
   'no-service': 'info',
   limit: 'clock',
@@ -569,6 +576,9 @@ function NoticeCard({
     case 'signed-out':
       body = t('memory.notice.signedOut');
       if (signIn) button = <MemButton testID="memory-notice-sign-in" kind="secondary" block label={t('memory.notice.signIn')} onPress={signIn} />;
+      break;
+    case 'email-unverified':
+      body = t('memory.notice.confirmEmail');
       break;
     case 'offline':
       body = t('memory.notice.offline');
