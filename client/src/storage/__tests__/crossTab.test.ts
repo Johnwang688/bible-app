@@ -28,13 +28,13 @@ function sharedBackend() {
 }
 
 describe('cross-tab writes', () => {
-  it('a write made elsewhere reaches this key’s subscribers, and reads the new value', () => {
+  it('a write made elsewhere reaches this key’s other-tab subscribers, and reads the new value', () => {
     const shared = sharedBackend();
     const storage = createStorage(shared.tab());
     const onGoal = jest.fn();
     const onName = jest.fn();
-    storage.subscribe(goalKey, onGoal);
-    storage.subscribe(nameKey, onName);
+    storage.subscribe(goalKey, onGoal, { otherTabs: true });
+    storage.subscribe(nameKey, onName, { otherTabs: true });
 
     shared.writeElsewhere('goal', JSON.stringify({ v: 1, data: 30 }));
     expect(onGoal).toHaveBeenCalledTimes(1);
@@ -42,13 +42,13 @@ describe('cross-tab writes', () => {
     expect(storage.get(goalKey)).toBe(30);
   });
 
-  it('a store cleared elsewhere (no key) reaches every subscriber', () => {
+  it('a store cleared elsewhere (no key) reaches every other-tab subscriber', () => {
     const shared = sharedBackend();
     const storage = createStorage(shared.tab());
     const onGoal = jest.fn();
     const onName = jest.fn();
-    storage.subscribe(goalKey, onGoal);
-    storage.subscribe(nameKey, onName);
+    storage.subscribe(goalKey, onGoal, { otherTabs: true });
+    storage.subscribe(nameKey, onName, { otherTabs: true });
     shared.clearElsewhere();
     expect(onGoal).toHaveBeenCalledTimes(1);
     expect(onName).toHaveBeenCalledTimes(1);
@@ -59,12 +59,27 @@ describe('cross-tab writes', () => {
     const a = createStorage(shared.tab());
     const b = createStorage(shared.tab());
     const onB = jest.fn();
-    b.subscribe(goalKey, onB);
+    b.subscribe(goalKey, onB, { otherTabs: true });
     a.set(goalKey, 45);
     // The browser fires `storage` only in the other tab; the fake does the same for A's write.
     shared.writeElsewhere('goal', shared.inner.getString('goal')!);
     expect(onB).toHaveBeenCalledTimes(1);
     expect(b.get(goalKey)).toBe(45);
+  });
+
+  it('a plain subscriber hears this tab’s writes only (the sync engine must not upload another tab’s)', () => {
+    const shared = sharedBackend();
+    const storage = createStorage(shared.tab());
+    const local = jest.fn();
+    const both = jest.fn();
+    storage.subscribe(goalKey, local);
+    storage.subscribe(goalKey, both, { otherTabs: true });
+    shared.writeElsewhere('goal', JSON.stringify({ v: 1, data: 30 }));
+    expect(local).not.toHaveBeenCalled();
+    expect(both).toHaveBeenCalledTimes(1);
+    storage.set(goalKey, 45);
+    expect(local).toHaveBeenCalledTimes(1);
+    expect(both).toHaveBeenCalledTimes(2);
   });
 
   it('a backend without external changes works as before', () => {

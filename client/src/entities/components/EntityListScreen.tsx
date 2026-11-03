@@ -3,7 +3,7 @@
 // 2,989 themes.
 import { router } from 'expo-router';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Pressable, ScrollView, SectionList, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Platform, Pressable, ScrollView, SectionList, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import type { EntityKind, SummaryEntityListItemOut } from '../../api/schemas';
@@ -44,6 +44,9 @@ function chunk(items: SummaryEntityListItemOut[], prefix: string): Chunk[] {
   return out;
 }
 
+/** How long a jump keeps landing on its section while the rows above it are measured. */
+const LANDING_MS = 1500;
+
 export function EntityListScreen({
   kind,
   initialFilter,
@@ -83,6 +86,8 @@ function EntityListBody({ kind, initialFilter, onOpenEntity }: { kind: EntityKin
   const [filter, setFilter] = useState(initialFilter);
   const listRef = useRef<SectionList<Chunk, Section>>(null);
   const retryTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  /** The section a jump is landing on, until its rows are measured (see `onContentSizeChange`). */
+  const landing = useRef<{ sectionIndex: number; until: number } | null>(null);
   useEffect(
     () => () => {
       if (retryTimer.current) clearTimeout(retryTimer.current);
@@ -118,10 +123,28 @@ function EntityListBody({ kind, initialFilter, onOpenEntity }: { kind: EntityKin
     (letter: string) => {
       const sectionIndex = sections.findIndex((s) => s.letter === letter);
       if (sectionIndex < 0) return;
+      landing.current = { sectionIndex, until: Date.now() + LANDING_MS };
       listRef.current?.scrollToLocation({ sectionIndex, itemIndex: 0, viewPosition: 0, animated: true });
     },
     [sections],
   );
+  // The rows above a far section are measured only as the jump renders them, and each measurement moves the
+  // section: a jump planned on estimates can stop short of it (or past it). Until the rows settle, every change of
+  // the content's size lands on the section again. The reader's own scrolling (a drag, a touch, the wheel), or a new
+  // filter, ends the landing.
+  const onContentSizeChange = useCallback(() => {
+    const target = landing.current;
+    if (!target) return;
+    if (Date.now() > target.until || target.sectionIndex >= sections.length) {
+      landing.current = null;
+      return;
+    }
+    listRef.current?.scrollToLocation({ sectionIndex: target.sectionIndex, itemIndex: 0, viewPosition: 0, animated: false });
+  }, [sections.length]);
+  const endLanding = useCallback(() => {
+    landing.current = null;
+  }, []);
+  useEffect(endLanding, [filter, endLanding]);
   // A section far below the rendered window has no measured position yet: scroll to an estimate, which
   // renders it, then land on it.
   const onScrollToIndexFailed = useCallback(
@@ -270,6 +293,10 @@ function EntityListBody({ kind, initialFilter, onOpenEntity }: { kind: EntityKin
       renderItem={({ item }) => <EntityRows items={item.items} kind={kind} onOpen={onOpenEntity} />}
       stickySectionHeadersEnabled={false}
       onScrollToIndexFailed={onScrollToIndexFailed}
+      onContentSizeChange={onContentSizeChange}
+      onScrollBeginDrag={endLanding}
+      onTouchStart={endLanding}
+      {...(Platform.OS === 'web' ? ({ onWheel: endLanding } as object) : {})}
       keyboardShouldPersistTaps="handled"
       keyboardDismissMode="on-drag"
       style={styles.fill}

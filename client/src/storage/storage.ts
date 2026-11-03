@@ -10,8 +10,10 @@
 // value again; `remove` drops it. `get` ignores the tag, and values stored without one read as before.
 //
 // Other tabs (web): two tabs of the app share localStorage, and the browser tells each tab when another one
-// writes it (the `storage` event). The store passes that on to its subscribers, so a tab left open never acts on
-// a stale value: a stale first-run intro, say, sees the intro finished in another tab and closes (INT F2).
+// writes it (the `storage` event). What is shown follows it: `useStoredValue` hears other tabs' writes, so a tab
+// left open never shows, or acts on, a stale value (a stale first-run intro closes once another tab finishes it,
+// INT F2). A plain `subscribe` hears this tab's own writes only, as before: the sync engine reads its listener as
+// "this device changed it", and another tab's write is that tab's to upload (hearing it would upload it twice).
 import { useCallback, useSyncExternalStore } from 'react';
 import type { z } from 'zod';
 
@@ -49,8 +51,11 @@ export interface Storage {
   /** The tag stored with the key's value, or undefined (no value, or one written without a tag). */
   tagOf<T>(k: StorageKey<T>): string | undefined;
   remove<T>(k: StorageKey<T>): void;
-  /** Calls `listener` after each set or remove of this key. Returns the unsubscribe. */
-  subscribe<T>(k: StorageKey<T>, listener: () => void): () => void;
+  /**
+   * Calls `listener` after each set or remove of this key made through this store. With `otherTabs`, also when
+   * another tab changes it (web). Returns the unsubscribe.
+   */
+  subscribe<T>(k: StorageKey<T>, listener: () => void, opts?: { otherTabs?: boolean }): () => void;
 }
 
 const TAG_RE = /^[A-Za-z0-9_-]{1,64}$/;
@@ -63,11 +68,17 @@ function tagIn(raw: string | undefined): string | undefined {
 
 export function createStorage(backend: KeyValueBackend): Storage {
   const listeners = new Map<string, Set<() => void>>();
-  const notify = (key: string) => listeners.get(key)?.forEach((l) => l());
-  // For as long as the app runs: a change made elsewhere reaches this key's subscribers as if made here.
+  /** The subscribers that asked to hear other tabs' writes too. */
+  const otherTabListeners = new Map<string, Set<() => void>>();
+  const notify = (key: string) => {
+    listeners.get(key)?.forEach((l) => l());
+    otherTabListeners.get(key)?.forEach((l) => l());
+  };
+  const notifyOtherTab = (key: string) => otherTabListeners.get(key)?.forEach((l) => l());
+  // For as long as the app runs: a change made in another tab reaches the subscribers that asked for it.
   backend.subscribeExternal?.((key) => {
-    if (key !== null) notify(key);
-    else [...listeners.keys()].forEach(notify);
+    if (key !== null) notifyOtherTab(key);
+    else [...otherTabListeners.keys()].forEach(notifyOtherTab);
   });
 
   return {
@@ -108,9 +119,10 @@ export function createStorage(backend: KeyValueBackend): Storage {
       backend.remove(k.key);
       notify(k.key);
     },
-    subscribe(k, listener) {
-      let set = listeners.get(k.key);
-      if (!set) listeners.set(k.key, (set = new Set()));
+    subscribe(k, listener, opts) {
+      const byKey = opts?.otherTabs ? otherTabListeners : listeners;
+      let set = byKey.get(k.key);
+      if (!set) byKey.set(k.key, (set = new Set()));
       set.add(listener);
       return () => {
         set.delete(listener);
@@ -119,9 +131,9 @@ export function createStorage(backend: KeyValueBackend): Storage {
   };
 }
 
-/** The stored value as React state: the same object until the value changes. */
+/** The stored value as React state: the same object until the value changes, here or in another tab. */
 export function useStoredValue<T>(storage: Storage, k: StorageKey<T>): [T, (value: T) => void] {
-  const subscribe = useCallback((cb: () => void) => storage.subscribe(k, cb), [storage, k]);
+  const subscribe = useCallback((cb: () => void) => storage.subscribe(k, cb, { otherTabs: true }), [storage, k]);
   const snapshot = useSyncExternalStore(subscribe, () => snapshotOf(storage, k), () => snapshotOf(storage, k));
   const set = useCallback((value: T) => storage.set(k, value), [storage, k]);
   return [snapshot, set];
