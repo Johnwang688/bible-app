@@ -1,0 +1,70 @@
+import { parseLangTag, pickVoice, speechLanguageFor, voicesFor } from '../language';
+import { VOICES, voice } from './fakeEngine';
+
+describe('parseLangTag', () => {
+  it.each([
+    ['zh-CN', { family: 'zh', cantonese: false, script: 'Hans' }],
+    ['zh_TW', { family: 'zh', cantonese: false, script: 'Hant' }],
+    ['cmn-Hans-CN', { family: 'zh', cantonese: false, script: 'Hans' }],
+    ['cmn-Hant-TW', { family: 'zh', cantonese: false, script: 'Hant' }],
+    ['zh-HK', { family: 'zh', cantonese: true, script: 'Hant' }],
+    ['yue-HK', { family: 'zh', cantonese: true, script: 'Hant' }],
+    ['zh', { family: 'zh', cantonese: false, script: null }],
+    ['en-us-x-sfg#male_1-local', { family: 'en', cantonese: false, script: null }],
+    ['EN_gb', { family: 'en', cantonese: false, script: null }],
+  ])('%s', (tag, want) => {
+    expect(parseLangTag(tag)).toEqual(want);
+  });
+});
+
+describe('speechLanguageFor', () => {
+  it('maps each translation to its voice group', () => {
+    expect(speechLanguageFor('BSB')).toEqual({ group: 'en', tag: 'en-US' });
+    expect(speechLanguageFor('CUV-SIMP')).toEqual({ group: 'zh-Hans', tag: 'zh-CN' });
+    expect(speechLanguageFor('CUV')).toEqual({ group: 'zh-Hant', tag: 'zh-TW' });
+  });
+});
+
+describe('voicesFor', () => {
+  const all = [...Object.values(VOICES), voice('plain-zh', 'zh')];
+
+  it('ranks simplified Chinese: zh-CN, then untagged Mandarin, then zh-TW, then Cantonese; no English', () => {
+    expect(voicesFor(all, 'CUV-SIMP').map((v) => v.id)).toEqual(['tingting', 'plain-zh', 'meijia', 'sinji']);
+  });
+
+  it('ranks traditional Chinese with zh-TW first', () => {
+    expect(voicesFor(all, 'CUV').map((v) => v.id)).toEqual(['meijia', 'plain-zh', 'tingting', 'sinji']);
+  });
+
+  it('gives English text English voices only, the default first', () => {
+    expect(voicesFor(all, 'BSB').map((v) => v.id)).toEqual(['samantha', 'daniel']);
+  });
+
+  it('prefers offline, then enhanced voices within a step', () => {
+    const list = [
+      voice('online', 'zh-CN', { localService: false, name: 'A' }),
+      voice('plain', 'zh-CN', { name: 'B' }),
+      voice('enhanced', 'zh-CN', { enhanced: true, name: 'C' }),
+    ];
+    expect(voicesFor(list, 'CUV-SIMP').map((v) => v.id)).toEqual(['enhanced', 'plain', 'online']);
+  });
+});
+
+describe('pickVoice', () => {
+  const all = Object.values(VOICES);
+
+  it('keeps the remembered voice while it is on the device', () => {
+    expect(pickVoice(all, 'CUV-SIMP', 'meijia')?.id).toBe('meijia');
+  });
+
+  it('ignores a remembered voice that is gone or of another language', () => {
+    expect(pickVoice(all, 'CUV-SIMP', 'removed')?.id).toBe('tingting');
+    expect(pickVoice(all, 'CUV-SIMP', 'samantha')?.id).toBe('tingting');
+  });
+
+  it('never falls back to another language: Chinese text with only English voices has no voice', () => {
+    expect(pickVoice([VOICES.samantha, VOICES.daniel], 'CUV-SIMP', undefined)).toBeNull();
+    expect(pickVoice([VOICES.tingting], 'BSB', undefined)).toBeNull();
+    expect(pickVoice([], 'BSB', undefined)).toBeNull();
+  });
+});
