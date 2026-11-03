@@ -21,7 +21,23 @@ const KINDS: Record<string, AuthErrorKind> = {
   'auth/requires-recent-login': 'requires-recent-login',
   // The session was revoked (password changed, account deleted or disabled): sign in again.
   'auth/user-token-expired': 'requires-recent-login',
+  // Google's window (signInWithPopup / reauthenticateWithPopup).
+  'auth/popup-closed-by-user': 'cancelled',
+  'auth/cancelled-popup-request': 'cancelled',
+  'auth/user-cancelled': 'cancelled',
+  'auth/popup-blocked': 'popup-blocked',
+  // The Google email has an account that signs in another way (a password). Shown as "sign in with your email"; the
+  // two methods are never linked.
+  'auth/account-exists-with-different-credential': 'account-exists',
 };
+
+/** The email Firebase attaches to an account-exists error (`customData.email`), or undefined. */
+function errorEmail(e: unknown): string | undefined {
+  if (typeof e !== 'object' || e === null) return undefined;
+  const data = (e as { customData?: unknown }).customData;
+  const email = typeof data === 'object' && data !== null ? (data as { email?: unknown }).email : undefined;
+  return typeof email === 'string' && email !== '' ? email : undefined;
+}
 
 /** The error's Firebase Auth code (`auth/...`), or undefined. */
 export function firebaseAuthCode(e: unknown): string | undefined {
@@ -34,5 +50,6 @@ export function mapFirebaseAuthError(e: unknown): AuthError {
   if (e instanceof AuthError) return e;
   const code = firebaseAuthCode(e);
   const kind = (code !== undefined ? KINDS[code] : undefined) ?? 'unknown';
-  return new AuthError(kind, code !== undefined ? `auth ${kind} (${code})` : undefined, { cause: e, code });
+  const email = kind === 'account-exists' ? errorEmail(e) : undefined;
+  return new AuthError(kind, code !== undefined ? `auth ${kind} (${code})` : undefined, { cause: e, code, ...(email !== undefined ? { email } : {}) });
 }

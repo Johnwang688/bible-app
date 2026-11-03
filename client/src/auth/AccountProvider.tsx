@@ -58,6 +58,15 @@
 // it instead of signing out underneath it, and the view keeps showing "signed out" while the re-auth is signed
 // in (the flow's own step, not a sign-in the person made). It always ends signed out.
 //
+// Google (GOOGLE, board 11-03 row 7; web only, behind EXPO_PUBLIC_GOOGLE_SIGN_IN): a Google sign-in is
+// `signIn({ kind: 'google' })`, the same path as an email sign-in: the gate check before (nothing reaches Google while
+// sign-in is off), and afterSignIn, the offer and the closing dropped after, as for any sign-in. A first Google sign-in
+// creates the account (no separate sign-up). An account with Google and no password proves itself for a delete through
+// Google's window instead of a password (`reauthKindFor`); its closing and offer carry `method: 'google'`, and the
+// offered delete's re-auth then uses Google's window with `existingOnly` (it never creates an account, and must land
+// on the offered uid, like the password re-auth). While Google's window is open the person can give up (`signal`):
+// the abort is read once the re-auth resolves, before the engine stops or anything is sent.
+//
 // The injected dependencies are read once, when the provider mounts; the defaults (Firebase, device
 // storage, the Firestore remote, the account API) are created on first use, never at import.
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
@@ -72,7 +81,18 @@ import type { RemoteStore, SyncEngine, SyncStatus } from '../sync/types';
 import { createAccountApi } from './accountApi';
 import { firebaseAuthCode } from './firebaseErrors';
 import { SIGN_IN_OFF, type SignInGate } from './signInGate';
-import { AuthError, type AccountState, type AccountStatus, type AuthBackend, type AuthUser, type SignInMethod } from './types';
+import {
+  AuthError,
+  reauthKindFor,
+  type AccountState,
+  type AccountStatus,
+  type AuthBackend,
+  type AuthProviderKind,
+  type AccountSignIn,
+  type AuthUser,
+  type DeleteOptions,
+  type DeleteProof,
+} from './types';
 import {
   clearUnder13Closing,
   clearUnder13Offer,
@@ -259,8 +279,43 @@ function isAllowed(gate: SignInGate): boolean {
 /** How many times the offered delete tries to sign its re-auth out before leaving it to enforceGate. */
 const OFFER_SIGN_OUT_TRIES = 3;
 
+function sameProviders(a: AuthUser, b: AuthUser): boolean {
+  return (a.providers ?? []).join(',') === (b.providers ?? []).join(',');
+}
+
 function sameUser(a: AuthUser | null, b: AuthUser | null): boolean {
-  return a === b || (a !== null && b !== null && a.uid === b.uid && a.email === b.email);
+  return a === b || (a !== null && b !== null && a.uid === b.uid && a.email === b.email && sameProviders(a, b));
+}
+
+function copyUser(u: AuthUser): AuthUser {
+  return u.providers ? { uid: u.uid, email: u.email, providers: [...u.providers] } : { uid: u.uid, email: u.email };
+}
+
+/** The sign-in that proves `email`'s account with `proof`. */
+function proofMethod(proof: DeleteProof, email: string, existingOnly = false): AccountSignIn {
+  if (typeof proof === 'string') return { kind: 'password', email, password: proof };
+  return { kind: 'google', ...(email ? { loginHint: email } : {}), ...(existingOnly ? { existingOnly: true } : {}) };
+}
+
+function proofKind(proof: DeleteProof): AuthProviderKind {
+  return typeof proof === 'string' ? 'password' : 'google';
+}
+
+/** Signs in through the backend: a password, or Google's window (refused by a backend without it). */
+function backendSignIn(auth: AuthBackend, method: AccountSignIn): Promise<AuthUser> {
+  if (method.kind === 'password') return auth.signIn(method);
+  if (!auth.signInWithGoogle) return Promise.reject(new AuthError('unknown', 'Google sign-in is not available'));
+  return auth.signInWithGoogle({
+    ...(method.loginHint !== undefined ? { loginHint: method.loginHint } : {}),
+    ...(method.existingOnly ? { existingOnly: true } : {}),
+  });
+}
+
+/** Proves the signed-in user again: a password, or Google's window. */
+function backendReauth(auth: AuthBackend, method: AccountSignIn): Promise<void> {
+  if (method.kind === 'password') return auth.reauthenticate(method);
+  if (!auth.reauthenticateWithGoogle) return Promise.reject(new AuthError('unknown', 'Google sign-in is not available'));
+  return auth.reauthenticateWithGoogle(method.loginHint);
 }
 
 function createController(deps: Deps): Controller {
@@ -332,7 +387,7 @@ function createController(deps: Deps): Controller {
 
   /** Stores the closing for `who` (synchronously: a close of the app right after must not lose it). Never throws. */
   function setClosing(who: Under13Closing): void {
-    closing = { uid: who.uid, email: who.email };
+    closing = { uid: who.uid, email: who.email, ...(who.method === 'google' ? { method: 'google' as const } : {}) };
     try {
       recordUnder13Closing(deps.storage(), closing);
       closingUnstored = false;
@@ -391,7 +446,7 @@ function createController(deps: Deps): Controller {
       status: known ? (shown ? 'signedIn' : 'signedOut') : 'loading',
       user: shown,
       signInAllowed: gateAllowed(),
-      under13Offer: offer ? { email: offer.email } : null,
+      under13Offer: offer ? (offer.method === 'google' ? { email: offer.email, method: 'google' } : { email: offer.email }) : null,
     });
   };
   const emitSync = (sync: SyncStatus | null) => listeners?.onSync(sync);
@@ -460,7 +515,7 @@ function createController(deps: Deps): Controller {
     const before = user;
     const firstReport = !known;
     known = true;
-    if (!sameUser(user, next)) user = next ? { uid: next.uid, email: next.email } : null;
+    if (!sameUser(user, next)) user = next ? copyUser(next) : null;
     if (!next) offerClosedSignedOut(firstReport, before);
     emitView();
     kick();
@@ -512,10 +567,12 @@ function createController(deps: Deps): Controller {
    * The gate signed `who` out: offer to delete the account (if it has an email to re-auth with, and is not an
    * account already deleted on this device). Never throws.
    */
-  function offerDelete(who: AuthUser): void {
+  function offerDelete(who: AuthUser | Under13Closing): void {
     if (!who.email || deletedUids.has(who.uid)) return;
+    // A closing carries its method; a user's comes from its sign-in methods.
+    const method = 'method' in who ? who.method : 'providers' in who ? reauthKindFor(who) : undefined;
     try {
-      recordUnder13Offer(deps.storage(), { uid: who.uid, email: who.email });
+      recordUnder13Offer(deps.storage(), { uid: who.uid, email: who.email, ...(method === 'google' ? { method } : {}) });
     } catch (e) {
       console.warn('[account] recording the Under 13 offer failed', e);
     }
@@ -552,7 +609,7 @@ function createController(deps: Deps): Controller {
     // Open → closed with someone signed in (not the offered delete's own re-auth): Under 13 picked while signed in.
     // Stored now, in the same turn as the gate change, before the sign-out waits for anything.
     if (gateWasOpen && !open && user && !offerRun) {
-      if (user.email) setClosing({ uid: user.uid, email: user.email });
+      if (user.email) setClosing({ uid: user.uid, email: user.email, ...(reauthKindFor(user) === 'google' ? { method: 'google' as const } : {}) });
       else dropClosing(); // no email: nothing could re-auth for the offer
     }
     if (open) dropClosing();
@@ -612,12 +669,14 @@ function createController(deps: Deps): Controller {
   }
 
   const actions: Actions = {
-    async signIn(method: SignInMethod) {
+    async signIn(method: AccountSignIn) {
       requireAllowed();
       requireNoOfferRun();
       const auth = requireAuth();
+      // An ordinary Google sign-in may create the account; only the offered delete's re-auth uses existingOnly.
+      const how: AccountSignIn = method.kind === 'google' ? { kind: 'google' } : method;
       try {
-        await auth.signIn(method);
+        await backendSignIn(auth, how);
       } catch (e) {
         throw asAuthError(e);
       }
@@ -667,12 +726,12 @@ function createController(deps: Deps): Controller {
 
     syncNow,
 
-    deleteAccount(password: string) {
-      return holding(() => deleteAccount(password));
+    deleteAccount(proof: DeleteProof, options?: DeleteOptions) {
+      return holding(() => deleteAccount(proof, options));
     },
 
-    deleteOfferedAccount(password: string) {
-      return holding(() => deleteOfferedAccount(password));
+    deleteOfferedAccount(proof: DeleteProof, options?: DeleteOptions) {
+      return holding(() => deleteOfferedAccount(proof, options));
     },
 
     dismissUnder13Offer() {
@@ -778,18 +837,27 @@ function createController(deps: Deps): Controller {
     }
   }
 
-  async function deleteAccount(password: string): Promise<void> {
+  /** After the re-auth: an abort asked for while Google's window was open ends the delete here, before anything. */
+  function provenOrAborted(options: DeleteOptions | undefined): void {
+    if (options?.signal?.aborted) throw new AuthError('cancelled', 'the delete was cancelled');
+    options?.onProven?.();
+  }
+
+  async function deleteAccount(proof: DeleteProof, options?: DeleteOptions): Promise<void> {
     const auth = requireAuth();
     const who = auth.currentUser() ?? user;
     if (!who) throw new AuthError('unknown', 'nobody is signed in');
     if (deleting) throw new AuthError('unknown', 'a delete is already in progress');
+    // Google proves only an account that signs in with Google (a password-only account keeps its password).
+    if (proofKind(proof) === 'google' && !who.providers?.includes('google')) throw new AuthError('unknown', 'this account does not sign in with Google');
     deleting = true;
     try {
       try {
-        await auth.reauthenticate({ kind: 'password', email: who.email ?? '', password });
+        await backendReauth(auth, proofMethod(proof, who.email ?? ''));
       } catch (e) {
         throw asAuthError(e);
       }
+      provenOrAborted(options);
       holds++;
       let requested = false;
       let hadData: boolean | null = null;
@@ -845,10 +913,12 @@ function createController(deps: Deps): Controller {
    * then drop the offer. Any failure deletes nothing locally, keeps the offer and ends signed out. A delete that
    * succeeded drops the offer whatever fails after it, and still ends signed out.
    */
-  async function deleteOfferedAccount(password: string): Promise<void> {
+  async function deleteOfferedAccount(proof: DeleteProof, options?: DeleteOptions): Promise<void> {
     const offer = offerNow();
     if (!offer) throw new AuthError('not-allowed', 'there is no Under 13 offer on this device');
     if (deleting) throw new AuthError('unknown', 'a delete is already in progress');
+    // The proof must be the offer's own method: Google proves only an offer recorded for a Google-only account.
+    if (proofKind(proof) !== (offer.method ?? 'password')) throw new AuthError('unknown', 'that is not how the offered account signs in');
     const auth = requireAuth();
     const before = auth.currentUser();
     // The panel shows only while signed out; never sign someone else out (or in over them) to delete this one.
@@ -863,11 +933,13 @@ function createController(deps: Deps): Controller {
         await enqueue(reconcile); // whatever ran stops; the hold keeps every engine off until the end
         let reauthed: AuthUser;
         try {
-          // Straight to the backend: sign-in is off (the gate), and this sign-in exists only to delete.
-          reauthed = await auth.signIn({ kind: 'password', email: offer.email, password });
+          // Straight to the backend: sign-in is off (the gate), and this sign-in exists only to delete. Google's window
+          // may never create an account here (existingOnly).
+          reauthed = await backendSignIn(auth, proofMethod(proof, offer.email, true));
         } catch (e) {
           throw asAuthError(e);
         }
+        provenOrAborted(options);
         // The password must have proven the offered account itself. The sign-in's own result says whom it
         // authenticated; currentUser does not: the email may now sign in to another account while another tab
         // restores the offered uid's older session. Never delete on a password that proved someone else.
@@ -984,7 +1056,8 @@ export function AccountProvider({ children, ...props }: AccountProviderProps) {
             prev.status === next.status &&
             sameUser(prev.user, next.user) &&
             prev.signInAllowed === next.signInAllowed &&
-            prev.under13Offer?.email === next.under13Offer?.email
+            prev.under13Offer?.email === next.under13Offer?.email &&
+            prev.under13Offer?.method === next.under13Offer?.method
               ? prev
               : next,
           ),
