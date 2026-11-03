@@ -388,6 +388,50 @@ test.describe('verse sheet (R-2)', () => {
     await expect(row).toBeFocused();
   });
 
+  // GAPS follow-up (the #44 gate flake: back one row short): React Native Web reports a scroll at most every 16 ms and
+  // the rest only at its end, 100 ms later. With the clock paused, a second scroll is never reported; the word opened
+  // after it must still bring the list back to where it was at the press.
+  test('GAPS: back returns to a scroll made just before the press, though it was never reported', async ({ page }) => {
+    await page.clock.install();
+    await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
+    await page.route('**/api/v1/words/**', route => {
+      const data = body('words_john3_16');
+      const template = data.words.find((w: { strongs: string }) => w.strongs === 'G0025');
+      return route.fulfill({ json: { ...data, words: Array.from({ length: 80 }, (_, i) => ({
+        ...template, english_order: i + 1, english: 'phrase ' + (i + 1), english_kind: 'text',
+      })) } });
+    });
+    await page.goto('/bible');
+    await page.getByTestId('verse-16-tools').click();
+    await page.getByTestId('sheet-original-words').click();
+    const scrollTop = () => page.getByTestId('words-list').evaluate(el => {
+      const nodes = [el, ...el.querySelectorAll('*')];
+      const scroller = nodes.find(n => n.scrollHeight > n.clientHeight + 50 && getComputedStyle(n).overflowY === 'auto');
+      return scroller!.scrollTop;
+    });
+    // Held from here: the first scroll is reported (it starts the scroll); the second is not (its 16 ms never pass,
+    // and the scroll-end timer never runs).
+    await expect(page.getByTestId('word-row-40')).toBeAttached();
+    await page.clock.pauseAt(Date.now() + 1000);
+    await page.getByTestId('words-list').evaluate(el => {
+      const nodes = [el, ...el.querySelectorAll('*')];
+      nodes.find(n => n.scrollHeight > n.clientHeight + 50 && getComputedStyle(n).overflowY === 'auto')!.scrollTop = 400;
+    });
+    await page.waitForTimeout(100);
+    const row = page.getByTestId('word-row-40');
+    await row.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(100);
+    await recordScrollAtPress(page);
+    await row.click();
+    const before = await scrollAtPress(page);
+    expect(before).toBeGreaterThan(400);
+    await expect(page.getByTestId('word-card')).toBeVisible();
+    await page.getByTestId('word-back').click();
+    await expect(page.getByTestId('words-list')).toBeVisible();
+    await page.clock.runFor(50);
+    await expect.poll(scrollTop).toBe(before);
+  });
+
   // GAPS (board 11-03), the R-2 gap: a chapter change while a note is half-written keeps the draft.
   test('GAPS: a chapter change keeps the unsaved note; it comes back on that verse until saved', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });

@@ -51,7 +51,10 @@ export function WordsList({
 
   // Back from a word card: the same place in the list, with focus on the row that was open. The focus does not
   // scroll (web): the list is already where it was, and a row that was only partly in view would move it.
-  const ready = rows.length > 0;
+  // The rows are on screen: there are some, and the list is not showing its error (a failed refetch keeps the old
+  // data, so Back then Try again must restore once the rows are back).
+  const failed = query.isError && !query.isFetching;
+  const ready = rows.length > 0 && !failed;
   // React Native Web's ScrollView reports the end of a scroll 100 ms after the last one, from a timer it does not
   // clear on unmount. Opening a word within that time unmounts the list first, and the late report then reads the
   // detached node's offset, 0, over the place to come back to. Reports after the list is gone are not the list's.
@@ -70,6 +73,17 @@ export function WordsList({
     }, 0);
     return () => clearTimeout(id);
   }, [ready, restoreFocusKey, restoreScrollY]);
+
+  // Opening a word: the place to come back to is the list as it is now, read from the scroller itself (web). React
+  // Native Web reports a scroll at most every 16 ms, and the rest only at its end, 100 ms later, which the list no
+  // longer hears once the word has opened; so the last report can trail a scroll made just before the press (a
+  // tap's own scroll into view under load). Native has no such node and keeps the last report.
+  const openWord = (row: WordRow) => {
+    const node = (scrollRef.current as { getScrollableNode?: () => unknown } | null)?.getScrollableNode?.();
+    const y = (node as { scrollTop?: unknown } | null | undefined)?.scrollTop;
+    if (typeof y === 'number') onScrolled?.(y);
+    onOpenWord(row);
+  };
 
   const bold = uiFace(theme.type.ui, '700');
   const regular = uiFace(theme.type.ui, '400');
@@ -95,7 +109,7 @@ export function WordsList({
   );
 
   let body;
-  if (query.isError && !query.isFetching) {
+  if (failed) {
     body = (
       <View style={styles.state}>
         <Text style={{ color: theme.colors.text, fontFamily: regular, fontSize: 16 }}>{t('words.error')}</Text>
@@ -137,7 +151,7 @@ export function WordsList({
             }}
             testID={`word-row-${row.key}`}
             accessibilityRole="button"
-            onPress={() => onOpenWord(row)}
+            onPress={() => openWord(row)}
             style={[styles.row, { borderTopColor: theme.colors.track }]}
           >
             <View style={styles.original}>
