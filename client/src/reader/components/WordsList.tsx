@@ -71,6 +71,17 @@ export function WordsList({
     return () => clearTimeout(id);
   }, [ready, restoreFocusKey, restoreScrollY]);
 
+  // Opening a word: the place to come back to is the list as it is now, read from the scroller itself (web). React
+  // Native Web reports a scroll at most every 16 ms, and the rest only at its end, 100 ms later, which the list no
+  // longer hears once the word has opened; so the last report can trail a scroll made just before the press (a
+  // tap's own scroll into view under load). Native has no such node and keeps the last report.
+  const openWord = (row: WordRow) => {
+    const node = (scrollRef.current as { getScrollableNode?: () => unknown } | null)?.getScrollableNode?.();
+    const y = (node as { scrollTop?: unknown } | null | undefined)?.scrollTop;
+    if (typeof y === 'number') onScrolled?.(y);
+    onOpenWord(row);
+  };
+
   const bold = uiFace(theme.type.ui, '700');
   const regular = uiFace(theme.type.ui, '400');
   const muted = { color: theme.colors.muted, fontFamily: regular };
@@ -137,7 +148,7 @@ export function WordsList({
             }}
             testID={`word-row-${row.key}`}
             accessibilityRole="button"
-            onPress={() => onOpenWord(row)}
+            onPress={() => openWord(row)}
             style={[styles.row, { borderTopColor: theme.colors.track }]}
           >
             <View style={styles.original}>
