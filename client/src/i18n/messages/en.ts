@@ -1,5 +1,6 @@
 // The English message catalogue. Every UI string goes through a key here (R-0 string ratchet).
 // Keys are flat and dotted. Placeholders are {name}.
+import { feedbackEn } from './feedback';
 import { memoryEn } from './memory';
 
 export const en = {
@@ -598,6 +599,9 @@ export const en = {
 
   // Memory (team MEM): the block lives in ./memory.ts.
   ...memoryEn,
+
+  // Send feedback (team FEEDBACK): the block lives in ./feedback.ts.
+  ...feedbackEn,
 
   'common.loading': 'Loading…',
   'common.retry': 'Try again',

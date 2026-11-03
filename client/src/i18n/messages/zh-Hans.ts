@@ -1,6 +1,7 @@
 // 简体中文 message catalogue. Drafted with the English; John and Chinese-speaking friends
 // review it before launch (R-7). Terms follow CUV-style church usage.
 import type { MessageKey } from './en';
+import { feedbackZhHans } from './feedback';
 import { memoryZhHans } from './memory';
 
 export const zhHans: Record<MessageKey, string> = {
@@ -599,6 +600,9 @@ export const zhHans: Record<MessageKey, string> = {
 
   // Memory (team MEM): the block lives in ./memory.ts.
   ...memoryZhHans,
+
+  // Send feedback (team FEEDBACK): the block lives in ./feedback.ts.
+  ...feedbackZhHans,
 
   'common.loading': '加载中…',
   'common.retry': '重试',
