@@ -4,7 +4,8 @@
 // from `useAccount()`.
 //
 // Concurrency: a request can finish after the sheet was closed, or after the person went to another view.
-// Each request takes a number from `seq`; going to another view takes the next number, and unmounting makes
+// Each request takes a number from `seq`; going to another view takes the next number (refused while a delete
+// runs: neither closing nor leaving the view can stop it, so the sheet stays on it until its result), and unmounting makes
 // the sheet not alive. A result that is stale or arrives after unmount changes nothing here (no state update,
 // no `onClose`, so a newer sheet is never closed by an older request). A sign-in that completes after Close
 // still signs in: the card shows it. A delete that completes after Close still reports through `onDeleted`
@@ -104,9 +105,6 @@ export function AccountSheet({
   const accountEmail = account.user?.email ?? '';
   /** A delete is running: closing cannot stop it, so nothing may close the sheet until its result is shown. */
   const deleting = busy && (view === 'delete' || view === 'offerDelete');
-  const closeUnlessDeleting = useCallback(() => {
-    if (!deleting) onClose();
-  }, [deleting, onClose]);
 
   /**
    * The request that owns the current view's form (its seq), or 0. Set synchronously: a second submit in the same
@@ -115,6 +113,29 @@ export function AccountSheet({
    * Close/Cancel unlocked while the first request (a delete) still ran.
    */
   const owner = useRef(0);
+  /** The view as of the last `go` (synchronous, unlike `view`, which a same-turn handler may see stale). */
+  const viewNow = useRef<SheetView>(start);
+
+  /**
+   * Whether a delete view's request is running, read synchronously: true from the submit's own turn, before React
+   * commits `busy`. `owner` equals `seq` only while the current view's request runs (leaving the view takes a new
+   * seq), and `go` refuses to leave a delete view while this is true, so nothing in the same turn can unlock it.
+   */
+  const deleteRunning = useCallback(
+    () => owner.current !== 0 && owner.current === seq.current && (viewNow.current === 'delete' || viewNow.current === 'offerDelete'),
+    [],
+  );
+
+  /**
+   * Every close path of the sheet (Close, Cancel, the scrim, Escape and Android Back through `onRequestClose`). Reads
+   * the same synchronous lock the submits take, not only `deleting`: Back arriving in the turn of a Return that
+   * submitted a delete comes before React commits `busy`, and must not close the sheet while the delete runs
+   * (U13-R2-2).
+   */
+  const closeUnlessDeleting = useCallback(() => {
+    if (deleting || deleteRunning()) return;
+    onClose();
+  }, [deleting, deleteRunning, onClose]);
 
   /**
    * Starts a request, or returns null when one is already running for this view (leaving the view with `go`
@@ -135,8 +156,16 @@ export function AccountSheet({
     return { current, finish };
   }, []);
 
-  const go = useCallback((next: SheetView) => {
+  /**
+   * Goes to another view (abandoning its request). Refused (does nothing) while a delete view's request runs:
+   * "Forgot password?" pressed in the turn of a Return that submitted the delete (before `busy` disables it) would
+   * otherwise take a new seq, so the close paths' lock would no longer hold and Close/Back would work while DELETE
+   * runs. Callers that do more than `go` (toReset) check `deleteRunning()` first themselves.
+   */
+  const go = useCallback((next: SheetView): void => {
+    if (deleteRunning()) return;
     seq.current++;
+    viewNow.current = next;
     setView(next);
     setError(null);
     setDeleteMessage(null);
@@ -145,7 +174,7 @@ export function AccountSheet({
     setDeletePassword('');
     setShowPassword(false);
     setSent(false);
-  }, []);
+  }, [deleteRunning]);
 
   // Signed in (by a sign-in whose view was left meanwhile), or signed out while deleting: nothing left to do here.
   // (Decided by how the sheet was opened, not by the view: the delete sheet can pass through the reset view.)
@@ -264,6 +293,7 @@ export function AccountSheet({
 
   const toReset = (from: 'signIn' | 'delete') => {
     const carried = from === 'delete' ? accountEmail : email;
+    if (deleteRunning()) return; // a delete is running (see `go`)
     setResetFrom(from);
     go('reset');
     setEmail(carried);

@@ -23,6 +23,7 @@
 // the remote reports as held (resolved but not written, types.ts) is likewise not acknowledged: it
 // stays pending and goes out again on a later ordinary run (rule 16).
 import type { Storage, StorageKey } from '../storage/storage';
+import { CLOCK_AHEAD_MAX_MS } from './clock';
 import { checkPulledItem, fingerprint, localItemOf, readLocalFingerprints, readLocalItems, setLocalItem, toRemoteItem, type CheckedItem, type LocalItem } from './domains/items';
 import { bestGoal, checkDevices, deviceDoc, mergeProgress, progressSig, sameDoc, type CleanDoc } from './domains/progress';
 import { checkPulledSetting, isSettingKey, settingSig, toRemoteSetting, type CheckedSetting } from './domains/settings';
@@ -659,7 +660,15 @@ export function createSyncEngine(opts: SyncEngineOptions): SyncEngine {
     const goalStamp = state.progress.goalStamp ? { ...state.progress.goalStamp } : null;
     const doc = deviceDoc(self, merged.own, merged.value, pushedGoal ?? state.progress.ownGoal);
     const mine = docs.find((d) => d.deviceId === self);
-    if (!sameDoc(mine, doc)) return { value, push: { doc, goal: pushedGoal, goalStamp } };
+    // S5-3: the account's copy is compared with the document as the remote would send it. A goal stamped
+    // past now + CLOCK_AHEAD_MAX_MS is held back (sent as null; firestoreRemote.ts, "The push path"), so
+    // there it also counts as null: an unchanged document is not rewritten every run while its goal is
+    // held back, and once real time is within the bound of the goal's clock the comparison differs and the
+    // goal goes out by itself. The document pushed still carries the goal (the remote decides what it
+    // holds), and a copy holding the goal itself (a remote that holds nothing back) matches as before.
+    const heldGoal = doc.goal !== null && doc.goal.updatedAt > now() + CLOCK_AHEAD_MAX_MS;
+    const unchanged = sameDoc(mine, doc) || (heldGoal && sameDoc(mine, { ...doc, goal: null }));
+    if (!unchanged) return { value, push: { doc, goal: pushedGoal, goalStamp } };
     // The account already holds exactly this document: nothing to send.
     if (pushedGoal) recordPushedGoal(pushedGoal, goalStamp);
     return { value, push: null };
