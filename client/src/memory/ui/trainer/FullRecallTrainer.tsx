@@ -45,15 +45,15 @@ export function FullRecallTrainer({ ctx }: { ctx: TrainerCtx }) {
   const [prefill, setPrefill] = useState<string | undefined>(undefined);
   const attempt = useAttempt(ctx.left);
 
-  const grade = async (transcript: string, via: 'voice' | 'typed', signal?: AbortSignal) => {
-    const ticket = attempt.begin(signal);
+  const grade = async (transcript: string, via: 'voice' | 'typed', signal?: AbortSignal, confirm?: () => Promise<boolean>) => {
+    const ticket = attempt.begin(signal, confirm);
     if (!ticket) return;
     try {
       let keyer: SpeechKeyer = MANDARIN_SYNC_KEYER;
       if (via === 'voice') keyer = await loadSpeechKeyer(ctx.settings.speech).catch(() => MANDARIN_SYNC_KEYER);
-      // Cancelled, a new round, an auth change or left while the keyer loaded: the answer no longer belongs to the
-      // attempt on screen.
-      if (!ticket.live()) return;
+      // Cancelled, a new round, an auth change, left, or the token replaced by another session while the keyer
+      // loaded: the answer no longer belongs to the attempt on screen (a voice answer re-reads the token here).
+      if (!(await ticket.confirm())) return;
       const verdict = gradeStep(verse.id, 'full-recall', { kind: 'recall', transcript }, keyer);
       const display = recallDisplay(transcript, verse, keyer, ctx.script);
       // A hint or a peek is shown, never recorded: the step only counts when it passes without one. Hint use is read

@@ -11,11 +11,18 @@
 //
 // `abort()` (recording Cancel, checking Cancel, Try again, the lesson scope leaving) ends the current attempt in any
 // phase at once: its recorder is cancelled, its request and its grade see the signal abort. `dispose()` (unmount)
-// does the same and starts nothing again. `authChanged()` (the auth generation moved) aborts it too; only a send
-// already in flight keeps the panel checking until the request settles (the client returns `cancelled` as soon as it
-// sees the abort), and that outcome is then dropped. Events of an attempt that is no longer the current, live one
-// (a tick, an auto-stop, a recorder result, an outcome, the end of a grade) are ignored by identity, so whatever the
-// order of events, each attempt returns the panel to idle exactly once.
+// does the same and starts nothing again. `authChanged()` (the auth generation moved) aborts it too; only a request
+// still out keeps the panel checking until it settles (the client returns `cancelled` as soon as it sees the abort),
+// and that outcome is then dropped. Once the outcome has landed (the machine is reading the token to confirm the
+// session), an auth change ends the attempt at once and the late token read is ignored.
+//
+// The session check is made twice for a transcript: when the outcome lands, and again by the grade itself
+// (`confirm(signal)`, with the signal it was given) after its own awaits (the speech keyer) and before it records or
+// shows anything, so a token replaced while the grade awaited voids it whatever order the events come in.
+//
+// Events of an attempt that is no longer the current, live one (a tick, an auto-stop, a recorder result, an outcome,
+// the end of a grade) are ignored by identity, so whatever the order of events, each attempt returns the panel to
+// idle exactly once.
 import { sameSession } from './session';
 import { MAX_RECORDING_MS, type Recorder, type Recording, type VoiceOutcome } from './types';
 
@@ -32,7 +39,10 @@ export interface AttemptDeps {
   send(audio: Blob, getIdToken: () => Promise<string | null>, signal: AbortSignal): Promise<VoiceOutcome>;
   /** The current ID token, read through the latest auth. May reject (a token-service failure). */
   currentToken(): Promise<string | null>;
-  /** Grades a transcript; settles when the grade is over. `signal` aborts when the attempt stops being current. */
+  /**
+   * Grades a transcript; settles when the grade is over. `signal` aborts when the attempt stops being current; the
+   * grade awaits `confirm(signal)` after its own awaits and before it records or shows anything.
+   */
   grade(text: string, signal: AbortSignal): void | Promise<void>;
   /**
    * An outcome that belongs to the attempt on screen (any kind, before a transcript is graded). `token` is the token
@@ -53,6 +63,10 @@ interface Run {
   readonly id: number;
   phase: Exclude<AttemptPhase, 'idle'>;
   readonly controller: AbortController;
+  /** The request's outcome has landed (still 'sending' while the session is confirmed): auth ends it at once. */
+  landed: boolean;
+  /** The token the request went out with, once it asked for one (undefined: it never did). */
+  sent?: { token: string | null };
 }
 
 const ERROR: VoiceOutcome = { kind: 'error' };
@@ -80,7 +94,7 @@ export class VoiceAttempts {
   /** Mic press: starts recording when idle. */
   async start(): Promise<void> {
     if (this.run !== null || this.disposed || this.deps.scope?.aborted) return;
-    const run: Run = { id: ++this.seq, phase: 'starting', controller: new AbortController() };
+    const run: Run = { id: ++this.seq, phase: 'starting', controller: new AbortController(), landed: false };
     this.run = run;
     this.deps.onPhase('starting');
     let result: 'recording' | 'denied' | 'unsupported' | null;
@@ -138,14 +152,28 @@ export class VoiceAttempts {
 
   /**
    * The auth generation moved (sign-out, sign-in, another user). The attempt is aborted: nothing it sends back is
-   * shown, graded or recorded. A send in flight keeps the panel checking until the request settles.
+   * shown, graded or recorded. A request still out keeps the panel checking until it settles; once its outcome has
+   * landed (the session is being confirmed), the attempt ends at once.
    */
   authChanged(): void {
     const run = this.run;
     if (run === null) return;
-    const sending = run.phase === 'sending';
+    const requestOut = run.phase === 'sending' && !run.landed;
     this.kill(run);
-    if (!sending) this.end(run);
+    if (!requestOut) this.end(run);
+  }
+
+  /**
+   * The grade's own session check, by the signal `grade` was given: true only while that attempt is the current, live
+   * one being graded and the session is still the one its request went out for (the current token is re-read through
+   * the latest auth; a refresh of the same user is the same session). A request that never fetched a token has only
+   * the attempt's liveness to keep. False for any other signal, and once the attempt ends, whatever the read gives.
+   */
+  async confirm(signal: AbortSignal): Promise<boolean> {
+    const run = this.run;
+    if (run === null || run.controller.signal !== signal || run.phase !== 'grading' || !this.live(run)) return false;
+    if (run.sent === undefined) return true;
+    return this.sameSessionNow(run, run.sent.token);
   }
 
   /** Unmount: the current attempt is aborted and nothing starts again. */
@@ -182,6 +210,42 @@ export class VoiceAttempts {
     if (recording) this.deps.recorder.cancel();
   }
 
+  /**
+   * Reads the current token through the latest auth: true only if the attempt is still live and the session is still
+   * `sent`'s. A read that rejects or gives null for a non-null `sent` (the session is gone), or that the attempt's
+   * end overtakes (an auth change, Cancel, leaving), is false; a late result is ignored.
+   */
+  private async sameSessionNow(run: Run, sent: string | null): Promise<boolean> {
+    if (!this.live(run)) return false;
+    let now: string | null | undefined;
+    try {
+      now = await this.untilAborted(run, this.deps.currentToken());
+    } catch {
+      now = undefined; // the session can't be read: it is gone
+    }
+    return this.live(run) && now !== undefined && sameSession(sent, now);
+  }
+
+  /** `promise`'s result, or undefined as soon as the attempt's signal aborts (whichever comes first). */
+  private untilAborted<T>(run: Run, promise: Promise<T>): Promise<T | undefined> {
+    const signal = run.controller.signal;
+    return new Promise<T | undefined>((resolve, reject) => {
+      const onAbort = () => resolve(undefined);
+      if (signal.aborted) onAbort();
+      else signal.addEventListener('abort', onAbort, { once: true });
+      promise.then(
+        (value) => {
+          signal.removeEventListener('abort', onAbort);
+          resolve(value);
+        },
+        (error: unknown) => {
+          signal.removeEventListener('abort', onAbort);
+          reject(error);
+        },
+      );
+    });
+  }
+
   private autoStop(run: Run, recording: Recording): void {
     // While stopping, the Stop press already has the recording: it is sent once.
     if (!this.live(run) || (run.phase !== 'recording' && run.phase !== 'starting')) return;
@@ -204,29 +268,24 @@ export class VoiceAttempts {
       outcome = ERROR;
     }
     if (!this.live(run)) return this.end(run);
+    run.landed = true;
 
     let token: string | null = null;
     const request = sent as { token: string | null } | null;
     if (request !== null) {
       // Landed: is the session still the one the request was sent for? A refresh of the same user is.
-      let now: string | null | undefined;
-      try {
-        now = await this.deps.currentToken();
-      } catch {
-        now = undefined; // the session can't be read: it is gone
-      }
-      if (!this.live(run)) return this.end(run);
-      if (now === undefined || !sameSession(request.token, now)) return this.end(run);
+      if (!(await this.sameSessionNow(run, request.token))) return this.end(run);
       token = request.token;
     } else if (outcome.kind === 'signed-out') {
       // A 401 from a request that never asked for a token is held against the session's token now.
-      token = await this.deps.currentToken().catch(() => null);
+      token = (await this.untilAborted(run, this.deps.currentToken().catch(() => null))) ?? null;
       if (!this.live(run)) return this.end(run);
     }
 
     this.deps.onOutcome(outcome, token);
     if (outcome.kind !== 'text') return this.end(run);
     this.move(run, 'grading');
+    if (request !== null) run.sent = request;
     try {
       await this.deps.grade(outcome.text, run.controller.signal);
     } catch {

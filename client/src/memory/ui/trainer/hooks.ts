@@ -37,6 +37,13 @@ export interface GradeTicket {
    * every await of the grade and right before recording.
    */
   live(): boolean;
+  /**
+   * `live()`, and for a voice answer also that the sign-in session is still the one its request went out for (the
+   * current token is re-read through the latest auth). Await it after the grade's own awaits (the speech keyer) and
+   * before grading, recording or showing anything; a typed answer's resolves at once. False once the ticket is dead,
+   * whatever the token read gives later.
+   */
+  confirm(): Promise<boolean>;
   /** Releases the grading latch (a no-op once the ticket is no longer the pending one). */
   done(): void;
 }
@@ -49,9 +56,11 @@ export interface Attempt {
   /**
    * Starts grading an answer, or returns null while another answer of this attempt is still being graded (a double
    * submit, a typed answer racing a voice one). `signal` is the answer's own: the panel aborts it on Cancel and when
-   * it unmounts, which voids the grade and frees the latch for the next answer.
+   * it unmounts, which voids the grade and frees the latch for the next answer. `confirm` is the voice attempt's
+   * session check (absent for a typed answer). Returns null too once the step's scope is left: an answer submitted
+   * after Back, Skip or Next grades nothing.
    */
-  begin(signal?: AbortSignal): GradeTicket | null;
+  begin(signal?: AbortSignal, confirm?: () => Promise<boolean>): GradeTicket | null;
   /**
    * Ends the attempt for a new round: a pending grade becomes a no-op. A fresh attempt (Try again, Again without the
    * hint) clears hint use; a typed correction (`keepHint`) is the same attempt answered again, so hint use stays.
@@ -86,15 +95,20 @@ export function useAttempt(left?: AbortSignal): Attempt {
     markHinted: () => {
       state.current.hinted = true;
     },
-    begin: (signal) => {
+    begin: (signal, confirm) => {
       const s = state.current;
+      // The scope is the trainer's for its whole life (the lesson screen keys both on the step): once left, nothing
+      // more is graded here.
+      if (left?.aborted || signal?.aborted) return null;
       if (s.pending?.live()) return null;
       const epoch = s.epoch;
-      // The scope is the trainer's for its whole life (the lesson screen keys both on the step).
-      const wasLeft = left?.aborted ?? false;
       const ticket: GradeTicket = {
-        live: () =>
-          s.epoch === epoch && s.pending === ticket && !(signal?.aborted ?? false) && (left?.aborted ?? false) === wasLeft,
+        live: () => s.epoch === epoch && s.pending === ticket && !(signal?.aborted ?? false) && !(left?.aborted ?? false),
+        confirm: async () => {
+          if (!ticket.live()) return false;
+          if (confirm !== undefined && !(await confirm().catch(() => false))) return false;
+          return ticket.live();
+        },
         done: () => {
           if (s.pending === ticket) s.pending = null;
         },

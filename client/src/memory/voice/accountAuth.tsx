@@ -37,9 +37,12 @@ const sameAccount = (a: AccountView, b: AccountView): boolean =>
 
 export function useAccountMemoryAuth(account: AccountView, deps?: Partial<AccountAuthDeps>): MemoryAuth {
   // The latest account and deps: a `getIdToken` held from an older render reads them, never its own render's.
-  const latest = useRef({ account, deps });
+  // `generation` counts account changes (status or uid): signed in as A, then signed out or B, then A again is two
+  // changes, though the endpoints are equal, so a token fetched before them is not handed out after.
+  const latest = useRef({ account, deps, generation: 0 });
   useLayoutEffect(() => {
-    latest.current = { account, deps };
+    const was = latest.current;
+    latest.current = { account, deps, generation: was.generation + (sameAccount(was.account, account) ? 0 : 1) };
   });
 
   const { status, signInAllowed } = account;
@@ -49,13 +52,14 @@ export function useAccountMemoryAuth(account: AccountView, deps?: Partial<Accoun
     const getIdToken = async (): Promise<string | null> => {
       // Only while the account is still this value's session: a value held from before a sign-out or a switch of
       // account gives no token, not the next user's.
-      const asked = latest.current.account;
+      const { account: asked, generation } = latest.current;
       if (asked.status !== 'signedIn' || asked.user === null || asked.user.uid !== uid) return null;
       const currentToken = latest.current.deps?.currentToken ?? DEFAULT_DEPS.currentToken;
       const got = await currentToken(); // a rejection propagates: the voice client reads it as an error
-      // Firebase's user must be the account's, both when asked and now (a sign-out or a switch while it awaited).
-      const now = latest.current.account;
-      if (got === null || got.uid !== asked.user.uid || !sameAccount(asked, now)) return null;
+      // Firebase's user must be the account's when asked, and the account must not have changed at all while it
+      // awaited (a sign-out or a switch, even one that came back to the same uid).
+      const now = latest.current;
+      if (got === null || got.uid !== asked.user.uid || now.generation !== generation || !sameAccount(asked, now.account)) return null;
       return got.token;
     };
     const value: MemoryAuth = { signedIn, user: signedIn ? uid : null, getIdToken };

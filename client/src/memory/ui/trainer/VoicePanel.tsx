@@ -9,7 +9,8 @@
 // current attempt ends on Cancel (recording or checking), on Try again (the trainer remounts the panel), when the
 // step's scope is left (Back, Skip, Next), on unmount and when the auth generation moves (`signedIn` or `user`).
 // A voice answer is graded with the attempt's own AbortSignal, so the trainer's grade, which awaits too, is void
-// once the attempt is. `onAnswer` is always the latest render's.
+// once the attempt is, and with its session check (`confirm`), which the grade awaits after the speech keyer, so a
+// token replaced meanwhile voids it. `onAnswer` is always the latest render's.
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { ActivityIndicator, Linking, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
@@ -68,9 +69,10 @@ export interface VoicePanelProps {
   /**
    * A transcript or typed answer. `signal` aborts when the answer stops belonging to this panel's attempt (Cancel
    * while it is graded, the step left, an auth change, the panel unmounting); a grade still pending then must record
-   * and show nothing.
+   * and show nothing. `confirm` (voice only) re-checks that the sign-in session is still the one the answer's request
+   * went out for: the grade awaits it after its own awaits and before it records or shows anything.
    */
-  onAnswer(text: string, via: 'voice' | 'typed', signal: AbortSignal): void | Promise<void>;
+  onAnswer(text: string, via: 'voice' | 'typed', signal: AbortSignal, confirm?: () => Promise<boolean>): void | Promise<void>;
 }
 
 export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer }: VoicePanelProps) {
@@ -117,7 +119,7 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
   const machine = useRef<VoiceAttempts | null>(null);
   const scope = ctx.left;
   useEffect(() => {
-    const attempts = new VoiceAttempts({
+    const attempts: VoiceAttempts = new VoiceAttempts({
       recorder,
       scope,
       send: (audio, getIdToken, signal) => {
@@ -130,7 +132,7 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
         );
       },
       currentToken: () => latest.current.auth.getIdToken(),
-      grade: (text, signal) => latest.current.onAnswer(text, 'voice', signal),
+      grade: (text, signal): void | Promise<void> => latest.current.onAnswer(text, 'voice', signal, () => attempts.confirm(signal)),
       onOutcome: (outcome: VoiceOutcome, token) => {
         const now = Date.now();
         recordVoiceOutcome(outcome, now);
