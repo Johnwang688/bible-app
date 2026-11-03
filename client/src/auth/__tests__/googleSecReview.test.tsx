@@ -117,10 +117,10 @@ function fakeAuth(signedIn: string | null, accounts: Record<string, Account>) {
 }
 
 const GOOGLE_ONLY = 'gina@gmail.com';
-const PASSWORD = 'pat@example.com';
+const PASSWORD_ACCOUNT = 'pat@example.com';
 const ACCOUNTS: Record<string, Account> = {
   [GOOGLE_ONLY]: { uid: 'gina', providers: ['google'] },
-  [PASSWORD]: { uid: 'pat', password: 'pat password', providers: ['password'] },
+  [PASSWORD_ACCOUNT]: { uid: 'pat', password: 'pat password', providers: ['password'] },
 };
 
 function setup(opts: { signedIn?: string | null; storage?: Storage; under13?: boolean } = {}) {
@@ -211,9 +211,9 @@ describe('G-2: a Google delete given up while Google\'s window stays open still 
 describe('G-3: an ordinary Google sign-in still waiting on its window when an offered delete starts', () => {
   test('the offered delete is refused while the sign-in waits; the sign-in then completes signed in', async () => {
     const s = setup(); // gate open, signed out
-    recordUnder13Offer(s.storage, { uid: 'pat', email: PASSWORD }); // an offer kept on the device
+    recordUnder13Offer(s.storage, { uid: 'pat', email: PASSWORD_ACCOUNT }); // an offer kept on the device
     const view = await mount(s);
-    expect(view.result.current.under13Offer).toEqual({ email: PASSWORD });
+    expect(view.result.current.under13Offer).toEqual({ email: PASSWORD_ACCOUNT });
     // 1. Continue with Google; the window stays open; the person closes the sheet (allowed while waiting).
     s.auth.windows.push({ pick: GOOGLE_ONLY });
     const releaseWindow = s.auth.holdWindow();
@@ -242,7 +242,7 @@ describe('G-3: an ordinary Google sign-in still waiting on its window when an of
     // The offered delete was refused before anything (a sign-in was waiting): nothing deleted, no request sent.
     expect(await offered).toBe('rejected unknown');
     expect(s.deleteAccountRequest).not.toHaveBeenCalled();
-    expect(s.auth.server.has(PASSWORD)).toBe(true);
+    expect(s.auth.server.has(PASSWORD_ACCOUNT)).toBe(true);
     // The sign-in then completed and stays signed in; like any sign-in, it ended the offer.
     expect(await signIn).toBe('resolved');
     expect(s.auth.currentUser()?.email).toBe(GOOGLE_ONLY);

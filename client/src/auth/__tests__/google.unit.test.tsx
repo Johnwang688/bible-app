@@ -132,10 +132,10 @@ function fakeAuth(signedIn: string | null, accounts: Record<string, Account>) {
 }
 
 const GOOGLE_ONLY = 'gina@gmail.com';
-const PASSWORD = 'pat@example.com';
+const PASSWORD_ACCOUNT = 'pat@example.com';
 const ACCOUNTS: Record<string, Account> = {
   [GOOGLE_ONLY]: { uid: 'gina', providers: ['google'] },
-  [PASSWORD]: { uid: 'pat', password: 'pat password', providers: ['password'] },
+  [PASSWORD_ACCOUNT]: { uid: 'pat', password: 'pat password', providers: ['password'] },
 };
 
 function setup(opts: { signedIn?: string | null; storage?: Storage; under13?: boolean } = {}) {
@@ -255,12 +255,12 @@ describe('Continue with Google: the same path as an email sign-in', () => {
   test('the email has a password account: account-exists with the email; nothing signed in or linked', async () => {
     const s = setup();
     const view = await mount(s);
-    s.auth.windows.push({ pick: PASSWORD });
+    s.auth.windows.push({ pick: PASSWORD_ACCOUNT });
     const e = await failure(view.result.current.signIn({ kind: 'google' }));
     expect(e.kind).toBe('account-exists');
-    expect(e.email).toBe(PASSWORD);
+    expect(e.email).toBe(PASSWORD_ACCOUNT);
     expect(view.result.current.status).toBe('signedOut');
-    expect(s.auth.server.get(PASSWORD)!.providers).toEqual(['password']);
+    expect(s.auth.server.get(PASSWORD_ACCOUNT)!.providers).toEqual(['password']);
   });
 
   test('the window closed: cancelled, still signed out', async () => {
@@ -309,10 +309,10 @@ describe('deleting a Google-only account', () => {
   });
 
   test('a Google proof for a password-only account is refused before anything', async () => {
-    const s = setup({ signedIn: PASSWORD });
+    const s = setup({ signedIn: PASSWORD_ACCOUNT });
     const view = await mount(s);
     s.auth.log.length = 0;
-    s.auth.windows.push({ pick: PASSWORD });
+    s.auth.windows.push({ pick: PASSWORD_ACCOUNT });
     const e = await failure(view.result.current.deleteAccount({ kind: 'google' }));
     expect(e.kind).toBe('unknown');
     expect(s.auth.log).toEqual([]);
@@ -377,10 +377,10 @@ describe('the Under 13 offer for a Google-only account', () => {
   });
 
   test('a password account\'s offer has no method (as before)', async () => {
-    const s = setup({ signedIn: PASSWORD });
+    const s = setup({ signedIn: PASSWORD_ACCOUNT });
     const view = await pickUnder13(s);
-    expect(view.result.current.under13Offer).toEqual({ email: PASSWORD });
-    expect(s.storage.get(under13OfferKey)).toEqual({ uid: 'pat', email: PASSWORD });
+    expect(view.result.current.under13Offer).toEqual({ email: PASSWORD_ACCOUNT });
+    expect(s.storage.get(under13OfferKey)).toEqual({ uid: 'pat', email: PASSWORD_ACCOUNT });
   });
 
   test('the delete re-auths through Google (existingOnly, hinted), deletes, ends signed out; no sync on the way', async () => {
@@ -410,7 +410,7 @@ describe('the Under 13 offer for a Google-only account', () => {
   });
 
   test('a Google proof for a password offer is refused before Google is reached', async () => {
-    const s = setup({ signedIn: PASSWORD });
+    const s = setup({ signedIn: PASSWORD_ACCOUNT });
     const view = await pickUnder13(s);
     s.auth.log.length = 0;
     const e = await failure(view.result.current.deleteOfferedAccount({ kind: 'google' }));
