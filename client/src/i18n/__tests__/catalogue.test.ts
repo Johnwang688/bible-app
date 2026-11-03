@@ -9,6 +9,10 @@ const SAME_IN_BOTH = new Set([
   'language.en',
   'language.zh-Hans',
   'beta.language.zh-Hans',
+  // Font names and a web address (R-6a).
+  'font.Literata',
+  'font.SourceSerif4',
+  'credits.stepLink',
   // English translation names stay English in both interfaces.
   'translation.BSB.short',
   'translation.BSB.name',
