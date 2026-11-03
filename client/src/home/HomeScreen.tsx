@@ -214,7 +214,10 @@ export function HomeScreen({
       : {
           sub: t('home.memory.step', { n: formatNumber(lesson.step), total: formatNumber(lesson.total) }),
           action: { text: t(lesson.kind === 'start' ? 'memory.lesson.start' : 'memory.lesson.continue'), primary: true },
-          label: t(lesson.kind === 'start' ? 'home.memory.startLabel' : 'home.memory.continueLabel', { ref: lesson.reference }),
+          label:
+            lesson.reference === ''
+              ? t(lesson.kind === 'start' ? 'home.memory.startLabelPlain' : 'home.memory.continueLabelPlain')
+              : t(lesson.kind === 'start' ? 'home.memory.startLabel' : 'home.memory.continueLabel', { ref: lesson.reference }),
           onPress: () => go(lesson.href),
         };
 
@@ -233,7 +236,8 @@ export function HomeScreen({
         <GoalCard done={progress.goalProgressMinutes} goal={progress.goalMinutes} onPress={openGoal} />
         <ContinueCard caps={continueCaps} reference={continueRef} sub={t(meta.nameKey)} label={continueLabel} onPress={continueReading} />
         <VerseCard state={verse} onOpen={openVerse} onShare={share} onRetry={retry} />
-        <MemoryCard caps={memoryCaps} reference={lesson.reference} {...memoryCard} />
+        {/* A verse the library no longer has: the card names the lesson instead. */}
+        <MemoryCard caps={memoryCaps} reference={lesson.reference || t('memory.lesson.today')} {...memoryCard} />
         <SurpriseRow
           exploredText={t('home.explored', { n: explored, total })}
           exploredLabel={t('home.exploredLabel', { n: explored, total })}

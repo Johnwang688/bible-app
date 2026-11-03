@@ -48,6 +48,8 @@ export const en = {
   'home.memory.week': 'Week',
   'home.memory.startLabel': 'Start Memory lesson, {ref}',
   'home.memory.continueLabel': 'Continue Memory lesson, {ref}',
+  'home.memory.startLabelPlain': 'Start Memory lesson',
+  'home.memory.continueLabelPlain': 'Continue Memory lesson',
   'home.memory.weekLabel': 'See the week',
   'goal.title': 'Daily goal',
   'goal.hint': 'Minutes of reading a day, from today on. Your streak counts the days you reach it.',

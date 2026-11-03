@@ -22,9 +22,10 @@ export interface HomeMemory {
 }
 
 /**
- * Today's lesson as one line: the verse the next step is on (the lesson's first verse once every step is done), how
- * far through the lesson it is ("Step 2 of 4" once one step is done), and where Start / Continue goes. The reference
- * is in the app's language; in Chinese it follows Memory's script setting, as Memory's own screens do.
+ * Today's lesson as one line: the verse the next step is on (the lesson's first verse once every step is done), the
+ * step Start / Continue opens ("Step 1 of 4" again after a skipped first step), and where it goes. The reference is
+ * in the app's language; in Chinese it follows Memory's script setting, as Memory's own screens do. It is '' for a
+ * verse the library no longer has.
  */
 export function useHomeMemory(storage: Storage, now: () => Date, locale: AppLocale): HomeMemory {
   const lesson = useTodayLesson(storage, now);
@@ -49,7 +50,7 @@ export function useHomeMemory(storage: Storage, now: () => Date, locale: AppLoca
     state = {
       kind: lesson.done === 0 ? 'start' : 'continue',
       reference,
-      step: Math.min(lesson.done + 1, lesson.total),
+      step: lesson.firstIncomplete + 1,
       total: lesson.total,
       href: lesson.href,
     };

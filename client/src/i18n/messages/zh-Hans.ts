@@ -49,6 +49,8 @@ export const zhHans: Record<MessageKey, string> = {
   'home.memory.week': '本周',
   'home.memory.startLabel': '开始背经课程，{ref}',
   'home.memory.continueLabel': '继续背经课程，{ref}',
+  'home.memory.startLabelPlain': '开始背经课程',
+  'home.memory.continueLabelPlain': '继续背经课程',
   'home.memory.weekLabel': '查看本周',
   'goal.title': '每日目标',
   'goal.hint': '每天阅读的分钟数，从今天起生效。连续阅读天数按达成目标的日子计算。',
