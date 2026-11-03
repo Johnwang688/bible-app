@@ -29,7 +29,7 @@ import { lastVerseKey } from './homeKeys';
 import { NEW_READER_START } from './newReader';
 import { shareVerse } from './shareVerse';
 import { pickSurpriseChapter } from './surprise';
-import { useHomeMemory } from './useHomeMemory';
+import { MEMORY_WEEK_HREF, useHomeMemory } from './useHomeMemory';
 import { useToday } from './useToday';
 import { verseOfTheDay } from './verseOfTheDay';
 import { VOTD_BOOK_NAMES } from './votdBookNames';
@@ -200,7 +200,8 @@ export function HomeScreen({
   const total = formatNumber(TOTAL_CHAPTERS);
 
   // Memory: today's lesson. Start and Continue open its next step; once it is done, Week opens the week. Where a
-  // press goes is read at the press (`memory.target`), not from this render.
+  // Start or Continue press goes is read at the press (`memory.target`), not from this render: the lesson's next step
+  // as it is then (today's, after an unnoticed midnight), or the week if it is done by then.
   const memory = useHomeMemory(storage, now, locale);
   const lesson = memory.state;
   const memoryCaps = t('home.memory.label', { n: formatNumber(memory.learned), total: formatNumber(memory.total) });
@@ -210,7 +211,7 @@ export function HomeScreen({
           sub: t('home.memory.done'),
           action: { text: t('home.memory.week'), primary: false },
           label: t('home.memory.weekLabel'),
-          onPress: () => go(memory.target()),
+          onPress: () => go(MEMORY_WEEK_HREF), // the card says "See the week": it opens the week, whatever the clock
         }
       : {
           sub: t('home.memory.step', { n: formatNumber(lesson.step), total: formatNumber(lesson.total) }),
