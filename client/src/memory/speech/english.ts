@@ -216,6 +216,7 @@ const BOOK_ALIASES: readonly { words: readonly string[]; book: string }[] = LEGA
 
 const RANGE_WORDS = new Set(['to', 'through', 'thru']);
 const RANGE_SEPS = new Set(['-', '–', '—']);
+const VERSE_LABELS = new Set(['verse', 'verses']);
 const MAX_CHAPTER = 150;
 const MAX_VERSE = 200;
 
@@ -283,14 +284,21 @@ class RefReader {
     return any ? { value: total, next: j } : null;
   }
 
-  /** `6`, `6-7`, `6 to 7`, `6 through 7`. */
+  /** Past any `verse`/`verses` labels at `i` (`verse 7 and verse 8`, `verses 6 through verse 7`). */
+  private labels(i: number): number {
+    let j = i;
+    while (VERSE_LABELS.has(this.word(j) ?? '')) j++;
+    return j;
+  }
+
+  /** `6`, `6-7`, `6 to 7`, `6 through 7`, `6 to verse 7`. */
   private span(i: number): { verses: number[]; next: number } | null {
     const a = this.number(i);
     if (!a || a.value < 1 || a.value > MAX_VERSE) return null;
     const s = this.sep(a.next);
     const w = this.word(a.next);
     if ((s !== undefined && RANGE_SEPS.has(s)) || (w !== undefined && RANGE_WORDS.has(w))) {
-      const b = this.number(a.next + 1);
+      const b = this.number(this.labels(a.next + 1));
       if (b && b.value >= a.value && b.value <= MAX_VERSE) {
         return { verses: Array.from({ length: b.value - a.value + 1 }, (_, k) => a.value + k), next: b.next };
       }
@@ -298,7 +306,10 @@ class RefReader {
     return { verses: [a.value], next: a.next };
   }
 
-  /** Spans joined by `,` / `and` (`9, 11`, `9 and 11`, `6 and 7`). A separator not followed by a verse is left. */
+  /**
+   * Spans joined by `,` / `and`, each optionally labelled (`9, 11`, `9 and 11`, `6, and 7`, `verse 9 and verse 11`),
+   * so the whole spoken list is the verse set. A separator (and label) not followed by a verse is left to the body.
+   */
   private spans(i: number): { verses: number[]; next: number } | null {
     const first = this.span(i);
     if (!first) return null;
@@ -312,7 +323,7 @@ class RefReader {
         joined = true;
       }
       if (!joined) break;
-      const span = this.span(m);
+      const span = this.span(this.labels(m));
       if (!span) break;
       verses.push(...span.verses);
       next = span.next;
@@ -333,7 +344,7 @@ class RefReader {
     for (;;) {
       const s = this.sep(k);
       const w = this.word(k);
-      if (s === ':' || s === ',' || s === '.' || w === 'verse' || w === 'verses') k++;
+      if (s === ':' || s === ',' || s === '.' || (w !== undefined && VERSE_LABELS.has(w))) k++;
       else break;
     }
     const spans = this.spans(k);

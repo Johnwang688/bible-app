@@ -1,10 +1,13 @@
 // Which language the Memory verses are shown, spoken and graded in: they follow the app's interface language
 // (English interface -> English verses; 中文 -> the Chinese Union Version, as before). Progress is per verse id, so
 // both languages share it.
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useEffect } from 'react';
 
 import { useI18n } from '../i18n/I18nProvider';
+import { detectLocale, getDeviceLocales, resolveLocale } from '../i18n/locale';
 import type { AppLocale } from '../i18n/types';
+import { languageKey } from '../storage/keys';
+import type { Storage } from '../storage/storage';
 import type { ChineseScript, LibraryVerse } from './types';
 
 export type VerseLanguage = 'zh' | 'en';
@@ -24,6 +27,34 @@ export const VerseLanguageOverride = createContext<VerseLanguage | null>(null);
 export function useVerseLanguage(): VerseLanguage {
   const { locale } = useI18n();
   return useContext(VerseLanguageOverride) ?? verseLanguageFor(locale);
+}
+
+/**
+ * Calls `onChange` synchronously, from the storage's change listener, as soon as the stored interface language
+ * changes so that the verse language is no longer `current`: before React renders the new language. A change of the
+ * stored preference that keeps the verse language (`system` that resolves to the same locale) calls nothing, and
+ * neither does anything while the verse language is pinned (`VerseLanguageOverride`).
+ *
+ * `system` resolves exactly as `I18nProvider` resolves it: while the preference is `system` the provider's locale
+ * is that resolution; otherwise it is the phone's languages, which the provider reads too.
+ */
+export function useVerseLanguageChange(storage: Storage, current: VerseLanguage, onChange: () => void): void {
+  const { locale, preference } = useI18n();
+  const pinned = useContext(VerseLanguageOverride) !== null;
+  const systemLocale = preference === 'system' ? locale : null;
+  useEffect(() => {
+    if (pinned) return undefined;
+    const check = () => {
+      const pref = storage.get(languageKey);
+      const resolved =
+        pref === 'system' ? (systemLocale ?? detectLocale(getDeviceLocales())) : resolveLocale(pref, []);
+      if (verseLanguageFor(resolved) !== current) onChange();
+    };
+    const unsubscribe = storage.subscribe(languageKey, check);
+    // A change between this render and the subscription counts too.
+    check();
+    return unsubscribe;
+  }, [storage, current, onChange, pinned, systemLocale]);
 }
 
 export interface VerseView {

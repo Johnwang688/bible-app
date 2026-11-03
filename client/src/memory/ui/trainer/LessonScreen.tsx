@@ -3,8 +3,9 @@
 //
 // The step's scope (`ctx.left`): Back, Skip and Next abort it before they navigate, since the route's
 // `router.replace` unmounts this screen only later. Once left, nothing records, a pending grade is void and the voice
-// panel starts no attempt; the scope, not unmounting, is what voids them.
-import { useEffect, useMemo } from 'react';
+// panel starts no attempt; the scope, not unmounting, is what voids them. A change of the verse language aborts it
+// too, synchronously when the stored language changes (before the re-render that mounts the new language's trainer).
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { getApiBaseUrl } from '../../../api/config';
 import { memoryLessonKey } from '../../../storage/memoryKeys';
@@ -16,7 +17,7 @@ import { nextHrefAfter } from '../../session';
 import { isStageSlug } from '../../stages';
 import type { StageSlug } from '../../types';
 import { useMemorySettings } from '../../useMemorySettings';
-import { useVerseLanguage } from '../../verseLanguage';
+import { useVerseLanguage, useVerseLanguageChange } from '../../verseLanguage';
 import { createRecorder } from '../../voice/recorder';
 import type { CheckVoice, Recorder } from '../../voice/types';
 import { checkVoice as realCheckVoice } from '../../voice/voiceClient';
@@ -86,12 +87,23 @@ export function LessonScreen({
   const language = useVerseLanguage();
   // One scope per step: a new step (the trainers are keyed on it too) starts a fresh one. The verse language is part
   // of the step: switching it mid-step unmounts the trainer (its attempt ends) and renews the scope.
-  const key = `${verseId}/${stage}/${index ?? 'practice'}/${language}`;
+  // `renewals` counts scopes left to a language switch, so a switch there and back before a render (the language in
+  // the key unchanged) still mounts a fresh trainer with a fresh scope.
+  const [renewals, setRenewals] = useState(0);
+  const key = `${verseId}/${stage}/${index ?? 'practice'}/${language}/${renewals}`;
   // eslint-disable-next-line react-hooks/exhaustive-deps -- `key` is the step: the scope is renewed only for a new one
   const controller = useMemo(() => new AbortController(), [key]);
   // A scope that is replaced (a new step, or the verse language switched mid-step) or unmounted is left: nothing
   // that still holds it records afterwards.
   useEffect(() => () => controller.abort(), [controller]);
+  // The verse language switching leaves the step at once, from the storage write, not at the re-render: an old
+  // trainer's Check (or a pending grade, a voice attempt) that runs before the new trainer mounts is void.
+  const leaveForLanguage = useCallback(() => {
+    if (controller.signal.aborted) return;
+    controller.abort();
+    setRenewals((n) => n + 1);
+  }, [controller]);
+  useVerseLanguageChange(storage, language, leaveForLanguage);
 
   const leave = () => (onBack ? onBack() : onNavigate(HOME));
   const verse = getMemoryVerse(verseId);
