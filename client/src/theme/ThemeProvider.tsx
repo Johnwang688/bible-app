@@ -1,7 +1,7 @@
 // Provides the active theme and the reader's Appearance choice and customisation. Both live in
 // storage, so a write from anywhere (the picker, Customise, sync) re-renders every consumer.
 import { createContext, useCallback, useContext, useMemo, type ReactNode } from 'react';
-import { useColorScheme } from 'react-native';
+import { Appearance as DeviceAppearance, useColorScheme } from 'react-native';
 
 import { appearanceCustomKey } from '../storage/appearanceCustomKey';
 import { appearanceKey } from '../storage/keys';
@@ -23,6 +23,12 @@ interface Appearance {
    */
   updateChoice(f: (current: AppearanceChoice) => AppearanceChoice | null): void;
   updateCustom(f: (current: AppearanceCustom) => AppearanceCustom | null): void;
+  /**
+   * The preset showing now for `choice` (default: the stored choice), resolved against the phone's light/dark
+   * scheme read at the call, exactly as this provider resolves it. For press handlers: a choice written, or a
+   * phone switch, since the last render is counted (R-6a F11).
+   */
+  showingPresetId(choice?: AppearanceChoice): PresetId;
 }
 
 interface ThemeContextValue {
@@ -39,8 +45,8 @@ export function ThemeProvider(props: {
 }) {
   const storage = props.storage ?? getStorage();
   const deviceScheme = useColorScheme();
-  const raw = props.systemScheme === undefined ? deviceScheme : props.systemScheme;
-  const system: ThemeMode | null = raw === 'light' || raw === 'dark' ? raw : null;
+  const fixedScheme = props.systemScheme;
+  const system = toMode(fixedScheme === undefined ? deviceScheme : fixedScheme);
 
   const [choice, setChoice] = useStoredValue(storage, appearanceKey);
   const [custom, setCustom] = useStoredValue(storage, appearanceCustomKey);
@@ -61,12 +67,22 @@ export function ThemeProvider(props: {
     [storage],
   );
 
+  const showingPresetId = useCallback(
+    (c?: AppearanceChoice) =>
+      resolvePresetId(c ?? storage.get(appearanceKey), toMode(fixedScheme === undefined ? DeviceAppearance.getColorScheme() : fixedScheme)),
+    [storage, fixedScheme],
+  );
+
   const value = useMemo<ThemeContextValue>(
-    () => ({ theme, appearance: { choice, setChoice, presetId, custom, setCustom, updateChoice, updateCustom } }),
-    [theme, choice, setChoice, presetId, custom, setCustom, updateChoice, updateCustom],
+    () => ({ theme, appearance: { choice, setChoice, presetId, custom, setCustom, updateChoice, updateCustom, showingPresetId } }),
+    [theme, choice, setChoice, presetId, custom, setCustom, updateChoice, updateCustom, showingPresetId],
   );
 
   return <ThemeContext.Provider value={value}>{props.children}</ThemeContext.Provider>;
+}
+
+function toMode(scheme: string | null | undefined): ThemeMode | null {
+  return scheme === 'light' || scheme === 'dark' ? scheme : null;
 }
 
 export function useTheme(): Theme {

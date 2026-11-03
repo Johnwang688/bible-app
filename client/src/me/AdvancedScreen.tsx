@@ -9,24 +9,21 @@ import { ACCENT_CHOICES, editableTokens, setTokenEdit, type ColorToken, type Edi
 import { useAppearance, useTheme } from '../theme/ThemeProvider';
 import { AdvancedTokenRow } from './components/AdvancedTokenRow';
 import { CustomiseFrame } from './components/CustomiseFrame';
-import { useShowingPreset } from './showingPreset';
 
 const EXAMPLE_COLOUR = ACCENT_CHOICES[0].color;
 
 export function AdvancedScreen(props: { onBack(): void }) {
   const theme = useTheme();
   const { t, formatNumber } = useI18n();
-  const { presetId, custom, updateCustom } = useAppearance();
+  const { presetId, custom, updateCustom, showingPresetId } = useAppearance();
   // What the reader has typed but not applied, and the last refusal, per token.
   const [drafts, setDrafts] = useState<Partial<Record<ColorToken, string>>>({});
   const [errors, setErrors] = useState<Partial<Record<ColorToken, string>>>({});
 
-  const showing = useShowingPreset();
-
   // One edit (a colour, or null to reset), built from the stored value and the preset showing at
   // the moment of the press. Only an applied write clears the row; a refusal keeps or shows its error.
   const edit = (token: ColorToken, value: string | null) => {
-    const id = showing();
+    const id = showingPresetId();
     let result: EditResult | undefined;
     updateCustom((current) => {
       result = setTokenEdit(current, id, token, value);
