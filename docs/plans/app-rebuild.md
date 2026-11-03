@@ -469,6 +469,21 @@ prototypes** (John, 2026-11-02), so R-7a ships no new screens. Prototypes in `bi
   - **Root cause:** the ThemeProvider has no "preset showing now" call, so the screens infer it. The fix is a ThemeProvider call that resolves the stored choice against the phone's current scheme, then dropping `src/me/showingPreset.ts`.
 - **Flaky on main (not R-6a's):** `e2e/reader.spec.ts` "Back restores the words list scroll" fails about 1 run in 3 under load.
 
+**INT notes (2026-11-02, the wiring after the 11-02 merges).**
+- **Sign-in is on.** `_layout.tsx` gives `AccountProvider` the app's gate, `appSignInGateFor()` (`onboarding/signIn.ts`): closed until the intro is finished or skipped (the age is unknown until then, so a restored session never syncs first), then closed for Under 13 and open for every other answer, including no answer. It reads the stored first-run state live. Tests: `onboarding/__tests__/appSignInGate.test.tsx` and the e2e `int.spec.ts`.
+- **Security review (Opus):** one major finding, fixed. On the web, storage only notifies its own tab, so a second tab still on the intro could Skip (or pick another age) and overwrite a stored Under 13. The intro's `finish`/`skip` now read the stored state at the press, and a finished intro's answer stands (`secReviewTwoTabs.test.tsx`).
+- **Mounts:**
+  - **Me:** the account card on top; a "Daily goal" row in Reading that opens R-4's goal sheet; the language sheet uses `languageLabelKey()` and, in the web beta build, the beta note (full text colour, `aria-describedby` on the Chinese option).
+  - **About:** the privacy card links to `/privacy`. Its text now says settings stay on the device unless you sign in to sync them.
+  - **Customise:** the moving-background option, after Look.
+- **Synced settings:** `appearance.custom` joins `settings` in `sync/registry.ts`. `SETTING_KEYS` already listed it.
+- **The aurora** now runs on Study, the Explore list and entity pages, Memory home, week and the lesson's end, the Me sub-screens (Sources, About, Help, Customise, Advanced) and `/privacy`. Text that sits on it carries the shadow, which is what keeps muted text at 4.5:1 too. It never runs behind Scripture: not in the reader, and not in the memory trainers, which show the verse on the background.
+- **R-6a F10/F11 fixed:** ThemeProvider's `showingPresetId(choice?)` resolves a choice against the phone's scheme read at the call, and `me/showingPreset.ts` is gone. A look pick keeps the light/dark setting unless that setting would show the picked look's partner. Sol's parked tests now pass. One case was rewritten because it could not pass as written: Blue is refused on Bubblegum night by the contrast guard.
+- **Kept:** `app/account-preview.tsx`, because `e2e/account.spec.ts` and `under13Offer.spec.ts` open the sheets there over an inert backend.
+- **Parked (follow-ups):**
+  - **Cross-tab storage events (review F2, minor):** a stale tab doesn't hear another tab's writes. One case remains: an adult signs in in tab A, then picks Under 13 in tab B's stale intro. The account is signed out with no delete offer. The fix is a `storage` event listener in the shared `storage/storage.ts`.
+  - **Review F3:** a future `onboardingKey` version bump must bring a `migrate`, or every Under 13 device sees the intro again.
+
 **Memory merge, part 1: the logic (team MEM, 2026-11-02).** Little Lamb's memory engine is ported into `client/src/memory/` with its tests (roadmap track 5). The screens wait for John's approval of the prototypes (`bible-app-work/design/proposed/mem-*.html`).
 - **Local-first schedule.** Little Lamb computed the review schedule in Postgres. The device now runs the same rules in TypeScript (`schedule.ts`, `dailyLesson.ts`):
   - mastery +20 on a pass, -60 on a fail;
