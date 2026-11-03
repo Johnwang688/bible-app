@@ -286,10 +286,10 @@ class RefReader {
     return any ? { value: total, next: j } : null;
   }
 
-  /** Past any `verse`/`verses` labels at `i` (`verse 7 and verse 8`, `verses 6 through verse 7`). */
+  /** Past any `verse`/`verses` labels at `i`, and punctuation around them (`verse 7 and verse 8`, `6 through, verse 7`). */
   private labels(i: number): number {
     let j = i;
-    while (VERSE_LABELS.has(this.word(j) ?? '')) j++;
+    while (VERSE_LABELS.has(this.word(j) ?? '') || REF_MARKS.has(this.sep(j) ?? '')) j++;
     return j;
   }
 
@@ -304,6 +304,9 @@ class RefReader {
       if (b && b.value >= a.value && b.value <= MAX_VERSE) {
         return { verses: Array.from({ length: b.value - a.value + 1 }, (_, k) => a.value + k), next: b.next };
       }
+      // A backwards or out-of-range end (`13 through 12`) is still part of what was said: keep both numbers, so the
+      // set is wrong and the reference reads as incorrect, never as its first verse.
+      if (b) return { verses: [a.value, b.value], next: b.next };
     }
     return { verses: [a.value], next: a.next };
   }
