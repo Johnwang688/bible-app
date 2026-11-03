@@ -126,7 +126,7 @@ afterEach(() => jest.restoreAllMocks());
 // U13-R2-1 (S4-3): a session restored behind an already-closed gate must not record an offer.
 // Scenario: the first gate sign-out fails, an ordinary sign-out succeeds, then that uid is restored.
 // Expected: no offer. Actual: closedOnUid survives the ordinary sign-out and the restore records an offer.
-test.skip('U13-R2-1: ordinary sign-out must retire a failed gate closing before the same uid is restored', async () => {
+test('U13-R2-1: ordinary sign-out must retire a failed gate closing before the same uid is restored', async () => {
   jest.spyOn(console, 'warn').mockImplementation(() => undefined);
   const gate = switchGate(true);
   const s = setup(KID_USER, gate);
@@ -161,7 +161,7 @@ test.skip('U13-R2-1: ordinary sign-out must retire a failed gate closing before 
 // U13-R2-2 (fix1 U13-4): the sheet must lock synchronously on the first submit.
 // Scenario: Return submits, then Android Back/Escape arrives before React commits busy=true.
 // Expected: sheet remains open until DELETE settles. Actual: Back/Escape closes it while DELETE is still pending.
-test.skip('U13-R2-2: Back in the first submit turn must not close the sheet before the busy commit', async () => {
+test('U13-R2-2: Back in the first submit turn must not close the sheet before the busy commit', async () => {
   const s = setup(null, SIGN_IN_OFF);
   recordUnder13Offer(s.storage, { uid: KID.uid, email: KID.email });
   const held = deferred();

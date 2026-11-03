@@ -210,7 +210,7 @@ describe('S5-2 (low): a push the server refuses for every document costs 1 + N w
   // 451), each a rules evaluation with the deletedUsers exists()/get() reads. Triggers: a device clock more than a day
   // ahead (every fresh edit is refused; this lasts until the clock is fixed), or the deletedUsers marker (an account
   // deleted on another device, until this device's ID token expires). Around 288 retries a day x 451 requests.
-  test.skip('S5-2 three attempts at the same all-refused push of 50 notes make at most 3 + 50 write requests', async () => {
+  test('S5-2 three attempts at the same all-refused push of 50 notes make at most 3 + 50 write requests', async () => {
     deviceNow = T0 + 2 * DAY; // ahead of the server by two days: every note below is refused
     const list: RemoteItem[] = Array.from({ length: 50 }, (_, i) => ({
       id: `note:1:1:${i + 1}`,
@@ -254,7 +254,7 @@ describe('S5-3 (low): while a goal is held back, every sync run rewrites the dev
     expect(deviceWrites()).toBe(after);
   });
 
-  test.skip('S5-3 runs with no change do not rewrite the device document while its goal is held back', async () => {
+  test('S5-3 runs with no change do not rewrite the device document while its goal is held back', async () => {
     const storage = createStorage(memoryBackend());
     const engine = engineFor(storage, progress);
     deviceNow = T0 + 30 * DAY; // the goal is changed while the clock runs a month ahead
