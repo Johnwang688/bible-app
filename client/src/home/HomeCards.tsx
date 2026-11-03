@@ -11,7 +11,7 @@ import { Icon } from '../reader/components/icons';
 import { buttonStyle } from '../reader/components/ui';
 import { useTheme } from '../theme/ThemeProvider';
 import type { Background, Theme } from '../theme/types';
-import { FlameIcon } from './icons';
+import { FlameIcon, ShuffleIcon } from './icons';
 
 /** A card: the surface, the outline and shadow of the preset, glass where the preset is glass. */
 function Card({
@@ -125,13 +125,15 @@ export function HomeHeader({
         <FlameIcon color={theme.colors.chipText} />
         {streak >= 1 ? (
           <>
-            <Text testID="home-streak-count" style={{ color: theme.colors.chipText, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 15 }}>
+            <Text testID="home-streak-count" numberOfLines={1} style={{ color: theme.colors.chipText, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 15 }}>
               {String(streak)}
             </Text>
-            <Text style={{ color: theme.colors.chipText, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 12 }}>{streakDays}</Text>
+            <Text numberOfLines={1} style={{ color: theme.colors.chipText, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 12 }}>
+              {streakDays}
+            </Text>
           </>
         ) : (
-          <Text style={{ color: theme.colors.chipText, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 13, flexShrink: 1 }}>
+          <Text numberOfLines={1} style={{ color: theme.colors.chipText, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 13 }}>
             {streakStart}
           </Text>
         )}
@@ -235,7 +237,8 @@ export function ContinueCard({
             {sub}
           </Text>
         </View>
-        <View style={[styles.round, cta(theme)]}>
+        {/* The card is the one control and carries the name ("Continue reading John 3"); the arrow only shows it. */}
+        <View testID="home-continue-arrow" {...decorative} style={[styles.round, cta(theme)]}>
           <Icon name="chevronRight" size={22} color={theme.colors.onCta} />
         </View>
       </Card>
@@ -261,6 +264,13 @@ const SHARE_SIZE = 44;
 export const VOTD_MIN_HEIGHT = 200;
 /** Widths of the skeleton's bars, as a share of the card's width. */
 const SKELETON_BARS = ['100%', '94%', '86%', '52%'] as const;
+
+/** Hidden from screen readers: a look inside a control that already says what it does. */
+const decorative = {
+  accessible: false,
+  importantForAccessibility: 'no-hide-descendants',
+  'aria-hidden': true,
+} as const;
 
 /** Section labelling that only the web needs: a native screen reader reads the cards in order anyway. */
 const region = (label: string) => (Platform.OS === 'web' ? ({ role: 'region', 'aria-label': label } as const) : {});
@@ -357,15 +367,82 @@ export function VerseCard({
   );
 }
 
-export function SurpriseCard({
-  body,
+/** What the Memory card's button shows, and how: Start and Continue are the call to action, Week is secondary. */
+export interface MemoryCardAction {
+  text: string;
+  primary: boolean;
+}
+
+/**
+ * Today's Memory lesson in one row, built like Continue reading: a caps line with the learned count, the verse, and
+ * the step (or "Done for today"); the button on the right. The whole card is one control with one name; each line
+ * stays on one line.
+ */
+export function MemoryCard({
+  caps,
+  reference,
+  sub,
+  action,
+  label,
+  onPress,
+}: {
+  caps: string;
+  reference: string;
+  sub: string;
+  action: MemoryCardAction;
+  /** The card's accessible name: "Start Memory lesson, 2 Corinthians 5:17", or "See the week". */
+  label: string;
+  onPress: () => void;
+}) {
+  const theme = useTheme();
+  const { locale } = useI18n();
+  const text = theme.colors.text;
+  const muted = theme.colors.muted;
+  const button = action.primary ? cta(theme) : buttonStyle(theme);
+  return (
+    <Pressable
+      testID="home-memory"
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      onPress={onPress}
+      style={{ borderRadius: theme.radii.card, minHeight: 48 }}
+    >
+      <Card gap={14} row padding={{ top: 16, bottom: 16 }}>
+        <View style={styles.rowText}>
+          <Text testID="home-memory-caps" numberOfLines={1} style={[smallCaps(theme, muted), locale === 'zh-Hans' && styles.noTracking]}>
+            {caps}
+          </Text>
+          <Text testID="home-memory-ref" numberOfLines={1} style={{ color: text, fontFamily: uiFace(theme.type.head, '700'), fontSize: 19 }}>
+            {reference}
+          </Text>
+          <Text testID="home-memory-sub" numberOfLines={1} style={{ color: muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 13 }}>
+            {sub}
+          </Text>
+        </View>
+        <View testID="home-memory-action" {...decorative} style={[styles.textButton, button]}>
+          <Text
+            numberOfLines={1}
+            style={{
+              color: action.primary ? theme.colors.onCta : theme.colors.btnText,
+              fontFamily: uiFace(theme.type.ui, '700'),
+              fontSize: 15,
+            }}
+          >
+            {action.text}
+          </Text>
+        </View>
+      </Card>
+    </Pressable>
+  );
+}
+
+/** Surprise me in one row: the title and the explored count, and a round shuffle button (a secondary one). */
+export function SurpriseRow({
   exploredText,
   exploredLabel,
   disabled,
   onPress,
 }: {
-  /** What Surprise me does; it differs for a reader who has not explored anything yet. */
-  body: string;
   exploredText: string;
   exploredLabel: string;
   disabled: boolean;
@@ -377,33 +454,30 @@ export function SurpriseCard({
   const muted = theme.canvas.c3m ?? theme.colors.muted;
   return (
     <View testID="home-surprise" {...region(t('home.surprise'))}>
-      <Card gap={10} padding={{ top: 16, bottom: 16 }} background={paint(theme.canvas.c3)}>
-        <View style={[styles.baselineRow, styles.wrap]}>
-          <Text accessibilityRole="header" style={{ color: text, fontFamily: uiFace(theme.type.head, '700'), fontSize: 19, flexShrink: 1 }}>
+      <Card gap={14} row padding={{ top: 16, bottom: 16 }} background={paint(theme.canvas.c3)}>
+        <View style={styles.rowText}>
+          <Text accessibilityRole="header" numberOfLines={1} style={{ color: text, fontFamily: uiFace(theme.type.head, '700'), fontSize: 19 }}>
             {t('home.surprise')}
           </Text>
           <Text
             testID="home-explored"
+            numberOfLines={1}
             accessibilityLabel={exploredLabel}
-            style={{ color: muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 13, flexShrink: 1 }}
+            style={{ color: muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 13 }}
           >
             {exploredText}
           </Text>
         </View>
-        <Text style={{ color: muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14, lineHeight: 20 }}>
-          {body}
-        </Text>
         <Pressable
           testID="home-surprise-go"
           accessibilityRole="button"
+          accessibilityLabel={t('home.surpriseGo')}
           accessibilityState={{ disabled }}
           disabled={disabled}
           onPress={onPress}
-          style={[styles.go, cta(theme), { boxShadow: theme.shadows.cta }, disabled && styles.disabled]}
+          style={[styles.round, buttonStyle(theme), disabled && styles.disabled]}
         >
-          <Text style={{ color: theme.colors.onCta, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 15, textAlign: 'center' }}>
-            {t('home.surpriseGo')}
-          </Text>
+          <ShuffleIcon color={theme.colors.btnText} />
         </Pressable>
       </Card>
     </View>
@@ -430,11 +504,13 @@ const styles = StyleSheet.create({
   track: { height: 8, borderRadius: 999, overflow: 'hidden' },
   barFill: { height: '100%', borderRadius: 999 },
   continueText: { flex: 1, flexShrink: 1, gap: 3 },
+  rowText: { flex: 1, flexShrink: 1, minWidth: 0, gap: 3 },
+  noTracking: { letterSpacing: 0 },
+  textButton: { minHeight: 44, paddingHorizontal: 18, flexShrink: 0, alignItems: 'center', justifyContent: 'center' },
   round: { minWidth: 48, minHeight: 48, flexShrink: 0, alignItems: 'center', justifyContent: 'center' },
   votdOpen: { gap: 12 },
   votdRef: { minHeight: SHARE_SIZE, justifyContent: 'center', paddingRight: SHARE_SIZE + 12 },
   share: { position: 'absolute', right: 16, bottom: 14, width: SHARE_SIZE, height: SHARE_SIZE, alignItems: 'center', justifyContent: 'center' },
-  go: { minHeight: 48, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 16 },
   disabled: { opacity: 0.5 },
   skeleton: { gap: 12, paddingVertical: 4 },
   bar: { height: 16, borderRadius: 999 },

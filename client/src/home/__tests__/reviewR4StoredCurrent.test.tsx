@@ -1,9 +1,10 @@
 // Sol review R-4 round 1, F2 (orchestrator-owned, mutant killer): Surprise me excludes the stored chapter, not the rendered one.
+// (GAPS, 11-03: Surprise me is now the one-row SurpriseRow.)
 import type { ComponentProps } from 'react';
 import { act, screen } from '@testing-library/react-native';
 
 import { CHAPTER_COUNTS, readerPositionKey } from '../../storage/keys';
-import { SurpriseCard } from '../HomeCards';
+import { SurpriseRow } from '../HomeCards';
 import { renderHome } from './homeHarness';
 
 jest.mock('../HomeCards', () => {
@@ -13,9 +14,9 @@ jest.mock('../HomeCards', () => {
 
   return {
     ...actual,
-    SurpriseCard: jest.fn(
-      (props: ComponentProps<typeof actual.SurpriseCard>) =>
-        React.createElement(actual.SurpriseCard, props),
+    SurpriseRow: jest.fn(
+      (props: ComponentProps<typeof actual.SurpriseRow>) =>
+        React.createElement(actual.SurpriseRow, props),
     ),
   };
 });
@@ -43,7 +44,7 @@ it('excludes the stored chapter even before Home rerenders', async () => {
   });
   await screen.findByTestId('home-votd-text');
 
-  const press = jest.mocked(SurpriseCard).mock.calls.at(-1)![0].onPress;
+  const press = jest.mocked(SurpriseRow).mock.calls.at(-1)![0].onPress;
   await act(async () => {
     storage.set(readerPositionKey, {
       bookNumber: 43,

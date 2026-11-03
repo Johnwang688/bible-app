@@ -1,7 +1,7 @@
-// The Home tab: greeting and streak, today's goal, continue reading, the verse of the day and Surprise me.
-// It reads progress and the reader's position through hooks over storage, so a change made in the reader shows
-// at once. It writes only through Surprise me (the position, via `setPosition`) and the verse of the day (via
-// `useOpenInReader`).
+// The Home tab: greeting and streak, today's goal, continue reading, the verse of the day, today's Memory lesson
+// and Surprise me. It reads progress, the reader's position and Memory through hooks over storage, so a change made
+// in the reader or in Memory shows at once. It writes only through Surprise me (the position, via `setPosition`),
+// the verse of the day (via `useOpenInReader`) and, as Memory's own home does, by opening today's Memory lesson.
 import { router } from 'expo-router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
@@ -24,11 +24,12 @@ import { useScriptureFont } from '../study/components/scriptureFont';
 import { useTheme } from '../theme/ThemeProvider';
 import { GoalSheet } from './GoalSheet';
 import { greetingKey } from './greeting';
-import { ContinueCard, GoalCard, HomeHeader, SurpriseCard, VerseCard, type VerseState } from './HomeCards';
+import { ContinueCard, GoalCard, HomeHeader, MemoryCard, SurpriseRow, VerseCard, type VerseState } from './HomeCards';
 import { lastVerseKey } from './homeKeys';
 import { NEW_READER_START } from './newReader';
 import { shareVerse } from './shareVerse';
 import { pickSurpriseChapter } from './surprise';
+import { MEMORY_WEEK_HREF, useHomeMemory } from './useHomeMemory';
 import { useToday } from './useToday';
 import { verseOfTheDay } from './verseOfTheDay';
 import { VOTD_BOOK_NAMES } from './votdBookNames';
@@ -38,18 +39,22 @@ const TAB_BAR_ROOM = 120;
 
 const defaultNow = () => new Date();
 const goToBibleTab = () => router.navigate('/bible');
+const pushRoute = (href: string) => router.push(href as never);
 
 export function HomeScreen({
   storage: storageProp,
   locales,
   now = defaultNow,
   navigate = goToBibleTab,
+  go = pushRoute,
   random = Math.random,
 }: {
   storage?: Storage;
   locales?: readonly DeviceLocale[];
   now?: () => Date;
   navigate?: () => void;
+  /** Opens a route: today's Memory lesson, or Memory's week. */
+  go?: (href: string) => void;
   random?: () => number;
 }) {
   const theme = useTheme();
@@ -194,6 +199,30 @@ export function HomeScreen({
   const explored = formatNumber(progress.exploredCount);
   const total = formatNumber(TOTAL_CHAPTERS);
 
+  // Memory: today's lesson. Start and Continue open its next step; once it is done, Week opens the week. Where a
+  // Start or Continue press goes is read at the press (`memory.target`), not from this render: the lesson's next step
+  // as it is then (today's, after an unnoticed midnight), or the week if it is done by then.
+  const memory = useHomeMemory(storage, now, locale);
+  const lesson = memory.state;
+  const memoryCaps = t('home.memory.label', { n: formatNumber(memory.learned), total: formatNumber(memory.total) });
+  const memoryCard =
+    lesson.kind === 'done'
+      ? {
+          sub: t('home.memory.done'),
+          action: { text: t('home.memory.week'), primary: false },
+          label: t('home.memory.weekLabel'),
+          onPress: () => go(MEMORY_WEEK_HREF), // the card says "See the week": it opens the week, whatever the clock
+        }
+      : {
+          sub: t('home.memory.step', { n: formatNumber(lesson.step), total: formatNumber(lesson.total) }),
+          action: { text: t(lesson.kind === 'start' ? 'memory.lesson.start' : 'memory.lesson.continue'), primary: true },
+          label:
+            lesson.reference === ''
+              ? t(lesson.kind === 'start' ? 'home.memory.startLabelPlain' : 'home.memory.continueLabelPlain')
+              : t(lesson.kind === 'start' ? 'home.memory.startLabel' : 'home.memory.continueLabel', { ref: lesson.reference }),
+          onPress: () => go(memory.target()),
+        };
+
   return (
     <View testID="screen-home" style={[styles.fill, theme.backgrounds.app]}>
       <AuroraBackground />
@@ -209,8 +238,9 @@ export function HomeScreen({
         <GoalCard done={progress.goalProgressMinutes} goal={progress.goalMinutes} onPress={openGoal} />
         <ContinueCard caps={continueCaps} reference={continueRef} sub={t(meta.nameKey)} label={continueLabel} onPress={continueReading} />
         <VerseCard state={verse} onOpen={openVerse} onShare={share} onRetry={retry} />
-        <SurpriseCard
-          body={t(progress.exploredCount === 0 ? 'home.surpriseBodyNew' : 'home.surpriseBody')}
+        {/* A verse the library no longer has: the card names the lesson instead. */}
+        <MemoryCard caps={memoryCaps} reference={lesson.reference || t('memory.lesson.today')} {...memoryCard} />
+        <SurpriseRow
           exploredText={t('home.explored', { n: explored, total })}
           exploredLabel={t('home.exploredLabel', { n: explored, total })}
           disabled={!books.data}
@@ -224,5 +254,5 @@ export function HomeScreen({
 
 const styles = StyleSheet.create({
   fill: { flex: 1 },
-  content: { paddingHorizontal: 20, gap: 14 },
+  content: { paddingHorizontal: 16, gap: 14 },
 });
