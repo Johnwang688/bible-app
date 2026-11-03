@@ -83,7 +83,7 @@ describe('Create account, then "Confirm your email"', () => {
     expect(auth.log).toContain('send:en:https://app.test/me?verified=1');
     const resend = screen.getByTestId('verify-resend');
     expect(resend.props.accessibilityState).toMatchObject({ disabled: true });
-    expect(resend).toHaveTextContent(/Send again in (0:5d|1:00)/);
+    expect(resend).toHaveTextContent(/Send again in (0:5\d|1:00)/);
   });
 
   test('a failed send shows its error in the confirm view, and Send again stays available', async () => {
