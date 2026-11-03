@@ -18,6 +18,8 @@ from typing import Callable, Protocol
 import httpx
 from fastapi import APIRouter, Depends, HTTPException, Query, Request
 
+from app.core.firebase_auth import FirebaseUser, get_firebase_user
+
 logger = logging.getLogger(__name__)
 
 # 256 KB covers any plausible verse recitation (Opus at 64 kbps for ~15 s is ~120 KB).
@@ -82,8 +84,8 @@ class OpenRouterTranscriber:
 class InMemoryQuota:
     """Per-user sliding-window call budget (a minute window and a day window).
 
-    Single-process only: Cloud Run runs several instances, so a shared store (Firestore) replaces
-    this when sign-in ships.
+    Single-process only: Cloud Run runs up to 3 instances (deploy.py), so a user's real budget is at most 3x
+    these numbers until a shared store (Firestore) replaces this.
     """
 
     def __init__(self, per_min: int, per_day: int, clock: Callable[[], float] = time.monotonic) -> None:
@@ -145,9 +147,14 @@ class InMemoryQuota:
 _quota = InMemoryQuota(per_min=RATE_PER_MIN, per_day=RATE_PER_DAY)
 
 
-def require_memory_user() -> str:
-    # Always refuses until R-6b replaces this body with Firebase ID-token verification.
-    raise HTTPException(status_code=401, detail="sign-in required")
+def require_memory_user(user: FirebaseUser = Depends(get_firebase_user)) -> str:
+    """The signed-in user's uid: the Bearer Firebase ID token, then App Check per ``APP_CHECK_MODE``.
+
+    ``get_firebase_user`` (not the identity-only variant) because a call spends the paid upstream. It answers 401
+    for a missing or bad token and 503 when verification can't run, before the body is read; the quota keys on
+    the uid.
+    """
+    return user.uid
 
 
 def get_transcriber() -> Transcriber | None:

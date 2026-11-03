@@ -79,8 +79,8 @@ def test_lang_picks_the_whisper_language_and_defaults_to_mandarin(lang, code) ->
     assert fake.calls[0][2] == code
 
 
-def test_default_auth_refuses_until_sign_in_exists() -> None:
-    """Without R-6b's token check wired in, nobody can spend the paid upstream."""
+def test_default_auth_refuses_a_request_without_a_token() -> None:
+    """The real sign-in dependency (tests/test_memory_transcribe_auth.py): no Bearer token, no paid upstream."""
     fake = FakeTranscriber()
     res = post(make_client(fake, user=None))
     assert res.status_code == 401
