@@ -15,7 +15,7 @@ class FakeElement {
     public shown = true,
     public testIDs: string[] = [],
   ) {}
-  get isConnected() {
+  get isConnected(): boolean {
     return page.includes(this) || (this.parent?.isConnected ?? false);
   }
   getClientRects() {
