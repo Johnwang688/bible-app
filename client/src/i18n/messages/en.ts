@@ -1,5 +1,6 @@
 // The English message catalogue. Every UI string goes through a key here (R-0 string ratchet).
 // Keys are flat and dotted. Placeholders are {name}.
+import { feedbackEn } from './feedback';
 import { memoryEn } from './memory';
 
 export const en = {
@@ -349,7 +350,7 @@ export const en = {
 
   // ---- Privacy policy (B-1) ----
   'privacy.title': 'Privacy policy',
-  'privacy.updated': 'Last updated 2 November 2026',
+  'privacy.updated': 'Last updated 3 November 2026',
   'privacy.switchLanguage': '简体中文',
   'privacy.back': 'Back',
   'privacy.openApp': 'Open the app',
@@ -374,6 +375,7 @@ export const en = {
   'privacy.server.b1': 'A request names only the passage, or the words you searched for.',
   'privacy.server.b2': 'The server runs on Google Cloud in the United States.',
   'privacy.server.b3': 'Like any web server, it sees your IP address and browser type, and keeps them in its request logs for up to 30 days to run and protect the service.',
+  'privacy.server.b4': 'If you send feedback from the Me tab, your message is stored in Cloud Firestore (Google, United States) with the app version, platform, app language, look and your browser or device details, plus your account ID if you’re signed in, but never your email address.',
   'privacy.hosting.title': 'The website and fonts',
   'privacy.hosting.summary': 'Other services deliver the website and a font, and see your IP address when they do.',
   'privacy.hosting.b1': 'The website is served by Firebase Hosting (Google), which logs requests in the same way.',
@@ -637,6 +639,9 @@ export const en = {
 
   // Memory (team MEM): the block lives in ./memory.ts.
   ...memoryEn,
+
+  // Send feedback (team FEEDBACK): the block lives in ./feedback.ts.
+  ...feedbackEn,
 
   'common.loading': 'Loading…',
   'common.retry': 'Try again',

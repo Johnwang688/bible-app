@@ -61,9 +61,7 @@ const KNOWN_GAPS: readonly (readonly [PresetId, string, number])[] = [
   ['liberty', 'sheet 0.52>b', 3.71],
   ['liberty', 'card 0.2>c', 3.81],
   ['liberty', 'card 0.34>c', 4.21],
-  ['silver', 'card 0.2>a', 4.39],
-  ['silver', 'card 0.2>c', 3.91],
-  ['silver', 'card 0.34>c', 4.31],
+  // Silver's three gaps closed with its darker text red (#8C1D18, feedback.html decision 16).
   ['northern-lights', 'card 0.17>a', 4.03],
   ['northern-lights', 'card 0.17>b', 2.55],
   ['northern-lights', 'card 0.04>b', 3.36],
@@ -95,10 +93,17 @@ describe('danger colours', () => {
     expect(contrastRatio(onFill, fill)).toBeGreaterThanOrEqual(MIN_TEXT_CONTRAST);
   });
 
-  it('uses the approved colours: #B3261E on light presets, #FFB4AB on dark ones', () => {
+  it('uses the approved colours: #B3261E on light presets (#8C1D18 text on Silver), #FFB4AB on dark ones', () => {
     for (const id of PRESET_IDS) {
       const theme = getTheme(id);
-      expect(dangerColours(theme).text).toBe(theme.mode === 'dark' ? '#FFB4AB' : '#B3261E');
+      const expected = theme.mode === 'dark' ? '#FFB4AB' : id === 'silver' ? '#8C1D18' : '#B3261E';
+      expect([id, dangerColours(theme).text]).toEqual([id, expected]);
     }
+  });
+
+  it('changes only the text colour on Silver (decision 16, feedback.html)', () => {
+    const silver = dangerColours(getTheme('silver'));
+    const light = dangerColours({ mode: 'light' });
+    expect({ ...silver, text: light.text }).toEqual(light);
   });
 });

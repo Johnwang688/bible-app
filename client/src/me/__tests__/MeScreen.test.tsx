@@ -22,6 +22,8 @@ const ROWS = [
   'me-row-sources',
   'me-row-about',
   'me-row-help',
+  // Send feedback (John approved design/proposed/feedback.html 11-03): the last row of More.
+  'me-row-feedback',
 ];
 
 async function renderMeScreen(opts: Parameters<typeof renderMe>[1] = {}) {
