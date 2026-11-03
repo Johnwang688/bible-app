@@ -8,6 +8,7 @@ from app.api.account import router as account_router
 from app.core.config import get_settings
 from app.core.content_db import fetch_all
 from app.core.security import get_current_user
+from app.memory.transcribe import router as memory_router
 from app.schemas.account import (
     AuthResponse as AccountAuthResponse,
     ReadingProgressIn,
@@ -592,6 +593,7 @@ async def read_mastery_overview(
 
 
 app.include_router(account_router)
+app.include_router(memory_router)
 
 
 # Serve the frontend — must be last so API routes take precedence
