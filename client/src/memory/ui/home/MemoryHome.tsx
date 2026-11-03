@@ -5,6 +5,7 @@ import { memo, useEffect, useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { AuroraBackground, auroraTextShadow } from '../../../aurora';
 import { uiFace } from '../../../fonts/fonts';
 import { useI18n } from '../../../i18n/I18nProvider';
 import type { MessageKey } from '../../../i18n/messages/en';
@@ -450,13 +451,14 @@ export function MemoryHome({
 
   return (
     <View testID="memory-home" style={[styles.fill, theme.backgrounds.app]}>
+      <AuroraBackground />
       <ScrollView
         style={styles.fill}
         contentContainerStyle={[styles.content, { paddingTop: insets.top + 16, paddingBottom: TAB_BAR_ROOM }]}
       >
         <View style={styles.header}>
           <View style={styles.titleBlock}>
-            <Text style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 13 }}>
+            <Text style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 13, ...auroraTextShadow(theme) }}>
               {formatDate(date, DATE_LINE)}
             </Text>
             <Text
@@ -466,6 +468,7 @@ export function MemoryHome({
                 fontFamily: uiFace(theme.type.head, theme.type.headWeight),
                 fontSize: theme.type.headSize,
                 letterSpacing: theme.type.headLetterSpacing,
+                ...auroraTextShadow(theme),
               }}
             >
               {t('memory.title')}
@@ -520,13 +523,13 @@ export function MemoryHome({
         <View style={styles.libraryHead}>
           <Text
             accessibilityRole="header"
-            style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.head, '700'), fontSize: 21, flexShrink: 1 }}
+            style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.head, '700'), fontSize: 21, flexShrink: 1, ...auroraTextShadow(theme) }}
           >
             {t('memory.library.title')}
           </Text>
           <Text
             accessibilityLabel={t('memory.library.learned', { count: learnedCount })}
-            style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 13 }}
+            style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 13, ...auroraTextShadow(theme) }}
           >
             {learnedBefore}
             <Text testID="memory-learned">{learnedCount}</Text>

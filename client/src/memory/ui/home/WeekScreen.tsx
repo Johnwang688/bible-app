@@ -5,6 +5,7 @@ import { useMemo } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { AuroraBackground, auroraTextShadow } from '../../../aurora';
 import { uiFace } from '../../../fonts/fonts';
 import { useI18n } from '../../../i18n/I18nProvider';
 import type { MessageKey } from '../../../i18n/messages/en';
@@ -62,6 +63,7 @@ export function WeekScreen({
 
   return (
     <View testID="memory-week" style={[styles.fill, theme.backgrounds.app]}>
+      <AuroraBackground />
       <ScrollView
         style={styles.fill}
         contentContainerStyle={[styles.content, { paddingTop: insets.top + 16, paddingBottom: TAB_BAR_ROOM }]}
@@ -83,6 +85,7 @@ export function WeekScreen({
             fontFamily: uiFace(theme.type.head, theme.type.headWeight),
             fontSize: theme.type.headSize,
             letterSpacing: theme.type.headLetterSpacing,
+            ...auroraTextShadow(theme),
           }}
         >
           {t('memory.week.screenTitle')}

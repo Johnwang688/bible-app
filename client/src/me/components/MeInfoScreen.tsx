@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { AuroraBackground, auroraTextShadow } from '../../aurora';
 import { GlassSurface } from '../../components/GlassSurface';
 import { uiFace } from '../../fonts/fonts';
 import { useT } from '../../i18n/I18nProvider';
@@ -29,6 +30,7 @@ export function MeInfoScreen({
   const insets = useSafeAreaInsets();
   return (
     <View testID={testID} style={[styles.fill, theme.backgrounds.app]}>
+      <AuroraBackground />
       <ScrollView contentContainerStyle={[styles.content, { paddingTop: insets.top + 8 }]}>
         <Pressable
           testID={backID}
@@ -38,7 +40,7 @@ export function MeInfoScreen({
           style={styles.back}
         >
           <Icon name="chevronLeft" size={20} color={theme.colors.text} />
-          <Text style={[styles.backText, { color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '700') }]}>
+          <Text style={[styles.backText, { color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '700'), ...auroraTextShadow(theme) }]}>
             {t('customise.back')}
           </Text>
         </Pressable>
@@ -49,6 +51,7 @@ export function MeInfoScreen({
             fontFamily: uiFace(theme.type.head, theme.type.headWeight),
             fontSize: theme.type.headSize,
             letterSpacing: theme.type.headLetterSpacing,
+            ...auroraTextShadow(theme),
           }}
         >
           {t(titleKey)}

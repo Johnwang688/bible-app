@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ApiError } from '../../api/client';
 import type { BookInfo, EntityKind, SummaryEntityPageOut } from '../../api/schemas';
+import { AuroraBackground, auroraTextShadow } from '../../aurora';
 import { uiFace } from '../../fonts/fonts';
 import { useI18n } from '../../i18n/I18nProvider';
 import type { AppLocale } from '../../i18n/types';
@@ -49,6 +50,7 @@ export function EntityPageScreen({
   const back = useEntityBack(onBack);
   return (
     <View testID="screen-entity" style={[styles.fill, theme.backgrounds.app]}>
+      <AuroraBackground />
       <EntityTopBar onBack={back} />
       {kind === null ? (
         <View style={styles.padded}>
@@ -94,7 +96,7 @@ function EntityPageLoader({ kind, slug, storage, navigate }: { kind: EntityKind;
       <Text
         testID="entity-loading"
         accessibilityLiveRegion="polite"
-        style={[styles.loading, { color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400') }]}
+        style={[styles.loading, { color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), ...auroraTextShadow(theme) }]}
       >
         {t('common.loading')}
       </Text>
@@ -133,14 +135,14 @@ function EntityPageContent({ kind, page, storage, navigate }: { kind: EntityKind
             accessibilityRole="header"
             style={[
               entityHeadStyle(theme, theme.type.headSize, theme.type.headWeight),
-              { letterSpacing: theme.type.headLetterSpacing, lineHeight: Math.round(theme.type.headSize * 1.15), flexShrink: 1 },
+              { letterSpacing: theme.type.headLetterSpacing, lineHeight: Math.round(theme.type.headSize * 1.15), flexShrink: 1, ...auroraTextShadow(theme) },
             ]}
           >
             {page.label}
           </Text>
           <EnglishBadge />
         </View>
-        <Text testID="entity-appears" style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14 }}>
+        <Text testID="entity-appears" style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14, ...auroraTextShadow(theme) }}>
           {chapterCount === 1 ? t('entity.appearsInOne') : t('entity.appearsIn', { n: formatNumber(chapterCount) })}
         </Text>
       </View>
@@ -152,7 +154,7 @@ function EntityPageContent({ kind, page, storage, navigate }: { kind: EntityKind
       <View testID="entity-chapters" style={styles.section}>
         <EntityLabel>{t('entity.chapters')}</EntityLabel>
         {kind === 'theme' ? (
-          <Text testID="entity-theme-note" style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14, lineHeight: 21 }}>
+          <Text testID="entity-theme-note" style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14, lineHeight: 21, ...auroraTextShadow(theme) }}>
             {t('entity.themeNote')}
           </Text>
         ) : null}
@@ -255,13 +257,13 @@ function Timeline({
                   style={styles.eventHeader}
                 >
                   {era !== '' ? (
-                    <Text testID={`entity-era-${i}`} accessibilityLabel={era} style={{ color: theme.colors.muted, fontFamily: ui('700'), fontSize: 12 }}>
+                    <Text testID={`entity-era-${i}`} accessibilityLabel={era} style={{ color: theme.colors.muted, fontFamily: ui('700'), fontSize: 12, ...auroraTextShadow(theme) }}>
                       {era}
                     </Text>
                   ) : null}
-                  <Text style={[entityHeadStyle(theme, 16), { lineHeight: 22 }]}>{event.title}</Text>
+                  <Text style={[entityHeadStyle(theme, 16), { lineHeight: 22, ...auroraTextShadow(theme) }]}>{event.title}</Text>
                   {event.summary !== '' ? (
-                    <Text style={{ color: theme.colors.muted, fontFamily: ui('400'), fontSize: 14, lineHeight: 20 }}>{event.summary}</Text>
+                    <Text style={{ color: theme.colors.muted, fontFamily: ui('400'), fontSize: 14, lineHeight: 20, ...auroraTextShadow(theme) }}>{event.summary}</Text>
                   ) : null}
                 </Pressable>
                 {isOpen ? (
@@ -276,20 +278,20 @@ function Timeline({
                           onPress={() => openPassage(dev.ref!)}
                           style={({ pressed }) => [styles.devRow, pressed && { opacity: 0.7 }]}
                         >
-                          <Text style={[styles.devText, { color: theme.colors.text, fontFamily: ui('400') }]}>
+                          <Text style={[styles.devText, { color: theme.colors.text, fontFamily: ui('400'), ...auroraTextShadow(theme) }]}>
                             {dev.text}{' '}
                             <Text style={{ color: theme.colors.accent, fontFamily: ui('700') }}>{referenceLabel(dev.ref, books, locale)}</Text>
                           </Text>
                           <Glyph name="chevronRight" color={theme.colors.muted} size={16} strokeWidth={2.2} />
                         </Pressable>
                       ) : (
-                        <Text key={j} testID={`entity-dev-${i}-${j}`} style={[styles.devText, styles.devPlain, { color: theme.colors.text, fontFamily: ui('400') }]}>
+                        <Text key={j} testID={`entity-dev-${i}-${j}`} style={[styles.devText, styles.devPlain, { color: theme.colors.text, fontFamily: ui('400'), ...auroraTextShadow(theme) }]}>
                           {dev.text}
                         </Text>
                       ),
                     )}
                     {event.significance ? (
-                      <Text style={{ color: theme.colors.muted, fontFamily: ui('400'), fontSize: 14, lineHeight: 20, paddingTop: 4 }}>
+                      <Text style={{ color: theme.colors.muted, fontFamily: ui('400'), fontSize: 14, lineHeight: 20, paddingTop: 4, ...auroraTextShadow(theme) }}>
                         {event.significance}
                       </Text>
                     ) : null}
@@ -337,7 +339,7 @@ function ChapterGroups({
         const name = book ? bookNameForLocale(book, locale) : String(group.bookNumber);
         return (
           <View key={group.bookNumber} style={styles.bookGroup}>
-            <Text testID={`entity-book-${group.bookNumber}`} accessibilityRole="header" style={[entityHeadStyle(theme, 15), { lineHeight: 21 }]}>
+            <Text testID={`entity-book-${group.bookNumber}`} accessibilityRole="header" style={[entityHeadStyle(theme, 15), { lineHeight: 21, ...auroraTextShadow(theme) }]}>
               {name}
             </Text>
             <View style={styles.grid}>

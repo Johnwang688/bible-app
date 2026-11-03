@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, type ComponentRef } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { AuroraBackground, auroraTextShadow } from '../../../aurora';
 import { uiFace } from '../../../fonts/fonts';
 import { useI18n } from '../../../i18n/I18nProvider';
 import type { MessageKey } from '../../../i18n/messages/en';
@@ -71,6 +72,8 @@ export function CompleteScreen({
   const muted = { color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400') };
   const head = { color: theme.colors.text, fontFamily: uiFace(theme.type.head, theme.type.headWeight) };
   const body = { color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '400') };
+  // Text that sits straight on the aurora (not inside a card) carries the soft halo.
+  const glow = auroraTextShadow(theme);
   const tint = { text: theme.canvas.c1t ?? theme.colors.text, muted: theme.canvas.c1m ?? theme.colors.muted };
 
   const title = (text: string) => (
@@ -79,7 +82,7 @@ export function CompleteScreen({
       testID={lesson.allDone ? 'memory-complete-title' : 'memory-one-left-title'}
       accessibilityRole="header"
       {...programmaticFocus}
-      style={[head, { fontSize: theme.type.headSize, letterSpacing: theme.type.headLetterSpacing }]}
+      style={[head, { fontSize: theme.type.headSize, letterSpacing: theme.type.headLetterSpacing }, glow]}
     >
       {text}
     </Text>
@@ -99,9 +102,9 @@ export function CompleteScreen({
       <>
         <View testID="memory-one-left" role="status" aria-live="polite" accessibilityLiveRegion="polite" style={styles.block}>
           {title(waiting.length === 1 ? t('memory.end.leftOne') : t('memory.end.leftMany', { n: waiting.length }))}
-          <Text style={[muted, { fontSize: 15 }]}>{t('memory.end.doneOf', { k: lesson.done, n: lesson.total })}</Text>
+          <Text style={[muted, { fontSize: 15 }, glow]}>{t('memory.end.doneOf', { k: lesson.done, n: lesson.total })}</Text>
           {streak > 0 ? (
-            <Text style={[body, { fontSize: 14, lineHeight: 20, fontFamily: uiFace(theme.type.ui, '700') }]}>
+            <Text style={[body, { fontSize: 14, lineHeight: 20, fontFamily: uiFace(theme.type.ui, '700') }, glow]}>
               {t('memory.end.keepStreak', { n: streak })}
             </Text>
           ) : null}
@@ -154,7 +157,7 @@ export function CompleteScreen({
       <>
         <View testID="memory-complete" role="status" aria-live="polite" accessibilityLiveRegion="polite" style={styles.block}>
           {title(t('memory.end.title'))}
-          <Text style={[muted, { fontSize: 15 }]}>{t('memory.end.sub', { n: lesson.total })}</Text>
+          <Text style={[muted, { fontSize: 15 }, glow]}>{t('memory.end.sub', { n: lesson.total })}</Text>
         </View>
         <MemCard background={theme.canvas.c1 === undefined ? undefined : { backgroundColor: theme.canvas.c1 }} style={styles.streakCard}>
           <View style={styles.streakRow}>
@@ -203,6 +206,7 @@ export function CompleteScreen({
 
   return (
     <View testID="memory-end" style={[styles.fill, theme.backgrounds.app]}>
+      <AuroraBackground />
       <ScrollView
         style={styles.fill}
         contentContainerStyle={[styles.content, { paddingTop: insets.top + 24, paddingBottom: Math.max(insets.bottom, 12) + 24 }]}

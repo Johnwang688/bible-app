@@ -18,6 +18,7 @@ const ROWS = [
   'me-row-language',
   'me-row-translation',
   'me-row-parallel',
+  'me-row-goal',
   'me-row-sources',
   'me-row-about',
   'me-row-help',

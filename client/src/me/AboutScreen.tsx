@@ -1,13 +1,13 @@
 // About and privacy: what the app is, what stays on the device, and the version.
 import Constants from 'expo-constants';
-import { StyleSheet, Text } from 'react-native';
+import { Pressable, StyleSheet, Text } from 'react-native';
 
 import { uiFace } from '../fonts/fonts';
 import { useT } from '../i18n/I18nProvider';
 import { useTheme } from '../theme/ThemeProvider';
 import { MeCard, MeInfoScreen } from './components/MeInfoScreen';
 
-export function AboutScreen({ onBack }: { onBack(): void }) {
+export function AboutScreen({ onBack, onPrivacy }: { onBack(): void; onPrivacy(): void }) {
   const theme = useTheme();
   const t = useT();
   const body = { color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '400') };
@@ -25,6 +25,11 @@ export function AboutScreen({ onBack }: { onBack(): void }) {
           {t('about.privacy.title')}
         </Text>
         <Text style={[styles.text, body]}>{t('about.privacy.body')}</Text>
+        <Pressable testID="about-privacy-link" accessibilityRole="link" onPress={onPrivacy} style={styles.link}>
+          <Text style={[styles.text, { color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '700'), textDecorationLine: 'underline' }]}>
+            {t('about.privacy.link')}
+          </Text>
+        </Pressable>
       </MeCard>
     </MeInfoScreen>
   );
@@ -35,4 +40,5 @@ const styles = StyleSheet.create({
   heading: { fontSize: 17 },
   text: { fontSize: 15, lineHeight: 22 },
   small: { fontSize: 13 },
+  link: { minHeight: 44, justifyContent: 'center', alignSelf: 'flex-start' },
 });

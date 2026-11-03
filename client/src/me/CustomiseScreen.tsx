@@ -2,6 +2,7 @@
 // and text size. Every change is written through the hooks and shows in the whole app at once.
 import { StyleSheet, Text, View } from 'react-native';
 
+import { AuroraOption } from '../aurora';
 import { GlassSurface } from '../components/GlassSurface';
 import { uiFace } from '../fonts/fonts';
 import { useI18n } from '../i18n/I18nProvider';
@@ -89,6 +90,10 @@ export function CustomiseScreen(props: { onBack(): void; onAdvanced(): void }) {
       <View style={styles.group}>
         <CustomiseLabel>{t('customise.look')}</CustomiseLabel>
         <CustomisePresetRow presetId={presetId} onPick={pick} />
+      </View>
+
+      <View style={styles.group}>
+        <AuroraOption />
       </View>
 
       <View style={styles.group}>
