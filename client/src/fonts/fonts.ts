@@ -1,5 +1,6 @@
-// The app's fonts. UI and Scripture fonts load at startup (they are small and every screen needs
-// them). Hebrew, Greek and Chinese Scripture load on first use (src/fonts/lazy.ts).
+// The app's fonts: the face tables and the source files. Nothing here loads a font. At start only the
+// active look's UI and Scripture faces load (lookFonts.ts, FontGate.tsx); other looks' faces load when
+// the look is chosen or shown. Hebrew, Greek and Chinese Scripture load on first use (lazy.ts).
 import { Literata_400Regular, Literata_400Regular_Italic, Literata_700Bold } from '@expo-google-fonts/literata';
 import { PlusJakartaSans_400Regular, PlusJakartaSans_700Bold, PlusJakartaSans_800ExtraBold } from '@expo-google-fonts/plus-jakarta-sans';
 import { SourceSerif4_400Regular, SourceSerif4_400Regular_Italic, SourceSerif4_700Bold } from '@expo-google-fonts/source-serif-4';
@@ -10,10 +11,11 @@ import type { ScriptureFontFamily, UiFontFamily } from '../theme/types';
 export type FontWeight = '400' | '700' | '800';
 
 /**
- * Registered font names. React Native picks a face by name, not by `fontWeight`, on Android,
- * so every weight is its own name.
+ * Every bundled face, by registered name (the source table; none of these loads at start except
+ * the active look's, see lookFonts.ts). React Native picks a face by name, not by `fontWeight`,
+ * on Android, so every weight is its own name.
  */
-export const STARTUP_FONTS = {
+export const FONT_SOURCES = {
   SpaceGrotesk_400Regular,
   SpaceGrotesk_700Bold,
   PlusJakartaSans_400Regular,
@@ -27,7 +29,7 @@ export const STARTUP_FONTS = {
   SourceSerif4_700Bold,
 } as const;
 
-export type FontName = keyof typeof STARTUP_FONTS;
+export type FontName = keyof typeof FONT_SOURCES;
 
 const UI_FACES: Record<UiFontFamily, Partial<Record<FontWeight, FontName>>> = {
   SpaceGrotesk: { '400': 'SpaceGrotesk_400Regular', '700': 'SpaceGrotesk_700Bold' },

@@ -8,6 +8,9 @@ email-validator==2.2.0
 # Supabase
 supabase==2.11.0
 
+# Firebase (R-6b): verifies ID tokens and deletes account data; uses Application Default Credentials
+firebase-admin==7.7.0
+
 # AI
 openai==1.69.0
 anthropic[vertex]==2.3.0

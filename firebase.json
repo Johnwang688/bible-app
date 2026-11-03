@@ -1,0 +1,42 @@
+{
+  "hosting": {
+    "public": "client/dist",
+    "ignore": [],
+    "trailingSlash": false,
+    "rewrites": [{ "source": "**", "destination": "/index.html" }],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          { "key": "Cache-Control", "value": "no-cache" },
+          { "key": "X-Content-Type-Options", "value": "nosniff" },
+          { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+          { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), payment=()" },
+          { "key": "Cross-Origin-Opener-Policy", "value": "same-origin-allow-popups" },
+          {
+            "key": "Content-Security-Policy",
+            "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https://bible-api-593497511935.us-central1.run.app https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://firebaseinstallations.googleapis.com; frame-src https://bible-app-492520.firebaseapp.com; worker-src 'self' blob:; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+          }
+        ]
+      },
+      {
+        "source": "/_expo/**",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      },
+      {
+        "source": "/assets/**",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      }
+    ]
+  },
+  "firestore": {
+    "database": "(default)",
+    "rules": "firestore.rules"
+  },
+  "emulators": {
+    "auth": { "host": "127.0.0.1", "port": 9180 },
+    "firestore": { "host": "127.0.0.1", "port": 8180 },
+    "ui": { "enabled": false },
+    "singleProjectMode": true
+  }
+}

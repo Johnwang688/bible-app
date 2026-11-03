@@ -83,3 +83,33 @@ describe('storage', () => {
     expect(listener).not.toHaveBeenCalled();
   });
 });
+
+describe('storage migrations (R-3)', () => {
+  const doubled: StorageKey<{ n: number }> = {
+    ...counter,
+    version: 3,
+    migrate: (from, data) => (from === 2 ? { n: (data as { n: number }).n * 2 } : undefined),
+  };
+
+  it('reads an older version through migrate, checked by the schema', () => {
+    const backend = memoryBackend();
+    backend.set('counter', JSON.stringify({ v: 2, data: { n: 3 } }));
+    expect(createStorage(backend).get(doubled)).toEqual({ n: 6 });
+    // Reading does not write; the next set stores the new version.
+    expect(JSON.parse(backend.getString('counter')!).v).toBe(2);
+  });
+
+  it('falls back when migrate cannot read it, throws, or returns something the schema rejects', () => {
+    for (const env of [{ v: 1, data: { n: 3 } }, { v: 2, data: { n: -3 } }, { v: 2, data: null }, { v: 4, data: { n: 3 } }, { v: '2', data: { n: 3 } }]) {
+      const backend = memoryBackend();
+      backend.set('counter', JSON.stringify(env));
+      expect(createStorage(backend).get(doubled)).toEqual({ n: 0 });
+    }
+  });
+
+  it('never migrates a key without migrate', () => {
+    const backend = memoryBackend();
+    backend.set('counter', JSON.stringify({ v: 1, data: { n: 3 } }));
+    expect(createStorage(backend).get(counter)).toEqual({ n: 0 });
+  });
+});

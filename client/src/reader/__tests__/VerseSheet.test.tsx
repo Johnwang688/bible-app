@@ -35,7 +35,7 @@ describe('verse sheet', () => {
     const yellow = within(sheet).getByTestId('sheet-swatch-yellow');
     expect(yellow.props.accessibilityLabel).toBe('Highlight Yellow');
     await fireEvent.press(yellow);
-    expect(storage.get(studyItemsKey).highlights['43:3:16']).toBe('yellow');
+    expect(storage.get(studyItemsKey).highlights['43:3:16']?.colour).toBe('yellow');
     expect(within(sheet).getByTestId('sheet-swatch-yellow').props.accessibilityState?.selected).toBe(true);
     expect(style(screen.getByTestId('verse-16')).backgroundColor).toBe(HIGHLIGHTS.yellow.wash.light);
     await fireEvent.press(within(sheet).getByTestId('sheet-swatch-yellow'));
@@ -86,7 +86,7 @@ describe('verse sheet', () => {
     expect(within(sheet).getByText('John 3:16–18')).toBeTruthy();
     await fireEvent.press(within(sheet).getByTestId('sheet-swatch-green'));
     const hl = storage.get(studyItemsKey).highlights;
-    expect([hl['43:3:16'], hl['43:3:17'], hl['43:3:18']]).toEqual(['green', 'green', 'green']);
+    expect([hl['43:3:16']?.colour, hl['43:3:17']?.colour, hl['43:3:18']?.colour]).toEqual(['green', 'green', 'green']);
   });
 
   it('tapping a second verse while the sheet is open extends the selection (plan: Bible: the reader)', async () => {
@@ -96,17 +96,40 @@ describe('verse sheet', () => {
     expect(within(await screen.findByTestId('verse-sheet')).getByText('John 3:16–18')).toBeTruthy();
   });
 
-  it('opens a commentary placeholder (the commentary sheet itself is R-5)', async () => {
+  it('opens the commentary view for the first selected verse, and back returns to the actions (R-5b)', async () => {
     await renderReader({ position: JOHN3_WEB });
     const sheet = await openSheetOn(16);
     await fireEvent.press(within(sheet).getByTestId('sheet-commentary'));
-    expect(await screen.findByTestId('commentary-placeholder')).toBeTruthy();
+    const view = await screen.findByTestId('commentary-view');
+    expect(within(view).getByTestId('commentary-range')).toHaveTextContent('John 3:16');
+    await fireEvent.press(within(view).getByTestId('commentary-back'));
+    expect(await screen.findByTestId('sheet-commentary')).toBeTruthy();
+  });
+
+  // Sol review of R-5b, round 1: kills a surviving mutant.
+  it('opens commentary for the first verse of a range and keeps it when the selection extends backwards', async () => {
+    await renderReader({
+      position: { bookNumber: 43, chapter: 3, translation: 'WEB' },
+    });
+    await screen.findByText(/For God so loved the world/);
+    await fireEvent.press(screen.getByTestId('verse-3-tools'));
+    await fireEvent.press(screen.getByTestId('verse-5-tools'));
+    await fireEvent.press(screen.getByTestId('sheet-commentary'));
+    await screen.findByTestId('commentary-view');
+  
+    expect(screen.getByTestId('commentary-verse')).toHaveTextContent(/^3 /);
+  
+    await fireEvent.press(screen.getByTestId('verse-2-tools'));
+    expect(screen.getByTestId('commentary-verse')).toHaveTextContent(/^3 /);
+  
+    await fireEvent.press(screen.getByTestId('commentary-back'));
+    expect(await screen.findByTestId('sheet-commentary')).toBeTruthy();
   });
 
   it('shows a highlight on both sides in parallel reading (items attach to the reference)', async () => {
     const storage = createStorage(memoryBackend());
     storage.set(readingSettingsKey, { textSize: 2, parallel: 'CUV-SIMP' });
-    storage.set(studyItemsKey, { highlights: { '43:3:16': 'blue' }, notes: {}, bookmarks: {} });
+    storage.set(studyItemsKey, { highlights: { '43:3:16': { colour: 'blue', updatedAt: '2026-11-01T00:00:00.000Z' } }, notes: {}, bookmarks: {} });
     await renderReader({ storage, position: JOHN3_WEB });
     const row = await screen.findByTestId('verse-row-16');
     // The wash sits on the row, or on both translations' text.

@@ -3,7 +3,7 @@ import { contrastRatio, composite, parseColor, MIN_TEXT_CONTRAST } from '../cont
 import { GLOW_D, GLOW_L, POP_D, POP_L } from '../palettes';
 import { getTheme } from '../presets';
 import { PRESET_IDS, type PresetId } from '../types';
-import { glassPairs, pastelPairs, type Pair } from './contrastPairs';
+import { glassPairs, pastelPairs, type Pair } from '../contrastPairs';
 
 describe('contrast maths', () => {
   it('matches the WCAG reference values', () => {

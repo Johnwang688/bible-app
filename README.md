@@ -44,7 +44,7 @@ bible-app/
 ├── docs/                   # Architecture and feature notes
 ├── tests/
 ├── start.sh                # Run backend + frontend together (Unix)
-├── deploy.py               # Deploy to Google Cloud Run
+├── deploy.py               # Deploy the backend to Cloud Run (runbook: deploy/README.md)
 └── requirements.txt
 ```
 
@@ -171,14 +171,17 @@ Quiz questions are authored as JSON in `quiz-questions/`. The served copy is `co
 
 ## Deployment
 
+The backend runs on Cloud Run as `bible-api` in `us-central1`:
+https://bible-api-593497511935.us-central1.run.app
+
 ```bash
-python deploy.py              # backend + frontend to Cloud Run
-python deploy.py --dry-run    # print commands without running
-python deploy.py --backend-only
-python deploy.py --frontend-only
+python deploy.py --sync-secrets   # copy the secret values in .env into Secret Manager (when they change)
+python deploy.py                  # Cloud Build -> Artifact Registry -> Cloud Run
+python deploy.py --dry-run        # print the gcloud commands only
+python deploy/smoke.py --url https://bible-api-593497511935.us-central1.run.app
 ```
 
-Requires an authenticated `gcloud` CLI. The backend image builds `content.sqlite` from `content/source/` during `docker build`. Override defaults with `DEPLOY_PROJECT`, `DEPLOY_REGION`, and `DEPLOY_BACKEND_URL`.
+Requires an authenticated `gcloud` CLI. The backend image builds `content.sqlite` from `content/source/` during the build. See [`deploy/README.md`](deploy/README.md) for secrets, CORS, the cost guard, rollback and the one-time setup.
 
 ## Docs
 
