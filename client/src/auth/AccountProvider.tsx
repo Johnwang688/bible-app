@@ -307,16 +307,18 @@ function proofKind(proof: DeleteProof): AuthProviderKind {
  * `p`, or a 'cancelled' rejection as soon as `signal` aborts (security review G-2: giving up must not wait for Google's
  * window). The late result of `p` is ignored.
  */
-function abortable<T>(p: Promise<T>, signal: DeleteOptions['signal']): Promise<T> {
+function abortable<T>(p: Promise<T>, signal: DeleteOptions['signal'], onAbandoned?: (late: Promise<T>) => void): Promise<T> {
   if (!signal || typeof signal.addEventListener !== 'function') return p;
   const cancelled = () => new AuthError('cancelled', 'the delete was cancelled');
   if (signal.aborted) {
     p.catch(() => undefined);
+    onAbandoned?.(p);
     return Promise.reject(cancelled());
   }
   return new Promise<T>((resolve, reject) => {
     const onAbort = () => {
       p.catch(() => undefined);
+      onAbandoned?.(p);
       reject(cancelled());
     };
     signal.addEventListener!('abort', onAbort);
@@ -378,6 +380,16 @@ function createController(deps: Deps): Controller {
    * the new session out (security review G-3).
    */
   let signingIn = 0;
+  /** Counts every sign-in and sign-up the person starts (the abandoned re-auth below compares against it). */
+  let signInGen = 0;
+  /**
+   * An offered delete given up while Google's window was open (security review delta D-1): until that window's late
+   * result settles, whatever it signs in is the abandoned re-auth's, not a sign-in the person made. While it is pending
+   * and no sign-in has started since (`gen`), nobody is shown signed in and no engine starts; when it settles, its
+   * account is signed out (whether or not the gate reopened meanwhile).
+   */
+  let abandoned: { gen: number } | null = null;
+  const abandonedNow = () => abandoned !== null && abandoned.gen === signInGen;
   /**
    * An account whose delete may have reached the server (see the header): sync stays off for it until
    * a probe settles it. `hadData`: whether the remote held anything before the request (null: unknown).
@@ -479,7 +491,7 @@ function createController(deps: Deps): Controller {
 
   const emitView = () => {
     // While the offered delete runs, its re-auth is signed in only for the delete: the person stays signed out.
-    const shown = offerRun ? null : user;
+    const shown = offerRun || abandonedNow() ? null : user;
     const offer = offerNow();
     listeners?.onView({
       status: known ? (shown ? 'signedIn' : 'signedOut') : 'loading',
@@ -493,6 +505,7 @@ function createController(deps: Deps): Controller {
   /** The user sync should run for right now, or null. */
   function target(): AuthUser | null {
     if (!listeners || holds > 0 || !user || user.uid === blockedUid || user.uid === unconfirmed?.uid) return null;
+    if (abandonedNow()) return null; // the abandoned re-auth's late sign-in (D-1) never syncs
     if (!gateAllowed()) return null;
     return user;
   }
@@ -715,6 +728,7 @@ function createController(deps: Deps): Controller {
       // An ordinary Google sign-in may create the account; only the offered delete's re-auth uses existingOnly.
       const how: AccountSignIn = method.kind === 'google' ? { kind: 'google' } : method;
       signingIn++;
+      signInGen++;
       try {
         await backendSignIn(auth, how);
       } catch (e) {
@@ -735,6 +749,7 @@ function createController(deps: Deps): Controller {
       requireNoOfferRun();
       const auth = requireAuth();
       signingIn++;
+      signInGen++;
       try {
         await auth.signUp(email, password);
       } catch (e) {
@@ -981,7 +996,9 @@ function createController(deps: Deps): Controller {
         try {
           // Straight to the backend: sign-in is off (the gate), and this sign-in exists only to delete. Google's window
           // may never create an account here (existingOnly).
-          reauthed = await abortable(backendSignIn(auth, proofMethod(proof, offer.email, true)), options?.signal);
+          reauthed = await abortable(backendSignIn(auth, proofMethod(proof, offer.email, true)), options?.signal, (late) =>
+            watchAbandoned(auth, late),
+          );
         } catch (e) {
           throw asAuthError(e);
         }
@@ -1023,6 +1040,36 @@ function createController(deps: Deps): Controller {
       setUser(auth.currentUser()); // shows the real state again; kicks; asks enforceGate if still signed in
     }
     if (failure) throw failure;
+  }
+
+  /**
+   * The offered delete was given up while Google's window was open (D-1): when the window's late result arrives, sign
+   * out what it signed in, unless the person has started a sign-in of their own since. Until then `abandonedNow()`
+   * keeps that account hidden and unsynced. Never rejects.
+   */
+  function watchAbandoned(auth: AuthBackend, late: Promise<AuthUser>): void {
+    const mark = { gen: signInGen };
+    abandoned = mark;
+    void late
+      .then(
+        (u) => u,
+        () => null,
+      )
+      .then(async (u) => {
+        if (mark.gen === signInGen && u && auth.currentUser()?.uid === u.uid) {
+          try {
+            await holding(() => signOut());
+          } catch (e) {
+            console.warn('[account] signing out the abandoned Google re-auth failed', e);
+          }
+        }
+      })
+      .finally(() => {
+        if (abandoned === mark) abandoned = null;
+        emitView();
+        kick();
+        if (user && !gateAllowed()) void enforceGate();
+      });
   }
 
   /**

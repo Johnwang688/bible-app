@@ -1,4 +1,4 @@
-// The security review of GOOGLE (Opus, 2026-11-03): its counterexamples G-2 and G-3, kept as regression tests. Each
+// The security review of GOOGLE (Opus, 2026-11-03): its counterexamples G-2, G-3 and the delta check's D-1, kept as regression tests. Each
 // asserts the required behaviour. G-2's Cancel is an AbortController now (the delete's `signal`); G-3's fix refuses
 // the offered delete while a sign-in waits on Google's window (a sign-in that then completes ends the offer, as any
 // sign-in does), so its assertions follow that rule.
@@ -247,5 +247,75 @@ describe('G-3: an ordinary Google sign-in still waiting on its window when an of
     expect(await signIn).toBe('resolved');
     expect(s.auth.currentUser()?.email).toBe(GOOGLE_ONLY);
     expect(view.result.current.under13Offer).toBeNull();
+  });
+});
+
+describe('D-1 (delta): the offered delete given up early, then the abandoned window completes late', () => {
+  async function abandoned(reopenGate: boolean) {
+    const s = setup({ signedIn: GOOGLE_ONLY });
+    const view = await mount(s);
+    await waitFor(() => expect(view.result.current.sync?.lastSyncedAt).not.toBeNull());
+    await act(async () => s.storage.set(onboardingKey, { done: true, ageRange: 'under-13' }));
+    await waitFor(() => expect(view.result.current.under13Offer).not.toBeNull());
+    await settle();
+    const callsBefore = [...s.remotes.values()].reduce((n, r) => n + r.calls.length, 0);
+    s.auth.windows.push({ pick: GOOGLE_ONLY });
+    const release = s.auth.holdWindow();
+    const ctl = new AbortController();
+    let result: Promise<unknown> = Promise.resolve();
+    await act(async () => {
+      result = view.result.current.deleteOfferedAccount({ kind: 'google' }, { signal: ctl.signal }).then(() => 'resolved', (e: AuthError) => `rejected ${e.kind}`);
+    });
+    ctl.abort();
+    await act(async () => void (await result));
+    if (reopenGate) await act(async () => s.storage.set(onboardingKey, { done: true, ageRange: '25-34' }));
+    release(); // the person finishes Google's window anyway
+    await settle();
+    await settle();
+    const callsAfter = [...s.remotes.values()].reduce((n, r) => n + r.calls.length, 0);
+    expect(await result).toBe('rejected cancelled');
+    expect(s.deleteAccountRequest).not.toHaveBeenCalled();
+    expect(view.result.current.status).toBe('signedOut');
+    expect(view.result.current.under13Offer).toEqual({ email: GOOGLE_ONLY, method: 'google' });
+    return { s, view, synced: callsAfter - callsBefore };
+  }
+
+  test('gate still closed: the late sign-in is signed out again, nothing synced', async () => {
+    const { s, synced } = await abandoned(false);
+    expect(s.auth.currentUser()).toBeNull();
+    expect(synced).toBe(0);
+  });
+
+  test('gate reopened meanwhile: the late window should not leave a signed-in, syncing session nobody asked for', async () => {
+    const { s, synced } = await abandoned(true);
+    expect(s.auth.currentUser()).toBeNull();
+    expect(synced).toBe(0);
+  });
+  test('a sign-in the person starts after giving up is theirs: it stays signed in and syncs', async () => {
+    const s = setup({ signedIn: GOOGLE_ONLY });
+    const view = await mount(s);
+    await waitFor(() => expect(view.result.current.sync?.lastSyncedAt).not.toBeNull());
+    await act(async () => s.storage.set(onboardingKey, { done: true, ageRange: 'under-13' }));
+    await waitFor(() => expect(view.result.current.under13Offer).not.toBeNull());
+    s.auth.windows.push({ pick: GOOGLE_ONLY }, { pick: GOOGLE_ONLY });
+    const release = s.auth.holdWindow();
+    const ctl = new AbortController();
+    let result: Promise<unknown> = Promise.resolve();
+    await act(async () => {
+      result = view.result.current.deleteOfferedAccount({ kind: 'google' }, { signal: ctl.signal }).catch(() => undefined);
+    });
+    ctl.abort();
+    await act(async () => void (await result));
+    await act(async () => s.storage.set(onboardingKey, { done: true, ageRange: '25-34' }));
+    let signIn: Promise<void> = Promise.resolve();
+    await act(async () => {
+      signIn = view.result.current.signIn({ kind: 'google' });
+    });
+    release();
+    await act(async () => void (await signIn));
+    await settle();
+    expect(s.auth.currentUser()?.email).toBe(GOOGLE_ONLY);
+    await waitFor(() => expect(view.result.current.status).toBe('signedIn'));
+    await waitFor(() => expect(view.result.current.sync).not.toBeNull());
   });
 });
