@@ -49,6 +49,37 @@ export interface EntityMatch {
   label: string;
 }
 
+/**
+ * The one matching rule for people, places and themes, everywhere (search, Explore, the list filters): a name
+ * matches when it, or any word in it, starts with the query, ignoring case. Words split on spaces and hyphens.
+ * Search and Explore look names up from MATCH_MIN characters; the list filters from the first one.
+ */
+export const MATCH_MIN = 2;
+
+/** True when `label` matches `query` under the one rule (an empty query matches everything). */
+export function entityMatches(label: string, query: string): boolean {
+  const q = query.trim().toLowerCase();
+  return q === '' || matchRank(label, q) !== null;
+}
+
+/** `list` in A–Z order, ignoring case (the API's theme list is not sorted). */
+export function sortEntities(list: readonly SummaryEntityListItemOut[]): SummaryEntityListItemOut[] {
+  return [...list].sort((a, b) => a.label.localeCompare(b.label, 'en', { sensitivity: 'base' }) || (a.slug < b.slug ? -1 : 1));
+}
+
+/** `list` narrowed to the names matching `query`, keeping the order it is given in. */
+export function filterEntityList(list: readonly SummaryEntityListItemOut[], query: string): SummaryEntityListItemOut[] {
+  const q = query.trim().toLowerCase();
+  if (q === '') return [...list];
+  return list.filter((item) => matchRank(item.label, q) !== null);
+}
+
+/** The A–Z section a name files under: its first letter, upper-cased, or '#' for a digit or anything else. */
+export function sectionLetter(label: string): string {
+  const c = label.trim().charAt(0).toUpperCase();
+  return c >= 'A' && c <= 'Z' ? c : '#';
+}
+
 /** 0 exact, 1 label starts with the query, 2 a word starts with it, null no match. */
 function matchRank(label: string, query: string): number | null {
   const lower = label.toLowerCase();
@@ -68,7 +99,7 @@ export function matchEntities(
   limitPerKind = 3,
 ): EntityMatch[] {
   const q = query.trim().toLowerCase();
-  if (q.length < 2) return [];
+  if (q.length < MATCH_MIN) return [];
 
   const out: EntityMatch[] = [];
   for (const kind of ENTITY_KINDS) {
