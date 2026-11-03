@@ -11,7 +11,7 @@ import * as speech from '../speech/keyer';
 import type { StageSlug } from '../types';
 import { LessonScreen } from '../ui/trainer/LessonScreen';
 import { MemoryAuthProvider } from '../voice/auth';
-import { getVoiceSession, resetVoiceSessionForTesting } from '../voice/availability';
+import { resetVoiceSessionForTesting } from '../voice/availability';
 import type { CheckVoice, Recorder, VoiceOutcome } from '../voice/types';
 import { renderMemory } from './memoryHarness';
 

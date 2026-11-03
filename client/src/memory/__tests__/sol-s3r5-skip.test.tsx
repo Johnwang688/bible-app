@@ -1,26 +1,17 @@
 // Sol S3 r5, parked 11-02 (5a step 5): Skip must void a queued Check. Passes with the voice-attempt machine (board
 // 11-03, MEM).
 import { act, fireEvent, screen } from '@testing-library/react-native';
-import { useState } from 'react';
-import { MemoryAuthProvider } from '../voice/auth';
 
 import { memoryLessonKey, memoryProgressKey, memorySettingsKey } from '../../storage/memoryKeys';
 import { createStorage, memoryBackend } from '../../storage/storage';
 import { getMemoryVerse } from '../library';
 import { toLocalDateString } from '../localDate';
-import * as speech from '../speech/keyer';
 import type { StageSlug } from '../types';
 import { LessonScreen } from '../ui/trainer/LessonScreen';
 import { resetVoiceSessionForTesting } from '../voice/availability';
-import type { CheckVoice, Recorder, RecorderStartOptions, VoiceOutcome } from '../voice/types';
+import type { CheckVoice, Recorder, RecorderStartOptions } from '../voice/types';
 import { NOW, renderMemory, SIGNED_IN } from './memoryHarness';
 
-const stages = ['fill-blank', 'full-recall'] as const;
-function deferred<T>() {
-  let resolve!: (value: T) => void;
-  const promise = new Promise<T>((r) => { resolve = r; });
-  return { promise, resolve };
-}
 async function setup(stage: StageSlug, check?: CheckVoice) {
   const verse = getMemoryVerse(stage === 'chunk-order' ? '2-corinthians-5-17' : stage === 'fill-blank' ? 'joshua-1-8' : '2-timothy-3-16')!;
   const text = stage === 'fill-blank' ? verse.chunks[3]! : verse.textZh + verse.referenceZh;
@@ -44,10 +35,6 @@ async function setup(stage: StageSlug, check?: CheckVoice) {
   return { ...result, verse, text, recorder, checkVoice,
     autoStop: () => options.onAutoStop({ blob: new Blob(['audio']), durationMs: 30_000 }),
   };
-}
-async function prepareTyped(text: string) {
-  await fireEvent.press(screen.getByTestId('memory-type-toggle'));
-  await fireEvent.changeText(screen.getByTestId('memory-type-input'), text);
 }
 beforeEach(() => resetVoiceSessionForTesting());
 afterEach(() => jest.restoreAllMocks());

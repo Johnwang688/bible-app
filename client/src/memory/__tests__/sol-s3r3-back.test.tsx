@@ -55,12 +55,6 @@ async function setup(stage: StageSlug, check?: CheckVoice) {
   };
 }
 
-async function typeAnswer(text: string) {
-  if (!screen.queryByTestId('memory-type-input')) await fireEvent.press(screen.getByTestId('memory-type-toggle'));
-  await fireEvent.changeText(screen.getByTestId('memory-type-input'), text);
-  await fireEvent.press(screen.getByTestId('memory-type-check'));
-}
-
 beforeEach(() => resetVoiceSessionForTesting());
 afterEach(() => jest.restoreAllMocks());
 
