@@ -268,11 +268,28 @@ test.describe('verse sheet (R-2)', () => {
     await page.goto('/bible');
     await page.getByTestId('verse-16-tools').click();
     await expect(page.getByTestId('verse-sheet')).toBeVisible();
-    const point = await page.getByTestId('verse-17').evaluate((el) => {
-      const r = Array.from(el.getClientRects()).find((x) => x.width > 5 && x.top >= 0 && x.top < innerHeight - 10)!;
-      return { x: r.left + 3, y: r.top + 3 };
+    // A point on verse 17 that the sheet does not cover, once nothing moves: the sheet slides in, and the chapter
+    // makes room for it, for a while after it is first visible (longer under load), so a point read at once could
+    // be under the sheet by the time of the click (GAPS: the flake under a full gate).
+    const pointOn17 = () => page.getByTestId('verse-17').evaluate((el) => {
+      for (const r of Array.from(el.getClientRects())) {
+        if (r.width <= 5 || r.top < 0) continue;
+        const x = r.left + 3;
+        const y = r.top + r.height / 2;
+        if (el.contains(document.elementFromPoint(x, y))) return `${Math.round(x)},${Math.round(y)}`;
+      }
+      return null;
     });
-    await page.mouse.click(point.x, point.y);
+    let point: string | null = null;
+    await expect.poll(async () => {
+      const first = await pointOn17();
+      await page.waitForTimeout(150);
+      const second = await pointOn17();
+      point = first !== null && first === second ? second : null;
+      return point;
+    }, { timeout: 10_000 }).not.toBeNull();
+    const [x, y] = point!.split(',').map(Number);
+    await page.mouse.click(x!, y!);
     await expect(page.getByTestId('verse-sheet').getByText('John 3:16–17', { exact: true })).toBeVisible();
   });
 

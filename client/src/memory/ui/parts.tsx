@@ -3,6 +3,7 @@
 import type { ReactNode } from 'react';
 import { Pressable, StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
 
+import { auroraTextShadow } from '../../aurora';
 import { GlassSurface } from '../../components/GlassSurface';
 import { uiFace } from '../../fonts/fonts';
 import { buttonStyle } from '../../reader/components/ui';
@@ -126,13 +127,38 @@ export function SectionLabel({ children, color }: { children: ReactNode; color?:
 }
 
 /** A tick and a line of text: a state ("Done today"), never a button. */
-export function StatusLabel({ text, testID, color }: { text: string; testID?: string; color?: string }) {
+/**
+ * A done mark and its words. On a card, pass the card's text colour. Without one it is drawn in the app's text
+ * colour straight on the screen (Week's "Done today"), so by default it gets the text halo that keeps text on the
+ * aurora readable; `onAurora` says so either way.
+ */
+export function StatusLabel({
+  text,
+  testID,
+  color,
+  onAurora = color === undefined,
+}: {
+  text: string;
+  testID?: string;
+  color?: string;
+  onAurora?: boolean;
+}) {
   const theme = useTheme();
   const ink = color ?? theme.colors.text;
   return (
     <View testID={testID} accessible accessibilityRole="text" accessibilityLabel={text} style={styles.status}>
       <MemoryIcon name="check" color={ink} size={20} strokeWidth={2.6} />
-      <Text style={{ color: ink, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 15, flexShrink: 1 }}>{text}</Text>
+      <Text
+        style={{
+          color: ink,
+          fontFamily: uiFace(theme.type.ui, '700'),
+          fontSize: 15,
+          flexShrink: 1,
+          ...(onAurora ? auroraTextShadow(theme) : null),
+        }}
+      >
+        {text}
+      </Text>
     </View>
   );
 }
