@@ -189,7 +189,7 @@ export function VerseSheet({ book, chapter, translation, start, end, study, onCl
         <NoteEditor
           reference={referenceOf(verse)}
           initial={saved}
-          draft={noteDraftOf(refOf(verse))}
+          draft={noteDraftOf(refOf(verse), saved)}
           onDraft={(text) => keepNoteDraft(refOf(verse), text, study.noteOf(refOf(verse))?.text ?? null)}
           onBack={back}
           onClose={onClose}

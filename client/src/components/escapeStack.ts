@@ -7,8 +7,10 @@
 // modal took could still close the sheet under it (R-4's goal sheet).
 //
 // The rules:
-// - Layers stack in the order they mount. A layer can be disabled (an unfocused screen, a covered sheet) without
-//   losing its place; the top enabled layer gets the press.
+// - Layers stack in the order they first render: an earlier mount below a later one, and a parent below the
+//   children it mounts with (React runs a child's effects before its parent's, so effect order would put a sheet
+//   that opens with its screen under that screen). A layer can be disabled (an unfocused screen, a covered sheet)
+//   without losing its place; the top enabled layer gets the press.
 // - Escape is handled on keydown only. The keyup that follows a handled keydown is swallowed, so no keyup listener
 //   below (React Native Web's Modal) acts on the same press. `SheetModal` gives its Modal no Escape handler on the
 //   web; Android's back button still reaches `onRequestClose`.
@@ -20,10 +22,12 @@
 //   bubbling; a listener that stops the event at `window` (capture) keeps it from reaching the stack at all.
 //
 // Native: a no-op. Android's back button has its own stack (`BackHandler`), and Modals get it as onRequestClose.
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { Platform } from 'react-native';
 
 interface Layer {
+  /** Its place in the stack: the order of first render. */
+  order: number;
   /** False while the layer is not the one to take Escape (covered, or its screen is not focused). */
   enabled: boolean;
   /** For a modal layer: a test ID inside its own modal, which tells that modal apart from foreign ones. */
@@ -31,7 +35,9 @@ interface Layer {
   handle(): void;
 }
 
+/** Sorted by `order`, bottom first. */
 const layers: Layer[] = [];
+let nextOrder = 0;
 let swallowKeyup = false;
 /** The document the listeners are on, while any layer is registered. */
 let listeningOn: Document | null = null;
@@ -100,9 +106,10 @@ function layerFor(event: KeyboardEvent): Layer | null {
 }
 
 function onKeyDown(event: KeyboardEvent) {
-  if (event.key !== 'Escape') return;
+  // A held key repeats: that is still the press whose keyup may be swallowed, so a repeat changes nothing.
+  if (event.key !== 'Escape' || event.repeat) return;
   swallowKeyup = false;
-  if (event.repeat || event.isComposing || event.defaultPrevented) return;
+  if (event.isComposing || event.defaultPrevented) return;
   const layer = layerFor(event);
   if (!layer) return;
   event.preventDefault();
@@ -139,6 +146,8 @@ function unlistenIfEmpty() {
  * a test ID rendered inside its own modal.
  */
 export function useEscapeKey(handle: () => void, { enabled = true, modalTestID = null }: { enabled?: boolean; modalTestID?: string | null } = {}): void {
+  // Taken in render, which runs parents before children (see the header).
+  const [order] = useState(() => nextOrder++);
   const layer = useRef<Layer | null>(null);
   const latest = useRef(handle);
   // The layout phase: a layer that opens or closes is in place before another key can arrive.
@@ -151,9 +160,10 @@ export function useEscapeKey(handle: () => void, { enabled = true, modalTestID =
   });
   useLayoutEffect(() => {
     if (Platform.OS !== 'web' || typeof document === 'undefined') return;
-    const mine: Layer = { enabled, modalTestID, handle: () => latest.current() };
+    const mine: Layer = { order, enabled, modalTestID, handle: () => latest.current() };
     layer.current = mine;
-    layers.push(mine);
+    const above = layers.findIndex((l) => l.order > order);
+    layers.splice(above === -1 ? layers.length : above, 0, mine);
     listen();
     return () => {
       const i = layers.indexOf(mine);
@@ -161,8 +171,8 @@ export function useEscapeKey(handle: () => void, { enabled = true, modalTestID =
       layer.current = null;
       unlistenIfEmpty();
     };
-    // Registered once per mount: the place in the stack is the mount order. `enabled` and `modalTestID` are
-    // kept current by the effect above.
+    // Registered once per mount, at the place its first render gave it. `enabled` and `modalTestID` are kept
+    // current by the effect above.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 }

@@ -14,9 +14,13 @@ const drafts = new Map<string, string>();
 
 const keyOf = (ref: VerseRef) => `${ref.bookNumber}:${ref.chapter}:${ref.verse}`;
 
-/** The unsaved draft for this verse's note, or undefined. */
-export function noteDraftOf(ref: VerseRef): string | undefined {
-  return drafts.get(keyOf(ref));
+/**
+ * The unsaved draft for this verse's note, or undefined. Given the saved note, a draft that matches it (the note was
+ * saved with that text somewhere else meanwhile) is no draft.
+ */
+export function noteDraftOf(ref: VerseRef, saved?: string | null): string | undefined {
+  const draft = drafts.get(keyOf(ref));
+  return saved !== undefined && draft === (saved ?? '') ? undefined : draft;
 }
 
 /** Keeps `text` as the draft, unless it is the saved note (`saved`, or '' with no note), which drops it. */
