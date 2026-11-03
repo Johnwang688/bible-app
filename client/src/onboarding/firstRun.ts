@@ -25,12 +25,13 @@ export function useFirstRun(storage: Storage = getStorage()): FirstRun {
 
   const chooseLook = useCallback((preset: PresetId) => setChoice({ preset, mode }), [setChoice, mode]);
   // Both read the stored state at the press, not this render's: on the web another tab may have finished the intro
-  // since (storage only notifies its own tab), and that answer stands, so a stale tab's Skip or age can never
-  // replace a stored Under 13 (INT security review F1). Writing the stored answer again closes this tab's intro.
+  // since (storage only notifies its own tab). Then the stricter answer wins: Under 13 from either tab always stands,
+  // and any other answer keeps the stored one, so a stale tab can never replace a stored Under 13 nor drop a new one
+  // (INT security review F1, R1). Writing the answer again also closes this tab's intro.
   const finish = useCallback(
     (ageRange: AgeRange | null) => {
       const current = storage.get(onboardingKey);
-      setOnboarding(current.done ? current : { done: true, ageRange });
+      setOnboarding(!current.done || ageRange === 'under-13' ? { done: true, ageRange } : current);
     },
     [storage, setOnboarding],
   );

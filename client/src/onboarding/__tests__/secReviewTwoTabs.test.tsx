@@ -123,3 +123,25 @@ it('(the same, shown end to end) the Under 13 reader can then sign in from eithe
   expect(a.auth.log).toEqual([]); // nothing may reach the auth backend for an Under 13 reader
   expect(rejected).toBe(true);
 });
+
+// Delta review R1: the stricter answer wins, so an Under 13 picked in the stale tab is never dropped.
+it('an Under 13 picked in a stale tab, after the other tab skipped the intro, turns sign-in off', async () => {
+  const shared = memoryBackend();
+  const a = await tab(shared);
+  const b = await tab(shared);
+  await settle();
+  await act(async () => a.view.result.current.run.skip());
+  expect(appSignInGateFor(a.storage).allowed()).toBe(true);
+  expect(b.view.result.current.run.needed).toBe(true);
+  await act(async () => b.view.result.current.run.finish('under-13'));
+  await settle();
+  expect(b.storage.get(onboardingKey)).toEqual({ done: true, ageRange: 'under-13' });
+  expect(appSignInGateFor(a.storage).allowed()).toBe(false);
+  expect(b.view.result.current.run.needed).toBe(false);
+  let rejected = false;
+  await act(async () => {
+    await b.view.result.current.account.signIn({ kind: 'password', email: 'kid@example.com', password: 'pw' }).catch(() => (rejected = true));
+  });
+  expect(rejected).toBe(true);
+  expect(b.auth.log).toEqual([]);
+});
