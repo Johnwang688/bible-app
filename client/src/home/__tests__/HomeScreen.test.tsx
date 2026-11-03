@@ -170,7 +170,8 @@ describe('Home: Surprise me', () => {
     const explored = screen.getByTestId('home-explored');
     expect(textOf(explored)).toBe('3 of 1,189 explored');
     expect(explored.props.accessibilityLabel).toBe('3 of 1,189 chapters explored');
-    expect(textOf(screen.getByTestId('home-surprise-go'))).toBe('Take me somewhere new');
+    // One row since GAPS (11-03): the round shuffle button carries the name.
+    expect(screen.getByTestId('home-surprise-go').props.accessibilityLabel).toBe('Take me somewhere new');
   });
 
   it('opens an unread chapter in the reader’s translation, at the top (no verse selected)', async () => {

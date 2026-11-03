@@ -74,7 +74,6 @@ describe('Home: a brand-new reader', () => {
     expect(chip.props.accessibilityLabel).toBe('Start your streak');
     expect(screen.getByTestId('home-goal').props.accessibilityLabel).toBe('Today’s goal, 0 of 10 minutes, edit');
     expect(textOf(screen.getByTestId('home-explored'))).toBe('0 of 1,189 explored');
-    expect(screen.getByText('A random chapter to get you started.')).toBeTruthy();
     const card = screen.getByTestId('home-continue');
     expect(within(card).getByText('Start reading')).toBeTruthy();
     expect(card.props.accessibilityLabel).toBe('Start reading John 1');
@@ -86,14 +85,13 @@ describe('Home: a brand-new reader', () => {
     expect(storage.get(readerPositionKey)).toEqual({ bookNumber: 43, chapter: 1, translation: 'BSB' });
   });
 
-  it('a reader with a streak sees the count, and the usual Surprise me copy once they have explored', async () => {
+  it('a reader with a streak sees the count', async () => {
     await renderHome({
       position: JOHN3_WEB,
       progress: { goalMetDays: ['2026-11-03'], chaptersRead: { '43:3': '2026-11-03T09:00:00.000Z' } },
     });
     expect(textOf(screen.getByTestId('home-streak-count'))).toBe('1');
     expect(screen.queryByText('Start your streak')).toBeNull();
-    expect(screen.getByText('A random chapter, mostly from parts of the Bible you haven’t read yet.')).toBeTruthy();
     expect(within(screen.getByTestId('home-continue')).getByText('Continue reading')).toBeTruthy();
   });
 

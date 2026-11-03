@@ -51,17 +51,19 @@ export async function renderHome(opts: RenderHomeOptions = {}) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: Infinity } } });
   const locales = opts.locales ?? [EN];
   const navigate = jest.fn();
+  /** Opens a route (the Memory card). */
+  const go = jest.fn();
   const now = opts.now ?? new Date(2026, 10, 4, 18, 0);
   const ui = await render(
     <SafeAreaProvider initialMetrics={{ frame: { x: 0, y: 0, width: 390, height: 844 }, insets: { top: 47, left: 0, right: 0, bottom: 34 } }}>
       <ApiProvider client={api} queryClient={queryClient}>
         <I18nProvider storage={storage} locales={locales}>
           <ThemeProvider storage={storage} systemScheme="light">
-            <HomeScreen storage={storage} locales={locales} now={() => now} navigate={navigate} random={opts.random} />
+            <HomeScreen storage={storage} locales={locales} now={() => now} navigate={navigate} go={go} random={opts.random} />
           </ThemeProvider>
         </I18nProvider>
       </ApiProvider>
     </SafeAreaProvider>,
   );
-  return { ui, storage, calls: fake.calls, navigate, queryClient };
+  return { ui, storage, calls: fake.calls, navigate, go, queryClient };
 }
