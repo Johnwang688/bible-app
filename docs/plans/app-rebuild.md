@@ -202,8 +202,8 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
 | **R-2 Verse sheet** ✅ done 2026-11-01 | the bottom sheet: highlight, note, bookmark, share/copy, Original words and the word card | the HG-3a behaviours ported; 44 pt targets; the screen-reader pass |
 | **R-3 Study tab** ✅ done 2026-11-02 | lists of study items, progress, chapters explored and the coverage map | local-first; filters; opening in context |
 | **R-4 Home** | streak, goal, continue reading, verse of the day, Surprise me | the SM-1 picker tests ported |
-| **R-5 Search, commentary, entities** | search, the commentary sheet, people/places/themes | the reference parser ported with tests; English and Chinese search |
-| **R-6 Me and accounts** (with W2) | settings, the language setting, appearance and the customisation screen with live preview; Firebase Auth (Apple, Google, email); the backend verifies Firebase tokens; user data on Firestore; optional sync; delete my data; import any real Supabase users | needs John's Firebase project; an Opus security review of the new auth path; sync conflict rules; nothing left importing `supabase` in user paths |
+| **R-5 Search, commentary, entities** ✅ done 2026-11-02 | search, the commentary sheet, people/places/themes | the reference parser ported with tests; English and Chinese search |
+| **R-6 Me and accounts** (with W2): R-6a (Me, no accounts) ✅ 2026-11-02; R-6b (accounts) in progress | settings, the language setting, appearance and the customisation screen with live preview; Firebase Auth (Apple, Google, email); the backend verifies Firebase tokens; user data on Firestore; optional sync; delete my data; import any real Supabase users | needs John's Firebase project; an Opus security review of the new auth path; sync conflict rules; nothing left importing `supabase` in user paths |
 | **R-7 Web parity and cut-over** | old-localStorage import, read aloud, first-run intro with the "pick your look" screen, a performance budget (including the aurora animation), the review of the Chinese copy (John and friends, from the review sheet) | the new web build replaces `frontend-next/`; the old frontend is archived |
 
 **R-0 notes (2026-11-01).**
@@ -238,12 +238,152 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
   - the Hebrew and Greek fonts.
 - **Known gap:** changing chapter while a note is half-written drops the unsaved draft. John merged R-2 with it (2026-11-02); fix it in a later phase.
 
+**R-5 notes (2026-11-02, part 1: data layer and the commentary view).**
+- **The reference parser** (`client/src/search/reference.ts`) replaces the old `parseReference` regex. It reads full names, the coverage map's three-letter codes and common abbreviations (`jn`, `gn`, `dt`, `1 kgs`, `sos`, `rm`…), joined forms (`jn3:16`), a space or a full stop between chapter and verse, unique prefixes (`genes`), and Simplified, Traditional and short CUV names (`约 3:16`, `約翰福音3章16節`, full-width digits). It checks chapter and verse bounds and reads `Jude 5` as a verse. The book part is checked strictly: anything that is not a book name makes the whole query a word search. Bare `cor`, `tim` and the like stay ambiguous and are offered as suggestions instead. Not supported: Chinese numerals, cross-chapter ranges and verse lists.
+- **Search language:** the backend indexes one translation per call, so a query with Chinese characters searches a Chinese translation (the reader's own or its parallel one, else CUV-SIMP), and other queries search an English one (else BSB).
+- **Commentary on a verse** (built from Commentary.dc.html): Matthew Henry only, with the verse pinned on top and the note's own range under the title. Long notes show a preview cut at a sentence end, then "Read all". Where no note covers the verse, the empty state shows. The 英文 badge appears only when a note shows. The backend returns every open-ended entry that starts at or before the verse, so the client keeps only the entries that cover it.
+- **People, places and themes:** the data hooks read today's `/summary-entities`.
+
+**R-5 notes (2026-11-02, part 2: search, Explore, the people, places and themes pages).** Built from the approved prototypes (`design/proposed/r5-search.html`, `r5-entities.html`, `r5-explore.html`) with the fixes John approved alongside them.
+- **Search** is a full screen above the tabs, opened from the reader header's new search button. With the field empty it shows recent passages (with Clear) and four examples. A query that reads as a reference offers passages only; anything else also searches verses in the matching language's translation, 10 at a time up to 50, each card a button whose excerpt starts near the first match so the 3-line clamp never hides it. People, places and themes come last. Enter opens an exact passage; scrolling dismisses the keyboard; offline, passages still show ("they open once the chapter loads").
+- **One matching rule everywhere** (search, Explore, the list filters): a name matches when it, or a word in it, starts with what is typed. The filter fields state it to screen readers. Names are English only, so a Chinese query explains that ("人物、地点和主题目前只有英文名称，请用英文查找") rather than finding nothing silently.
+- **Study → Explore** is Study's third segment: a find field and a card per kind (count, hint, sample names). From two letters, up to three matches per kind, with "See all N" opening that list already filtered.
+- **The lists:** people and places A to Z with letter headings; people also have a row of A–Z jump buttons, 44 pt each (a vertical index would need smaller letters). The 2,989 themes are search-first: a prompt until something is typed.
+- **An entity's page:** kind, name, "Appears in N chapters", the overview (3 lines, then Read more / Show less), the life-and-times timeline (5 events, then "Show 10 more events"; the header row expands, and each reference is its own 44 pt row that opens the verse in context), then the chapters by book as 44 pt chips. Themes have only the chapters. A page the server doesn't know shows "This page isn't here"; a failed load offers Try again.
+- **Back:** each screen's Back, Escape on the web and the Android back button go back exactly one screen. Only the focused screen listens, because the web stack keeps the screens below mounted.
+- **Large text:** every control has a minimum height, never a fixed one.
+
+**R-4 notes (2026-11-02).**
+- **Home is built as signed off** (Home.dc.html, the stack layout). It shows the greeting and streak chip, today's goal, continue reading, the verse of the day and Surprise me, in both languages and every preset. Home only reads progress and the position, so whatever the reader records shows at once.
+- **Surprise me** is the SM-1 picker, ported with its tests: a random chapter, 90% from unread chapters, picking the book first. It never picks the chapter the reader is on (the stored one), keeps the reader's translation, clears any stale "open in context" target, and is disabled until the book list loads. There is no result screen: it opens the chapter in the Bible tab.
+- **The verse of the day:** a curated list of 60 verses, one per local calendar day, the same for everyone on that date. It is shown in the reader's translation, with CUV alternate readings removed. Tapping it opens the verse in context; Share uses the system sheet, or the clipboard on desktop browsers.
+- **Continue reading:** the subtitle is the translation's full name. The design's "Verse 16 · yesterday" needs the last verse and the time read, which the app does not store.
+- **Time of day:** Home re-renders when the day or the greeting band changes (05:00, 12:00, 17:00, midnight), and when the app returns to the foreground. It took three Sol rounds.
+- **The daily-goal sheet** (prototype approved, with the UI review's fixes): a stepper by 5 from 5 to 120 (a spin button on the web, with arrow, Home and End keys), quick picks in a 4-column grid (the selected one has a check mark, not just a colour), and "Today counts as done" when today already met the goal. Changes save at once, so there is one dismiss control, "Close"; a tap on the scrim, a swipe down, Escape and Android back also close it. It does not depend on Home, so Me → Reading (R-6) can mount it; it follows the day at midnight by itself.
+- **Empty and error states:** a new reader sees "Start reading · Genesis 1"; a streak of 0 shows "Start your streak"; with nothing explored, Surprise me says "A random chapter to get you started." The verse of the day has a fixed minimum height, a skeleton while loading, an error with "Try again" (then "Trying again…"), and shows the verse kept from earlier the same day when the chapter can't load. It shows it even before the book list arrives (built-in names for the 32 books in the list). Psalms read "Psalm 119:105".
+- **Accessibility and large text:** the goal card is a 44 pt button labelled "Today's goal, 9 of 15 minutes, edit", the progress bar carries its value, the cards are labelled regions on the web, and the streak chip wraps below the greeting with large text.
+- **Review of the goal sheet:** Sol, three rounds. Round 1: the kept verse hidden until the book list loaded, the sheet not moving to the new day on its own, and Escape closing the sheet under a second modal (fixed by `implementer-medium`). Round 2 found more of that last class (Escape stuck after a second dialog closes, a stale "not ours" mark), so it went to `implementer-hard`. Round 3 found two new cases in that fix: one Escape press closing two sheets, and Escape taken at the window. By 5a the loop stopped there. That fix was reverted (both round-3 tests pass on the code that ships), and a lost scrim tap during the slide-in was fixed as a gate failure.
+- **Known gap (web only):** with a second modal open above the goal sheet, Escape can misbehave: Escape stays dead after a native dialog above it closes, or a mark that the next Escape keyup is not the sheet's goes stale. No screen opens a modal over the goal sheet today. Tests: `e2e/reviewR4ClosedDialog.spec.ts` and `e2e/reviewR4StaleEscape.spec.ts` (`fixme`). A simpler design (Escape handled on keydown only, the Modal's keyup path ignored on the web) is the likely fix if it is ever needed.
+
+**R-6b notes (2026-11-02): auth and sync, email first.**
+- **Shape:** the app signs in with Firebase Auth (email and password; Google and Apple plug in later as new sign-in methods) and syncs **directly to Firestore** with the client SDK. The security rules (`firestore.rules`, tested on the emulator) are the only gate on user data: each user reads and writes only `users/{uid}/items`, `/devices` and `/settings`, every document's shape is checked, and clients never delete. The backend only verifies ID tokens (`app/core/firebase_auth.py`, Application Default Credentials, no key files) and runs "delete my data" (`DELETE /api/v1/account`).
+- **What syncs:** highlights, notes and bookmarks (one document per item, newest change wins, deletions as tombstones); reading progress (each device writes only its own document; minutes add up across devices; chapters read and goal-met days are unions; the newest goal wins); the look and the language. The reading position, reading settings and the first-run age choice stay on the device. The rules are written down in `client/src/sync/CONFLICTS.md`.
+- **Delete my data** needs the password again (the backend refuses a sign-in older than 5 minutes). It revokes sessions, disables the user, writes a `deletedUsers/{uid}` marker (the rules then refuse writes from older tokens, so another device cannot recreate the data), wipes `users/{uid}`, then deletes the user. Data on the phone stays. A delete that times out keeps sync stopped until the app can tell whether it went through.
+- **Under 13** (John, 2026-11-02): choosing the Under 13 age band in first run turns sign-in and sync off; a signed-in user who picks it is signed out. The provider takes a gate (`client/src/auth/signInGate.ts`) and **fails closed**: until R-7a's `signInGateFor()` is passed in `_layout.tsx` (one line after PR #33), and whenever the first-run state is unknown, sign-in, sign-up, reset and sync are off.
+- **Password reset** links open Firebase's hosted page; the app does not handle them. Email-enumeration protection is on in the Firebase project.
+- **Follow-up before merge (John, 2026-11-02; `FOLLOW-UP.md`):**
+  - **Crash safety:** the sync engine journals its writes. Each local write carries a tag inside its own storage envelope, so the value and its evidence land together. A restart settles an interrupted write from the tag alone, never by comparing values (`client/src/sync/journal.ts`; "Crash safety" in `CONFLICTS.md`).
+  - **Schema-tight rules:** every device, setting and item document is checked against the engine's exact schema, including every entry inside maps and lists. On the wire, `activeMs` is one string that a single regex can check, because the rules cannot loop. A custom theme's JSON is capped at 4000 characters, and the push path holds back clocks more than 23 h ahead.
+  - **App Check, monitor mode:**
+    - Web: reCAPTCHA Enterprise.
+    - Firestore: `UNENFORCED`.
+    - Backend: `APP_CHECK_MODE=monitor`.
+    - Native: no attestation yet; it needs `@react-native-firebase/app-check` and EAS builds.
+    - The switch to enforce: `docs/app-check.md`.
+  - **The native session** is in `expo-secure-store`, AFTER_FIRST_UNLOCK_THIS_DEVICE_ONLY and chunked. A reinstall's Keychain items are wiped.
+  - **Under 13 picked while signed in:** the app signs out and offers "Delete account and synced data" (re-auth first, then the delete, then sign out), or "Not now".
+- **Known, for John (parked per 5a step 5):**
+  - Sol sync rounds 3 and 4 found 1 + 2 more cases in the journal's commit. Both are unreachable from today's app code: one needs a crash followed by another account syncing first; the other needs a storage listener that writes a synced key mid-commit.
+  - Sol's Under 13 round 2 found 2 more: an offer after a failed gate sign-out, then an ordinary sign-out and a restore; and Back/Escape closing the delete sheet just after submit.
+  - A held-back future-clock item or setting, and one the server refuses on its own in a document-by-document retry, is retried on later sync runs until the account accepts it (security round 5, S5-1, medium; fixed in R6b-s51-fix: the pushes report what they held back, and the engine keeps those changes pending).
+  - The rest of security round 5 (low): a refused batch's fan-out repeats on every retry (S5-2); a held-back goal rewrites the device document on every run (S5-3); an MMKV failure on first launch can wipe a new sign-in (S5-4) or let the first build's clear session come back (S5-5); the app closing between Under 13 and the gate's sign-out loses the offer (S5-6). Each test is skipped, with a fix design.
+  - The device-document count per user is not capped. App Check and a budget alert are the controls.
+- **Mounting:** `AccountCard` mounts on Me when R-6a is on main (one line). `appearanceCustomKey` joins the synced settings then too.
+
 **Moving aurora (John, 2026-11-02).** The glass presets' background moves instead of showing fixed orbs. Prototype: https://claude.ai/artifact/7a4knhcqYFhVAn45NwDfrD.
 - **Two styles, chosen in Me → Appearance:** a fluid simulation, the default, which the reader can stir with a finger; and a lighter flow shader. Both render at half resolution and scale up.
 - **Vivid colours, readable text:** the colours are not capped. Text that sits directly on the aurora gets a soft shadow so it stays readable; R-7 works out how the contrast test measures shadowed text. Scripture still never sits on the aurora.
 - **Motion:** 60 fps. It pauses when the screen is hidden or the app is in the background, and shows a still frame when the device asks for reduced motion.
 - **Hardware:** the prototype ran smoothly on John's school iPad. A low-end Android phone is still to try (needs EAS builds), as part of R-7's performance budget.
 - **When:** R-7 builds the animation and the Appearance choice.
+
+**R-7a notes (2026-11-02).** These are the parts of R-7 that need no other team. **Screens wait for approved
+prototypes** (John, 2026-11-02), so R-7a ships no new screens. Prototypes in `bible-app-work/design/proposed/`:
+`r7a-welcome.html`, `r7a-look.html`, `r7a-age.html` and `r7a-aurora-option.html`.
+- **Old web data import** (`client/src/legacy/`).
+  - **What it imports:** on its first run, the web build reads the old app's localStorage once: the last position,
+    recent passages, highlights, notes, bookmarks and the theme.
+  - **How it maps:** old highlights all showed in the old reader's one colour, so they import in that colour, mapped
+    to the new six. Bookmarks are timed at the import. Light, Dark and Paper map to the default look in their mode
+    (Paper is Silver); Auto follows the phone.
+  - **Safety:** it never overwrites new-app data, never throws, and never changes the old keys, since the old site
+    keeps working until the cut-over.
+  - **Once per part:** each part is recorded once imported. **Reading progress** (goal, goal days, chapters read)
+    is parsed and tested, and is written into R-3's `reading.progress` after R-3 merges; users who have already
+    launched get it on their next launch.
+- **First run** (`client/src/onboarding/`). `useFirstRun()` holds the state behind the screens: choose a look, finish
+  with an optional age range (kept on the device), or skip.
+  - **Skipping** gives Silver / Graphite following the phone, but keeps a light/dark mode imported from the old app.
+  - **The gate** (`FirstRunGate`) wraps the navigator in the root layout: on a fresh device the intro shows instead
+    of the app, and afterwards the app opens on the page that was asked for.
+  - **`/privacy` is never covered** (B-1, #29): the privacy policy opens directly on a fresh device, for the App Store
+    review URL and links from outside the app, and the intro stays not done. Exempt paths are exact matches in
+    `FIRST_RUN_EXEMPT_PATHS` (`onboarding/FirstRunGate.tsx`).
+  - **The screens** (approved 2026-11-02 as drawn, `bible-app-work/r7a/GO-AHEAD.md`): welcome, pick your look, your
+    age. Steps 2 and 3 have a 44 pt Back and "Skip for now". Skip on step 1 drops the whole intro and gives the
+    default look; "Skip for now" on step 2 or 3 ends the intro keeping the look picked so far, with no age. The look
+    step's middle scrolls under a pinned footer, so Continue never falls off at large text or in Chinese.
+  - **The age step (John, 2026-11-02):** it stays, with "Under 13".
+    - **The age never leaves the device.** It is never synced or sent, so "It stays on this device" stays true
+      (`onboarding/__tests__/ageStaysOnDevice.test.ts`).
+    - **Under 13 turns off sign-in and sync,** so no email or synced data is collected from under-13s. The only
+      thing other modules read is a boolean: `isSignInAllowed` / `useSignInAllowed` / `signInGateFor` in
+      `client/src/onboarding/signIn.ts`. R-6b hides sign-in and never starts sync when it is false.
+    - A line under the question says why the app asks, and that Under 13 keeps everything on the device with no
+      sign-in.
+  - **Text on the aurora:** sub-lines, captions and notes never sit directly on the moving aurora. They sit on a text
+    card in the sheet paint, which keeps text and muted at 4.5:1 or better over every aurora colour
+    (`onboarding/paint.ts`; the test measures over each of the three colours and the base). Headings keep the soft
+    shadow at full strength. Glass chip edges are 3:1 against every aurora colour.
+- **The aurora** (`client/src/aurora/`) runs behind glass presets on screens with the app background, never the
+  reader.
+  - **Web:** a WebGL2 port of the prototype. The fluid simulation is the default; the flow shader is the option
+    (`aurora.style`, set from Customise once its control is approved). It renders at half resolution and pauses
+    when the tab or page is hidden.
+  - **Reduce Motion:** one still frame.
+  - **Fallbacks:** if the GPU context is lost, the still gradient shows until the context comes back. On a software
+    renderer (no GPU), the fluid simulation falls back to flow, and the aurora keeps moving at 30 fps instead of 60
+    (John, 2026-11-02; `SOFTWARE_MAX_FPS` in `aurora/controller.web.ts`, `setMaxFps` in `aurora/loop.ts`). Reduce Motion
+    still draws one still frame there.
+  - **Native** has no GPU drawing library, so it shows a lighter drift of the orbs (UI-thread `Animated`). Adding
+    Skia or expo-gl for parity is in Open.
+  - **Where it shows:** `Screen` mounts it. Screens that build their own frame (Home, Study, Me) mount
+    `<AuroraBackground />` themselves.
+- **Shadowed text** (how the contrast test measures it): text that sits directly on the aurora gets a soft shadow in
+  the preset's base colour. The test composites the shadow over the aurora colour at half its alpha, since a blurred
+  halo does not fully cover. Measured that way, at full alpha, text and muted pass 4.5:1 over every aurora colour in
+  all six glass presets (`client/src/aurora/__tests__/aurora.test.tsx`).
+- **Performance budget**, measured on the web export with `client/scripts/perf-budget.mjs`:
+  - **Setup:** headless Chromium on John's PC (Intel integrated graphics, D3D11), Pixel 7 viewport, median of 3
+    runs, 2026-11-02.
+  - **"Mid-range phone"** means 4x CPU throttling. A real low-end Android phone and the iPad are still to try (they
+    need EAS builds).
+  - **The local server sends files uncompressed**, so the 4G row is a worst case.
+
+  | Measure | Budget | Measured |
+  |---|---|---|
+  | JS bundle, gzip | ≤ 600 KB | 492 KB (2.0 MB raw) |
+  | Fonts loaded before the first paint | ≤ 500 KB | 0 KB (was 2.0 MB, 11 TTF files): only the active look's faces load, with `font-display: swap`, and the web never waits for them |
+  | Home visible, mid-range phone, no network limit | ≤ 2.5 s | 1.7 s (was 2.3 s in the same run) |
+  | Fonts fetched at start | — | pastel 5 files, 915 KB; glass 6 files, 1,126 KB (was 11 files, 2,041 KB for every look) |
+  | Home visible, mid-range phone, fast 4G (1.6 Mb/s, 150 ms) | ≤ 5 s | **11.2 s** pastel, 11.7 s glass ✗ (was 22.4 s); what is left is the 2.1 MB of uncompressed JS (DOMContentLoaded 10.2 s) |
+  | Aurora frame rate, GPU, at 1x and 4x CPU | 60 fps | 60 (fluid and flow) |
+  | Main-thread time per frame, GPU, 4x CPU | ≤ 4 ms | fluid 1.5 ms, flow 0.6 ms, pastel (no aurora) 0.3 ms |
+  | Long tasks while animating | 0 | 0 |
+  | No GPU (SwiftShader) | no fluid simulation | flow at **30 fps** (was 61): main-thread time 258 ms/s at 1x CPU and 400 ms/s at 4x (was 485 and 645), 9 and 13 ms per drawn frame against a 33 ms frame |
+  | JS heap | — | 11–12 MB |
+
+  **Follow-up (John, 2026-11-02), re-measured the same day** (before = 45d8dcf, after = this PR; same script and machine,
+  median of 3; the start-up rows ran on SwiftShader):
+  - **Start-up fonts:** at start only the active look's fonts load: its UI font and its Scripture font
+    (`fonts/lookFonts.ts`, `fonts/FontGate.tsx`), plus Noto Serif SC only when the interface or the reader's translation
+    is Chinese. Every face is `font-display: swap`, and the web renders at once in the fallback font. A phone (bundled
+    local fonts) still waits for the first look's fonts, so it never flashes a fallback face. Other looks' fonts load
+    when a look is chosen, and when the look picker shows them. A face that failed to download is downloaded again on
+    the next ask. `e2e/startupFonts.spec.ts` checks the request list.
+  - **Fast 4G:** Home now waits only for the JS bundle. It still misses 5 s because the local server sends the 2.1 MB
+    uncompressed; gzip (517 KB) is a hosting setting (Firebase Hosting compresses), not app code.
+  - **No GPU:** the aurora keeps moving at 30 fps there, which cuts its main-thread time by 38–47%.
 
 **Memory merge, part 1: the logic (team MEM, 2026-11-02).** Little Lamb's memory engine is ported into `client/src/memory/` with its tests (roadmap track 5). The screens wait for John's approval of the prototypes (`bible-app-work/design/proposed/mem-*.html`).
 - **Local-first schedule.** Little Lamb computed the review schedule in Postgres. The device now runs the same rules in TypeScript (`schedule.ts`, `dailyLesson.ts`):
@@ -295,6 +435,60 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
   - **A chapter laid out while the reader is hidden** keeps no marker measurement, so a short chapter that fits is credited only once it lays out again or is scrolled.
 - **Still to check on a device (needs EAS builds):** reading time with the app going to the background, and scroll-to-verse on native (it estimates a verse's position inside the single-paragraph view from its share of the text).
 
+**B-1 web beta notes (2026-11-02).** The new web app ships as a public beta on Firebase Hosting (John, 11-02).
+- **Where:** site `bible-app-492520`, https://bible-app-492520.web.app, a new URL. The old site keeps running, and beta testers start fresh, so the old-`localStorage` import does nothing there. The live channel waits for John after the phase PRs merge; runbook in `deploy/web.md`.
+- **Build config:** `client/.env.production` (committed, public values only) gives the API origin (W5's Cloud Run `bible-api`), `EXPO_PUBLIC_RELEASE_CHANNEL=beta` and the Firebase web config. `client/src/api/config.ts` reads them: a production build with no API URL, or a non-https one, throws rather than calling localhost. R-6b reads `getFirebaseWebConfig()`.
+- **Hosting:** `firebase.json` `hosting` serves `client/dist` with a single-page rewrite. HTML is `no-cache` and the content-hashed `/_expo` and `/assets` trees are immutable for a year; checked on the real host. A strict CSP (scripts `'self'` only; the API, Firebase Auth and Firestore in `connect-src`; Google Fonts for the Chinese font), nosniff and Referrer-Policy go on every response. `ignore` is empty on purpose, because font paths contain `node_modules`.
+- **Beta label:** in beta builds, Simplified Chinese is offered as "简体中文（测试版）", with a one-line note (`beta.*` keys, `client/src/beta/`). Mounting it in Me's language sheet waits for R-6a.
+- **Privacy policy** at `/privacy`, in English and Chinese, also for the App Store. The prototype `design/proposed/b1-privacy.html` was approved 11-02; the build also takes in a UI/UX review.
+  - It matches what the app does: local-first; API requests carry only references and search words; Firebase only when signed in. It must change whenever the app sends data somewhere new.
+  - It has a short-version box, a card on deleting your data, and a children-and-teens card.
+  - **Minimum age (John, 11-02):** first run asks an optional age range that stays on the device. Choosing Under 13 turns sign-in and sync off. R-7a and R-6b build that; the policy already says it.
+  - The contact email is a temporary address (`PRIVACY_CONTACT` in `client/src/privacy/index.ts`), to confirm before App Store review.
+
+**R-6a notes (2026-11-02): the Me tab, without accounts.**
+- **Me:** Appearance (look, light or dark, reading font, text size), Language (app language), Reading (translation, parallel translation), More (Sources and credits, About and privacy, Help). The Me tab is now a stack: Me → Customise → Advanced, and the three info screens.
+  - Left for other phases: the account card (R-6b), the daily goal row (R-4's goal sheet, mounted here once both merge), the read-aloud voice (R-7).
+- **Customise** (from the signed-off design): a live preview of Home, the 12 presets, light/dark/follow the phone, the accent, the reading font, text size and Reset.
+  - Picking a preset of the other mode switches to that mode, so the preset shows.
+  - The accent and colour edits are kept per preset, so a light preset and its dark partner each keep their own.
+  - An accent that would be hard to read on the look is disabled and says why.
+- **Advanced:** edit every plain-colour token of the preset that shows (gradients, borders and shadows stay the preset's).
+  - **The contrast guard:** an edit is refused if any text pair the preset shows falls below 4.5:1 and below the preset's own ratio. So the glass presets' known gaps are allowed as they are, but never made worse.
+  - Stored edits are checked again when the theme is built, and a set that fails is ignored as a whole.
+  - Line height isn't in the signed-off design, so it isn't built.
+- **Reading font:** the choice applies to Latin-script Scripture. Chinese Scripture always uses Noto Serif SC, and Customise says so in Chinese.
+- **Storage:** the new key `appearance.custom` (`src/storage/appearanceCustomKey.ts`) holds the reading font and the per-preset edits. The text size reuses R-1's reading settings.
+- **Review:** Sol ran 3 rounds; every finding became a permanent test.
+  - **Round 1:** a rounding gap in the contrast guard (4.495:1 passed as 4.50), quick presses losing changes, a translation change overwriting a newer position, and the size row overflowing at 150%.
+  - **Round 2:** the same "value captured at render" class on other paths, escalated to `implementer-hard`.
+  - **Round 3:** it again, after the escalation (5a step 5). John chose to ship and fix in a follow-up.
+- **Known gaps (a follow-up PR; Sol's failing tests are parked in `C:/dev/bible-app-work/r6a/pending/`):**
+  - **F10:** coming from Liberty or Northern lights (no light/dark partner), choosing a paired preset can show its opposite partner.
+  - **F11:** if the phone switches light/dark between render and a press, an edit or reset can target the previous preset.
+  - **Root cause:** the ThemeProvider has no "preset showing now" call, so the screens infer it. The fix is a ThemeProvider call that resolves the stored choice against the phone's current scheme, then dropping `src/me/showingPreset.ts`.
+- **Flaky on main (not R-6a's):** `e2e/reader.spec.ts` "Back restores the words list scroll" fails about 1 run in 3 under load.
+
+**Memory merge, part 1: the logic (team MEM, 2026-11-02).** Little Lamb's memory engine is ported into `client/src/memory/` with its tests (roadmap track 5). The screens wait for John's approval of the prototypes (`bible-app-work/design/proposed/mem-*.html`).
+- **Local-first schedule.** Little Lamb computed the review schedule in Postgres. The device now runs the same rules in TypeScript (`schedule.ts`, `dailyLesson.ts`):
+  - mastery +20 on a pass, -60 on a fail;
+  - intervals of 1, 2, 4, 8 and 16 days;
+  - the due-gate (no credit for practising a verse that isn't due);
+  - the five review bands with the lapse cap;
+  - the plan frozen for the day;
+  - a streak that survives until midnight.
+- **No new dependencies.** Pinyin, jyutping and traditional-to-simplified matching use generated per-character tables (`speech/data/`, made by `client/scripts/gen-speech-tables.cjs` from pinyin-pro, to-jyutping and OpenCC), not the three npm packages. A character with several readings gets its usual one (了 is le). Both sides use the same table, so a correct recital still scores 100. One side effect is an improvement: a single mistake no longer costs a neighbouring character (test S13's pinned cases are gone).
+- **Voice transcription** is `POST /memory/transcribe` (`app/memory/`). It proxies OpenRouter Whisper with Little Lamb's limits: 256 KB of audio, and 10 calls a minute or 100 a day per user, refunded when the upstream fails.
+  - Until R-6b's Firebase token check replaces the `require_memory_user` dependency, it refuses every request.
+  - The quota is held in memory, so one Cloud Run instance only. It moves to Firestore with sign-in.
+  - It needs `OPENROUTER_API_KEY` (a paid key, John) on the server; without the key it answers 503.
+- **Storage:** `client/src/storage/memoryKeys.ts` holds `memory.progress`, `memory.lesson`, `memory.history` and `memory.settings`.
+- **Not yet:**
+  - the screens and the audio recorder (`expo-audio` on native is a new dependency, John's call);
+  - the entry point in Study or Home (after R-3/R-4);
+  - English verses (BSB) and memorising highlighted verses;
+  - syncing progress.
+
 Every phase ships its screens in both languages; the missing-key test keeps Chinese from falling behind.
 
 After R-7, new roadmap features are built frontend and backend together:
@@ -311,7 +505,10 @@ After R-7, new roadmap features are built frontend and backend together:
 - **Minimum age and privacy:** this matters for accounts and groups.
 - **Shipping native builds:** EAS Build accounts (Apple Developer, Google Play).
 - **Translating the English-only content** (commentary, people/places/themes, quizzes) into Chinese: a later project.
-- **Screens still to draw:** search, the chapter tools sheet, the people/places/themes pages, sign-in, and the first-run intro with "pick your look". Draw each before the phase that builds it.
+- **Screens still to draw:** search, the chapter tools sheet, the people/places/themes pages, sign-in. Draw each before the phase that builds it.
+- **First run and the aurora option (R-7a):** approved 2026-11-02 and built. The age list offers "Under 13", which keeps everything on the device with no sign-in (R-7a notes). Mounting the aurora option in Customise waits for R-6a.
+- **Start-up fonts (R-7 budget):** done (R-7a follow-up): only the active look's fonts, `font-display: swap`. Still open: WOFF2 subsets on the web (about a third of the TTF size), and serving the JS compressed in the fast-4G measurement.
+- **Native aurora parity:** add `@shopify/react-native-skia` (or `expo-gl`) so iOS and Android run the fluid simulation and the flow shader too. Today they show a lighter UI-thread drift.
 - **Signed off (John, 2026-11-01):** these screens are drawn on the canvas's "All screens" page, in every preset and in both languages:
   - Home and the reader
   - the book and chapter picker

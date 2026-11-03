@@ -1,6 +1,6 @@
-// The Home tab. Empty in R-0; its screens arrive in later phases.
-import { Screen } from '../../components/Screen';
+// The Home tab.
+import { HomeScreen } from '../../home/HomeScreen';
 
-export default function HomeScreen() {
-  return <Screen titleKey="screen.home.title" background="app" testID="screen-home" />;
+export default function HomeRoute() {
+  return <HomeScreen />;
 }

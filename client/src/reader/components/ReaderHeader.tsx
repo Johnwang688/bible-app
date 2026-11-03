@@ -1,5 +1,6 @@
 // The reader header (Reader.dc.html): book and chapter, translation, reading settings. It slides up
 // out of view while reading; a small pill at the top always brings it back.
+import { router } from 'expo-router';
 import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -26,6 +27,7 @@ export function ReaderHeader({
   onOpenBook,
   onOpenVersions,
   onOpenSettings,
+  onOpenSearch = () => router.push('/search'),
 }: {
   book: BookInfo | undefined;
   position: ReaderPosition;
@@ -37,6 +39,8 @@ export function ReaderHeader({
   onOpenBook(): void;
   onOpenVersions(): void;
   onOpenSettings(): void;
+  /** Opens the search screen (default: push the `/search` route). */
+  onOpenSearch?: () => void;
 }) {
   const theme = useTheme();
   const t = useT();
@@ -99,6 +103,15 @@ export function ReaderHeader({
             </Text>
           </Pressable>
           <View style={styles.spacer} />
+          <Pressable
+            testID="reader-search-button"
+            accessibilityRole="button"
+            accessibilityLabel={t('reader.search')}
+            onPress={onOpenSearch}
+            style={styles.iconButton}
+          >
+            <Icon name="search" size={20} color={theme.colors.text} />
+          </Pressable>
           <Pressable
             testID="reader-settings-button"
             accessibilityRole="button"

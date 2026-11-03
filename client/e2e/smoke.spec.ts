@@ -27,7 +27,8 @@ test.describe('English, light phone', () => {
   test('shows the four tabs and switches between them', async ({ page }) => {
     await page.goto('/');
     await expect(page.getByTestId('screen-home')).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Home' })).toBeVisible();
+    // Since R-4 Home's heading is the greeting (Home.dc.html), not a "Home" title.
+    await expect(page.getByText('Verse of the day')).toBeVisible();
     const tabs: [string, string, string][] = [
       ['tab-bible', 'screen-bible', 'Bible'],
       ['tab-study', 'screen-study', 'Study'],
@@ -43,6 +44,7 @@ test.describe('English, light phone', () => {
         await expect(page.getByTestId('reader-error').or(page.getByTestId('reader-book-button')).first()).toBeVisible({
           timeout: 15_000,
         });
+      else if (screen === 'screen-home') await expect(page.getByTestId('home-greeting')).toBeVisible();
       else await expect(page.getByRole('heading', { name: title })).toBeVisible();
     }
   });
@@ -130,7 +132,7 @@ test.describe('Chinese phone', () => {
 
   test('shows the Simplified Chinese interface', async ({ page }) => {
     await page.goto('/');
-    await expect(page.getByRole('heading', { name: '首页' })).toBeVisible();
+    await expect(page.getByText('每日经文')).toBeVisible();
     await expect(page.getByLabel('圣经标签', { exact: true })).toBeVisible();
     await expect(page.locator('html')).toHaveAttribute('lang', 'zh-Hans');
   });
@@ -138,6 +140,6 @@ test.describe('Chinese phone', () => {
   test('a saved English choice wins over the phone', async ({ page }) => {
     await seed(page, 'language', 1, 'en');
     await page.goto('/');
-    await expect(page.getByRole('heading', { name: 'Home' })).toBeVisible();
+    await expect(page.getByText('Verse of the day')).toBeVisible();
   });
 });

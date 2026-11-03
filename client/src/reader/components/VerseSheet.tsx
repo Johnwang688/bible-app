@@ -1,12 +1,13 @@
 // The verse sheet (the bottom of Reader.dc.html): acts on the selected verses. Its actions view holds
 // the highlight swatches and the note, bookmark, copy, share and Original words actions; the note
-// editor, the word list, the word card and the commentary placeholder are views inside the same sheet.
+// editor, the word list, the word card and the commentary are views inside the same sheet.
 // Closing the sheet discards the view, so reopening always starts on the actions.
 import * as Clipboard from 'expo-clipboard';
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { BackHandler, Platform, Pressable, Share, StyleSheet, Text, View } from 'react-native';
 
 import type { BookInfo, ChapterOut } from '../../api/schemas';
+import { CommentaryView } from '../../commentary/CommentaryView';
 import { uiFace } from '../../fonts/fonts';
 import { useT } from '../../i18n/I18nProvider';
 import type { VerseRef } from '../../storage/keys';
@@ -17,7 +18,6 @@ import { bookName } from '../books';
 import { isChineseTranslation, TRANSLATIONS, type TranslationId } from '../translations';
 import type { WordRow } from '../words';
 import { announce, programmaticFocus, useFocusOnMount } from './a11y';
-import { CommentaryPlaceholder } from './CommentaryPlaceholder';
 import { Icon, type IconName } from './icons';
 import { NoteEditor } from './NoteEditor';
 import { SheetModal } from './SheetModal';
@@ -31,12 +31,12 @@ import { WordsList } from './WordsList';
 // The rule for a selection change while a sub-view is open: the sub-view keeps its target. The sheet is
 // not modal, so tapping or long-pressing verses still changes the selection shown in the chapter, but the
 // note editor keeps its verse, its title and the text typed so far, and Save writes to that verse only;
-// the words list and the word card stay on their verse too. Stepping back to the actions shows the
+// the words list, the word card and the commentary stay on their verse too. Stepping back to the actions shows the
 // current selection. So a draft is never discarded by a tap, and never lands on another verse's note.
 type SheetView =
   | { name: 'actions' }
   | { name: 'note'; verse: number }
-  | { name: 'commentary' }
+  | { name: 'commentary'; verse: number }
   | { name: 'words'; verse: number }
   | { name: 'word'; verse: number; row: WordRow };
 
@@ -196,7 +196,9 @@ export function VerseSheet({ book, chapter, translation, start, end, study, onCl
       break;
     }
     case 'commentary':
-      content = <CommentaryPlaceholder onBack={back} onClose={onClose} />;
+      content = (
+        <CommentaryView book={book} chapter={chapter} translation={translation} verse={view.verse} onBack={back} onClose={onClose} />
+      );
       break;
     case 'words': {
       const verse = view.verse;
@@ -239,7 +241,7 @@ export function VerseSheet({ book, chapter, translation, start, end, study, onCl
             setRestore(null);
             setView({ name: 'words', verse: start });
           }}
-          onCommentary={() => setView({ name: 'commentary' })}
+          onCommentary={() => setView({ name: 'commentary', verse: start })}
         />
       );
   }

@@ -18,16 +18,18 @@ import { useReaderPosition } from '../../reader/state';
 import { useOpenInReader } from '../../reader/target';
 import { getStorage, type Storage } from '../../storage/storage';
 import { useTheme } from '../../theme/ThemeProvider';
+import { ExploreView } from '../../entities/components/ExploreView';
 import { buildStudyList, NO_FILTER, type StudyEntry, type StudyFilter } from '../list';
 import { useStudyItems } from '../useStudyItems';
 import { ProgressView } from './ProgressView';
 import { SavedList } from './SavedList';
 
-type StudyView = 'saved' | 'progress';
+type StudyView = 'saved' | 'progress' | 'explore';
 
 const TABS: { id: StudyView; testID: string; labelKey: MessageKey }[] = [
   { id: 'saved', testID: 'study-tab-saved', labelKey: 'study.saved' },
   { id: 'progress', testID: 'study-tab-progress', labelKey: 'study.progress' },
+  { id: 'explore', testID: 'study-tab-explore', labelKey: 'study.explore' },
 ];
 
 /** Room under the content for the tab bar, so the last item can scroll above it (as `Screen` does). */
@@ -148,8 +150,10 @@ export function StudyScreen({
           onOpen={open}
           bottomInset={TAB_BAR_ROOM}
         />
-      ) : (
+      ) : view === 'progress' ? (
         <ProgressView header={header} progress={progress} bottomInset={TAB_BAR_ROOM} />
+      ) : (
+        <ExploreView header={header} bottomInset={TAB_BAR_ROOM} />
       )}
     </View>
   );

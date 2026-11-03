@@ -80,3 +80,8 @@ zip/
 tmp-eng-asv.zefania.xml
 frontend-next/test-results/
 frontend-next/playwright-report/
+
+# Firebase emulators (R-6b)
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
