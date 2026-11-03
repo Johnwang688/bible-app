@@ -8,6 +8,10 @@
 // value (`{ j, v, data }`, `j` first), so the value and its tag land in one atomic key write. A plain
 // `set` keeps the key's existing tag, so a tagged write stays recognisable after the app edits the
 // value again; `remove` drops it. `get` ignores the tag, and values stored without one read as before.
+//
+// Other tabs (web): two tabs of the app share localStorage, and the browser tells each tab when another one
+// writes it (the `storage` event). The store passes that on to its subscribers, so a tab left open never acts on
+// a stale value: a stale first-run intro, say, sees the intro finished in another tab and closes (INT F2).
 import { useCallback, useSyncExternalStore } from 'react';
 import type { z } from 'zod';
 
@@ -15,6 +19,11 @@ export interface KeyValueBackend {
   getString(key: string): string | undefined;
   set(key: string, value: string): void;
   remove(key: string): void;
+  /**
+   * Calls `listener` when a value changes from outside this store (another tab on the web), with its key, or
+   * null when it cannot say which (the whole store was cleared). Returns the unsubscribe.
+   */
+  subscribeExternal?(listener: (key: string | null) => void): () => void;
 }
 
 export interface StorageKey<T> {
@@ -55,6 +64,11 @@ function tagIn(raw: string | undefined): string | undefined {
 export function createStorage(backend: KeyValueBackend): Storage {
   const listeners = new Map<string, Set<() => void>>();
   const notify = (key: string) => listeners.get(key)?.forEach((l) => l());
+  // For as long as the app runs: a change made elsewhere reaches this key's subscribers as if made here.
+  backend.subscribeExternal?.((key) => {
+    if (key !== null) notify(key);
+    else [...listeners.keys()].forEach(notify);
+  });
 
   return {
     // Parsed afresh on every read, so callers can never mutate the stored copy.
@@ -148,9 +162,29 @@ export function getStorage(): Storage {
       getString: (key) => mmkv.getString(key),
       set: (key, value) => mmkv.set(key, value),
       remove: (key) => void mmkv.remove(key),
+      subscribeExternal: (listener) => otherTabWrites(listener),
     });
   }
   return defaultStorage;
+}
+
+/** MMKV's web build keeps each value in localStorage under `<store id>` + one backslash + `<key>`. */
+const WEB_KEY_PREFIX = 'bible-app\\';
+
+/**
+ * Writes to this app's keys made by another tab (web: the `storage` event, which the browser fires only in the
+ * other tabs). On native there is one app and nothing to hear.
+ */
+export function otherTabWrites(listener: (key: string | null) => void): () => void {
+  if (typeof window === 'undefined' || typeof window.addEventListener !== 'function') return () => {};
+  const onStorage = (event: StorageEvent) => {
+    // Session storage is not the store's.
+    if (event.storageArea !== null && typeof localStorage !== 'undefined' && event.storageArea !== localStorage) return;
+    if (event.key === null) listener(null);
+    else if (event.key.startsWith(WEB_KEY_PREFIX)) listener(event.key.slice(WEB_KEY_PREFIX.length));
+  };
+  window.addEventListener('storage', onStorage);
+  return () => window.removeEventListener('storage', onStorage);
 }
 
 /** Tests swap the app storage for a memory one. Pass null to go back to the device store. */
