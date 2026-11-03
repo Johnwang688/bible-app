@@ -35,7 +35,8 @@ Redeploy an existing image without building: `python deploy.py --image <full ima
 ## Secrets
 
 The backend reads these from Secret Manager, mounted as env vars of the same name (`:latest`):
-`SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`.
+`SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`,
+`OPENROUTER_API_KEY` (Memory voice, `/memory/transcribe`).
 The values come from the repo-root `.env`, which never leaves the machine and is never in the image (the
 `.gcloudignore` is an allowlist of the Dockerfile's inputs).
 
@@ -48,7 +49,7 @@ python deploy.py                  # new revision picks up :latest
 
 `--sync-secrets` adds a version only when the value changed (compared byte for byte), destroys every
 older version, and grants the runtime service account `secretAccessor` on that one secret. It is safe to
-re-run after a failure. `python deploy.py` refuses to deploy while any of the five secrets is missing.
+re-run after a failure. `python deploy.py` refuses to deploy while any of the six secrets is missing.
 To add a new secret name, add it to `SECRET_ENV_VARS` in `deploy.py`.
 
 Not deployed on purpose: `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `APP_SECRET_KEY` (Settings reads
@@ -80,14 +81,14 @@ Firebase Hosting domains are the planned web host; add the real one when the web
 | concurrency / timeout | 80 / 300 s | SQLite reads are cheap; AI chat answers can take tens of seconds |
 | Artifact Registry cleanup | keep the newest 3 images, delete the rest after 14 days | `deploy/ar-cleanup-policy.json` |
 
-**At idle it costs about $0.01-0.05 a month**: no instances run, the five secret versions are inside
+**At idle it costs about $0.01-0.05 a month**: no instances run, the six secret versions are inside
 Secret Manager's free six, Cloud Build is inside its free 2,500 build-minutes, and the images
 (about 120 MB each, at most 3 kept) are the only storage.
 
 ## Identity and permissions
 
 - Runtime service account: `bible-api@bible-app-492520.iam.gserviceaccount.com`. Its only grant is
-  `roles/secretmanager.secretAccessor` on each of the five secrets (per secret, not project-wide). It has
+  `roles/secretmanager.secretAccessor` on each of the six secrets (per secret, not project-wide). It has
   no project roles. Cloud Run writes request and stdout logs without any role on the service account.
 - **R-6b (auth and sync)** will need Firebase Admin / Firestore access for token verification and sync:
   grant `roles/datastore.user` (and, if it mints or manages users, `roles/firebaseauth.admin`) to this

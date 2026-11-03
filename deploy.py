@@ -60,6 +60,7 @@ SECRET_ENV_VARS = (
     "SUPABASE_SERVICE_ROLE_KEY",
     "OPENAI_API_KEY",
     "ANTHROPIC_API_KEY",
+    "OPENROUTER_API_KEY",  # Memory voice: /memory/transcribe (OpenRouter Whisper)
 )
 
 # Cost guard: scale to zero, a small ceiling, request-based CPU billing (the gcloud default).
