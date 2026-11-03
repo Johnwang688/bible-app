@@ -61,7 +61,7 @@ def test_limits_match_little_lamb() -> None:
     assert tx.MAX_AUDIO_BYTES == 256 * 1024
     assert tx.RATE_PER_MIN == 10
     assert tx.RATE_PER_DAY == 100
-    assert tx.ASR_CODE == {"mandarin": "zh", "cantonese": "yue"}
+    assert tx.ASR_CODE == {"mandarin": "zh", "cantonese": "yue", "english": "en"}
 
 
 def test_success_returns_trimmed_text_and_forwards_audio() -> None:
@@ -72,7 +72,18 @@ def test_success_returns_trimmed_text_and_forwards_audio() -> None:
     assert fake.calls == [(AUDIO, "audio/webm", "zh")]
 
 
-@pytest.mark.parametrize(("lang", "code"), [("mandarin", "zh"), ("cantonese", "yue"), (None, "zh"), ("klingon", "zh")])
+@pytest.mark.parametrize(
+    ("lang", "code"),
+    [
+        ("mandarin", "zh"),
+        ("cantonese", "yue"),
+        ("english", "en"),
+        (None, "zh"),
+        ("klingon", "zh"),
+        ("English", "zh"),
+        ("en", "zh"),
+    ],
+)
 def test_lang_picks_the_whisper_language_and_defaults_to_mandarin(lang, code) -> None:
     fake = FakeTranscriber()
     assert post(make_client(fake), lang=lang).status_code == 200

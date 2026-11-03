@@ -28,7 +28,8 @@ MAX_AUDIO_BYTES = 256 * 1024
 RATE_PER_MIN = 10
 RATE_PER_DAY = 100
 
-ASR_CODE = {"mandarin": "zh", "cantonese": "yue"}
+# `english` is for the English Memory verses; anything unknown (or absent) is Mandarin.
+ASR_CODE = {"mandarin": "zh", "cantonese": "yue", "english": "en"}
 DEFAULT_MODEL = "openai/whisper-large-v3-turbo"
 OPENROUTER_URL = "https://openrouter.ai/api/v1/audio/transcriptions"
 

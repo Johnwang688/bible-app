@@ -1,7 +1,7 @@
 import {
   DEFAULT_SPEECH_LANGUAGE,
   SPEECH_QUERY_PARAM,
-  type SpeechLanguage,
+  type TranscribeLanguage,
 } from './speech/types';
 
 // Transcription client. Real impl (realTranscribe): POST the audio blob to the
@@ -65,7 +65,7 @@ export async function mockTranscribe(
  */
 export async function realTranscribe(
   blob: Blob,
-  language: SpeechLanguage = DEFAULT_SPEECH_LANGUAGE,
+  language: TranscribeLanguage = DEFAULT_SPEECH_LANGUAGE,
   deps: TranscribeDeps,
 ): Promise<string> {
   const token = await deps.getIdToken();
@@ -97,7 +97,7 @@ export async function realTranscribe(
 export async function transcribe(
   blob: Blob,
   expectedHanzi: string,
-  language: SpeechLanguage = DEFAULT_SPEECH_LANGUAGE,
+  language: TranscribeLanguage = DEFAULT_SPEECH_LANGUAGE,
   deps?: TranscribeDeps,
 ): Promise<string> {
   const mode = mockFlagHost.__MOCK_TRANSCRIBE_MODE__;

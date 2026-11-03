@@ -9,9 +9,10 @@ import { useI18n } from '../../../i18n/I18nProvider';
 import { useTheme } from '../../../theme/ThemeProvider';
 import type { Theme } from '../../../theme/types';
 import type { DiffOp, DisplayDiff } from '../../display/diff';
+import type { VerseLanguage } from '../../verseLanguage';
 
-/** The character the legend draws each mark on. */
-const SAMPLE = '人';
+/** The character (in English, the letters) the legend draws each mark on. */
+const SAMPLE: Record<VerseLanguage, string> = { zh: '人', en: 'Aa' };
 
 type Kind = 'ok' | 'alike' | 'wrong' | 'miss' | 'extra';
 
@@ -47,23 +48,29 @@ export function alikePairs(ops: readonly DiffOp[]): { char: string; heard: strin
   return pairs;
 }
 
-/** The diff's characters as nested text, so it can sit inline in a verse. */
+/**
+ * The diff's characters (in English, words) as nested text, so it can sit inline in a verse. In English a different
+ * word is followed by the word heard after a space, and an extra word by a space, so words stay apart.
+ */
 export function DiffText({
   diff,
   font,
   size = 22,
   testID = 'memory-diff',
   lang = 'zh-Hans',
+  language = 'zh',
 }: {
   diff: DisplayDiff;
   font: string | undefined;
   size?: number;
   testID?: string;
   lang?: string;
+  language?: VerseLanguage;
 }) {
   const theme = useTheme();
   const { t } = useI18n();
-  const label = t('memory.res.diffAria', {
+  const en = language === 'en';
+  const label = t(en ? 'memory.res.diffAriaWords' : 'memory.res.diffAria', {
     ok: diff.counts.ok,
     alike: diff.counts.alike,
     wrong: diff.counts.wrong,
@@ -82,7 +89,7 @@ export function DiffText({
         return (
           <Text key={i} style={markStyle(theme, 'wrong')}>
             {op.char}
-            <Text style={{ fontSize: 13, fontWeight: '700' }}>{op.heard}</Text>
+            <Text style={{ fontSize: 13, fontWeight: '700' }}>{en ? ` ${op.heard}` : op.heard}</Text>
           </Text>
         );
       case 'del':
@@ -92,7 +99,11 @@ export function DiffText({
           </Text>
         );
       case 'ins':
-        return (
+        return en ? (
+          <Text key={i}>
+            <Text style={markStyle(theme, 'extra')}>{op.heard}</Text>{' '}
+          </Text>
+        ) : (
           <Text key={i} style={markStyle(theme, 'extra')}>
             {op.heard}
           </Text>
@@ -115,13 +126,13 @@ export function DiffText({
   );
 }
 
-/** What the marks mean, drawn with the same marks. */
-export function Legend() {
+/** What the marks mean, drawn with the same marks. In English the dotted mark is a close spelling, not a sound. */
+export function Legend({ language = 'zh' }: { language?: VerseLanguage }) {
   const theme = useTheme();
   const { t } = useI18n();
   const items: { kind: Kind; label: string }[] = [
     { kind: 'ok', label: t('memory.res.legendOk') },
-    { kind: 'alike', label: t('memory.res.legendAlike') },
+    { kind: 'alike', label: t(language === 'en' ? 'memory.res.legendSlip' : 'memory.res.legendAlike') },
     { kind: 'wrong', label: t('memory.res.legendWrong') },
     { kind: 'miss', label: t('memory.res.legendMiss') },
     { kind: 'extra', label: t('memory.res.legendExtra') },
@@ -131,7 +142,7 @@ export function Legend() {
       {items.map((item) => (
         <View key={item.kind} style={styles.legendItem}>
           <Text accessible={false} style={[{ color: theme.colors.text, fontSize: 16 }, markStyle(theme, item.kind)]}>
-            {SAMPLE}
+            {SAMPLE[language]}
           </Text>
           <Text style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 12 }}>{item.label}</Text>
         </View>
@@ -140,8 +151,11 @@ export function Legend() {
   );
 }
 
-/** "路 heard as 露: they sound the same, so it counts", when any match was a sound-alike. */
-export function AlikeNote({ ops }: { ops: readonly DiffOp[] }) {
+/**
+ * "路 heard as 露: they sound the same, so it counts", when any match was a sound-alike ("Savior heard as Saviour:
+ * close enough", for an English slip).
+ */
+export function AlikeNote({ ops, language = 'zh' }: { ops: readonly DiffOp[]; language?: VerseLanguage }) {
   const theme = useTheme();
   const { t } = useI18n();
   const pairs = alikePairs(ops);
@@ -152,7 +166,7 @@ export function AlikeNote({ ops }: { ops: readonly DiffOp[] }) {
       testID="memory-alike-note"
       style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 13, lineHeight: 19 }}
     >
-      {t('memory.res.alikeNote', { pairs: list })}
+      {t(language === 'en' ? 'memory.res.slipNote' : 'memory.res.alikeNote', { pairs: list })}
     </Text>
   );
 }

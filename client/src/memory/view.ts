@@ -84,22 +84,22 @@ export function learnedCount(progress: ProgressMap): number {
   return Object.values(progress).filter((row) => row.stage === 'review').length;
 }
 
-export interface LibraryTopic {
+export interface LibraryTopic<V extends MemoryVerse = MemoryVerse> {
   topicEn: string;
   topicZh: string;
-  verses: MemoryVerse[];
+  verses: V[];
 }
 
-export interface LibraryGroup {
+export interface LibraryGroup<V extends MemoryVerse = MemoryVerse> {
   series: string;
   seriesEn: string;
   seriesZh: string;
-  topics: LibraryTopic[];
+  topics: LibraryTopic<V>[];
 }
 
 /** The library as series, then topics, then verses, in the order the verses are given (library order). */
-export function libraryGroups(verses: MemoryVerse[]): LibraryGroup[] {
-  const groups: LibraryGroup[] = [];
+export function libraryGroups<V extends MemoryVerse>(verses: V[]): LibraryGroup<V>[] {
+  const groups: LibraryGroup<V>[] = [];
   for (const verse of verses) {
     let group = groups[groups.length - 1];
     if (!group || group.series !== verse.series) {

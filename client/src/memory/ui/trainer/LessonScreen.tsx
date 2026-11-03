@@ -4,7 +4,7 @@
 // The step's scope (`ctx.left`): Back, Skip and Next abort it before they navigate, since the route's
 // `router.replace` unmounts this screen only later. Once left, nothing records, a pending grade is void and the voice
 // panel starts no attempt; the scope, not unmounting, is what voids them.
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { getApiBaseUrl } from '../../../api/config';
 import { memoryLessonKey } from '../../../storage/memoryKeys';
@@ -16,6 +16,7 @@ import { nextHrefAfter } from '../../session';
 import { isStageSlug } from '../../stages';
 import type { StageSlug } from '../../types';
 import { useMemorySettings } from '../../useMemorySettings';
+import { useVerseLanguage } from '../../verseLanguage';
 import { createRecorder } from '../../voice/recorder';
 import type { CheckVoice, Recorder } from '../../voice/types';
 import { checkVoice as realCheckVoice } from '../../voice/voiceClient';
@@ -39,7 +40,11 @@ export interface LessonScreenProps {
   onNavigate?: (href: string) => void;
   onBack?: () => void;
   recorder?: Recorder;
-  checkVoice?: CheckVoice;
+  /**
+   * The transcription call (a `CheckVoice`). Declared as a method so a test double written before English verses,
+   * typed for the Chinese languages only, still fits; the panel sends `english` only for an English verse.
+   */
+  checkVoice?(...args: Parameters<CheckVoice>): ReturnType<CheckVoice>;
   /** The App Check token sent with a voice request. Default: R-6b's, loaded only when a request is sent. */
   getAppCheckToken?: () => Promise<string | null>;
   voiceBaseUrl?: string;
@@ -78,10 +83,15 @@ export function LessonScreen({
   const [settings] = useMemorySettings(storage);
   const [lesson] = useStoredValue(storage, memoryLessonKey);
   const recorder = useMemo(() => recorderProp ?? createRecorder(), [recorderProp]);
-  // One scope per step: a new step (the trainers are keyed on it too) starts a fresh one.
-  const key = `${verseId}/${stage}/${index ?? 'practice'}`;
+  const language = useVerseLanguage();
+  // One scope per step: a new step (the trainers are keyed on it too) starts a fresh one. The verse language is part
+  // of the step: switching it mid-step unmounts the trainer (its attempt ends) and renews the scope.
+  const key = `${verseId}/${stage}/${index ?? 'practice'}/${language}`;
   // eslint-disable-next-line react-hooks/exhaustive-deps -- `key` is the step: the scope is renewed only for a new one
   const controller = useMemo(() => new AbortController(), [key]);
+  // A scope that is replaced (a new step, or the verse language switched mid-step) or unmounted is left: nothing
+  // that still holds it records afterwards.
+  useEffect(() => () => controller.abort(), [controller]);
 
   const leave = () => (onBack ? onBack() : onNavigate(HOME));
   const verse = getMemoryVerse(verseId);
@@ -101,6 +111,7 @@ export function LessonScreen({
     now,
     settings,
     script: settings.script,
+    language,
     random,
     voice: { recorder, checkVoice, baseUrl: voiceBaseUrl ?? getApiBaseUrl(), isOnline, getAppCheckToken },
     left: controller.signal,

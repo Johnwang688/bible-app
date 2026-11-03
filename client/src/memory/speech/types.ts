@@ -24,6 +24,13 @@ export type SpeechLanguage = 'mandarin' | 'cantonese';
 
 export const SPEECH_LANGUAGES: readonly SpeechLanguage[] = ['mandarin', 'cantonese'];
 
+/**
+ * The language a transcription request asks for: the stored Chinese preference for a Chinese verse, or `english`
+ * for an English one (the verses follow the app language). `english` is never stored: the Mandarin/Cantonese
+ * preference is for the Chinese verses only. The server maps it to Whisper's `en`.
+ */
+export type TranscribeLanguage = SpeechLanguage | 'english';
+
 export const DEFAULT_SPEECH_LANGUAGE: SpeechLanguage = 'mandarin';
 
 /** Query parameter on `/memory/transcribe` (its body is the raw audio blob). */

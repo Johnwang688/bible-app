@@ -7,16 +7,19 @@
  * `SpeechKeyer`, chunk position equality), so a genuine pass here always matches
  * the pass the user just saw — provided the caller threads through the SAME
  * keyer the trainer graded with. The expected side is keyed at runtime from the
- * verse's simplified text.
+ * verse's simplified text. English (`language` 'en') grades the English chunks
+ * and text word by word (`speech/english.ts`); the keyer is not used there.
  *
  * Pure module: no React, no native modules.
  */
 
 import { getMemoryVerse } from './library';
+import { compareEnglishFullRecall, compareEnglishRecital } from './speech/english';
 import { compareFullRecall } from './speech/fullRecall';
 import { MANDARIN_SYNC_KEYER, type SpeechKeyer } from './speech/keyer';
 import { compareRecital, PASS_THRESHOLD_PCT } from './speech/pinyinDiff';
-import type { GradeResult, MemoryVerse, StageSlug, StepAnswer } from './types';
+import type { GradeResult, LibraryVerse, StageSlug, StepAnswer } from './types';
+import type { VerseLanguage } from './verseLanguage';
 
 const REJECT = (error: string): GradeResult => ({ passed: false, matchPct: 0, error });
 
@@ -34,6 +37,7 @@ export function gradeStep(
   stage: StageSlug,
   answer: unknown,
   keyer: SpeechKeyer = MANDARIN_SYNC_KEYER,
+  language: VerseLanguage = 'zh',
 ): GradeResult {
   const verse = getMemoryVerse(verseId);
   if (!verse) return REJECT(`unknown verse ${verseId}`);
@@ -44,11 +48,11 @@ export function gradeStep(
   switch (stage) {
     case 'chunk-order':
       // Language-blind by construction: a permutation check has no phonetics.
-      return gradeChunkOrder(verse, a);
+      return gradeChunkOrder(verse, a, language);
     case 'fill-blank':
-      return gradeFillBlank(verse, a, keyer);
+      return gradeFillBlank(verse, a, keyer, language);
     case 'full-recall':
-      return gradeFullRecall(verse, a, keyer);
+      return gradeFullRecall(verse, a, keyer, language);
     default:
       return REJECT(`unknown stage ${String(stage)}`);
   }
@@ -58,57 +62,63 @@ export function gradeStep(
  * The submitted order is the canonical position of each chunk as the user left
  * it, top to bottom. A correct solve is the identity permutation.
  */
-function gradeChunkOrder(verse: MemoryVerse, answer: StepAnswer): GradeResult {
+function gradeChunkOrder(verse: LibraryVerse, answer: StepAnswer, language: VerseLanguage): GradeResult {
   if (answer.kind !== 'chunk-order') return REJECT('expected a chunk-order answer');
   const { order } = answer;
-  if (!Array.isArray(order) || order.length !== verse.chunks.length) {
+  const count = language === 'en' ? verse.chunksEn.length : verse.chunks.length;
+  if (!Array.isArray(order) || order.length !== count) {
     return REJECT('order must list every chunk exactly once');
   }
   const correct = order.every((pos, idx) => pos === idx);
   return { passed: correct, matchPct: correct ? 100 : 0 };
 }
 
-/** One hidden chunk, recited aloud. Graded against that chunk's reading. */
-function gradeFillBlank(verse: MemoryVerse, answer: StepAnswer, keyer: SpeechKeyer): GradeResult {
+/** One hidden chunk, recited aloud. Graded against that chunk's reading (or, in English, its words). */
+function gradeFillBlank(verse: LibraryVerse, answer: StepAnswer, keyer: SpeechKeyer, language: VerseLanguage): GradeResult {
   if (answer.kind !== 'recall') return REJECT('expected a recall answer');
   const { chunkPosition } = answer;
+  const chunks = language === 'en' ? verse.chunksEn : verse.chunks;
   if (
     typeof chunkPosition !== 'number' ||
     !Number.isInteger(chunkPosition) ||
     chunkPosition < 0 ||
-    chunkPosition >= verse.chunks.length
+    chunkPosition >= chunks.length
   ) {
     return REJECT('chunkPosition is outside the verse');
   }
-  // A chunk's position is its index in `verse.chunks`.
-  const chunk = verse.chunks[chunkPosition];
+  // A chunk's position is its index in `verse.chunks` (`verse.chunksEn` in English).
+  const chunk = chunks[chunkPosition];
   if (chunk === undefined) return REJECT('chunkPosition is outside the verse');
-  return gradeTranscript(answer.transcript, chunk, keyer);
+  return gradeTranscript(answer.transcript, chunk, keyer, language);
 }
 
 /** The whole verse, with its reference at the beginning or end. */
-function gradeFullRecall(verse: MemoryVerse, answer: StepAnswer, keyer: SpeechKeyer): GradeResult {
+function gradeFullRecall(verse: LibraryVerse, answer: StepAnswer, keyer: SpeechKeyer, language: VerseLanguage): GradeResult {
   if (answer.kind !== 'recall') return REJECT('expected a recall answer');
   const transcript = answer.transcript;
   if (typeof transcript !== 'string') return REJECT('transcript must be a string');
   const trimmed = transcript.trim();
   if (!trimmed) return { passed: false, matchPct: 0 };
   if (trimmed.length > MAX_TRANSCRIPT_CHARS) return REJECT('transcript is too long');
-  const result = compareFullRecall(trimmed, verse.textZh, verse.referenceZh, keyer);
+  const result =
+    language === 'en'
+      ? compareEnglishFullRecall(trimmed, verse.textEn, verse.referenceEn)
+      : compareFullRecall(trimmed, verse.textZh, verse.referenceZh, keyer);
   return { passed: result.passed, matchPct: result.body.matchPct };
 }
 
 function gradeTranscript(
   transcript: unknown,
-  expectedHanzi: string,
+  expected: string,
   keyer: SpeechKeyer,
+  language: VerseLanguage,
 ): GradeResult {
   if (typeof transcript !== 'string') return REJECT('transcript must be a string');
   const trimmed = transcript.trim();
   if (!trimmed) return { passed: false, matchPct: 0 };
   if (trimmed.length > MAX_TRANSCRIPT_CHARS) return REJECT('transcript is too long');
 
-  const result = compareRecital(trimmed, expectedHanzi, keyer);
+  const result = language === 'en' ? compareEnglishRecital(trimmed, expected) : compareRecital(trimmed, expected, keyer);
   return { passed: result.passed, matchPct: result.matchPct };
 }
 
