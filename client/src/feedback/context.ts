@@ -4,8 +4,8 @@
 import Constants from 'expo-constants';
 import { Platform } from 'react-native';
 
-import { isSignInAllowed, useSignInAllowed } from '../onboarding/signIn';
-import type { Onboarding } from '../onboarding/keys';
+import { signInGateFor, useSignInAllowed } from '../onboarding/signIn';
+import { getStorage, type Storage } from '../storage/storage';
 import type { FeedbackCategory, FeedbackContext, FeedbackPlatform } from './api';
 
 export function feedbackPlatform(os: string = Platform.OS): FeedbackPlatform {
@@ -34,14 +34,18 @@ export function feedbackContext(input: {
   return context;
 }
 
-/** No free text is collected from children: the row is hidden when the first-run age is Under 13 (decision 2). */
-export function isFeedbackAllowed(onboarding: Pick<Onboarding, 'ageRange'>): boolean {
-  return isSignInAllowed(onboarding);
+/**
+ * No free text is collected from children (decision 2): the row shows only where sign-in is allowed, which is false
+ * exactly when Under 13 was picked at first run. Only that boolean is read; the age itself never leaves onboarding.
+ * Live: re-renders when the choice changes.
+ */
+export function useFeedbackAllowed(storage: Storage = getStorage()): boolean {
+  return useSignInAllowed(storage);
 }
 
-/** Live form of `isFeedbackAllowed` for this device's stored first-run state. */
-export function useFeedbackAllowed(): boolean {
-  return useSignInAllowed();
+/** `useFeedbackAllowed` outside React, read now. */
+export function feedbackAllowedNow(storage: Storage = getStorage()): boolean {
+  return signInGateFor(storage).allowed();
 }
 
 export interface FeedbackDraft {

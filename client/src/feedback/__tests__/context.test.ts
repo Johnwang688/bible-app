@@ -1,5 +1,9 @@
 // What goes with a message, the Under 13 gate, and the in-memory draft.
-import { feedbackContext, feedbackDraft, feedbackPlatform, isFeedbackAllowed } from '../context';
+import { act, renderHook } from '@testing-library/react-native';
+
+import { AGE_RANGES, onboardingKey } from '../../onboarding/keys';
+import { createStorage, memoryBackend } from '../../storage/storage';
+import { feedbackAllowedNow, feedbackContext, feedbackDraft, feedbackPlatform, useFeedbackAllowed } from '../context';
 
 describe('feedbackContext', () => {
   it('maps the platform and keeps the given values', () => {
@@ -30,11 +34,27 @@ describe('feedbackContext', () => {
   });
 });
 
-describe('isFeedbackAllowed', () => {
-  it('is off only for Under 13', () => {
-    expect(isFeedbackAllowed({ ageRange: 'under-13' })).toBe(false);
-    expect(isFeedbackAllowed({ ageRange: undefined } as never)).toBe(true);
-    expect(isFeedbackAllowed({ ageRange: '13-17' } as never)).toBe(true);
+describe('the Under 13 gate', () => {
+  it('is off only for Under 13, read now', () => {
+    const storage = createStorage(memoryBackend());
+    expect(feedbackAllowedNow(storage)).toBe(true);
+    for (const ageRange of AGE_RANGES) {
+      storage.set(onboardingKey, { done: true, ageRange });
+      expect([ageRange, feedbackAllowedNow(storage)]).toEqual([ageRange, ageRange !== 'under-13']);
+    }
+    // Before the intro is done (unknown age) the row shows: Me is not reachable then anyway.
+    storage.set(onboardingKey, { done: false, ageRange: null });
+    expect(feedbackAllowedNow(storage)).toBe(true);
+  });
+
+  it('follows the stored choice live', async () => {
+    const storage = createStorage(memoryBackend());
+    const view = await renderHook(() => useFeedbackAllowed(storage));
+    expect(view.result.current).toBe(true);
+    await act(async () => storage.set(onboardingKey, { done: true, ageRange: 'under-13' }));
+    expect(view.result.current).toBe(false);
+    await act(async () => storage.set(onboardingKey, { done: true, ageRange: null }));
+    expect(view.result.current).toBe(true);
   });
 });
 
