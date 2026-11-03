@@ -6,10 +6,11 @@ import { ensureFont, LAZY_FONT_FAMILY } from '../../fonts/lazy';
 // Once loaded it stays loaded; later screens start with it.
 let loaded = false;
 
-export function useChineseFont(): string | undefined {
+/** `needed` false (an English verse on screen): nothing is loaded and the result is undefined. */
+export function useChineseFont(needed = true): string | undefined {
   const [, setLoaded] = useState(loaded);
   useEffect(() => {
-    if (loaded) return;
+    if (loaded || !needed) return;
     let live = true;
     ensureFont('chineseScripture')
       .then(() => {
@@ -20,6 +21,6 @@ export function useChineseFont(): string | undefined {
     return () => {
       live = false;
     };
-  }, []);
-  return loaded ? LAZY_FONT_FAMILY.chineseScripture : undefined;
+  }, [needed]);
+  return needed && loaded ? LAZY_FONT_FAMILY.chineseScripture : undefined;
 }

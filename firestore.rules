@@ -5,16 +5,25 @@ rules_version = '2';
 //   users/{uid}/items/{kind}:{ref}   one study item (highlight, note, bookmark) or its tombstone
 //   users/{uid}/devices/{deviceId}   one device's own reading progress
 //   users/{uid}/settings/{key}       one synced setting
+//   users/{uid}/memory/{deviceId}    one device's Memory progress and history (each device writes its own)
 //
-// Only those three collections are open, and only to their owner. Clients may read and write (create
+// Only those four collections are open, and only to their owner. Clients may read and write (create
 // or replace) a document whose shape validates; they may never delete one (a deleted study item is a
 // tombstone; only the backend's Admin SDK, which bypasses these rules, removes documents). Every other
 // path, including users/{uid} itself, matches no rule and is therefore denied.
+//
+// Verified email (email verification, 11-03). Only a verified owner may read or write: the ID token must
+// carry email_verified == true, and a token without the claim fails the comparison. The claim changes only
+// when a new ID token is minted, so after the user confirms the link the client reloads the user and forces
+// a token refresh before it syncs. Deploy the client first, then these rules: an older client never sent a
+// verification link, so rules first would lock every existing account out of sync.
 //
 //   deletedUsers/{uid}               { deletedAt }: written by the backend's "delete my data" (Admin SDK).
 //                                    Closed to clients. While it exists, only a sign-in after deletedAt
 //                                    may write under users/{uid}, so an ID token issued before the delete
 //                                    (still valid for up to an hour on another device) cannot recreate data.
+//                                    The backend's wipe (app/api/account.py) is a recursive_delete of
+//                                    users/{uid}, so it removes every subcollection here, memory/ included.
 //
 // Schema-tight (R-6b follow-up 3b). Every document a client may write is checked against the exact schema
 // the sync engine writes: its keys, the type and size of every field, and every entry inside its maps and
@@ -42,11 +51,16 @@ service cloud.firestore {
       return request.auth != null && request.auth.uid == uid;
     }
 
-    // The owner may write under users/{uid} unless the account's data was deleted after this sign-in.
+    // The signed-in owner of users/{uid}, with an email Firebase considers verified (email verification, 11-03).
+    function isVerifiedOwner(uid) {
+      return isOwner(uid) && request.auth.token.email_verified == true;
+    }
+
+    // The verified owner may write under users/{uid} unless the account's data was deleted after this sign-in.
     // A uid that was never deleted has no marker; deletedAt is a timestamp, auth_time is in seconds.
     function canWrite(uid) {
       let marker = /databases/$(database)/documents/deletedUsers/$(uid);
-      return isOwner(uid) && (
+      return isVerifiedOwner(uid) && (
         !exists(marker)
         || request.auth.token.auth_time * 1000 > get(marker).data.deletedAt.toMillis()
       );
@@ -175,9 +189,9 @@ service cloud.firestore {
       );
     }
 
-    // goalMetDays: a list of at most 20000 distinct days (10 characters each).
-    function isDayList(l) {
-      return l is list && l.size() <= 20000 && (
+    // A list of at most `max` distinct days (10 characters each): goalMetDays (20000), Memory's completedDates (1000).
+    function isDayList(l, max) {
+      return l is list && l.size() <= max && (
         l.size() == 0 || (
           l.join(';').matches(listRe(dayRe()))
           && l.join(';').size() == l.size() * 11 - 1
@@ -203,8 +217,56 @@ service cloud.firestore {
         && d.deviceId == deviceId
         && isActiveMs(d.activeMs)
         && isChaptersRead(d.chaptersRead)
-        && isDayList(d.goalMetDays)
+        && isDayList(d.goalMetDays, 20000)
         && isGoal(d.goal)
+        && isClientTime(d.updatedAt)
+        && isServerTime(d.serverTime);
+    }
+
+    // ---- Memory: users/{uid}/memory/{deviceId} --------------------------------------------------
+    // The wire form is client/src/sync/domains/memory.ts (encodeMemoryProgress); firestoreRemote.ts
+    // pushableMemory drops or normalises what these rules refuse.
+
+    // One row of a Memory document's progress string: stage, verse id, successes, failures (0..9999999),
+    // mastery (0..100), then nextDueAt, lastReviewedAt and lapsedAt, each an ISO time or empty (null).
+    // Counts have no leading zeros. The stage is first so that nothing can be put in front of a row.
+    function memoryRowRe() {
+      return '(chunk_order|fill_blank|full_recall|review),[a-z0-9]+(-[a-z0-9]+)*'
+        + ',(0|[1-9][0-9]{0,6}),(0|[1-9][0-9]{0,6}),(0|[1-9][0-9]?|100)'
+        + ',(' + isoRe() + ')?,(' + isoRe() + ')?,(' + isoRe() + ')?';
+    }
+
+    // The progress string: at most 600 rows (the ~500 verses of future libraries plus a fifth; 60 today),
+    // ';'-separated. Every device reads documents of this kind on its syncs, so the bound is also what one
+    // document can cost them (domains/memory.ts MEMORY_ROWS_MAX, MEMORY_PULL_CHARS_MAX). The client writes
+    // rows of at most 171 characters (a 64-character verse id, the storage cap; an 11-character stage; two
+    // 7-digit counts; a 3-digit mastery; three 24-character times; 7 commas), so 600 rows are at most
+    // 600 * 172 - 1 = 103199 characters, the bound here. The size is bounded before
+    // the regex runs (as isActiveMs). These rules do not cap a single verse id at 64 (RE2 has no lookahead),
+    // and dayRe takes a day such as 2026-02-31: the client drops such a document whole when it reads it
+    // (domains/memory.ts decodeMemoryProgress). Pulled Memory is untrusted on the client in any case
+    // (CONFLICTS.md rules 24-25: far-future times and days, unknown verses, the pull limits).
+    function isMemoryProgress(s) {
+      return s is string
+        && s.size() <= 103199
+        && s.matches(listRe(memoryRowRe()))
+        && s.split(';').size() <= 600;
+    }
+
+    function isDayOrNull(d) {
+      return d == null || (d is string && d.matches('^' + dayRe() + '$'));
+    }
+
+    // The completed days are at most 1000 (storage/memoryKeys.ts memoryHistoryKey's cap); the streak is
+    // derived from them on the device, never stored. The day's lesson plan and the Memory settings
+    // (voice consent included) never leave the device, so they have no field here.
+    function isMemory(deviceId, d) {
+      return isDeviceId(deviceId)
+        && hasExactly(d, ['deviceId', 'progress', 'completedDates', 'startedOn', 'updatedAt', 'serverTime'])
+        && d.deviceId == deviceId
+        && isMemoryProgress(d.progress)
+        && isDayList(d.completedDates, 1000)
+        && isDayOrNull(d.startedOn)
         && isClientTime(d.updatedAt)
         && isServerTime(d.serverTime);
     }
@@ -253,23 +315,28 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
-    // users/{uid} itself has no rule: denied. Only these three subcollections are open.
-    // Reads stay open to the owner; writes also need canWrite (the deletion marker check).
+    // users/{uid} itself has no rule: denied. Only these four subcollections are open.
+    // Reads stay open to the verified owner; writes also need canWrite (the deletion marker check).
     match /users/{uid} {
 
       match /items/{itemId} {
-        allow get, list: if isOwner(uid);
+        allow get, list: if isVerifiedOwner(uid);
         allow create, update: if canWrite(uid) && isItem(itemId, request.resource.data);
       }
 
       match /devices/{deviceId} {
-        allow get, list: if isOwner(uid);
+        allow get, list: if isVerifiedOwner(uid);
         allow create, update: if canWrite(uid) && isDevice(deviceId, request.resource.data);
       }
 
       match /settings/{key} {
-        allow get, list: if isOwner(uid);
+        allow get, list: if isVerifiedOwner(uid);
         allow create, update: if canWrite(uid) && isSetting(key, request.resource.data);
+      }
+
+      match /memory/{deviceId} {
+        allow get, list: if isVerifiedOwner(uid);
+        allow create, update: if canWrite(uid) && isMemory(deviceId, request.resource.data);
       }
     }
   }

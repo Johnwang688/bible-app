@@ -1,5 +1,6 @@
 // The English message catalogue. Every UI string goes through a key here (R-0 string ratchet).
 // Keys are flat and dotted. Placeholders are {name}.
+import { feedbackEn } from './feedback';
 import { memoryEn } from './memory';
 
 export const en = {
@@ -37,6 +38,9 @@ export const en = {
   'home.votdRetrying': 'Trying again…',
   'home.psalm': 'Psalm',
   'home.streakStart': 'Start your streak',
+  'home.verifyBanner.new': 'Confirm your email to start syncing',
+  'home.verifyBanner.paused': 'Sync is paused. Confirm your email.',
+  'home.verifyBanner.hint': 'Opens Me',
   'home.shareVerse': 'Share verse',
   'home.surprise': 'Surprise me',
   'home.explored': '{n} of {total} explored',
@@ -266,6 +270,42 @@ export const en = {
   'account.google.deleteCancelled': 'Google confirmation was cancelled. Nothing was deleted.',
   'account.google.deleteMismatch': 'That’s a different Google account. Nothing was deleted. Choose {email} to confirm.',
   'account.google.deleteBlocked': 'Your browser blocked the Google window. Nothing was deleted. Try again; if it keeps happening, allow pop-ups in your browser settings.',
+  'account.verify.title': 'Confirm your email',
+  'account.verify.sent': 'We sent a link to {email}. Open it to confirm this email is yours.',
+  'account.verify.syncAfter': 'Sync starts once you’ve confirmed. Until then, everything stays on this phone.',
+  'account.verify.spam': 'Can’t find it? Check your spam or junk folder.',
+  'account.verify.done': 'I’ve confirmed',
+  'account.verify.checking': 'Checking…',
+  'account.verify.resend': 'Send again',
+  'account.verify.resendIn': 'Send again in {t}',
+  'account.verify.changeInSheet': 'Wrong email? Change it',
+  'account.verify.change': 'Change email',
+  'account.verify.line': 'Sync starts after you confirm your email.',
+  'account.verify.cardBody': 'Open the link we sent to {email}.',
+  'account.verify.resent': 'Sent. Check your inbox and spam folder.',
+  'account.verify.tooMany': 'Too many emails sent. Wait a few minutes, then send again.',
+  'account.verify.offline': 'No connection. Try again when you’re online.',
+  'account.verify.notYet': 'Not confirmed yet. Open the link in the newest email we sent. If it has expired or doesn’t work, send a new one.',
+  'account.verify.confirmed': 'Email confirmed. Syncing now.',
+  'account.verify.confirmedSignedOut': 'Email confirmed. Sign in to sync.',
+  'account.verify.pausedLine': 'Sync is paused.',
+  'account.verify.pausedTitle': 'Confirm your email to turn sync back on',
+  'account.verify.pausedBody': 'What you’ve synced is safe. To keep syncing, confirm that {email} is yours.',
+  'account.verify.pausedSend': 'Send confirmation email',
+  'account.verify.pendingTitle': 'Confirm your new email',
+  'account.verify.pendingBody': 'Open the link we sent to {email}. Until then, your account uses {old}.',
+  'account.verify.keepOld': 'Keep the old email',
+  'account.verify.changedSignedOut': 'Your email changed. Sign in with {email}.',
+  'account.changeEmail.title': 'Change email',
+  'account.changeEmail.intro': 'We’ll email a link to the new address. Your email changes when you open it. Then sign in again with the new address.',
+  'account.changeEmail.newEmail': 'New email',
+  'account.changeEmail.password': 'Your password',
+  'account.changeEmail.send': 'Send link',
+  'account.changeEmail.busy': 'Sending…',
+  'account.changeEmail.sent': 'We sent a link to {email}. Open it to switch, then sign in with the new address.',
+  'account.changeEmail.keeps': 'Until then, your account still uses {old}.',
+  'account.changeEmail.done': 'Done',
+  'account.changeEmail.same': 'That’s the email the account uses now.',
   'signOut.title': 'Sign out now?',
   'signOut.body': 'Some changes on this phone haven’t synced yet. They stay on this phone, but won’t reach your account until you sign in again.',
   'signOut.confirm': 'Sign out',
@@ -286,7 +326,7 @@ export const en = {
   'auth.signUp.tooShort': 'Use at least 8 characters.',
   'auth.signUp.submit': 'Create account',
   'auth.signUp.busy': 'Creating account…',
-  'auth.signUp.note': 'Your highlights, notes, progress and settings on this phone will be added to the account.',
+  'auth.signUp.note': 'After you confirm your email, your highlights, notes, progress and settings on this phone will be added to the account.',
   'auth.privacy': 'Privacy',
   'auth.reset.title': 'Reset password',
   'auth.reset.intro': 'We’ll email you a link to choose a new password.',
@@ -323,7 +363,7 @@ export const en = {
 
   // ---- Privacy policy (B-1) ----
   'privacy.title': 'Privacy policy',
-  'privacy.updated': 'Last updated 2 November 2026',
+  'privacy.updated': 'Last updated 3 November 2026',
   'privacy.switchLanguage': '简体中文',
   'privacy.back': 'Back',
   'privacy.openApp': 'Open the app',
@@ -348,6 +388,7 @@ export const en = {
   'privacy.server.b1': 'A request names only the passage, or the words you searched for.',
   'privacy.server.b2': 'The server runs on Google Cloud in the United States.',
   'privacy.server.b3': 'Like any web server, it sees your IP address and browser type, and keeps them in its request logs for up to 30 days to run and protect the service.',
+  'privacy.server.b4': 'If you send feedback from the Me tab, your message is stored in Cloud Firestore (Google, United States) with the app version, platform, app language, look and your browser or device details, plus your account ID if you’re signed in, but never your email address.',
   'privacy.hosting.title': 'The website and fonts',
   'privacy.hosting.summary': 'Other services deliver the website and a font, and see your IP address when they do.',
   'privacy.hosting.b1': 'The website is served by Firebase Hosting (Google), which logs requests in the same way.',
@@ -611,6 +652,9 @@ export const en = {
 
   // Memory (team MEM): the block lives in ./memory.ts.
   ...memoryEn,
+
+  // Send feedback (team FEEDBACK): the block lives in ./feedback.ts.
+  ...feedbackEn,
 
   'common.loading': 'Loading…',
   'common.retry': 'Try again',

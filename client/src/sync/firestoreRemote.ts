@@ -7,7 +7,8 @@
 //
 // The wire format is one the schema-tight rules can check entry by entry (see the rules' header): a
 // device's activeMs travels as one string "YYYY-MM-DD=ms;..." (decoded back to the same record on pull),
-// and settings JSON is written with its object keys sorted. The push path first drops or normalises
+// settings JSON is written with its object keys sorted, and a Memory document's progress travels as one
+// string of rows (domains/memory.ts encodeMemoryProgress) with its history as two plain fields. The push path first drops or normalises
 // whatever the storage schemas allow but the rules refuse (the `pushable*` functions, mirroring the
 // rules), so no such entry can make a push fail, forever, for the documents around it. Client clocks
 // past what the rules accept (a clock more than a day ahead) are held back the same way, and a batch the
@@ -16,21 +17,38 @@ import {
   collection,
   doc,
   FirestoreError,
+  getDocFromServer,
   getDocsFromServer,
+  limit,
+  orderBy,
   query,
   serverTimestamp,
   setDoc,
+  startAfter,
   Timestamp,
   where,
   writeBatch,
   type DocumentData,
   type Firestore,
   type Query,
+  type QueryConstraint,
+  type QueryDocumentSnapshot,
 } from 'firebase/firestore';
 
 import { HIGHLIGHT_IDS, type HighlightId } from '../theme/highlights';
 import { PRESET_IDS } from '../theme/types';
 import { CLOCK_AHEAD_MAX_MS } from './clock';
+import {
+  decodeMemoryProgress,
+  encodeMemoryProgress,
+  MEMORY_DAYS_MAX,
+  MEMORY_WIRE_MAX,
+  memoryDocChars,
+  memoryPageSize,
+  memoryPull,
+  pushableMemoryValues,
+  wireMemoryValues,
+} from './domains/memory';
 import { put, stableStringify } from './merge';
 import {
   ITEM_KINDS,
@@ -39,6 +57,7 @@ import {
   SETTING_KEYS,
   type DeviceProgress,
   type ItemKind,
+  type MemoryDoc,
   type PulledItem,
   type RemoteItem,
   type RemoteItemValue,
@@ -95,6 +114,18 @@ function toRemoteError(e: unknown): RemoteError {
   }
   if (isNetworkFailure(e)) return new RemoteError('offline', (e as Error).message, { cause: e });
   return new RemoteError('other', e instanceof Error ? e.message : undefined, { cause: e });
+}
+
+/**
+ * A server time in ms (a Timestamp's toMillis(), as the cursors hold it) as that Timestamp again, exactly:
+ * the server keeps whole microseconds, which a double in ms still tells apart, so rounding to them undoes
+ * the conversion. (An incremental Memory pull starts strictly after it; one a microsecond early would
+ * read the last document again, and a page of documents written together could then repeat for ever.)
+ */
+function serverTimestampAt(ms: number): Timestamp {
+  const micros = Math.round(ms * 1000);
+  const seconds = Math.floor(micros / 1e6);
+  return new Timestamp(seconds, (micros - seconds * 1e6) * 1000);
 }
 
 async function guarded<T>(work: () => Promise<T>): Promise<T> {
@@ -181,6 +212,24 @@ function readDevice(id: string, d: DocumentData): DeviceProgress | undefined {
   };
 }
 
+/**
+ * A Memory document: its progress string must decode exactly (domains/memory.ts), its history fields be a
+ * list of strings and a string or null. Anything else is dropped; the engine checks the values against
+ * the storage schemas (and drops what CONFLICTS.md rule 24 says is untrusted). Nothing past the rules'
+ * bounds is decoded: a progress string over MEMORY_WIRE_MAX characters or more than MEMORY_DAYS_MAX days
+ * drops the document before any parsing.
+ */
+function readMemory(id: string, d: DocumentData): MemoryDoc | undefined {
+  const { deviceId, progress, completedDates, startedOn, updatedAt } = d;
+  if (!isString(deviceId) || deviceId !== id || !isNumber(updatedAt) || !isString(progress)) return undefined;
+  if (progress.length > MEMORY_WIRE_MAX) return undefined;
+  if (!Array.isArray(completedDates) || completedDates.length > MEMORY_DAYS_MAX || !completedDates.every(isString)) return undefined;
+  if (startedOn !== null && !isString(startedOn)) return undefined;
+  const decoded = decodeMemoryProgress(progress);
+  if (decoded === null) return undefined;
+  return { deviceId, progress: decoded, history: { startedOn, completedDates: [...completedDates] }, updatedAt };
+}
+
 function readSetting(id: string, d: DocumentData): RemoteSetting | undefined {
   const { key, json, updatedAt, deviceId } = d;
   if (!SETTING_KEYS.includes(key) || key !== id) return undefined;
@@ -240,11 +289,21 @@ const settingDoc = (s: RemoteSetting) => ({
   serverTime: serverTimestamp(),
 });
 
+const memoryDoc = (m: MemoryDoc) => ({
+  deviceId: m.deviceId,
+  progress: encodeMemoryProgress(m.progress),
+  completedDates: [...m.history.completedDates],
+  startedOn: m.history.startedOn,
+  updatedAt: m.updatedAt,
+  serverTime: serverTimestamp(),
+});
+
 /** The documents exactly as the adapter writes them, each with `serverTime: serverTimestamp()`. */
 export const wireDocs = {
   item: (i: RemoteItem) => itemDoc(i),
   device: (p: DeviceProgress) => deviceDoc(p),
   setting: (s: RemoteSetting) => settingDoc(s),
+  memory: (m: MemoryDoc) => memoryDoc(m),
 };
 
 // ---- The push path: what the rules would refuse is dropped or normalised first -------------------
@@ -417,6 +476,24 @@ function pushableDevice(p: DeviceProgress, held: Held, bound: number): DevicePro
   return { ...p, activeMs, chaptersRead, goalMetDays, goal };
 }
 
+/**
+ * The Memory document the rules accept (domains/memory.ts wireMemoryValues: invalid rows dropped, counts
+ * clamped, times rewritten, at most MEMORY_ROWS_MAX rows and MEMORY_DAYS_MAX days). Then rows reviewed or
+ * lapsed past `bound`, due further out than the scheduler sets, and days past local tomorrow are held back
+ * (rule 24; the engine already sends its values so, this applies it to any caller). Its clock
+ * (`updatedAt`, the push time) is sent as it is, as a device document's is.
+ */
+function pushableMemory(m: MemoryDoc, held: Held, nowMs: number): MemoryDoc {
+  const { value: clean, refused } = wireMemoryValues({ progress: m.progress, history: m.history });
+  held.refused += refused;
+  const bounded = pushableMemoryValues(clean, nowMs, CLOCK_AHEAD_MAX_MS);
+  held.ahead +=
+    Object.keys(clean.progress).length - Object.keys(bounded.progress).length +
+    clean.history.completedDates.length - bounded.history.completedDates.length +
+    (clean.history.startedOn !== bounded.history.startedOn ? 1 : 0);
+  return { ...m, progress: bounded.progress, history: bounded.history };
+}
+
 const isObject = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v);
 
 /** The setting with canonical JSON (keys sorted) if the rules accept its value, else null. */
@@ -492,10 +569,11 @@ function batchSig(writes: readonly { coll: string; id: string; data: DocumentDat
 
 // ---- The store ---------------------------------------------------------------------------------
 
-export function createFirestoreRemote(db: Firestore, uid: string): RemoteStore {
+export function createFirestoreRemote(db: Firestore, uid: string): Required<RemoteStore> {
   const items = () => collection(db, 'users', uid, 'items');
   const devices = () => collection(db, 'users', uid, 'devices');
   const settings = () => collection(db, 'users', uid, 'settings');
+  const memory = () => collection(db, 'users', uid, 'memory');
 
   /**
    * The batch this adapter last proved refused as a whole (every document refused on its own in the
@@ -633,6 +711,60 @@ export function createFirestoreRemote(db: Firestore, uid: string): RemoteStore {
           warnHeld('settings', held);
         }
         return { held: held.ids };
+      }),
+
+    // A full pull reads the newest documents first; an incremental one those written after `since`,
+    // oldest first. Page by page, each asking for no more than fits in what is left of MEMORY_PULL_MAX
+    // and MEMORY_PULL_CHARS_MAX (domains/memory.ts memoryPageSize), so the pull never goes over either,
+    // whatever the documents hold (rule 24). The cursor counts every document read, those that do not
+    // decode too, so such documents are never read again by an incremental pull.
+    pullMemory: (since) =>
+      guarded(async () => {
+        const full = since === null || since === undefined;
+        const docs: MemoryDoc[] = [];
+        let cursor = full ? null : since;
+        let read = 0;
+        let chars = 0;
+        let last: QueryDocumentSnapshot | null = null;
+        for (;;) {
+          const size = memoryPageSize(read, chars);
+          if (size === 0) break;
+          const order = full ? orderBy('serverTime', 'desc') : orderBy('serverTime', 'asc');
+          const parts: QueryConstraint[] = full ? [order] : [where('serverTime', '>', serverTimestampAt(since)), order];
+          if (last !== null) parts.push(startAfter(last));
+          const snap = await getDocsFromServer(query(memory(), ...parts, limit(size)));
+          for (const d of snap.docs) {
+            const data = d.data();
+            read++;
+            chars += memoryDocChars(data);
+            const t = data.serverTime;
+            if (isTimestamp(t) && (cursor === null || t.toMillis() > cursor)) cursor = t.toMillis();
+            const m = readMemory(d.id, data);
+            if (m !== undefined) docs.push(m);
+          }
+          if (snap.docs.length < size) break;
+          last = snap.docs[snap.docs.length - 1]!;
+        }
+        return memoryPull(docs, cursor);
+      }),
+
+    // One document by id (the engine's own, CONFLICTS.md rule 25): bounded by the rules' size, and
+    // readMemory bounds the progress string before decoding it, as for a pulled document.
+    getMemory: (deviceId) =>
+      guarded(async () => {
+        const snap = await getDocFromServer(doc(memory(), deviceId));
+        if (!snap.exists()) return 'missing';
+        return readMemory(deviceId, snap.data()) ?? 'invalid';
+      }),
+
+    pushMemory: (m) =>
+      guarded(async () => {
+        const held = noneHeld();
+        try {
+          await setDoc(doc(memory(), m.deviceId), memoryDoc(pushableMemory(m, held, Date.now())));
+        } finally {
+          warnHeld('Memory entries', held);
+        }
       }),
   };
 }

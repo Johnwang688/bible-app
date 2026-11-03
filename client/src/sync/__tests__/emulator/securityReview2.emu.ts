@@ -18,7 +18,7 @@ import {
   type Firestore,
 } from 'firebase/firestore';
 
-import { clearFirestore, closeAll, FIRESTORE_HOST, FIRESTORE_PORT, PROJECT } from './emulator';
+import { clearFirestore, closeAll, FIRESTORE_HOST, FIRESTORE_PORT, mockToken, PROJECT } from './emulator';
 
 // A device id in the engine's shape (20 url-safe characters); activeMs on the wire is "day=ms;..." (R6b-fu-rules).
 const DEV_A = 'devA0000000000000000';
@@ -32,7 +32,7 @@ function dbSignedInAt(uid: string, authTimeMs: number): Firestore {
   const db = getFirestore(app);
   const authTime = Math.floor(authTimeMs / 1000);
   connectFirestoreEmulator(db, FIRESTORE_HOST, FIRESTORE_PORT, {
-    mockUserToken: { sub: uid, user_id: uid, iat: authTime, auth_time: authTime },
+    mockUserToken: mockToken(uid, { iat: authTime, auth_time: authTime }),
   });
   return db;
 }

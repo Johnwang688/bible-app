@@ -1,6 +1,8 @@
 // What the app syncs (R-6b): the storage keys wired into the sync engine.
+import { getMemoryVerse } from '../memory/library';
 import { appearanceCustomKey } from '../storage/appearanceCustomKey';
 import { appearanceKey, languageKey, readingProgressKey, studyItemsKey } from '../storage/keys';
+import { memoryHistoryKey, memoryProgressKey } from '../storage/memoryKeys';
 import type { StorageKey } from '../storage/storage';
 import type { ProgressShape, StudyItemsShape, SyncDomains } from './shapes';
 
@@ -13,4 +15,11 @@ export const DEFAULT_DOMAINS: SyncDomains = {
   progress,
   // The look, the language and the Appearance customisation sync. The age choice (first run) is never synced.
   settings: [appearanceKey as StorageKey<unknown>, languageKey as StorageKey<unknown>, appearanceCustomKey as StorageKey<unknown>],
+  // Memory progress and history sync (CONFLICTS.md "Memory"). Not synced: `memory.lesson` (the day's
+  // frozen plan, rebuilt from the synced progress on each device) and `memory.settings` (it carries the
+  // voice consent, which stays a per-device answer).
+  memory: { progress: memoryProgressKey, history: memoryHistoryKey },
+  // Only verses this library knows are taken from other devices (rule 24): pulled documents are untrusted,
+  // and the library (60 verses today) is what bounds the local Memory progress.
+  memoryVerses: (id) => getMemoryVerse(id) !== undefined,
 };

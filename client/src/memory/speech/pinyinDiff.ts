@@ -66,14 +66,21 @@ export type Op =
  * Tie-break preference in backtrack: match > sub > del/ins. Preferring sub
  * over a del+ins pair keeps the natural "you said the wrong word here"
  * read in the common single-mistake case.
+ *
+ * `same` decides what counts as a match (default: equal tokens). The English
+ * grader passes its own, which also takes a one-letter slip of a long word.
  */
-export function align(expected: string[], transcribed: string[]): Op[] {
+export function align(
+  expected: string[],
+  transcribed: string[],
+  same: (expected: string, transcribed: string) => boolean = (a, b) => a === b,
+): Op[] {
   const m = expected.length;
   const n = transcribed.length;
   const dp: number[][] = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
   for (let i = 1; i <= m; i++) {
     for (let j = 1; j <= n; j++) {
-      const matchBonus = expected[i - 1] === transcribed[j - 1] ? 1 : 0;
+      const matchBonus = same(expected[i - 1]!, transcribed[j - 1]!) ? 1 : 0;
       dp[i]![j] = Math.max(
         dp[i - 1]![j - 1]! + matchBonus,
         dp[i - 1]![j]!,
@@ -86,7 +93,7 @@ export function align(expected: string[], transcribed: string[]): Op[] {
   let i = m;
   let j = n;
   while (i > 0 && j > 0) {
-    const isMatch = expected[i - 1] === transcribed[j - 1];
+    const isMatch = same(expected[i - 1]!, transcribed[j - 1]!);
     const diag = dp[i - 1]![j - 1]! + (isMatch ? 1 : 0);
     const up = dp[i - 1]![j]!;
     const left = dp[i]![j - 1]!;

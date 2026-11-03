@@ -1,6 +1,7 @@
 // 简体中文 message catalogue. Drafted with the English; John and Chinese-speaking friends
 // review it before launch (R-7). Terms follow CUV-style church usage.
 import type { MessageKey } from './en';
+import { feedbackZhHans } from './feedback';
 import { memoryZhHans } from './memory';
 
 export const zhHans: Record<MessageKey, string> = {
@@ -38,6 +39,9 @@ export const zhHans: Record<MessageKey, string> = {
   'home.votdRetrying': '正在重试…',
   'home.psalm': '诗篇',
   'home.streakStart': '开始连续阅读',
+  'home.verifyBanner.new': '确认电子邮箱后即可开始同步',
+  'home.verifyBanner.paused': '同步已暂停，请确认电子邮箱',
+  'home.verifyBanner.hint': '打开“我的”',
   'home.shareVerse': '分享经文',
   'home.surprise': '给我惊喜',
   'home.explored': '已探索 {n} / {total} 章',
@@ -267,6 +271,42 @@ export const zhHans: Record<MessageKey, string> = {
   'account.google.deleteCancelled': '已取消 Google 确认，未删除任何内容。',
   'account.google.deleteMismatch': '这是另一个 Google 账号，未删除任何内容。请选择 {email} 来确认。',
   'account.google.deleteBlocked': '浏览器阻止了 Google 窗口，未删除任何内容。请重试；如果仍然被阻止，请在浏览器设置中允许弹出窗口。',
+  'account.verify.title': '确认你的电子邮箱',
+  'account.verify.sent': '我们已向 {email} 发送了一个链接。打开它，确认这个邮箱是你的。',
+  'account.verify.syncAfter': '确认后开始同步。在此之前，所有内容都保存在这台手机上。',
+  'account.verify.spam': '找不到邮件？请查看垃圾邮件文件夹。',
+  'account.verify.done': '我已确认',
+  'account.verify.checking': '正在检查…',
+  'account.verify.resend': '重新发送',
+  'account.verify.resendIn': '{t} 后可重新发送',
+  'account.verify.changeInSheet': '邮箱填错了？更改',
+  'account.verify.change': '更改邮箱',
+  'account.verify.line': '确认电子邮箱后开始同步。',
+  'account.verify.cardBody': '请打开我们发送到 {email} 的链接。',
+  'account.verify.resent': '已发送。请查看收件箱和垃圾邮件文件夹。',
+  'account.verify.tooMany': '发送的邮件太多了。请过几分钟再重新发送。',
+  'account.verify.offline': '没有网络连接。请联网后再试。',
+  'account.verify.notYet': '尚未确认。请打开我们最新发送的邮件中的链接。如果链接已过期或无法使用，请重新发送一封。',
+  'account.verify.confirmed': '电子邮箱已确认，正在同步。',
+  'account.verify.confirmedSignedOut': '电子邮箱已确认。登录即可同步。',
+  'account.verify.pausedLine': '同步已暂停。',
+  'account.verify.pausedTitle': '确认电子邮箱以恢复同步',
+  'account.verify.pausedBody': '你已同步的内容都安全保存着。要继续同步，请确认 {email} 是你的邮箱。',
+  'account.verify.pausedSend': '发送确认邮件',
+  'account.verify.pendingTitle': '确认你的新电子邮箱',
+  'account.verify.pendingBody': '请打开我们发送到 {email} 的链接。在此之前，你的账户仍使用 {old}。',
+  'account.verify.keepOld': '保留原来的邮箱',
+  'account.verify.changedSignedOut': '你的电子邮箱已更改。请用 {email} 登录。',
+  'account.changeEmail.title': '更改电子邮箱',
+  'account.changeEmail.intro': '我们会向新邮箱发送一个链接。打开链接后邮箱才会更改，之后请用新邮箱重新登录。',
+  'account.changeEmail.newEmail': '新电子邮箱',
+  'account.changeEmail.password': '你的密码',
+  'account.changeEmail.send': '发送链接',
+  'account.changeEmail.busy': '正在发送…',
+  'account.changeEmail.sent': '我们已向 {email} 发送了一个链接。打开它完成更改，然后用新邮箱登录。',
+  'account.changeEmail.keeps': '在此之前，你的账户仍使用 {old}。',
+  'account.changeEmail.done': '完成',
+  'account.changeEmail.same': '这就是账户现在使用的电子邮箱。',
   'signOut.title': '现在退出登录吗？',
   'signOut.body': '这台手机上有些更改尚未同步。它们会保留在这台手机上，但要等你再次登录后才会同步到账户。',
   'signOut.confirm': '退出登录',
@@ -287,7 +327,7 @@ export const zhHans: Record<MessageKey, string> = {
   'auth.signUp.tooShort': '请使用至少 8 个字符。',
   'auth.signUp.submit': '创建账户',
   'auth.signUp.busy': '正在创建账户…',
-  'auth.signUp.note': '你在这台手机上的高亮、笔记、进度和设置将加入此账户。',
+  'auth.signUp.note': '确认电子邮箱后，你在这台手机上的高亮、笔记、进度和设置将加入此账户。',
   'auth.privacy': '隐私',
   'auth.reset.title': '重设密码',
   'auth.reset.intro': '我们会给你发送一封邮件，里面有设置新密码的链接。',
@@ -324,7 +364,7 @@ export const zhHans: Record<MessageKey, string> = {
 
   // ---- Privacy policy (B-1) ----
   'privacy.title': '隐私政策',
-  'privacy.updated': '最后更新：2026 年 11 月 2 日',
+  'privacy.updated': '最后更新：2026 年 11 月 3 日',
   'privacy.switchLanguage': 'English',
   'privacy.back': '返回',
   'privacy.openApp': '打开应用',
@@ -349,6 +389,7 @@ export const zhHans: Record<MessageKey, string> = {
   'privacy.server.b1': '请求中只包含经文出处或你搜索的词语。',
   'privacy.server.b2': '服务器运行在美国的 Google Cloud 上。',
   'privacy.server.b3': '和所有网络服务器一样，它会看到你的 IP 地址和浏览器类型，并在请求日志中保留最多 30 天，用于运行和保护这项服务。',
+  'privacy.server.b4': '如果你在“我的”页面发送反馈，你写的内容会和应用版本、平台、应用语言、风格以及浏览器或设备信息一起保存在 Cloud Firestore（Google，美国）；如果你已登录，还会附上你的账户 ID，但绝不包括你的电子邮箱。',
   'privacy.hosting.title': '网站和字体',
   'privacy.hosting.summary': '网站和一种字体由其他服务提供，提供时它们会看到你的 IP 地址。',
   'privacy.hosting.b1': '网站由 Firebase Hosting（Google）提供，它也会以同样的方式记录请求。',
@@ -612,6 +653,9 @@ export const zhHans: Record<MessageKey, string> = {
 
   // Memory (team MEM): the block lives in ./memory.ts.
   ...memoryZhHans,
+
+  // Send feedback (team FEEDBACK): the block lives in ./feedback.ts.
+  ...feedbackZhHans,
 
   'common.loading': '加载中…',
   'common.retry': '重试',

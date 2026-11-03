@@ -2,6 +2,7 @@
 // tab's stack, the week, a day's lesson done by typing, and the voice notices. Implementers may not edit it.
 import { expect, test } from '@playwright/test';
 
+import { TMS_ENGLISH } from '../src/memory/library/tmsEnglish';
 import { mockApi, seed, stored } from './helpers';
 
 test.beforeEach(async ({ page }) => mockApi(page));
@@ -77,32 +78,33 @@ test.describe('Memory lesson by typing', () => {
     await expect(page).toHaveURL(/i=1/);
   });
 
-  test('fill-in, signed out: the signed-out notice stands in the mic’s place; typing passes the step', async ({ page }) => {
+  test('fill-in in English, signed out: the signed-out notice stands in the mic’s place; typing passes the step', async ({ page }) => {
     const verse = '2-corinthians-5-17';
     await page.goto(`/memory/lesson/${verse}/fill-blank`);
     await expect(page.getByTestId('memory-notice-signed-out')).toBeVisible();
     await expect(page.getByTestId('memory-mic')).toHaveCount(0);
+    // English verse text carries its scripture notice.
+    await expect(page.getByTestId('memory-scripture-notice').first()).toContainText(/Berean Standard Bible|ESV® Bible/);
     const blank = Number(await page.getByTestId('memory-blank').getAttribute('data-position'));
-    const chunks = ['若有人在基督里', '他就是新造的人', '旧事已过，都变成新的了'];
-    await page.getByTestId('memory-type-input').fill(chunks[blank]!);
+    await page.getByTestId('memory-type-input').fill(TMS_ENGLISH[verse]!.chunks[blank]!);
     await page.getByTestId('memory-type-check').click();
     await expect(page.getByTestId('memory-result')).toContainText('Correct');
     await expect(page.getByTestId('memory-result')).toContainText('100%');
-    // Free practice: Next goes back to Memory home.
     await page.getByTestId('memory-next').click();
     await expect(page).toHaveURL(/\/study\/memory$/);
     const progress = await stored<Record<string, { successes: number }>>(page, 'memory.progress');
     expect(progress?.[verse]?.successes).toBe(1);
   });
 
-  test('full recall typed with the reference passes; without it fails with "Heard differently? Type it"', async ({ page }) => {
+  test('full recall in English needs the reference', async ({ page }) => {
     const verse = '2-timothy-3-16';
+    const text = TMS_ENGLISH[verse]!.text;
     await page.goto(`/memory/lesson/${verse}/full-recall`);
-    await page.getByTestId('memory-type-input').fill('圣经都是神所默示的，于教训、督责、使人归正、教导人学义都是有益的。');
+    await page.getByTestId('memory-type-input').fill(text);
     await page.getByTestId('memory-type-check').click();
-    await expect(page.getByTestId('memory-result')).toContainText(/No reference heard|reference/i);
+    await expect(page.getByTestId('memory-result')).toContainText(/reference/i);
     await page.getByTestId('memory-try-again').click();
-    await page.getByTestId('memory-type-input').fill('提摩太后书3:16 圣经都是神所默示的，于教训、督责、使人归正、教导人学义都是有益的。');
+    await page.getByTestId('memory-type-input').fill(`2 Timothy 3:16 ${text}`);
     await page.getByTestId('memory-type-check').click();
     await expect(page.getByTestId('memory-result')).toContainText('Correct');
   });
@@ -122,5 +124,40 @@ test.describe('Memory lesson by typing', () => {
     await page.getByTestId('memory-notice-settings').click();
     await expect(page.getByTestId('memory-settings-sheet')).toBeVisible();
     await expect(page).toHaveURL(/fill-blank/);
+  });
+});
+
+test.describe('Memory lesson by typing (Chinese verses in the Chinese interface)', () => {
+  test.use({ locale: 'zh-CN', colorScheme: 'light' });
+
+  test('fill-in, signed out: the signed-out notice stands in the mic’s place; typing passes the step', async ({ page }) => {
+    const verse = '2-corinthians-5-17';
+    await page.goto(`/memory/lesson/${verse}/fill-blank`);
+    await expect(page.getByTestId('memory-notice-signed-out')).toBeVisible();
+    await expect(page.getByTestId('memory-mic')).toHaveCount(0);
+    await expect(page.getByTestId('memory-scripture-notice')).toHaveCount(0);
+    const blank = Number(await page.getByTestId('memory-blank').getAttribute('data-position'));
+    const chunks = ['若有人在基督里', '他就是新造的人', '旧事已过，都变成新的了'];
+    await page.getByTestId('memory-type-input').fill(chunks[blank]!);
+    await page.getByTestId('memory-type-check').click();
+    await expect(page.getByTestId('memory-result')).toContainText('完成！');
+    await expect(page.getByTestId('memory-result')).toContainText('100%');
+    // Free practice: Next goes back to Memory home.
+    await page.getByTestId('memory-next').click();
+    await expect(page).toHaveURL(/\/study\/memory$/);
+    const progress = await stored<Record<string, { successes: number }>>(page, 'memory.progress');
+    expect(progress?.[verse]?.successes).toBe(1);
+  });
+
+  test('full recall typed with the reference passes; without it the reference is missing', async ({ page }) => {
+    const verse = '2-timothy-3-16';
+    await page.goto(`/memory/lesson/${verse}/full-recall`);
+    await page.getByTestId('memory-type-input').fill('圣经都是神所默示的，于教训、督责、使人归正、教导人学义都是有益的。');
+    await page.getByTestId('memory-type-check').click();
+    await expect(page.getByTestId('memory-result')).toContainText('缺少出处');
+    await page.getByTestId('memory-try-again').click();
+    await page.getByTestId('memory-type-input').fill('提摩太后书3:16 圣经都是神所默示的，于教训、督责、使人归正、教导人学义都是有益的。');
+    await page.getByTestId('memory-type-check').click();
+    await expect(page.getByTestId('memory-result')).toContainText('完成！');
   });
 });

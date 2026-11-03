@@ -8,6 +8,12 @@
 // value (`{ j, v, data }`, `j` first), so the value and its tag land in one atomic key write. A plain
 // `set` keeps the key's existing tag, so a tagged write stays recognisable after the app edits the
 // value again; `remove` drops it. `get` ignores the tag, and values stored without one read as before.
+//
+// Other tabs (web): two tabs of the app share localStorage, and the browser tells each tab when another one
+// writes it (the `storage` event). What is shown follows it: `useStoredValue` hears other tabs' writes, so a tab
+// left open never shows, or acts on, a stale value (a stale first-run intro closes once another tab finishes it,
+// INT F2). A plain `subscribe` hears this tab's own writes only, as before: the sync engine reads its listener as
+// "this device changed it", and another tab's write is that tab's to upload (hearing it would upload it twice).
 import { useCallback, useSyncExternalStore } from 'react';
 import type { z } from 'zod';
 
@@ -15,6 +21,11 @@ export interface KeyValueBackend {
   getString(key: string): string | undefined;
   set(key: string, value: string): void;
   remove(key: string): void;
+  /**
+   * Calls `listener` when a value changes from outside this store (another tab on the web), with its key, or
+   * null when it cannot say which (the whole store was cleared). Returns the unsubscribe.
+   */
+  subscribeExternal?(listener: (key: string | null) => void): () => void;
 }
 
 export interface StorageKey<T> {
@@ -40,8 +51,11 @@ export interface Storage {
   /** The tag stored with the key's value, or undefined (no value, or one written without a tag). */
   tagOf<T>(k: StorageKey<T>): string | undefined;
   remove<T>(k: StorageKey<T>): void;
-  /** Calls `listener` after each set or remove of this key. Returns the unsubscribe. */
-  subscribe<T>(k: StorageKey<T>, listener: () => void): () => void;
+  /**
+   * Calls `listener` after each set or remove of this key made through this store. With `otherTabs`, also when
+   * another tab changes it (web). Returns the unsubscribe.
+   */
+  subscribe<T>(k: StorageKey<T>, listener: () => void, opts?: { otherTabs?: boolean }): () => void;
 }
 
 const TAG_RE = /^[A-Za-z0-9_-]{1,64}$/;
@@ -54,7 +68,18 @@ function tagIn(raw: string | undefined): string | undefined {
 
 export function createStorage(backend: KeyValueBackend): Storage {
   const listeners = new Map<string, Set<() => void>>();
-  const notify = (key: string) => listeners.get(key)?.forEach((l) => l());
+  /** The subscribers that asked to hear other tabs' writes too. */
+  const otherTabListeners = new Map<string, Set<() => void>>();
+  const notify = (key: string) => {
+    listeners.get(key)?.forEach((l) => l());
+    otherTabListeners.get(key)?.forEach((l) => l());
+  };
+  const notifyOtherTab = (key: string) => otherTabListeners.get(key)?.forEach((l) => l());
+  // For as long as the app runs: a change made in another tab reaches the subscribers that asked for it.
+  backend.subscribeExternal?.((key) => {
+    if (key !== null) notifyOtherTab(key);
+    else [...otherTabListeners.keys()].forEach(notifyOtherTab);
+  });
 
   return {
     // Parsed afresh on every read, so callers can never mutate the stored copy.
@@ -94,9 +119,10 @@ export function createStorage(backend: KeyValueBackend): Storage {
       backend.remove(k.key);
       notify(k.key);
     },
-    subscribe(k, listener) {
-      let set = listeners.get(k.key);
-      if (!set) listeners.set(k.key, (set = new Set()));
+    subscribe(k, listener, opts) {
+      const byKey = opts?.otherTabs ? otherTabListeners : listeners;
+      let set = byKey.get(k.key);
+      if (!set) byKey.set(k.key, (set = new Set()));
       set.add(listener);
       return () => {
         set.delete(listener);
@@ -105,9 +131,9 @@ export function createStorage(backend: KeyValueBackend): Storage {
   };
 }
 
-/** The stored value as React state: the same object until the value changes. */
+/** The stored value as React state: the same object until the value changes, here or in another tab. */
 export function useStoredValue<T>(storage: Storage, k: StorageKey<T>): [T, (value: T) => void] {
-  const subscribe = useCallback((cb: () => void) => storage.subscribe(k, cb), [storage, k]);
+  const subscribe = useCallback((cb: () => void) => storage.subscribe(k, cb, { otherTabs: true }), [storage, k]);
   const snapshot = useSyncExternalStore(subscribe, () => snapshotOf(storage, k), () => snapshotOf(storage, k));
   const set = useCallback((value: T) => storage.set(k, value), [storage, k]);
   return [snapshot, set];
@@ -148,9 +174,29 @@ export function getStorage(): Storage {
       getString: (key) => mmkv.getString(key),
       set: (key, value) => mmkv.set(key, value),
       remove: (key) => void mmkv.remove(key),
+      subscribeExternal: (listener) => otherTabWrites(listener),
     });
   }
   return defaultStorage;
+}
+
+/** MMKV's web build keeps each value in localStorage under `<store id>` + one backslash + `<key>`. */
+const WEB_KEY_PREFIX = 'bible-app\\';
+
+/**
+ * Writes to this app's keys made by another tab (web: the `storage` event, which the browser fires only in the
+ * other tabs). On native there is one app and nothing to hear.
+ */
+export function otherTabWrites(listener: (key: string | null) => void): () => void {
+  if (typeof window === 'undefined' || typeof window.addEventListener !== 'function') return () => {};
+  const onStorage = (event: StorageEvent) => {
+    // Session storage is not the store's.
+    if (event.storageArea !== null && typeof localStorage !== 'undefined' && event.storageArea !== localStorage) return;
+    if (event.key === null) listener(null);
+    else if (event.key.startsWith(WEB_KEY_PREFIX)) listener(event.key.slice(WEB_KEY_PREFIX.length));
+  };
+  window.addEventListener('storage', onStorage);
+  return () => window.removeEventListener('storage', onStorage);
 }
 
 /** Tests swap the app storage for a memory one. Pass null to go back to the device store. */

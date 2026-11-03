@@ -5,7 +5,9 @@
 // each of its own writes while the others have not landed yet (R6b-fu-journal-fix1).
 import { z } from 'zod';
 
+import type { VerseProgress } from '../../memory/types';
 import { appearanceKey, languageKey } from '../../storage/keys';
+import { memoryHistoryKey, memoryProgressKey } from '../../storage/memoryKeys';
 import { createStorage, type KeyValueBackend, type Storage, type StorageKey } from '../../storage/storage';
 import { createSyncEngine } from '../engine';
 import { createMemoryRemote, type MemoryRemote } from '../memoryRemote';
@@ -70,16 +72,31 @@ function mortal(remote: RemoteStore, isDead: () => boolean): RemoteStore {
     pushDevice: guard(remote.pushDevice.bind(remote)),
     pullSettings: guard(remote.pullSettings.bind(remote)),
     pushSettings: guard(remote.pushSettings.bind(remote)),
+    pullMemory: remote.pullMemory && guard(remote.pullMemory.bind(remote)),
+    pushMemory: remote.pushMemory && guard(remote.pushMemory.bind(remote)),
   };
 }
 
-type Part = 'items' | 'settings' | 'progress';
+type Part = 'items' | 'settings' | 'progress' | 'memory';
 const PARTS: Record<string, Part[]> = {
-  all: ['items', 'settings', 'progress'],
+  all: ['items', 'settings', 'progress', 'memory'],
   items: ['items'],
   settings: ['settings'],
   progress: ['progress'],
+  memory: ['memory'],
 };
+
+/** A Memory row reviewed at `t` (ms). */
+const memRow = (t: number, over: Partial<VerseProgress> = {}): VerseProgress => ({
+  stage: 'fill_blank',
+  successes: 1,
+  failures: 0,
+  masteryScore: 20,
+  nextDueAt: iso(t + 86_400_000),
+  lastReviewedAt: iso(t),
+  lapsedAt: null,
+  ...over,
+});
 
 function domainsOf(parts: Part[]): SyncDomains {
   return {
@@ -88,6 +105,8 @@ function domainsOf(parts: Part[]): SyncDomains {
     // The run under test takes B's custom setting and language in one commit (custom written first) and
     // C changes both later, so a local change invented for either shows.
     settings: parts.includes('settings') ? [appearanceKey as StorageKey<unknown>, customKey as StorageKey<unknown>, languageKey as StorageKey<unknown>] : undefined,
+    // Memory is not journaled (engine.ts "Memory"): its join must make every crash point safe on its own.
+    memory: parts.includes('memory') ? { progress: memoryProgressKey, history: memoryHistoryKey } : undefined,
   };
 }
 
@@ -126,6 +145,10 @@ async function runUnderTest(parts: Part[], crashAt: number | null, remoteDies: b
     storage.set(customKey, 'a0');
   }
   if (parts.includes('progress')) storage.set(progressKey, { ...progressKey.fallback, activeMs: { [DAY]: 50_000 } });
+  if (parts.includes('memory')) {
+    storage.set(memoryProgressKey, { 'john-3-16': memRow(900_000) });
+    storage.set(memoryHistoryKey, { startedOn: '2026-11-01', completedDates: ['2026-11-01'] });
+  }
   await engine.syncNow();
   expect(engine.status().state).toBe('idle');
   if (started) {
@@ -140,6 +163,12 @@ async function runUnderTest(parts: Part[], crashAt: number | null, remoteDies: b
   remote.putSetting({ key: 'language', json: '"zh-Hans"', updatedAt: 2_000_000, deviceId: 'devB' });
   remote.putSetting({ key: 'appearance.custom', json: '"from B"', updatedAt: 2_000_000, deviceId: 'devB' });
   remote.putDevice({ deviceId: 'devB', activeMs: { [DAY]: 100_000 }, chaptersRead: { '1:1': iso(2_000_000) }, goalMetDays: [], goal: { minutes: 20, updatedAt: 2_000_000 }, updatedAt: 2_000_000 });
+  remote.putMemory({
+    deviceId: 'devB',
+    progress: { 'john-3-16': memRow(2_000_000, { stage: 'review', masteryScore: 60 }), 'romans-12-1': memRow(2_000_000) },
+    history: { startedOn: '2026-10-30', completedDates: ['2026-10-30'] },
+    updatedAt: 2_000_000,
+  });
 
   // A changes locally.
   if (parts.includes('items')) {
@@ -148,6 +177,10 @@ async function runUnderTest(parts: Part[], crashAt: number | null, remoteDies: b
   }
   if (parts.includes('settings')) storage.set(appearanceKey, { preset: null, mode: 'dark' });
   if (parts.includes('progress')) storage.set(progressKey, { ...storage.get(progressKey), activeMs: { [DAY]: 55_000 }, chaptersRead: { '2:1': iso(1_500_000) } });
+  if (parts.includes('memory')) {
+    storage.set(memoryProgressKey, { ...storage.get(memoryProgressKey), 'psalm-23-1': memRow(1_500_000) });
+    storage.set(memoryHistoryKey, { startedOn: '2026-11-01', completedDates: ['2026-11-01', '2026-11-02'] });
+  }
 
   // The run under test. Crash point 0 is before its first write.
   let crashed: Map<string, string> | null = null;
@@ -186,6 +219,7 @@ async function restartAndCheck(parts: Part[], remote: MemoryRemote, bytes: Map<s
       storage.set(progressKey, { ...p, activeMs: { [DAY]: (p.activeMs[DAY] ?? 0) + 100_000 } });
     }
     if (parts.includes('items')) setNote(storage, '5:5:5', 'after crash', 3_600_000);
+    if (parts.includes('memory')) storage.set(memoryProgressKey, { ...storage.get(memoryProgressKey), 'matthew-6-33': memRow(3_600_000) });
   }
 
   // Meanwhile device C changes what B changed, later than B (2,500,000) but before A restarts.
@@ -195,6 +229,12 @@ async function restartAndCheck(parts: Part[], remote: MemoryRemote, bytes: Map<s
   remote.putSetting({ key: 'language', json: '"system"', updatedAt: 2_500_000, deviceId: 'devC' });
   remote.putSetting({ key: 'appearance.custom', json: '"from C"', updatedAt: 2_500_000, deviceId: 'devC' });
   remote.putDevice({ deviceId: 'devC', activeMs: { [DAY]: 7_000 }, chaptersRead: {}, goalMetDays: [], goal: { minutes: 30, updatedAt: 2_500_000 }, updatedAt: 2_500_000 });
+  remote.putMemory({
+    deviceId: 'devC',
+    progress: { 'romans-12-1': memRow(2_500_000, { stage: 'full_recall', successes: 2 }) },
+    history: { startedOn: null, completedDates: ['2026-11-03'] },
+    updatedAt: 2_500_000,
+  });
 
   const a = make(4_000_000);
   if (started) a.engine.start();
@@ -238,6 +278,19 @@ async function restartAndCheck(parts: Part[], remote: MemoryRemote, bytes: Map<s
       chapters: Object.keys(storage.get(progressKey).chaptersRead).sort(),
     }).toEqual({ own, a: own + others, d: own + others, goalA: 30, goalD: 30, chapters: ['1:1', '2:1'] });
   }
+  if (parts.includes('memory')) {
+    // Nothing lost, nothing older winning: per verse the newest review, every day, the earliest start.
+    const progress: Record<string, VerseProgress> = {
+      'john-3-16': memRow(2_000_000, { stage: 'review', masteryScore: 60 }),
+      'psalm-23-1': memRow(1_500_000),
+      'romans-12-1': memRow(2_500_000, { stage: 'full_recall', successes: 2 }),
+    };
+    if (edit === 'trap') progress['matthew-6-33'] = memRow(3_600_000);
+    const history = { startedOn: '2026-10-30', completedDates: ['2026-10-30', '2026-11-01', '2026-11-02', '2026-11-03'] };
+    expect({ progress: storage.get(memoryProgressKey), history: storage.get(memoryHistoryKey) }).toEqual({ progress, history });
+    expect({ progress: d.storage.get(memoryProgressKey), history: d.storage.get(memoryHistoryKey) }).toEqual({ progress, history });
+    expect(remote.memory.get('devA')).toMatchObject({ progress, history });
+  }
 }
 
 describe('a crash after every single storage write of a run converges', () => {
@@ -253,7 +306,7 @@ describe('a crash after every single storage write of a run converges', () => {
         const { writes: total, crashed: none } = await runUnderTest(parts, null, false, started);
         expect(none).toBeNull();
         // At least: the journal, each local key the run takes a value into, the final state, a base update after a push.
-        expect(total).toBeGreaterThanOrEqual(parts.length === 3 ? 8 : parts.includes('settings') ? 5 : 4);
+        expect(total).toBeGreaterThanOrEqual(parts.length >= 3 ? 8 : parts.includes('settings') ? 5 : 4);
         let checked = 0;
         for (let n = 0; n <= total; n++) {
           for (const remoteDies of [false, true]) {

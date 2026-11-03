@@ -18,7 +18,7 @@ import {
   type Firestore,
 } from 'firebase/firestore';
 
-import { clearFirestore, closeAll, dbAs, denied, FIRESTORE_HOST, FIRESTORE_PORT, PROJECT } from './emulator';
+import { clearFirestore, closeAll, dbAs, denied, FIRESTORE_HOST, FIRESTORE_PORT, PROJECT, verifyEmail } from './emulator';
 
 // Device ids in the engine's shape (20 url-safe characters); activeMs on the wire is "day=ms;..." (R6b-fu-rules).
 const DEV_A = 'devA0000000000000000';
@@ -78,6 +78,7 @@ describe('FINDING: delete-my-data does not stop a still-valid ID token', () => {
     await fetch(`${AUTH_URL}/emulator/v1/projects/${PROJECT}/accounts`, { method: 'DELETE' });
     const { user } = await createUserWithEmailAndPassword(auth, 'victim@example.com', 'correct horse');
     const uid = user.uid;
+    await verifyEmail(auth, user); // the rules admit a verified owner only (email verification, 11-03)
     await setDoc(doc(db, 'users', uid, 'devices', DEV_B), device({ deviceId: DEV_B }));
 
     // "Delete my data" as the backend does it: the auth user is deleted and users/{uid} is wiped.

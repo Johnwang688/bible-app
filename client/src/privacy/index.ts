@@ -33,7 +33,7 @@ export function privacyLocale(param: string | string[] | undefined, interfaceLoc
 export const PRIVACY_BULLET_COUNT: Record<PrivacySection, number> = {
   never: 3,
   device: 3,
-  server: 3,
+  server: 4, // b4: feedback (John 11-03, design/proposed/feedback.html decision 13)
   hosting: 2,
   account: 3,
   delete: 3,

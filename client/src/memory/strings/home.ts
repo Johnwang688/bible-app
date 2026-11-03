@@ -100,7 +100,7 @@ export const homeEn = {
   'memory.settings.close': 'Close',
   'memory.settings.done': 'Done',
   'memory.settings.script': 'Chinese script',
-  'memory.settings.scriptHint': 'How verses are shown. Grading works the same either way.',
+  'memory.settings.scriptHint': 'How the Chinese verses are shown. Grading works the same either way.',
   'memory.settings.simplified': 'Simplified',
   'memory.settings.traditional': 'Traditional',
   'memory.settings.voice': 'Voice answers',
@@ -115,7 +115,14 @@ export const homeEn = {
   'memory.settings.speechOff': 'Voice answers are off, so this choice is not used.',
   'memory.settings.mandarin': 'Mandarin',
   'memory.settings.cantonese': 'Cantonese',
-  'memory.settings.englishNote': 'Voice answers work for the Chinese verses. English verses are typed only.',
+  'memory.settings.englishNote':
+    'Verses follow the app language. English verses are from the {translation}; answer them in English, by voice or typing. Chinese verses are from the Chinese Union Version; script and speech apply to them.',
+  'memory.settings.forChinese': 'For the Chinese verses',
+
+  // The notice shown wherever English verse text appears (the translation's own wording).
+  'memory.notice.esv':
+    'Scripture quotations are from the ESV® Bible (The Holy Bible, English Standard Version®), © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved.',
+  'memory.notice.bsb': 'Scripture text: Berean Standard Bible (BSB), public domain.',
 } as const;
 
 export const homeZhHans: Record<keyof typeof homeEn, string> = {
@@ -218,7 +225,7 @@ export const homeZhHans: Record<keyof typeof homeEn, string> = {
   'memory.settings.close': '关闭',
   'memory.settings.done': '完成',
   'memory.settings.script': '中文字形',
-  'memory.settings.scriptHint': '经文的显示方式。两种字形的评分方式相同。',
+  'memory.settings.scriptHint': '中文经文的显示方式。两种字形的评分方式相同。',
   'memory.settings.simplified': '简体',
   'memory.settings.traditional': '繁体',
   'memory.settings.voice': '语音作答',
@@ -232,5 +239,11 @@ export const homeZhHans: Record<keyof typeof homeEn, string> = {
   'memory.settings.speechOff': '语音作答已关闭，暂时用不到这个选项。',
   'memory.settings.mandarin': '普通话',
   'memory.settings.cantonese': '粤语',
-  'memory.settings.englishNote': '语音作答只用于中文经文，英文经文请用输入。',
+  'memory.settings.englishNote':
+    '经文跟随 App 的语言。英文经文来自 {translation}，可用英语语音或输入作答。中文经文来自和合本，字形和语音识别只用于中文经文。',
+  'memory.settings.forChinese': '用于中文经文',
+
+  'memory.notice.esv':
+    '经文引自 ESV® 圣经（The Holy Bible, English Standard Version®），© 2001 Crossway（Good News Publishers 旗下出版机构）。经许可使用，保留所有权利。',
+  'memory.notice.bsb': '经文：Berean Standard Bible（BSB），公有领域。',
 };

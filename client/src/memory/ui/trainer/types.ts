@@ -2,7 +2,8 @@
 // and the few actions a trainer takes (record an attempt, go on, skip). Trainers never touch the router or the clock.
 import type { MemorySettings } from '../../../storage/memoryKeys';
 import type { Storage } from '../../../storage/storage';
-import type { ChineseScript, MemoryVerse, StageSlug } from '../../types';
+import type { ChineseScript, LibraryVerse, StageSlug } from '../../types';
+import type { VerseLanguage } from '../../verseLanguage';
 import type { CheckVoice, Recorder } from '../../voice/types';
 
 export interface VoiceEnv {
@@ -15,7 +16,7 @@ export interface VoiceEnv {
 }
 
 export interface TrainerCtx {
-  verse: MemoryVerse;
+  verse: LibraryVerse;
   stage: StageSlug;
   /** The step's place in today's lesson, or null for free practice. */
   index: number | null;
@@ -25,6 +26,11 @@ export interface TrainerCtx {
   now: () => Date;
   settings: MemorySettings;
   script: ChineseScript;
+  /**
+   * The verse language (it follows the app language). The lesson screen keys the trainer on it, so a switch
+   * mid-step unmounts the trainer: its attempt ends and the step's scope is renewed.
+   */
+  language: VerseLanguage;
   random: () => number;
   voice: VoiceEnv;
   /**

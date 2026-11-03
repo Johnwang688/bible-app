@@ -19,26 +19,42 @@
 // password field would be a dead end for it); while that window is open, Cancel and Close give the delete up (the
 // abort is read before anything is stopped or sent), and once Google has proven the account the delete locks the
 // sheet like a password delete.
+//
+// Email verification (11-03, prototype r6b-verify.html): a sign-up whose email must be confirmed does not close the
+// sheet; it turns into "Confirm your email" (no Back: the account exists), with I've confirmed, Send again (its 60 s
+// countdown) and "Wrong email? Change it". While that view is open the app checks by itself every 10 s for up to
+// 10 minutes; once the email is confirmed the sheet closes (the card says so). `changeEmail` (from the card, or from
+// the confirm view) asks for the new address and the password, then shows "Link sent".
+//
+// Google meets email verification: a Google sign-in comes back with a confirmed email (Firebase marks a Gmail address
+// verified), so it closes the sheet like an email sign-in and never reaches "Confirm your email" (only an email sign-up
+// goes there).
 import { router } from 'expo-router';
 import { useCallback, useEffect, useRef, useState, type ComponentRef } from 'react';
 import { Keyboard, Platform, ScrollView, StyleSheet, Text, TextInput, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { uiFace } from '../../fonts/fonts';
-import { useT } from '../../i18n/I18nProvider';
+import { useI18n, useT } from '../../i18n/I18nProvider';
 import { programmaticFocus, useFocusOnMount } from '../../reader/components/a11y';
 import { SheetModal } from '../../reader/components/SheetModal';
 import { useTheme } from '../../theme/ThemeProvider';
-import { useAccount } from '../AccountProvider';
+import { emailLanguage, useAccount } from '../AccountProvider';
 import { googleSignInEnabled } from '../googleFlag';
 import { reauthKindFor } from '../types';
 import { authError, deleteError, existingEmail, googleDeleteError, isEmailShaped, MIN_PASSWORD_LENGTH, type ShownError } from './authErrors';
-import { GoogleButton, GoogleG, OrDivider, QuietLine } from './GoogleButton';
+import { GoogleButton, GoogleG, OrDivider, QuietLine as GoogleQuietLine } from './GoogleButton';
 import { ActionButton, AuthField, ErrorLine, Glyph, Para, RoundButton, TextButton } from './parts';
+import { failureStatus, QuietLine, StatusSlot, useCountdown, useVerifyActions, WithAddresses } from './verifyParts';
 import type { MessageKey } from '../../i18n/translate';
 
-export type AccountSheetStart = 'signIn' | 'delete' | 'offerDelete';
-type SheetView = 'signIn' | 'signUp' | 'reset' | 'delete' | 'offerDelete';
+export type AccountSheetStart = 'signIn' | 'delete' | 'offerDelete' | 'changeEmail';
+type SheetView = 'signIn' | 'signUp' | 'reset' | 'delete' | 'offerDelete' | 'confirm' | 'changeEmail' | 'changeSent';
+
+/** "Confirm your email" checks by itself this often while it is open... */
+export const AUTO_CHECK_MS = 10_000;
+/** ...for at most this long (decision 4). */
+export const AUTO_CHECK_FOR_MS = 10 * 60_000;
 
 /** The room the sheet's own chrome takes (grabber, gaps, header row, bottom padding), for the keyboard cap. */
 const CHROME = 8 + 5 + 12 * 3 + 44 + 24;
@@ -88,6 +104,7 @@ export function AccountSheet({
   const t = useT();
   const theme = useTheme();
   const account = useAccount();
+  const { locale } = useI18n();
   const insets = useSafeAreaInsets();
   const { height: windowHeight } = useWindowDimensions();
   const keyboard = useKeyboardHeight();
@@ -114,6 +131,12 @@ export function AccountSheet({
   const [focusPassword, setFocusPassword] = useState(0);
   /** Where "back" goes from the reset view. */
   const [resetFrom, setResetFrom] = useState<'signIn' | 'delete'>('signIn');
+  /** Change email: the new address typed, and where the link went. */
+  const [newEmail, setNewEmail] = useState('');
+  const [sentTo, setSentTo] = useState('');
+  const verifyActions = useVerifyActions(account);
+  const wait = useCountdown(account.verify?.resendAt ?? null);
+  const setVerifyStatus = verifyActions.setStatus; // a state setter: stable
   const passwordInput = useRef<ComponentRef<typeof TextInput>>(null);
 
   const alive = useRef(false);
@@ -219,7 +242,8 @@ export function AccountSheet({
     setDeletePassword('');
     setShowPassword(false);
     setSent(false);
-  }, [deleteRunning, abandonGoogleDelete]);
+    setVerifyStatus(null);
+  }, [deleteRunning, abandonGoogleDelete, setVerifyStatus]);
 
   // An email that already has a password account: the password field takes the focus.
   useEffect(() => {
@@ -231,11 +255,33 @@ export function AccountSheet({
   // The offer's delete runs signed out; it has nothing left to do once the offer is gone (not while it runs: the
   // offer goes just before a successful delete resolves, and that result closes the sheet itself).
   const offerGone = account.under13Offer === null;
+  // "Confirm your email" (and Change email reached from it) stays open while signed in; a sign-up still running
+  // (its send is in flight after the account exists) decides for itself where it goes.
+  const verifyView = view === 'confirm' || view === 'changeEmail' || view === 'changeSent';
+  const signingUp = view === 'signUp' && busy;
+  const confirmed = account.status === 'signedIn' && account.verify === null;
   useEffect(() => {
-    if (account.status === 'signedIn' && start === 'signIn') onClose();
-    else if (account.status === 'signedOut' && start === 'delete') onClose();
+    if (account.status === 'signedIn' && start === 'signIn' && !verifyView && !signingUp) onClose();
+    else if (account.status === 'signedOut' && (start === 'delete' || start === 'changeEmail' || verifyView)) onClose();
     else if (offerGone && start === 'offerDelete' && !busy) onClose();
-  }, [account.status, start, onClose, offerGone, busy]);
+    // Confirmed while "Confirm your email" is open: nothing left to do here (the card says so).
+    else if (view === 'confirm' && confirmed) onClose();
+  }, [account.status, start, onClose, offerGone, busy, verifyView, signingUp, view, confirmed]);
+
+  // The automatic check while "Confirm your email" is open: every 10 s, for up to 10 minutes (decision 4).
+  const { check } = verifyActions;
+  useEffect(() => {
+    if (view !== 'confirm') return;
+    const started = Date.now();
+    const timer = setInterval(() => {
+      if (Date.now() - started > AUTO_CHECK_FOR_MS) {
+        clearInterval(timer);
+        return;
+      }
+      void check(true);
+    }, AUTO_CHECK_MS);
+    return () => clearInterval(timer);
+  }, [view, check]);
 
   // ---- actions --------------------------------------------------------------------------------------
 
@@ -272,8 +318,12 @@ export function AccountSheet({
     if (!request) return;
     const { current } = request;
     try {
-      await account.signUp(trimmed, password);
-      if (current()) onClose();
+      const result = await account.signUp(trimmed, password, emailLanguage(locale));
+      if (!current()) return;
+      if (!result.confirm) return onClose();
+      // The account exists: the sheet becomes "Confirm your email" (decision 2); a failed send shows there.
+      go('confirm');
+      verifyActions.setStatus(result.sendError ? failureStatus(result.sendError) : null);
     } catch (e) {
       if (current()) setError(authError(e));
     } finally {
@@ -349,6 +399,39 @@ export function AccountSheet({
       if (googleAbort.current === controller) googleAbort.current = null;
       if (current()) setGoogleWaiting(false);
       request.finish();
+    }
+  };
+
+  const submitChangeEmail = async () => {
+    if (busy) return;
+    const trimmed = newEmail.trim();
+    if (!checkEmail(trimmed)) return;
+    if (trimmed.toLowerCase() === accountEmail.trim().toLowerCase()) return setError({ key: 'account.changeEmail.same', place: 'email' });
+    if (password.length === 0) return setError({ key: 'auth.error.wrongCredentials', place: 'password' });
+    const request = begin();
+    if (!request) return;
+    const { current } = request;
+    try {
+      await account.changeEmail(trimmed, password, emailLanguage(locale));
+      if (!current()) return;
+      go('changeSent');
+      setSentTo(trimmed);
+    } catch (e) {
+      if (!current()) return;
+      const shown = authError(e);
+      // A wrong password belongs under the password field here (the email is the new one, not the account's).
+      setError(shown.key === 'auth.error.wrongCredentials' ? { key: 'delete.wrongPassword', place: 'password' } : shown);
+    } finally {
+      request.finish();
+    }
+  };
+
+  const resend = async () => {
+    const outcome = await verifyActions.send();
+    // A pending change of address needs the password again: Change email asks for it.
+    if (outcome === 'reauth') {
+      go('changeEmail');
+      setNewEmail(account.verify?.pendingEmail ?? '');
     }
   };
 
@@ -491,8 +574,8 @@ export function AccountSheet({
   const googleBlock = showGoogle ? (
     <>
       <GoogleButton testID="auth-google" waiting={googleWaiting} disabled={busy && !googleWaiting} onPress={() => void submitGoogle()} />
-      {googleWaiting ? <QuietLine testID="auth-google-wait" text={t('account.google.waitHint')} /> : null}
-      {notice ? <QuietLine testID="auth-notice" text={t(notice)} /> : null}
+      {googleWaiting ? <GoogleQuietLine testID="auth-google-wait" text={t('account.google.waitHint')} /> : null}
+      {notice ? <GoogleQuietLine testID="auth-notice" text={t(notice)} /> : null}
       <OrDivider text={t('account.google.or')} />
     </>
   ) : null;
@@ -510,7 +593,7 @@ export function AccountSheet({
       </View>
       <Para text={t('account.google.deleteHint', { email: deleteEmail })} />
       {deleteMessage ? <ErrorLine testID="delete-error" text={t(deleteMessage, { email: deleteEmail })} boxed /> : null}
-      {notice ? <QuietLine testID="delete-notice" text={t(notice)} /> : null}
+      {notice ? <GoogleQuietLine testID="delete-notice" text={t(notice)} /> : null}
       <ActionButton
         testID="delete-confirm"
         variant="danger"
@@ -518,7 +601,7 @@ export function AccountSheet({
         busy={busy}
         onPress={() => void submitGoogleDelete(offer)}
       />
-      {googleWaiting ? <QuietLine testID="delete-google-wait" text={t('account.google.deleteWaitHint')} /> : null}
+      {googleWaiting ? <GoogleQuietLine testID="delete-google-wait" text={t('account.google.deleteWaitHint')} /> : null}
       <ActionButton testID="delete-cancel" variant="secondary" label={t('delete.cancel')} disabled={deleting} onPress={closeUnlessDeleting} />
     </>
   );
@@ -526,7 +609,17 @@ export function AccountSheet({
   const sentMessage = error ? <ErrorLine testID="auth-error" text={t(error.key)} boxed /> : undefined;
 
   const title =
-    view === 'signIn' ? t('auth.signIn.title') : view === 'signUp' ? t('auth.signUp.title') : view === 'reset' ? t('auth.reset.title') : t('delete.title');
+    view === 'signIn'
+      ? t('auth.signIn.title')
+      : view === 'signUp'
+        ? t('auth.signUp.title')
+        : view === 'reset'
+          ? t('auth.reset.title')
+          : view === 'confirm'
+            ? t('account.verify.title')
+            : view === 'changeEmail' || view === 'changeSent'
+              ? t('account.changeEmail.title')
+              : t('delete.title');
 
   const header = (
     <View style={styles.titleRow}>
@@ -607,6 +700,115 @@ export function AccountSheet({
               {sentMessage}
               <ActionButton testID="auth-reset-back" label={resetFrom === 'delete' ? t('auth.back') : t('auth.reset.back')} onPress={back} />
               <TextButton testID="auth-resend" label={t('auth.reset.resend')} disabled={busy} onPress={() => void submitReset()} />
+            </>
+          ) : null}
+
+          {view === 'confirm' ? (
+            <>
+              <View testID="verify-sheet" style={styles.sent}>
+                <View style={[styles.mailCircle, theme.backgrounds.button, { borderColor: theme.borders.button?.color, borderWidth: theme.borders.button?.width ?? 0 }]}>
+                  <Glyph name="mail" size={30} strokeWidth={1.8} color={theme.colors.btnText} />
+                </View>
+                <WithAddresses
+                  testID="verify-sent-to"
+                  template={t('account.verify.sent')}
+                  email={accountEmail}
+                  style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 16, lineHeight: 23, textAlign: 'center' }}
+                />
+              </View>
+              <Para text={t('account.verify.syncAfter')} center />
+              <QuietLine text={t('account.verify.spam')} ink={theme.colors.muted} />
+              <StatusSlot testID="verify-status" status={verifyActions.status} />
+              <ActionButton
+                testID="verify-done"
+                label={verifyActions.checking ? t('account.verify.checking') : t('account.verify.done')}
+                busy={verifyActions.checking}
+                onPress={() => void verifyActions.check()}
+              />
+              <View style={styles.newHere}>
+                <TextButton
+                  testID="verify-resend"
+                  label={wait ? t('account.verify.resendIn', { t: wait }) : t('account.verify.resend')}
+                  waiting={wait !== null}
+                  disabled={verifyActions.sending}
+                  onPress={() => void resend()}
+                />
+                <TextButton
+                  testID="verify-change"
+                  label={t('account.verify.changeInSheet')}
+                  onPress={() => {
+                    go('changeEmail');
+                    setNewEmail('');
+                  }}
+                />
+              </View>
+            </>
+          ) : null}
+
+          {view === 'changeEmail' ? (
+            <>
+              <Para text={t('account.changeEmail.intro')} />
+              <AuthField
+                testID="change-email"
+                label={t('account.changeEmail.newEmail')}
+                value={newEmail}
+                onChangeText={setNewEmail}
+                autoComplete="email"
+                textContentType="emailAddress"
+                keyboardType="email-address"
+                disabled={busy}
+                invalid={error?.place === 'email' || error?.key === 'auth.error.emailInUse'}
+                returnKeyType="next"
+                keepKeyboard
+                focusNext={passwordInput}
+                below={message('email')}
+              />
+              <AuthField
+                testID="change-password"
+                label={t('account.changeEmail.password')}
+                value={password}
+                onChangeText={setPassword}
+                autoComplete="current-password"
+                textContentType="password"
+                secureTextEntry={!showPassword}
+                disabled={busy}
+                invalid={error?.place === 'password'}
+                returnKeyType="go"
+                onSubmitEditing={() => void submitChangeEmail()}
+                inputRef={passwordInput}
+                trailing={passwordToggle}
+                below={message('password')}
+              />
+              {formMessage}
+              <ActionButton
+                testID="change-submit"
+                label={busy ? t('account.changeEmail.busy') : t('account.changeEmail.send')}
+                busy={busy}
+                onPress={() => void submitChangeEmail()}
+              />
+            </>
+          ) : null}
+
+          {view === 'changeSent' ? (
+            <>
+              <View testID="change-sent" style={styles.sent}>
+                <View style={[styles.mailCircle, theme.backgrounds.button, { borderColor: theme.borders.button?.color, borderWidth: theme.borders.button?.width ?? 0 }]}>
+                  <Glyph name="mail" size={30} strokeWidth={1.8} color={theme.colors.btnText} />
+                </View>
+                <View accessibilityLiveRegion="polite">
+                  <WithAddresses
+                    template={t('account.changeEmail.sent')}
+                    email={sentTo}
+                    style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 16, lineHeight: 23, textAlign: 'center' }}
+                  />
+                </View>
+              </View>
+              <WithAddresses
+                template={t('account.changeEmail.keeps')}
+                old={accountEmail}
+                style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14, lineHeight: 20, textAlign: 'center' }}
+              />
+              <ActionButton testID="change-done" label={t('account.changeEmail.done')} onPress={onClose} />
             </>
           ) : null}
 

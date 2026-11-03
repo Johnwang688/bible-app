@@ -18,15 +18,17 @@ import { getAllMemoryVerses, getMemoryVerse, TOTAL_VERSES } from '../../library'
 import { toLocalDateString } from '../../localDate';
 import { useMemoryHistory, useMemoryProgress } from '../../memoryStore';
 import { stageToSlug } from '../../stages';
-import type { ChineseScript, MemoryVerse, ProgressMap } from '../../types';
+import type { ChineseScript, LibraryVerse, ProgressMap } from '../../types';
 import { useMemorySettings } from '../../useMemorySettings';
+import { useVerseLanguage, verseView, type VerseLanguage } from '../../verseLanguage';
 import { daysUntilDue, learnedCount as learnedVerses, libraryGroups, stageView, type StageName } from '../../view';
 import { MemoryIcon } from '../icons';
 import { MemorySettingsSheet } from '../MemorySettingsSheet';
 import { MemButton, MemCard, SectionLabel, StatusLabel } from '../parts';
 import { takeProgressSaved } from '../savedToast';
+import { ScriptureNotice } from '../ScriptureNotice';
 import { StageMark } from '../StageMark';
-import { useChineseFont } from '../useChineseFont';
+import { useVerseFont } from '../useVerseFont';
 import { WeekStrip } from '../WeekStrip';
 import { useTodayLesson } from './useTodayLesson';
 
@@ -39,9 +41,11 @@ const DATE_LINE: Intl.DateTimeFormatOptions = { weekday: 'long', month: 'long', 
 /** Stands in for the count while "{count} learned" is split around it. */
 const LEARNED_MARK = '@@';
 
-const referenceOf = (verse: MemoryVerse, script: ChineseScript) =>
-  script === 'traditional' ? verse.referenceZhHant : verse.referenceZh;
-const textOf = (verse: MemoryVerse, script: ChineseScript) => (script === 'traditional' ? verse.textZhHant : verse.textZh);
+/**
+ * A Chinese verse in the English interface (only where the verse language is pinned, as in the older tests) also
+ * shows its English reference, as Memory did before English verses.
+ */
+const pairedEnglish = (language: VerseLanguage, locale: string): boolean => language === 'zh' && locale === 'en';
 
 /** The name of a lesson step's trainer; a full recall on a verse already at review is a Review. */
 function stepKindKey(stage: string, progress: ProgressMap, verseId: string): MessageKey {
@@ -54,12 +58,14 @@ const LessonCard = memo(function LessonCard({
   first,
   progress,
   script,
+  language,
   onStart,
   lessonState,
 }: {
   first: boolean;
   progress: ProgressMap;
   script: ChineseScript;
+  language: VerseLanguage;
   onStart(href: string): void;
   lessonState: ReturnType<typeof useTodayLesson>;
 }) {
@@ -75,8 +81,9 @@ const LessonCard = memo(function LessonCard({
   const next = firstIncomplete >= 0 ? lesson.steps[firstIncomplete] : undefined;
   const verse = next ? getMemoryVerse(next.verseId) : undefined;
   const kind = next ? t(stepKindKey(next.stage, progress, next.verseId)) : '';
-  const zhRef = verse ? referenceOf(verse, script) : '';
-  const subline = verse && locale === 'en' ? `${verse.referenceEn} · ${kind}` : kind;
+  const zhRef = verse ? verseView(verse, language, script).reference : '';
+  const paired = pairedEnglish(language, locale);
+  const subline = verse && paired ? `${verse.referenceEn} · ${kind}` : kind;
   const meta = skipped
     ? t('memory.lesson.oneLeft')
     : done === 0
@@ -167,7 +174,7 @@ const LessonCard = memo(function LessonCard({
             label={action}
             accessibilityLabel={t('memory.lesson.startAria', {
               action,
-              verse: locale === 'en' && verse ? verse.referenceEn : zhRef,
+              verse: paired && verse ? verse.referenceEn : zhRef,
               kind,
             })}
             onPress={() => onStart(href)}
@@ -203,27 +210,31 @@ const LibraryRow = memo(function LibraryRow({
   stage,
   steps,
   script,
+  language,
   first,
   onOpen,
 }: {
-  verse: MemoryVerse;
+  verse: LibraryVerse;
   stage: StageName;
   steps: number;
   script: ChineseScript;
+  language: VerseLanguage;
   first: boolean;
   onOpen(id: string): void;
 }) {
   const theme = useTheme();
   const { t, locale } = useI18n();
-  const font = useChineseFont();
+  const font = useVerseFont(language);
   const en = locale === 'en';
+  const shown = verseView(verse, language, script);
   const stageLabel = t(`memory.stage.${stage}` as MessageKey);
-  const preview = `${Array.from(textOf(verse, script)).slice(0, PREVIEW_CHARS).join('')}…`;
+  // Chinese: the first characters; English: the whole line, cut to one line by the layout.
+  const preview = language === 'en' ? shown.text : `${Array.from(shown.text).slice(0, PREVIEW_CHARS).join('')}…`;
   return (
     <Pressable
       testID={`memory-row-${verse.id}`}
       accessibilityRole="button"
-      accessibilityLabel={t('memory.row.aria', { ref: en ? verse.referenceEn : referenceOf(verse, script), stage: stageLabel })}
+      accessibilityLabel={t('memory.row.aria', { ref: en ? verse.referenceEn : shown.reference, stage: stageLabel })}
       onPress={() => onOpen(verse.id)}
       style={({ pressed }) => [
         styles.row,
@@ -234,15 +245,15 @@ const LibraryRow = memo(function LibraryRow({
       <View style={styles.rowMain}>
         <View style={styles.refs}>
           <Text style={[styles.zhRef, { color: theme.colors.text, fontFamily: uiFace(theme.type.head, '700') }]}>
-            {referenceOf(verse, script)}
+            {shown.reference}
           </Text>
-          {en ? (
+          {pairedEnglish(language, locale) ? (
             <Text style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 12, flexShrink: 1 }}>
               {verse.referenceEn}
             </Text>
           ) : null}
         </View>
-        <Text numberOfLines={1} style={{ color: theme.colors.muted, fontFamily: font, fontSize: 14 }}>
+        <Text numberOfLines={1} {...({ lang: shown.lang } as object)} style={{ color: theme.colors.muted, fontFamily: font, fontSize: 14 }}>
           {preview}
         </Text>
       </View>
@@ -257,10 +268,12 @@ const LibraryRow = memo(function LibraryRow({
 function Library({
   progress,
   script,
+  language,
   onOpen,
 }: {
   progress: ProgressMap;
   script: ChineseScript;
+  language: VerseLanguage;
   onOpen(id: string): void;
 }) {
   const theme = useTheme();
@@ -299,6 +312,7 @@ function Library({
                     stage={view.stage}
                     steps={view.steps}
                     script={script}
+                    language={language}
                     first={i === 0}
                     onOpen={onOpen}
                   />
@@ -308,6 +322,7 @@ function Library({
           ))}
         </MemCard>
       ))}
+      <ScriptureNotice language={language} onAurora />
     </View>
   );
 }
@@ -316,25 +331,28 @@ function VerseSheet({
   verse,
   progress,
   script,
+  language,
   now,
   onClose,
   onPractise,
 }: {
-  verse: MemoryVerse;
+  verse: LibraryVerse;
   progress: ProgressMap;
   script: ChineseScript;
+  language: VerseLanguage;
   now: Date;
   onClose(): void;
   onPractise(href: string): void;
 }) {
   const theme = useTheme();
   const { t, locale } = useI18n();
-  const font = useChineseFont();
+  const font = useVerseFont(language);
   const en = locale === 'en';
   const row = progress[verse.id];
   const view = stageView(row);
   const due = daysUntilDue(row?.nextDueAt ?? null, now);
-  const ref = referenceOf(verse, script);
+  const shown = verseView(verse, language, script);
+  const ref = shown.reference;
   const nextReview =
     due === null
       ? null
@@ -353,13 +371,16 @@ function VerseSheet({
           <Text accessibilityRole="header" style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.head, '700'), fontSize: 21 }}>
             {ref}
           </Text>
-          {en ? (
+          {pairedEnglish(language, locale) ? (
             <Text style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14 }}>{verse.referenceEn}</Text>
           ) : null}
         </View>
       }
     >
-      <Text style={{ color: theme.colors.text, fontFamily: font, fontSize: 20, lineHeight: 34 }}>{textOf(verse, script)}</Text>
+      <Text {...({ lang: shown.lang } as object)} style={{ color: theme.colors.text, fontFamily: font, fontSize: 20, lineHeight: 34 }}>
+        {shown.text}
+      </Text>
+      <ScriptureNotice language={language} />
       <View style={[styles.stageRow, { borderColor: theme.colors.track }]}>
         <View style={styles.stageName}>
           <SectionLabel>{t('memory.stage.label')}</SectionLabel>
@@ -423,6 +444,7 @@ export function MemoryHome({
   const [progress] = useMemoryProgress(storage);
   const [history] = useMemoryHistory(storage);
   const [settings] = useMemorySettings(storage);
+  const language = useVerseLanguage();
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [openId, setOpenId] = useState<string | null>(null);
   // "Progress saved": a trainer notes it on the way back; taken once, on mount, and shown for a few seconds.
@@ -512,7 +534,7 @@ export function MemoryHome({
           </View>
         </View>
 
-        <LessonCard first={first} progress={progress} script={settings.script} onStart={go} lessonState={lessonState} />
+        <LessonCard first={first} progress={progress} script={settings.script} language={language} onStart={go} lessonState={lessonState} />
         {first ? <HowItWorks /> : null}
 
         <MemCard style={styles.weekCard}>
@@ -536,7 +558,7 @@ export function MemoryHome({
             {learnedAfter}
           </Text>
         </View>
-        <Library progress={progress} script={settings.script} onOpen={setOpenId} />
+        <Library progress={progress} script={settings.script} language={language} onOpen={setOpenId} />
       </ScrollView>
 
       {saved ? (
@@ -568,6 +590,7 @@ export function MemoryHome({
           verse={openVerse}
           progress={progress}
           script={settings.script}
+          language={language}
           now={date}
           onClose={() => setOpenId(null)}
           onPractise={(href) => {

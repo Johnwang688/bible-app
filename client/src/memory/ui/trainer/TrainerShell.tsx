@@ -8,7 +8,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { uiFace } from '../../../fonts/fonts';
 import { useI18n } from '../../../i18n/I18nProvider';
 import { useTheme } from '../../../theme/ThemeProvider';
-import type { ChineseScript, MemoryVerse } from '../../types';
+import type { ChineseScript, LibraryVerse } from '../../types';
+import { verseView, type VerseLanguage } from '../../verseLanguage';
 import { MemButton } from '../parts';
 import { useKeyboardOpen } from './hooks';
 import { TrainerIcon } from './icons';
@@ -25,9 +26,6 @@ export function KeepInView({ children }: { children: ReactNode }) {
 
 /** The body starts this far down the scrolling content. */
 const BODY_TOP = 16;
-
-export const referenceOf = (verse: MemoryVerse, script: ChineseScript) =>
-  script === 'traditional' ? verse.referenceZhHant : verse.referenceZh;
 
 /** The stage name in a small pill. */
 export function ChipPill({ label }: { label: string }) {
@@ -47,19 +45,20 @@ export function ChipPill({ label }: { label: string }) {
   );
 }
 
-/** The reference: Chinese first; in the English interface the English reference sits under it. */
-export function RefBlock({ verse, script }: { verse: MemoryVerse; script: ChineseScript }) {
+/**
+ * The reference in the verse language. A Chinese verse in the English interface (only where the verse language is
+ * pinned) keeps the English reference under it.
+ */
+export function RefBlock({ verse, script, language }: { verse: LibraryVerse; script: ChineseScript; language: VerseLanguage }) {
   const theme = useTheme();
   const { locale } = useI18n();
+  const view = verseView(verse, language, script);
   return (
     <View style={styles.ref}>
-      <Text
-        {...({ lang: script === 'traditional' ? 'zh-Hant' : 'zh-Hans' } as object)}
-        style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.head, '700'), fontSize: 18 }}
-      >
-        {referenceOf(verse, script)}
+      <Text {...({ lang: view.lang } as object)} style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.head, '700'), fontSize: 18 }}>
+        {view.reference}
       </Text>
-      {locale === 'en' ? (
+      {language === 'zh' && locale === 'en' ? (
         <Text style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 13 }}>{verse.referenceEn}</Text>
       ) : null}
     </View>

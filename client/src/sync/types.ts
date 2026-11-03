@@ -5,9 +5,13 @@
 //   users/{uid}/items/{kind}:{ref}     one study item, last writer wins (RemoteItem)
 //   users/{uid}/devices/{deviceId}     one device's own reading progress (DeviceProgress)
 //   users/{uid}/settings/{key}         one synced setting, last writer wins (RemoteSetting)
+//   users/{uid}/memory/{deviceId}      one device's Memory progress and history (MemoryDoc); each device
+//                                      writes only its own, every device merges them all (a join)
 // Every document also carries `serverTime`, set by the server (request.time) on each write; pulls of
-// items are incremental on it. The client never deletes documents: a deleted study item is a
+// items and of Memory documents are incremental on it. The client never deletes documents: a deleted study item is a
 // tombstone (`deleted: true`, `value: null`). Only the backend's "delete my data" removes documents.
+import type { ProgressMap } from '../memory/types';
+import type { MemoryHistory } from '../storage/memoryKeys';
 import type { HighlightId } from '../theme/highlights';
 
 export type ItemKind = 'highlight' | 'note' | 'bookmark';
@@ -53,6 +57,27 @@ export interface DeviceProgress {
   /** Client time in ms of this write. */
   updatedAt: number;
 }
+
+/**
+ * One device's Memory progress and history (decoded; the wire form is the adapter's). Each device writes
+ * only its own; it carries the device's merged values, so every document is a lower bound of the account's
+ * Memory and merging any of them in is harmless (domains/memory.ts: the merge is a join).
+ */
+export interface MemoryDoc {
+  deviceId: string;
+  /** Verse id -> progress (storage/memoryKeys.ts memoryProgressKey). */
+  progress: ProgressMap;
+  /** The completed days and the start day (memoryHistoryKey). The streak is derived, never stored. */
+  history: MemoryHistory;
+  /** Client time in ms of this write. */
+  updatedAt: number;
+}
+
+/**
+ * A Memory pull (RemoteStore.pullMemory): the documents that decoded, as a plain array, and the cursor
+ * the next incremental pull starts from (a non-enumerable property: domains/memory.ts memoryPull).
+ */
+export type MemoryPull = MemoryDoc[] & { readonly cursor: number | null };
 
 /** The synced settings: the storage keys (storage/*.ts `key`) whose whole value syncs. */
 export type SettingKey = 'appearance' | 'appearance.custom' | 'language';
@@ -102,6 +127,28 @@ export interface RemoteStore {
   pullSettings(): Promise<RemoteSetting[]>;
   /** Writes the settings (each replaces the document with its key). Resolves and rejects as pushItems; `held` holds setting keys. */
   pushSettings(settings: readonly RemoteSetting[]): Promise<{ held: readonly string[] }>;
+  /**
+   * Memory documents, this device's included. With `since` null or absent, a full pull: the most recently
+   * written ones (by `serverTime`), newest first. With `since` (server ms), an incremental pull: those
+   * written after it, oldest first, so a pull that stops at its bounds skips nothing. Either reads at most
+   * MEMORY_PULL_MAX documents and MEMORY_PULL_CHARS_MAX characters (domains/memory.ts). The result's
+   * `cursor` is the largest `serverTime` it read, documents that did not decode included (or `since` when
+   * it read none; null only when both are absent): an incremental pull from it returns exactly the
+   * documents written since this one's last. Optional only so that test doubles written before Memory
+   * synced (outside sync/) still type-check: the engine syncs Memory only when its domain is set and the
+   * remote has both Memory methods. Both real remotes have them.
+   */
+  pullMemory?(since?: number | null): Promise<MemoryPull>;
+  /** Replaces this device's Memory document. */
+  pushMemory?(doc: MemoryDoc): Promise<void>;
+  /**
+   * One Memory document by id, read from the server (one document read, bounded by the rules' size):
+   * the document when it decodes, 'missing' when there is none, 'invalid' when there is one that does
+   * not decode. The engine reads its own document this way when a pull did not return it and the push
+   * depends on it (CONFLICTS.md rule 25). Optional as the other Memory methods are; without it the
+   * engine trusts its last acknowledged push instead.
+   */
+  getMemory?(deviceId: string): Promise<MemoryDoc | 'missing' | 'invalid'>;
 }
 
 export type SyncState = 'idle' | 'syncing' | 'offline' | 'error';

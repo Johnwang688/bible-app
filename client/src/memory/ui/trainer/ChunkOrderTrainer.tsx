@@ -8,8 +8,10 @@ import { uiFace } from '../../../fonts/fonts';
 import { useI18n } from '../../../i18n/I18nProvider';
 import { useTheme } from '../../../theme/ThemeProvider';
 import { gradeStep } from '../../grading';
+import { verseView } from '../../verseLanguage';
 import { MemButton } from '../parts';
-import { useChineseFont } from '../useChineseFont';
+import { ScriptureNotice } from '../ScriptureNotice';
+import { useVerseFont } from '../useVerseFont';
 import { TrainerIcon } from './icons';
 import { Note, ResultHeader } from './ResultPanel';
 import { RefBlock, StepTitle, TrainerShell } from './TrainerShell';
@@ -43,12 +45,11 @@ export function shuffled(ids: readonly number[], random: () => number): number[]
 export function ChunkOrderTrainer({ ctx }: { ctx: TrainerCtx }) {
   const theme = useTheme();
   const { t } = useI18n();
-  const font = useChineseFont();
+  const font = useVerseFont(ctx.language);
   const { verse } = ctx;
-  const traditional = ctx.script === 'traditional';
-  const chunks = traditional ? verse.chunksHant : verse.chunks;
+  // The phrases in the verse language (English chunks are their own; their count may differ from the Chinese).
+  const { chunks, lang } = verseView(verse, ctx.language, ctx.script);
   const n = chunks.length;
-  const lang = traditional ? 'zh-Hant' : 'zh-Hans';
 
   const [state, setState] = useState<State>(() => ({
     mode: 'play',
@@ -97,7 +98,7 @@ export function ChunkOrderTrainer({ ctx }: { ctx: TrainerCtx }) {
     if (ctx.left.aborted) return;
     if (s.mode !== 'play' || s.slots.some((c) => c === null)) return;
     const order = s.slots as number[];
-    const verdict = gradeStep(verse.id, 'chunk-order', { kind: 'chunk-order', order });
+    const verdict = gradeStep(verse.id, 'chunk-order', { kind: 'chunk-order', order }, undefined, ctx.language);
     // Commit before recording, so anything the record triggers already sees the graded state.
     commit({ ...s, mode: verdict.passed ? 'right' : 'wrong' });
     ctx.record(verdict.passed);
@@ -266,7 +267,7 @@ export function ChunkOrderTrainer({ ctx }: { ctx: TrainerCtx }) {
   return (
     <TrainerShell ctx={ctx} chip={t('memory.kind.ordering')} action={action}>
       {header}
-      <RefBlock verse={verse} script={ctx.script} />
+      <RefBlock verse={verse} script={ctx.script} language={ctx.language} />
       <Text
         role="status"
         aria-live="polite"
@@ -300,6 +301,7 @@ export function ChunkOrderTrainer({ ctx }: { ctx: TrainerCtx }) {
           ))}
         </View>
       ) : null}
+      <ScriptureNotice language={ctx.language} />
     </TrainerShell>
   );
 }

@@ -20,7 +20,8 @@ jest.mock('firebase/auth', () => ({
 
 type FakeAuth = Parameters<typeof createFirebaseAuthBackend>[0];
 const fbError = (code: string, extra: object = {}) => Object.assign(new Error(`Firebase: Error (${code}).`), { code, name: 'FirebaseError', ...extra });
-const googleUser = { uid: 'g1', email: 'g@gmail.com', providerData: [{ providerId: 'google.com' }] };
+// Firebase marks a Gmail address that signs in with Google verified (a trusted provider).
+const googleUser = { uid: 'g1', email: 'g@gmail.com', emailVerified: true, providerData: [{ providerId: 'google.com' }] };
 
 function flow(over: Partial<GoogleFlow> = {}): GoogleFlow & { signIn: jest.Mock; reauthenticate: jest.Mock } {
   return {
@@ -45,12 +46,12 @@ function setOffline() {
 }
 
 describe('signInWithGoogle', () => {
-  test('opens the window with the auth and hint, and reports the sign-in methods', async () => {
+  test('opens the window with the auth and hint, and reports the sign-in methods and the confirmed email', async () => {
     const google = flow();
     const auth = { currentUser: null } as unknown as FakeAuth;
     const user = await createFirebaseAuthBackend(auth, google).signInWithGoogle!({ loginHint: 'g@gmail.com' });
     expect(google.signIn).toHaveBeenCalledWith(auth, 'g@gmail.com');
-    expect(user).toEqual({ uid: 'g1', email: 'g@gmail.com', providers: ['google'] });
+    expect(user).toEqual({ uid: 'g1', email: 'g@gmail.com', providers: ['google'], emailVerified: true });
   });
 
   test('maps both methods, sorted; unknown providers are ignored', async () => {

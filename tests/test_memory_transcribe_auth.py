@@ -1,7 +1,7 @@
 """`/memory/transcribe` behind R-6b's Firebase sign-in (board 11-03, team MEM).
 
 `require_memory_user` is the real dependency here (never overridden): the Bearer Firebase ID token, then App Check
-per ``APP_CHECK_MODE``. firebase_admin is patched at the library level, like tests/test_app_check.py. The paid
+per ``APP_CHECK_MODE``, then a confirmed email. firebase_admin is patched at the library level, like tests/test_app_check.py. The paid
 upstream and the quota store are still fakes.
 """
 
@@ -22,6 +22,7 @@ from app.memory import transcribe as tx
 NOW = int(time.time())
 AUDIO = b"\x1aE\xdf\xa3fake-webm"
 TOKENS = {"alice-token": "alice", "bob-token": "bob", "slash-token": "a/b"}
+_OMIT = object()  # `fb.email_verified = _OMIT` leaves the claim out of the token
 
 
 class FakeTranscriber:
@@ -49,6 +50,7 @@ def fb(monkeypatch):
         verify_calls: list = []
         app_check_calls: list = []
         verify_error: Exception | None = None
+        email_verified: object = True  # the `email_verified` claim every accepted token carries
 
     state = State()
     state.verify_calls = []
@@ -60,7 +62,10 @@ def fb(monkeypatch):
             raise state.verify_error
         if token not in TOKENS:
             raise fb_auth.InvalidIdTokenError("bad token")
-        return {"uid": TOKENS[token], "auth_time": NOW - 10, "iat": NOW - 10}
+        claims = {"uid": TOKENS[token], "auth_time": NOW - 10, "iat": NOW - 10}
+        if state.email_verified is not _OMIT:
+            claims["email_verified"] = state.email_verified
+        return claims
 
     def verify_token(token, app=None):
         state.app_check_calls.append(token)
@@ -186,3 +191,86 @@ def test_the_body_is_not_read_for_a_signed_out_caller(fb, env) -> None:
     res = client.post("/memory/transcribe", content=b"x" * (tx.MAX_AUDIO_BYTES + 1), headers={"Content-Type": "audio/webm"})
     assert res.status_code == 401
     assert transcriber.calls == 0
+
+
+# --- A confirmed email (email verification) ------------------------------------------------------------------
+
+
+@pytest.mark.parametrize("claim", [False, _OMIT, "true", "True", 1, None])
+def test_an_unconfirmed_email_is_403_and_spends_nothing(fb, env, claim) -> None:
+    client, transcriber, quota = env
+    fb.email_verified = claim
+    res = post(client, {"Authorization": "Bearer alice-token"})
+    assert res.status_code == 403, res.text
+    assert res.json() == {"detail": tx.EMAIL_NOT_VERIFIED_DETAIL}
+    assert tx.EMAIL_NOT_VERIFIED_DETAIL == "email_not_verified"
+    assert transcriber.calls == 0
+    assert quota.users == []
+
+
+def test_a_confirmed_email_is_transcribed(fb, env) -> None:
+    client, transcriber, quota = env
+    fb.email_verified = True
+    res = post(client, {"Authorization": "Bearer alice-token"})
+    assert res.status_code == 200, res.text
+    assert transcriber.calls == 1
+    assert quota.users == ["alice"]
+
+
+def test_an_unconfirmed_email_never_spends_the_quota_however_often_it_asks(fb, env) -> None:
+    client, transcriber, quota = env
+    fb.email_verified = False
+    for _ in range(tx.RATE_PER_MIN + 2):
+        assert post(client, {"Authorization": "Bearer alice-token"}).status_code == 403
+    assert transcriber.calls == 0
+    assert quota.users == []
+    # Once confirmed, the whole budget is still there.
+    fb.email_verified = True
+    assert post(client, {"Authorization": "Bearer alice-token"}).status_code == 200
+
+
+def test_a_bad_token_is_401_not_403_even_when_unconfirmed(fb, env) -> None:
+    client, transcriber, quota = env
+    fb.email_verified = False
+    res = post(client, {"Authorization": "Bearer forged-token"})
+    assert res.status_code == 401
+    assert res.headers.get("www-authenticate", "").lower().startswith("bearer")
+    assert post(client, {}).status_code == 401
+    assert transcriber.calls == 0
+    assert quota.users == []
+
+
+def test_an_unreachable_firebase_is_503_not_403(fb, env, monkeypatch) -> None:
+    client, transcriber, quota = env
+
+    def down(*a, **k):
+        raise firebase_admin.exceptions.UnavailableError("down")
+
+    monkeypatch.setattr(fb_auth, "verify_id_token", down)
+    assert post(client, {"Authorization": "Bearer alice-token"}).status_code == 503
+    assert quota.users == []
+
+
+def test_enforce_mode_refuses_a_missing_app_check_with_401_before_the_email_check(fb, env, monkeypatch) -> None:
+    client, transcriber, _ = env
+    monkeypatch.setattr(get_settings(), "app_check_mode", "enforce")
+    fb.email_verified = False
+    assert post(client, {"Authorization": "Bearer alice-token"}).status_code == 401
+    ok_app_check = post(client, {"Authorization": "Bearer alice-token", "X-Firebase-AppCheck": "good-app-check"})
+    assert ok_app_check.status_code == 403
+    assert ok_app_check.json() == {"detail": tx.EMAIL_NOT_VERIFIED_DETAIL}
+    assert transcriber.calls == 0
+
+
+def test_the_body_is_not_read_for_an_unconfirmed_caller(fb, env) -> None:
+    """An oversized body from an unconfirmed account is a 403, not a 413: the check runs before the upload is read."""
+    client, transcriber, quota = env
+    fb.email_verified = False
+    res = client.post(
+        "/memory/transcribe",
+        content=b"x" * (tx.MAX_AUDIO_BYTES + 1),
+        headers={"Content-Type": "audio/webm", "Authorization": "Bearer alice-token"},
+    )
+    assert res.status_code == 403
+    assert transcriber.calls == 0
+    assert quota.users == []

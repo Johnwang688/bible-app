@@ -112,7 +112,8 @@ test('an unverified password account with the same email is taken over by Google
   await backend.signOut();
   picked = { sub: 'g-pat', email: 'pat@gmail.com' };
   const viaGoogle = await backend.signInWithGoogle!();
-  expect(viaGoogle).toEqual({ uid: pat.uid, email: 'pat@gmail.com', providers: ['google'] });
+  // Firebase marks the email verified (Google is trusted for @gmail.com), so the account syncs without Confirm your email.
+  expect(viaGoogle).toMatchObject({ uid: pat.uid, email: 'pat@gmail.com', providers: ['google'], emailVerified: true });
   await backend.signOut();
   await expect(backend.signIn({ kind: 'password', email: 'pat@gmail.com', password: 'correct horse' })).rejects.toMatchObject({ kind: 'wrong-credentials' });
 });

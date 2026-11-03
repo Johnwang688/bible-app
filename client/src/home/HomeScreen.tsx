@@ -31,6 +31,7 @@ import { shareVerse } from './shareVerse';
 import { pickSurpriseChapter } from './surprise';
 import { MEMORY_WEEK_HREF, useHomeMemory } from './useHomeMemory';
 import { useToday } from './useToday';
+import { VerifyBanner } from './VerifyBanner';
 import { verseOfTheDay } from './verseOfTheDay';
 import { VOTD_BOOK_NAMES } from './votdBookNames';
 
@@ -235,6 +236,8 @@ export function HomeScreen({
           streakDays={t('study.streakDays')}
           streakStart={t('home.streakStart')}
         />
+        {/* Signed in with an unconfirmed email: one line that opens Me (email verification, decision 13). */}
+        <VerifyBanner />
         <GoalCard done={progress.goalProgressMinutes} goal={progress.goalMinutes} onPress={openGoal} />
         <ContinueCard caps={continueCaps} reference={continueRef} sub={t(meta.nameKey)} label={continueLabel} onPress={continueReading} />
         <VerseCard state={verse} onOpen={openVerse} onShare={share} onRetry={retry} />

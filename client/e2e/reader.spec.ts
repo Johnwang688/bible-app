@@ -268,11 +268,28 @@ test.describe('verse sheet (R-2)', () => {
     await page.goto('/bible');
     await page.getByTestId('verse-16-tools').click();
     await expect(page.getByTestId('verse-sheet')).toBeVisible();
-    const point = await page.getByTestId('verse-17').evaluate((el) => {
-      const r = Array.from(el.getClientRects()).find((x) => x.width > 5 && x.top >= 0 && x.top < innerHeight - 10)!;
-      return { x: r.left + 3, y: r.top + 3 };
+    // A point on verse 17 that the sheet does not cover, once nothing moves: the sheet slides in, and the chapter
+    // makes room for it, for a while after it is first visible (longer under load), so a point read at once could
+    // be under the sheet by the time of the click (GAPS: the flake under a full gate).
+    const pointOn17 = () => page.getByTestId('verse-17').evaluate((el) => {
+      for (const r of Array.from(el.getClientRects())) {
+        if (r.width <= 5 || r.top < 0) continue;
+        const x = r.left + 3;
+        const y = r.top + r.height / 2;
+        if (el.contains(document.elementFromPoint(x, y))) return `${Math.round(x)},${Math.round(y)}`;
+      }
+      return null;
     });
-    await page.mouse.click(point.x, point.y);
+    let point: string | null = null;
+    await expect.poll(async () => {
+      const first = await pointOn17();
+      await page.waitForTimeout(150);
+      const second = await pointOn17();
+      point = first !== null && first === second ? second : null;
+      return point;
+    }, { timeout: 10_000 }).not.toBeNull();
+    const [x, y] = point!.split(',').map(Number);
+    await page.mouse.click(x!, y!);
     await expect(page.getByTestId('verse-sheet').getByText('John 3:16–17', { exact: true })).toBeVisible();
   });
 
@@ -386,6 +403,50 @@ test.describe('verse sheet (R-2)', () => {
     await page.clock.runFor(50);
     await expect.poll(scrollTop).toBe(before);
     await expect(row).toBeFocused();
+  });
+
+  // GAPS follow-up (the #44 gate flake: back one row short): React Native Web reports a scroll at most every 16 ms and
+  // the rest only at its end, 100 ms later. With the clock paused, a second scroll is never reported; the word opened
+  // after it must still bring the list back to where it was at the press.
+  test('GAPS: back returns to a scroll made just before the press, though it was never reported', async ({ page }) => {
+    await page.clock.install();
+    await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
+    await page.route('**/api/v1/words/**', route => {
+      const data = body('words_john3_16');
+      const template = data.words.find((w: { strongs: string }) => w.strongs === 'G0025');
+      return route.fulfill({ json: { ...data, words: Array.from({ length: 80 }, (_, i) => ({
+        ...template, english_order: i + 1, english: 'phrase ' + (i + 1), english_kind: 'text',
+      })) } });
+    });
+    await page.goto('/bible');
+    await page.getByTestId('verse-16-tools').click();
+    await page.getByTestId('sheet-original-words').click();
+    const scrollTop = () => page.getByTestId('words-list').evaluate(el => {
+      const nodes = [el, ...el.querySelectorAll('*')];
+      const scroller = nodes.find(n => n.scrollHeight > n.clientHeight + 50 && getComputedStyle(n).overflowY === 'auto');
+      return scroller!.scrollTop;
+    });
+    // Held from here: the first scroll is reported (it starts the scroll); the second is not (its 16 ms never pass,
+    // and the scroll-end timer never runs).
+    await expect(page.getByTestId('word-row-40')).toBeAttached();
+    await page.clock.pauseAt(Date.now() + 1000);
+    await page.getByTestId('words-list').evaluate(el => {
+      const nodes = [el, ...el.querySelectorAll('*')];
+      nodes.find(n => n.scrollHeight > n.clientHeight + 50 && getComputedStyle(n).overflowY === 'auto')!.scrollTop = 400;
+    });
+    await page.waitForTimeout(100);
+    const row = page.getByTestId('word-row-40');
+    await row.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(100);
+    await recordScrollAtPress(page);
+    await row.click();
+    const before = await scrollAtPress(page);
+    expect(before).toBeGreaterThan(400);
+    await expect(page.getByTestId('word-card')).toBeVisible();
+    await page.getByTestId('word-back').click();
+    await expect(page.getByTestId('words-list')).toBeVisible();
+    await page.clock.runFor(50);
+    await expect.poll(scrollTop).toBe(before);
   });
 
   // GAPS (board 11-03), the R-2 gap: a chapter change while a note is half-written keeps the draft.

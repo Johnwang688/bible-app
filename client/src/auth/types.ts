@@ -13,6 +13,15 @@ export interface AuthUser {
    * "password" for every decision (older test fakes and stored state predate Google sign-in).
    */
   providers?: readonly AuthProviderKind[];
+  /**
+   * Whether the email is confirmed (email verification, 11-03). A backend that verifies emails (`verifiesEmail`,
+   * the Firebase one) always sets it; for such a backend anything but `true` holds sync off (fail closed). Absent
+   * only from backends that do not verify emails (test fakes, the inert preview). A Google sign-in of a Gmail
+   * address comes back true (Firebase marks a trusted provider's email verified).
+   */
+  emailVerified?: boolean;
+  /** When the account was created (client ms), when the backend knows. */
+  createdAt?: number;
 }
 
 /** How the account proves itself again (delete): a password, unless it has none and has Google. */
@@ -87,8 +96,31 @@ export interface DeleteOptions {
   onProven?(): void;
 }
 
+/** What a verification or change-of-address email needs: where its link continues to, and its language. */
+export interface EmailActionOptions {
+  /** The continue URL (an authorized domain): `/me?verified=1` on the web app. */
+  url: string;
+  /** Firebase's `languageCode` for the email and its page: `zh-CN` or `en`. */
+  languageCode: string;
+}
+
 /** Firebase Auth behind a small interface (firebaseAuth.ts), so tests and new providers swap it. */
 export interface AuthBackend {
+  /**
+   * The backend verifies emails (Firebase): sync runs only for a user whose `emailVerified` is exactly true, and the
+   * verification actions below are required. Absent: the backend has no such step (test fakes), and every user syncs.
+   */
+  verifiesEmail?: true;
+  /**
+   * Fetches the signed-in user again (Firebase `reload()`), so a confirmation made elsewhere shows. Resolves with the
+   * fresh user (null when signed out). Rejects with AuthError; a session ended by an email change or a delete
+   * rejects with the Firebase code (`auth/user-token-expired`, `auth/user-not-found`, ...).
+   */
+  reload?(): Promise<AuthUser | null>;
+  /** Sends the verification email to the signed-in user's address. */
+  sendEmailVerification?(options: EmailActionOptions): Promise<void>;
+  /** Firebase `verifyBeforeUpdateEmail`: emails a link to `newEmail`; the address changes when it is opened. */
+  verifyBeforeUpdateEmail?(newEmail: string, options: EmailActionOptions): Promise<void>;
   currentUser(): AuthUser | null;
   /** Calls back with the restored user (or null) once known, then on every change. Returns the unsubscribe. */
   onAuthStateChanged(listener: (user: AuthUser | null) => void): () => void;
@@ -112,6 +144,36 @@ export interface AuthBackend {
 
 export type AccountStatus = 'loading' | 'signedOut' | 'signedIn';
 
+/**
+ * The signed-in account's unconfirmed email (email verification, 11-03), or null when there is nothing to confirm
+ * (signed out, confirmed, or a backend without verification).
+ */
+export interface VerifyState {
+  /**
+   * `new`: an account made with this change (it was sent a link at sign-up). `paused`: an account that synced before
+   * verification existed (it has sync history on this device, or was made before the change shipped): its sync is
+   * paused until it confirms.
+   */
+  kind: 'new' | 'paused';
+  /** A link was sent from this device (at sign-up or by Send again). */
+  sent: boolean;
+  /** Client ms before which Send again is held (the 60 s cooldown, or 5 min after too-many-requests), or null. */
+  resendAt: number | null;
+  /** A change of address waiting for its link (Change email), or null. */
+  pendingEmail: string | null;
+}
+
+/** News the account card shows once, as its banner (email verification, 11-03). */
+export type AccountNotice = { kind: 'confirmed' } | { kind: 'emailChanged'; email: string };
+
+/** What a sign-up reports: the account exists; whether its verification email went out. */
+export interface SignUpResult {
+  /** The new account's email must be confirmed before it syncs (the sheet turns into "Confirm your email"). */
+  confirm: boolean;
+  /** Why the verification email could not be sent, or null when it was (or the backend sends none). */
+  sendError: AuthError | null;
+}
+
 /** What `useAccount()` returns. Every action rejects with AuthError on failure. */
 export interface AccountState {
   status: AccountStatus;
@@ -124,7 +186,32 @@ export interface AccountState {
   /** Null while signed out or loading. */
   sync: SyncStatus | null;
   signIn(method: AccountSignIn): Promise<void>;
-  signUp(email: string, password: string): Promise<void>;
+  /**
+   * Creates the account and signs in, then sends the verification email (its failure does not fail the sign-up: it
+   * is reported in the result, and Send again retries). `languageCode`: the email's language (`zh-CN` or `en`).
+   */
+  signUp(email: string, password: string, languageCode?: string): Promise<SignUpResult>;
+  /** The signed-in account's unconfirmed email, or null (see VerifyState). */
+  verify: VerifyState | null;
+  /** The card's one-time news (confirmed, email changed), or null. */
+  notice: AccountNotice | null;
+  dismissNotice(): void;
+  /**
+   * Sends the verification link again (to the pending new address while a change of address waits). Rejects with
+   * AuthError ('too-many-requests' also holds Send again for 5 minutes; 'unknown' while the cooldown runs).
+   */
+  sendVerification(languageCode?: string): Promise<void>;
+  /**
+   * Asks Firebase whether the email is confirmed now (reload). Resolves true when it is and the ID token has been
+   * refreshed (so Firestore sees the claim; only then does sync start), false when not yet. A failed refresh rejects
+   * and keeps sync off; the next call refreshes again. A session the email change ended signs out (with the
+   * `emailChanged` notice). Rejects with AuthError (network).
+   */
+  checkVerified(): Promise<boolean>;
+  /** Re-authenticates with `password`, then emails a link to `newEmail` (verifyBeforeUpdateEmail). */
+  changeEmail(newEmail: string, password: string, languageCode?: string): Promise<void>;
+  /** "Keep the old email": forgets the pending change of address on this device. */
+  keepOldEmail(): void;
   /** Stops sync, then signs out. Data on the device stays. */
   signOut(): Promise<void>;
   sendPasswordReset(email: string): Promise<void>;
