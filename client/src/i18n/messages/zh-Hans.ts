@@ -337,6 +337,7 @@ export const zhHans: Record<MessageKey, string> = {
   'privacy.server.b1': '请求中只包含经文出处或你搜索的词语。',
   'privacy.server.b2': '服务器运行在美国的 Google Cloud 上。',
   'privacy.server.b3': '和所有网络服务器一样，它会看到你的 IP 地址和浏览器类型，并在请求日志中保留最多 30 天，用于运行和保护这项服务。',
+  'privacy.server.b4': '如果你在“我的”页面发送反馈，你写的内容会和应用版本、平台、应用语言、风格以及浏览器或设备信息一起保存在 Cloud Firestore（Google，美国）；如果你已登录，还会附上你的账户 ID，但绝不包括你的电子邮箱。',
   'privacy.hosting.title': '网站和字体',
   'privacy.hosting.summary': '网站和一种字体由其他服务提供，提供时它们会看到你的 IP 地址。',
   'privacy.hosting.b1': '网站由 Firebase Hosting（Google）提供，它也会以同样的方式记录请求。',

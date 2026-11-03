@@ -133,6 +133,12 @@ const approved = [
     "Like any web server, it sees your IP address and browser type, and keeps them in its request logs for up to 30 days to run and protect the service.",
     "和所有网络服务器一样，它会看到你的 IP 地址和浏览器类型，并在请求日志中保留最多 30 天，用于运行和保护这项服务。"
   ],
+  // Added with Send feedback (John approved the sentence 11-03: design/proposed/feedback.html decision 13).
+  [
+    "privacy.server.b4",
+    "If you send feedback from the Me tab, your message is stored in Cloud Firestore (Google, United States) with the app version, platform, app language, look and your browser or device details, plus your account ID if you’re signed in, but never your email address.",
+    "如果你在“我的”页面发送反馈，你写的内容会和应用版本、平台、应用语言、风格以及浏览器或设备信息一起保存在 Cloud Firestore（Google，美国）；如果你已登录，还会附上你的账户 ID，但绝不包括你的电子邮箱。"
+  ],
   [
     "privacy.hosting.title",
     "The website and fonts",

@@ -6,6 +6,8 @@ import { StyleSheet, View } from 'react-native';
 import { AccountCard } from '../auth/components/AccountCard';
 import { languageLabelKey, showChineseBetaNote } from '../beta';
 import { Screen } from '../components/Screen';
+import { FeedbackSheet } from '../feedback/FeedbackSheet';
+import { useFeedbackAllowed } from '../feedback/context';
 import { GoalSheet } from '../home/GoalSheet';
 import { useI18n } from '../i18n/I18nProvider';
 import type { LanguagePreference } from '../i18n/types';
@@ -19,7 +21,7 @@ import { MeChoiceSheet, type MeChoice } from './components/MeChoiceSheet';
 import { MeGroup, MeSettingsRow } from './components/MeSettingsRow';
 import type { MeRoute } from './routes';
 
-type Sheet = 'language' | 'translation' | 'parallel' | 'goal' | null;
+type Sheet = 'language' | 'translation' | 'parallel' | 'goal' | 'feedback' | null;
 
 const nowDate = () => new Date();
 
@@ -34,6 +36,8 @@ export function MeScreen({ onNavigate }: { onNavigate(to: MeRoute): void }) {
   const [progress] = useStoredValue(getStorage(), readingProgressKey);
   const goalMinutes = progress.goalMinutes;
   const [sheet, setSheet] = useState<Sheet>(null);
+  // Under 13: no free-text box (feedback.html decision 2). Live, so the row and an open sheet go if the age changes.
+  const feedbackAllowed = useFeedbackAllowed();
   // The picker is closing once a choice is made: a second tap in that moment must not write again.
   const picked = useRef(false);
 
@@ -117,6 +121,7 @@ export function MeScreen({ onNavigate }: { onNavigate(to: MeRoute): void }) {
           <MeSettingsRow id="me-row-sources" first labelKey="me.row.sources" onPress={() => onNavigate('sources')} />
           <MeSettingsRow id="me-row-about" labelKey="me.row.about" onPress={() => onNavigate('about')} />
           <MeSettingsRow id="me-row-help" labelKey="me.row.help" onPress={() => onNavigate('help')} />
+          {feedbackAllowed ? <MeSettingsRow id="me-row-feedback" labelKey="feedback.row" onPress={() => open('feedback')} /> : null}
         </MeGroup>
       </View>
 
@@ -145,6 +150,7 @@ export function MeScreen({ onNavigate }: { onNavigate(to: MeRoute): void }) {
         />
       ) : null}
       {sheet === 'goal' ? <GoalSheet storage={getStorage()} now={nowDate} onClose={close} /> : null}
+      {sheet === 'feedback' && feedbackAllowed ? <FeedbackSheet onClose={close} /> : null}
     </Screen>
   );
 }
