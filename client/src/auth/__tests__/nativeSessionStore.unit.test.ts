@@ -204,4 +204,6 @@ test('interleaved sets, removes and reads end in a full value or null, never a m
     const end = await s.getItem(KEY);
     for (const v of [...reads, end]) expect([A, B, null]).toContain(v);
   }
-});
+  // 150 seeds, each reloading the module: well under a second alone, but past Jest's 5 s default when other gates
+  // load the machine.
+}, 30_000);
