@@ -51,7 +51,10 @@ export function WordsList({
 
   // Back from a word card: the same place in the list, with focus on the row that was open. The focus does not
   // scroll (web): the list is already where it was, and a row that was only partly in view would move it.
-  const ready = rows.length > 0;
+  // The rows are on screen: there are some, and the list is not showing its error (a failed refetch keeps the old
+  // data, so Back then Try again must restore once the rows are back).
+  const failed = query.isError && !query.isFetching;
+  const ready = rows.length > 0 && !failed;
   // React Native Web's ScrollView reports the end of a scroll 100 ms after the last one, from a timer it does not
   // clear on unmount. Opening a word within that time unmounts the list first, and the late report then reads the
   // detached node's offset, 0, over the place to come back to. Reports after the list is gone are not the list's.
@@ -106,7 +109,7 @@ export function WordsList({
   );
 
   let body;
-  if (query.isError && !query.isFetching) {
+  if (failed) {
     body = (
       <View style={styles.state}>
         <Text style={{ color: theme.colors.text, fontFamily: regular, fontSize: 16 }}>{t('words.error')}</Text>
