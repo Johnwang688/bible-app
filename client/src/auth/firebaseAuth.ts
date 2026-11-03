@@ -44,6 +44,9 @@ function credentialFor(method: SignInMethod): AuthCredential {
   return EmailAuthProvider.credential(method.email.trim(), method.password);
 }
 
+/** How many times `existingOnly` tries to remove an account Google's window just created. */
+const NEW_ACCOUNT_REMOVE_TRIES = 3;
+
 /** The browser says it is offline: Google's window would only open onto an error, so it is not opened. */
 function offline(): boolean {
   return typeof navigator !== 'undefined' && (navigator as { onLine?: boolean }).onLine === false;
@@ -88,10 +91,14 @@ export function createFirebaseAuthBackend(auth: Auth, google: GoogleFlow = googl
         if (options?.existingOnly && getAdditionalUserInfo(cred)?.isNewUser) {
           // Firebase has just created an account for a Google account that had none. This sign-in exists only to
           // prove an existing account (the Under 13 offer), so undo it: delete that empty account, then sign out.
-          try {
-            await deleteUser(cred.user);
-          } catch (e) {
-            console.warn('[account] removing the account a Google re-auth created failed', firebaseAuthCode(e));
+          // A few tries (security review G-4): a dropped connection right after the window must not leave it behind.
+          for (let attempt = 1; attempt <= NEW_ACCOUNT_REMOVE_TRIES; attempt++) {
+            try {
+              await deleteUser(cred.user);
+              break;
+            } catch (e) {
+              console.warn(`[account] removing the account a Google re-auth created failed (try ${attempt} of ${NEW_ACCOUNT_REMOVE_TRIES})`, firebaseAuthCode(e));
+            }
           }
           try {
             await firebaseSignOut(auth);

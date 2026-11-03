@@ -65,7 +65,9 @@
 // Google's window instead of a password (`reauthKindFor`); its closing and offer carry `method: 'google'`, and the
 // offered delete's re-auth then uses Google's window with `existingOnly` (it never creates an account, and must land
 // on the offered uid, like the password re-auth). While Google's window is open the person can give up (`signal`):
-// the abort is read once the re-auth resolves, before the engine stops or anything is sent.
+// the delete rejects 'cancelled' at once, before the engine stops or anything is sent, and stops holding the provider
+// (security review G-2); the window's late result is ignored. The offered delete does not start while a sign-in waits
+// on the backend (G-3).
 //
 // The injected dependencies are read once, when the provider mounts; the defaults (Firebase, device
 // storage, the Firestore remote, the account API) are created on first use, never at import.
@@ -301,6 +303,37 @@ function proofKind(proof: DeleteProof): AuthProviderKind {
   return typeof proof === 'string' ? 'password' : 'google';
 }
 
+/**
+ * `p`, or a 'cancelled' rejection as soon as `signal` aborts (security review G-2: giving up must not wait for Google's
+ * window). The late result of `p` is ignored.
+ */
+function abortable<T>(p: Promise<T>, signal: DeleteOptions['signal']): Promise<T> {
+  if (!signal || typeof signal.addEventListener !== 'function') return p;
+  const cancelled = () => new AuthError('cancelled', 'the delete was cancelled');
+  if (signal.aborted) {
+    p.catch(() => undefined);
+    return Promise.reject(cancelled());
+  }
+  return new Promise<T>((resolve, reject) => {
+    const onAbort = () => {
+      p.catch(() => undefined);
+      reject(cancelled());
+    };
+    signal.addEventListener!('abort', onAbort);
+    const off = () => signal.removeEventListener?.('abort', onAbort);
+    p.then(
+      (v) => {
+        off();
+        resolve(v);
+      },
+      (e: unknown) => {
+        off();
+        reject(e);
+      },
+    );
+  });
+}
+
 /** Signs in through the backend: a password, or Google's window (refused by a backend without it). */
 function backendSignIn(auth: AuthBackend, method: AccountSignIn): Promise<AuthUser> {
   if (method.kind === 'password') return auth.signIn(method);
@@ -339,6 +372,12 @@ function createController(deps: Deps): Controller {
   let deleting = false;
   /** `deleteOfferedAccount` is running: its re-auth's user is not shown, and enforceGate leaves it alone. */
   let offerRun = false;
+  /**
+   * Sign-ins and sign-ups waiting on the backend (Google's window can stay open for minutes, with the sheet closed).
+   * The offered delete refuses to start meanwhile: the sign-in would end the offer under it, and the delete would sign
+   * the new session out (security review G-3).
+   */
+  let signingIn = 0;
   /**
    * An account whose delete may have reached the server (see the header): sync stays off for it until
    * a probe settles it. `hadData`: whether the remote held anything before the request (null: unknown).
@@ -675,10 +714,13 @@ function createController(deps: Deps): Controller {
       const auth = requireAuth();
       // An ordinary Google sign-in may create the account; only the offered delete's re-auth uses existingOnly.
       const how: AccountSignIn = method.kind === 'google' ? { kind: 'google' } : method;
+      signingIn++;
       try {
         await backendSignIn(auth, how);
       } catch (e) {
         throw asAuthError(e);
+      } finally {
+        signingIn--;
       }
       blockedUid = null;
       unconfirmed = null;
@@ -692,10 +734,13 @@ function createController(deps: Deps): Controller {
       requireAllowed();
       requireNoOfferRun();
       const auth = requireAuth();
+      signingIn++;
       try {
         await auth.signUp(email, password);
       } catch (e) {
         throw asAuthError(e);
+      } finally {
+        signingIn--;
       }
       blockedUid = null;
       unconfirmed = null;
@@ -853,7 +898,7 @@ function createController(deps: Deps): Controller {
     deleting = true;
     try {
       try {
-        await backendReauth(auth, proofMethod(proof, who.email ?? ''));
+        await abortable(backendReauth(auth, proofMethod(proof, who.email ?? '')), options?.signal);
       } catch (e) {
         throw asAuthError(e);
       }
@@ -917,6 +962,7 @@ function createController(deps: Deps): Controller {
     const offer = offerNow();
     if (!offer) throw new AuthError('not-allowed', 'there is no Under 13 offer on this device');
     if (deleting) throw new AuthError('unknown', 'a delete is already in progress');
+    if (signingIn > 0) throw new AuthError('unknown', 'a sign-in is in progress');
     // The proof must be the offer's own method: Google proves only an offer recorded for a Google-only account.
     if (proofKind(proof) !== (offer.method ?? 'password')) throw new AuthError('unknown', 'that is not how the offered account signs in');
     const auth = requireAuth();
@@ -935,7 +981,7 @@ function createController(deps: Deps): Controller {
         try {
           // Straight to the backend: sign-in is off (the gate), and this sign-in exists only to delete. Google's window
           // may never create an account here (existingOnly).
-          reauthed = await backendSignIn(auth, proofMethod(proof, offer.email, true));
+          reauthed = await abortable(backendSignIn(auth, proofMethod(proof, offer.email, true)), options?.signal);
         } catch (e) {
           throw asAuthError(e);
         }

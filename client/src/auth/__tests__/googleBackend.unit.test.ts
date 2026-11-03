@@ -89,6 +89,15 @@ describe('signInWithGoogle', () => {
     warn.mockRestore();
   });
 
+  test('existingOnly: the removal is tried again when it fails (security review G-4)', async () => {
+    mockSdk.getAdditionalUserInfo.mockReturnValue({ isNewUser: true });
+    mockSdk.deleteUser.mockRejectedValueOnce(fbError('auth/network-request-failed')).mockRejectedValueOnce(fbError('auth/network-request-failed')).mockResolvedValue(undefined);
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+    await expect(createFirebaseAuthBackend({ currentUser: null } as unknown as FakeAuth, flow()).signInWithGoogle!({ existingOnly: true })).rejects.toMatchObject({ kind: 'wrong-credentials' });
+    expect(mockSdk.deleteUser).toHaveBeenCalledTimes(3);
+    warn.mockRestore();
+  });
+
   test('an existing account is kept with existingOnly; a new one is kept without it', async () => {
     const auth = { currentUser: null } as unknown as FakeAuth;
     await createFirebaseAuthBackend(auth, flow()).signInWithGoogle!({ existingOnly: true });

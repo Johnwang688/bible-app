@@ -75,11 +75,14 @@ export type DeleteProof = string | { kind: 'google' };
 /** Options of a delete. */
 export interface DeleteOptions {
   /**
-   * Google proof only: set `aborted` while Google's window is open to give up (the person pressed Cancel). It is read
-   * once the re-auth resolves, before anything is stopped or sent: an aborted delete then rejects 'cancelled' and
-   * deletes nothing. Once `onProven` has been called it has no effect.
+   * Google proof only: abort it (an AbortController's signal) while Google's window is open to give up (the person
+   * pressed Cancel). The delete then rejects 'cancelled' at once and deletes nothing; it no longer holds the provider
+   * (sync, the gate's sign-out, "Not now" and another delete go on), and the window's late result is ignored (a late
+   * sign-in of the offered delete's re-auth is signed out by the closed gate). A signal without events (a plain
+   * `{ aborted }`) is read once the re-auth resolves instead. Once `onProven` has been called it has no effect
+   * (security review G-2).
    */
-  signal?: { aborted: boolean };
+  signal?: { readonly aborted: boolean; addEventListener?(type: 'abort', listener: () => void): void; removeEventListener?(type: 'abort', listener: () => void): void };
   /** Called once the account is proven (and not aborted), just before the delete proper starts. */
   onProven?(): void;
 }

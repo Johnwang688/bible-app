@@ -190,7 +190,7 @@ describe('deleting an account with Google and no password', () => {
     expect(screen.getByText(en['account.google.deleteHint'].replace('{email}', GINA.email))).toBeTruthy();
     expect(screen.getByTestId('delete-confirm')).not.toBeDisabled();
     await press('delete-confirm');
-    expect(account.deleteAccount).toHaveBeenCalledWith({ kind: 'google' }, expect.objectContaining({ signal: { aborted: false } }));
+    expect(account.deleteAccount).toHaveBeenCalledWith({ kind: 'google' }, expect.objectContaining({ signal: expect.objectContaining({ aborted: false }) }));
     expect(onDeleted).toHaveBeenCalled();
   });
 

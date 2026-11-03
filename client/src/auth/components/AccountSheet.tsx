@@ -110,7 +110,7 @@ export function AccountSheet({
    * A Google delete waiting on Google's window, or null: Cancel and Close may give it up until Google has proven the
    * account (`onProven` clears it). Read synchronously, like `owner`.
    */
-  const googleAbort = useRef<{ aborted: boolean } | null>(null);
+  const googleAbort = useRef<AbortController | null>(null);
   const [focusPassword, setFocusPassword] = useState(0);
   /** Where "back" goes from the reset view. */
   const [resetFrom, setResetFrom] = useState<'signIn' | 'delete'>('signIn');
@@ -160,8 +160,8 @@ export function AccountSheet({
   const abandonGoogleDelete = useCallback((): boolean => {
     const waiting = googleAbort.current;
     if (!waiting) return false;
-    waiting.aborted = true;
     googleAbort.current = null;
+    waiting.abort();
     return true;
   }, []);
 
@@ -324,12 +324,13 @@ export function AccountSheet({
     const request = begin();
     if (!request) return;
     const { current } = request;
-    const signal = { aborted: false };
-    googleAbort.current = signal;
+    const controller = new AbortController();
+    const signal = controller.signal;
+    googleAbort.current = controller;
     setGoogleWaiting(true);
     // Google has proven the account and the delete proper starts: from here the sheet locks (deleteRunning).
     const onProven = () => {
-      if (googleAbort.current === signal) googleAbort.current = null;
+      if (googleAbort.current === controller) googleAbort.current = null;
       if (current()) setGoogleWaiting(false);
     };
     try {
@@ -345,7 +346,7 @@ export function AccountSheet({
         else setDeleteMessage(key);
       }
     } finally {
-      if (googleAbort.current === signal) googleAbort.current = null;
+      if (googleAbort.current === controller) googleAbort.current = null;
       if (current()) setGoogleWaiting(false);
       request.finish();
     }
