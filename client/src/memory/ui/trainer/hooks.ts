@@ -27,10 +27,15 @@ export function useKeyboardOpen(): boolean {
 // Whether a graded answer records progress, and what it shows, is decided by the attempt as it stands when the grade
 // lands, never by state captured when the recording started or the answer was sent: the grade awaits (the server
 // check in VoicePanel, the speech keyer here) and the recorder's auto-stop holds the closure of an older render.
+// The voice side of the same rule is the attempt machine (voice/attempt.ts): it aborts the signal a voice answer is
+// graded with whenever that attempt ends, so a ticket begun with it dies with it.
 
 /** One answer being graded. */
 export interface GradeTicket {
-  /** Still the answer of the attempt on screen: not cancelled, not overtaken by a new round, not left. */
+  /**
+   * Still the answer of the attempt on screen: not cancelled, not overtaken by a new round, not left. Check it after
+   * every await of the grade and right before recording.
+   */
   live(): boolean;
   /** Releases the grading latch (a no-op once the ticket is no longer the pending one). */
   done(): void;
@@ -61,8 +66,12 @@ interface AttemptState {
   pending: GradeTicket | null;
 }
 
-/** The attempt a fill-in or full recall trainer is on; one object for the trainer's life. */
-export function useAttempt(): Attempt {
+/**
+ * The attempt a fill-in or full recall trainer is on; one object for the trainer's life. `left` is the lesson scope
+ * (`TrainerCtx.left`): a grade pending when it aborts (Back, Skip, Next) is void, read synchronously, so it holds
+ * before navigation unmounts the screen. (`ctx.record` is a no-op once left, whatever grades afterwards.)
+ */
+export function useAttempt(left?: AbortSignal): Attempt {
   const state = useRef<AttemptState>({ epoch: 0, hinted: false, pending: null });
   useEffect(() => {
     const s = state.current;
@@ -81,8 +90,11 @@ export function useAttempt(): Attempt {
       const s = state.current;
       if (s.pending?.live()) return null;
       const epoch = s.epoch;
+      // The scope is the trainer's for its whole life (the lesson screen keys both on the step).
+      const wasLeft = left?.aborted ?? false;
       const ticket: GradeTicket = {
-        live: () => s.epoch === epoch && s.pending === ticket && !(signal?.aborted ?? false),
+        live: () =>
+          s.epoch === epoch && s.pending === ticket && !(signal?.aborted ?? false) && (left?.aborted ?? false) === wasLeft,
         done: () => {
           if (s.pending === ticket) s.pending = null;
         },

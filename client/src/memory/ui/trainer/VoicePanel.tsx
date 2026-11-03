@@ -2,12 +2,14 @@
 // place when voice can't be used, the consent sheet on the first tap, and the typing field. A voice answer or a typed
 // one comes out of `onAnswer`; grading and recording are the trainer's job.
 //
-// Concurrency: a request id (`gen`) is bumped by every new recording, send and cancel, so a tick, an auto-stop or a
-// transcription that settles after Cancel, after Try again or after unmount is ignored. `busy` latches the stop /
-// auto-stop / send chain so a double tap or a stop racing the 30 s cap sends once. Each answer goes out with its own
-// AbortSignal, aborted by Cancel (while it is checked or graded) and by unmounting, so the trainer's grade, which
-// awaits too, becomes a no-op. `onAnswer` is always the latest render's: the auto-stop callback and a pending send
-// hold an older render's closure, and must not grade with the state that render saw.
+// Concurrency: the voice attempt is one state machine (voice/attempt.ts), from the Mic press to the end of its grade;
+// this panel is its adapter. The machine's phase is the only thing that moves the mic between idle, recording and
+// checking. Every handler acts on the live machine through a ref, never on its render's closure: a Cancel from the
+// recording render, pressed after the auto-stop already moved the attempt on to its grade, voids that grade. The
+// current attempt ends on Cancel (recording or checking), on Try again (the trainer remounts the panel), when the
+// step's scope is left (Back, Skip, Next), on unmount and when the auth generation moves (`signedIn` or `user`).
+// A voice answer is graded with the attempt's own AbortSignal, so the trainer's grade, which awaits too, is void
+// once the attempt is. `onAnswer` is always the latest render's.
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { ActivityIndicator, Linking, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
@@ -15,9 +17,10 @@ import { uiFace } from '../../../fonts/fonts';
 import { useI18n } from '../../../i18n/I18nProvider';
 import { useTheme } from '../../../theme/ThemeProvider';
 import { useMemorySettings } from '../../useMemorySettings';
+import { VoiceAttempts, type AttemptPhase } from '../../voice/attempt';
 import { useMemoryAuth } from '../../voice/auth';
 import { recordVoiceOutcome, useVoiceSession, voiceGate } from '../../voice/availability';
-import { MAX_RECORDING_MS, MINUTE_LIMIT_MAX_RETRY_S, type MicPermission, type VoiceNotice, type VoiceOutcome } from '../../voice/types';
+import { MINUTE_LIMIT_MAX_RETRY_S, type MicPermission, type VoiceNotice, type VoiceOutcome } from '../../voice/types';
 import { MemorySettingsSheet } from '../MemorySettingsSheet';
 import { MemButton, MemCard } from '../parts';
 import { ConsentSheet } from './ConsentSheet';
@@ -30,6 +33,16 @@ type RetryNotice = 'too-long' | 'timeout' | 'error';
 type NoticeKind = VoiceNotice | RetryNotice;
 type LocalNotice = RetryNotice | 'signed-out' | 'offline' | 'unsupported';
 type Mode = 'idle' | 'starting' | 'recording' | 'grading';
+
+/** What the mic shows for each phase of the attempt. */
+const MODE_OF: Record<AttemptPhase, Mode> = {
+  idle: 'idle',
+  starting: 'starting',
+  recording: 'recording',
+  stopping: 'recording',
+  sending: 'grading',
+  grading: 'grading',
+};
 
 /** The announcement comes at 20 s of a 30 s recording. */
 const TEN_LEFT_FROM_MS = 20_000;
@@ -54,7 +67,8 @@ export interface VoicePanelProps {
   initialTyped?: string;
   /**
    * A transcript or typed answer. `signal` aborts when the answer stops belonging to this panel's attempt (Cancel
-   * while it is graded, the panel unmounting); a grade still pending then must record and show nothing.
+   * while it is graded, the step left, an auth change, the panel unmounting); a grade still pending then must record
+   * and show nothing.
    */
   onAnswer(text: string, via: 'voice' | 'typed', signal: AbortSignal): void | Promise<void>;
 }
@@ -66,7 +80,7 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
   const [, patchSettings] = useMemorySettings(ctx.storage);
   const largeText = useLargeText();
   const keyboardOpen = useKeyboardOpen();
-  const { recorder, checkVoice, baseUrl, isOnline } = ctx.voice;
+  const { recorder, isOnline } = ctx.voice;
 
   const [mode, setMode] = useState<Mode>('idle');
   const [local, setLocal] = useState<LocalNotice | null>(null);
@@ -80,20 +94,69 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
   const [, setBeat] = useState(0);
 
   const mounted = useRef(true);
-  const gen = useRef(0);
-  const busy = useRef(false);
-  const modeRef = useRef<Mode>('idle');
-  const abort = useRef<AbortController | null>(null);
   const typedAbort = useRef<AbortController | null>(null);
   const checking = useRef(false);
-  const answer = useRef(onAnswer);
+  // The latest render's answer, auth and voice settings: the machine outlives renders and reads these when it acts.
+  const latest = useRef({ onAnswer, auth, voice: ctx.voice, speech: ctx.settings.speech });
   useLayoutEffect(() => {
-    answer.current = onAnswer;
+    latest.current = { onAnswer, auth, voice: ctx.voice, speech: ctx.settings.speech };
   });
-  const go = (next: Mode) => {
-    modeRef.current = next;
-    setMode(next);
-  };
+
+  // The 401 latch: the server 401 behind a signed-out notice (the token it was for). It is lifted by a new session
+  // (signing in again, false -> true, or another user), or by the Sign in pressed on that very notice once it
+  // completes with a different, non-null token. A newer 401 is a new latch, so an older Sign in can't lift it. Other
+  // local notices are never touched by auth.
+  const latch = useRef<{ token: string | null } | null>(null);
+  const showLocal = useCallback((next: LocalNotice | null, token: string | null = null) => {
+    latch.current = next === 'signed-out' ? { token } : null;
+    setLocal(next);
+  }, []);
+  const clearSignedOut = useCallback(() => setLocal((cur) => (cur === 'signed-out' ? null : cur)), []);
+
+  // ---- the attempt machine ---------------------------------------------------------------------------------------
+  const machine = useRef<VoiceAttempts | null>(null);
+  const scope = ctx.left;
+  useEffect(() => {
+    const attempts = new VoiceAttempts({
+      recorder,
+      scope,
+      send: (audio, getIdToken, signal) => {
+        const { voice, speech } = latest.current;
+        return voice.checkVoice(
+          audio,
+          speech,
+          { baseUrl: voice.baseUrl, getIdToken, isOnline: voice.isOnline, getAppCheckToken: voice.getAppCheckToken },
+          signal,
+        );
+      },
+      currentToken: () => latest.current.auth.getIdToken(),
+      grade: (text, signal) => latest.current.onAnswer(text, 'voice', signal),
+      onOutcome: (outcome: VoiceOutcome, token) => {
+        const now = Date.now();
+        recordVoiceOutcome(outcome, now);
+        if (outcome.kind === 'limit') lastLimit = { until: now + outcome.retryAfterS * 1000, window: outcome.window };
+        if (outcome.kind === 'signed-out') showLocal('signed-out', token);
+        else if (outcome.kind === 'offline') showLocal('offline');
+        else if (outcome.kind === 'too-long' || outcome.kind === 'timeout' || outcome.kind === 'error') showLocal(outcome.kind);
+      },
+      onRefused: (result) => {
+        if (result === 'denied') setPermission('denied');
+        else showLocal('unsupported');
+      },
+      onPhase: (phase) => {
+        if (phase === 'starting') setElapsed(0);
+        setMode(MODE_OF[phase]);
+      },
+      onTick: setElapsed,
+    });
+    machine.current = attempts;
+    return () => {
+      attempts.dispose();
+      if (machine.current === attempts) machine.current = null;
+      // A machine replaced mid-attempt (a new recorder) leaves no mode behind; on unmount this is a no-op.
+      setMode('idle');
+    };
+  }, [recorder, scope, showLocal]);
 
   useEffect(() => {
     mounted.current = true;
@@ -102,9 +165,7 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
     });
     return () => {
       mounted.current = false;
-      abort.current?.abort();
       typedAbort.current?.abort();
-      if (modeRef.current === 'recording' || modeRef.current === 'starting') recorder.cancel();
     };
   }, [recorder]);
 
@@ -147,31 +208,22 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
     };
   }, [beat]);
 
-  // Auth results are tied to the auth state they started under. `authEpoch` is bumped whenever `signedIn` changes or a
-  // notice Sign in is seen to change the token; a voice outcome that lands in a later epoch is discarded. `latch` is
-  // the server 401 behind a signed-out notice (the token it was for): it is lifted by signing in again (false -> true),
-  // or by the Sign in pressed on that very notice once it completes with a different, non-null token. A newer 401 is a
-  // new latch, so an older Sign in can't lift it. Other local notices are never touched by auth.
-  const authEpoch = useRef(0);
-  const latch = useRef<{ token: string | null } | null>(null);
-  const latestAuth = useRef(auth);
-  useLayoutEffect(() => {
-    latestAuth.current = auth;
-  });
-  const showLocal = (next: LocalNotice | null, token: string | null = null) => {
-    latch.current = next === 'signed-out' ? { token } : null;
-    setLocal(next);
-  };
-  const clearSignedOut = useCallback(() => setLocal((cur) => (cur === 'signed-out' ? null : cur)), []);
-  const wasSignedIn = useRef(auth.signedIn);
+  // ---- auth --------------------------------------------------------------------------------------------------------
+  // The auth generation is (`signedIn`, `user`). When it moves, the attempt in progress is aborted: nothing it sends
+  // back is shown, graded or recorded (a grade waiting on the speech keyer included).
+  const user = auth.user ?? null;
+  const generation = useRef({ signedIn: auth.signedIn, user });
   useEffect(() => {
-    if (auth.signedIn !== wasSignedIn.current) authEpoch.current++;
-    if (auth.signedIn && !wasSignedIn.current) {
+    const was = generation.current;
+    if (was.signedIn === auth.signedIn && was.user === user) return;
+    generation.current = { signedIn: auth.signedIn, user };
+    machine.current?.authChanged();
+    const anotherUser = was.user !== null && user !== null && was.user !== user;
+    if (auth.signedIn && (!was.signedIn || anotherUser)) {
       latch.current = null;
       clearSignedOut();
     }
-    wasSignedIn.current = auth.signedIn;
-  }, [auth.signedIn, clearSignedOut]);
+  }, [auth.signedIn, user, clearSignedOut]);
   const authSignIn = auth.signIn;
   const signIn = authSignIn
     ? () => {
@@ -180,9 +232,9 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
         void Promise.resolve(done).then(
           async () => {
             if (!mounted.current || startedFor === null || latch.current !== startedFor) return;
-            const token = await latestAuth.current.getIdToken().catch(() => null);
+            const token = await latest.current.auth.getIdToken().catch(() => null);
             if (!mounted.current || latch.current !== startedFor || token === null || token === startedFor.token) return;
-            authEpoch.current++;
+            machine.current?.authChanged();
             latch.current = null;
             clearSignedOut();
           },
@@ -205,124 +257,14 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
   const localNotice = local === 'offline' && online ? null : local;
   const notice: NoticeKind | null = mode !== 'idle' ? null : gate.kind === 'notice' ? gate.notice : localNotice;
 
-  // ---- recording ----------------------------------------------------------------------------------------------
-  const beginSend = async (blob: Blob) => {
-    const id = ++gen.current;
-    const epoch = authEpoch.current;
-    const controller = new AbortController();
-    abort.current = controller;
-    go('grading');
-    // The token this request actually sent, so a 401 latches against it.
-    let usedToken: { value: string | null } | null = null;
-    const getIdToken = async () => (usedToken = { value: await auth.getIdToken() }).value;
-    let outcome: VoiceOutcome;
-    try {
-      outcome = await checkVoice(blob, ctx.settings.speech, { baseUrl, getIdToken, isOnline }, controller.signal);
-    } catch {
-      outcome = { kind: 'error' };
-    }
-    const live = () => id === gen.current && mounted.current; // cancelled, retried or gone: a late answer is ignored
-    if (!live()) return;
-    // A 401 from a request that never asked for a token is held against the token of its (unchanged) auth state.
-    if (outcome.kind === 'signed-out' && usedToken === null && epoch === authEpoch.current) {
-      usedToken = { value: await auth.getIdToken().catch(() => null) };
-      if (!live()) return;
-    }
-    if (epoch !== authEpoch.current) {
-      // Begun under another auth state: nothing of it is shown, graded or recorded; the gate decides what's next.
-      abort.current = null;
-      busy.current = false;
-      go('idle');
-      return;
-    }
-    const now = Date.now();
-    recordVoiceOutcome(outcome, now);
-    if (outcome.kind === 'limit') lastLimit = { until: now + outcome.retryAfterS * 1000, window: outcome.window };
-    if (outcome.kind === 'text') {
-      // The controller stays live while the trainer grades: Cancel (still on screen) or unmounting aborts the grade.
-      try {
-        await answer.current(outcome.text, 'voice', controller.signal);
-      } finally {
-        if (abort.current === controller) abort.current = null;
-        if (mounted.current && id === gen.current) {
-          busy.current = false;
-          go('idle');
-        }
-      }
-      return;
-    }
-    abort.current = null;
-    busy.current = false;
-    if (outcome.kind === 'signed-out') showLocal('signed-out', usedToken?.value ?? null);
-    else if (outcome.kind === 'offline') showLocal('offline');
-    else if (outcome.kind === 'too-long' || outcome.kind === 'timeout' || outcome.kind === 'error') showLocal(outcome.kind);
-    go('idle');
-  };
-
-  const startRecording = async () => {
-    if (busy.current || modeRef.current !== 'idle') return;
-    const id = ++gen.current;
-    setElapsed(0);
-    go('starting');
-    const alive = () => mounted.current && id === gen.current;
-    const result = await recorder.start({
-      maxMs: MAX_RECORDING_MS,
-      onTick: (ms) => {
-        if (alive()) setElapsed(ms);
-      },
-      onAutoStop: (recording) => {
-        if (!alive() || busy.current) return;
-        busy.current = true;
-        void beginSend(recording.blob);
-      },
-    });
-    if (!alive()) {
-      if (result === 'recording') recorder.cancel();
-      return;
-    }
-    if (result === 'denied') {
-      setPermission('denied');
-      go('idle');
-    } else if (result === 'unsupported') {
-      showLocal('unsupported');
-      go('idle');
-    } else {
-      go('recording');
-    }
-  };
-
-  const stop = async () => {
-    if (busy.current || modeRef.current !== 'recording') return;
-    busy.current = true;
-    const id = gen.current;
-    const recording = await recorder.stop();
-    if (!mounted.current || id !== gen.current) return;
-    if (!recording) {
-      busy.current = false;
-      go('idle');
-      return;
-    }
-    await beginSend(recording.blob);
-  };
-
-  const cancelRecording = () => {
-    gen.current++;
-    busy.current = false;
-    recorder.cancel();
-    go('idle');
-  };
-
-  const cancelChecking = () => {
-    gen.current++;
-    abort.current?.abort();
-    abort.current = null;
-    busy.current = false;
-    go('idle');
-  };
+  // ---- actions: each acts on the live machine -------------------------------------------------------------------
+  const startRecording = () => void machine.current?.start();
+  const stop = () => void machine.current?.stop();
+  const cancel = () => machine.current?.abort();
 
   const onMic = () => {
     if (!ctx.settings.voiceConsent) setConsentOpen(true);
-    else void startRecording();
+    else startRecording();
   };
 
   const submitTyped = () => {
@@ -331,7 +273,7 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
     checking.current = true;
     const controller = new AbortController();
     typedAbort.current = controller;
-    void Promise.resolve(answer.current(text, 'typed', controller.signal)).finally(() => {
+    void Promise.resolve(latest.current.onAnswer(text, 'typed', controller.signal)).finally(() => {
       checking.current = false;
       if (typedAbort.current === controller) typedAbort.current = null;
     });
@@ -361,14 +303,14 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
   if (mode === 'recording') {
     body = (
       <>
-        <RecordingBlock elapsed={elapsed} compact={largeText} onStop={() => void stop()} onCancel={cancelRecording} />
+        <RecordingBlock elapsed={elapsed} compact={largeText} onStop={stop} onCancel={cancel} />
         {field(false, true)}
       </>
     );
   } else if (mode === 'grading') {
     body = (
       <>
-        <GradingBlock compact={largeText} onCancel={cancelChecking} />
+        <GradingBlock compact={largeText} onCancel={cancel} />
         {field(false, true)}
       </>
     );
@@ -419,7 +361,7 @@ export function VoicePanel({ ctx, multiline, placeholder, initialTyped, onAnswer
           onAllow={() => {
             patchSettings({ voiceConsent: true });
             setConsentOpen(false);
-            void startRecording();
+            startRecording();
           }}
         />
       ) : null}

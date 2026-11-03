@@ -6,7 +6,8 @@
 // deadline has passed, `timeout`), whatever the token, the fetch or the body do afterwards.
 // How the code keeps it:
 // - The verdict is decided by the first of {the caller's abort, the deadline} and never changes after.
-// - Every await races against that verdict, so a pending token, fetch or body cannot hold the call open.
+// - Every await races against that verdict, so a pending token, App Check token, fetch or body cannot hold the call
+//   open.
 // - Every return after the listener is attached goes through `settle()`, which reads the caller's
 //   `signal.aborted` and the verdict synchronously and is the last thing before the return: no await follows
 //   it, so an abort that lands between an await resuming and the return still turns the result into
@@ -20,6 +21,8 @@ import {
 } from './types';
 
 const DEFAULT_RETRY_AFTER_S = 60;
+/** The longest a request waits for its App Check token; after that it goes without (the backend only monitors). */
+export const APP_CHECK_WAIT_MS = 3_000;
 const DEFAULT_CONTENT_TYPE = 'audio/webm';
 
 function deviceIsOnline(): boolean {
@@ -79,11 +82,17 @@ export const checkVoice: CheckVoice = async (audio, language, deps, signal) => {
     if (token === ABORTED || decided()) return settle(ERROR);
     if (token === null) return settle({ kind: 'signed-out' });
 
+    // App Check is optional: a missing, empty, failing or slow token sends the request without the header.
+    const appCheck = deps.getAppCheckToken ? await race(appCheckToken(deps.getAppCheckToken, aborted)) : null;
+    if (appCheck === ABORTED || decided()) return settle(ERROR);
+    const headers: Record<string, string> = { 'Content-Type': audio.type || DEFAULT_CONTENT_TYPE, Authorization: `Bearer ${token}` };
+    if (appCheck !== null) headers['X-Firebase-AppCheck'] = appCheck;
+
     const res = await race(
       Promise.resolve().then(() =>
         (deps.fetch ?? fetch)(`${deps.baseUrl}/memory/transcribe?${SPEECH_QUERY_PARAM}=${encodeURIComponent(language)}`, {
           method: 'POST',
-          headers: { 'Content-Type': audio.type || DEFAULT_CONTENT_TYPE, Authorization: `Bearer ${token}` },
+          headers,
           body: audio,
           signal: controller.signal,
         }),
@@ -102,6 +111,24 @@ export const checkVoice: CheckVoice = async (audio, language, deps, signal) => {
     signal?.removeEventListener('abort', onCallerAbort);
   }
 };
+
+/**
+ * The App Check token, or null when there is none, it fails, or it takes longer than APP_CHECK_WAIT_MS. Settles at
+ * once when the request is aborted (the caller's race returns ABORTED then), so the wait's timer never outlives it.
+ */
+function appCheckToken(get: () => Promise<string | null>, aborted: Promise<unknown>): Promise<string | null> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const late = new Promise<null>((resolve) => {
+    timer = setTimeout(() => resolve(null), APP_CHECK_WAIT_MS);
+  });
+  const got = Promise.resolve()
+    .then(get)
+    .then(
+      (value) => (typeof value === 'string' && value !== '' ? value : null),
+      () => null,
+    );
+  return Promise.race([got, late, aborted.then(() => null)]).finally(() => clearTimeout(timer));
+}
 
 function outcomeForStatus(status: number, retryAfter: string | null | undefined): VoiceOutcome {
   switch (status) {

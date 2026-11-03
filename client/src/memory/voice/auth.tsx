@@ -1,10 +1,16 @@
 // The sign-in seam for Memory voice (team MEM, orchestrator-owned). Voice needs sign-in (the server answers
-// 401 without a Firebase ID token). R-6b's auth isn't on main yet, so the default is signed out: the trainers
-// show the signed-out notice and typing. When R-6b lands, its provider supplies a `MemoryAuth` here.
+// 401 without a Firebase ID token). Without a provider the default is signed out: the trainers show the signed-out
+// notice and typing. The app mounts R-6b's account through `AccountMemoryAuth` (accountAuth.tsx).
 import { createContext, useContext, type ReactNode } from 'react';
 
 export interface MemoryAuth {
   signedIn: boolean;
+  /**
+   * The signed-in user's id (the Firebase uid), or null / absent when unknown. Together with `signedIn` it is the
+   * auth generation: a change of either ends the voice attempt in progress (nothing it sends back is shown, graded or
+   * recorded).
+   */
+  user?: string | null;
   /** The Firebase ID token, or null when signed out. */
   getIdToken(): Promise<string | null>;
   /**
@@ -17,6 +23,7 @@ export interface MemoryAuth {
 
 export const SIGNED_OUT: MemoryAuth = {
   signedIn: false,
+  user: null,
   getIdToken: async () => null,
 };
 
