@@ -11,7 +11,7 @@ _Status: in progress. Updated 2026-10-30 after the first overnight run._
 | W2 Firestore + Firebase Auth | Not started | Needs a Firebase project and John's decisions |
 | W3 Claude | **W3-A and W3-E done; rest deferred** | Claude chat path behind `AI_PROVIDER` (default `openai`, unchanged); 30-case eval harness. First live eval (2026-10-30, Haiku 5.5, $0.014): 23/30. Failures: no navigate button when promised, English reply to a Chinese question, a non-existent verse (John 3:45) not flagged, two cross-passage answers from memory without fetching, Jesus roleplay reaching the model, and one false positive in the eval's CJK quote check. **Deferred (John, 2026-10-30):** the agent will be rebuilt with a new system prompt and a fuller tool set, after Hebrew/Greek, commentary, and app UI and performance. Unverified partial fixes are on local branch `fix-claude-eval`. W3-B (streaming) not started. |
 | W4 frontend split | **W4-1 to W4-6 done** | `BibleApp.tsx` went from 7,253 to 4,641 lines. W4-6 (React contexts, John 2026-10-30) moved reader settings, auth, study items and reader position into four providers: 80 → 63 `useState`s. PR #2, stacked on PR #1. Handlers and account sync are still in `BibleApp`. |
-| W5 deploy | Partly | The Docker image now builds `content.sqlite` (two-stage build). GCP setup not started. |
+| W5 deploy | **Backend live (2026-11-02)** | `bible-api` on Cloud Run, us-central1: https://bible-api-593497511935.us-central1.run.app. Built by Cloud Build into Artifact Registry `us-central1/bible-app`; runs as its own service account (secretAccessor on its five secrets only); secrets from Secret Manager; min 0 / max 3 instances, 512 MiB. **Budget: $20/month on this project, alerts at 50/90/100%** to the billing admins. All 48 golden requests pass against the live URL. Cold start (Cloud Run `startup_latencies`): **3.7 s** from zero (n=1, under the 5 s target); the first start of a fresh revision is about 7.6 s because it includes the image pull. Runbook: `deploy/README.md`. Still open: the web host (CORS has localhost:8081 and the Firebase Hosting domains), Firestore roles for R-6b, deleting the legacy us-south1 services, and the Supabase cutover. |
 | Bug fixes | **Done** | A reload no longer wipes signed-out data; deep links and saved positions set the chapter state; values read back from storage are validated; a late duplicate startup no longer wipes note drafts in dev |
 
 Tests: 255 backend (golden responses run offline in the default suite), 39 Playwright e2e, 10 Node unit tests, and a Docker image test that skips without a daemon.
@@ -212,8 +212,8 @@ Order: **W0 → (W1 ∥ W4) → W2 → W3 → W5.** W1 and W4 touch different fi
 
 ### W5: Deploy on GCP and switch off Supabase
 
-1. **Infrastructure:** Artifact Registry, two Cloud Run services (min instances 0), Firestore native mode, Firebase Auth with Google enabled, Secret Manager for `ANTHROPIC_API_KEY`, and a **billing budget alert at $10/month**.
-2. **`deploy.py`:** run `build_content.py` first, copy `build/content.sqlite` into the backend image, then build and deploy. `--dry-run` keeps working. `upload_env_to_cloud_run.py` switches to Secret Manager.
+1. **Infrastructure:** Artifact Registry, two Cloud Run services (min instances 0), Firestore native mode, Firebase Auth with Google enabled, Secret Manager for `ANTHROPIC_API_KEY`, and a **billing budget alert at $10/month**. _Done for the backend on 2026-11-02: one Cloud Run service (the new web client is hosted separately), every backend secret in Secret Manager, and the budget raised to **$20/month** (John, 2026-11-02)._
+2. **`deploy.py`:** run `build_content.py` first, copy `build/content.sqlite` into the backend image, then build and deploy. `--dry-run` keeps working. `upload_env_to_cloud_run.py` switches to Secret Manager. _Done: the Docker build runs `build_content.py`; `python deploy.py --sync-secrets` replaces `upload_env_to_cloud_run.py`; `deploy/smoke.py` replays the golden requests against the live URL._
 3. **Cutover:** run in parallel with Supabase for about 2 weeks, then delete the Supabase project, `supabase/` and `SUPABASE_*` settings.
 
 **Done when:**
@@ -228,7 +228,7 @@ Order: **W0 → (W1 ∥ W4) → W2 → W3 → W5.** W1 and W4 touch different fi
 |---|---|
 | Content lost when the Supabase project is deleted | W0.1 export is committed and verified by row counts before anything else |
 | Quiz IDs change and break a quiz in progress | Permanent string IDs stored in the JSON (W1.2) |
-| Firestore costs climb with reads | Content reads never touch Firestore; budget alert at $10 |
+| Firestore costs climb with reads | Content reads never touch Firestore; budget alert at $20 (50/90/100%) |
 | Splitting the frontend breaks subtle reader behavior | Smoke suite first, one feature per commit |
 | AI quality drops on the small model | Eval set with a verse-fidelity check before switching the UI |
 | Promo credits run out or expire | `AI_PROVIDER=vertex` switch already in place |

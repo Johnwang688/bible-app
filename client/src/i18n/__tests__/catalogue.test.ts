@@ -8,6 +8,7 @@ const placeholders = (s: string) => [...s.matchAll(/\{(\w+)\}/g)].map((m) => m[1
 const SAME_IN_BOTH = new Set([
   'language.en',
   'language.zh-Hans',
+  'beta.language.zh-Hans',
   // Font names and a web address (R-6a).
   'font.Literata',
   'font.SourceSerif4',

@@ -266,6 +266,17 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
   - **A chapter laid out while the reader is hidden** keeps no marker measurement, so a short chapter that fits is credited only once it lays out again or is scrolled.
 - **Still to check on a device (needs EAS builds):** reading time with the app going to the background, and scroll-to-verse on native (it estimates a verse's position inside the single-paragraph view from its share of the text).
 
+**B-1 web beta notes (2026-11-02).** The new web app ships as a public beta on Firebase Hosting (John, 11-02).
+- **Where:** site `bible-app-492520`, https://bible-app-492520.web.app, a new URL. The old site keeps running, and beta testers start fresh, so the old-`localStorage` import does nothing there. The live channel waits for John after the phase PRs merge; runbook in `deploy/web.md`.
+- **Build config:** `client/.env.production` (committed, public values only) gives the API origin (W5's Cloud Run `bible-api`), `EXPO_PUBLIC_RELEASE_CHANNEL=beta` and the Firebase web config. `client/src/api/config.ts` reads them: a production build with no API URL, or a non-https one, throws rather than calling localhost. R-6b reads `getFirebaseWebConfig()`.
+- **Hosting:** `firebase.json` `hosting` serves `client/dist` with a single-page rewrite. HTML is `no-cache` and the content-hashed `/_expo` and `/assets` trees are immutable for a year; checked on the real host. A strict CSP (scripts `'self'` only; the API, Firebase Auth and Firestore in `connect-src`; Google Fonts for the Chinese font), nosniff and Referrer-Policy go on every response. `ignore` is empty on purpose, because font paths contain `node_modules`.
+- **Beta label:** in beta builds, Simplified Chinese is offered as "简体中文（测试版）", with a one-line note (`beta.*` keys, `client/src/beta/`). Mounting it in Me's language sheet waits for R-6a.
+- **Privacy policy** at `/privacy`, in English and Chinese, also for the App Store. The prototype `design/proposed/b1-privacy.html` was approved 11-02; the build also takes in a UI/UX review.
+  - It matches what the app does: local-first; API requests carry only references and search words; Firebase only when signed in. It must change whenever the app sends data somewhere new.
+  - It has a short-version box, a card on deleting your data, and a children-and-teens card.
+  - **Minimum age (John, 11-02):** first run asks an optional age range that stays on the device. Choosing Under 13 turns sign-in and sync off. R-7a and R-6b build that; the policy already says it.
+  - The contact email is a temporary address (`PRIVACY_CONTACT` in `client/src/privacy/index.ts`), to confirm before App Store review.
+
 **R-6a notes (2026-11-02): the Me tab, without accounts.**
 - **Me:** Appearance (look, light or dark, reading font, text size), Language (app language), Reading (translation, parallel translation), More (Sources and credits, About and privacy, Help). The Me tab is now a stack: Me → Customise → Advanced, and the three info screens.
   - Left for other phases: the account card (R-6b), the daily goal row (R-4's goal sheet, mounted here once both merge), the read-aloud voice (R-7).
