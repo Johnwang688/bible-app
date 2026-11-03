@@ -35,14 +35,17 @@
 // (under13Offer.ts, `account.under13Closing`) in the same turn as the gate change, because the gate's sign-out first
 // waits for in-flight work and the engine's stop (the sync run in flight: seconds), and may fail. It ends in the offer
 // when that account is signed out behind the closed gate: by enforceGate's own sign-out, or as auth reports it
-// (setUser(null) for that account, or nobody at a launch's first report: the app was closed after auth persisted the
-// gate's sign-out but before the offer was written). So a close of the app before the sign-out (the next launch
-// restores the session behind the closed gate and signs it out) or right after it still records the offer. It is
-// dropped when the gate opens again (also when the provider attaches with the gate open), when any sign-in or
-// sign-up resolves, when an ordinary sign-out starts (the person ended the closing themselves: a later restore of
-// that session behind the closed gate records nothing), when the account is deleted, and when it becomes the offer.
-// Another account signed out behind the closed gate leaves it alone. A device store that cannot be written keeps
-// it for this run only.
+// (setUser(null) replacing that account, or nobody at the launch's FIRST auth report: the app was closed after auth
+// persisted the gate's sign-out but before the offer was written; a later null report that replaces nobody records
+// nothing, Sol AUTH-R1-1). So a close of the app before the sign-out (the next launch restores the session behind the
+// closed gate and signs it out) or right after it still records the offer. It is dropped when the gate opens again
+// (also when the provider attaches with the gate open), when any sign-in or sign-up resolves, when an ordinary
+// sign-out starts (the person ended the closing themselves: a later restore of that session behind the closed gate
+// records nothing), when the account is deleted, and when it becomes the offer. Another account signed out behind
+// the closed gate leaves it alone. The stored value is the truth and is read fresh wherever it decides something, so
+// an ordinary sign-out in another tab (another provider over the same device store) retires this tab's closing too
+// (AUTH-R1-2). A device store that cannot be read, or that missed this provider's last write of it, falls back to
+// the provider's own copy: it then holds for this run only.
 //
 // Deliberately skipped: a session restored while the age is unknown, whose user then picks Under 13 in the intro.
 // The gate was never open for them, so they are signed out with no offer: the account and its synced data stay on
@@ -73,7 +76,7 @@ import { AuthError, type AccountState, type AccountStatus, type AuthBackend, typ
 import {
   clearUnder13Closing,
   clearUnder13Offer,
-  readUnder13Closing,
+  loadUnder13Closing,
   readUnder13Offer,
   recordUnder13Closing,
   recordUnder13Offer,
@@ -305,24 +308,26 @@ function createController(deps: Deps): Controller {
   /**
    * The closing (under13Offer.ts): the account that was signed in when the gate went from open to closed (Under 13
    * picked while signed in) and that the gate has not signed out yet, or null. Only the gate's sign-out of this
-   * account records an Under 13 offer (see the header: S4-3). The stored value is the truth across launches; this is
-   * its copy for this run, loaded on the first attach and written through on every change, so a device store that
-   * fails only loses what a restart would need, never this run's answer.
+   * account records an Under 13 offer (see the header: S4-3). The stored value is the truth, across launches and
+   * across providers over the same device store (another tab's ordinary sign-out drops it there: AUTH-R1-2), so it is
+   * read fresh wherever it decides something (`closingNow`). This is the provider's own copy: written with every
+   * change and refreshed by every read, and used only when the store cannot be read, or when this provider's own
+   * last write of it failed (`closingUnstored`: the store is then stale, and the copy keeps this run's answer).
    */
   let closing: Under13Closing | null = null;
-  let closingLoaded = false;
+  let closingUnstored = false;
 
   const gateAllowed = () => isAllowed(deps.gate);
 
-  /** Loads the stored closing (once per provider). A store that cannot be read keeps this run's copy. */
-  function loadClosing(): void {
-    if (closingLoaded) return;
-    closingLoaded = true;
+  /** The closing as stored now; this provider's copy when the store cannot be read or missed its last write. */
+  function closingNow(): Under13Closing | null {
+    if (closingUnstored) return closing;
     try {
-      closing = readUnder13Closing(deps.storage()) ?? closing;
+      closing = loadUnder13Closing(deps.storage());
     } catch (e) {
-      console.warn('[account] the device store is unavailable; the Under 13 closing is kept for this run only', e);
+      console.warn('[account] the device store is unavailable; using this run\'s copy of the Under 13 closing', e);
     }
+    return closing;
   }
 
   /** Stores the closing for `who` (synchronously: a close of the app right after must not lose it). Never throws. */
@@ -330,20 +335,26 @@ function createController(deps: Deps): Controller {
     closing = { uid: who.uid, email: who.email };
     try {
       recordUnder13Closing(deps.storage(), closing);
+      closingUnstored = false;
     } catch (e) {
+      closingUnstored = true;
       console.warn('[account] storing the Under 13 closing failed; it is kept for this run only', e);
     }
   }
 
-  /** Drops the closing (only `uid`'s, when given). A failure is logged, never thrown. */
+  /** Drops the closing (only when it is `uid`'s, when given). A failure is logged, never thrown. */
   function dropClosing(uid?: string): void {
-    if (uid !== undefined && closing?.uid !== uid) return;
+    const current = closingNow();
+    if (uid !== undefined && current?.uid !== uid) return;
     closing = null;
     try {
       const storage = deps.storage();
-      if (readUnder13Closing(storage)) clearUnder13Closing(storage);
+      // A copy the store missed may differ from what it holds: clear it then whatever it says.
+      if (closingUnstored || loadUnder13Closing(storage)) clearUnder13Closing(storage);
+      closingUnstored = false;
     } catch (e) {
-      console.warn('[account] dropping the Under 13 closing failed', e);
+      closingUnstored = true;
+      console.warn('[account] dropping the Under 13 closing failed; it is dropped for this run only', e);
     }
   }
 
@@ -447,10 +458,10 @@ function createController(deps: Deps): Controller {
     // A different account (or none) lifts the block on a deleted one.
     if (next?.uid !== blockedUid) blockedUid = null;
     const before = user;
-    const launch = !known;
+    const firstReport = !known;
     known = true;
     if (!sameUser(user, next)) user = next ? { uid: next.uid, email: next.email } : null;
-    if (!next) offerClosedSignedOut(launch ? null : before);
+    if (!next) offerClosedSignedOut(firstReport, before);
     emitView();
     kick();
     if (user && !gateAllowed()) void enforceGate();
@@ -482,7 +493,7 @@ function createController(deps: Deps): Controller {
             // S4-3); usually setUser's report of the sign-out has done this already. A different account signed out
             // here leaves the closing alone. Whether `who` was deleted here comes from deletedUids, not blockedUid:
             // this sign-out lifted that.
-            if (user === null && who.uid === closing?.uid) {
+            if (user === null && who.uid === closingNow()?.uid) {
               offerDelete(who);
               dropClosing(who.uid);
             }
@@ -512,18 +523,23 @@ function createController(deps: Deps): Controller {
   }
 
   /**
-   * Auth reports nobody signed in (`before`: who it reported last, or null for its first report of this launch).
-   * If the gate is closed and the stored closing names `before` (or this is the launch's first report), the closing's
-   * account is signed out behind the closed gate: turn it into the offer. This is the gate's sign-out as auth reports
-   * it, and on a launch it is the one that persisted just before the app was closed (it happened, the offer was not
-   * written yet). An ordinary sign-out cleared the closing before it started, a delete cleared it for its account
-   * (markDeleted), and while a delete runs (the offered delete's re-auth signs in and out) nothing is decided here.
-   * Another account signed out leaves the closing alone. Never throws.
+   * Auth reports nobody signed in. `firstReport`: this is auth's first report of the launch (nobody was known
+   * before it); otherwise `before` is the user it replaces (null: auth already reported nobody, so this report signs
+   * nobody out). If the gate is closed and the stored closing (read fresh) names `before`, the closing's account is
+   * signed out behind the closed gate: turn it into the offer. This is the gate's sign-out as auth reports it. On the
+   * launch's first report only, a stored closing is turned into the offer whoever it names: that is the gate's
+   * sign-out that persisted just before the app was closed (it happened, the offer was not written yet). A later null
+   * report after a null one (signOut's own setUser after the listener's report, AUTH-R1-1) replaces nobody, so it
+   * records nothing. An ordinary sign-out cleared the closing before it started (in any tab: the store is read
+   * fresh), a delete cleared it for its account (markDeleted), and while a delete runs (the offered delete's re-auth
+   * signs in and out) nothing is decided here. Another account signed out leaves the closing alone. Never throws.
    */
-  function offerClosedSignedOut(before: AuthUser | null): void {
-    const c = closing;
-    if (!c || offerRun || deleting || gateAllowed()) return;
-    if (before !== null && before.uid !== c.uid) return;
+  function offerClosedSignedOut(firstReport: boolean, before: AuthUser | null): void {
+    if (offerRun || deleting || gateAllowed()) return;
+    if (!firstReport && before === null) return;
+    const c = closingNow();
+    if (!c) return;
+    if (!firstReport && before?.uid !== c.uid) return;
     // The offer first, then the closing: a close of the app between the two records the same offer again next time.
     offerDelete(c);
     dropClosing(c.uid);
@@ -911,7 +927,7 @@ function createController(deps: Deps): Controller {
   function attach(next: Listeners): () => void {
     listeners = next;
     gateWasOpen = gateAllowed();
-    loadClosing();
+    closingNow(); // this provider's copy, used if the store later cannot be read
     // The gate is open (an age was picked that allows sign-in): any closing from an earlier run is over.
     if (gateWasOpen) dropClosing();
     const offs: (() => void)[] = [];

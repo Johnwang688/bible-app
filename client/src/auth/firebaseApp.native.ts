@@ -33,16 +33,24 @@
 //   are deleted before any read, then the marker is set. SecureStore cannot list its keys, so the wipe is by
 //   name: exactly the keys this Firebase app reads (from its API key and app name), each item's header and
 //   chunks. Until a key is wiped it reads as null (signed out); a set or remove of it counts as wiping it.
-//   While the install marker cannot be read (MMKV failing to open) every read is null, and the first set or
-//   remove of the run first deletes exactly what that wipe would (a pre-wipe), then sets a SecureStore flag
-//   `bible-app-auth.prewiped-v1`. A later launch that opens MMKV and finds no marker but the flag skips the
-//   wipe (everything under those keys was written by this install after it deleted them), so a sign-in made
-//   while MMKV was down survives (security review 5, S5-4); without the flag (a pre-wipe that failed, or
-//   none) it wipes as before. The one residual: an install whose MMKV failed on every launch after a
-//   sign-in, then uninstalled before any launch where MMKV opened, leaves the flag in the Keychain, so a
-//   reinstall on that phone keeps that install's own last session (iOS only; Android removes Keystore data
-//   with the app). SecureStore is the only store that works while MMKV is down, and it survives an iOS
-//   uninstall, so this cannot be closed without a store that goes with the app's files.
+//   While the install marker cannot be read (MMKV failing to open) every read is null, and the first set of a
+//   session key in the run (not Firebase's start-up probe `__sak`, which it sets and removes on every start)
+//   first deletes exactly what that wipe would (a pre-wipe), then sets a SecureStore flag
+//   `bible-app-auth.prewiped-v1` = '1'. Removes and `__sak` writes need no pre-wipe and write through: a remove
+//   only deletes, and `__sak` holds nothing of a session (the ordinary wipe deletes it like any key). So a launch
+//   whose MMKV fails once deletes nothing of an established install's session; it only hides it for that run
+//   (security review, SR-N1). A later launch that opens MMKV and finds no marker but the flag reading exactly
+//   '1' skips the wipe (everything under those keys was written by this install after it deleted them), so a
+//   sign-in made while MMKV was down survives (security review 5, S5-4); without the flag (a pre-wipe that
+//   failed, or none) it wipes as before. A launch that finds the marker deletes a flag left by such a launch; if
+//   that delete fails it overwrites the flag with '0' (never trusted), and the delete is retried on every later
+//   launch (Sol, AUTH-R1-3). Residuals (iOS only; Android removes Keystore data with the app): (1) an install
+//   whose MMKV failed on every launch after a sign-in, then uninstalled before any launch where MMKV opened,
+//   leaves the flag in the Keychain, so a reinstall on that phone keeps that install's own last session; (2) the
+//   same when MMKV did open on a later launch but SecureStore refused both the flag's delete and its overwrite on
+//   that launch, and the app was uninstalled before any launch after it. SecureStore is the only store that
+//   works while MMKV is down, and it survives an iOS uninstall, so these cannot be closed without a store that
+//   goes with the app's files.
 // - Why not MMKV encrypted with a key kept in SecureStore: that key must come from a CSPRNG, and this app has
 //   none on native (no expo-crypto; React Native has no crypto.getRandomValues). The write ids below need
 //   only to differ between writes, not to be secret.
@@ -65,6 +73,8 @@ const MIGRATED_KEY = `${KEY_PREFIX}.migrated-v1`;
 const PREWIPED_KEY = `${KEY_PREFIX}.prewiped-v1`;
 /** Set when a write could not remove its key from the legacy clear store: the migration then imports nothing. */
 const LEGACY_DROP_KEY = `${KEY_PREFIX}.legacy-drop-v1`;
+/** The key Firebase Auth's React Native persistence sets and removes on every start to probe the storage. */
+const PROBE_KEY = '__sak';
 /** Items wiped by their own name (not a Firebase key's header and chunks). */
 const RAW_KEYS: ReadonlySet<string> = new Set([MIGRATED_KEY, PREWIPED_KEY]);
 /** The MMKV store holding the install marker: app data, so an uninstall removes it (unlike the Keychain). */
@@ -220,7 +230,7 @@ async function deleteSessionItem(key: string): Promise<void> {
 
 /** The storage keys Firebase Auth's React Native persistence uses for one app (its API key and name). */
 export function firebaseSessionKeys(apiKey: string, appName: string): string[] {
-  return ['authUser', 'redirectUser', 'persistence'].map((name) => `firebase:${name}:${apiKey}:${appName}`).concat('__sak');
+  return ['authUser', 'redirectUser', 'persistence'].map((name) => `firebase:${name}:${apiKey}:${appName}`).concat(PROBE_KEY);
 }
 
 export interface SecureAuthStorageOptions {
@@ -259,16 +269,24 @@ export function createSecureAuthStorage(options: SecureAuthStorageOptions = {}):
     if (marker !== undefined) {
       installKnown = true;
       // A pre-wipe on a launch whose MMKV failed leaves the flag behind on an install that has its marker; were
-      // it kept, a reinstall would skip its wipe. Best effort (a failure is retried at the next launch).
+      // it kept, a reinstall would skip its wipe (AUTH-R1-3). If the delete fails the flag is overwritten with
+      // '0', which nothing trusts (only '1' is), so this launch leaves no trusted flag either way; the delete is
+      // retried on every launch that finds the marker. Both failing on this launch, then an uninstall before the
+      // next one, is the header's residual (2).
       try {
         await SecureStore.deleteItemAsync(PREWIPED_KEY, SECURE_OPTIONS);
       } catch {
-        // Retried at the next launch.
+        try {
+          await SecureStore.setItemAsync(PREWIPED_KEY, '0', SECURE_OPTIONS);
+        } catch {
+          // Residual (2) in the header; the delete is retried at the next launch.
+        }
       }
       return;
     }
     // No marker: a new install, unless a pre-wipe of this install already deleted everything under the keys.
-    // A flag that cannot be read counts as absent (the ordinary wipe: one more sign-out, safe).
+    // Only a flag reading exactly '1' is trusted ('0' is one a launch with the marker could not delete). A flag
+    // that cannot be read counts as absent (the ordinary wipe: one more sign-out, safe).
     let prewiped = false;
     try {
       prewiped = (await SecureStore.getItemAsync(PREWIPED_KEY, SECURE_OPTIONS)) === '1';
@@ -365,9 +383,14 @@ export function createSecureAuthStorage(options: SecureAuthStorageOptions = {}):
     }
   }
 
-  /** Before a set or remove while the install is unknown: this run's pre-wipe (once), never overlapping `prepare`. */
-  async function prewipeIfUnknown(): Promise<void> {
-    if (wipeKeys === undefined) return;
+  /**
+   * Before a set of a session key while the install is unknown: this run's pre-wipe (once), never overlapping
+   * `prepare`. Not for Firebase's start-up probe `__sak` (it runs on every start, so it would delete an
+   * established install's session on any launch whose MMKV fails once: SR-N1), and not for a remove (it only
+   * deletes, so it cannot keep anything of another install). A key outside the wipe set is never wiped either.
+   */
+  async function prewipeBeforeSet(key: string): Promise<void> {
+    if (wipeKeys === undefined || key === PROBE_KEY || !wipeKeys.includes(key)) return;
     // Wait out a prepare in flight (it may learn the install). `attempt` is read and `prewipe` set in the same
     // turn, so a prepare started later sees `prewipe` and waits for it: the two never interleave.
     while (attempt) await attempt;
@@ -380,7 +403,8 @@ export function createSecureAuthStorage(options: SecureAuthStorageOptions = {}):
    * A set or remove made while the migration is pending must not leave the old clear copy behind. When MMKV
    * cannot be opened to remove it, the legacy-drop flag is stored first (awaited: a crash before the write then
    * still drops the copy, losing only a session the user never changed). If the flag cannot be stored either,
-   * the write is refused (rejects) rather than made without the guard.
+   * a set is refused (rejects) rather than made without the guard; a remove still deletes its SecureStore copy,
+   * then rejects with the flag's error (see `removeItem`).
    */
   const beforeWrite = async (key: string) => {
     if (migrated || dropLegacyCopy(key) || legacyDropRecorded) return;
@@ -400,17 +424,28 @@ export function createSecureAuthStorage(options: SecureAuthStorageOptions = {}):
     },
     setItem: async (key, value) => {
       await ready();
-      await prewipeIfUnknown();
+      await prewipeBeforeSet(key);
       await beforeWrite(key);
       await secureSet(secureKeyStem(key), value);
       afterWrite(key);
     },
     removeItem: async (key) => {
       await ready();
-      await prewipeIfUnknown();
-      await beforeWrite(key);
+      // No pre-wipe (see prewipeBeforeSet). When the legacy guard cannot be recorded, the SecureStore copy is
+      // still deleted (a sign-out must not leave the session it ended stored), then the remove rejects with the
+      // guard's error rather than resolving: the legacy clear copy may still be there (a later launch that opens
+      // MMKV could import it), so the sign-out must not be reported as complete.
+      let guardFailed = false;
+      let guardError: unknown;
+      try {
+        await beforeWrite(key);
+      } catch (e) {
+        guardFailed = true;
+        guardError = e;
+      }
       await secureRemove(secureKeyStem(key));
       afterWrite(key);
+      if (guardFailed) throw guardError;
     },
   };
 }

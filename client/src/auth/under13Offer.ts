@@ -65,6 +65,14 @@ export function readUnder13Closing(storage: Storage): Under13Closing | null {
   }
 }
 
+/**
+ * The stored closing, or null when there is none. Throws when the device store cannot be read, so a caller that keeps
+ * its own copy can tell "none stored" from "unreadable" (the provider then falls back to its copy).
+ */
+export function loadUnder13Closing(storage: Storage): Under13Closing | null {
+  return storage.get(under13ClosingKey);
+}
+
 export function recordUnder13Closing(storage: Storage, closing: Under13Closing): void {
   storage.set(under13ClosingKey, { uid: closing.uid, email: closing.email });
 }
