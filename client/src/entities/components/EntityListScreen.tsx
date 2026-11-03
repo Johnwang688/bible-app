@@ -123,6 +123,7 @@ function EntityListBody({ kind, initialFilter, onOpenEntity }: { kind: EntityKin
     (letter: string) => {
       const sectionIndex = sections.findIndex((s) => s.letter === letter);
       if (sectionIndex < 0) return;
+      if (retryTimer.current) clearTimeout(retryTimer.current);
       landing.current = { sectionIndex, until: Date.now() + LANDING_MS };
       listRef.current?.scrollToLocation({ sectionIndex, itemIndex: 0, viewPosition: 0, animated: true });
     },
@@ -143,6 +144,8 @@ function EntityListBody({ kind, initialFilter, onOpenEntity }: { kind: EntityKin
   }, [sections.length]);
   const endLanding = useCallback(() => {
     landing.current = null;
+    if (retryTimer.current) clearTimeout(retryTimer.current);
+    retryTimer.current = null;
   }, []);
   useEffect(endLanding, [filter, endLanding]);
   // A section far below the rendered window has no measured position yet: scroll to an estimate, which
@@ -152,14 +155,11 @@ function EntityListBody({ kind, initialFilter, onOpenEntity }: { kind: EntityKin
       listRef.current?.getScrollResponder()?.scrollTo({ y: info.averageItemLength * info.index, animated: false });
       if (retryTimer.current) clearTimeout(retryTimer.current);
       retryTimer.current = setTimeout(() => {
-        // The failed index is the section's header, counted over every section before it.
-        let index = 0;
-        const sectionIndex = sections.findIndex((s) => {
-          if (index >= info.index) return true;
-          index += s.data.length + 2;
-          return false;
-        });
-        if (sectionIndex >= 0) listRef.current?.scrollToLocation({ sectionIndex, itemIndex: 0, viewPosition: 0, animated: true });
+        retryTimer.current = null;
+        // Only for the jump still landing: the reader's own scrolling, a new filter or a newer jump ended it.
+        const target = landing.current;
+        if (!target || target.sectionIndex >= sections.length) return;
+        listRef.current?.scrollToLocation({ sectionIndex: target.sectionIndex, itemIndex: 0, viewPosition: 0, animated: true });
       }, 100);
     },
     [sections],
