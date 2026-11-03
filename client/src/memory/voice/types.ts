@@ -68,6 +68,11 @@ export interface VoiceClientDeps {
   baseUrl: string;
   /** Firebase ID token; null = signed out. */
   getIdToken(): Promise<string | null>;
+  /**
+   * The App Check token, sent as `X-Firebase-AppCheck` when non-empty. Optional: waited for at most
+   * APP_CHECK_WAIT_MS (voiceClient.ts), and a null, a failure or a timeout sends the request without it.
+   */
+  getAppCheckToken?(): Promise<string | null>;
   fetch?: typeof fetch;
   /** Defaults to `navigator.onLine` where it exists, else true. */
   isOnline?(): boolean;

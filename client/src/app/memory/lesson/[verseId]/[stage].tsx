@@ -5,6 +5,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { isStageSlug } from '../../../../memory/stages';
 import { parseStepIndex } from '../../../../memory/lessonPlan';
 import { LessonScreen } from '../../../../memory/ui/trainer/LessonScreen';
+import { AccountMemoryAuth } from '../../../../memory/voice/accountAuth';
 
 export default function LessonRoute() {
   const params = useLocalSearchParams<{ verseId: string; stage: string; i?: string }>();
@@ -16,15 +17,22 @@ export default function LessonRoute() {
   const goBack = () => (index === null && router.canGoBack() ? router.back() : router.replace('/study/memory'));
   if (!isStageSlug(stage)) {
     // A stage that is not a trainer: the not-found state, with a way back.
-    return <LessonScreen verseId="" stage="chunk-order" index={null} onNavigate={(href) => router.replace(href as never)} onBack={goBack} />;
+    return (
+      <AccountMemoryAuth>
+        <LessonScreen verseId="" stage="chunk-order" index={null} onNavigate={(href) => router.replace(href as never)} onBack={goBack} />
+      </AccountMemoryAuth>
+    );
   }
+  // Memory voice signs in with R-6b's account (AccountProvider is mounted in the root layout).
   return (
-    <LessonScreen
-      verseId={verseId}
-      stage={stage}
-      index={index}
-      onNavigate={(href) => router.replace(href as never)}
-      onBack={goBack}
-    />
+    <AccountMemoryAuth>
+      <LessonScreen
+        verseId={verseId}
+        stage={stage}
+        index={index}
+        onNavigate={(href) => router.replace(href as never)}
+        onBack={goBack}
+      />
+    </AccountMemoryAuth>
   );
 }

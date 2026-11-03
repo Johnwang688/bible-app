@@ -93,6 +93,8 @@ export function ChunkOrderTrainer({ ctx }: { ctx: TrainerCtx }) {
 
   const check = () => {
     const s = live.current;
+    // Skip (or Back) pressed first in the same act left the step: read synchronously, not from a re-render.
+    if (ctx.left.aborted) return;
     if (s.mode !== 'play' || s.slots.some((c) => c === null)) return;
     const order = s.slots as number[];
     const verdict = gradeStep(verse.id, 'chunk-order', { kind: 'chunk-order', order });

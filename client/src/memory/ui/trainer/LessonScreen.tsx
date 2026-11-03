@@ -1,5 +1,9 @@
 // One step of a lesson (or free practice): finds the verse and its trainer and hands it what it needs. Takes
 // `onNavigate` and `onBack` instead of importing the router, so a test can watch where it goes.
+//
+// The step's scope (`ctx.left`): Back, Skip and Next abort it before they navigate, since the route's
+// `router.replace` unmounts this screen only later. Once left, nothing records, a pending grade is void and the voice
+// panel starts no attempt; the scope, not unmounting, is what voids them.
 import { useMemo } from 'react';
 
 import { getApiBaseUrl } from '../../../api/config';
@@ -36,6 +40,8 @@ export interface LessonScreenProps {
   onBack?: () => void;
   recorder?: Recorder;
   checkVoice?: CheckVoice;
+  /** The App Check token sent with a voice request. Default: R-6b's, loaded only when a request is sent. */
+  getAppCheckToken?: () => Promise<string | null>;
   voiceBaseUrl?: string;
   isOnline?: () => boolean;
   random?: () => number;
@@ -43,6 +49,11 @@ export interface LessonScreenProps {
 
 const deviceIsOnline = (): boolean =>
   typeof navigator !== 'undefined' && typeof navigator.onLine === 'boolean' ? navigator.onLine : true;
+
+/** Lazily, so nothing of Firebase loads until a voice request is actually sent (signed in). */
+const defaultAppCheckToken = (): Promise<string | null> =>
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  (require('../../../auth/appCheck') as typeof import('../../../auth/appCheck')).getAppCheckTokenForRequest();
 
 const defaultNavigate = (href: string): void => {
   void import('expo-router').then(({ router }) => router.replace(href as never));
@@ -58,6 +69,7 @@ export function LessonScreen({
   onBack,
   recorder: recorderProp,
   checkVoice = realCheckVoice,
+  getAppCheckToken = defaultAppCheckToken,
   voiceBaseUrl,
   isOnline = deviceIsOnline,
   random = Math.random,
@@ -66,6 +78,10 @@ export function LessonScreen({
   const [settings] = useMemorySettings(storage);
   const [lesson] = useStoredValue(storage, memoryLessonKey);
   const recorder = useMemo(() => recorderProp ?? createRecorder(), [recorderProp]);
+  // One scope per step: a new step (the trainers are keyed on it too) starts a fresh one.
+  const key = `${verseId}/${stage}/${index ?? 'practice'}`;
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- `key` is the step: the scope is renewed only for a new one
+  const controller = useMemo(() => new AbortController(), [key]);
 
   const leave = () => (onBack ? onBack() : onNavigate(HOME));
   const verse = getMemoryVerse(verseId);
@@ -86,19 +102,27 @@ export function LessonScreen({
     settings,
     script: settings.script,
     random,
-    voice: { recorder, checkVoice, baseUrl: voiceBaseUrl ?? getApiBaseUrl(), isOnline },
+    voice: { recorder, checkVoice, baseUrl: voiceBaseUrl ?? getApiBaseUrl(), isOnline, getAppCheckToken },
+    left: controller.signal,
     record: (passed) => {
+      if (controller.signal.aborted) return;
       createMemoryStore(storage).submitStep({ index, verseId: verse.id, stage, passed, now: now() });
     },
-    next: () => onNavigate(nextHrefAfter(storage.get(memoryLessonKey), index)),
-    skip: () => onNavigate(nextHrefAfter(storage.get(memoryLessonKey), index)),
+    next: () => {
+      controller.abort();
+      onNavigate(nextHrefAfter(storage.get(memoryLessonKey), index));
+    },
+    skip: () => {
+      controller.abort();
+      onNavigate(nextHrefAfter(storage.get(memoryLessonKey), index));
+    },
     back: () => {
+      controller.abort();
       if (index !== null && inPlan && lesson.completedAt === null) noteProgressSaved(index + 1, lesson.steps.length);
       leave();
     },
   };
 
-  const key = `${verse.id}/${stage}/${index ?? 'practice'}`;
   return stage === 'chunk-order' ? (
     <ChunkOrderTrainer key={key} ctx={ctx} />
   ) : stage === 'fill-blank' ? (

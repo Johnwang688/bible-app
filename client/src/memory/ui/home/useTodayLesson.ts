@@ -80,6 +80,13 @@ export function useTodayLesson(storage: Storage, now: () => Date): TodayLesson {
     if (toLocalDateString(clock) !== today) setDate(clock);
   }, [storage, today, storedDate, nowRef, setDate]);
 
+  // Any render (a practice result stored, history changed) re-reads the clock: past midnight, the screen moves on to
+  // the new day now instead of waiting for its timer, which may run late (a backgrounded tab, a suspended app).
+  useEffect(() => {
+    const clock = nowRef.current();
+    if (toLocalDateString(clock) !== today) setDate(clock);
+  });
+
   // For rendering only (never stored): the stored plan when it is the screen's day, else what todayLesson would open
   // for it; the effect above stores the real one straight after this render.
   const lesson = stored !== null && stored.date === today ? stored : startDailyLesson(stored, progress, date);

@@ -10,6 +10,8 @@ export interface VoiceEnv {
   checkVoice: CheckVoice;
   baseUrl: string;
   isOnline: () => boolean;
+  /** The App Check token for a request, or null (optional; the voice client bounds the wait). */
+  getAppCheckToken?: () => Promise<string | null>;
 }
 
 export interface TrainerCtx {
@@ -25,7 +27,13 @@ export interface TrainerCtx {
   script: ChineseScript;
   random: () => number;
   voice: VoiceEnv;
-  /** Records one graded attempt (the step is ticked only if it matches today's plan). */
+  /**
+   * The step's scope. Back, Skip and Next abort it synchronously, before they navigate (the route's `replace`
+   * unmounts the screen only later): from then on `record` is a no-op, a grade pending at that moment is void, the
+   * chunk-order Check does nothing and the voice panel ends its attempt and starts none.
+   */
+  left: AbortSignal;
+  /** Records one graded attempt (the step is ticked only if it matches today's plan). A no-op once `left`. */
   record(passed: boolean): void;
   /** Where Next goes: the first later unfinished step, the end screen, or Memory home for free practice. */
   next(): void;

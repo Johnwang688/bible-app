@@ -71,26 +71,29 @@ export function FillBlankTrainer({ ctx }: { ctx: TrainerCtx }) {
   const [result, setResult] = useState<Result | null>(null);
   const [round, setRound] = useState(0);
   const [prefill, setPrefill] = useState<string | undefined>(undefined);
-  const attempt = useAttempt();
+  const attempt = useAttempt(ctx.left);
 
   const phrase = verse.chunks[position]!;
   const shown = chunks[position]!;
   const short = countedChars(phrase) <= SHORT_PHRASE_CHARS;
 
-  const grade = async (transcript: string, via: 'voice' | 'typed', signal?: AbortSignal) => {
-    const ticket = attempt.begin(signal);
+  const grade = async (transcript: string, via: 'voice' | 'typed', signal?: AbortSignal, confirm?: () => Promise<boolean>) => {
+    const ticket = attempt.begin(signal, confirm);
     if (!ticket) return;
     try {
       let keyer: SpeechKeyer = MANDARIN_SYNC_KEYER;
       if (via === 'voice') keyer = await loadSpeechKeyer(ctx.settings.speech).catch(() => MANDARIN_SYNC_KEYER);
-      // Cancelled, a new round or left while the keyer loaded: the answer no longer belongs to the attempt on screen.
-      if (!ticket.live()) return;
+      // Cancelled, a new round, an auth change, left, or the token replaced by another session while the keyer
+      // loaded: the answer no longer belongs to the attempt on screen (a voice answer re-reads the token here).
+      if (!(await ticket.confirm())) return;
       const answer = { kind: 'recall', transcript, chunkPosition: position } as const;
       const verdict = gradeStep(verse.id, 'fill-blank', answer, keyer);
       const diff = displayDiff(transcript, phrase, keyer, traditional ? shown : undefined);
       // An answer given after a hint is shown, never recorded: the step only counts when it passes without one. Hint
       // use is read now, so a hint opened while recording or while this answer was graded counts.
       const hinted = attempt.hinted();
+      // Nothing awaits between the check above and here, so the answer is still the attempt's when it records.
+      if (!ticket.live()) return;
       if (!hinted) ctx.record(verdict.passed);
       setResult({
         verdict: !verdict.passed ? 'fail' : hinted ? 'hint-pass' : 'pass',
