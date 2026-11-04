@@ -74,9 +74,17 @@ export function isNoveltyVoice(voice: SpeechVoice): boolean {
 }
 
 /**
+ * Voices that sound like a person: Edge's "Online (Natural)", Chrome's "Google …", Apple's Siri and
+ * premium voices, native enhanced ones. Long reading in an old offline voice sounds robotic.
+ */
+export function isNaturalVoice(voice: SpeechVoice): boolean {
+  return voice.enhanced || /\b(natural|neural|online|premium|enhanced|siri)\b/i.test(voice.name) || /^google\b/i.test(voice.name);
+}
+
+/**
  * The voices that may read `translation`, best first: the matching locale (zh-CN for 和合本 in
  * simplified, zh-TW for traditional), then other Mandarin, then Cantonese last. Within a step:
- * the platform default, then ordinary voices before novelty ones, then the home region (en-US, then
+ * natural-sounding voices, then the platform default, then ordinary voices before novelty ones, then the home region (en-US, then
  * en-GB), then offline voices, then enhanced ones, then by name.
  */
 export function voicesFor(voices: readonly SpeechVoice[], translation: TranslationId): SpeechVoice[] {
@@ -87,6 +95,7 @@ export function voicesFor(voices: readonly SpeechVoice[], translation: Translati
     .sort(
       (a, b) =>
         a.r - b.r ||
+        Number(isNaturalVoice(b.v)) - Number(isNaturalVoice(a.v)) ||
         Number(b.v.isDefault) - Number(a.v.isDefault) ||
         Number(isNoveltyVoice(a.v)) - Number(isNoveltyVoice(b.v)) ||
         regionRank(a.v, group) - regionRank(b.v, group) ||

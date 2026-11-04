@@ -229,7 +229,9 @@ test('starts at the first number below the visible top line', async ({ page }) =
     const scroll = document.querySelector('[data-testid="reader-scroll"]')!;
     scroll.scrollTop += el.getBoundingClientRect().top - scroll.getBoundingClientRect().top - 90;
   });
-  if (await page.getByTestId('reader-show-controls').isVisible()) await page.getByTestId('reader-show-controls').click();
+  // The header hides a moment after the scroll: wait for that, or the check races it and the button slides away.
+  await page.getByTestId('reader-show-controls').click();
+  await expect(page.getByTestId('reader-tools-button')).toBeInViewport({ ratio: 1 });
   const expected = await page.getByTestId('reader-scroll').evaluate((scroll) => {
     const top = document.querySelector('[data-testid="reader-header"]')!.getBoundingClientRect().bottom;
     return [...scroll.querySelectorAll('[data-testid$="-tools"]')].find((el) => el.getBoundingClientRect().top >= top)?.getAttribute('data-testid')?.match(/verse-(\d+)/)?.[1];

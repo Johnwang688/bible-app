@@ -76,6 +76,26 @@ describe('voicesFor on real device lists', () => {
   });
 });
 
+describe('natural voices', () => {
+  const offline = voice('david', 'en-US', { name: 'Microsoft David - English (United States)', isDefault: true });
+  const edge = voice('ava', 'en-US', { name: 'Microsoft Ava Online (Natural) - English (United States)', localService: false });
+  const chrome = voice('g', 'en-US', { name: 'Google US English', localService: false });
+
+  it('puts a natural voice ahead of the old offline default', () => {
+    expect(voicesFor([offline, edge], 'BSB')[0]).toBe(edge);
+    expect(voicesFor([offline, chrome], 'BSB')[0]).toBe(chrome);
+  });
+
+  it('keeps the language order: a natural English voice never reads Chinese', () => {
+    const zh = voice('huihui', 'zh-CN', { name: 'Microsoft Huihui - Chinese (Simplified, PRC)' });
+    expect(voicesFor([edge, zh], 'CUV-SIMP').map((v) => v.id)).toEqual(['huihui']);
+  });
+
+  it('still honours a voice the person chose', () => {
+    expect(pickVoice([offline, edge], 'BSB', 'david')).toBe(offline);
+  });
+});
+
 describe('pickVoice', () => {
   const all = Object.values(VOICES);
 
