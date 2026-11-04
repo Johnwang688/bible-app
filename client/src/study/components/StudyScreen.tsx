@@ -3,10 +3,11 @@
 // screen never writes them.
 import { router } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { useWindowDimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AuroraBackground, auroraTextShadow } from '../../aurora';
+import { BREAKPOINT } from '../../components/layout';
 import { GlassSurface } from '../../components/GlassSurface';
 import { uiFace } from '../../fonts/fonts';
 import { useT } from '../../i18n/I18nProvider';
@@ -50,6 +51,7 @@ export function StudyScreen({
   /** Opens Memory (default: the router, to /study/memory). */
   openMemory?: () => void;
 }) {
+  const grid = useWindowDimensions().width >= BREAKPOINT.rail;
   const theme = useTheme();
   const t = useT();
   const insets = useSafeAreaInsets();
@@ -112,7 +114,7 @@ export function StudyScreen({
           <Icon name="chevronRight" size={20} color={theme.colors.muted} />
         </GlassSurface>
       </Pressable>
-      <View accessibilityRole="tablist" style={[styles.segments, button, { borderRadius: theme.radii.button }]}>
+      <View accessibilityRole="tablist" style={[styles.segments, grid && { width: '100%', maxWidth: 420 }, button, { borderRadius: theme.radii.button }]}>
         {TABS.map((tab) => {
           const selected = view === tab.id;
           return (

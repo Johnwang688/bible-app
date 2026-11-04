@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, type ComponentRef } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { useColumn } from '../../../components/ContentColumn';
 import { AuroraBackground, auroraTextShadow } from '../../../aurora';
 import { uiFace } from '../../../fonts/fonts';
 import { useI18n } from '../../../i18n/I18nProvider';
@@ -49,6 +50,7 @@ export function CompleteScreen({
   now?: () => Date;
   onNavigate?: (href: string) => void;
 }) {
+  const column = useColumn('lesson', 16);
   const theme = useTheme();
   const { t, locale } = useI18n();
   const insets = useSafeAreaInsets();
@@ -211,7 +213,7 @@ export function CompleteScreen({
       <AuroraBackground />
       <ScrollView
         style={styles.fill}
-        contentContainerStyle={[styles.content, { paddingTop: insets.top + 24, paddingBottom: Math.max(insets.bottom, 12) + 24 }]}
+        contentContainerStyle={[styles.content, column, { paddingTop: insets.top + 24, paddingBottom: Math.max(insets.bottom, 12) + 24 }]}
       >
         {content}
       </ScrollView>

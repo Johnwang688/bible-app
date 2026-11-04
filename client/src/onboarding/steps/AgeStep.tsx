@@ -1,7 +1,8 @@
 // Step 3: your age (r7a-age.html, with GO-AHEAD's decisions). Optional, one band at most (press the chosen one
 // again to clear it), and saved only on this device. "Prefer not to say" saves no age.
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, useWindowDimensions, View } from 'react-native';
 
+import { BREAKPOINT } from '../../components/layout';
 import { uiFace } from '../../fonts/fonts';
 import { useT } from '../../i18n/I18nProvider';
 import { useTheme } from '../../theme/ThemeProvider';
@@ -25,6 +26,7 @@ export function AgeStep({
   age,
   onAge,
 }: StepProps & { age: AgeChoice; onAge(age: AgeChoice): void }) {
+  const desktop = useWindowDimensions().width >= BREAKPOINT.tablet;
   const theme = useTheme();
   const t = useT();
   const title = t('onboarding.age.title');
@@ -32,8 +34,8 @@ export function AgeStep({
   const note = { color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400') } as const;
 
   return (
-    <StepFrame testID="first-run-age" step={3} ctaKey="onboarding.startReading" onCta={onNext} onSkip={onSkip} onBack={onBack}>
-      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ gap: 16, paddingHorizontal: 24, paddingTop: 8, paddingBottom: 16 }}>
+    <StepFrame testID="first-run-age" kind="welcome" step={3} ctaKey="onboarding.startReading" onCta={onNext} onSkip={onSkip} onBack={onBack}>
+      <ScrollView style={desktop ? { flexGrow: 0, flexShrink: 1 } : { flex: 1 }} contentContainerStyle={{ gap: 16, paddingHorizontal: 24, paddingTop: 8, paddingBottom: 16 }}>
         <View style={{ gap: 6 }}>
           <StepHeading focusOnMount={announce}>{title}</StepHeading>
           <TextCard testID="age-note-card" style={{ paddingHorizontal: 14, paddingVertical: 10, gap: 6 }}>

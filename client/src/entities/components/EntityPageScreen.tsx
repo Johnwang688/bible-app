@@ -2,9 +2,11 @@
 // in, the overview, a "life and times" timeline whose references open in the reader, and every chapter that
 // names it, by book. The page is a root stack screen above the tabs, with Back.
 import { useMemo, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useWindowDimensions, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { BREAKPOINT } from '../../components/layout';
+import { ContentColumn, useColumn } from '../../components/ContentColumn';
 import { ApiError } from '../../api/client';
 import type { BookInfo, EntityKind, SummaryEntityPageOut } from '../../api/schemas';
 import { AuroraBackground, auroraTextShadow } from '../../aurora';
@@ -45,15 +47,16 @@ export function EntityPageScreen({
   navigate?: () => void;
   onBack?: () => void;
 }) {
+  const column = useColumn('text', 16);
   const theme = useTheme();
   const { t } = useI18n();
   const back = useEntityBack(onBack);
   return (
     <View testID="screen-entity" style={[styles.fill, theme.backgrounds.app]}>
       <AuroraBackground />
-      <EntityTopBar onBack={back} />
+      <ContentColumn gutter={12}><EntityTopBar onBack={back} /></ContentColumn>
       {kind === null ? (
-        <View style={styles.padded}>
+        <View style={[styles.padded, column]}>
           <EntityStateBlock testID="entity-not-found" glyph="notFound" title={t('entity.notFoundTitle')} body={t('entity.notFoundBody')} />
         </View>
       ) : (
@@ -64,6 +67,7 @@ export function EntityPageScreen({
 }
 
 function EntityPageLoader({ kind, slug, storage, navigate }: { kind: EntityKind; slug: string; storage?: Storage; navigate?: () => void }) {
+  const column = useColumn('text', 16);
   const theme = useTheme();
   const { t } = useI18n();
   const query = useEntityPage(kind, slug);
@@ -73,13 +77,13 @@ function EntityPageLoader({ kind, slug, storage, navigate }: { kind: EntityKind;
     if (query.isError) {
       if (query.error instanceof ApiError && query.error.kind === 'http' && query.error.status === 404) {
         return (
-          <View style={styles.padded}>
+          <View style={[styles.padded, column]}>
             <EntityStateBlock testID="entity-not-found" glyph="notFound" title={t('entity.notFoundTitle')} body={t('entity.notFoundBody')} />
           </View>
         );
       }
       return (
-        <View style={styles.padded}>
+        <View style={[styles.padded, column]}>
           <EntityStateBlock
             testID="entity-error"
             glyph="offline"
@@ -96,7 +100,7 @@ function EntityPageLoader({ kind, slug, storage, navigate }: { kind: EntityKind;
       <Text
         testID="entity-loading"
         accessibilityLiveRegion="polite"
-        style={[styles.loading, { color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), ...auroraTextShadow(theme) }]}
+        style={[styles.loading, column, { color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), ...auroraTextShadow(theme) }]}
       >
         {t('common.loading')}
       </Text>
@@ -106,6 +110,7 @@ function EntityPageLoader({ kind, slug, storage, navigate }: { kind: EntityKind;
 }
 
 function EntityPageContent({ kind, page, storage, navigate }: { kind: EntityKind; page: SummaryEntityPageOut; storage?: Storage; navigate?: () => void }) {
+  const column = useColumn('text', 16);
   const theme = useTheme();
   const { t, formatNumber } = useI18n();
   const insets = useSafeAreaInsets();
@@ -120,10 +125,11 @@ function EntityPageContent({ kind, page, storage, navigate }: { kind: EntityKind
 
   return (
     <ScrollView
+      testID="entity-content"
       keyboardShouldPersistTaps="handled"
       keyboardDismissMode="on-drag"
       style={styles.fill}
-      contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + 24 }]}
+      contentContainerStyle={[styles.content, column, { paddingBottom: insets.bottom + 24 }]}
     >
       <View style={styles.titleBlock}>
         <EntityLabel testID="entity-kind" header={false}>
@@ -165,6 +171,7 @@ function EntityPageContent({ kind, page, storage, navigate }: { kind: EntityKind
 }
 
 function Overview({ text }: { text: string }) {
+  const prose = useWindowDimensions().width >= BREAKPOINT.tablet ? { maxWidth: 620 } : null;
   const theme = useTheme();
   const { t } = useI18n();
   const [open, setOpen] = useState(false);
@@ -175,7 +182,7 @@ function Overview({ text }: { text: string }) {
       <Text
         testID="entity-overview-text"
         numberOfLines={long && !open ? 3 : undefined}
-        style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 15, lineHeight: Math.round(15 * 1.55) }}
+        style={[prose, { color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 15, lineHeight: Math.round(15 * 1.55) }]}
       >
         {text}
       </Text>
@@ -218,6 +225,7 @@ function Timeline({
   storage?: Storage;
   navigate?: () => void;
 }) {
+  const prose = useWindowDimensions().width >= BREAKPOINT.tablet ? { maxWidth: 620 } : null;
   const theme = useTheme();
   const { t, locale } = useI18n();
   const openPassage = useOpenPassage({ storage, navigate });
@@ -247,7 +255,7 @@ function Timeline({
                 <View style={[styles.dot, { borderColor: theme.colors.accent, backgroundColor: isOpen ? theme.colors.accent : 'transparent' }]} />
                 {i < visible.length - 1 ? <View style={[styles.line, { backgroundColor: theme.colors.muted }]} /> : null}
               </View>
-              <View style={styles.eventBody}>
+              <View style={[styles.eventBody, prose]}>
                 <Pressable
                   testID={`entity-event-${i}`}
                   accessibilityRole="button"

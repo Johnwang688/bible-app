@@ -3,6 +3,7 @@
 // of the style's three presets for the current mode as Customise's swatch tiles.
 import { Pressable, Text, View, useWindowDimensions } from 'react-native';
 
+import { BREAKPOINT, COLUMN } from '../../components/layout';
 import { uiFace } from '../../fonts/fonts';
 import { useT } from '../../i18n/I18nProvider';
 import { Icon } from '../../reader/components/icons';
@@ -38,14 +39,16 @@ export function StyleCard({
   const hint = t(style === 'pastel' ? 'onboarding.look.pastelHint' : 'onboarding.look.glassHint');
 
   // Three tiles share the card's width; on a very narrow screen the swatch shrinks so tiles never overlap.
-  const tileWidth = (width - 48 - 24) / 3;
+  const desktop = width >= BREAKPOINT.tablet;
+  const cardWidth = (COLUMN.text - 20) / 2;
+  const tileWidth = (desktop ? cardWidth - 24 : width - 48 - 24) / 3;
   const swatch = Math.max(24, Math.min(56, Math.floor(tileWidth - 12)));
 
   const checkedIndex = presets.findIndex((p) => p.id === selectedId);
   const keys = useRadioKeys(presets.length, checkedIndex, (i) => onChoose(presets[i]!.id));
 
   return (
-    <TextCard testID={`look-${style}-card`} theme={cardTheme} style={{ paddingHorizontal: 12, paddingVertical: 10, gap: 4 }}>
+    <TextCard testID={`look-${style}-card`} theme={cardTheme} style={[{ paddingHorizontal: 12, paddingVertical: 10, gap: 4 }, desktop && { flex: 1, minWidth: 0 }]}>
       <Pressable
         testID={`look-style-${style}`}
         role="button"

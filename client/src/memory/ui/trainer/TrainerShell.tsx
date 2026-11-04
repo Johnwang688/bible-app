@@ -5,6 +5,7 @@ import { createContext, useCallback, useContext, useEffect, useRef, type Compone
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { ContentColumn, useColumn } from '../../../components/ContentColumn';
 import { uiFace } from '../../../fonts/fonts';
 import { useI18n } from '../../../i18n/I18nProvider';
 import { useTheme } from '../../../theme/ThemeProvider';
@@ -98,6 +99,7 @@ export function TrainerShell({
   const theme = useTheme();
   const { t } = useI18n();
   const insets = useSafeAreaInsets();
+  const column = useColumn('lesson', 16);
   const scroll = useRef<ComponentRef<typeof ScrollView>>(null);
   const keyboardOpen = useKeyboardOpen();
   const keepY = useRef<number | null>(null);
@@ -123,7 +125,7 @@ export function TrainerShell({
       style={[styles.fill, theme.backgrounds.app]}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
-      <View style={[styles.header, { paddingTop: insets.top + 8 }]}>
+      <View style={[styles.header, column, { paddingTop: insets.top + 8 }]}>
         <MemButton
           testID="memory-back"
           kind="secondary"
@@ -145,7 +147,7 @@ export function TrainerShell({
           accessibilityRole="progressbar"
           accessibilityLabel={t('memory.step.aria', { k, n: ctx.steps })}
           accessibilityValue={{ min: 1, max: ctx.steps, now: k }}
-          style={styles.bar}
+          style={[styles.bar, column]}
         >
           {Array.from({ length: ctx.steps }, (_, i) => (
             <View
@@ -163,14 +165,14 @@ export function TrainerShell({
         ref={scroll}
         style={styles.fill}
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={[styles.content, { paddingBottom: Math.max(insets.bottom, 12) + 16 }]}
+        contentContainerStyle={[styles.content, column, { paddingBottom: Math.max(insets.bottom, 12) + 16 }]}
       >
         <View style={styles.body}>
           <ChipPill label={chip} />
           {children}
         </View>
-        <View style={styles.grow} />
-        <View testID="memory-action-panel" style={styles.action}>
+        {column === null ? <View style={styles.grow} /> : null}
+        <View testID="memory-action-panel" style={[styles.action, column !== null && { marginTop: 24 }]}>
           {action}
         </View>
       </ScrollView>
@@ -185,12 +187,14 @@ export function NotFound({ onBack }: { onBack(): void }) {
   const { t } = useI18n();
   const insets = useSafeAreaInsets();
   return (
-    <View testID="memory-not-found" style={[styles.fill, theme.backgrounds.app, { paddingTop: insets.top + 16, paddingHorizontal: 16, gap: 14 }]}>
-      <StepTitle>{t('memory.notFound.title')}</StepTitle>
-      <Text style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 15, lineHeight: 22 }}>
-        {t('memory.notFound.body')}
-      </Text>
-      <MemButton testID="memory-back" kind="primary" block label={t('memory.back')} onPress={onBack} />
+    <View testID="memory-not-found" style={[styles.fill, theme.backgrounds.app, { paddingTop: insets.top + 16 }]}>
+      <ContentColumn kind="lesson" gutter={16} style={{ gap: 14, paddingHorizontal: 16 }}>
+        <StepTitle>{t('memory.notFound.title')}</StepTitle>
+        <Text style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 15, lineHeight: 22 }}>
+          {t('memory.notFound.body')}
+        </Text>
+        <MemButton testID="memory-back" kind="primary" block label={t('memory.back')} onPress={onBack} />
+      </ContentColumn>
     </View>
   );
 }

@@ -17,6 +17,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { isBetaBuild } from '../api/config';
 import { AuroraBackground, auroraTextShadow } from '../aurora';
+import { COLUMN } from '../components/layout';
 import { GlassSurface } from '../components/GlassSurface';
 import { uiFace } from '../fonts/fonts';
 import { useI18n } from '../i18n/I18nProvider';
@@ -28,7 +29,6 @@ import type { Theme } from '../theme/types';
 import { HouseIcon } from './HouseIcon';
 import { PRIVACY_CONTACT, PRIVACY_SECTIONS, PRIVACY_SHORT_KEYS, privacyBulletKeys, privacyLocale, type PrivacySection } from './index';
 
-const COLUMN_WIDTH = 720;
 const COPIED_MS = 3000;
 
 export interface PrivacyScreenProps {
@@ -318,7 +318,7 @@ const DOT = 5;
 
 const styles = StyleSheet.create({
   fill: { flex: 1 },
-  column: { width: '100%', maxWidth: COLUMN_WIDTH, alignSelf: 'center' },
+  column: { width: '100%', maxWidth: COLUMN.text, alignSelf: 'center' },
   bar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 44, paddingHorizontal: 20 },
   content: { paddingHorizontal: 20, paddingTop: 6 },
   stack: { gap: 14 },

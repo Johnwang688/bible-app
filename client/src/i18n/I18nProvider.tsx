@@ -1,8 +1,9 @@
 // The i18n provider: picks the interface language (stored choice or the phone's), exposes `t`
 // and locale-aware formatting.
 import { createContext, useContext, useEffect, useMemo, type ReactNode } from 'react';
-import { Platform } from 'react-native';
+import { Platform, useWindowDimensions } from 'react-native';
 
+import { BREAKPOINT } from '../components/layout';
 import { languageKey } from '../storage/keys';
 import { getStorage, useStoredValue, type Storage } from '../storage/storage';
 import { getDeviceLocales, resolveLocale } from './locale';
@@ -32,14 +33,15 @@ export function I18nProvider({ children, storage: storageProp, locales: localesP
   const locales = useMemo(() => localesProp ?? getDeviceLocales(), [localesProp]);
   const [preference, setPreference] = useStoredValue(storage, languageKey);
   const locale = resolveLocale(preference, locales);
+  const wide = useWindowDimensions().width >= BREAKPOINT.tablet;
 
   const formatters = useMemo(
     () => ({
-      t: createT(locale),
+      t: createT(locale, wide),
       formatNumber: (n: number, opts?: Intl.NumberFormatOptions) => new Intl.NumberFormat(locale, opts).format(n),
       formatDate: (d: Date, opts?: Intl.DateTimeFormatOptions) => new Intl.DateTimeFormat(locale, opts).format(d),
     }),
-    [locale],
+    [locale, wide],
   );
 
   useEffect(() => {

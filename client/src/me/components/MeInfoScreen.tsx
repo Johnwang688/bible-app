@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { useColumn } from '../../components/ContentColumn';
 import { AuroraBackground, auroraTextShadow } from '../../aurora';
 import { GlassSurface } from '../../components/GlassSurface';
 import { uiFace } from '../../fonts/fonts';
@@ -25,13 +26,14 @@ export function MeInfoScreen({
   onBack(): void;
   children: ReactNode;
 }) {
+  const column = useColumn('text', 20);
   const theme = useTheme();
   const t = useT();
   const insets = useSafeAreaInsets();
   return (
     <View testID={testID} style={[styles.fill, theme.backgrounds.app]}>
       <AuroraBackground />
-      <ScrollView contentContainerStyle={[styles.content, { paddingTop: insets.top + 8 }]}>
+      <ScrollView testID={`${testID}-scroll`} contentContainerStyle={[styles.content, column, { paddingTop: insets.top + 8 }]}>
         <Pressable
           testID={backID}
           accessibilityRole="button"

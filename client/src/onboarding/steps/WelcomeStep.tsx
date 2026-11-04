@@ -1,6 +1,7 @@
 // Step 1: welcome (r7a-welcome.html). The app name, one line about the app, and a verse.
-import { Platform, Text, View } from 'react-native';
+import { useWindowDimensions, Platform, Text, View } from 'react-native';
 
+import { BREAKPOINT } from '../../components/layout';
 import { uiFace, scriptureFace } from '../../fonts/fonts';
 import { useI18n } from '../../i18n/I18nProvider';
 import { useTheme } from '../../theme/ThemeProvider';
@@ -13,12 +14,16 @@ import type { StepProps } from './types';
 const SYSTEM_SERIF = Platform.select({ web: 'serif', android: 'serif', default: 'Songti SC' });
 
 export function WelcomeStep({ announce, onNext, onSkip }: StepProps) {
+  const desktop = useWindowDimensions().width >= BREAKPOINT.tablet;
   const theme = useTheme();
   const { t, locale } = useI18n();
   const scripture = locale === 'zh-Hans' ? SYSTEM_SERIF : scriptureFace(theme.type.scripture);
   return (
-    <StepFrame testID="first-run-welcome" step={1} ctaKey="onboarding.getStarted" onCta={onNext} onSkip={onSkip}>
-      <View style={{ flex: 1, justifyContent: 'center', gap: 36, paddingHorizontal: 24 }}>
+    <StepFrame testID="first-run-welcome" kind="welcome" centerGroup step={1} ctaKey="onboarding.getStarted" onCta={onNext} onSkip={onSkip}>
+      <View style={[
+        { justifyContent: 'center', gap: 36, paddingHorizontal: 24 },
+        desktop ? { flexGrow: 0, flexShrink: 0, flexBasis: 'auto' } : { flex: 1 },
+      ]}>
         <View style={{ gap: 12 }}>
           <StepHeading focusOnMount={announce}>{t('app.name')}</StepHeading>
           <TextCard testID="welcome-line-card" style={{ paddingHorizontal: 16, paddingVertical: 12 }}>

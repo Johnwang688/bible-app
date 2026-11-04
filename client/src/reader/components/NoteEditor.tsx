@@ -3,7 +3,7 @@
 // Every change is reported (`onDraft`), so the sheet can keep the unsaved text when it closes under the editor
 // (a chapter change); opened again with that draft, the editor starts from it and says so.
 import { useState } from 'react';
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { uiFace } from '../../fonts/fonts';
 import { useT } from '../../i18n/I18nProvider';
@@ -76,7 +76,11 @@ export function NoteEditor({
         placeholderTextColor={theme.colors.muted}
         accessibilityLabel={t('sheet.note')}
         textAlignVertical="top"
-        style={[styles.input, buttonStyle(theme), { borderRadius: theme.radii.card, color: theme.colors.btnText, fontFamily: uiFace(theme.type.ui, '400') }]}
+        style={[
+          styles.input, buttonStyle(theme),
+          Platform.OS === 'web' && { outlineColor: theme.colors.accent },
+          { borderRadius: theme.radii.card, color: theme.colors.btnText, fontFamily: uiFace(theme.type.ui, '400') },
+        ]}
       />
       {restored ? (
         <Text testID="note-draft" style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14 }}>

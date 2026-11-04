@@ -4,10 +4,12 @@
 // session by TanStack Query; the query text is local state, so matching is synchronous. Nothing is written.
 import { router } from 'expo-router';
 import { useMemo, useState, type ReactNode } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Platform, useWindowDimensions, Pressable, ScrollView, StyleSheet, type TextStyle, Text, TextInput, View } from 'react-native';
 
 import type { EntityKind, SummaryEntityListItemOut } from '../../api/schemas';
 import { auroraTextShadow } from '../../aurora';
+import { useColumn } from '../../components/ContentColumn';
+import { BREAKPOINT } from '../../components/layout';
 import { GlassSurface } from '../../components/GlassSurface';
 import { uiFace } from '../../fonts/fonts';
 import { useI18n } from '../../i18n/I18nProvider';
@@ -62,6 +64,7 @@ function KindCard({
 }) {
   const theme = useTheme();
   const { t } = useI18n();
+  const grid = useWindowDimensions().width >= BREAKPOINT.rail;
   const tone = TONE[kind];
   const c = theme.canvas;
   const background: Background =
@@ -81,12 +84,16 @@ function KindCard({
       accessibilityRole="button"
       accessibilityLabel={[title, count, hint].filter((part) => part !== '').join(', ')}
       onPress={() => onOpen(entityListHref(kind))}
-      style={({ pressed }) => ({ minHeight: 44, opacity: pressed ? 0.85 : 1 })}
+      style={({ pressed }) => [
+        { minHeight: 44, opacity: pressed ? 0.85 : 1 },
+        grid && { flex: 1, minWidth: 0 },
+      ]}
     >
       <GlassSurface
         background={background}
         style={[
           styles.card,
+          grid && { flex: 1, flexDirection: 'column', alignItems: 'stretch' },
           {
             borderRadius: theme.radii.card,
             borderWidth: theme.borders.card.width,
@@ -98,7 +105,7 @@ function KindCard({
         <View style={[styles.disc, { backgroundColor: theme.colors.cta }]}>
           <Glyph name={KIND_GLYPH[kind]} color={theme.colors.onCta} size={22} />
         </View>
-        <View style={styles.cardBody}>
+        <View style={[styles.cardBody, grid && { gap: 8 }]}>
           <View style={styles.cardTitleLine}>
             <Text style={{ color: text, fontFamily: uiFace(theme.type.head, '700'), fontSize: 18 }}>{title}</Text>
             {count !== '' ? (
@@ -110,12 +117,14 @@ function KindCard({
           </View>
           <Text style={{ color: muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 14 }}>{hint}</Text>
           {samples !== '' ? (
-            <Text numberOfLines={1} style={{ color: muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 13 }}>
+            <Text numberOfLines={1} style={[{ color: muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 13 }, grid && { marginTop: 'auto', paddingTop: 8 }]}>
               {samples}
             </Text>
           ) : null}
         </View>
-        <Chevron color={muted} />
+        {grid ? (
+          <View style={{ position: 'absolute', top: 18, right: 16 }}><Chevron color={muted} /></View>
+        ) : <Chevron color={muted} />}
       </GlassSurface>
     </Pressable>
   );
@@ -209,13 +218,15 @@ function FindField({
 }) {
   const theme = useTheme();
   const { t } = useI18n();
+  const grid = useWindowDimensions().width >= BREAKPOINT.rail;
   const [focused, setFocused] = useState(false);
   return (
     <View
       style={[
         styles.field,
+        grid && { width: '100%', maxWidth: 520 },
         buttonStyle(theme),
-        focused && { outlineColor: theme.colors.accent, outlineWidth: 2, outlineOffset: 1, outlineStyle: 'solid' },
+        focused && Platform.OS === 'web' && { outlineColor: theme.colors.accent, outlineWidth: 2, outlineOffset: 1, outlineStyle: 'solid' },
         disabled && { opacity: 0.6 },
       ]}
     >
@@ -236,7 +247,7 @@ function FindField({
         autoCorrect={false}
         autoCapitalize="none"
         returnKeyType="search"
-        style={[styles.input, { color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '400') }]}
+        style={[styles.input, Platform.OS === 'web' && ({ outlineStyle: 'none' } as unknown as TextStyle), { color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '400') }]}
       />
       {value !== '' ? (
         <Pressable
@@ -264,6 +275,8 @@ export function ExploreView({
 }) {
   const theme = useTheme();
   const { t, formatNumber } = useI18n();
+  const grid = useWindowDimensions().width >= BREAKPOINT.rail;
+  const column = useColumn(grid ? 'wide' : 'text', 20);
   const open = onOpen ?? ((href: string) => router.push(href as never));
   const [query, setQuery] = useState('');
 
@@ -315,7 +328,7 @@ export function ExploreView({
       </View>
     );
   } else if (!searching) {
-    body = ENTITY_KINDS.map((kind) => {
+    const cards = ENTITY_KINDS.map((kind) => {
       const list = queries[kind].data;
       return (
         <KindCard
@@ -327,6 +340,7 @@ export function ExploreView({
         />
       );
     });
+    body = grid ? <View testID="explore-grid" style={{ flexDirection: 'row', gap: 16, alignItems: 'stretch' }}>{cards}</View> : cards;
   } else if (chinese) {
     body = (
       <Text testID="explore-no-match" style={[muted, styles.note]}>
@@ -356,7 +370,7 @@ export function ExploreView({
     <ScrollView
       testID="explore"
       style={styles.fill}
-      contentContainerStyle={[styles.content, { paddingBottom: bottomInset }]}
+      contentContainerStyle={[styles.content, column, { paddingBottom: bottomInset }]}
       keyboardShouldPersistTaps="handled"
       keyboardDismissMode="on-drag"
     >

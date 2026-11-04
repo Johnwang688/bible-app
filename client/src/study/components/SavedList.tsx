@@ -4,6 +4,7 @@
 import { useMemo, useState, type ReactNode } from 'react';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { useColumn } from '../../components/ContentColumn';
 import { auroraTextShadow } from '../../aurora';
 import { uiFace } from '../../fonts/fonts';
 import { useI18n } from '../../i18n/I18nProvider';
@@ -139,6 +140,7 @@ export function SavedList({
   onOpen(entry: StudyEntry): void;
   bottomInset: number;
 }) {
+  const column = useColumn('text', 20);
   const theme = useTheme();
   const { t } = useI18n();
   const shown = useMemo(() => filterStudyList(all, filter), [all, filter]);
@@ -172,6 +174,7 @@ export function SavedList({
 
   return (
     <FlatList
+      testID="study-saved"
       data={shown}
       keyExtractor={(e) => e.id}
       renderItem={({ item }) => <StudyEntryCard entry={item} translation={translation} onOpen={onOpen} />}
@@ -184,7 +187,7 @@ export function SavedList({
       }
       ListEmptyComponent={empty}
       style={styles.fill}
-      contentContainerStyle={[styles.content, { paddingBottom: bottomInset }]}
+      contentContainerStyle={[styles.content, column, { paddingBottom: bottomInset }]}
     />
   );
 }

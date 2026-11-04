@@ -3,9 +3,10 @@
 // 2,989 themes.
 import { router } from 'expo-router';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Platform, Pressable, ScrollView, SectionList, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Platform, Pressable, ScrollView, SectionList, StyleSheet, type TextStyle, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { ContentColumn, useColumn } from '../../components/ContentColumn';
 import type { EntityKind, SummaryEntityListItemOut } from '../../api/schemas';
 import { AuroraBackground, auroraTextShadow } from '../../aurora';
 import { uiFace } from '../../fonts/fonts';
@@ -58,15 +59,16 @@ export function EntityListScreen({
   onBack?: () => void;
   onOpenEntity?: (href: string) => void;
 }) {
+  const column = useColumn('text', 16);
   const theme = useTheme();
   const { t } = useI18n();
   const back = useEntityBack(onBack);
   return (
     <View testID="screen-entity-list" style={[styles.fill, theme.backgrounds.app]}>
       <AuroraBackground />
-      <EntityTopBar onBack={back} />
+      <ContentColumn gutter={12}><EntityTopBar onBack={back} /></ContentColumn>
       {kind === null ? (
-        <View style={styles.padded}>
+        <View style={[styles.padded, column]}>
           <EntityStateBlock testID="entity-not-found" glyph="notFound" title={t('entity.notFoundTitle')} body={t('entity.notFoundBody')} />
         </View>
       ) : (
@@ -79,6 +81,7 @@ export function EntityListScreen({
 const defaultOpen = (href: string) => router.push(href as never);
 
 function EntityListBody({ kind, initialFilter, onOpenEntity }: { kind: EntityKind; initialFilter: string; onOpenEntity(href: string): void }) {
+  const column = useColumn('text', 16);
   const theme = useTheme();
   const { t, formatNumber } = useI18n();
   const insets = useSafeAreaInsets();
@@ -304,7 +307,7 @@ function EntityListBody({ kind, initialFilter, onOpenEntity }: { kind: EntityKin
       keyboardShouldPersistTaps="handled"
       keyboardDismissMode="on-drag"
       style={styles.fill}
-      contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + 24 }]}
+      contentContainerStyle={[styles.content, column, { paddingBottom: insets.bottom + 24 }]}
     />
   );
 }
@@ -332,7 +335,7 @@ function EntityFilter({
       style={[
         styles.field,
         buttonStyle(theme),
-        focused && { outlineWidth: 2, outlineStyle: 'solid', outlineColor: theme.colors.accent, outlineOffset: 1 },
+        focused && Platform.OS === 'web' && { outlineWidth: 2, outlineStyle: 'solid', outlineColor: theme.colors.accent, outlineOffset: 1 },
       ]}
     >
       <Icon name="search" size={18} color={theme.colors.muted} strokeWidth={2} />
@@ -352,7 +355,7 @@ function EntityFilter({
         autoCorrect={false}
         autoCapitalize="none"
         returnKeyType="search"
-        style={[styles.input, { color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '400') }]}
+        style={[styles.input, Platform.OS === 'web' && ({ outlineStyle: 'none' } as unknown as TextStyle), { color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '400') }]}
       />
       {value !== '' ? (
         <Pressable

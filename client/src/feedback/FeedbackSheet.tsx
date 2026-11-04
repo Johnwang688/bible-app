@@ -78,7 +78,7 @@ const webProps = (props: Record<string, unknown>) => (WEB ? (props as object) : 
  */
 function focusRing(theme: Theme, focused: boolean, colour: string = theme.colors.text): ViewStyle {
   if (!WEB) return {};
-  return focused ? { outlineStyle: 'solid', outlineWidth: 2, outlineColor: colour, outlineOffset: 2 } : { outlineWidth: 0 };
+  return focused ? { outlineStyle: 'solid', outlineWidth: 2, outlineColor: colour, outlineOffset: 2 } : ({ outlineWidth: 0, outlineStyle: 'none' } as unknown as ViewStyle);
 }
 
 const isFocused = (state: PressableStateCallbackType) => (state as PressableStateCallbackType & { focused?: boolean }).focused === true;

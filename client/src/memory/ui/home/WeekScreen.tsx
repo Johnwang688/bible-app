@@ -5,6 +5,7 @@ import { useMemo } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { useColumn } from '../../../components/ContentColumn';
 import { AuroraBackground, auroraTextShadow } from '../../../aurora';
 import { uiFace } from '../../../fonts/fonts';
 import { useI18n } from '../../../i18n/I18nProvider';
@@ -38,6 +39,7 @@ export function WeekScreen({
   now?: () => Date;
   onNavigate?: (href: string) => void;
 }) {
+  const column = useColumn('text', 16);
   const theme = useTheme();
   const { t, formatDate } = useI18n();
   const insets = useSafeAreaInsets();
@@ -66,7 +68,7 @@ export function WeekScreen({
       <AuroraBackground />
       <ScrollView
         style={styles.fill}
-        contentContainerStyle={[styles.content, { paddingTop: insets.top + 16, paddingBottom: TAB_BAR_ROOM }]}
+        contentContainerStyle={[styles.content, column, { paddingTop: insets.top + 16, paddingBottom: TAB_BAR_ROOM }]}
       >
         <View style={styles.backRow}>
           <MemButton

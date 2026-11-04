@@ -2,8 +2,9 @@
 // then glass), and what light and dark do. The middle scrolls; the header above and the footer below stay
 // put, so Continue never falls off at large text or in Chinese. Picking a look re-themes the screen live.
 import { useEffect } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { useWindowDimensions, ScrollView, Text, View } from 'react-native';
 
+import { BREAKPOINT } from '../../components/layout';
 import { uiFace } from '../../fonts/fonts';
 import { ensureLookFonts } from '../../fonts/lookFonts';
 import { useI18n } from '../../i18n/I18nProvider';
@@ -26,6 +27,7 @@ const STYLE_DEFAULT: Record<ThemeStyle, Record<ThemeMode, PresetId>> = {
 };
 
 export function LookStep({ announce, onNext, onSkip, onBack, chooseLook }: StepProps & { chooseLook(id: PresetId): void }) {
+  const desktop = useWindowDimensions().width >= BREAKPOINT.tablet;
   const theme = useTheme();
   const { t } = useI18n();
   const { choice, presetId } = useAppearance();
@@ -40,12 +42,28 @@ export function LookStep({ announce, onNext, onSkip, onBack, chooseLook }: StepP
   }, [cardKey]);
   const small = { color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 13, lineHeight: 18 } as const;
 
+  const cards = STYLES.map((style) => {
+    const inStyle = current.style === style;
+    const id = inStyle ? presetId : STYLE_DEFAULT[style][theme.mode];
+    return (
+      <StyleCard
+        key={style}
+        style={style}
+        cardTheme={getTheme(id)}
+        presets={PRESETS.filter((p) => p.style === style && p.mode === theme.mode)}
+        selectedId={presetId}
+        styleSelected={inStyle}
+        onChoose={chooseLook}
+      />
+    );
+  });
+
   return (
-    <StepFrame testID="first-run-look" step={2} ctaKey="onboarding.continue" onCta={onNext} onSkip={onSkip} onBack={onBack}>
+    <StepFrame testID="first-run-look" kind="text" step={2} ctaKey="onboarding.continue" onCta={onNext} onSkip={onSkip} onBack={onBack}>
       <ScrollView
         testID="first-run-look-scroll"
-        style={{ flex: 1 }}
-        contentContainerStyle={{ gap: 12, paddingHorizontal: 24, paddingTop: 8, paddingBottom: 16 }}
+        style={desktop ? { flexGrow: 0, flexShrink: 1 } : { flex: 1 }}
+        contentContainerStyle={{ gap: 12, paddingHorizontal: 24, paddingTop: 8, paddingBottom: desktop ? 4 : 16 }}
       >
         <View style={{ gap: 6 }}>
           <StepHeading focusOnMount={announce}>{t('onboarding.look.title')}</StepHeading>
@@ -55,21 +73,7 @@ export function LookStep({ announce, onNext, onSkip, onBack, chooseLook }: StepP
             </Text>
           </TextCard>
         </View>
-        {STYLES.map((style) => {
-          const inStyle = current.style === style;
-          const id = inStyle ? presetId : STYLE_DEFAULT[style][theme.mode];
-          return (
-            <StyleCard
-              key={style}
-              style={style}
-              cardTheme={getTheme(id)}
-              presets={PRESETS.filter((p) => p.style === style && p.mode === theme.mode)}
-              selectedId={presetId}
-              styleSelected={inStyle}
-              onChoose={chooseLook}
-            />
-          );
-        })}
+        {desktop ? <View style={{ flexDirection: 'row', gap: 20, alignItems: 'stretch' }}>{cards}</View> : cards}
         {followsPhone ? (
           <TextCard testID="look-follow-card" style={{ paddingHorizontal: 14, paddingVertical: 10 }}>
             <View testID="look-follow" style={{ alignItems: 'center', gap: 6 }}>

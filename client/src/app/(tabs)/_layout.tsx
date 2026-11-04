@@ -1,9 +1,10 @@
 // The four tabs: Home · Bible · Study · Me.
 import { Tabs } from 'expo-router/tabs';
 import { useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { BOTTOM_BAR_MAX_WIDTH, BREAKPOINT } from '../../components/layout';
 import { GlassSurface } from '../../components/GlassSurface';
 import { TabIcon, type TabIconName } from '../../components/TabIcon';
 import { uiFace } from '../../fonts/fonts';
@@ -43,7 +44,9 @@ export default function TabsLayout() {
   const theme = useTheme();
   const t = useT();
   const insets = useSafeAreaInsets();
-  const floating = theme.floatingTabBar;
+  const { width } = useWindowDimensions();
+  const desktop = width >= BREAKPOINT.tablet;
+  const floating = desktop || theme.floatingTabBar;
   const border = theme.borders.tabBar;
   const radius = floating ? theme.radii.card : 0;
   // The Bible screen hides the bar while its verse sheet is open (the sheet takes the bottom of the screen).
@@ -71,6 +74,12 @@ export default function TabsLayout() {
       height: BAR_HEIGHT,
       paddingBottom: 0,
     },
+    desktop && {
+      left: (width - BOTTOM_BAR_MAX_WIDTH) / 2,
+      right: (width - BOTTOM_BAR_MAX_WIDTH) / 2,
+      maxWidth: BOTTOM_BAR_MAX_WIDTH,
+      boxShadow: theme.shadows.tabBar ?? theme.shadows.card ?? undefined,
+    },
   ];
 
   return (
@@ -78,6 +87,7 @@ export default function TabsLayout() {
       <Tabs
         screenOptions={{
           headerShown: false,
+          ...(desktop ? { tabBarLabelPosition: 'below-icon' as const } : {}),
           tabBarActiveTintColor: theme.colors.tabOn,
           tabBarInactiveTintColor: theme.colors.tabOff,
           tabBarActiveBackgroundColor: theme.canvas.tabPill,
@@ -93,6 +103,7 @@ export default function TabsLayout() {
           tabBarStyle: barStyle,
           tabBarBackground: () => (
             <GlassSurface
+              testID="bottom-bar-background"
               background={theme.backgrounds.tabBar}
               style={[StyleSheet.absoluteFill, { borderRadius: radius }]}
             />

@@ -53,11 +53,13 @@ test('Sources: the introduction retains the aurora halo', async ({ page }) => {
 });
 
 // F2: common empty states and invalid links are also painted directly over the new aurora.
-test('Study: the empty-state heading and hint retain the aurora halo', async ({ page }) => {
+test('Study: the empty-state heading and hint retain the aurora halo', async ({ page }, testInfo) => {
   await page.goto('/study');
   await expect(page.getByTestId('screen-study').getByTestId('aurora-background')).toHaveCount(1);
   const state = page.getByTestId('study-empty');
-  for (const text of ['Nothing saved yet', 'Tap a verse in the Bible to highlight it, write a note or bookmark it.']) {
+  // From 768 px up the wording says Click (i18n/messages/desktop.ts); a phone keeps Tap.
+  const verb = testInfo.project.name === 'desktop' ? 'Click' : 'Tap';
+  for (const text of ['Nothing saved yet', `${verb} a verse in the Bible to highlight it, write a note or bookmark it.`]) {
     const label = state.getByText(text, { exact: true });
     await expect(label).toBeVisible();
     expect.soft(await label.evaluate((el) => getComputedStyle(el).textShadow)).not.toBe('none');

@@ -699,6 +699,7 @@ function TypeField({
       returnKeyType={multiline ? 'default' : 'done'}
       style={[
         styles.input,
+        Platform.OS === 'web' && { outlineColor: theme.colors.accent },
         multiline && styles.inputMulti,
         {
           color: theme.colors.btnText,

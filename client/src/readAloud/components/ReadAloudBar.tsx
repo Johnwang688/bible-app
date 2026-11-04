@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type ComponentRef, type RefObject } from '
 import { Platform, Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
 import { GlassSurface } from '../../components/GlassSurface';
+import { BREAKPOINT } from '../../components/layout';
 import { uiFace } from '../../fonts/fonts';
 import { useT } from '../../i18n/I18nProvider';
 import { announce, useFocusNodeSoon } from '../../reader/components/a11y';
@@ -13,8 +14,8 @@ import type { ReadAloud } from '../useReadAloud';
 import { Action } from './parts';
 
 /** The desktop layout rework only needs to change this function to relocate the player. */
-export function playerBarBottom(theme: Theme, insets: { bottom: number }): number {
-  return theme.floatingTabBar ? Math.max(insets.bottom, 12) + 68 + 10 : 10;
+export function playerBarBottom(theme: Theme, insets: { bottom: number }, width: number): number {
+  return (width >= BREAKPOINT.tablet || theme.floatingTabBar) ? Math.max(insets.bottom, 12) + 68 + 10 : 10;
 }
 
 export function barStacked(barWidth: number, label: string): boolean {
@@ -84,7 +85,7 @@ export function ReadAloudBar({ read, translation, endTitle, nextTitle, hidden, i
 
   return <>
     {Platform.OS === 'web' ? <Text testID="read-aloud-live" role="status" aria-live="polite" style={styles.visuallyHidden}>{announcement.live}</Text> : null}
-    {visible ? <View pointerEvents="box-none" style={[styles.wrapper, { bottom: playerBarBottom(theme, insets), paddingHorizontal: theme.floatingTabBar ? 16 : 12 }]}>
+    {visible ? <View pointerEvents="box-none" style={[styles.wrapper, { bottom: playerBarBottom(theme, insets, width), paddingHorizontal: theme.floatingTabBar ? 16 : 12 }]}>
       <View testID="read-aloud-bar" pointerEvents="box-none" {...(Platform.OS === 'web' ? { role: 'region' as const, 'aria-label': t('readAloud.region') } : { accessibilityLabel: t('readAloud.region') })}
         style={styles.column} onLayout={(e) => { setBarWidth(e.nativeEvent.layout.width); onHeight(e.nativeEvent.layout.height); }}>
         {!read.following && (read.status === 'playing' || paused) && n !== null ?

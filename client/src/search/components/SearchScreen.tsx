@@ -4,6 +4,7 @@
 import { router, type Href } from 'expo-router';
 import { useMemo, useRef, useState, type ComponentRef } from 'react';
 import {
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -15,6 +16,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { useColumn } from '../../components/ContentColumn';
 import type { EntityKind, SummaryEntityListItemOut } from '../../api/schemas';
 import { entityPageHref } from '../../entities/routes';
 import { matchEntities, MATCH_MIN, useEntityList } from '../../entities/data';
@@ -78,6 +80,7 @@ export function SearchScreen({
   onBack?: () => void;
   onOpenEntity?: (href: string) => void;
 }) {
+  const column = useColumn('text', 16);
   const theme = useTheme();
   const { t, locale } = useI18n();
   const insets = useSafeAreaInsets();
@@ -186,7 +189,7 @@ export function SearchScreen({
     outlineColor: theme.colors.accent,
     outlineOffset: 1,
   } as ViewStyle;
-  const plainInput = { outlineWidth: 0 } as TextStyle;
+  const plainInput = Platform.OS === 'web' ? { outlineWidth: 0, outlineStyle: 'none' } as unknown as TextStyle : null;
 
   const recents = recent.map((p, i) => ({ p, i, title: t('reader.chapterTitle', { book: bookName(p.bookNumber), chapter: p.chapter }) }));
 
@@ -194,9 +197,9 @@ export function SearchScreen({
 
   return (
     <View testID="screen-search" style={[styles.screen, theme.backgrounds.reader, { paddingTop: insets.top + 8 }]}>
-      <View style={styles.header}>
+      <View style={[styles.header, column]}>
         <RoundIconButton testID="search-back" label={t('search.back')} icon="chevronLeft" onPress={back} />
-        <View style={[styles.field, buttonStyle(theme), focusRing]}>
+        <View style={[styles.field, buttonStyle(theme), Platform.OS === 'web' && focusRing]}>
           <Icon name="search" size={18} color={theme.colors.muted} strokeWidth={2} />
           <TextInput
             ref={inputRef}
@@ -235,7 +238,7 @@ export function SearchScreen({
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag"
         style={styles.list}
-        contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + 24 }]}
+        contentContainerStyle={[styles.content, column, { paddingBottom: insets.bottom + 24 }]}
       >
         {emptyField ? (
           <>
