@@ -13,7 +13,7 @@ import { useTheme } from '../../theme/ThemeProvider';
 import { parseLangTag } from '../language';
 import { RATES, type SpeechVoice } from '../types';
 import type { ReadAloud } from '../useReadAloud';
-import { SheetHeading } from './parts';
+import { ctaStyle, SheetHeading } from './parts';
 
 export function voiceLanguageLabel(voice: SpeechVoice, t: TFunction): string {
   const tag = voice.lang.replace(/_/g, '-').toLowerCase();
@@ -50,8 +50,8 @@ export function VoiceSpeedSheet({ read, translation, sampleText, onClose }: {
             const on = rate === read.rate;
             return <Pressable key={rate} {...rateKeys(i)} testID={`read-aloud-rate-${rate}`} accessibilityRole="radio"
               accessibilityLabel={t('readAloud.times', { x: rate })} accessibilityState={{ checked: on }} aria-checked={on}
-              onPress={() => read.setRate(rate)} style={({ pressed }) => [buttonStyle(theme), { flex: 1, minWidth: 44, height: 44, justifyContent: 'center', alignItems: 'center', opacity: pressed ? 0.7 : 1 },
-                on && { backgroundColor: theme.floatingTabBar ? theme.colors.cta : theme.colors.text }]}>
+              onPress={() => read.setRate(rate)} style={({ pressed }) => [on ? ctaStyle(theme) : buttonStyle(theme), { flex: 1, minWidth: 44, height: 44, justifyContent: 'center', alignItems: 'center', opacity: pressed ? 0.7 : 1 },
+                on && { backgroundColor: theme.floatingTabBar ? theme.colors.cta : theme.colors.text, backgroundImage: undefined, boxShadow: theme.floatingTabBar ? theme.shadows.cta : undefined }]}>
               <Text style={[bold, { fontSize: 14, color: on ? (theme.floatingTabBar ? theme.colors.onCta : theme.colors.onAccent) : theme.colors.btnText }]}>{`${rate}×`}</Text>
             </Pressable>;
           })}

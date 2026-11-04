@@ -6,7 +6,7 @@ import { Icon } from '../../reader/components/icons';
 import { SheetModal } from '../../reader/components/SheetModal';
 import { buttonStyle } from '../../reader/components/ui';
 import { useTheme } from '../../theme/ThemeProvider';
-import { SheetHeading } from './parts';
+import { ctaStyle, SheetHeading } from './parts';
 
 export function ChapterToolsSheet({ title, translation, fromVerse, ready, onStart, onClose }: {
   title: string; translation: string; fromVerse: number; ready: boolean; onStart(): void; onClose(): void;
@@ -18,7 +18,7 @@ export function ChapterToolsSheet({ title, translation, fromVerse, ready, onStar
     <Pressable testID="read-aloud-start" accessibilityRole="button" accessibilityState={{ disabled: !ready }} aria-disabled={!ready}
       disabled={!ready} onPress={() => { if (ready) onStart(); }}
       style={({ pressed }) => [buttonStyle(theme), { minHeight: 64, padding: 10, flexDirection: 'row', alignItems: 'center', gap: 12, borderRadius: theme.radii.card, opacity: !ready ? 0.45 : pressed ? 0.7 : 1 }]}>
-      <View style={[buttonStyle(theme), { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', backgroundColor: theme.colors.cta }]}>
+      <View style={[ctaStyle(theme), { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }]}>
         <Icon name="play" size={22} color={theme.colors.onCta} filled />
       </View>
       <View style={{ flex: 1, gap: 2 }}>

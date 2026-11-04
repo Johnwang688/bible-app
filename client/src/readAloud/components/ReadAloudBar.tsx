@@ -89,8 +89,10 @@ export function ReadAloudBar({ read, translation, endTitle, nextTitle, hidden, i
         style={styles.column} onLayout={(e) => { setBarWidth(e.nativeEvent.layout.width); onHeight(e.nativeEvent.layout.height); }}>
         {!read.following && (read.status === 'playing' || paused) && n !== null ?
           <Pressable testID="read-aloud-back" accessibilityRole="button" accessibilityLabel={t('readAloud.back', { n })} onPress={onBack}
-            style={({ pressed }) => [buttonStyle(theme), surface, styles.back, theme.backgrounds.sheet, { opacity: pressed ? 0.7 : 1 }]}>
-            <Icon name="up" size={18} color={theme.colors.text} /><Text style={[ink, { fontSize: 14 }]}>{t('readAloud.back', { n })}</Text>
+            style={({ pressed }) => ({ height: 44, alignSelf: 'center', borderRadius: 999, opacity: pressed ? 0.7 : 1 })}>
+            <GlassSurface background={theme.backgrounds.sheet} style={[surface, styles.back]}>
+              <Icon name="up" size={18} color={theme.colors.text} /><Text style={[ink, { fontSize: 14 }]}>{t('readAloud.back', { n })}</Text>
+            </GlassSurface>
           </Pressable> : null}
         <GlassSurface background={theme.backgrounds.sheet} style={[surface, { overflow: 'hidden' }]}>
           {ended ? <View style={styles.end}>

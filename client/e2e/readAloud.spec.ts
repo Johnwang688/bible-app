@@ -64,6 +64,28 @@ async function finishChapter(page: Page) {
 
 test.use({ locale: 'en-US', colorScheme: 'light' });
 
+test('Silver CTA fills stay solid and the Back pill has a glass surface', async ({ page }) => {
+  await setup(page, 'WEB');
+  await seed(page, 'appearance', { preset: 'silver', mode: 'light' });
+  await open(page);
+  await page.getByTestId('reader-tools-button').click();
+  await expect(page.getByTestId('read-aloud-start').locator(':scope > div').first()).toHaveCSS('background-image', 'none');
+  await page.getByTestId('read-aloud-start').click();
+  await expect(page.getByTestId('read-aloud-toggle')).toBeFocused();
+  await expect(page.getByTestId('read-aloud-toggle')).toHaveCSS('background-image', 'none');
+  await page.getByTestId('read-aloud-speed').click();
+  await expect(page.getByTestId('read-aloud-rate-1')).toHaveCSS('background-image', 'none');
+  await page.keyboard.press('Escape');
+  await page.getByTestId('reader-scroll').hover();
+  await page.mouse.wheel(0, 700);
+  const back = page.getByTestId('read-aloud-back');
+  await expect(back).toBeVisible();
+  await expect(back.locator(':scope > div').first()).not.toHaveCSS('backdrop-filter', 'none');
+  await expect.poll(async () => (await back.boundingBox())?.height).toBe(44);
+  await finishChapter(page);
+  await expect(page.getByTestId('read-aloud-play-next')).toHaveCSS('background-image', 'none');
+});
+
 test('start, underline, pause/restart, verse controls, retry, Stop and focus return', async ({ page }) => {
   await setup(page);
   await open(page);
