@@ -78,6 +78,13 @@ Scoped 2026-10-31. This is the second track in John's order: Hebrew and Greek (d
 - **John's review:** a 30-chapter random sample (plus any the checks flag) before the full set ships.
 - **Not a dependency of the agent rework (W3).** This is offline content generation, and `AI_PROVIDER` is unchanged.
 
+## Status (2026-11-04)
+- **TSK is in the build:** 383,331 rows in `cross_references` from CrossWire's TSK module 1.4, pinned in `MANIFEST.json`. Keywords are not kept, and a target can repeat under two keywords, so CM-2 should drop repeats when it lists them. Built by `scripts/import_tsk.py`.
+- **The coverage gate is in the build:** a source listed under `coverage` in `MANIFEST.json` must match its per-book counts, or the build fails. Only `summary` is listed so far.
+- **Matthew Henry and JFB are parked on a licence question.** `scripts/import_classics.py` works, and its output covers all 1,189 chapters from both sources, but the CCEL files need John's decision. CCEL's site policy allows personal, educational or non-profit use and asks people to contact it to republish or use its works commercially. The rows on `main` already come from CCEL.
+- **CM-3 data:** people and places now match `people/people.json` and `places/places.json` (`scripts/rebuild_entities.py`). `people.json` is incomplete: it has no entry for Moses, Joseph, Joshua, Solomon, Samuel, Sarah or Mary, for example, and nothing alphabetically after Peter.
+- **Themes and the CM-4 pilot** wait for John's review, in `bible-app-work/commentary/`.
+
 ## Order and dependencies
 - **CM-1 and CM-3:** they can run in parallel. CM-1 is content build work; CM-3 starts with the theme list John approves.
 - **CM-2:** needs CM-1.
