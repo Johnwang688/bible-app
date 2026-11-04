@@ -29,7 +29,7 @@ describe('ReaderScreen', () => {
   it('opens at the saved position with the book and chapter in the header', async () => {
     await renderReader({ position: JOHN3_WEB });
     expect(await screen.findByText(new RegExp(JOHN3_16_WEB))).toBeTruthy();
-    expect(within(screen.getByTestId('reader-book-button')).getByText('John 3')).toBeTruthy();
+    expect(screen.getByTestId('reader-book-button')).toHaveTextContent('John 3');
     expect(within(screen.getByTestId('reader-translation-button')).getByText('WEB')).toBeTruthy();
   });
 
@@ -67,7 +67,7 @@ describe('ReaderScreen', () => {
     await screen.findByText(synthText('Mark', 1, 1, 'BSB'));
     await fireEvent.press(screen.getByTestId('reader-prev'));
     expect(await screen.findByText(synthText('Matthew', 28, 1, 'BSB'))).toBeTruthy();
-    expect(within(screen.getByTestId('reader-book-button')).getByText('Matthew 28')).toBeTruthy();
+    expect(screen.getByTestId('reader-book-button')).toHaveTextContent('Matthew 28');
   });
 
   it('has no previous button at Genesis 1 and no next button at Revelation 22', async () => {
@@ -115,7 +115,7 @@ describe('ReaderScreen', () => {
     expect(await screen.findByTestId('version-picker')).toBeTruthy();
     await fireEvent.press(screen.getByTestId('version-CUV-SIMP'));
     expect(await screen.findByText(/神爱世人/)).toBeTruthy();
-    expect(within(screen.getByTestId('reader-book-button')).getByText('约翰福音 3')).toBeTruthy();
+    expect(screen.getByTestId('reader-book-button')).toHaveTextContent('约翰福音 3');
   });
 
   it('draws CUV alternate readings smaller than the verse text', async () => {
@@ -166,7 +166,7 @@ describe('parallel reading', () => {
     expect(within(row).getByText(synthText('John', 4, 2, 'BSB'))).toBeTruthy();
     expect(within(row).getByText(synthText('John', 4, 2, 'CUV-SIMP'))).toBeTruthy();
     expect(storage.get(readingSettingsKey).parallel).toBe('CUV-SIMP');
-    expect(within(screen.getByTestId('reader-translation-button')).getByText(/BSB.*和合本|BSB.*CUV/)).toBeTruthy();
+    expect(screen.getByTestId('reader-translation-button')).toHaveTextContent(/BSB.*(?:CUV|\u548c\u5408\u672c)/);
   });
 
   it('keeps verses aligned when the second translation lacks one: an empty cell, nothing shifted', async () => {
@@ -207,7 +207,7 @@ describe('Chinese interface', () => {
   it('labels the reader and picker in Simplified Chinese, with Chinese book names in the picker', async () => {
     await renderReader({ position: JOHN3_WEB, locales: [ZH] });
     await screen.findByText(new RegExp(JOHN3_16_WEB));
-    expect(within(screen.getByTestId('reader-book-button')).getByText('John 3')).toBeTruthy();
+    expect(screen.getByTestId('reader-book-button')).toHaveTextContent('John 3');
     expect(screen.getByTestId('reader-settings-button').props.accessibilityLabel).toBe('阅读设置');
     await fireEvent.press(screen.getByTestId('reader-book-button'));
     expect(await screen.findByText('选择经文')).toBeTruthy();

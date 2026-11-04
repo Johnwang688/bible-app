@@ -16,6 +16,12 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { readAloudChapter, readAloudKey, useReadAloud, chunkForSpeech, maxPieceLength, speakableText, speechLanguageFor, type SpeechEngine } from '../../readAloud';
+import { ReadAloudBar } from '../../readAloud/components/ReadAloudBar';
+import { ChapterToolsSheet } from '../../readAloud/components/ChapterToolsSheet';
+import { VoiceSpeedSheet } from '../../readAloud/components/VoiceSpeedSheet';
+import { NoVoiceSheet } from '../../readAloud/components/NoVoiceSheet';
+import { useReduceMotion } from './useReduceMotion';
 import { uiFace } from '../../fonts/fonts';
 import { useT } from '../../i18n/I18nProvider';
 import type { DeviceLocale } from '../../i18n/types';
@@ -24,11 +30,11 @@ import type { ReaderPosition, ReadingSettings } from '../../storage/keys';
 import { getStorage, type Storage } from '../../storage/storage';
 import { useStudyItems } from '../../study';
 import { useTheme } from '../../theme/ThemeProvider';
-import { findBook, useBooks } from '../books';
+import { bookName, findBook, useBooks } from '../books';
 import { clampPosition, nextPosition, prevPosition } from '../navigation';
 import { useReaderPosition, useReadingSettings } from '../state';
 import { readerTargets, usePendingReaderTarget } from '../target';
-import type { TranslationId } from '../translations';
+import { TRANSLATIONS, type TranslationId } from '../translations';
 import { usePrefetchAdjacent, useChapter } from '../useChapter';
 import { useFocusNodeSoon } from './a11y';
 import { BookPicker } from './BookPicker';
@@ -47,7 +53,7 @@ import { VerseSheet } from './VerseSheet';
 import { VersionPicker } from './VersionPicker';
 import { buttonStyle } from './ui';
 
-type Sheet = 'book' | 'version' | 'settings';
+type Sheet = 'book' | 'version' | 'settings' | 'tools' | 'voice';
 
 interface Selection {
   /** The chapter and translation it belongs to. */
@@ -70,6 +76,7 @@ const TAB_BAR_ROOM = 120;
 const HEADER_GAP = 16;
 
 export function ReaderScreen(props: {
+  speechEngine?: SpeechEngine;
   storage?: Storage;
   locales?: readonly DeviceLocale[];
   /** The reading-time clock; `Date.now` when absent. */
@@ -121,6 +128,18 @@ export function ReaderScreen(props: {
   );
   // Keys move the reader, and the clock runs, only while its tab is showing (the tab stays mounted on web).
   const focused = useTabFocused();
+  const next = useMemo(() => nextPosition(books.data, position), [books.data, position]);
+  const chapter = useMemo(() => {
+    const data = firstQuery.data;
+    return readAloudChapter(position, [first], { [first]: data && data.book_number === position.bookNumber && data.chapter === position.chapter ? data : undefined }, next);
+  }, [position, first, firstQuery.data, next]);
+  const read = useReadAloud({ chapter, active: focused, engine: props.speechEngine, storage });
+  const readRef = useRef(read);
+  useLayoutEffect(() => { readRef.current = read; }, [read]);
+  const [noVoiceOpen, setNoVoiceOpen] = useState(false);
+  if (!noVoiceOpen && read.status === 'no-voice') setNoVoiceOpen(true);
+  if (noVoiceOpen && read.status !== 'preparing' && read.status !== 'no-voice') setNoVoiceOpen(false);
+  const noVoiceVisible = noVoiceOpen || read.status === 'no-voice';
   const reading = useReadingTime({ storage, now: props.now, chapter: shownInfo, focused });
 
   const [sheet, setSheet] = useState<Sheet | null>(null);
@@ -145,6 +164,7 @@ export function ReaderScreen(props: {
   // are never the same, and when the new first is the old second, the old first becomes the second.
   const moveTo = useCallback(
     (next: ReaderPosition) => {
+      if (readRef.current.status === 'ended') readRef.current.stop();
       const here = positionRef.current;
       const current = settingsRef.current;
       if (next.translation !== here.translation && current.parallel === next.translation) {
@@ -239,6 +259,15 @@ export function ReaderScreen(props: {
     else toolsRefs.current.delete(verse);
   }, []);
   const focusSoon = useFocusNodeSoon();
+  const toolsButtonRef = useRef<ComponentRef<typeof View>>(null);
+  const toggleRef = useRef<ComponentRef<typeof View>>(null);
+  const speedRef = useRef<ComponentRef<typeof View>>(null);
+  const [focusToggleRequest, setFocusToggleRequest] = useState(0);
+  const [fromVerse, setFromVerse] = useState(1);
+  const [barHeight, setBarHeight] = useState(0);
+  const followDeadline = useRef(0);
+  const scrollY = useRef(0);
+  const reduceMotion = useReduceMotion();
   // A verse to scroll to once its chapter is on screen (see the effect below).
   const pendingScroll = useRef<{ key: string; verse: number } | null>(null);
 
@@ -321,7 +350,9 @@ export function ReaderScreen(props: {
 
   const onScroll = useCallback(
     (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-      header.onScroll(e);
+      scrollY.current = e.nativeEvent.contentOffset.y;
+      if (Date.now() < followDeadline.current) header.syncScroll(e);
+      else header.onScroll(e);
       reading.onScroll(e);
     },
     [header, reading],
@@ -343,7 +374,8 @@ export function ReaderScreen(props: {
     [reading, retryScroll],
   );
   // The room under the chapter (see the scroll view's padding below).
-  const bottomRoom = TAB_BAR_ROOM + insets.bottom + sheetRoom;
+  const barVisible = !verseSheetOpen && !['idle', 'no-voice'].includes(read.status);
+  const bottomRoom = TAB_BAR_ROOM + insets.bottom + sheetRoom + (barVisible ? barHeight + 16 : 0);
 
   // The chapter's end marker (below) is the only measure of its content's height: its place plus the room below.
   // What is on screen now, for its reports (a layout effect, so it is current before any report runs), and the
@@ -369,13 +401,71 @@ export function ReaderScreen(props: {
     [reading],
   );
 
+  const handScroll = useCallback(() => {
+    followDeadline.current = 0;
+    readRef.current.userScrolled();
+    releaseScroll();
+  }, [releaseScroll]);
+  useEffect(() => {
+    if (Platform.OS !== 'web') return;
+    const node = (scrollRef.current as unknown as { getScrollableNode?(): HTMLElement } | null)?.getScrollableNode?.();
+    if (!node) return;
+    const mouse = (event: MouseEvent) => { if (event.target === node) handScroll(); };
+    node.addEventListener('wheel', handScroll, { passive: true });
+    node.addEventListener('touchmove', handScroll, { passive: true });
+    node.addEventListener('mousedown', mouse);
+    return () => {
+      node.removeEventListener('wheel', handScroll);
+      node.removeEventListener('touchmove', handScroll);
+      node.removeEventListener('mousedown', mouse);
+    };
+  }, [handScroll]);
+  useEffect(() => {
+    if (!read.following || !chapter || read.chapterKey !== chapter.key || verseSheetOpen) return;
+    const verse = read.status === 'ended' ? chapter.verses[chapter.verses.length - 1]?.verse : read.status === 'playing' || read.status === 'paused' ? read.verse : null;
+    if (verse == null) return;
+    followDeadline.current = Date.now() + 700;
+    scrollToVerse(chapter.key, verse, chapter.verses, { animated: !reduceMotion });
+  }, [read.following, read.status, read.verse, read.chapterKey, chapter, verseSheetOpen, scrollToVerse, reduceMotion, barHeight]);
+  useEffect(() => {
+    if (read.status === 'advancing' && next && read.chapterKey === readAloudKey(position.bookNumber, position.chapter, first)) {
+      moveTo({ ...next, translation: first });
+    }
+  }, [read.status, read.chapterKey, next, position.bookNumber, position.chapter, first, moveTo]);
+  const openTools = () => {
+    const visibleTop = insets.top + (header.hidden ? 0 : HEADER_BODY_HEIGHT);
+    setFromVerse(scroller.firstVisibleVerse(selectionKey, chapter?.verses ?? [], scrollY.current, visibleTop) ?? 1);
+    setSheet('tools');
+  };
+  const closeReadSheet = () => {
+    const opener = sheet === 'voice' ? speedRef.current : toolsButtonRef.current;
+    setSheet(null);
+    focusSoon(opener);
+  };
+  const stopRead = () => {
+    read.stop();
+    setNoVoiceOpen(false);
+    header.show();
+    focusSoon(toolsButtonRef.current);
+  };
+  const startRead = () => {
+    read.start(fromVerse);
+    setSheet(null);
+    setFocusToggleRequest((n) => n + 1);
+  };
+  const translationName = t(TRANSLATIONS[first].shortKey);
+  const chapterTitle = book ? t('reader.chapterTitle', { book: bookName(book, first), chapter: position.chapter }) : '';
+  const endTitle = book ? t('readAloud.end.title', { book: bookName(book, first), chapter: position.chapter }) : '';
+  const nextBook = next ? findBook(books.data, next.bookNumber) : undefined;
+  const nextTitle = next && nextBook ? t('reader.chapterTitle', { book: bookName(nextBook, first), chapter: next.chapter }) : null;
+  const sampleText = chapter ? chunkForSpeech(speakableText(chapter.verses[0]?.text ?? ''), maxPieceLength(speechLanguageFor(first).group, read.rate))[0] ?? '' : '';
+
   const swipeHandlers = useChapterSwipe(turn);
   // Keys move the reader only while its tab is showing and no sheet is open.
-  useArrowKeys({ onNext: goNext, onPrev: goPrev, disabled: sheet !== null || verseSheetOpen || !focused });
+  useArrowKeys({ onNext: goNext, onPrev: goPrev, disabled: sheet !== null || noVoiceVisible || verseSheetOpen || !focused });
 
   const wide = width >= WIDE_BREAKPOINT;
   const horizontal = wide && secondId ? WIDE_PADDING : NARROW_PADDING;
-  const next = nextPosition(books.data, position);
   const prev = prevPosition(books.data, position);
 
   const navButton = (direction: SwipeDirection) => (
@@ -402,6 +492,7 @@ export function ReaderScreen(props: {
           translation={first}
           second={secondId && secondQuery.data ? { chapter: secondQuery.data, translation: secondId } : null}
           textSize={settings.textSize}
+          readingVerse={read.status === 'playing' || read.status === 'paused' ? read.verse : null}
           selectedVerse={range?.start ?? null}
           selectedEnd={range?.end}
           study={study}
@@ -468,7 +559,7 @@ export function ReaderScreen(props: {
         ref={scrollRef}
         testID="reader-scroll"
         onScroll={onScroll}
-        onScrollBeginDrag={releaseScroll}
+        onScrollBeginDrag={handScroll}
         onLayout={onScrollLayout}
         onContentSizeChange={onContentSizeChange}
         scrollEventThrottle={16}
@@ -492,11 +583,20 @@ export function ReaderScreen(props: {
         hidden={header.hidden}
         translateY={header.translateY}
         onShow={header.show}
+        onOpenTools={openTools}
+        toolsButtonRef={toolsButtonRef}
         onOpenBook={() => setSheet('book')}
         onOpenVersions={() => setSheet('version')}
         onOpenSettings={() => setSheet('settings')}
       />
 
+      <ReadAloudBar read={read} translation={translationName} endTitle={endTitle} nextTitle={nextTitle} hidden={verseSheetOpen}
+        insets={insets} onStop={stopRead} onOpenVoice={() => setSheet('voice')}
+        onBack={() => { read.backToVerse(); setFocusToggleRequest((n) => n + 1); }} onHeight={setBarHeight}
+        toggleRef={toggleRef} speedRef={speedRef} focusToggleRequest={focusToggleRequest} />
+      {sheet === 'tools' ? <ChapterToolsSheet title={chapterTitle} translation={translationName} fromVerse={fromVerse} ready={!!chapter} onStart={startRead} onClose={closeReadSheet} /> : null}
+      {sheet === 'voice' ? <VoiceSpeedSheet read={read} translation={translationName} sampleText={sampleText} onClose={closeReadSheet} /> : null}
+      {noVoiceVisible ? <NoVoiceSheet read={read} translation={translationName} fromVerse={fromVerse} onClose={stopRead} /> : null}
       {sheet === 'book' && books.data ? (
         <BookPicker
           books={books.data}

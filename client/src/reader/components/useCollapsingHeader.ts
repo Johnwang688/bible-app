@@ -85,5 +85,13 @@ export function useCollapsingHeader(hideDistance: number) {
     setHiddenIfChanged(false);
   }, [setHiddenIfChanged]);
 
-  return { hidden, translateY, onScroll, show, reset };
+  const syncScroll = useCallback((e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const { contentOffset, contentSize, layoutMeasurement } = e.nativeEvent;
+    const y = Math.min(Math.max(contentOffset.y, 0), Math.max(0, contentSize.height - layoutMeasurement.height));
+    track.current.lastY = y;
+    track.current.anchorY = y;
+    track.current.dir = 'none';
+  }, []);
+
+  return { hidden, translateY, onScroll, syncScroll, show, reset };
 }

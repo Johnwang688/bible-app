@@ -54,6 +54,7 @@ export interface ReadAloudState {
   rate: number;
   autoAdvance: boolean;
   error: string | null;
+  sampleVoiceId: string | null;
 }
 
 export interface PrefsStore {
@@ -139,6 +140,7 @@ export class ReadAloudController {
       .map((v) => ({ verse: v.verse, text: speakableText(v.text) }))
       .filter((v) => v.text.length > 0)
       .sort((a, b) => a.verse - b.verse);
+    const start = fromVerse === undefined ? 0 : this.queue.findIndex((v) => v.verse >= fromVerse);
     this.set({
       ...idleState(this.prefs.get()),
       status: 'preparing',
@@ -146,6 +148,8 @@ export class ReadAloudController {
       translation: chapter.translation,
       group,
       total: this.queue.length,
+      verse: this.queue[start]?.verse ?? null,
+      position: start >= 0 ? start + 1 : 0,
     });
 
     let voices: SpeechVoice[] = [];
@@ -163,7 +167,6 @@ export class ReadAloudController {
     }
     this.set({ voice });
 
-    const start = fromVerse === undefined ? 0 : this.queue.findIndex((v) => v.verse >= fromVerse);
     if (this.queue.length === 0 || start < 0) {
       this.finishChapter();
       return;
@@ -313,13 +316,22 @@ export class ReadAloudController {
     if (!voice) return;
     if (this.state.status === 'playing') this.pause();
     this.halt();
+    const gen = this.gen;
+    this.set({ sampleVoiceId: voice.id });
+    const finish = () => {
+      if (gen === this.gen) this.set({ sampleVoiceId: null });
+    };
     this.engine.speak(text, {
       lang: langOf(voice, translation),
       voiceId: voice.id,
       rate: this.state.rate,
-      onDone: () => {},
-      onError: () => {},
+      onDone: finish,
+      onError: finish,
     });
+  }
+
+  stopSample(): void {
+    if (this.state.sampleVoiceId !== null) this.halt();
   }
 
   /** Stops everything and drops listeners (the hook's unmount). */
@@ -419,6 +431,7 @@ export class ReadAloudController {
     this.gen++;
     this.clearWatchdog();
     this.engine.stop();
+    if (this.state.sampleVoiceId !== null) this.set({ sampleVoiceId: null });
   }
 
   private clearWatchdog(): void {
@@ -454,6 +467,7 @@ function idleState(p: ReadAloudPrefs): ReadAloudState {
     rate: p.rate,
     autoAdvance: p.autoAdvance,
     error: null,
+    sampleVoiceId: null,
   };
 }
 
