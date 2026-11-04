@@ -6,6 +6,7 @@ export function cjkBoldStyles(): string {
   src: local('Microsoft YaHei Bold'), local('PingFang SC Semibold'), local('Noto Sans CJK SC Bold'), local('Noto Sans SC Bold');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
   unicode-range: U+2E80-9FFF, U+F900-FAFF, U+FE30-FE4F, U+20000-2FA1F;
 }`).join('\n');
 }

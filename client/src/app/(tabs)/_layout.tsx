@@ -10,6 +10,7 @@ import { TabIcon } from '../../components/TabIcon';
 import { uiFace } from '../../fonts/fonts';
 import { useT } from '../../i18n/I18nProvider';
 import { TABS } from '../../components/tabs';
+import { RailTabBridge } from '../../components/railTabBridge';
 import { HideTabBarContext } from '../../reader/components/useHideTabBar';
 import { useTheme } from '../../theme/ThemeProvider';
 
@@ -59,6 +60,7 @@ export default function TabsLayout() {
   return (
     <HideTabBarContext.Provider value={setBibleBarHidden}>
       <Tabs
+        tabBar={railVisible ? ({ state, emitter }) => <RailTabBridge state={state} emitter={emitter} /> : undefined}
         screenOptions={{
           headerShown: false,
           ...(desktop ? { tabBarLabelPosition: 'below-icon' as const } : {}),
@@ -74,7 +76,7 @@ export default function TabsLayout() {
             borderRadius: theme.radii.button,
             margin: 4,
           },
-          tabBarStyle: railVisible ? { display: 'none' } : barStyle,
+          tabBarStyle: barStyle,
           tabBarBackground: () => (
             <GlassSurface
               testID="bottom-bar-background"

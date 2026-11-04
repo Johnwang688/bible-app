@@ -818,3 +818,25 @@ test('Silver hover screenshot pixels retain dark-fill text contrast and visibly 
   for (const result of measurements) expect(result.contrast, `${result.control}: screenshot fill ${result.fill}`).toBeGreaterThanOrEqual(4.5);
   expect(Math.max(...rest.map((channel, i) => Math.abs(channel - hover[i]!)))).toBeGreaterThan(2);
 });
+
+test('returning from Search to the current Bible tab does not leave reader keys active behind Search', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/bible');
+  await expect(page.getByTestId('reader-book-button').filter({ visible: true })).toHaveText('John 3');
+  await page.getByTestId('rail-search').click();
+  await expect(page).toHaveURL(/\/search$/);
+  await expect(page.getByTestId('search-input').filter({ visible: true })).toBeFocused();
+  await page.getByTestId('tab-bible').click();
+  await expect(page).toHaveURL(/\/bible$/);
+  await expect(page.getByTestId('reader-book-button').filter({ visible: true })).toHaveText('John 3');
+  await page.getByTestId('rail-search').click();
+  await expect(page).toHaveURL(/\/search$/);
+  await expect(page.getByTestId('search-input').filter({ visible: true })).toBeFocused();
+  await page.getByTestId('search-input').filter({ visible: true }).blur();
+  expect(await page.evaluate(() => document.activeElement === document.body)).toBe(true);
+  await page.keyboard.press('ArrowRight');
+  await expect(page).toHaveURL(/\/search$/);
+  await page.getByTestId('tab-bible').click();
+  await expect(page).toHaveURL(/\/bible$/);
+  await expect(page.getByTestId('reader-book-button').filter({ visible: true })).toHaveText('John 3');
+});

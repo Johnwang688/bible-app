@@ -10,6 +10,7 @@ import { useTheme } from '../theme/ThemeProvider';
 import { GlassSurface } from './GlassSurface';
 import { RAIL } from './layout';
 import { useRailWidth } from './RailContext';
+import { pressRailTab } from './railTabBridge';
 import { TabIcon } from './TabIcon';
 import { activeRailTab, TABS } from './tabs';
 import { useSearchShortcut } from './useSearchShortcut';
@@ -74,7 +75,11 @@ export function SideRail() {
         return <Pressable {...(Platform.OS === 'web' ? { dataSet: { hover: 'flat' } } : {})} key={tab.name} testID={`tab-${tab.icon}`} accessibilityRole="link" accessibilityLabel={t(tab.a11yKey)}
           {...(Platform.OS === 'web' ? { href: tab.href } as object : {})}
           {...(Platform.OS === 'web' && selected ? { 'aria-current': 'page' as const } : {})}
-          onPress={(event) => { if (Platform.OS === 'web') event.preventDefault(); router.navigate(tab.href); }} style={[styles.item, compact && styles.compact,
+          onPress={(event) => {
+            if (Platform.OS === 'web') event.preventDefault();
+            if (!pressRailTab(tab.name)) return;
+            router.navigate(tab.href);
+          }} style={[styles.item, compact && styles.compact,
             { borderRadius: theme.radii.button, backgroundColor: selected ? theme.canvas.tabPill : undefined }]}>
           {selected && floating ? <View style={[styles.accent, { backgroundColor: theme.colors.accent }]} /> : null}
           <TabIcon name={tab.icon} color={color} /><Text style={[ink, { color }]}>{t(tab.labelKey)}</Text>

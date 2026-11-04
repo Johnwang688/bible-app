@@ -58,12 +58,12 @@ test.describe('Me (English)', () => {
     });
   });
 
-  test('the language row switches the whole app to Chinese', async ({ page }) => {
+  test('the language row switches the whole app to Chinese', async ({ page }, testInfo) => {
     await openMe(page);
     await page.getByTestId('me-row-language').click();
     await page.getByTestId('me-language-zh-Hans').click();
     await expect(page.getByText('外观')).toBeVisible();
-    await expect(page.getByRole('tab', { name: /我的/ })).toBeVisible();
+    await expect(page.getByRole(testInfo.project.name === 'desktop' ? 'link' : 'tab', { name: /我的/ })).toBeVisible();
   });
 
   test('Sources, About and Help open and come back', async ({ page }) => {
