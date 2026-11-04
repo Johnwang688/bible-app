@@ -20,7 +20,7 @@ export function feedbackStyles(theme: Theme): string {
   ${theme.style === 'glass' ? `
   :where(${controls}) { position: relative; }
   ${controls}::after { content: ''; position: absolute; inset: 0; pointer-events: none; border-radius: inherit; }
-  ${controls}:hover::after { background: ${hover}; box-shadow: inset 0 0 0 1px ${edge}; }
+  ${controls}:hover::after { background: ${hover}; ${dark ? '' : 'mix-blend-mode: overlay;'} box-shadow: inset 0 0 0 1px ${edge}; }
   ${controls}:active::after { background: ${press}; }
   ` : `
   ${raised}:hover { transform: translate(-1px,-1px); box-shadow: 5px 5px 0 ${ink} !important; }

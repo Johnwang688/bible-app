@@ -746,3 +746,75 @@ test('at 767 reader scroll keys are never intercepted', async ({ page }) => {
   }));
   expect(prevented).toEqual([false, false, false, false, false, false, false]);
 });
+
+// PR B2 fix 2: clicking text must use the same close/focus path as the dock's close control.
+test('clicking the selected verse text closes the dock and restores tools focus without scrolling', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/bible');
+  const verse = page.getByTestId('verse-16');
+  await expect(verse).toBeVisible();
+  await page.getByTestId('reader-scroll').evaluate((node) => {
+    node.scrollTop += document.querySelector('[data-testid="verse-16"]')!.getBoundingClientRect().top - 220;
+  });
+  const text = verse.getByText(/^For God so loved the world/).first();
+  await text.click();
+  await expect(page.getByTestId('verse-sheet')).toBeVisible();
+  await expect(page.getByTestId('sheet-actions').getByRole('heading')).toBeFocused();
+  const top = (await boxOf(verse)).y;
+  await text.click();
+  await expect(page.getByTestId('verse-sheet')).toHaveCount(0);
+  await expect(page.getByTestId('verse-16-tools')).toBeFocused();
+  expect(Math.abs((await boxOf(verse)).y - top)).toBeLessThanOrEqual(2);
+});
+
+/** Decode actual screenshot pixels in the browser; no CSS fill values are used as samples. */
+async function sampleControlFill(page: Page, control: Locator): Promise<number[]> {
+  const png = (await control.screenshot({ scale: 'css' })).toString('base64');
+  return page.evaluate(async (base64) => {
+    const img = new Image(); img.src = `data:image/png;base64,${base64}`; await img.decode();
+    const canvas = document.createElement('canvas'); canvas.width = img.width; canvas.height = img.height;
+    const ctx = canvas.getContext('2d')!; ctx.drawImage(img, 0, 0);
+    // Mid-height near the left edge is inside the rounded fill, away from text and the edge ring.
+    const data = ctx.getImageData(12, Math.floor(img.height / 2), 3, 3).data;
+    const rgb = [0, 0, 0];
+    for (let i = 0; i < data.length; i += 4) for (let c = 0; c < 3; c++) rgb[c]! += data[i + c]! / 9;
+    return rgb;
+  }, png);
+}
+
+function pixelContrast(a: number[], b: number[]): number {
+  const luminance = (rgb: number[]) => rgb.map((channel) => channel / 255).map((c) => c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4)
+    .reduce((sum, c, i) => sum + c * [0.2126, 0.7152, 0.0722][i]!, 0);
+  const first = luminance(a); const second = luminance(b);
+  return (Math.max(first, second) + 0.05) / (Math.min(first, second) + 0.05);
+}
+
+test('Silver hover screenshot pixels retain dark-fill text contrast and visibly lift light controls', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await seed(page, 'appearance', { preset: 'silver', mode: 'light' });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  const measurements: { control: string; fill: number[]; text: number[]; contrast: number }[] = [];
+  const checkContrast = async (control: Locator, label: string) => {
+    await control.hover();
+    const fill = await sampleControlFill(page, control);
+    const text = await control.getByText(label, { exact: true }).evaluate((node) => getComputedStyle(node).color.match(/[\d.]+/g)!.slice(0, 3).map(Number));
+    const contrast = pixelContrast(fill, text);
+    measurements.push({ control: label, fill, text, contrast });
+  };
+  await page.goto('/memory/lesson/2-corinthians-5-17/chunk-order');
+  await expect(page.getByTestId('chunk-check')).toBeVisible();
+  const count = await page.getByTestId(/^chunk-chip-\d+$/).count();
+  expect(count).toBeGreaterThan(1);
+  for (let i = 0; i < count; i++) await page.getByTestId(`chunk-chip-${i}`).click();
+  await checkContrast(page.getByTestId('chunk-check'), 'Check');
+  await page.goto('/study');
+  await checkContrast(page.getByTestId('study-tab-saved'), 'Saved');
+  const light = page.getByTestId('study-tab-progress');
+  await page.mouse.move(1400, 880);
+  const rest = await sampleControlFill(page, light);
+  await light.hover();
+  const hover = await sampleControlFill(page, light);
+  console.log('Silver screenshot hover measurements:', JSON.stringify({ measurements, light: { rest, hover } }));
+  for (const result of measurements) expect(result.contrast, `${result.control}: screenshot fill ${result.fill}`).toBeGreaterThanOrEqual(4.5);
+  expect(Math.max(...rest.map((channel, i) => Math.abs(channel - hover[i]!)))).toBeGreaterThan(2);
+});

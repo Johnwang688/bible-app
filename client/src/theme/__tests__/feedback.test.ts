@@ -48,3 +48,11 @@ it('enables verse feedback only after movement and invalidates it on both wheel 
   stop();
   expect(doc.removeEventListener).toHaveBeenCalledWith('scroll', handlers.get('scroll'), true);
 });
+
+it('blends the light-glass hover wash while keeping dark glass plain and retaining the edge ring', () => {
+  const light = feedbackStyles(getTheme('silver'));
+  const dark = feedbackStyles(getTheme('graphite'));
+  expect(light).toContain('mix-blend-mode: overlay');
+  expect(dark).not.toContain('mix-blend-mode');
+  expect(light).toContain('box-shadow: inset 0 0 0 1px rgba(255,255,255,.95)');
+});

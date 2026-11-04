@@ -231,6 +231,24 @@ export function ReaderScreen(props: {
     },
     [selectionKey],
   );
+  // Each verse-tools button, so focus can go back to it when the sheet closes.
+  const toolsRefs = useRef(new Map<number, unknown>());
+  const registerTools = useCallback((verse: number, node: unknown) => {
+    if (node) toolsRefs.current.set(verse, node);
+    else toolsRefs.current.delete(verse);
+  }, []);
+  const focusSoon = useFocusNodeSoon();
+
+  const closeVerseSheet = useCallback(() => {
+    const anchor = range?.anchor;
+    if (anchor !== undefined) rememberAnchor(range?.start ?? anchor);
+    setSelection(null);
+    if (anchor !== undefined) {
+      if (desktop) focusNode(toolsRefs.current.get(anchor), { preventScroll: true });
+      else focusSoon(toolsRefs.current.get(anchor));
+    }
+  }, [range, rememberAnchor, desktop, focusSoon]);
+
   // The non-modal sheet leaves the chapter usable. Touch extends while open; a dock click moves the
   // selection (Shift extends), and clicking the sole selected verse closes it.
   const onVersePress = useCallback(
@@ -238,10 +256,14 @@ export function ReaderScreen(props: {
       if (desktop && Platform.OS === 'web' && typeof window !== 'undefined' && window.getSelection()?.toString()) return;
       reading.interact();
       const shift = !!(event?.nativeEvent as unknown as { shiftKey?: boolean } | undefined)?.shiftKey;
-      if (!verseSheetOpen || (desktop && !shift && range?.start === verse && range.end === verse)) rememberAnchor(verse);
+      if (desktop && verseSheetOpen && !shift && range?.start === verse && range.end === verse) {
+        closeVerseSheet();
+        return;
+      }
+      if (!verseSheetOpen) rememberAnchor(verse);
       setSelection((previous) => pressSelection(previous, selectionKey, verse, desktop, shift));
     },
-    [desktop, verseSheetOpen, range, rememberAnchor, selectionKey, reading],
+    [desktop, verseSheetOpen, range, rememberAnchor, selectionKey, reading, closeVerseSheet],
   );
   const onVerseLongPress = useCallback(
     (verse: number) => {
@@ -259,13 +281,6 @@ export function ReaderScreen(props: {
   // The sheet takes the bottom of the screen; the (floating) tab bar would cover its last row.
   useHideTabBar(verseSheetOpen && !desktop);
 
-  // Each verse-tools button, so focus can go back to it when the sheet closes.
-  const toolsRefs = useRef(new Map<number, unknown>());
-  const registerTools = useCallback((verse: number, node: unknown) => {
-    if (node) toolsRefs.current.set(verse, node);
-    else toolsRefs.current.delete(verse);
-  }, []);
-  const focusSoon = useFocusNodeSoon();
   const toolsButtonRef = useRef<ComponentRef<typeof View>>(null);
   const toggleRef = useRef<ComponentRef<typeof View>>(null);
   const speedRef = useRef<ComponentRef<typeof View>>(null);
@@ -278,15 +293,6 @@ export function ReaderScreen(props: {
   // A verse to scroll to once its chapter is on screen (see the effect below).
   const pendingScroll = useRef<{ key: string; verse: number } | null>(null);
 
-  const closeVerseSheet = () => {
-    const anchor = range?.anchor;
-    if (anchor !== undefined) rememberAnchor(range?.start ?? anchor);
-    setSelection(null);
-    if (anchor !== undefined) {
-      if (desktop) focusNode(toolsRefs.current.get(anchor), { preventScroll: true });
-      else focusSoon(toolsRefs.current.get(anchor));
-    }
-  };
 
   // A reference on a word card: go to that chapter in this translation and select the verse, sheet closed.
   const goToReference = (bookNumber: number, chapter: number, verse: number) => {
