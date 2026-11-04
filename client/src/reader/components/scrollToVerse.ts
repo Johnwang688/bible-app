@@ -78,13 +78,29 @@ export function estimateParagraphOffset(verses: readonly VerseText[], verse: num
   return (before / total) * textHeight;
 }
 
-interface Want {
+export interface VerseScrollOptions {
+  animated?: boolean;
+  /** Reading follow requests yield to a hand scroll, including while layout is still pending. */
+  follow?: boolean;
+  /** Runs immediately before each actual scroll, including a later native layout placement. */
+  onPlace?(): void;
+}
+
+interface Want extends VerseScrollOptions {
+  animated: boolean;
   key: string;
   verse: number;
   verses: readonly VerseText[];
   /** Native: when it was first scrolled to (null: not yet), and the offset it was scrolled to last. */
   placedAt: number | null;
   placedY: number | null;
+}
+
+/** First verse number on or below the visible top line, in content coordinates. */
+export function firstVisibleVerse(verses: readonly { verse: number; y: number }[], scrollY: number, visibleTop: number): number | undefined {
+  const ordered = [...verses].sort((a, b) => a.verse - b.verse);
+  if (scrollY <= 4) return ordered[0]?.verse;
+  return ordered.find((v) => v.y >= scrollY + visibleTop)?.verse ?? ordered[ordered.length - 1]?.verse;
 }
 
 export function useVerseScroller(opts: {
@@ -149,7 +165,8 @@ export function useVerseScroller(opts: {
       // A hidden tab has no layout yet (everything measures 0): wait for it to show.
       if (box.height === 0) return 'wait';
       const delta = el.getBoundingClientRect().top - box.top - landing;
-      view.scrollTo({ y: Math.max(0, node.scrollTop + delta), animated: false });
+      w.onPlace?.();
+      view.scrollTo({ y: Math.max(0, node.scrollTop + delta), animated: w.animated });
       want.current = null;
       return 'done';
     }
@@ -167,7 +184,10 @@ export function useVerseScroller(opts: {
     else if (l.textHeight !== null) inside = estimateParagraphOffset(w.verses, w.verse, l.textHeight);
     if (inside === null) return 'wait';
     const y = Math.max(0, l.rootY + inside - landing);
-    if (y !== w.placedY) view.scrollTo({ y, animated: false });
+    if (y !== w.placedY) {
+      w.onPlace?.();
+      view.scrollTo({ y, animated: w.animated });
+    }
     w.placedY = y;
     w.placedAt ??= Date.now();
     return 'wait';
@@ -191,8 +211,8 @@ export function useVerseScroller(opts: {
 
   /** Scrolls to a verse of the chapter `key` (as the chapter view names it) as soon as it can be placed. */
   const scrollToVerse = useCallback(
-    (key: string, verse: number, verses: readonly VerseText[]) => {
-      want.current = { key, verse, verses, placedAt: null, placedY: null };
+    (key: string, verse: number, verses: readonly VerseText[], options: VerseScrollOptions = {}) => {
+      want.current = { ...options, key, verse, verses, placedAt: null, placedY: null, animated: options.animated ?? false };
       stopRetrying();
       retryDelay.current = RETRY_FIRST_MS;
       if (Platform.OS === 'web') tryWeb();
@@ -215,6 +235,14 @@ export function useVerseScroller(opts: {
   const cancel = useCallback(() => {
     want.current = null;
     stopRetrying();
+  }, [stopRetrying]);
+
+  /** A hand scroll cancels only reading follow; pending passage/reference targets keep waiting. */
+  const cancelFollow = useCallback(() => {
+    if (want.current?.follow) {
+      want.current = null;
+      stopRetrying();
+    }
   }, [stopRetrying]);
 
   /** The user scrolled: a request already placed is theirs to move now (one still waiting stays). */
@@ -249,5 +277,26 @@ export function useVerseScroller(opts: {
     [attempt],
   );
 
-  return { scrollToVerse, cancel, release, retry, onLayout };
+  const visibleVerse = useCallback((key: string, verses: readonly VerseText[], scrollY: number, visibleTop: number) => {
+    if (scrollY <= 4) return verses[0]?.verse;
+    if (Platform.OS === 'web') {
+      const node = (scrollRef.current as unknown as { getScrollableNode?(): HTMLElement } | null)?.getScrollableNode?.();
+      if (!node) return verses[0]?.verse;
+      const top = node.getBoundingClientRect().top;
+      const measured = verses.flatMap((v) => {
+        const el = toolsRefs.current.get(v.verse) as { getBoundingClientRect?(): { top: number } } | undefined;
+        return el?.getBoundingClientRect ? [{ verse: v.verse, y: el.getBoundingClientRect().top - top + node.scrollTop }] : [];
+      });
+      return firstVisibleVerse(measured, node.scrollTop, visibleTop) ?? verses[0]?.verse;
+    }
+    const l = layout.current;
+    if (!l || l.key !== key || l.rootY === null || (place.current.layout && l.kind !== place.current.layout)) return verses[0]?.verse;
+    const measured = verses.flatMap((v) => {
+      const y = l.kind === 'rows' ? l.rows.get(v.verse) : l.textHeight !== null ? estimateParagraphOffset(verses, v.verse, l.textHeight) : null;
+      return y == null ? [] : [{ verse: v.verse, y: l.rootY! + y }];
+    });
+    return firstVisibleVerse(measured, scrollY, visibleTop) ?? verses[0]?.verse;
+  }, [scrollRef, toolsRefs]);
+
+  return { scrollToVerse, firstVisibleVerse: visibleVerse, cancel, cancelFollow, release, retry, onLayout };
 }

@@ -1,3 +1,4 @@
+import { readAloudZhHans } from './readAloud';
 // 简体中文 message catalogue. Drafted with the English; John and Chinese-speaking friends
 // review it before launch (R-7). Terms follow CUV-style church usage.
 import type { MessageKey } from './en';
@@ -643,6 +644,8 @@ export const zhHans: Record<MessageKey, string> = {
 
   // Send feedback (team FEEDBACK): the block lives in ./feedback.ts.
   ...feedbackZhHans,
+  // R-7 read aloud.
+  ...readAloudZhHans,
 
   'common.loading': '加载中…',
   'common.retry': '重试',

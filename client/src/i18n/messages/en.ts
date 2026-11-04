@@ -1,3 +1,4 @@
+import { readAloudEn } from './readAloud';
 // The English message catalogue. Every UI string goes through a key here (R-0 string ratchet).
 // Keys are flat and dotted. Placeholders are {name}.
 import { feedbackEn } from './feedback';
@@ -642,6 +643,8 @@ export const en = {
 
   // Send feedback (team FEEDBACK): the block lives in ./feedback.ts.
   ...feedbackEn,
+  // R-7 read aloud.
+  ...readAloudEn,
 
   'common.loading': 'Loading…',
   'common.retry': 'Try again',

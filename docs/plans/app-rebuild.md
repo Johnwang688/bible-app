@@ -316,6 +316,8 @@ Picked from 15 directions, then tuned preset by preset on the design canvas (htt
 - **Hardware:** the prototype ran smoothly on John's school iPad. A low-end Android phone is still to try (needs EAS builds), as part of R-7's performance budget.
 - **When:** R-7 builds the animation and the Appearance choice.
 
+**R-7 read aloud notes (2026-11-03).** The approved chapter-tools entry, floating player, voice/speed sheet and no-voice help use the merged device-speech engine. Only the first parallel translation is spoken and underlined; hand scrolling suspends following, and changing chapter or leaving Bible stops speech. Samples pause reading without resuming it. The player’s tab-bar offset is isolated in `playerBarBottom` for the desktop rework. Browser acceptance uses fake speech; native export checks do not verify voices on a physical device.
+
 **R-7a notes (2026-11-02).** These are the parts of R-7 that need no other team. **Screens wait for approved
 prototypes** (John, 2026-11-02), so R-7a ships no new screens. Prototypes in `bible-app-work/design/proposed/`:
 `r7a-welcome.html`, `r7a-look.html`, `r7a-age.html` and `r7a-aurora-option.html`.

@@ -51,6 +51,8 @@ export interface ChapterViewProps {
   textSize: number;
   /** The first selected verse (the selection is `selectedVerse` to `selectedEnd`). */
   selectedVerse: number | null;
+  /** The verse being read, marked in the first translation only. */
+  readingVerse?: number | null;
   /** The last selected verse of a range; absent for a single verse. */
   selectedEnd?: number | null;
   /** Highlights, notes and bookmarks to draw. Absent: none. */
@@ -221,6 +223,7 @@ export function ChapterView({
   second,
   textSize,
   selectedVerse,
+  readingVerse,
   selectedEnd,
   study,
   onVersePress,
@@ -237,6 +240,11 @@ export function ChapterView({
   const secondTranslation = second?.translation;
   const chineseFont = useChineseFont(isChineseTranslation(translation) || (!!secondTranslation && isChineseTranslation(secondTranslation)));
   const marks = markStyles(theme);
+  const readingMark = (n: number): TextStyle | undefined => n === readingVerse ? {
+    textDecorationLine: 'underline', textDecorationColor: theme.colors.accent,
+    ...(Platform.OS === 'web' ? { textDecorationThickness: '3px', textUnderlineOffset: '5px' } : {}),
+  } as TextStyle : undefined;
+  const readingProps = (n: number) => Platform.OS === 'web' && n === readingVerse ? { 'aria-current': 'true' as const } : {};
 
   // Study items attach to the reference, so they show in every translation.
   const info = (n: number): VerseInfo => {
@@ -245,6 +253,7 @@ export function ChapterView({
     const hasNote = !!study?.noteOf(ref);
     const bookmarked = !!study?.isBookmarked(ref);
     let label = t('sheet.verseTools', { n });
+    if (n === readingVerse) label += `, ${t('readAloud.beingRead')}`;
     if (hasNote) label += `, ${t('sheet.hasNote')}`;
     if (bookmarked) label += `, ${t('sheet.isBookmarked')}`;
     return { n, selected, look: lookOf(theme, study?.highlightOf(ref) ?? null, selected), hasNote, bookmarked, label };
@@ -285,7 +294,8 @@ export function ChapterView({
                 key={v.verse}
                 testID={`verse-${v.verse}`}
                 {...textPress(v.verse)}
-                style={[i.look.background ? { backgroundColor: i.look.background } : null, i.look.marked ? marks.text : null]}
+                {...readingProps(v.verse)}
+                style={[i.look.background ? { backgroundColor: i.look.background } : null, i.look.marked ? marks.text : null, readingMark(v.verse)]}
               >
                 <VerseTools
                   info={i}
@@ -325,7 +335,7 @@ export function ChapterView({
           return (
             <View key={row.verse} testID={`verse-row-${row.verse}`} style={[styles.phoneRow, ...rowStyle(i)]} onLayout={onRow(row.verse)}>
               {row.primary ? (
-                <Text testID={`verse-${row.verse}`} {...textPress(row.verse)} style={[firstFace, { color: onColour ? theme.colors.hlText : theme.colors.text }]}>
+                <Text testID={`verse-${row.verse}`} {...textPress(row.verse)} {...readingProps(row.verse)} style={[firstFace, { color: onColour ? theme.colors.hlText : theme.colors.text }, readingMark(row.verse)]}>
                   <VerseTools info={i} color={numberColor} onPress={() => onVersePress(row.verse)} registerTools={registerTools} />
                   <Runs
                     text={row.primary.text}
@@ -403,7 +413,7 @@ export function ChapterView({
           <View key={row.verse} testID={`verse-row-${row.verse}`} style={[styles.wideRow, ...rowStyle(i)]} onLayout={onRow(row.verse)}>
             <View style={styles.cell}>
               {row.primary ? (
-                <Text testID={`verse-${row.verse}`} {...textPress(row.verse)} style={[firstFace, { color: textColor }]}>
+                <Text testID={`verse-${row.verse}`} {...textPress(row.verse)} {...readingProps(row.verse)} style={[firstFace, { color: textColor }, readingMark(row.verse)]}>
                   <Runs text={row.primary.text} size={size} color={textColor} noteColor={noteColor} />
                 </Text>
               ) : (

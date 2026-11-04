@@ -51,6 +51,16 @@ async function setup(initial: Partial<UseReadAloudOptions> = {}) {
 }
 
 describe('useReadAloud', () => {
+  it('exposes the sample state and stopSample without resuming reading', async () => {
+    const { view, engine } = await setup();
+    await act(async () => view.result.current.start());
+    await act(async () => view.result.current.sample('tingting', '神爱世人。'));
+    expect(view.result.current).toMatchObject({ status: 'paused', sampleVoiceId: 'tingting' });
+    await act(async () => view.result.current.stopSample());
+    expect(view.result.current).toMatchObject({ status: 'paused', sampleVoiceId: null });
+    expect(engine.current).toBeNull();
+  });
+
   it('starts, plays and moves through the chapter', async () => {
     const { engine, view } = await setup();
     await act(async () => view.result.current.start(17));

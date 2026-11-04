@@ -3,6 +3,7 @@ import type { ColorValue } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 
 export type IconName =
+  | 'more' | 'play' | 'pause' | 'prevVerse' | 'nextVerse' | 'speaker' | 'stop' | 'up'
   | 'chevronDown'
   | 'chevronLeft'
   | 'chevronRight'
@@ -17,6 +18,14 @@ export type IconName =
   | 'words';
 
 const PATHS: Record<IconName, string> = {
+  more: 'M5 12h.01M12 12h.01M19 12h.01',
+  play: 'm8 4 12 8-12 8z',
+  pause: 'M8 5v14M16 5v14',
+  prevVerse: 'M5 5v14M19 5l-11 7 11 7z',
+  nextVerse: 'M19 5v14M5 5l11 7-11 7z',
+  speaker: 'M11 4 5 9H2v6h3l6 5zM15 8a6 6 0 0 1 0 8M18 5a10 10 0 0 1 0 14',
+  stop: 'M6 6h12v12H6z',
+  up: 'm6 11 6-6 6 6M12 5v14',
   chevronDown: 'm6 9 6 6 6-6',
   chevronLeft: 'm15 6-6 6 6 6',
   chevronRight: 'm9 6 6 6-6 6',

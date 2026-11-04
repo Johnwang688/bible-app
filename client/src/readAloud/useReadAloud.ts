@@ -74,6 +74,7 @@ export interface ReadAloud extends ReadAloudState {
   setVoice(voiceId: string): boolean;
   listVoices(): Promise<SpeechVoice[]>;
   sample(voiceId: string, text: string): void;
+  stopSample(): void;
 }
 
 export function useReadAloud({ chapter, active, engine, storage }: UseReadAloudOptions): ReadAloud {
@@ -118,6 +119,7 @@ export function useReadAloud({ chapter, active, engine, storage }: UseReadAloudO
       setVoice: (voiceId: string) => controller.setVoice(voiceId, translation),
       listVoices: () => (translation ? controller.listVoices(translation) : Promise.resolve([])),
       sample: (voiceId: string, text: string) => controller.sample(voiceId, text, translation),
+      stopSample: () => controller.stopSample(),
     }),
     [controller, chapter, translation],
   );

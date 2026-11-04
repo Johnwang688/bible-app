@@ -1,6 +1,7 @@
 // The reader header (Reader.dc.html): book and chapter, translation, reading settings. It slides up
 // out of view while reading; a small pill at the top always brings it back.
 import { router } from 'expo-router';
+import type { ComponentRef, Ref } from 'react';
 import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -27,6 +28,8 @@ export function ReaderHeader({
   onOpenBook,
   onOpenVersions,
   onOpenSettings,
+  onOpenTools,
+  toolsButtonRef,
   onOpenSearch = () => router.push('/search'),
 }: {
   book: BookInfo | undefined;
@@ -39,6 +42,9 @@ export function ReaderHeader({
   onOpenBook(): void;
   onOpenVersions(): void;
   onOpenSettings(): void;
+  /** Opens the chapter tools sheet. */
+  onOpenTools?(): void;
+  toolsButtonRef?: Ref<ComponentRef<typeof View>>;
   /** Opens the search screen (default: push the `/search` route). */
   onOpenSearch?: () => void;
 }) {
@@ -49,7 +55,6 @@ export function ReaderHeader({
 
   const short = (id: TranslationId) => t(TRANSLATIONS[id].shortKey);
   const full = (id: TranslationId) => t(TRANSLATIONS[id].nameKey);
-  const translationLabel = second ? t('reader.translationPair', { first: short(first), second: short(second) }) : short(first);
   const translationA11y = second
     ? t('reader.chooseTranslations', { first: full(first), second: full(second) })
     : t('reader.chooseTranslation', { translation: full(first) });
@@ -77,15 +82,20 @@ export function ReaderHeader({
               style={[styles.bookButton, buttonStyle(theme)]}
             >
               <Text
+                numberOfLines={1}
                 style={{
+                  flexShrink: 1,
                   color: theme.colors.btnText,
                   fontFamily: uiFace(theme.type.head, '700'),
                   fontSize: 18,
                 }}
               >
-                {title}
+                {bookName(book, first)}
               </Text>
-              <Icon name="chevronDown" size={16} color={theme.colors.btnText} />
+              <Text style={{ flexShrink: 0, color: theme.colors.btnText, fontFamily: uiFace(theme.type.head, '700'), fontSize: 18 }}>
+                {` ${position.chapter}`}
+              </Text>
+              <View style={{ marginLeft: 6 }}><Icon name="chevronDown" size={16} color={theme.colors.btnText} /></View>
             </Pressable>
           ) : null}
           <Pressable
@@ -97,12 +107,16 @@ export function ReaderHeader({
           >
             <Text
               numberOfLines={1}
-              style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 14 }}
+              style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '700'), fontSize: second ? 12 : 14, lineHeight: second ? 14 : undefined }}
             >
-              {translationLabel}
+              {short(first)}
             </Text>
+            {second ? <Text numberOfLines={1} style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 12, lineHeight: 14 }}>{short(second)}</Text> : null}
           </Pressable>
           <View style={styles.spacer} />
+          <Pressable ref={toolsButtonRef} testID="reader-tools-button" accessibilityRole="button" accessibilityLabel={t('readAloud.tools')} aria-haspopup="dialog" onPress={onOpenTools} style={styles.iconButton}>
+            <Icon name="more" size={24} strokeWidth={3.2} color={theme.colors.text} />
+          </Pressable>
           <Pressable
             testID="reader-search-button"
             accessibilityRole="button"
@@ -143,7 +157,7 @@ export function ReaderHeader({
 const styles = StyleSheet.create({
   header: { position: 'absolute', top: 0, left: 0, right: 0, zIndex: 2, paddingBottom: 8, paddingLeft: 14, paddingRight: 10 },
   row: { height: 44, flexDirection: 'row', alignItems: 'center', gap: 6 },
-  bookButton: { height: 44, paddingHorizontal: 14, flexDirection: 'row', alignItems: 'center', gap: 6, flexShrink: 1 },
+  bookButton: { height: 44, paddingHorizontal: 14, flexDirection: 'row', alignItems: 'center', flexShrink: 1, minWidth: 0 },
   translationButton: { minHeight: 44, minWidth: 44, paddingHorizontal: 8, justifyContent: 'center', flexShrink: 1 },
   spacer: { flex: 1 },
   iconButton: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
