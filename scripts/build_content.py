@@ -2,7 +2,9 @@
 Build the read-only content SQLite file from the committed export in content/source/.
 
 Verifies that MANIFEST.json lists exactly the files the build reads (each with its sha256),
-loads them, and checks every file's and every table's row count against the manifest. It
+loads them, and checks every file's and every table's row count against the manifest,
+including declared per-book commentary coverage. Commentaries combine commentaries.jsonl
+and sorted commentaries/*.jsonl.gz; cross-references use cross_references.jsonl.gz. It
 writes one SQLite database with
 the content tables (including the BSB word alignment and the lexicon), two FTS5 indexes
 over verses (English: porter, Chinese: trigram) and a meta table. The output is written
@@ -19,6 +21,7 @@ Standard library only. Re-running on the same source produces the same database.
 from __future__ import annotations
 
 import argparse
+from contextlib import closing
 import gzip
 import hashlib
 import json
@@ -50,6 +53,7 @@ CREATE TABLE commentary_sources (id TEXT PRIMARY KEY, name TEXT, description TEX
 CREATE TABLE commentaries (id INTEGER PRIMARY KEY, source TEXT, book_number INTEGER, chapter INTEGER, verse_start INTEGER, verse_end INTEGER, content TEXT);
 CREATE INDEX commentaries_ref ON commentaries(book_number, chapter, verse_start);
 CREATE TABLE cross_references (id INTEGER PRIMARY KEY, from_book_number INTEGER, from_chapter INTEGER, from_verse INTEGER, to_book_number INTEGER, to_chapter INTEGER, to_verse_start INTEGER, to_verse_end INTEGER, votes INTEGER, source TEXT);
+CREATE INDEX cross_references_from ON cross_references(from_book_number, from_chapter, from_verse);
 CREATE TABLE summary_entities (id INTEGER PRIMARY KEY, kind TEXT, slug TEXT, label TEXT, profile TEXT, created_at TEXT);
 CREATE UNIQUE INDEX summary_entities_kind_slug ON summary_entities(kind, slug);
 CREATE TABLE commentary_entity_mentions (commentary_id INTEGER, entity_id INTEGER, sort_order INTEGER, PRIMARY KEY (commentary_id, entity_id));
@@ -77,7 +81,7 @@ JSONL_TABLES = [
 
 # Source file for each table loaded from JSONL: <table>.jsonl unless listed here.
 # A .gz file is read with gzip; its sha256 is still checked over the compressed bytes.
-TABLE_FILES = {"bsb_words": "bsb_words.jsonl.gz"}
+TABLE_FILES = {"bsb_words": "bsb_words.jsonl.gz", "cross_references": "cross_references.jsonl.gz"}
 
 # Tables that may be absent from a source export (older exports predate them). A table the
 # manifest mentions nowhere, and whose file is absent, is created empty. A table the manifest
@@ -152,6 +156,9 @@ def _read_plan(source_dir: Path) -> dict[str, str]:
         relative = _table_file(table)
         if table not in OPTIONAL_TABLES or (source_dir / relative).exists():
             plan[relative] = table
+        if table == "commentaries":
+            for path in sorted((source_dir / "commentaries").glob("*.jsonl.gz")):
+                plan[f"commentaries/{path.name}"] = table
     for path in sorted((source_dir / "verses").glob("*.jsonl")):
         plan[f"verses/{path.name}"] = "verses"
     return plan
@@ -245,6 +252,44 @@ def _check_counts(manifest: dict, file_rows: dict[str, int], table_rows: dict[st
     for table, expected in manifest["tables"].items():
         if table_rows[table] != expected:
             raise BuildError(f"{table}: MANIFEST.json declares {expected} rows, loaded {table_rows[table]}")
+
+
+def _check_coverage(manifest: dict, db_path: Path) -> None:
+    """Check declared commentary coverage before replacing an existing database."""
+    if "coverage" not in manifest:
+        return
+    coverage = manifest["coverage"]
+    if not isinstance(coverage, dict):
+        raise BuildError("coverage: must be an object")
+    with closing(sqlite3.connect(db_path)) as con:
+        books = dict(con.execute("SELECT book_number, total_chapters FROM books"))
+        if len(books) != 66:
+            raise BuildError("coverage: books table must contain all 66 books")
+        for source, declaration in coverage.items():
+            if not isinstance(declaration, dict) or not isinstance(declaration.get("every_chapter"), bool):
+                raise BuildError(f"coverage {source}: needs an every_chapter boolean")
+            for field in ("rows_per_book", "chapters_per_book"):
+                values = declaration.get(field)
+                if not isinstance(values, dict) or set(values) != {str(b) for b in books}:
+                    raise BuildError(f"coverage {source}: {field} must declare all 66 books")
+                if not all(_is_count(n) for n in values.values()):
+                    raise BuildError(f"coverage {source}: {field} needs nonnegative integer counts")
+            actual = {b: (n, c) for b, n, c in con.execute(
+                "SELECT book_number, COUNT(*), COUNT(DISTINCT chapter) "
+                "FROM commentaries WHERE source=? GROUP BY book_number", (source,)
+            )}
+            if set(actual) - set(books):
+                raise BuildError(f"coverage {source}: rows for unknown books")
+            for book, total_chapters in books.items():
+                rows, chapters = actual.get(book, (0, 0))
+                if rows < 1:
+                    raise BuildError(f"coverage {source}: book {book} has no rows")
+                if rows != declaration["rows_per_book"][str(book)]:
+                    raise BuildError(f"coverage {source}: book {book} row count {rows} differs from declaration")
+                if chapters != declaration["chapters_per_book"][str(book)]:
+                    raise BuildError(f"coverage {source}: book {book} chapter count {chapters} differs from declaration")
+                if declaration["every_chapter"] and chapters != total_chapters:
+                    raise BuildError(f"coverage {source}: book {book} covers {chapters} of {total_chapters} chapters")
 
 
 def _sql_value(column: str, value):
@@ -344,6 +389,7 @@ def build(source_dir: Path, out_path: Path) -> dict[str, int]:
     try:
         counts, file_rows = _write_database(source_dir, tmp_path, plan, source_sha256)
         _check_counts(manifest, file_rows, counts)  # before the swap, so a mismatch keeps the old file
+        _check_coverage(manifest, tmp_path)
         os.replace(tmp_path, out_path)
     except BaseException as exc:
         # Leave no temp file behind; any previous out_path is untouched.

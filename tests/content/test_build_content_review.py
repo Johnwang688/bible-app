@@ -2,6 +2,7 @@
 
 from contextlib import closing
 import hashlib
+import gzip
 import json
 import sqlite3
 
@@ -22,14 +23,18 @@ def source(root, rows=None, unlisted=()):
     data.update(rows or {})
     files, counts = {}, {}
     for name, records in data.items():
+        table = "verses" if name.startswith("verses/") else name[:-6]
+        if table == "cross_references":
+            name += ".gz"
         path = root / name
         path.parent.mkdir(parents=True, exist_ok=True)
         raw = "".join(
             json.dumps(row, ensure_ascii=False) + "\n"
             for row in records
         ).encode("utf-8")
+        if name.endswith(".gz"):
+            raw = gzip.compress(raw, mtime=0)
         path.write_bytes(raw)
-        table = "verses" if name.startswith("verses/") else name[:-6]
         counts[table] = counts.get(table, 0) + len(records)
         if name not in unlisted:
             files[name] = {
