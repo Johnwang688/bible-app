@@ -166,7 +166,7 @@ test('end offer, Play next, Done and automatic next chapter', async ({ page }) =
   await expect(page.getByTestId('reader-tools-button')).toBeFocused();
 });
 
-test('parallel only reads/marks the first translation; verse sheet hides bar while speech keeps running', async ({ page }) => {
+test('parallel only reads/marks the first translation; verse sheet hides bar while speech keeps running', async ({ page }, testInfo) => {
   await setup(page); await open(page); await start(page);
   await page.getByTestId('reader-settings-button').click();
   await page.getByTestId('settings-parallel').click();
@@ -176,7 +176,12 @@ test('parallel only reads/marks the first translation; verse sheet hides bar whi
   await expect(page.getByTestId('verse-1-second')).not.toHaveAttribute('aria-current');
   expect(await current(page)).toBe('John 3:1 BSB');
   await page.getByTestId('verse-1-tools').click();
-  await expect(page.getByTestId('read-aloud-bar')).toHaveCount(0);
+  if (testInfo.project.name === 'desktop') {
+    await expect(page.getByTestId('read-aloud-bar')).toHaveCount(1);
+    await expect(page.getByTestId('read-aloud-bar')).toBeVisible();
+  } else {
+    await expect(page.getByTestId('read-aloud-bar')).toHaveCount(0);
+  }
   await expect(page.getByTestId('read-aloud-live')).toHaveCount(1);
   await page.evaluate(() => window.__speechDone());
   expect(await current(page)).toBe('John 3:2 BSB');
@@ -242,7 +247,7 @@ test('starts at the first number below the visible top line', async ({ page }) =
   await expect(page.getByTestId(`verse-${expected}`)).toHaveAttribute('aria-current', 'true');
 });
 
-test('a chapter turn and leaving Bible stop playback, including a hand turn after ended', async ({ page }) => {
+test('a chapter turn and leaving Bible stop playback, including a hand turn after ended', async ({ page }, testInfo) => {
   await setup(page); await open(page); await start(page);
   await page.getByTestId('reader-next').click();
   await expect(page.getByTestId('read-aloud-bar')).toHaveCount(0);
@@ -251,7 +256,7 @@ test('a chapter turn and leaving Bible stop playback, including a hand turn afte
   await page.getByTestId('reader-next').click();
   await expect(page.getByTestId('read-aloud-bar')).toHaveCount(0);
   await start(page);
-  await page.getByRole('tab', { name: 'Study tab' }).click();
+  await page.getByRole(testInfo.project.name === 'desktop' ? 'link' : 'tab', { name: 'Study tab' }).click();
   await expect(page.getByTestId('screen-study')).toBeVisible();
   await expect.poll(() => current(page)).toBeUndefined();
 });
@@ -263,7 +268,12 @@ test('desktop centred column and 320px phone fit with 44px controls', async ({ p
   const bar = (await page.getByTestId('read-aloud-bar').boundingBox())!;
   const viewport = page.viewportSize()!;
   expect(bar.width).toBeLessThanOrEqual(720);
-  expect(Math.abs(bar.x + bar.width / 2 - viewport.width / 2)).toBeLessThan(2);
+  if (info.project.name === 'desktop') {
+    const column = (await page.getByTestId('reader-text').boundingBox())!;
+    expect(Math.abs(bar.x + bar.width / 2 - (column.x + column.width / 2))).toBeLessThanOrEqual(2);
+  } else {
+    expect(Math.abs(bar.x + bar.width / 2 - viewport.width / 2)).toBeLessThan(2);
+  }
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(viewport.width);
   for (const id of ['prev', 'toggle', 'next', 'speed', 'stop']) {
     const b = (await page.getByTestId(`read-aloud-${id}`).boundingBox())!;

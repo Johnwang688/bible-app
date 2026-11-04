@@ -1,5 +1,5 @@
 // The version picker: the same sheet pattern as the book picker, one row per translation.
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { uiFace } from '../../fonts/fonts';
 import { useT } from '../../i18n/I18nProvider';
@@ -49,6 +49,7 @@ export function VersionPicker({
             <Pressable
               key={id}
               testID={`version-${id}`}
+              {...(Platform.OS === 'web' ? { dataSet: { hover: 'flat' } } : {})}
               accessibilityRole="radio"
               accessibilityState={{ checked }}
               aria-checked={checked}

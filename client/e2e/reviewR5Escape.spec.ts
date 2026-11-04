@@ -38,7 +38,7 @@ test('Escape from inside the list’s filter field goes back', async ({ page }) 
 
 test('an entity opened from search: Escape returns to search, then to the reader', async ({ page }) => {
   await page.goto('/bible');
-  await page.getByTestId('reader-search-button').click();
+  await page.getByTestId(/^(reader-search-button|rail-search)$/).click();
   await page.getByTestId('search-input').fill('joab');
   await page.getByTestId('search-entity-person-joab').click();
   await expect(page.getByTestId('entity-title')).toHaveText('Joab');
@@ -57,7 +57,7 @@ test('Escape on search leaves the reader’s open verse sheet alone', async ({ p
   // The header collapses under the sheet; bring it back, then open search.
   const show = page.getByRole('button', { name: 'Show reading controls' });
   if (await show.isVisible()) await show.click();
-  await page.getByTestId('reader-search-button').click();
+  await page.getByTestId(/^(reader-search-button|rail-search)$/).click();
   await expect(page.getByTestId('search-input')).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(page).toHaveURL(/\/bible$/);

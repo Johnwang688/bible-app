@@ -1,12 +1,14 @@
 // The reader header (Reader.dc.html): book and chapter, translation, reading settings. It slides up
 // out of view while reading; a small pill at the top always brings it back.
 import { router } from 'expo-router';
-import type { ComponentRef, Ref } from 'react';
-import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
+import type { ComponentRef, Ref, ReactNode } from 'react';
+import { Platform, Animated, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import type { BookInfo } from '../../api/schemas';
 import { useColumn } from '../../components/ContentColumn';
+import { BREAKPOINT } from '../../components/layout';
+import type { ReaderColumn } from '../readerColumn';
 import { scriptureFace, uiFace } from '../../fonts/fonts';
 import { useT } from '../../i18n/I18nProvider';
 import type { ReaderPosition } from '../../storage/keys';
@@ -33,6 +35,8 @@ export function ReaderHeader({
   onOpenTools,
   toolsButtonRef,
   onOpenSearch = () => router.push('/search'),
+  readerColumn,
+  chapterArrows,
 }: {
   book: BookInfo | undefined;
   position: ReaderPosition;
@@ -49,10 +53,14 @@ export function ReaderHeader({
   toolsButtonRef?: Ref<ComponentRef<typeof View>>;
   /** Opens the search screen (default: push the `/search` route). */
   onOpenSearch?: () => void;
+  readerColumn?: ReaderColumn;
+  chapterArrows?: ReactNode;
 }) {
   const theme = useTheme();
   const t = useT();
   const insets = useSafeAreaInsets();
+  const { width } = useWindowDimensions();
+  const desktop = width >= BREAKPOINT.rail;
   const first = position.translation;
   const gutter = second ? WIDE_PADDING : NARROW_PADDING;
   const column = useColumn(second ? 'parallel' : 'text', gutter);
@@ -73,11 +81,13 @@ export function ReaderHeader({
         style={[
           styles.header,
           theme.backgrounds.reader,
-          column !== null && { paddingLeft: 0, paddingRight: 0 },
+          (column !== null || desktop) && { paddingLeft: 0, paddingRight: 0 },
           { paddingTop: insets.top, transform: [{ translateY }], pointerEvents: hidden ? 'none' : 'auto' },
         ]}
       >
-        <View style={[styles.row, column, column !== null && { paddingHorizontal: gutter }]}>
+        <View {...(Platform.OS === 'web' ? { dataSet: { readerColumn: '1' } } : {})} style={[styles.row, desktop && readerColumn
+          ? { width: readerColumn.columnWidth, marginLeft: readerColumn.left, alignSelf: 'flex-start' }
+          : [column, column !== null && { paddingHorizontal: gutter }]]}>
           {book && title ? (
             <Pressable
               testID="reader-book-button"
@@ -118,11 +128,12 @@ export function ReaderHeader({
             </Text>
             {second ? <Text numberOfLines={1} style={{ color: theme.colors.muted, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 12, lineHeight: 14 }}>{short(second)}</Text> : null}
           </Pressable>
+          {chapterArrows}
           <View style={styles.spacer} />
           <Pressable ref={toolsButtonRef} testID="reader-tools-button" accessibilityRole="button" accessibilityLabel={t('readAloud.tools')} aria-haspopup="dialog" onPress={onOpenTools} style={styles.iconButton}>
             <Icon name="more" size={24} strokeWidth={3.2} color={theme.colors.text} />
           </Pressable>
-          <Pressable
+          {!desktop ? <Pressable
             testID="reader-search-button"
             accessibilityRole="button"
             accessibilityLabel={t('reader.search')}
@@ -130,7 +141,7 @@ export function ReaderHeader({
             style={styles.iconButton}
           >
             <Icon name="search" size={20} color={theme.colors.text} />
-          </Pressable>
+          </Pressable> : null}
           <Pressable
             testID="reader-settings-button"
             accessibilityRole="button"

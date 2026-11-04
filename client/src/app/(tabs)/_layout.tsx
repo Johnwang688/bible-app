@@ -6,45 +6,20 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { BOTTOM_BAR_MAX_WIDTH, BREAKPOINT } from '../../components/layout';
 import { GlassSurface } from '../../components/GlassSurface';
-import { TabIcon, type TabIconName } from '../../components/TabIcon';
+import { TabIcon } from '../../components/TabIcon';
 import { uiFace } from '../../fonts/fonts';
 import { useT } from '../../i18n/I18nProvider';
-import type { MessageKey } from '../../i18n/messages/en';
+import { TABS } from '../../components/tabs';
+import { RailTabBridge } from '../../components/railTabBridge';
 import { HideTabBarContext } from '../../reader/components/useHideTabBar';
 import { useTheme } from '../../theme/ThemeProvider';
-
-const TABS: {
-  name: string;
-  icon: TabIconName;
-  labelKey: MessageKey;
-  a11yKey: MessageKey;
-}[] = [
-  {
-    name: 'index',
-    icon: 'home',
-    labelKey: 'tabs.home',
-    a11yKey: 'tabs.home.a11y',
-  },
-  {
-    name: 'bible',
-    icon: 'bible',
-    labelKey: 'tabs.bible',
-    a11yKey: 'tabs.bible.a11y',
-  },
-  {
-    name: 'study',
-    icon: 'study',
-    labelKey: 'tabs.study',
-    a11yKey: 'tabs.study.a11y',
-  },
-  { name: 'me', icon: 'me', labelKey: 'tabs.me', a11yKey: 'tabs.me.a11y' },
-];
 
 export default function TabsLayout() {
   const theme = useTheme();
   const t = useT();
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
+  const railVisible = width >= BREAKPOINT.rail;
   const desktop = width >= BREAKPOINT.tablet;
   const floating = desktop || theme.floatingTabBar;
   const border = theme.borders.tabBar;
@@ -85,6 +60,7 @@ export default function TabsLayout() {
   return (
     <HideTabBarContext.Provider value={setBibleBarHidden}>
       <Tabs
+        tabBar={railVisible ? ({ state, emitter }) => <RailTabBridge state={state} emitter={emitter} /> : undefined}
         screenOptions={{
           headerShown: false,
           ...(desktop ? { tabBarLabelPosition: 'below-icon' as const } : {}),
@@ -117,7 +93,7 @@ export default function TabsLayout() {
             options={{
               tabBarLabel: t(tab.labelKey),
               tabBarAccessibilityLabel: t(tab.a11yKey),
-              tabBarButtonTestID: `tab-${tab.icon}`,
+              tabBarButtonTestID: railVisible ? undefined : `tab-${tab.icon}`,
               tabBarIcon: ({ color }) => <TabIcon name={tab.icon} color={color} />,
               // A screen's own tabBarStyle replaces the navigator's, so the full style is repeated here.
               ...(tab.name === 'bible' && bibleBarHidden ? { tabBarStyle: [barStyle, styles.hidden] } : null),

@@ -15,6 +15,7 @@ import { useVerseFont } from '../useVerseFont';
 import { TrainerIcon } from './icons';
 import { Note, ResultHeader } from './ResultPanel';
 import { RefBlock, StepTitle, TrainerShell } from './TrainerShell';
+import { useEnterCheck } from './useEnterCheck';
 import type { TrainerCtx } from './types';
 
 type Mode = 'play' | 'wrong' | 'right' | 'shown';
@@ -103,6 +104,8 @@ export function ChunkOrderTrainer({ ctx }: { ctx: TrainerCtx }) {
     commit({ ...s, mode: verdict.passed ? 'right' : 'wrong' });
     ctx.record(verdict.passed);
   };
+
+  useEnterCheck(state.mode === 'play' && filled === n, check);
 
   const retryMarked = () => {
     const s = live.current;

@@ -187,6 +187,7 @@ function MatchGroup({
           <Pressable
             key={m.slug}
             testID={`explore-result-${kind}-${m.slug}`}
+            {...(Platform.OS === 'web' ? { dataSet: { hover: 'flat' } } : {})}
             accessibilityRole="button"
             onPress={() => onOpen(entityPageHref(kind, m.slug))}
             style={({ pressed }) => [

@@ -4,6 +4,7 @@
 import { SplashScreen, Stack, usePathname } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
+import { Platform, View, useWindowDimensions } from 'react-native';
 
 import { ApiProvider } from '../api/ApiProvider';
 import { AccountProvider } from '../auth';
@@ -11,8 +12,12 @@ import { FontGate } from '../fonts/FontGate';
 import { I18nProvider } from '../i18n/I18nProvider';
 import { importLegacyDataOnce, webLegacySource } from '../legacy';
 import { FirstRunGate } from '../onboarding/FirstRunGate';
+import { onboardingKey } from '../onboarding/keys';
+import { RailContext } from '../components/RailContext';
+import { RailSkipLink, SideRail } from '../components/SideRail';
+import { railWidthFor } from '../components/layout';
 import { appSignInGateFor } from '../onboarding/signIn';
-import { getStorage } from '../storage/storage';
+import { getStorage, useStoredValue } from '../storage/storage';
 import { ThemeProvider, useTheme } from '../theme/ThemeProvider';
 
 void SplashScreen.preventAutoHideAsync();
@@ -41,11 +46,20 @@ export default function RootLayout() {
 function ThemedStack() {
   const theme = useTheme();
   const pathname = usePathname();
+  const { width } = useWindowDimensions();
+  const [onboarding] = useStoredValue(getStorage(), onboardingKey);
+  const rail = !onboarding.done || pathname.startsWith('/memory/') ? 0 : railWidthFor(width);
   return (
     <>
       <StatusBar style={theme.mode === 'dark' ? 'light' : 'dark'} />
       <FirstRunGate pathname={pathname}>
-        <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: theme.colors.base } }} />
+        <RailContext.Provider value={rail}>
+          <RailSkipLink />
+          <View nativeID="main-content" {...(Platform.OS === 'web' ? { role: 'main' as const } : {})} style={{ flex: 1 }}>
+            <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: theme.colors.base } }} />
+          </View>
+          <SideRail />
+        </RailContext.Provider>
       </FirstRunGate>
     </>
   );

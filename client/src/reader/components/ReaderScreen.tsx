@@ -11,6 +11,7 @@ import {
   useWindowDimensions,
   View,
   type LayoutChangeEvent,
+  type GestureResponderEvent,
   type NativeScrollEvent,
   type NativeSyntheticEvent,
 } from 'react-native';
@@ -36,16 +37,19 @@ import { useReaderPosition, useReadingSettings } from '../state';
 import { readerTargets, usePendingReaderTarget } from '../target';
 import { TRANSLATIONS, type TranslationId } from '../translations';
 import { usePrefetchAdjacent, useChapter } from '../useChapter';
-import { useFocusNodeSoon } from './a11y';
+import { focusNode, useFocusNodeSoon } from './a11y';
 import { BookPicker } from './BookPicker';
 import { useColumn } from '../../components/ContentColumn';
-import { COLUMN } from '../../components/layout';
-import { chapterArrowPlacement } from '../chapterArrowPlacement';
+import { BREAKPOINT } from '../../components/layout';
+import { useRailWidth } from '../../components/RailContext';
+import { readerColumn } from '../readerColumn';
+import { pressSelection, type Selection } from '../selection';
 import { ChapterView, NARROW_PADDING, WIDE_BREAKPOINT, WIDE_PADDING } from './ChapterView';
 import { Icon } from './icons';
 import { HEADER_BODY_HEIGHT, ReaderHeader } from './ReaderHeader';
 import { ReadingSettingsSheet } from './ReadingSettingsSheet';
 import { useArrowKeys } from './useArrowKeys';
+import { useReaderScrollKeys } from './useReaderScrollKeys';
 import { useChapterSwipe, type SwipeDirection } from './useChapterSwipe';
 import { useCollapsingHeader } from './useCollapsingHeader';
 import { useHideTabBar } from './useHideTabBar';
@@ -57,21 +61,6 @@ import { VersionPicker } from './VersionPicker';
 import { buttonStyle } from './ui';
 
 type Sheet = 'book' | 'version' | 'settings' | 'tools' | 'voice';
-
-interface Selection {
-  /** The chapter and translation it belongs to. */
-  key: string;
-  /** The verse the selection started from; a long press extends from here. */
-  anchor: number;
-  start: number;
-  end: number;
-  /**
-   * Whether the verse sheet is showing for it. The sheet's open state lives here, in the selection, so the
-   * two can never disagree: whatever drops the selection (a chapter or translation change, closing) closes
-   * the sheet with it. A reference from a word card selects its verse with the sheet closed.
-   */
-  open: boolean;
-}
 
 /** Room under the text for the floating tab bar (plus the bottom inset). */
 const TAB_BAR_ROOM = 120;
@@ -104,6 +93,9 @@ export function ReaderScreen(props: {
   const book = findBook(books.data, position.bookNumber);
   const first = position.translation;
   const secondId: TranslationId | null = settings.parallel && settings.parallel !== first ? settings.parallel : null;
+
+  const rail = useRailWidth();
+  const desktop = width >= BREAKPOINT.rail;
 
   const firstQuery = useChapter(book, position.chapter, first);
   // With one translation this is the same query as the first, so nothing extra is requested.
@@ -219,6 +211,14 @@ export function ReaderScreen(props: {
   // The single source of truth for "the verse sheet is open": a selection in this chapter that has the sheet
   // open, and a chapter to show it for. Key handling, the tab bar and the rendered sheet all read this.
   const verseSheetOpen = !!(range?.open && book && firstQuery.data);
+  const docked = desktop && verseSheetOpen;
+  const column = readerColumn({ width, rail, dock: docked ? (width < 1280 ? 316 : 344) : 0, parallel: !!secondId });
+  const anchorRestore = useRef<{ verse: number; top: number } | null>(null);
+  const rememberAnchor = useCallback((verse: number) => {
+    if (!desktop || Platform.OS !== 'web' || typeof document === 'undefined') return;
+    const node = document.querySelector(`[data-testid="verse-${verse}"]`);
+    if (node) anchorRestore.current = { verse, top: node.getBoundingClientRect().top };
+  }, [desktop]);
 
   // Extends the selection from its anchor (the first verse selected) to `verse`; with no selection it starts one.
   const extendTo = useCallback(
@@ -231,31 +231,6 @@ export function ReaderScreen(props: {
     },
     [selectionKey],
   );
-  // The sheet is not modal, so the chapter can be tapped while it is open: that tap extends the range, as
-  // a long press does. With the sheet closed a tap starts a new selection.
-  const onVersePress = useCallback(
-    (verse: number) => {
-      reading.interact();
-      if (verseSheetOpen) extendTo(verse);
-      else setSelection({ key: selectionKey, anchor: verse, start: verse, end: verse, open: true });
-    },
-    [verseSheetOpen, extendTo, selectionKey, reading],
-  );
-  const onVerseLongPress = useCallback(
-    (verse: number) => {
-      reading.interact();
-      extendTo(verse);
-    },
-    [extendTo, reading],
-  );
-
-  // The open verse sheet's height: the chapter keeps that much room under its text, so any verse can be
-  // scrolled up above the sheet.
-  const [sheetHeight, setSheetHeight] = useState(0);
-  const sheetRoom = verseSheetOpen ? sheetHeight : 0;
-  // The sheet takes the bottom of the screen; the (floating) tab bar would cover its last row.
-  useHideTabBar(verseSheetOpen);
-
   // Each verse-tools button, so focus can go back to it when the sheet closes.
   const toolsRefs = useRef(new Map<number, unknown>());
   const registerTools = useCallback((verse: number, node: unknown) => {
@@ -263,6 +238,49 @@ export function ReaderScreen(props: {
     else toolsRefs.current.delete(verse);
   }, []);
   const focusSoon = useFocusNodeSoon();
+
+  const closeVerseSheet = useCallback(() => {
+    const anchor = range?.anchor;
+    if (anchor !== undefined) rememberAnchor(range?.start ?? anchor);
+    setSelection(null);
+    if (anchor !== undefined) {
+      if (desktop) focusNode(toolsRefs.current.get(anchor), { preventScroll: true });
+      else focusSoon(toolsRefs.current.get(anchor));
+    }
+  }, [range, rememberAnchor, desktop, focusSoon]);
+
+  // The non-modal sheet leaves the chapter usable. Touch extends while open; a dock click moves the
+  // selection (Shift extends), and clicking the sole selected verse closes it.
+  const onVersePress = useCallback(
+    (verse: number, event?: GestureResponderEvent) => {
+      if (desktop && Platform.OS === 'web' && typeof window !== 'undefined' && window.getSelection()?.toString()) return;
+      reading.interact();
+      const shift = !!(event?.nativeEvent as unknown as { shiftKey?: boolean } | undefined)?.shiftKey;
+      if (desktop && verseSheetOpen && !shift && range?.start === verse && range.end === verse) {
+        closeVerseSheet();
+        return;
+      }
+      if (!verseSheetOpen) rememberAnchor(verse);
+      setSelection((previous) => pressSelection(previous, selectionKey, verse, desktop, shift));
+    },
+    [desktop, verseSheetOpen, range, rememberAnchor, selectionKey, reading, closeVerseSheet],
+  );
+  const onVerseLongPress = useCallback(
+    (verse: number) => {
+      reading.interact();
+      if (!verseSheetOpen) rememberAnchor(verse);
+      extendTo(verse);
+    },
+    [extendTo, reading, rememberAnchor, verseSheetOpen],
+  );
+
+  // The open verse sheet's height: the chapter keeps that much room under its text, so any verse can be
+  // scrolled up above the sheet.
+  const [sheetHeight, setSheetHeight] = useState(0);
+  const sheetRoom = verseSheetOpen && !docked ? sheetHeight : 0;
+  // The sheet takes the bottom of the screen; the (floating) tab bar would cover its last row.
+  useHideTabBar(verseSheetOpen && !desktop);
+
   const toolsButtonRef = useRef<ComponentRef<typeof View>>(null);
   const toggleRef = useRef<ComponentRef<typeof View>>(null);
   const speedRef = useRef<ComponentRef<typeof View>>(null);
@@ -275,11 +293,6 @@ export function ReaderScreen(props: {
   // A verse to scroll to once its chapter is on screen (see the effect below).
   const pendingScroll = useRef<{ key: string; verse: number } | null>(null);
 
-  const closeVerseSheet = () => {
-    const anchor = range?.anchor;
-    setSelection(null);
-    if (anchor !== undefined) focusSoon(toolsRefs.current.get(anchor));
-  };
 
   // A reference on a word card: go to that chapter in this translation and select the verse, sheet closed.
   const goToReference = (bookNumber: number, chapter: number, verse: number) => {
@@ -291,13 +304,25 @@ export function ReaderScreen(props: {
   };
 
   const hideDistance = insets.top + HEADER_BODY_HEIGHT + 4;
-  const header = useCollapsingHeader(hideDistance);
+  const header = useCollapsingHeader(hideDistance, { pinned: column.arrows === 'header' });
   const { reset: resetHeader, show: showHeader } = header;
   // Coming back to the reader tab: the header is back too (it may have been scrolled away before leaving).
   useEffect(() => {
     if (focused) showHeader();
   }, [focused, showHeader]);
   const scrollRef = useRef<ComponentRef<typeof ScrollView>>(null);
+  useReaderScrollKeys(scrollRef, focused && sheet === null && !noVoiceVisible);
+  useLayoutEffect(() => {
+    const saved = anchorRestore.current;
+    anchorRestore.current = null;
+    if (!saved || Platform.OS !== 'web' || typeof document === 'undefined') return;
+    const node = document.querySelector(`[data-testid="verse-${saved.verse}"]`);
+    const scroll = (scrollRef.current as unknown as { getScrollableNode?(): HTMLElement } | null)?.getScrollableNode?.();
+    if (!node || !scroll) return;
+    // Width lays out immediately; the horizontal margin alone transitions. Avoid browser scroll anchoring
+    // competing with this measured restoration, including for verses well below the top of the chapter.
+    scroll.scrollTop += node.getBoundingClientRect().top - saved.top;
+  }, [docked, column.columnWidth]);
   const scroller = useVerseScroller({
     scrollRef,
     toolsRefs,
@@ -378,7 +403,7 @@ export function ReaderScreen(props: {
     [reading, retryScroll],
   );
   // The room under the chapter (see the scroll view's padding below).
-  const barVisible = !verseSheetOpen && !['idle', 'no-voice'].includes(read.status);
+  const barVisible = (!verseSheetOpen || docked) && !['idle', 'no-voice'].includes(read.status);
   const bottomRoom = TAB_BAR_ROOM + insets.bottom + sheetRoom + (barVisible ? barHeight + 16 : 0);
 
   // The chapter's end marker (below) is the only measure of its content's height: its place plus the room below.
@@ -425,8 +450,9 @@ export function ReaderScreen(props: {
       node.removeEventListener('mousedown', mouse);
     };
   }, [handScroll]);
+  const followBlocked = verseSheetOpen && !docked;
   useEffect(() => {
-    if (!read.following || !chapter || read.chapterKey !== chapter.key || verseSheetOpen) return;
+    if (!read.following || !chapter || read.chapterKey !== chapter.key || followBlocked) return;
     const verse = read.status === 'ended' ? chapter.verses[chapter.verses.length - 1]?.verse : read.status === 'playing' || read.status === 'paused' ? read.verse : null;
     if (verse == null) return;
     scrollToVerse(chapter.key, verse, chapter.verses, {
@@ -434,7 +460,7 @@ export function ReaderScreen(props: {
       follow: true,
       onPlace: () => { followDeadline.current = Date.now() + 700; },
     });
-  }, [read.following, read.status, read.verse, read.chapterKey, chapter, verseSheetOpen, scrollToVerse, reduceMotion, barHeight]);
+  }, [read.following, read.status, read.verse, read.chapterKey, chapter, followBlocked, scrollToVerse, reduceMotion, barHeight]);
   useEffect(() => {
     if (read.status === 'advancing' && next && read.chapterKey === readAloudKey(position.bookNumber, position.chapter, first)) {
       moveTo({ ...next, translation: first });
@@ -469,13 +495,13 @@ export function ReaderScreen(props: {
   const sampleText = chapter ? chunkForSpeech(speakableText(chapter.verses[0]?.text ?? ''), maxPieceLength(speechLanguageFor(first).group, read.rate))[0] ?? '' : '';
 
   const swipeHandlers = useChapterSwipe(turn);
-  // Keys move the reader only while its tab is showing and no sheet is open.
-  useArrowKeys({ onNext: goNext, onPrev: goPrev, disabled: sheet !== null || noVoiceVisible || verseSheetOpen || !focused });
+  // The desktop dock leaves chapter keys available; modal sheets and fields still guard them.
+  useArrowKeys({ onNext: goNext, onPrev: goPrev, disabled: sheet !== null || noVoiceVisible || (verseSheetOpen && !docked) || !focused });
 
   const wide = width >= WIDE_BREAKPOINT;
   const horizontal = wide && secondId ? WIDE_PADDING : NARROW_PADDING;
   const navColumn = useColumn(secondId ? 'parallel' : 'text');
-  const arrows = chapterArrowPlacement(width, !!secondId, COLUMN.text);
+  const arrows = column.arrows;
   const prev = prevPosition(books.data, position);
 
   const navButton = (direction: SwipeDirection) => (
@@ -484,9 +510,9 @@ export function ReaderScreen(props: {
       accessibilityRole="button"
       accessibilityLabel={t(direction === 'next' ? 'reader.nextChapter' : 'reader.previousChapter')}
       onPress={direction === 'next' ? goNext : goPrev}
-      style={[styles.nav, buttonStyle(theme), arrows.kind === 'outside' && {
+      style={[styles.nav, buttonStyle(theme), arrows === 'beside' && {
         position: 'absolute', top: '50%', marginTop: -22, width: 44, height: 44, borderRadius: 22,
-        ...(direction === 'prev' ? { left: arrows.offset } : { right: arrows.offset }),
+        left: direction === 'prev' ? column.left - 64 : column.left + column.columnWidth + 20,
       }]}
     >
       <Icon name={direction === 'next' ? 'chevronRight' : 'chevronLeft'} size={22} color={theme.colors.btnText} />
@@ -501,6 +527,7 @@ export function ReaderScreen(props: {
     body = (
       <>
         <ChapterView
+          column={column}
           chapter={firstQuery.data}
           translation={first}
           second={secondId && secondQuery.data ? { chapter: secondQuery.data, translation: secondId } : null}
@@ -517,7 +544,7 @@ export function ReaderScreen(props: {
           onVerseLayout={Platform.OS === 'web' ? undefined : scroller.onLayout}
           layoutKey={selectionKey}
         />
-        {arrows.kind === 'row' ? (
+        {arrows === 'row' ? (
           <View style={[styles.navRow, navColumn]}>
             {prevButton ?? <View style={styles.navSpacer} />}
             {nextButton ?? <View style={styles.navSpacer} />}
@@ -573,6 +600,7 @@ export function ReaderScreen(props: {
       <ScrollView
         ref={scrollRef}
         testID="reader-scroll"
+        style={desktop && Platform.OS === 'web' ? { overflowAnchor: 'none' } as object : undefined}
         onScroll={onScroll}
         onScrollBeginDrag={handScroll}
         onLayout={onScrollLayout}
@@ -584,16 +612,18 @@ export function ReaderScreen(props: {
           {
             paddingTop: insets.top + HEADER_BODY_HEIGHT + HEADER_GAP,
             paddingBottom: bottomRoom,
-            paddingHorizontal: horizontal,
+            paddingHorizontal: desktop ? 0 : horizontal,
           },
         ]}
       >
         {body}
       </ScrollView>
 
-      {ready && firstQuery.data && arrows.kind === 'outside' ? <>{prevButton}{nextButton}</> : null}
+      {ready && firstQuery.data && arrows === 'beside' ? <>{prevButton}{nextButton}</> : null}
 
       <ReaderHeader
+        readerColumn={column}
+        chapterArrows={ready && firstQuery.data && arrows === 'header' ? <>{prevButton}{nextButton}</> : undefined}
         book={book}
         position={position}
         second={secondId}
@@ -607,7 +637,7 @@ export function ReaderScreen(props: {
         onOpenSettings={() => setSheet('settings')}
       />
 
-      <ReadAloudBar read={read} translation={translationName} endTitle={endTitle} nextTitle={nextTitle} hidden={verseSheetOpen}
+      <ReadAloudBar column={column} read={read} translation={translationName} endTitle={endTitle} nextTitle={nextTitle} hidden={verseSheetOpen && !docked}
         insets={insets} onStop={stopRead} onOpenVoice={() => setSheet('voice')}
         onBack={() => { read.backToVerse(); setFocusToggleRequest((n) => n + 1); }} onHeight={setBarHeight}
         onPlayNext={() => { read.playNextChapter(); setFocusToggleRequest((n) => n + 1); }}

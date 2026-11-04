@@ -251,7 +251,7 @@ export function VerseSheet({ book, chapter, translation, start, end, study, onCl
   }
 
   return (
-    <SheetModal testID="verse-sheet" modal={false} onClose={onClose} onHeight={onHeight} avoidKeyboard={view.name === 'note'}>
+    <SheetModal testID="verse-sheet" modal={false} dock onClose={onClose} onHeight={onHeight} avoidKeyboard={view.name === 'note'}>
       <View style={styles.views}>
         {content}
       </View>

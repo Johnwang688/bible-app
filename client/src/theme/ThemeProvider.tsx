@@ -7,6 +7,8 @@ import { appearanceCustomKey } from '../storage/appearanceCustomKey';
 import { appearanceKey } from '../storage/keys';
 import { getStorage, useStoredValue, type Storage } from '../storage/storage';
 import { applyCustom, type AppearanceCustom } from './custom';
+import { feedbackStyles, watchVersePointer } from './feedback';
+import { cjkBoldStyles } from './cjkBold';
 import { resolvePresetId } from './resolve';
 import type { AppearanceChoice, PresetId, Theme, ThemeMode } from './types';
 
@@ -57,6 +59,21 @@ export function ThemeProvider(props: {
       document.documentElement.style.colorScheme = theme.mode;
     }
   }, [theme.mode]);
+  useEffect(() => {
+    if (Platform.OS !== 'web' || typeof document === 'undefined') return;
+    const style = document.getElementById('hover-feedback') ?? document.createElement('style');
+    style.id = 'hover-feedback';
+    style.textContent = feedbackStyles(theme);
+    if (!style.parentNode) document.head.appendChild(style);
+    const cjk = document.getElementById('cjk-bold') ?? document.createElement('style');
+    cjk.id = 'cjk-bold';
+    cjk.textContent = cjkBoldStyles();
+    if (!cjk.parentNode) document.head.appendChild(cjk);
+  }, [theme]);
+  useEffect(() => {
+    if (Platform.OS !== 'web' || typeof document === 'undefined') return;
+    return watchVersePointer(document);
+  }, []);
   const updateChoice = useCallback(
     (f: (current: AppearanceChoice) => AppearanceChoice | null) => {
       const next = f(storage.get(appearanceKey));

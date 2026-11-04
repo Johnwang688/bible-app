@@ -17,7 +17,7 @@ interface ScrollTrack {
   dir: 'up' | 'down' | 'none';
 }
 
-export function useCollapsingHeader(hideDistance: number) {
+export function useCollapsingHeader(hideDistance: number, { pinned = false }: { pinned?: boolean } = {}) {
   const reduceMotion = useReduceMotion();
   const [hidden, setHidden] = useState(false);
   const [translateY] = useState(() => new Animated.Value(0));
@@ -30,7 +30,7 @@ export function useCollapsingHeader(hideDistance: number) {
   }, []);
 
   useEffect(() => {
-    const to = hidden ? -hideDistance : 0;
+    const to = hidden && !pinned ? -hideDistance : 0;
     if (reduceMotion) {
       translateY.setValue(to);
       return;
@@ -38,10 +38,11 @@ export function useCollapsingHeader(hideDistance: number) {
     const animation = Animated.timing(translateY, { toValue: to, duration: 200, useNativeDriver: true });
     animation.start();
     return () => animation.stop();
-  }, [hidden, hideDistance, reduceMotion, translateY]);
+  }, [hidden, hideDistance, pinned, reduceMotion, translateY]);
 
   const onScroll = useCallback(
     (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+      if (pinned) return;
       const { contentOffset, contentSize, layoutMeasurement } = e.nativeEvent;
       // Rubber-banding past either end is not a scroll direction.
       const maxY = Math.max(0, contentSize.height - layoutMeasurement.height);
@@ -67,7 +68,7 @@ export function useCollapsingHeader(hideDistance: number) {
       }
       s.lastY = y;
     },
-    [setHiddenIfChanged],
+    [setHiddenIfChanged, pinned],
   );
 
   /** Bring the header back (the pill). The next downward scroll counts from here. */
@@ -93,5 +94,5 @@ export function useCollapsingHeader(hideDistance: number) {
     track.current.dir = 'none';
   }, []);
 
-  return { hidden, translateY, onScroll, syncScroll, show, reset };
+  return { hidden: hidden && !pinned, translateY, onScroll, syncScroll, show, reset };
 }

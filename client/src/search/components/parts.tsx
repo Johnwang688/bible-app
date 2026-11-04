@@ -1,7 +1,7 @@
 // Small pieces the search screen's groups share, as drawn in design/proposed/r5-search.html: the group label,
 // the card of rows, one row, the centred state block (nothing found, offline) and the loading placeholders.
 import type { ReactNode } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { GlassSurface } from '../../components/GlassSurface';
 import { Glyph, type GlyphName } from '../../entities/glyphs';
@@ -79,6 +79,7 @@ export function ListRow({
   return (
     <Pressable
       testID={testID}
+      {...(Platform.OS === 'web' ? { dataSet: { hover: 'flat' } } : {})}
       accessibilityRole="button"
       accessibilityLabel={label}
       onPress={onPress}

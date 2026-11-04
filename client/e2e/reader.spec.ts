@@ -147,7 +147,7 @@ test.describe('reader (English)', () => {
     expect(Math.abs(end16! - start17!)).toBeLessThan(4);
   });
 
-  test('the Bible tab text never sits under the tab bar at the end of the chapter', async ({ page }) => {
+  test('the Bible tab text never sits under the tab bar at the end of the chapter', async ({ page }, testInfo) => {
     await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
     await page.goto('/bible');
     const next = page.getByTestId('reader-next');
@@ -156,9 +156,27 @@ test.describe('reader (English)', () => {
     await page.getByText(/For God so loved the world/).hover();
     for (let i = 0; i < 12; i++) await page.mouse.wheel(0, 4000);
     await expect(next).toBeVisible();
-    const tab = await page.getByLabel('Bible tab', { exact: true }).boundingBox();
-    const btn = await next.boundingBox();
-    expect(btn!.y + btn!.height).toBeLessThanOrEqual(tab!.y + 1);
+    if (testInfo.project.name === 'desktop') {
+      await expect(page.getByTestId('bottom-bar-background')).toHaveCount(0);
+      const end = page.getByTestId(/^verse-\d+$/).last();
+      await expect(end).toBeInViewport({ ratio: 1 });
+      const uncovered = await end.evaluate((el) => {
+        const range = document.createRange(); range.selectNodeContents(el);
+        const rect = Array.from(range.getClientRects()).filter((r) => r.width > 0 && r.height > 0).at(-1)!;
+        if (rect.bottom > window.innerHeight || rect.top < 0) return false;
+        // Hit-test across the last line: a player or any other overlay must not cover Scripture.
+        for (let x = rect.left + 1; x < rect.right; x += 8) {
+          const hit = document.elementFromPoint(x, rect.top + rect.height / 2);
+          if (!hit || !el.contains(hit)) return false;
+        }
+        return true;
+      });
+      expect(uncovered).toBe(true);
+    } else {
+      const tab = await page.getByLabel('Bible tab', { exact: true }).boundingBox();
+      const btn = await next.boundingBox();
+      expect(btn!.y + btn!.height).toBeLessThanOrEqual(tab!.y + 1);
+    }
   });
 });
 
@@ -263,7 +281,7 @@ test.describe('verse sheet (R-2)', () => {
     await expect(row).toBeFocused();
   });
 
-  test('R2 review F3: tapping a second verse with the sheet open extends the selection (the chapter stays usable)', async ({ page }) => {
+  test('R2 review F3: tapping a second verse with the sheet open extends the selection (the chapter stays usable)', async ({ page }, testInfo) => {
     await seed(page, 'reader.position', { bookNumber: 43, chapter: 3, translation: 'WEB' });
     await page.goto('/bible');
     await page.getByTestId('verse-16-tools').click();
@@ -290,6 +308,12 @@ test.describe('verse sheet (R-2)', () => {
     }, { timeout: 10_000 }).not.toBeNull();
     const [x, y] = point!.split(',').map(Number);
     await page.mouse.click(x!, y!);
+    if (testInfo.project.name === 'desktop') {
+      await expect(page.getByTestId('verse-16-tools')).toHaveAttribute('aria-selected', 'false');
+      await expect(page.getByTestId('verse-17-tools')).toHaveAttribute('aria-selected', 'true');
+      await expect(page.getByTestId('verse-sheet').getByText('John 3:17', { exact: true })).toBeVisible();
+      await page.getByTestId('verse-16-tools').click({ modifiers: ['Shift'] });
+    }
     await expect(page.getByTestId('verse-sheet').getByText('John 3:16–17', { exact: true })).toBeVisible();
   });
 

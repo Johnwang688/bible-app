@@ -6,6 +6,8 @@ import { memoryEn } from './memory';
 
 export const en = {
   'app.name': 'Bible App',
+  'navigation.skipContent': 'Skip to content',
+  'navigation.main': 'Main',
 
   'tabs.home': 'Home',
   'tabs.bible': 'Bible',

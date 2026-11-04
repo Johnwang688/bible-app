@@ -174,6 +174,7 @@ export function BookPicker({
             >
               <Pressable
                 testID={`picker-book-${book.book_number}`}
+                {...(Platform.OS === 'web' ? { dataSet: { hover: 'flat' } } : {})}
                 accessibilityRole="button"
                 accessibilityState={{ expanded: open }}
                 onPress={() => setExpanded(open ? null : book.book_number)}
