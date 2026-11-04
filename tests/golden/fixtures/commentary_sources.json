@@ -1,6 +1,12 @@
 {
   "body": [
     {
+      "description": "Jamieson-Fausset-Brown's 1871 Commentary Critical and Explanatory on the Whole Bible, from the CCEL electronic edition.",
+      "id": "jfb",
+      "license": "Public Domain",
+      "name": "Jamieson-Fausset-Brown Commentary"
+    },
+    {
       "description": "Imported from the CCEL ThML edition of Matthew Henry's Concise Commentary on the Whole Bible.",
       "id": "matthew_henry",
       "license": "Public Domain",
