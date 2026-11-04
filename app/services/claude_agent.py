@@ -75,7 +75,7 @@ FINAL_SCHEMA: dict[str, Any] = {
 TOOLS_PROMPT = (
     "Tools:\n"
     "You can look things up with tools: get_passage (any verse or chapter), search_scripture (find verses by "
-    "words or topic), get_commentary (Matthew Henry and other notes for a chapter or verse) and lookup_entity "
+    "words or topic), get_commentary (Matthew Henry's notes for a chapter or verse) and lookup_entity "
     "(a theme, person or place profile). The passage the reader has open is already included below, so do not "
     "fetch it again. Quote Scripture only from tool results or from that passage, never from memory. "
     "navigate and open_commentary do not look anything up: they offer the reader a button, so use them only when "
@@ -121,7 +121,7 @@ TOOLS: list[dict[str, Any]] = [
     ),
     _tool(
         "get_commentary",
-        "Fetch commentary notes for a chapter, or for one verse when verse is given.",
+        "Fetch Matthew Henry's commentary notes for a chapter, or for one verse when verse is given.",
         {"book": _str(), "chapter": _int(), "verse": _int(nullable=True)},
     ),
     _tool(
@@ -260,7 +260,8 @@ class ToolRunner:
         resolved = resolve_book(book)
         if not resolved:
             raise ToolError(f"Unknown book: {book}")
-        entries = await get_commentary(resolved["name"], chapter, verse)
+        # One source only: a whole chapter of JFB would swamp the tool result.
+        entries = await get_commentary(resolved["name"], chapter, verse, source=DEFAULT_COMMENTARY_SOURCE)
         if not entries:
             where = f"{resolved['name']} {chapter}" + (f":{verse}" if verse is not None else "")
             return f"No commentary found for {where}."

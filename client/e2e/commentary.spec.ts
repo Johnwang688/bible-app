@@ -34,7 +34,7 @@ test.describe('Commentary (English)', () => {
 
   test('shows Matthew Henry on the verse, and Read all shows the rest', async ({ page }) => {
     const view = await openCommentary(page, 3);
-    await expect(view.getByTestId('commentary-range')).toHaveText('John 3:1–8');
+    await expect(view.getByTestId('commentary-range')).toHaveText('John 3:1–21');
     await expect(view.getByTestId('commentary-verse')).toContainText('born anew');
     await expect(view.getByText('Nicodemus was afraid', { exact: false })).toBeVisible();
     await expect(view.getByText('ye workers of iniquity', { exact: false })).toHaveCount(0);
@@ -47,6 +47,7 @@ test.describe('Commentary (English)', () => {
   });
 
   test('says so where no note covers the verse', async ({ page }) => {
+    await page.route(/\/api\/v1\/commentary\?/, (route) => route.fulfill({ json: [] }));
     const view = await openCommentary(page, 16);
     await expect(view.getByTestId('commentary-empty')).toContainText('No commentary on this verse yet');
     await expect(view.getByTestId('commentary-range')).toHaveText('John 3:16');
@@ -72,7 +73,7 @@ test.describe('Commentary in Chinese', () => {
   test('Chinese chrome, the CUV verse pinned, the English note marked 英文', async ({ page }) => {
     const view = await openCommentary(page, 3);
     await expect(view.getByText('注释', { exact: true })).toBeVisible();
-    await expect(view.getByTestId('commentary-range')).toHaveText('约翰福音 3:1–8');
+    await expect(view.getByTestId('commentary-range')).toHaveText('约翰福音 3:1–21');
     await expect(view.getByTestId('commentary-verse')).toContainText('人若不重生');
     await expect(view.getByText('英文', { exact: true })).toBeVisible();
     await expect(view.getByTestId('commentary-read-all')).toHaveText('阅读全文');

@@ -208,6 +208,17 @@ def test_parallel_tool_calls_answered_in_one_message(settings, monkeypatch):
         sum(1 for m in fake.messages.calls[0]["messages"] if m["role"] == "user") + 1
 
 
+def test_get_commentary_tool_reads_matthew_henry_only(settings, monkeypatch):
+    first = response([tool_use("c", "get_commentary", {"book": "John", "chapter": 3, "verse": None})],
+                     stop_reason="tool_use")
+    fake = use_fake(monkeypatch, [first, response([text_block(final_json())])])
+    chat(payload("What does the commentary say on John 3?"))
+    body = tool_results(fake.messages.calls[1])[0]["content"]
+    text = body if isinstance(body, str) else json.dumps(body, ensure_ascii=False)
+    assert "[matthew_henry, verses 1-21]" in text
+    assert "[jfb" not in text and "[summary" not in text
+
+
 def test_navigate_tool_becomes_action(settings, monkeypatch):
     first = response([tool_use("n1", "navigate", {
         "book": "Romans", "chapter": 8, "verse_start": 28, "verse_end": 30, "label": "Read Romans 8:28-30"})],

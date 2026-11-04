@@ -80,9 +80,10 @@ Scoped 2026-10-31. This is the second track in John's order: Hebrew and Greek (d
 
 ## Status (2026-11-04)
 - **TSK is in the build:** 383,331 rows in `cross_references` from CrossWire's TSK module 1.4, pinned in `MANIFEST.json`. Keywords are not kept, and a target can repeat under two keywords, so CM-2 should drop repeats when it lists them. Built by `scripts/import_tsk.py`.
-- **The coverage gate is in the build:** a source listed under `coverage` in `MANIFEST.json` must match its per-book counts, or the build fails. Only `summary` is listed so far.
-- **Matthew Henry and JFB are parked on a licence question.** `scripts/import_classics.py` works, and its output covers all 1,189 chapters from both sources, but the CCEL files need John's decision. CCEL's site policy allows personal, educational or non-profit use and asks people to contact it to republish or use its works commercially. The rows on `main` already come from CCEL.
-- **CM-3 data:** people and places now match `people/people.json` and `places/places.json` (`scripts/rebuild_entities.py`). `people.json` is incomplete: it has no entry for Moses, Joseph, Joshua, Solomon, Samuel, Sarah or Mary, for example, and nothing alphabetically after Peter.
+- **The coverage gate is in the build:** a source listed under `coverage` in `MANIFEST.json` must match its per-book counts, or the build fails. `summary`, `matthew_henry` and `jfb` are listed.
+- **Matthew Henry and JFB are imported** by `scripts/import_classics.py`: 4,051 and 19,772 rows, all 1,189 chapters from each. Both come from CCEL. CCEL's site policy allows personal, educational or non-profit use and asks people to contact it to republish or use its works commercially. John accepted that risk on 2026-11-04.
+- **The AI agent reads Matthew Henry only.** Its `get_commentary` tool passes `DEFAULT_COMMENTARY_SOURCE`, so a whole chapter of JFB can't reach it.
+- **CM-3 data is held (PR #61)** until the curated lists are finished. `people.json` is incomplete: it has no entry for Moses, Joseph, Joshua, Solomon, Samuel, Sarah or Mary, for example, and nothing alphabetically after Peter. John reviews the proposed additions first.
 - **Themes and the CM-4 pilot** wait for John's review, in `bible-app-work/commentary/`.
 
 ## Order and dependencies

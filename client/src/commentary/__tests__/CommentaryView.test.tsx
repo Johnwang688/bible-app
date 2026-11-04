@@ -22,8 +22,9 @@ const fixture = (name: string) =>
 const BOOKS: BookInfo[] = fixture('books');
 const JOHN = BOOKS[42]!;
 const OBADIAH = BOOKS[30]!;
-const JOHN3_MH: CommentaryEntry[] = fixture('commentary_john3_mh'); // 3:1–8 (8,159 characters) and 3:22–36 (743)
-const OBADIAH_ALL: CommentaryEntry[] = fixture('commentary_obadiah1'); // MH 1–16, a summary, MH 17–21
+const JOHN3_MH: CommentaryEntry[] = fixture('commentary_john3_mh'); // 3:1–21 (8,159 characters) and 3:22–36 (743)
+const GAP = JOHN3_MH.filter((e) => e.verse_start === 22); // leaves verses 1–21 without a note
+const OBADIAH_ALL: CommentaryEntry[] = fixture('commentary_obadiah1'); // MH 1–16, a summary, MH 17–21, JFB
 const EN: DeviceLocale = { languageTag: 'en-US', languageCode: 'en', regionCode: 'US' };
 const ZH: DeviceLocale = { languageTag: 'zh-CN', languageCode: 'zh', regionCode: 'CN' };
 const style = (el: { props: { style?: unknown } }) => StyleSheet.flatten(el.props.style as never) ?? {};
@@ -84,11 +85,11 @@ describe('CommentaryView', () => {
     const view = await screen.findByTestId('commentary-view');
     expect(calls[0]).toEqual({ book: 'John', chapter: 3, verse: 3, source: 'matthew_henry' });
     expect(within(view).getByText('Commentary').props.accessibilityRole).toBe('header');
-    expect(await within(view).findByTestId('commentary-range')).toHaveTextContent('John 3:1–8');
+    expect(await within(view).findByTestId('commentary-range')).toHaveTextContent('John 3:1–21');
     const pinned = within(view).getByTestId('commentary-verse');
     expect(pinned).toHaveTextContent(/unless one is born anew/);
     expect(pinned).toHaveTextContent(/^3/);
-    const body = within(view).getByTestId('commentary-entry-2640');
+    const body = within(view).getByTestId('commentary-entry-3322');
     expect(body).toHaveTextContent(/^Nicodemus was afraid/);
     expect(body).not.toHaveTextContent(/ye workers of iniquity/);
     expect(within(view).getByText('Matthew Henry’s Concise Commentary (public domain)')).toBeTruthy();
@@ -103,19 +104,19 @@ describe('CommentaryView', () => {
     expect(readAll.props.accessibilityLabel ?? 'Read all').toBe('Read all');
     expect(style(readAll).minHeight ?? style(readAll).height).toBeGreaterThanOrEqual(44);
     await fireEvent.press(readAll);
-    expect(screen.getByTestId('commentary-entry-2640')).toHaveTextContent(/ye workers of iniquity\?”$/);
+    expect(screen.getByTestId('commentary-entry-3322')).toHaveTextContent(/ye workers of iniquity\?”$/);
     expect(screen.queryByTestId('commentary-read-all')).toBeNull();
   });
 
   it('shows a short note whole, with no Read all', async () => {
     await renderView({ verse: 30 });
     expect(await screen.findByTestId('commentary-range')).toHaveTextContent('John 3:22–36');
-    expect(screen.getByTestId('commentary-entry-2641')).toHaveTextContent(/^John was fully satisfied/);
+    expect(screen.getByTestId('commentary-entry-3323')).toHaveTextContent(/^John was fully satisfied/);
     expect(screen.queryByTestId('commentary-read-all')).toBeNull();
   });
 
   it('says so where no note covers the verse, with the verse still pinned', async () => {
-    await renderView({ verse: 16 });
+    await renderView({ verse: 16, rows: GAP });
     const empty = await screen.findByTestId('commentary-empty');
     expect(empty).toHaveTextContent(/No commentary on this verse yet/);
     expect(empty).toHaveTextContent(/Notes for more verses are on the way\./);
@@ -139,7 +140,7 @@ describe('CommentaryView', () => {
     expect(error).toHaveTextContent(/Couldn’t load the commentary\./);
     down = false;
     await fireEvent.press(screen.getByTestId('commentary-retry'));
-    expect(await screen.findByTestId('commentary-entry-2640')).toBeTruthy();
+    expect(await screen.findByTestId('commentary-entry-3322')).toBeTruthy();
     expect(calls).toHaveLength(2);
   });
 
@@ -158,7 +159,7 @@ describe('CommentaryView', () => {
     await renderView({ verse: 3, locales: [ZH], translation: 'CUV-SIMP', chapter: fixture('chapter_john3_cuvsimp') });
     const view = await screen.findByTestId('commentary-view');
     expect(within(view).getByText('注释')).toBeTruthy();
-    expect(await within(view).findByTestId('commentary-range')).toHaveTextContent('约翰福音 3:1–8');
+    expect(await within(view).findByTestId('commentary-range')).toHaveTextContent('约翰福音 3:1–21');
     expect(within(view).getByTestId('commentary-verse')).toHaveTextContent(/人若不重生/);
     expect(within(view).getByText('英文')).toBeTruthy();
     expect(within(view).getByText('马太·亨利《圣经简明注释》（公有领域），目前只有英文')).toBeTruthy();
@@ -167,7 +168,7 @@ describe('CommentaryView', () => {
   });
 
   it('in Chinese, the empty view has no 英文 badge', async () => {
-    await renderView({ verse: 16, locales: [ZH], translation: 'CUV-SIMP', chapter: fixture('chapter_john3_cuvsimp') });
+    await renderView({ verse: 16, rows: GAP, locales: [ZH], translation: 'CUV-SIMP', chapter: fixture('chapter_john3_cuvsimp') });
     expect(await screen.findByTestId('commentary-empty')).toHaveTextContent(/这节经文暂时还没有注释/);
     expect(screen.queryByText('英文')).toBeNull();
   });
@@ -175,7 +176,7 @@ describe('CommentaryView', () => {
   it('leaves the pinned verse out when this translation lacks it', async () => {
     const chapter: ChapterOut = fixture('chapter_john3_web');
     await renderView({ verse: 3, chapter: { ...chapter, verses: chapter.verses.filter((v) => v.verse !== 3) } });
-    expect(await screen.findByTestId('commentary-entry-2640')).toBeTruthy();
+    expect(await screen.findByTestId('commentary-entry-3322')).toBeTruthy();
     expect(screen.queryByTestId('commentary-verse')).toBeNull();
   });
   // Sol review, round 1: kills a surviving mutant.
@@ -185,8 +186,8 @@ describe('CommentaryView', () => {
     await renderView({ verse: 3, rows: [long, short] });
   
     const second = await screen.findByTestId('commentary-entry-9002');
-    expect(screen.getByTestId('commentary-range')).toHaveTextContent('John 3:1–8');
-    expect(screen.getByText('John 3:2–8')).toBeTruthy();
+    expect(screen.getByTestId('commentary-range')).toHaveTextContent('John 3:1–21');
+    expect(screen.getByText('John 3:2–21')).toBeTruthy();
     expect(screen.getByTestId('commentary-entry-9001'))
       .toHaveTextContent('Short first note.');
     expect(second).not.toHaveTextContent(/ye workers of iniquity/);
@@ -223,6 +224,6 @@ describe('CommentaryView waits for nothing it does not need', () => {
     expect(await screen.findByTestId('commentary-loading')).toHaveTextContent('Loading…');
     release?.();
     await waitFor(() => expect(screen.queryByTestId('commentary-loading')).toBeNull());
-    expect(screen.getByTestId('commentary-entry-2640')).toBeTruthy();
+    expect(screen.getByTestId('commentary-entry-3322')).toBeTruthy();
   });
 });
