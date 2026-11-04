@@ -77,6 +77,7 @@ export function MeChoiceSheet<V extends string>({
             <Pressable
               key={c.value}
               testID={c.testID}
+              {...(Platform.OS === 'web' ? { dataSet: { hover: 'flat' } } : {})}
               accessibilityRole="radio"
               accessibilityLabel={c.label}
               aria-describedby={note !== undefined && note.describes === c.value ? note.id : undefined}

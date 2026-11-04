@@ -1,7 +1,7 @@
 // Original words, the list (Words.dc.html): one row per aligned English phrase, beside the Greek or
 // Hebrew words it renders. A port of HG-3a. The alignment is always the BSB's.
 import { useEffect, useMemo, useRef, type ComponentRef } from 'react';
-import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Platform, ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import type { BookInfo } from '../../api/schemas';
 import { uiFace } from '../../fonts/fonts';
@@ -150,6 +150,7 @@ export function WordsList({
               else rowRefs.current.delete(row.key);
             }}
             testID={`word-row-${row.key}`}
+            {...(Platform.OS === 'web' ? { dataSet: { hover: 'flat' } } : {})}
             accessibilityRole="button"
             onPress={() => openWord(row)}
             style={[styles.row, { borderTopColor: theme.colors.track }]}

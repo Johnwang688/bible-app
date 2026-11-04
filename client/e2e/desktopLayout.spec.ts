@@ -2,10 +2,11 @@ import { expect, test, type Locator, type Page } from '@playwright/test';
 
 import { mockEntities } from './entityMocks';
 import { mockApi, seed } from './helpers';
+import { readerColumn } from '../src/reader/readerColumn';
 
 test.use({ locale: 'en-US', colorScheme: 'light' });
 test.beforeEach(async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== 'desktop', 'Desktop containment only');
+  test.skip(testInfo.project.name !== 'desktop' && !testInfo.title.includes('pointer capability'), 'Desktop containment only');
   await mockApi(page);
   await mockEntities(page);
   await seed(page, 'language', 'en');
@@ -413,4 +414,335 @@ test.describe('desktop first run', () => {
     const box = await boxOf(page.getByTestId('privacy-short'));
     expect(Math.abs(box.x + box.width / 2 - 720)).toBeLessThan(1);
   });
+});
+
+for (const width of [1024, 1440, 1920]) {
+  test(`verse dock selection, geometry, anchoring and drafts at ${width}`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/bible');
+    const verse = page.getByTestId('verse-16');
+    await expect(verse).toBeVisible();
+    // Put a verse below the top of a long chapter at a measurable, repeatable viewport position.
+    await page.getByTestId('reader-scroll').evaluate((node) => {
+      node.scrollTop += document.querySelector('[data-testid="verse-16"]')!.getBoundingClientRect().top - 220;
+    });
+    const before = await boxOf(verse);
+    await page.getByTestId('verse-16-tools').click();
+    const dock = page.getByTestId('verse-sheet');
+    const panel = await boxOf(dock);
+    const inset = width < 1280 ? 12 : 16;
+    expect(panel.width).toBe(width < 1280 ? 304 : 328);
+    expect(panel.x + panel.width).toBe(width - inset);
+    expect(panel.y).toBe(inset);
+    expect(panel.height).toBe(900 - inset * 2);
+    await expect(page.getByTestId('verse-sheet-scrim')).toHaveCount(0);
+    await expect(page.getByTestId('sheet-grabber')).toHaveCount(0);
+    const expected = readerColumn({ width, rail: width < 1280 ? 88 : 208, dock: panel.width + inset, parallel: false });
+    await expect.poll(async () => (await boxOf(page.getByTestId('reader-text'))).x).toBeCloseTo(expected.left, 0);
+    expect((await boxOf(page.getByTestId('reader-text'))).width).toBe(expected.columnWidth);
+    expect(Math.abs((await boxOf(verse)).y - before.y)).toBeLessThanOrEqual(2);
+    // A second click on the sole selected verse closes, with the same anchoring on expansion.
+    const openTop = (await boxOf(verse)).y;
+    await page.getByTestId('verse-16-tools').click();
+    await expect(dock).toHaveCount(0);
+    await expect.poll(async () => Math.abs((await boxOf(verse)).y - openTop)).toBeLessThanOrEqual(2);
+    await page.getByTestId('verse-16-tools').click();
+    await page.getByTestId('verse-17-tools').click();
+    await expect(page.getByTestId('verse-16-tools')).toHaveAttribute('aria-selected', 'false');
+    await expect(page.getByTestId('verse-17-tools')).toHaveAttribute('aria-selected', 'true');
+    await page.getByTestId('verse-19-tools').click({ modifiers: ['Shift'] });
+    for (const n of [17, 18, 19]) await expect(page.getByTestId(`verse-${n}-tools`)).toHaveAttribute('aria-selected', 'true');
+    // A range click starts a new single selection, and notes remain bound to that verse.
+    await page.getByTestId('verse-16-tools').click();
+    await page.getByTestId('sheet-note').click();
+    await page.getByTestId('note-input').fill('Draft survives the chapter arrow');
+    await page.keyboard.press('ArrowRight');
+    await expect(page.getByTestId('reader-book-button')).toHaveText('John 3');
+    await page.getByTestId('note-input').blur();
+    await page.keyboard.press('ArrowRight');
+    await expect(page.getByTestId('reader-book-button')).toHaveText('John 4');
+    await expect(dock).toHaveCount(0);
+    await page.keyboard.press('ArrowLeft');
+    await expect(page.getByTestId('reader-book-button')).toHaveText('John 3');
+    await page.getByTestId('verse-16-tools').click();
+    await page.getByTestId('sheet-note').click();
+    await expect(page.getByTestId('note-input')).toHaveValue('Draft survives the chapter arrow');
+    await expect(page.getByTestId('note-draft')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(page.getByTestId('sheet-actions')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(dock).toHaveCount(0);
+  });
+}
+
+test('1023 keeps the bottom verse sheet and extend-on-tap', async ({ page }) => {
+  await page.setViewportSize({ width: 1023, height: 900 });
+  await page.goto('/bible');
+  await page.getByTestId('verse-1-tools').click();
+  await expect(page.getByTestId('sheet-grabber')).toBeVisible();
+  const sheet = await boxOf(page.getByTestId('verse-sheet'));
+  expect(sheet.width).toBe(560);
+  expect(sheet.y + sheet.height).toBe(900);
+  await page.getByTestId('verse-3-tools').click();
+  for (const n of [1, 2, 3]) await expect(page.getByTestId(`verse-${n}-tools`)).toHaveAttribute('aria-selected', 'true');
+});
+
+test('hover respects pointer capability on buttons and layered verse feedback', async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/bible');
+  const button = page.getByTestId('reader-settings-button');
+  const rest = await button.evaluate((node) => getComputedStyle(node).filter);
+  await button.hover();
+  const pointer = testInfo.project.name === 'desktop';
+  await expect.poll(() => button.evaluate((node) => getComputedStyle(node).filter)).toBe(pointer ? 'brightness(1.18)' : rest);
+  if (pointer) {
+    const verse = page.getByTestId('verse-1');
+    await verse.hover();
+    await expect.poll(() => verse.evaluate((node) => getComputedStyle(node).boxShadow)).not.toBe('none');
+    await page.mouse.wheel(0, 1);
+    await expect(page.locator('html')).not.toHaveAttribute('data-pointer-moved');
+    await expect.poll(() => verse.evaluate((node) => getComputedStyle(node).boxShadow)).toBe('none');
+  }
+});
+
+test('Enter checks an available Memory ordering answer and leaves focused controls alone', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/memory/lesson/2-corinthians-5-17/chunk-order');
+  await expect(page.getByTestId('chunk-check')).toHaveAttribute('aria-disabled', 'true');
+  await page.keyboard.press('Enter');
+  await expect(page.getByTestId('memory-result')).toHaveCount(0);
+  const n = await page.getByTestId(/^chunk-chip-\d+$/).count();
+  expect(n).toBeGreaterThan(1);
+  for (let i = 0; i < n; i++) await page.getByTestId(`chunk-chip-${i}`).click();
+  await page.getByTestId('memory-back').focus();
+  // A focused control owns its Enter; dispatch just the keydown to observe the guard without activating Back.
+  await page.getByTestId('memory-back').evaluate((node) => node.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true })));
+  await expect(page.getByTestId('memory-result')).toHaveCount(0);
+  await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur());
+  await page.keyboard.press('Enter');
+  await expect(page.getByTestId('memory-result')).toContainText('Correct');
+});
+
+test('a drag-selected Scripture range never opens verse tools', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/bible');
+  const verse = page.getByTestId('verse-1');
+  await expect(verse).toBeVisible();
+  const bounds = await boxOf(verse);
+  await page.mouse.move(bounds.x + 50, bounds.y + 15);
+  await page.mouse.down();
+  await page.mouse.move(bounds.x + 220, bounds.y + 15, { steps: 12 });
+  await page.mouse.up();
+  expect(await page.evaluate(() => window.getSelection()?.toString().length ?? 0)).toBeGreaterThan(0);
+  await expect(page.getByTestId('verse-sheet')).toHaveCount(0);
+});
+
+for (const width of [1024, 1440, 1920]) {
+  test(`read-aloud stays visible and follows while verse tools are docked at ${width}`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.addInitScript(() => {
+      class Utterance { constructor(public text: string) {} }
+      Object.defineProperty(window, 'SpeechSynthesisUtterance', { configurable: true, value: Utterance });
+      Object.defineProperty(window, 'speechSynthesis', { configurable: true, value: {
+        paused: false,
+        getVoices: () => [{ voiceURI: 'en-us', name: 'US voice', lang: 'en-US', default: true, localService: true }],
+        cancel() { window.__speechCurrent = null; }, resume() {},
+        speak(u: Window['__speechCurrent']) { window.__speechCurrent = u; },
+        addEventListener() {}, removeEventListener() {},
+      } });
+      window.__speechDone = () => { const u = window.__speechCurrent; window.__speechCurrent = null; u?.onend?.(); };
+    });
+    await page.goto('/bible');
+    await page.getByTestId('reader-tools-button').click();
+    await page.getByTestId('read-aloud-start').click();
+    await expect(page.getByTestId('verse-1')).toHaveAttribute('aria-current', 'true');
+    await page.getByTestId('verse-1-tools').click();
+    await expect(page.getByTestId('verse-sheet')).toBeVisible();
+    await expect(page.getByTestId('read-aloud-bar')).toBeVisible();
+    const before = await page.getByTestId('reader-scroll').evaluate((node) => node.scrollTop);
+    // Advance through real engine callbacks, leaving follow-scroll active throughout the open dock.
+    for (let i = 0; i < 100 && await page.getByTestId('verse-16').getAttribute('aria-current') !== 'true'; i++) {
+      await page.evaluate(() => window.__speechDone());
+    }
+    await expect(page.getByTestId('verse-16')).toHaveAttribute('aria-current', 'true');
+    await expect.poll(() => page.getByTestId('reader-scroll').evaluate((node) => node.scrollTop)).toBeGreaterThan(before + 100);
+    await expect(page.getByTestId('verse-16-tools')).toBeInViewport();
+    await expect(page.getByTestId('verse-sheet')).toBeVisible();
+    await expect(page.getByTestId('read-aloud-bar')).toBeVisible();
+    const column = await boxOf(page.getByTestId('reader-text'));
+    const bar = await boxOf(page.getByTestId('read-aloud-bar'));
+    expect(bar.x + bar.width / 2).toBeCloseTo(column.x + column.width / 2, 0);
+  });
+}
+
+test('parallel dock re-wraps both columns and anchors on open and close at 1024', async ({ page }) => {
+  await page.setViewportSize({ width: 1024, height: 900 });
+  await seed(page, 'reader.settings', { textSize: 2, parallel: 'CUV-SIMP' });
+  await page.goto('/bible');
+  await page.getByTestId('verse-16-tools').scrollIntoViewIfNeeded();
+  const verse = page.getByTestId('verse-16');
+  const before = (await boxOf(verse)).y;
+  await page.getByTestId('verse-16-tools').click();
+  const expected = readerColumn({ width: 1024, rail: 88, dock: 316, parallel: true });
+  const columns = page.getByTestId('parallel-columns');
+  await expect.poll(async () => (await boxOf(columns)).x).toBeCloseTo(expected.left, 0);
+  expect((await boxOf(columns)).width).toBe(expected.columnWidth);
+  expect(Math.abs((await boxOf(verse)).y - before)).toBeLessThanOrEqual(2);
+  const open = (await boxOf(verse)).y;
+  await page.getByTestId('sheet-close').click();
+  await expect(page.getByTestId('verse-sheet')).toHaveCount(0);
+  await expect.poll(async () => Math.abs((await boxOf(verse)).y - open)).toBeLessThanOrEqual(2);
+});
+
+test('Chinese bold uses real local bold glyphs for every bold UI family in Chromium', async ({ page }) => {
+  await page.goto('/me');
+  await expect(page.getByTestId('screen-me-scroll')).toBeVisible();
+  const metrics = await page.evaluate(async () => {
+    const text = '\u5723\u7ecf\u5b66\u4e60\u8bb0\u5fc6\u4e2d\u6587\u7c97\u4f53';
+    const output = [];
+    for (const family of ['SpaceGrotesk_700Bold', 'PlusJakartaSans_700Bold', 'PlusJakartaSans_800ExtraBold']) {
+      const regular = family.startsWith('Space') ? 'SpaceGrotesk_400Regular' : 'PlusJakartaSans_400Regular';
+      await document.fonts.load(`40px ${family}`, text);
+      await document.fonts.load(`40px ${regular}`, text);
+      const measure = (font: string) => {
+        const canvas = document.createElement('canvas'); canvas.width = 800; canvas.height = 80;
+        const ctx = canvas.getContext('2d')!; ctx.font = `40px ${font}`; ctx.fillText(text, 0, 50);
+        const data = ctx.getImageData(0, 0, 800, 80).data;
+        let ink = 0; for (let i = 3; i < data.length; i += 4) ink += data[i]! / 255;
+        return { width: ctx.measureText(text).width, ink };
+      };
+      const probe = document.createElement('span'); probe.id = `cjk-probe-${output.length}`;
+      probe.style.cssText = `font-family:${family};font-size:40px;font-synthesis:none`;
+      probe.textContent = text; document.body.appendChild(probe);
+      output.push({ family, bold: measure(family), regular: measure(regular) });
+    }
+    return output;
+  });
+  const cdp = await page.context().newCDPSession(page);
+  await cdp.send('DOM.enable'); await cdp.send('CSS.enable');
+  const { root } = await cdp.send('DOM.getDocument');
+  for (let i = 0; i < metrics.length; i++) {
+    const row = metrics[i]!;
+    expect(row.bold.ink).toBeGreaterThan(row.regular.ink * 1.2);
+    const { nodeId } = await cdp.send('DOM.querySelector', { nodeId: root.nodeId, selector: `#cjk-probe-${i}` });
+    const { fonts } = await cdp.send('CSS.getPlatformFontsForNode', { nodeId });
+    expect(fonts.some((font) => /bold|semibold/i.test(font.postScriptName) && font.glyphCount === 10)).toBe(true);
+    console.log('CJK bold measurement:', JSON.stringify({ ...row, fonts }));
+  }
+});
+
+for (const preset of ['silver', 'graphite', 'strawberry-milk']) {
+  test(`shared hover preserves layout, rail pill and keyboard focus in ${preset}`, async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await seed(page, 'appearance', { preset, mode: preset === 'graphite' ? 'dark' : 'light' });
+    await page.goto('/me');
+    const current = page.getByTestId('tab-me');
+    const pill = await current.evaluate((node) => getComputedStyle(node).backgroundColor);
+    await current.hover();
+    await expect(current).toHaveCSS('background-color', pill);
+    const row = page.getByTestId('me-row-language');
+    const before = await boxOf(row);
+    const label = row.locator(':scope > div').first();
+    const labelBefore = await boxOf(label);
+    await row.hover();
+    await expect(row).toHaveCSS('transform', 'none');
+    const after = await boxOf(row);
+    expect(after).toEqual(before);
+    expect(await boxOf(label)).toEqual(labelBefore);
+    if (preset !== 'strawberry-milk') {
+      const overlay = await row.evaluate((node) => {
+        const style = getComputedStyle(node, '::after');
+        return { content: style.content, pointer: style.pointerEvents, radius: style.borderRadius, color: style.backgroundColor };
+      });
+      expect(overlay.content).toBe('""');
+      expect(overlay.pointer).toBe('none');
+      expect(overlay.color).not.toBe('rgba(0, 0, 0, 0)');
+    }
+    await row.focus();
+    // A keyboard action makes :focus-visible active, unlike a pointer focus.
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Shift+Tab');
+    await expect(row).toHaveCSS('outline-width', '3px');
+    await expect(row).toHaveCSS('outline-offset', '2px');
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await expect(row).toHaveCSS('transition-duration', '0s');
+    await page.goto('/bible');
+    const column = page.getByTestId('reader-text');
+    await expect(column).toHaveCSS('transition-duration', '0s');
+    const button = page.getByTestId('reader-book-button');
+    await button.hover();
+    if (preset === 'strawberry-milk') {
+      await expect(button).toHaveCSS('transform', 'matrix(1, 0, 0, 1, -1, -1)');
+      await page.mouse.down();
+      await expect(button).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 2, 2)');
+      // Release outside the control so the press feedback check does not open a picker.
+      await page.mouse.move(1400, 880); await page.mouse.up();
+    }
+    await page.getByTestId('reader-tools-button').click();
+    const primary = page.getByTestId('read-aloud-start');
+    await primary.hover();
+    await expect(primary).toHaveCSS('filter', 'brightness(1.18)');
+    await page.keyboard.press('Escape');
+    await page.goto('/memory/lesson/2-corinthians-5-17/chunk-order');
+    const disabled = page.getByTestId('chunk-check');
+    await disabled.hover({ force: true });
+    await expect(disabled).toHaveCSS('filter', 'none');
+    await expect(disabled).toHaveCSS('transform', 'none');
+  });
+}
+
+// PR B2 fix 1: keyboard scroll and transient skip-link focus regressions.
+test('gutter clicks leave main unfocusable and PageDown scrolls the reader', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/bible');
+  const main = page.locator('#main-content');
+  await expect(main).not.toHaveAttribute('tabindex');
+  const scroll = page.getByTestId('reader-scroll');
+  await scroll.click({ position: { x: 230, y: 300 } });
+  await expect(main).not.toBeFocused();
+  await page.keyboard.press('PageDown');
+  await expect.poll(() => scroll.evaluate((node) => node.scrollTop)).toBeGreaterThan(500);
+  await page.getByTestId('rail-skip').focus();
+  await page.keyboard.press('Enter');
+  await expect(main).toBeFocused();
+  await expect(main).toHaveAttribute('tabindex', '-1');
+  await page.keyboard.press('Tab');
+  await expect(main).not.toBeFocused();
+  await expect(main).not.toHaveAttribute('tabindex');
+  const focusedInRail = await page.evaluate(() => !!document.activeElement?.closest('[data-testid="side-rail"]'));
+  expect(focusedInRail).toBe(false);
+});
+
+test('fresh reader scroll keys work and Space still activates a focused button', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/bible');
+  const scroll = page.getByTestId('reader-scroll');
+  await expect(page.getByTestId('verse-1')).toBeVisible();
+  expect(await page.evaluate(() => document.activeElement === document.body)).toBe(true);
+  await page.keyboard.press('PageDown');
+  await expect.poll(() => scroll.evaluate((node) => node.scrollTop)).toBeGreaterThan(500);
+  await page.keyboard.press('End');
+  await expect.poll(() => scroll.evaluate((node) => Math.abs(node.scrollTop - (node.scrollHeight - node.clientHeight)))).toBeLessThanOrEqual(1);
+  await page.keyboard.press('Home');
+  await expect.poll(() => scroll.evaluate((node) => node.scrollTop)).toBe(0);
+  await page.keyboard.press('Space');
+  await expect.poll(() => scroll.evaluate((node) => node.scrollTop)).toBeGreaterThan(500);
+  await page.keyboard.press('Shift+Space');
+  await expect.poll(() => scroll.evaluate((node) => node.scrollTop)).toBe(0);
+  await page.getByTestId('reader-settings-button').focus();
+  await page.keyboard.press('Space');
+  await expect(page.getByTestId('reading-settings')).toBeVisible();
+  expect(await scroll.evaluate((node) => node.scrollTop)).toBe(0);
+});
+
+test('at 767 reader scroll keys are never intercepted', async ({ page }) => {
+  await page.setViewportSize({ width: 767, height: 900 });
+  await page.goto('/bible');
+  await expect(page.getByTestId('verse-1')).toBeVisible();
+  const prevented = await page.evaluate(() => ['PageDown', 'PageUp', ' ', 'Home', 'End', 'ArrowDown', 'ArrowUp'].map((key) => {
+    const event = new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true });
+    document.body.dispatchEvent(event);
+    return event.defaultPrevented;
+  }));
+  expect(prevented).toEqual([false, false, false, false, false, false, false]);
 });

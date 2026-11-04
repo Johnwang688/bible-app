@@ -10,6 +10,7 @@ import {
   useWindowDimensions,
   View,
   type LayoutChangeEvent,
+  type GestureResponderEvent,
   type TextStyle,
   type ViewStyle,
 } from 'react-native';
@@ -61,7 +62,7 @@ export interface ChapterViewProps {
   /** Highlights, notes and bookmarks to draw. Absent: none. */
   study?: Pick<StudyItemsApi, 'highlightOf' | 'noteOf' | 'isBookmarked'>;
   /** A tap on the verse text or its number. */
-  onVersePress(verse: number): void;
+  onVersePress(verse: number, event?: GestureResponderEvent): void;
   /** A long press on the verse text (extends the selection). */
   onVerseLongPress?(verse: number): void;
   /** Hands the screen each verse-tools button, so focus can return to it when the sheet closes. */
@@ -177,7 +178,7 @@ function VerseTools({
 }: {
   info: VerseInfo;
   color: string;
-  onPress(): void;
+  onPress(event?: GestureResponderEvent): void;
   registerTools?(verse: number, node: unknown): void;
 }) {
   const theme = useTheme();
@@ -194,6 +195,7 @@ function VerseTools({
     <Text
       ref={(node) => registerTools?.(info.n, node)}
       testID={`verse-${info.n}-tools`}
+      {...(Platform.OS === 'web' ? { dataSet: { hover: 'none' } } : {})}
       accessibilityRole="button"
       accessibilityLabel={info.label}
       accessibilityState={{ selected: info.selected }}
@@ -266,9 +268,12 @@ export function ChapterView({
   };
 
   // The verse text is plain text to a screen reader; a tap or long press (touch and mouse) still reaches it.
+  const mouseTextSelection = Platform.OS === 'web' && width >= BREAKPOINT.rail && typeof window !== 'undefined' &&
+    typeof window.matchMedia === 'function' && window.matchMedia('(hover: hover)').matches;
   const textPress = (n: number) => ({
-    onPress: () => onVersePress(n),
-    onLongPress: onVerseLongPress ? () => onVerseLongPress(n) : undefined,
+    ...(Platform.OS === 'web' ? { dataSet: { verse: '1' } } : {}),
+    onPress: (event: GestureResponderEvent) => onVersePress(n, event),
+    onLongPress: onVerseLongPress && !mouseTextSelection ? () => onVerseLongPress(n) : undefined,
   });
 
   // Layout reports, only when asked for: the root view's place in the scroll content, each row's place in the
@@ -283,7 +288,7 @@ export function ChapterView({
     const f = face(theme, translation, size, chineseFont);
     const space = isChineseTranslation(translation) ? '' : ' ';
     return (
-      <View testID="reader-text" style={[styles.reading, desktopColumn]} onLayout={onRoot}>
+      <View testID="reader-text" {...(Platform.OS === 'web' ? { dataSet: { readerColumn: '1' } } : {})} style={[styles.reading, desktopColumn]} onLayout={onRoot}>
         <Text
           style={[f, { color: theme.colors.text }]}
           onLayout={
@@ -306,7 +311,7 @@ export function ChapterView({
                 <VerseTools
                   info={i}
                   color={onColour ? theme.colors.hlText : theme.colors.vnum}
-                  onPress={() => onVersePress(v.verse)}
+                  onPress={(event) => onVersePress(v.verse, event)}
                   registerTools={registerTools}
                 />
                 <Runs
@@ -342,7 +347,7 @@ export function ChapterView({
             <View key={row.verse} testID={`verse-row-${row.verse}`} style={[styles.phoneRow, ...rowStyle(i)]} onLayout={onRow(row.verse)}>
               {row.primary ? (
                 <Text testID={`verse-${row.verse}`} {...textPress(row.verse)} {...readingProps(row.verse)} style={[firstFace, { color: onColour ? theme.colors.hlText : theme.colors.text }, readingMark(row.verse)]}>
-                  <VerseTools info={i} color={numberColor} onPress={() => onVersePress(row.verse)} registerTools={registerTools} />
+                  <VerseTools info={i} color={numberColor} onPress={(event) => onVersePress(row.verse, event)} registerTools={registerTools} />
                   <Runs
                     text={row.primary.text}
                     size={size}
@@ -360,7 +365,7 @@ export function ChapterView({
                   style={[secondFace, { color: onColour ? theme.colors.hlText : theme.colors.muted }]}
                 >
                   {row.primary ? null : (
-                    <VerseTools info={i} color={numberColor} onPress={() => onVersePress(row.verse)} registerTools={registerTools} />
+                    <VerseTools info={i} color={numberColor} onPress={(event) => onVersePress(row.verse, event)} registerTools={registerTools} />
                   )}
                   <Runs
                     text={row.secondary.text}
@@ -395,7 +400,7 @@ export function ChapterView({
   const secondName = headName(second.translation, 'reader.secondTranslation', 'parallel-second-name');
 
   return (
-    <View testID="parallel-columns" style={[styles.columns, desktopColumn ?? parallelColumn]} onLayout={onRoot}>
+    <View testID="parallel-columns" {...(Platform.OS === 'web' ? { dataSet: { readerColumn: '1' } } : {})} style={[styles.columns, desktopColumn ?? parallelColumn]} onLayout={onRoot}>
       <View style={styles.columnsHeader}>
         <View style={styles.headerCell}>{firstName}</View>
         <Pressable
@@ -433,7 +438,8 @@ export function ChapterView({
               accessibilityLabel={i.label}
               accessibilityState={{ selected: i.selected }}
               aria-selected={i.selected}
-              onPress={() => onVersePress(row.verse)}
+              {...(Platform.OS === 'web' ? { dataSet: { hover: 'none' } } : {})}
+              onPress={(event) => onVersePress(row.verse, event)}
               style={styles.numberCell}
             >
               <Text style={{ fontFamily: uiFace(theme.type.ui, '700'), fontSize: 11, color: numberColor, lineHeight: firstFace.lineHeight }}>

@@ -433,6 +433,7 @@ const EntityRows = memo(function EntityRows({
           {i >= columns ? <View accessible={false} style={[styles.separator, { backgroundColor: theme.colors.muted }]} /> : null}
           <Pressable
             testID={`entity-row-${item.slug}`}
+            {...(Platform.OS === 'web' ? { dataSet: { hover: 'flat' } } : {})}
             accessibilityRole="button"
             onPress={() => onOpen(entityPageHref(kind, item.slug))}
             style={({ pressed }) => [styles.row, pressed && { opacity: 0.7 }]}

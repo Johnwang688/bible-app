@@ -24,7 +24,15 @@ export function RailSkipLink() {
   const [focused, setFocused] = useState(false);
   if (Platform.OS !== 'web' || !rail) return null;
   return <Pressable testID="rail-skip" accessibilityRole="link" {...({ href: '#main-content' } as object)} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
-    onPress={(event) => { event.preventDefault(); if (typeof document !== 'undefined') document.getElementById('main-content')?.focus(); }}
+    onPress={(event) => {
+      event.preventDefault();
+      if (typeof document === 'undefined') return;
+      const main = document.getElementById('main-content');
+      if (!main) return;
+      main.setAttribute('tabindex', '-1');
+      main.addEventListener('blur', () => main.removeAttribute('tabindex'), { once: true });
+      main.focus();
+    }}
     style={[styles.skip, { top: focused ? 12 : -100, backgroundColor: theme.colors.base, borderColor: theme.colors.accent }]}>
     <Text style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '700') }}>{t('navigation.skipContent')}</Text>
   </Pressable>;
@@ -49,7 +57,7 @@ export function SideRail() {
     <GlassSurface background={theme.backgrounds.tabBar} style={[StyleSheet.absoluteFill, { borderRadius: floating ? theme.radii.card : 0 }]} />
     <ScrollView contentContainerStyle={{ paddingHorizontal: compact ? 4 : 10, paddingVertical: 20, gap: 4 }}>
       {!compact ? <Text style={[ink, { color: theme.colors.text, fontSize: 18, paddingHorizontal: 12, marginBottom: 16 }]}>{t('app.name')}</Text> : null}
-      <Pressable testID="rail-search" accessibilityRole="button" accessibilityLabel={t('reader.search')} onPress={openSearch}
+      <Pressable {...(Platform.OS === 'web' ? { dataSet: { hover: 'flat' } } : {})} testID="rail-search" accessibilityRole="button" accessibilityLabel={t('reader.search')} onPress={openSearch}
         style={[buttonStyle(theme), styles.search, { borderWidth: theme.borders.card.width, borderColor: theme.borders.card.color },
           compact && { justifyContent: 'center', paddingHorizontal: 0 }]}>
         <Icon name="search" size={22} color={theme.colors.tabOff} />
@@ -63,7 +71,7 @@ export function SideRail() {
       {TABS.map((tab) => {
         const selected = active === tab.icon;
         const color = selected ? theme.colors.tabOn : theme.colors.tabOff;
-        return <Pressable key={tab.name} testID={`tab-${tab.icon}`} accessibilityRole="link" accessibilityLabel={t(tab.a11yKey)}
+        return <Pressable {...(Platform.OS === 'web' ? { dataSet: { hover: 'flat' } } : {})} key={tab.name} testID={`tab-${tab.icon}`} accessibilityRole="link" accessibilityLabel={t(tab.a11yKey)}
           {...(Platform.OS === 'web' ? { href: tab.href } as object : {})}
           {...(Platform.OS === 'web' && selected ? { 'aria-current': 'page' as const } : {})}
           onPress={(event) => { if (Platform.OS === 'web') event.preventDefault(); router.navigate(tab.href); }} style={[styles.item, compact && styles.compact,

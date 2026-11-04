@@ -29,6 +29,7 @@ export function SheetModal({
   avoidKeyboard = false,
   tall = false,
   modal = true,
+  dock = false,
   onHeight,
   header,
   children,
@@ -46,6 +47,8 @@ export function SheetModal({
    * touchable. `onRequestClose` is not called then; the owner handles Escape and back itself.
    */
   modal?: boolean;
+  /** Verse tools only: a non-modal side panel at desktop widths. */
+  dock?: boolean;
   /** The sheet's height whenever it changes (a non-modal sheet's parent keeps its content clear of it). */
   onHeight?(height: number): void;
   /** Pinned above the scrolling body, so it stays visible when the sheet is capped to a short screen. */
@@ -56,6 +59,8 @@ export function SheetModal({
   const insets = useSafeAreaInsets();
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const dialog = modal && windowWidth >= BREAKPOINT.rail;
+  const docked = dock && !modal && windowWidth >= BREAKPOINT.rail;
+  const dockInset = windowWidth < 1280 ? 12 : 16;
   const titleId = useId();
   const [surface, setSurface] = useState<HTMLElement | null>(null);
   const surfaceRef = useCallback((node: unknown) => setSurface(node as HTMLElement | null), []);
@@ -92,16 +97,16 @@ export function SheetModal({
       webProps={Platform.OS === 'web' && modal ? { role: 'dialog', 'aria-modal': true } : undefined}
       style={[
         styles.sheet,
-        dialog
+        docked ? { flex: 1, maxHeight: '100%', paddingTop: 16 } : dialog
           ? { maxWidth: Math.min(440, windowWidth - 48), maxHeight: windowHeight - 48, ...(tall ? { height: Math.min(720, windowHeight - 48) } : {}) }
           : tall ? styles.tall : { maxHeight: Math.max(0, modal ? windowHeight - insets.top - SHEET_TOP_GAP : Math.round(windowHeight * FLOATING_MAX_SHARE)) },
         {
           borderTopLeftRadius: radius,
           borderTopRightRadius: radius,
           borderWidth: border.width,
-          borderBottomWidth: dialog ? border.width : 0,
-          borderBottomLeftRadius: dialog ? radius : 0,
-          borderBottomRightRadius: dialog ? radius : 0,
+          borderBottomWidth: dialog || docked ? border.width : 0,
+          borderBottomLeftRadius: dialog || docked ? radius : 0,
+          borderBottomRightRadius: dialog || docked ? radius : 0,
           borderColor: border.color,
           boxShadow: theme.shadows.sheet ?? undefined,
           paddingBottom: Math.max(insets.bottom, 12) + 12,
@@ -109,7 +114,7 @@ export function SheetModal({
         },
       ]}
     >
-      {!dialog ? <View testID="sheet-grabber" accessible={false} style={[styles.grabber, { backgroundColor: theme.canvas.grabber ?? theme.colors.muted }]} /> : null}
+      {!dialog && !docked ? <View testID="sheet-grabber" accessible={false} style={[styles.grabber, { backgroundColor: theme.canvas.grabber ?? theme.colors.muted }]} /> : null}
       {header}
       {header !== undefined && !tall ? (
         <ScrollView style={styles.body} contentContainerStyle={styles.bodyContent} keyboardShouldPersistTaps="handled">
@@ -132,8 +137,8 @@ export function SheetModal({
       >
         <View
           pointerEvents="box-none"
-          onLayout={onHeight ? (e) => onHeight(e.nativeEvent.layout.height) : undefined}
-          style={styles.floatingSheet}
+          onLayout={onHeight ? (e) => onHeight(docked ? 0 : e.nativeEvent.layout.height) : undefined}
+          style={[styles.floatingSheet, docked && { position: 'absolute', top: dockInset, bottom: dockInset, right: dockInset, width: windowWidth < 1280 ? 304 : 328 }]}
         >
           {sheet}
         </View>

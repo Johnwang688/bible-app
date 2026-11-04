@@ -1,6 +1,6 @@
 // Reading settings (the sheet in ParallelPhone.dc.html): text size, parallel reading and the
 // second translation. Every change is saved at once by the caller.
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { scriptureFace, uiFace } from '../../fonts/fonts';
 import { useT } from '../../i18n/I18nProvider';
@@ -132,6 +132,7 @@ export function ReadingSettingsSheet({
                 <Pressable
                   key={id}
                   testID={`settings-second-${id}`}
+                  {...(Platform.OS === 'web' ? { dataSet: { hover: 'flat' } } : {})}
                   accessibilityRole="radio"
                   accessibilityState={{ checked }}
                   aria-checked={checked}

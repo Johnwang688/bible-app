@@ -55,7 +55,7 @@ function ThemedStack() {
       <FirstRunGate pathname={pathname}>
         <RailContext.Provider value={rail}>
           <RailSkipLink />
-          <View nativeID="main-content" {...(Platform.OS === 'web' ? { role: 'main' as const, tabIndex: -1 } : {})} style={{ flex: 1 }}>
+          <View nativeID="main-content" {...(Platform.OS === 'web' ? { role: 'main' as const } : {})} style={{ flex: 1 }}>
             <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: theme.colors.base } }} />
           </View>
           <SideRail />

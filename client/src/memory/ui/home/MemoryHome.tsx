@@ -2,7 +2,7 @@
 // instead of importing the router, so a test can watch where it goes. Colours, radii, borders and fonts are the theme's.
 import { router } from 'expo-router';
 import { memo, useEffect, useMemo, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useColumn } from '../../../components/ContentColumn';
@@ -234,6 +234,7 @@ const LibraryRow = memo(function LibraryRow({
   return (
     <Pressable
       testID={`memory-row-${verse.id}`}
+      {...(Platform.OS === 'web' ? { dataSet: { hover: 'flat' } } : {})}
       accessibilityRole="button"
       accessibilityLabel={t('memory.row.aria', { ref: en ? verse.referenceEn : shown.reference, stage: stageLabel })}
       onPress={() => onOpen(verse.id)}

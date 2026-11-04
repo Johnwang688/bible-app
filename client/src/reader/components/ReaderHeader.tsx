@@ -2,7 +2,7 @@
 // out of view while reading; a small pill at the top always brings it back.
 import { router } from 'expo-router';
 import type { ComponentRef, Ref, ReactNode } from 'react';
-import { Animated, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { Platform, Animated, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import type { BookInfo } from '../../api/schemas';
@@ -85,7 +85,7 @@ export function ReaderHeader({
           { paddingTop: insets.top, transform: [{ translateY }], pointerEvents: hidden ? 'none' : 'auto' },
         ]}
       >
-        <View style={[styles.row, desktop && readerColumn
+        <View {...(Platform.OS === 'web' ? { dataSet: { readerColumn: '1' } } : {})} style={[styles.row, desktop && readerColumn
           ? { width: readerColumn.columnWidth, marginLeft: readerColumn.left, alignSelf: 'flex-start' }
           : [column, column !== null && { paddingHorizontal: gutter }]]}>
           {book && title ? (

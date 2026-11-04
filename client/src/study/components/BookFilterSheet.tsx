@@ -1,5 +1,5 @@
 // The book filter's sheet: "All books", then only the books that have saved items, in canon order.
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { uiFace } from '../../fonts/fonts';
 import { useI18n } from '../../i18n/I18nProvider';
@@ -57,6 +57,7 @@ export function BookFilterSheet({
             <Pressable
               key={o.key}
               testID={o.testID}
+              {...(Platform.OS === 'web' ? { dataSet: { hover: 'flat' } } : {})}
               accessibilityRole="radio"
               accessibilityState={{ checked }}
               aria-checked={checked}

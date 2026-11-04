@@ -30,6 +30,7 @@ import { ConsentSheet } from './ConsentSheet';
 import { useKeyboardOpen, useLargeText } from './hooks';
 import { TrainerIcon, type TrainerIconName } from './icons';
 import type { TrainerCtx } from './types';
+import { useEnterCheck } from './useEnterCheck';
 
 /** After an attempt: the notices that come with a Try again. */
 type RetryNotice = 'too-long' | 'timeout' | 'error';
@@ -680,6 +681,7 @@ function TypeField({
   const { t } = useI18n();
   const border = theme.borders.button;
   const empty = value.trim() === '';
+  useEnterCheck(!empty && !dim, onCheck);
   const input = (
     <TextInput
       testID="memory-type-input"

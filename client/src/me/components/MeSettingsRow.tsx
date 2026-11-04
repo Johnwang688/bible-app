@@ -1,7 +1,7 @@
 // The Me tab's building blocks: a labelled group (header text over a card) and the rows inside it.
 // Layout follows Me.dc.html: 12 pt header, card of 50 pt rows with label, value and chevron.
 import type { ReactNode } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { auroraTextShadow } from '../../aurora';
 import { GlassSurface } from '../../components/GlassSurface';
@@ -60,6 +60,7 @@ export function MeSettingsRow({
   return (
     <Pressable
       testID={id}
+      {...(Platform.OS === 'web' ? { dataSet: { hover: 'flat' } } : {})}
       accessibilityRole="button"
       accessibilityLabel={value === undefined ? label : t('me.row.a11y', { label, value })}
       onPress={onPress}
