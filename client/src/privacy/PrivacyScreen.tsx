@@ -17,6 +17,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { isBetaBuild } from '../api/config';
 import { AuroraBackground, auroraTextShadow } from '../aurora';
+import { useColumn } from '../components/ContentColumn';
 import { COLUMN } from '../components/layout';
 import { GlassSurface } from '../components/GlassSurface';
 import { uiFace } from '../fonts/fonts';
@@ -43,6 +44,8 @@ export interface PrivacyScreenProps {
 }
 
 export function PrivacyScreen({ lang, canGoBack, onBack, onOpenApp, onLocaleChange }: PrivacyScreenProps) {
+  const column = useColumn('text');
+  const withRail = column?.marginLeft !== undefined;
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const { locale: interfaceLocale } = useI18n();
@@ -89,7 +92,7 @@ export function PrivacyScreen({ lang, canGoBack, onBack, onOpenApp, onLocaleChan
             ]}
           />
         ) : null}
-        <View style={[styles.column, styles.bar]}>
+        <View style={[styles.column, column, styles.bar]}>
           {canGoBack ? (
             <Pressable
               testID="privacy-back"
@@ -134,9 +137,9 @@ export function PrivacyScreen({ lang, canGoBack, onBack, onOpenApp, onLocaleChan
       <ScrollView
         onScroll={onScroll}
         scrollEventThrottle={16}
-        contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + 48 }]}
+        contentContainerStyle={[styles.content, withRail && { paddingHorizontal: 0 }, { paddingBottom: insets.bottom + 48 }]}
       >
-        <View style={[styles.column, styles.stack]}>
+        <View style={[styles.column, column, styles.stack]}>
           <View style={styles.titleBlock}>
             <Text
               accessibilityRole="header"

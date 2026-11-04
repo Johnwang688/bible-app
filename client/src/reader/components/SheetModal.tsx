@@ -3,12 +3,13 @@
 // opts out of the Modal and the scrim (`modal={false}`): the chapter stays usable above it.
 // Escape on the web goes through the shared Escape stack (`components/escapeStack`), not the Modal's own keyup
 // handler, so a press closes only the topmost layer.
-import type { ReactNode } from 'react';
+import { useCallback, useId, useLayoutEffect, useState, type ReactNode } from 'react';
 import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useEscapeKey } from '../../components/escapeStack';
 import { GlassSurface } from '../../components/GlassSurface';
+import { BREAKPOINT } from '../../components/layout';
 import { SCRIM } from '../../theme/overlays';
 import { useTheme } from '../../theme/ThemeProvider';
 import { useReduceMotion } from './useReduceMotion';
@@ -53,7 +54,28 @@ export function SheetModal({
 }) {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
-  const { height: windowHeight } = useWindowDimensions();
+  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
+  const dialog = modal && windowWidth >= BREAKPOINT.rail;
+  const titleId = useId();
+  const [surface, setSurface] = useState<HTMLElement | null>(null);
+  const surfaceRef = useCallback((node: unknown) => setSurface(node as HTMLElement | null), []);
+  useLayoutEffect(() => {
+    if (Platform.OS !== 'web' || !modal || !surface || typeof document === 'undefined') return;
+    const label = () => {
+      const heading = surface.querySelector('[role="heading"]');
+      if (heading) {
+        heading.id = titleId;
+        surface.setAttribute('aria-labelledby', titleId);
+      } else {
+        surface.removeAttribute('aria-labelledby');
+      }
+    };
+    label();
+    // Sub-views can change inside a sheet without re-rendering this frame.
+    const observer = new MutationObserver(label);
+    observer.observe(surface, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ['role'] });
+    return () => observer.disconnect();
+  }, [modal, surface, titleId, header, children]);
   const reduceMotion = useReduceMotion();
   const radius = theme.radii.sheet;
   // A modal sheet is a layer of the Escape stack, found by its test ID inside its Modal. On the web the Modal gets
@@ -66,21 +88,28 @@ export function SheetModal({
     <GlassSurface
       testID={testID}
       background={theme.backgrounds.sheet}
+      surfaceRef={Platform.OS === 'web' && modal ? surfaceRef : undefined}
+      webProps={Platform.OS === 'web' && modal ? { role: 'dialog', 'aria-modal': true } : undefined}
       style={[
         styles.sheet,
-        tall ? styles.tall : { maxHeight: Math.max(0, modal ? windowHeight - insets.top - SHEET_TOP_GAP : Math.round(windowHeight * FLOATING_MAX_SHARE)) },
+        dialog
+          ? { maxWidth: Math.min(440, windowWidth - 48), maxHeight: windowHeight - 48, ...(tall ? { height: Math.min(720, windowHeight - 48) } : {}) }
+          : tall ? styles.tall : { maxHeight: Math.max(0, modal ? windowHeight - insets.top - SHEET_TOP_GAP : Math.round(windowHeight * FLOATING_MAX_SHARE)) },
         {
           borderTopLeftRadius: radius,
           borderTopRightRadius: radius,
           borderWidth: border.width,
-          borderBottomWidth: 0,
+          borderBottomWidth: dialog ? border.width : 0,
+          borderBottomLeftRadius: dialog ? radius : 0,
+          borderBottomRightRadius: dialog ? radius : 0,
           borderColor: border.color,
           boxShadow: theme.shadows.sheet ?? undefined,
           paddingBottom: Math.max(insets.bottom, 12) + 12,
+          ...(dialog ? { paddingTop: 16 } : {}),
         },
       ]}
     >
-      <View accessible={false} style={[styles.grabber, { backgroundColor: theme.canvas.grabber ?? theme.colors.muted }]} />
+      {!dialog ? <View testID="sheet-grabber" accessible={false} style={[styles.grabber, { backgroundColor: theme.canvas.grabber ?? theme.colors.muted }]} /> : null}
       {header}
       {header !== undefined && !tall ? (
         <ScrollView style={styles.body} contentContainerStyle={styles.bodyContent} keyboardShouldPersistTaps="handled">
@@ -114,18 +143,19 @@ export function SheetModal({
 
   return (
     <Modal
+      testID={`${testID}-modal`}
       transparent
       visible
       statusBarTranslucent
-      animationType={reduceMotion ? 'none' : 'slide'}
+      animationType={reduceMotion ? 'none' : dialog ? 'fade' : 'slide'}
       onRequestClose={Platform.OS === 'web' ? ignoreRequestClose : requestClose}
     >
       <KeyboardAvoidingView
         enabled={avoidKeyboard}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        style={[styles.fill, tall && { paddingTop: insets.top + 10 }]}
+        style={[styles.fill, dialog ? { justifyContent: 'center' } : tall && { paddingTop: insets.top + 10 }]}
       >
-        <Pressable accessible={false} style={[StyleSheet.absoluteFill, styles.scrim]} onPress={onClose} />
+        <Pressable testID={`${testID}-scrim`} accessible={false} {...(Platform.OS === 'web' ? { tabIndex: -1 } : {})} style={[StyleSheet.absoluteFill, styles.scrim]} onPress={onClose} />
         {sheet}
       </KeyboardAvoidingView>
     </Modal>

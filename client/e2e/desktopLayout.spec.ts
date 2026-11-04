@@ -44,6 +44,13 @@ for (const width of [1024, 1440, 1920]) {
       if ('explore' in screen) await page.getByTestId('study-tab-explore').click();
       const scroll = page.getByTestId(screen.scroll);
       await expect(scroll).toBeVisible();
+      await expect(page.getByTestId('side-rail')).toBeVisible();
+      await expect(page.getByTestId('bottom-bar-background')).toBeHidden();
+      for (const name of ['home', 'bible', 'study', 'me']) await expect(page.getByTestId(`tab-${name}`)).toHaveCount(1);
+      const rail = width < 1280 ? 88 : 208;
+      const box = 'reader' in screen ? await boxOf(page.getByTestId('reader-text')) : await boxOf(scroll.locator(':scope > div').first());
+      expect(box.x).toBeGreaterThanOrEqual(rail);
+      expect(Math.abs(box.x + box.width / 2 - (width + rail) / 2)).toBeLessThanOrEqual(1);
       if ('explore' in screen) await expect(page.getByTestId('explore-card-person')).toBeVisible();
       let measured: number;
       if ('reader' in screen) {
@@ -93,7 +100,7 @@ test('Explore uses equal-height columns at 1024px and stays stable while finding
   await noSidewaysScroll(page, page.getByTestId('explore'));
 });
 
-for (const width of [820, 1440]) {
+for (const width of [820]) {
   for (const preset of ['silver', 'strawberry-milk', 'graphite']) {
     test(`bottom bar floats at ${width}px in ${preset}`, async ({ page }) => {
       await page.setViewportSize({ width, height: 1000 });
@@ -143,6 +150,199 @@ async function reachableInWindow(page: Page, locator: Locator) {
   expect(box.x + box.width).toBeLessThanOrEqual(viewport.width + 1);
   expect(box.y + box.height).toBeLessThanOrEqual(viewport.height + 1);
 }
+
+for (const width of [1024, 1440, 1920]) {
+  test(`privacy keeps the overlay rail and clears it at ${width}`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/privacy');
+    await expect(page.getByTestId('side-rail')).toBeVisible();
+    const card = await boxOf(page.getByTestId('privacy-short'));
+    const rail = width < 1280 ? 88 : 208;
+    expect(card.x).toBeGreaterThanOrEqual(rail);
+    expect(Math.abs(card.x + card.width / 2 - (width + rail) / 2)).toBeLessThan(1);
+    await noSidewaysScroll(page);
+  });
+
+  test(`rail navigation, search shortcuts and lesson hiding at ${width}`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    await expect(page.getByTestId('tab-home')).toHaveAttribute('aria-current', 'page');
+    await page.keyboard.press('/');
+    await expect(page).toHaveURL(/\/search$/);
+    await expect(page.getByTestId('side-rail')).toBeVisible();
+    await expect(page.locator('[data-testid^="tab-"][aria-current]')).toHaveCount(0);
+    await page.getByTestId('search-input').fill('typing');
+    await page.keyboard.press('/');
+    await expect(page.getByTestId('search-input')).toHaveValue('typing/');
+    await page.keyboard.press('Control+k');
+    await expect(page.getByTestId('search-input')).toHaveValue('typing/');
+    await page.getByTestId('tab-bible').click();
+    await expect(page).toHaveURL(/\/bible$/);
+    await expect(page.getByTestId('reader-search-button')).toHaveCount(0);
+    await page.keyboard.press('Control+k');
+    await expect(page).toHaveURL(/\/search$/);
+    await page.getByTestId('tab-study').click();
+    await expect(page).toHaveURL(/\/study$/);
+    await page.goto('/entities/person/god');
+    await expect(page.getByTestId('tab-study')).toHaveAttribute('aria-current', 'page');
+    await page.getByTestId('tab-home').click();
+    await expect(page).toHaveURL(/\/$/);
+    await page.goBack();
+    await expect(page.getByTestId('side-rail')).toBeVisible();
+    await page.goto('/memory/lesson/2-corinthians-5-17/fill-blank');
+    await expect(page.getByTestId('memory-step')).toBeVisible();
+    await expect(page.getByTestId('side-rail')).toHaveCount(0);
+    await expect(page.getByTestId('bottom-bar-background')).toBeHidden();
+    await noSidewaysScroll(page);
+  });
+}
+
+for (const [width, columns] of [[1024, 3], [820, 2], [1120, 3], [1440, 3]]) {
+  test(`People reads across ${columns} columns at ${width}, with sticky unclipped jumps`, async ({ page }) => {
+    await page.setViewportSize({ width: width!, height: 900 });
+    await page.goto('/entities/person');
+    const rows = page.getByTestId(/^entity-row-/);
+    await expect(rows.first()).toBeVisible();
+    const boxes = await rows.evaluateAll((nodes) => nodes.slice(0, 4).map((node) => {
+      const { x, y, width } = node.getBoundingClientRect(); return { x, y, width };
+    }));
+    expect(boxes[1]!.x).toBeGreaterThan(boxes[0]!.x);
+    expect(boxes[columns! - 1]!.y).toBeCloseTo(boxes[0]!.y, 0);
+    expect(boxes[columns!]!.y).toBeGreaterThan(boxes[0]!.y);
+    const jump = page.getByTestId('entity-jump');
+    const bounds = await boxOf(jump);
+    const letterTops: number[] = [];
+    for (const letter of await page.getByTestId(/^entity-jump-[A-Z]$/).all()) {
+      const box = await boxOf(letter);
+      letterTops.push(box.y);
+      expect(box.width).toBeGreaterThanOrEqual(44);
+      expect(box.height).toBeGreaterThanOrEqual(44);
+      expect(box.x).toBeGreaterThanOrEqual(bounds.x);
+      expect(box.x + box.width).toBeLessThanOrEqual(bounds.x + bounds.width + 1);
+    }
+    if (width! >= 1120) expect(Math.max(...letterTops) - Math.min(...letterTops)).toBeLessThanOrEqual(1);
+    if (width === 1024) {
+      const search = page.getByTestId('rail-search');
+      await expect(search).toHaveAccessibleName('Search');
+      await expect(search).toHaveText('');
+    }
+    if (width! >= 1024) {
+      await expect(page.getByRole('navigation', { name: 'Main', exact: true })).toBeVisible();
+      const search = await boxOf(page.getByTestId('rail-search'));
+      expect(search.height).toBe(44);
+      const home = await boxOf(page.getByTestId('tab-home'));
+      const bible = await boxOf(page.getByTestId('tab-bible'));
+      expect(home.height).toBe(width! < 1280 ? 52 : 48);
+      expect(bible.y - (home.y + home.height)).toBe(4);
+    }
+    await page.getByTestId('entity-jump-M').click();
+    const section = page.getByTestId('entity-section-M');
+    await expect(section).toBeInViewport();
+    await expect.poll(async () => {
+      const sectionBox = await boxOf(section);
+      const jumpBox = await boxOf(jump);
+      return sectionBox.y - jumpBox.y - jumpBox.height;
+    }).toBeGreaterThanOrEqual(-1);
+    await noSidewaysScroll(page, page.getByTestId('entity-list-scroll'));
+  });
+}
+
+for (const [width, height] of [[1440, 900], [1366, 650]]) {
+  test(`sign-in is a labelled centred dialog at ${width}x${height}`, async ({ page }) => {
+    await page.setViewportSize({ width: width!, height: height! });
+    await page.goto('/me');
+    await page.getByTestId('account-sign-in').click();
+    const dialog = page.getByTestId('account-sheet');
+    await expect(dialog).toHaveAttribute('role', 'dialog');
+    await expect(dialog).toHaveAttribute('aria-modal', 'true');
+    const labelledBy = await dialog.getAttribute('aria-labelledby');
+    expect(labelledBy).toBeTruthy();
+    expect(await page.evaluate((id) => document.getElementById(id!)?.textContent, labelledBy)).toBe('Sign in');
+    const box = await boxOf(dialog);
+    expect(box.width).toBeLessThanOrEqual(440);
+    expect(box.height).toBeLessThanOrEqual(height! - 48);
+    expect(Math.abs(box.x + box.width / 2 - width! / 2)).toBeLessThan(1);
+    expect(Math.abs(box.y + box.height / 2 - height! / 2)).toBeLessThan(1);
+    await reachableInWindow(page, page.getByTestId('auth-close'));
+    await reachableInWindow(page, page.getByTestId('auth-submit'));
+    await expect(page.getByTestId('account-sheet-scrim')).toHaveAttribute('tabindex', '-1');
+    await page.getByTestId('auth-email').fill('test');
+    await page.keyboard.press('/');
+    await expect(page).toHaveURL(/\/me$/);
+    // A view switch replaces the title; the central frame must name the new heading too.
+    await page.getByTestId('auth-to-signup').click();
+    const newId = await dialog.getAttribute('aria-labelledby');
+    expect(await page.evaluate((id) => document.getElementById(id!)?.textContent, newId)).toBe('Create an account');
+    await page.keyboard.press('Escape');
+    await expect(dialog).toHaveCount(0);
+  });
+}
+
+for (const width of [767, 1023]) {
+  test(`keeps the bottom navigation and search header below the rail at ${width}`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/bible');
+    await expect(page.getByTestId('side-rail')).toHaveCount(0);
+    await expect(page.getByTestId('reader-search-button')).toBeVisible();
+    await expect(page.getByTestId('bottom-bar-background')).toBeVisible();
+    await page.keyboard.press('/');
+    await expect(page).toHaveURL(/\/bible$/);
+    await page.getByTestId('reader-settings-button').click();
+    await expect(page.getByTestId('sheet-grabber')).toBeVisible();
+  });
+}
+
+test('skip link is the first tab stop and focuses the full-window content', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  await expect(page.getByTestId('screen-home')).toBeVisible();
+  await page.keyboard.press('Tab');
+  await expect(page.getByTestId('rail-skip')).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('#main-content')).toBeFocused();
+  await page.getByTestId('tab-bible').focus();
+  await page.keyboard.press('Enter');
+  await expect(page).toHaveURL(/\/bible$/);
+});
+
+test('parallel header and text share edges and header arrows stay reachable while scrolling', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await seed(page, 'reader.settings', { textSize: 2, parallel: 'CUV-SIMP' });
+  await page.goto('/bible');
+  const column = await boxOf(page.getByTestId('parallel-columns'));
+  expect(column.width).toBe(1120);
+  expect(column.x).toBe(264);
+  const book = await boxOf(page.getByTestId('reader-book-button'));
+  expect(book.x).toBe(column.x);
+  for (const direction of ['prev', 'next']) {
+    await expect(page.getByTestId('reader-header').getByTestId(`reader-${direction}`)).toHaveCount(1);
+    await expect(page.getByTestId(`reader-${direction}`)).toHaveCount(1);
+  }
+  await page.getByTestId('reader-scroll').hover();
+  await page.mouse.wheel(0, 700);
+  await expect(page.getByTestId('reader-next')).toBeInViewport();
+  await expect(page.getByTestId('reader-show-controls')).toHaveCount(0);
+});
+
+test('desktop read-aloud bar centres on the Scripture column, 16px above the bottom', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.addInitScript(() => {
+    class Utterance { constructor(public text: string) {} }
+    Object.defineProperty(window, 'SpeechSynthesisUtterance', { configurable: true, value: Utterance });
+    Object.defineProperty(window, 'speechSynthesis', { configurable: true, value: {
+      paused: false, getVoices: () => [{ voiceURI: 'en-us', name: 'US voice', lang: 'en-US', default: true, localService: true }],
+      cancel() {}, resume() {}, speak() {}, addEventListener() {}, removeEventListener() {},
+    } });
+  });
+  await page.goto('/bible');
+  const column = await boxOf(page.getByTestId('reader-text'));
+  await page.getByTestId('reader-tools-button').click();
+  await page.getByTestId('read-aloud-start').click();
+  const bar = await boxOf(page.getByTestId('read-aloud-bar'));
+  expect(bar.width).toBe(560);
+  expect(bar.x + bar.width / 2).toBe(column.x + column.width / 2);
+  expect(bar.y + bar.height).toBe(884);
+});
 
 test.describe('desktop first run', () => {
   // As in firstRun.spec.ts, no stored onboarding envelope: the intro has not been completed.
@@ -203,5 +403,14 @@ test.describe('desktop first run', () => {
       expect(cardBox.y + cardBox.height).toBeLessThanOrEqual(nextBox.y);
       await reachableInWindow(page, next);
     }
+  });
+
+  test('an exempt privacy visit keeps the rail hidden until first run is done', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/privacy');
+    await expect(page.getByTestId('screen-privacy')).toBeVisible();
+    await expect(page.getByTestId('side-rail')).toHaveCount(0);
+    const box = await boxOf(page.getByTestId('privacy-short'));
+    expect(Math.abs(box.x + box.width / 2 - 720)).toBeLessThan(1);
   });
 });

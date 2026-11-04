@@ -90,7 +90,7 @@ export function AccountSheet({
   const account = useAccount();
   const { locale } = useI18n();
   const insets = useSafeAreaInsets();
-  const { height: windowHeight } = useWindowDimensions();
+  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const keyboard = useKeyboardHeight();
 
   const [view, setView] = useState<SheetView>(start);
@@ -475,7 +475,7 @@ export function AccountSheet({
 
   return (
     <SheetModal testID="account-sheet" avoidKeyboard onClose={closeUnlessDeleting}>
-      <View style={styles.frame}>
+      <View style={[styles.frame, windowWidth >= 1024 && { maxHeight: windowHeight - 48 - 16 - (Math.max(insets.bottom, 12) + 12) }]}>
         {header}
         <ScrollView
           style={[styles.body, maxBody !== undefined && { maxHeight: maxBody }]}

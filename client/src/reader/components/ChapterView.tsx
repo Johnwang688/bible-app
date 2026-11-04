@@ -16,7 +16,8 @@ import {
 
 import type { ChapterOut } from '../../api/schemas';
 import { useColumn } from '../../components/ContentColumn';
-import { COLUMN } from '../../components/layout';
+import { BREAKPOINT, COLUMN } from '../../components/layout';
+import type { ReaderColumn } from '../readerColumn';
 import { scriptureFace, uiFace } from '../../fonts/fonts';
 import { ensureFont, LAZY_FONT_FAMILY } from '../../fonts/lazy';
 import { useT } from '../../i18n/I18nProvider';
@@ -44,6 +45,7 @@ export interface SecondChapter {
 }
 
 export interface ChapterViewProps {
+  column?: ReaderColumn;
   chapter: ChapterOut;
   translation: TranslationId;
   /** The parallel translation's chapter; absent when reading one translation. */
@@ -233,11 +235,13 @@ export function ChapterView({
   onSwap,
   onVerseLayout,
   layoutKey = '',
+  column,
 }: ChapterViewProps) {
   const parallelColumn = useColumn('parallel');
   const theme = useTheme();
   const t = useT();
   const { width } = useWindowDimensions();
+  const desktopColumn = width >= BREAKPOINT.rail && column ? { width: column.columnWidth, marginLeft: column.left, alignSelf: 'flex-start' as const } : null;
   const size = TEXT_SIZES[textSize] ?? TEXT_SIZES[2];
   const secondTranslation = second?.translation;
   const chineseFont = useChineseFont(isChineseTranslation(translation) || (!!secondTranslation && isChineseTranslation(secondTranslation)));
@@ -279,7 +283,7 @@ export function ChapterView({
     const f = face(theme, translation, size, chineseFont);
     const space = isChineseTranslation(translation) ? '' : ' ';
     return (
-      <View testID="reader-text" style={styles.reading} onLayout={onRoot}>
+      <View testID="reader-text" style={[styles.reading, desktopColumn]} onLayout={onRoot}>
         <Text
           style={[f, { color: theme.colors.text }]}
           onLayout={
@@ -391,7 +395,7 @@ export function ChapterView({
   const secondName = headName(second.translation, 'reader.secondTranslation', 'parallel-second-name');
 
   return (
-    <View testID="parallel-columns" style={[styles.columns, parallelColumn]} onLayout={onRoot}>
+    <View testID="parallel-columns" style={[styles.columns, desktopColumn ?? parallelColumn]} onLayout={onRoot}>
       <View style={styles.columnsHeader}>
         <View style={styles.headerCell}>{firstName}</View>
         <Pressable

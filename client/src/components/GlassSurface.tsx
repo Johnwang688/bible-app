@@ -3,8 +3,8 @@
 // filter on the web, each with the preset's glass paint on top.
 import { BlurView } from 'expo-blur';
 import { GlassView, isLiquidGlassAvailable } from 'expo-glass-effect';
-import type { ReactNode } from 'react';
-import { Platform, StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
+import type { ReactNode, Ref, ComponentRef } from 'react';
+import { Platform, StyleSheet, View, type StyleProp, type ViewStyle, type ViewProps } from 'react-native';
 
 import { useTheme } from '../theme/ThemeProvider';
 import type { Background } from '../theme/types';
@@ -14,16 +14,20 @@ export function GlassSurface({
   style,
   children,
   testID,
+  surfaceRef,
+  webProps,
 }: {
   background: Background;
   style?: StyleProp<ViewStyle>;
   children?: ReactNode;
   testID?: string;
+  surfaceRef?: Ref<ComponentRef<typeof View>>;
+  webProps?: Pick<ViewProps, 'role' | 'aria-modal'>;
 }) {
   const theme = useTheme();
   if (theme.style !== 'glass' || theme.blur.css === null) {
     return (
-      <View testID={testID} style={[background, style]}>
+      <View ref={surfaceRef} testID={testID} {...(Platform.OS === 'web' ? webProps : {})} style={[background, style]}>
         {children}
       </View>
     );
@@ -32,7 +36,7 @@ export function GlassSurface({
     // React Native Web passes backdropFilter through to CSS.
     const web = { backdropFilter: theme.blur.css, WebkitBackdropFilter: theme.blur.css } as ViewStyle;
     return (
-      <View testID={testID} style={[background, web, style]}>
+      <View ref={surfaceRef} testID={testID} {...webProps} style={[background, web, style]}>
         {children}
       </View>
     );

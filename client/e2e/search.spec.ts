@@ -30,10 +30,10 @@ test.describe('Search (English)', () => {
   test.use({ locale: 'en-US', colorScheme: 'light' });
   test.beforeEach(async ({ page }) => seed(page, 'reader.position', { bookNumber: 1, chapter: 1, translation: 'WEB' }));
 
-  test('the header button opens search with the field focused; back returns to the reader', async ({ page }) => {
+  test('the responsive search control opens search with the field focused; back returns to the reader', async ({ page }) => {
     await mockSearch(page);
     await page.goto('/bible');
-    const button = page.getByTestId('reader-search-button');
+    const button = page.getByTestId(/^(reader-search-button|rail-search)$/);
     await expect(button).toHaveAccessibleName('Search');
     const box = await button.boundingBox();
     expect(box!.width).toBeGreaterThanOrEqual(44);
@@ -104,7 +104,7 @@ test.describe('Search (English)', () => {
   test('Escape goes back', async ({ page }) => {
     await mockSearch(page);
     await page.goto('/bible');
-    await page.getByTestId('reader-search-button').click();
+    await page.getByTestId(/^(reader-search-button|rail-search)$/).click();
     await expect(page.getByTestId('search-input')).toBeFocused();
     await page.keyboard.press('Escape');
     await expect(page).toHaveURL(/\/bible$/);

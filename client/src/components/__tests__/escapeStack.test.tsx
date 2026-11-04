@@ -118,6 +118,16 @@ describe('escape stack', () => {
     expect(escapeLayerCount()).toBe(0);
   });
 
+  it('recognises a modal whose test ID is on the dialog itself', async () => {
+    const handle = jest.fn();
+    const modal = addModal();
+    Object.assign(modal, { matches: (selector: string) => selector === '[data-testid="sheet"]' });
+    const mounted = await layer(handle, { modalTestID: 'sheet' });
+    press();
+    expect(handle).toHaveBeenCalledTimes(1);
+    await mounted.unmount();
+  });
+
   it('a disabled layer keeps its place but is skipped', async () => {
     const lower = jest.fn();
     const upper = jest.fn();

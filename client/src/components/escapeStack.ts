@@ -70,7 +70,7 @@ function openModals(): Element[] {
 
 function holds(modal: Element, testID: string): boolean {
   const id = typeof CSS !== 'undefined' && CSS.escape ? CSS.escape(testID) : testID;
-  return modal.querySelector(`[data-testid="${id}"]`) !== null;
+  return safeMatches(modal, `[data-testid="${id}"]`) || modal.querySelector(`[data-testid="${id}"]`) !== null;
 }
 
 /** The layer that should take this press, or null when the press belongs to someone else (or no one). */

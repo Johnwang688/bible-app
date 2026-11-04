@@ -3,6 +3,7 @@ import * as RN from 'react-native';
 
 import { ContentColumn, useColumn } from '../ContentColumn';
 import { COLUMN } from '../layout';
+import { RailContext } from '../RailContext';
 
 async function setWidth(width: number) {
   await act(() => RN.Dimensions.set({
@@ -36,4 +37,16 @@ it('wraps children with the chosen column and supplied style', async () => {
   await render(<ContentColumn kind="lesson" gutter={16} style={{ paddingHorizontal: 16 }} testID="lesson"><RN.Text>child</RN.Text></ContentColumn>);
   expect(screen.getByTestId('lesson')).toHaveStyle({ maxWidth: 672, width: '100%', paddingHorizontal: 16 });
   expect(screen.getByText('child')).toBeTruthy();
+});
+
+it.each([[1024, 88, 760, 176], [1440, 208, 760, 444]])('centres beside the rail at %i, including both gutters', async (width, rail, inner, left) => {
+  await setWidth(width);
+  await render(<RailContext.Provider value={rail}><Probe gutter={20} /></RailContext.Provider>);
+  expect(JSON.parse(screen.getByTestId('column').props.children)).toEqual({ width: inner, marginLeft: left, alignSelf: 'flex-start' });
+});
+
+it('uses only the space remaining beside the rail for a wide column', async () => {
+  await setWidth(1024);
+  await render(<RailContext.Provider value={88}><ContentColumn testID="wide" kind="wide" gutter={16} /></RailContext.Provider>);
+  expect(screen.getByTestId('wide')).toHaveStyle({ width: 936, marginLeft: 88, alignSelf: 'flex-start' });
 });

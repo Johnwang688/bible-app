@@ -6,6 +6,8 @@ import { feedbackZhHans } from './feedback';
 import { memoryZhHans } from './memory';
 
 export const zhHans: Record<MessageKey, string> = {
+  'navigation.skipContent': '跳转到内容',
+  'navigation.main': '主导航',
   'app.name': '圣经',
 
   'tabs.home': '首页',

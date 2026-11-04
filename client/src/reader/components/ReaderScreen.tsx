@@ -39,8 +39,9 @@ import { usePrefetchAdjacent, useChapter } from '../useChapter';
 import { useFocusNodeSoon } from './a11y';
 import { BookPicker } from './BookPicker';
 import { useColumn } from '../../components/ContentColumn';
-import { COLUMN } from '../../components/layout';
-import { chapterArrowPlacement } from '../chapterArrowPlacement';
+import { BREAKPOINT } from '../../components/layout';
+import { useRailWidth } from '../../components/RailContext';
+import { readerColumn } from '../readerColumn';
 import { ChapterView, NARROW_PADDING, WIDE_BREAKPOINT, WIDE_PADDING } from './ChapterView';
 import { Icon } from './icons';
 import { HEADER_BODY_HEIGHT, ReaderHeader } from './ReaderHeader';
@@ -104,6 +105,10 @@ export function ReaderScreen(props: {
   const book = findBook(books.data, position.bookNumber);
   const first = position.translation;
   const secondId: TranslationId | null = settings.parallel && settings.parallel !== first ? settings.parallel : null;
+
+  const rail = useRailWidth();
+  const desktop = width >= BREAKPOINT.rail;
+  const column = readerColumn({ width, rail, dock: 0, parallel: !!secondId });
 
   const firstQuery = useChapter(book, position.chapter, first);
   // With one translation this is the same query as the first, so nothing extra is requested.
@@ -291,7 +296,7 @@ export function ReaderScreen(props: {
   };
 
   const hideDistance = insets.top + HEADER_BODY_HEIGHT + 4;
-  const header = useCollapsingHeader(hideDistance);
+  const header = useCollapsingHeader(hideDistance, { pinned: column.arrows === 'header' });
   const { reset: resetHeader, show: showHeader } = header;
   // Coming back to the reader tab: the header is back too (it may have been scrolled away before leaving).
   useEffect(() => {
@@ -475,7 +480,7 @@ export function ReaderScreen(props: {
   const wide = width >= WIDE_BREAKPOINT;
   const horizontal = wide && secondId ? WIDE_PADDING : NARROW_PADDING;
   const navColumn = useColumn(secondId ? 'parallel' : 'text');
-  const arrows = chapterArrowPlacement(width, !!secondId, COLUMN.text);
+  const arrows = column.arrows;
   const prev = prevPosition(books.data, position);
 
   const navButton = (direction: SwipeDirection) => (
@@ -484,9 +489,9 @@ export function ReaderScreen(props: {
       accessibilityRole="button"
       accessibilityLabel={t(direction === 'next' ? 'reader.nextChapter' : 'reader.previousChapter')}
       onPress={direction === 'next' ? goNext : goPrev}
-      style={[styles.nav, buttonStyle(theme), arrows.kind === 'outside' && {
+      style={[styles.nav, buttonStyle(theme), arrows === 'beside' && {
         position: 'absolute', top: '50%', marginTop: -22, width: 44, height: 44, borderRadius: 22,
-        ...(direction === 'prev' ? { left: arrows.offset } : { right: arrows.offset }),
+        left: direction === 'prev' ? column.left - 64 : column.left + column.columnWidth + 20,
       }]}
     >
       <Icon name={direction === 'next' ? 'chevronRight' : 'chevronLeft'} size={22} color={theme.colors.btnText} />
@@ -501,6 +506,7 @@ export function ReaderScreen(props: {
     body = (
       <>
         <ChapterView
+          column={column}
           chapter={firstQuery.data}
           translation={first}
           second={secondId && secondQuery.data ? { chapter: secondQuery.data, translation: secondId } : null}
@@ -517,7 +523,7 @@ export function ReaderScreen(props: {
           onVerseLayout={Platform.OS === 'web' ? undefined : scroller.onLayout}
           layoutKey={selectionKey}
         />
-        {arrows.kind === 'row' ? (
+        {arrows === 'row' ? (
           <View style={[styles.navRow, navColumn]}>
             {prevButton ?? <View style={styles.navSpacer} />}
             {nextButton ?? <View style={styles.navSpacer} />}
@@ -584,16 +590,18 @@ export function ReaderScreen(props: {
           {
             paddingTop: insets.top + HEADER_BODY_HEIGHT + HEADER_GAP,
             paddingBottom: bottomRoom,
-            paddingHorizontal: horizontal,
+            paddingHorizontal: desktop ? 0 : horizontal,
           },
         ]}
       >
         {body}
       </ScrollView>
 
-      {ready && firstQuery.data && arrows.kind === 'outside' ? <>{prevButton}{nextButton}</> : null}
+      {ready && firstQuery.data && arrows === 'beside' ? <>{prevButton}{nextButton}</> : null}
 
       <ReaderHeader
+        readerColumn={column}
+        chapterArrows={ready && firstQuery.data && arrows === 'header' ? <>{prevButton}{nextButton}</> : undefined}
         book={book}
         position={position}
         second={secondId}
@@ -607,7 +615,7 @@ export function ReaderScreen(props: {
         onOpenSettings={() => setSheet('settings')}
       />
 
-      <ReadAloudBar read={read} translation={translationName} endTitle={endTitle} nextTitle={nextTitle} hidden={verseSheetOpen}
+      <ReadAloudBar column={column} read={read} translation={translationName} endTitle={endTitle} nextTitle={nextTitle} hidden={verseSheetOpen}
         insets={insets} onStop={stopRead} onOpenVoice={() => setSheet('voice')}
         onBack={() => { read.backToVerse(); setFocusToggleRequest((n) => n + 1); }} onHeight={setBarHeight}
         onPlayNext={() => { read.playNextChapter(); setFocusToggleRequest((n) => n + 1); }}

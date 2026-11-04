@@ -3,9 +3,11 @@
 // 2,989 themes.
 import { router } from 'expo-router';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Platform, Pressable, ScrollView, SectionList, StyleSheet, type TextStyle, Text, TextInput, View } from 'react-native';
+import { Platform, Pressable, ScrollView, SectionList, StyleSheet, type TextStyle, Text, TextInput, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { GlassSurface } from '../../components/GlassSurface';
+import { BREAKPOINT } from '../../components/layout';
 import { ContentColumn, useColumn } from '../../components/ContentColumn';
 import type { EntityKind, SummaryEntityListItemOut } from '../../api/schemas';
 import { AuroraBackground, auroraTextShadow } from '../../aurora';
@@ -30,6 +32,7 @@ const COUNT: Record<EntityKind, MessageKey> = { person: 'entity.countPeople', pl
 const FIND: Record<EntityKind, MessageKey> = { person: 'entity.findPerson', place: 'entity.findPlace', theme: 'entity.findTheme' };
 
 interface Chunk {
+  letter?: string | null;
   key: string;
   items: SummaryEntityListItemOut[];
 }
@@ -59,14 +62,16 @@ export function EntityListScreen({
   onBack?: () => void;
   onOpenEntity?: (href: string) => void;
 }) {
-  const column = useColumn('text', 16);
+  const { width } = useWindowDimensions();
+  const columnKind = width >= BREAKPOINT.rail ? 'wide' : 'text';
+  const column = useColumn(columnKind, 16);
   const theme = useTheme();
   const { t } = useI18n();
   const back = useEntityBack(onBack);
   return (
     <View testID="screen-entity-list" style={[styles.fill, theme.backgrounds.app]}>
       <AuroraBackground />
-      <ContentColumn gutter={12}><EntityTopBar onBack={back} /></ContentColumn>
+      <ContentColumn kind={columnKind} gutter={12}><EntityTopBar onBack={back} /></ContentColumn>
       {kind === null ? (
         <View style={[styles.padded, column]}>
           <EntityStateBlock testID="entity-not-found" glyph="notFound" title={t('entity.notFoundTitle')} body={t('entity.notFoundBody')} />
@@ -81,7 +86,10 @@ export function EntityListScreen({
 const defaultOpen = (href: string) => router.push(href as never);
 
 function EntityListBody({ kind, initialFilter, onOpenEntity }: { kind: EntityKind; initialFilter: string; onOpenEntity(href: string): void }) {
-  const column = useColumn('text', 16);
+  const { width } = useWindowDimensions();
+  const columnKind = width >= BREAKPOINT.rail ? 'wide' : 'text';
+  const column = useColumn(columnKind, 16);
+  const columns = width >= BREAKPOINT.rail ? 3 : width >= BREAKPOINT.tablet ? 2 : 1;
   const theme = useTheme();
   const { t, formatNumber } = useI18n();
   const insets = useSafeAreaInsets();
@@ -122,15 +130,30 @@ function EntityListBody({ kind, initialFilter, onOpenEntity }: { kind: EntityKin
     [kind, filtering, sections],
   );
 
+  const shownSections = useMemo<Section[]>(() => columns === 1 || sections.length === 0 ? sections : [{
+    letter: null,
+    data: sections.flatMap((section) => section.data.map((item, i) => ({ ...item, letter: i === 0 ? section.letter : null }))),
+  }], [columns, sections]);
+  const scrollToSection = useCallback((sectionIndex: number, animated: boolean) => {
+    if (columns === 1) {
+      listRef.current?.scrollToLocation({ sectionIndex, itemIndex: 0, viewPosition: 0, animated });
+    } else {
+      // One sticky jump header, with each letter and its first chunk in the same item. SectionList accounts
+      // for the sticky header's measured height when itemIndex > 0 (the first data item is at index 1).
+      const itemIndex = 1 + sections.slice(0, sectionIndex).reduce((sum, section) => sum + section.data.length, 0);
+      listRef.current?.scrollToLocation({ sectionIndex: 0, itemIndex, viewPosition: 0, animated });
+    }
+  }, [columns, sections]);
+
   const jumpTo = useCallback(
     (letter: string) => {
       const sectionIndex = sections.findIndex((s) => s.letter === letter);
       if (sectionIndex < 0) return;
       if (retryTimer.current) clearTimeout(retryTimer.current);
       landing.current = { sectionIndex, until: Date.now() + LANDING_MS };
-      listRef.current?.scrollToLocation({ sectionIndex, itemIndex: 0, viewPosition: 0, animated: true });
+      scrollToSection(sectionIndex, true);
     },
-    [sections],
+    [sections, scrollToSection],
   );
   // The rows above a far section are measured only as the jump renders them, and each measurement moves the
   // section: a jump planned on estimates can stop short of it (or past it). Until the rows settle, every change of
@@ -143,8 +166,18 @@ function EntityListBody({ kind, initialFilter, onOpenEntity }: { kind: EntityKin
       landing.current = null;
       return;
     }
-    listRef.current?.scrollToLocation({ sectionIndex: target.sectionIndex, itemIndex: 0, viewPosition: 0, animated: false });
-  }, [sections.length]);
+    scrollToSection(target.sectionIndex, false);
+  }, [sections.length, scrollToSection]);
+  const onMeasuredChunk = useCallback(() => {
+    if (!landing.current) return;
+    if (retryTimer.current) clearTimeout(retryTimer.current);
+    // The child's layout arrives before SectionList has saved its cell's measured offset. Land after that
+    // measurement too: a grid can exchange spacer height without changing the total content height.
+    retryTimer.current = setTimeout(() => {
+      retryTimer.current = null;
+      onContentSizeChange();
+    }, 50);
+  }, [onContentSizeChange]);
   const endLanding = useCallback(() => {
     landing.current = null;
     if (retryTimer.current) clearTimeout(retryTimer.current);
@@ -166,10 +199,10 @@ function EntityListBody({ kind, initialFilter, onOpenEntity }: { kind: EntityKin
           landing.current = null;
           return;
         }
-        listRef.current?.scrollToLocation({ sectionIndex: target.sectionIndex, itemIndex: 0, viewPosition: 0, animated: true });
+        scrollToSection(target.sectionIndex, true);
       }, 100);
     },
-    [sections],
+    [sections, scrollToSection],
   );
 
   const count = !list
@@ -228,6 +261,27 @@ function EntityListBody({ kind, initialFilter, onOpenEntity }: { kind: EntityKin
     empty = undefined;
   }
 
+  const jumpButtons = (<>
+          {jumpLetters.map((letter) => (
+            <Pressable
+              key={letter}
+              testID={`entity-jump-${letter}`}
+              accessibilityRole="button"
+              accessibilityLabel={t('entity.jumpTo', { letter })}
+              onPress={() => jumpTo(letter)}
+              style={columns > 1 ? styles.jumpHit : [styles.jump, buttonStyle(theme)]}
+            >
+              {columns > 1 ? <View style={[buttonStyle(theme), styles.jumpChip]}>
+                <Text style={{ color: theme.colors.btnText, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 15 }}>{letter}</Text>
+              </View> : <Text style={{ color: theme.colors.btnText, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 15 }}>{letter}</Text>}
+            </Pressable>
+          ))}
+  </>);
+  const jump = jumpLetters.length > 0 ? (columns > 1
+    ? <View testID="entity-jump" style={styles.jumpWrap}>{jumpButtons}</View>
+    : <ScrollView testID="entity-jump" horizontal showsHorizontalScrollIndicator={false} keyboardShouldPersistTaps="handled" contentContainerStyle={styles.jumpContent}>{jumpButtons}</ScrollView>
+  ) : null;
+
   const header = (
     <View style={styles.header}>
       <View style={styles.titleBlock}>
@@ -258,47 +312,33 @@ function EntityListBody({ kind, initialFilter, onOpenEntity }: { kind: EntityKin
         onChange={setFilter}
         editable={!(query.isError && !list)}
       />
-      {jumpLetters.length > 0 ? (
-        <ScrollView
-          testID="entity-jump"
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={styles.jumpContent}
-        >
-          {jumpLetters.map((letter) => (
-            <Pressable
-              key={letter}
-              testID={`entity-jump-${letter}`}
-              accessibilityRole="button"
-              accessibilityLabel={t('entity.jumpTo', { letter })}
-              onPress={() => jumpTo(letter)}
-              style={[styles.jump, buttonStyle(theme)]}
-            >
-              <Text style={{ color: theme.colors.btnText, fontFamily: uiFace(theme.type.ui, '700'), fontSize: 15 }}>{letter}</Text>
-            </Pressable>
-          ))}
-        </ScrollView>
-      ) : null}
+      {columns === 1 ? jump : null}
     </View>
   );
 
   return (
     <SectionList<Chunk, Section>
+      testID="entity-list-scroll"
       ref={listRef}
-      sections={sections}
+      sections={shownSections}
       keyExtractor={(c) => c.key}
       ListHeaderComponent={header}
       ListEmptyComponent={empty}
       renderSectionHeader={({ section }) =>
-        section.letter === null ? null : (
+        columns > 1 ? (jump ? <GlassSurface background={theme.backgrounds.tabBar}
+          style={{ paddingVertical: 4, borderRadius: theme.radii.card, backgroundColor: theme.colors.base, overflow: 'hidden',
+            // At 1120 the hits borrow a little of the column's gutter to keep their 44px minimum in one row.
+            width: '100%', alignSelf: 'center', minWidth: width >= 1120 ? jumpLetters.length * 44 : undefined }}>{jump}</GlassSurface> : null) : section.letter === null ? null : (
           <View style={styles.sectionHeader}>
             <EntityLabel testID={`entity-section-${section.letter}`}>{section.letter}</EntityLabel>
           </View>
         )
       }
-      renderItem={({ item }) => <EntityRows items={item.items} kind={kind} onOpen={onOpenEntity} />}
-      stickySectionHeadersEnabled={false}
+      renderItem={({ item }) => columns > 1 ? <View onLayout={onMeasuredChunk}>
+        {item.letter ? <View style={styles.sectionHeader}><EntityLabel testID={`entity-section-${item.letter}`}>{item.letter}</EntityLabel></View> : null}
+        <EntityRows columns={columns} items={item.items} kind={kind} onOpen={onOpenEntity} />
+      </View> : <EntityRows columns={columns} items={item.items} kind={kind} onOpen={onOpenEntity} />}
+      stickySectionHeadersEnabled={columns > 1}
       onScrollToIndexFailed={onScrollToIndexFailed}
       onContentSizeChange={onContentSizeChange}
       onScrollBeginDrag={endLanding}
@@ -377,18 +417,20 @@ const EntityRows = memo(function EntityRows({
   items,
   kind,
   onOpen,
+  columns,
 }: {
   items: SummaryEntityListItemOut[];
   kind: EntityKind;
   onOpen(href: string): void;
+  columns: number;
 }) {
   const theme = useTheme();
   const disc = buttonStyle(theme);
   return (
-    <EntityCard style={styles.card}>
+    <EntityCard style={{ ...styles.card, ...(columns > 1 ? styles.grid : {}) }}>
       {items.map((item, i) => (
-        <View key={item.slug}>
-          {i > 0 ? <View accessible={false} style={[styles.separator, { backgroundColor: theme.colors.muted }]} /> : null}
+        <View key={item.slug} style={columns > 1 ? { width: `${100 / columns}%` } : undefined}>
+          {i >= columns ? <View accessible={false} style={[styles.separator, { backgroundColor: theme.colors.muted }]} /> : null}
           <Pressable
             testID={`entity-row-${item.slug}`}
             accessibilityRole="button"
@@ -418,6 +460,10 @@ const styles = StyleSheet.create({
   input: { flex: 1, minWidth: 0, minHeight: 44, fontSize: 16, paddingVertical: 0 },
   clear: { width: 44, minHeight: 44, marginRight: -12, alignItems: 'center', justifyContent: 'center' },
   jumpContent: { gap: 6 },
+  jumpWrap: { flexDirection: 'row', flexWrap: 'wrap' },
+  jumpHit: { flex: 1, minWidth: 44, minHeight: 44, alignItems: 'center', justifyContent: 'center' },
+  jumpChip: { width: 38, height: 44, alignItems: 'center', justifyContent: 'center' },
+  grid: { flexDirection: 'row', flexWrap: 'wrap' },
   jump: { minWidth: 44, minHeight: 44, paddingHorizontal: 10, alignItems: 'center', justifyContent: 'center' },
   sectionHeader: { paddingTop: 16, paddingBottom: 8 },
   card: { overflow: 'hidden', marginBottom: 12 },
