@@ -25,14 +25,6 @@
         {
           "label": "Jesus",
           "slug": "jesus"
-        },
-        {
-          "label": "John",
-          "slug": "john"
-        },
-        {
-          "label": "Moses",
-          "slug": "moses"
         }
       ],
       "place_tags": [
