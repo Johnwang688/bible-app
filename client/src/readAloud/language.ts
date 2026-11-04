@@ -78,7 +78,7 @@ export function isNoveltyVoice(voice: SpeechVoice): boolean {
  * premium voices, native enhanced ones. Long reading in an old offline voice sounds robotic.
  */
 export function isNaturalVoice(voice: SpeechVoice): boolean {
-  return voice.enhanced || /(natural|neural|online|premium|enhanced|siri)/i.test(voice.name) || /^google/i.test(voice.name);
+  return voice.enhanced || /b(natural|neural|online|premium|enhanced|siri)b/i.test(voice.name) || /^googleb/i.test(voice.name);
 }
 
 /**
