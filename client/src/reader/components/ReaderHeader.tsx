@@ -6,12 +6,14 @@ import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import type { BookInfo } from '../../api/schemas';
+import { useColumn } from '../../components/ContentColumn';
 import { scriptureFace, uiFace } from '../../fonts/fonts';
 import { useT } from '../../i18n/I18nProvider';
 import type { ReaderPosition } from '../../storage/keys';
 import { useTheme } from '../../theme/ThemeProvider';
 import { bookName } from '../books';
 import { TRANSLATIONS, type TranslationId } from '../translations';
+import { NARROW_PADDING, WIDE_PADDING } from './ChapterView';
 import { Icon } from './icons';
 import { buttonStyle } from './ui';
 
@@ -52,6 +54,8 @@ export function ReaderHeader({
   const t = useT();
   const insets = useSafeAreaInsets();
   const first = position.translation;
+  const gutter = second ? WIDE_PADDING : NARROW_PADDING;
+  const column = useColumn(second ? 'parallel' : 'text', gutter);
 
   const short = (id: TranslationId) => t(TRANSLATIONS[id].shortKey);
   const full = (id: TranslationId) => t(TRANSLATIONS[id].nameKey);
@@ -69,10 +73,11 @@ export function ReaderHeader({
         style={[
           styles.header,
           theme.backgrounds.reader,
+          column !== null && { paddingLeft: 0, paddingRight: 0 },
           { paddingTop: insets.top, transform: [{ translateY }], pointerEvents: hidden ? 'none' : 'auto' },
         ]}
       >
-        <View style={styles.row}>
+        <View style={[styles.row, column, column !== null && { paddingHorizontal: gutter }]}>
           {book && title ? (
             <Pressable
               testID="reader-book-button"

@@ -2,6 +2,7 @@
 import type { ReactNode } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import { useColumn } from '../../components/ContentColumn';
 import { GlassSurface } from '../../components/GlassSurface';
 import { uiFace } from '../../fonts/fonts';
 import { useI18n } from '../../i18n/I18nProvider';
@@ -173,8 +174,9 @@ function ExploredCard({ progress }: { progress: ReadingProgressView }) {
 }
 
 export function ProgressView({ header, progress, bottomInset }: { header: ReactNode; progress: ReadingProgressView; bottomInset: number }) {
+  const column = useColumn('text', 20);
   return (
-    <ScrollView style={styles.fill} contentContainerStyle={[styles.content, { paddingBottom: bottomInset }]}>
+    <ScrollView style={styles.fill} contentContainerStyle={[styles.content, column, { paddingBottom: bottomInset }]}>
       {header}
       <StreakCard progress={progress} />
       <GoalCard progress={progress} />

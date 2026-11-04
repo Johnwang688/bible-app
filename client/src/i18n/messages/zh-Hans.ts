@@ -236,7 +236,7 @@ export const zhHans: Record<MessageKey, string> = {
   'help.words.q': '怎样查看希伯来文或希腊文？',
   'help.words.a': '轻点一节经文，然后选择“原文”。',
   'help.sync.q': '我的笔记能转到新手机吗？',
-  'help.sync.a': '暂时不能。登录与同步即将推出；在此之前，你的笔记只保存在这台设备上。',
+  'help.sync.a': '可以。在新手机上登录后，你的高亮、笔记、进度和设置都会同步过去。',
   'account.signInTitle': '登录以同步',
   'account.signInBody': '登录前，你的高亮和进度只保存在这台手机上。',
   'account.signIn': '登录',

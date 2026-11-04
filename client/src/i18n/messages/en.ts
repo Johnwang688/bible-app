@@ -235,7 +235,7 @@ export const en = {
   'help.words.q': 'How do I see the Hebrew or Greek?',
   'help.words.a': 'Tap a verse, then Original words.',
   'help.sync.q': 'Will my notes move to a new phone?',
-  'help.sync.a': 'Not yet. Sign-in and sync are coming; until then your notes stay on this device.',
+  'help.sync.a': 'Yes. Sign in on the new phone and your highlights, notes, progress and settings sync across.',
   'account.signInTitle': 'Sign in to sync',
   'account.signInBody': 'Your highlights and progress stay on this phone until you sign in.',
   'account.signIn': 'Sign in',

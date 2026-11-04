@@ -1,7 +1,7 @@
 // A bottom sheet of radio options (app language, parallel translation). The first choice closes the
 // sheet; a second tap while it is closing does nothing, so a choice is never written twice.
 import { useRef } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { uiFace } from '../../fonts/fonts';
 import { useT } from '../../i18n/I18nProvider';
@@ -80,6 +80,7 @@ export function MeChoiceSheet<V extends string>({
               accessibilityRole="radio"
               accessibilityLabel={c.label}
               aria-describedby={note !== undefined && note.describes === c.value ? note.id : undefined}
+              {...(Platform.OS === 'web' ? { 'aria-checked': isSelected } : {})}
               accessibilityState={{ selected: isSelected, checked: isSelected }}
               onPress={() => choose(c.value)}
               style={[styles.option, i > 0 && { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: theme.borders.sheet.color }]}

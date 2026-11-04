@@ -15,6 +15,8 @@ import {
 } from 'react-native';
 
 import type { ChapterOut } from '../../api/schemas';
+import { useColumn } from '../../components/ContentColumn';
+import { COLUMN } from '../../components/layout';
 import { scriptureFace, uiFace } from '../../fonts/fonts';
 import { ensureFont, LAZY_FONT_FAMILY } from '../../fonts/lazy';
 import { useT } from '../../i18n/I18nProvider';
@@ -34,7 +36,6 @@ import { buttonStyle } from './ui';
 export const WIDE_BREAKPOINT = 768;
 export const WIDE_PADDING = 40;
 export const NARROW_PADDING = 22;
-const READING_MAX_WIDTH = 720;
 const VERSE_NUMBER_COLUMN = 44;
 
 export interface SecondChapter {
@@ -233,6 +234,7 @@ export function ChapterView({
   onVerseLayout,
   layoutKey = '',
 }: ChapterViewProps) {
+  const parallelColumn = useColumn('parallel');
   const theme = useTheme();
   const t = useT();
   const { width } = useWindowDimensions();
@@ -277,7 +279,7 @@ export function ChapterView({
     const f = face(theme, translation, size, chineseFont);
     const space = isChineseTranslation(translation) ? '' : ' ';
     return (
-      <View style={styles.reading} onLayout={onRoot}>
+      <View testID="reader-text" style={styles.reading} onLayout={onRoot}>
         <Text
           style={[f, { color: theme.colors.text }]}
           onLayout={
@@ -389,7 +391,7 @@ export function ChapterView({
   const secondName = headName(second.translation, 'reader.secondTranslation', 'parallel-second-name');
 
   return (
-    <View testID="parallel-columns" style={styles.columns} onLayout={onRoot}>
+    <View testID="parallel-columns" style={[styles.columns, parallelColumn]} onLayout={onRoot}>
       <View style={styles.columnsHeader}>
         <View style={styles.headerCell}>{firstName}</View>
         <Pressable
@@ -456,7 +458,7 @@ export function ChapterView({
 }
 
 const styles = StyleSheet.create({
-  reading: { width: '100%', maxWidth: READING_MAX_WIDTH, alignSelf: 'center' },
+  reading: { width: '100%', maxWidth: COLUMN.text, alignSelf: 'center' },
   phoneRows: { gap: 6 },
   phoneRow: { paddingVertical: 8, paddingHorizontal: 10, marginHorizontal: -10, borderRadius: 10, gap: 4 },
   columns: { gap: 4 },

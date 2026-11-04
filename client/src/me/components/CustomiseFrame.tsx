@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { useColumn } from '../../components/ContentColumn';
 import { AuroraBackground, auroraTextShadow } from '../../aurora';
 import { uiFace } from '../../fonts/fonts';
 import { useT } from '../../i18n/I18nProvider';
@@ -30,13 +31,15 @@ export function CustomiseFrame({
   action?: ReactNode;
   children?: ReactNode;
 }) {
+  const column = useColumn('text', 16);
+  const headerColumn = useColumn('text', 12);
   const theme = useTheme();
   const t = useT();
   const insets = useSafeAreaInsets();
   return (
     <View testID={testID} style={[styles.fill, theme.backgrounds.app]}>
       <AuroraBackground />
-      <View style={[styles.header, { paddingTop: insets.top + 8 }]}>
+      <View style={[styles.header, headerColumn, { paddingTop: insets.top + 8 }]}>
         <CustomisePressable
           testID={backTestID}
           role="button"
@@ -62,7 +65,7 @@ export function CustomiseFrame({
         </Text>
         {action}
       </View>
-      <ScrollView contentContainerStyle={styles.content}>{children}</ScrollView>
+      <ScrollView contentContainerStyle={[styles.content, column]}>{children}</ScrollView>
     </View>
   );
 }

@@ -38,6 +38,9 @@ import { TRANSLATIONS, type TranslationId } from '../translations';
 import { usePrefetchAdjacent, useChapter } from '../useChapter';
 import { useFocusNodeSoon } from './a11y';
 import { BookPicker } from './BookPicker';
+import { useColumn } from '../../components/ContentColumn';
+import { COLUMN } from '../../components/layout';
+import { chapterArrowPlacement } from '../chapterArrowPlacement';
 import { ChapterView, NARROW_PADDING, WIDE_BREAKPOINT, WIDE_PADDING } from './ChapterView';
 import { Icon } from './icons';
 import { HEADER_BODY_HEIGHT, ReaderHeader } from './ReaderHeader';
@@ -471,6 +474,8 @@ export function ReaderScreen(props: {
 
   const wide = width >= WIDE_BREAKPOINT;
   const horizontal = wide && secondId ? WIDE_PADDING : NARROW_PADDING;
+  const navColumn = useColumn(secondId ? 'parallel' : 'text');
+  const arrows = chapterArrowPlacement(width, !!secondId, COLUMN.text);
   const prev = prevPosition(books.data, position);
 
   const navButton = (direction: SwipeDirection) => (
@@ -478,8 +483,11 @@ export function ReaderScreen(props: {
       testID={direction === 'next' ? 'reader-next' : 'reader-prev'}
       accessibilityRole="button"
       accessibilityLabel={t(direction === 'next' ? 'reader.nextChapter' : 'reader.previousChapter')}
-      onPress={() => turn(direction)}
-      style={[styles.nav, buttonStyle(theme)]}
+      onPress={direction === 'next' ? goNext : goPrev}
+      style={[styles.nav, buttonStyle(theme), arrows.kind === 'outside' && {
+        position: 'absolute', top: '50%', marginTop: -22, width: 44, height: 44, borderRadius: 22,
+        ...(direction === 'prev' ? { left: arrows.offset } : { right: arrows.offset }),
+      }]}
     >
       <Icon name={direction === 'next' ? 'chevronRight' : 'chevronLeft'} size={22} color={theme.colors.btnText} />
     </Pressable>
@@ -509,10 +517,12 @@ export function ReaderScreen(props: {
           onVerseLayout={Platform.OS === 'web' ? undefined : scroller.onLayout}
           layoutKey={selectionKey}
         />
-        <View style={styles.navRow}>
-          {prevButton ?? <View style={styles.navSpacer} />}
-          {nextButton ?? <View style={styles.navSpacer} />}
-        </View>
+        {arrows.kind === 'row' ? (
+          <View style={[styles.navRow, navColumn]}>
+            {prevButton ?? <View style={styles.navSpacer} />}
+            {nextButton ?? <View style={styles.navSpacer} />}
+          </View>
+        ) : null}
         {/* The end of the chapter, for reading time: keyed by the chapter, so it reports its place whenever a
             chapter has laid out, even one whose content is the same size as the last (no content-size event
             comes then). Its report names the chapter it was rendered for; its place plus the room below is the
@@ -580,6 +590,8 @@ export function ReaderScreen(props: {
       >
         {body}
       </ScrollView>
+
+      {ready && firstQuery.data && arrows.kind === 'outside' ? <>{prevButton}{nextButton}</> : null}
 
       <ReaderHeader
         book={book}

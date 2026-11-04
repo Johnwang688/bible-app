@@ -1,4 +1,5 @@
 // The message lookup: key + locale → string, with {placeholders} filled in.
+import { desktopEn, desktopZhHans } from './messages/desktop';
 import { en, type MessageKey } from './messages/en';
 import { zhHans } from './messages/zh-Hans';
 import type { AppLocale } from './types';
@@ -16,7 +17,10 @@ export function interpolate(template: string, params?: Record<string, string | n
 
 const catalogues: Record<AppLocale, Partial<Record<MessageKey, string>>> = { en, 'zh-Hans': zhHans };
 
-export function createT(locale: AppLocale): TFunction {
+const desktopCatalogues: Record<AppLocale, Partial<Record<MessageKey, string>>> = { en: desktopEn, 'zh-Hans': desktopZhHans };
+
+export function createT(locale: AppLocale, wide = false): TFunction {
   const catalogue = catalogues[locale];
-  return (key, params) => interpolate(catalogue[key] ?? en[key], params);
+  const overrides = wide ? desktopCatalogues[locale] : undefined;
+  return (key, params) => interpolate(overrides?.[key] ?? catalogue[key] ?? en[key], params);
 }

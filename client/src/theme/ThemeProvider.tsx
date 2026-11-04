@@ -1,7 +1,7 @@
 // Provides the active theme and the reader's Appearance choice and customisation. Both live in
 // storage, so a write from anywhere (the picker, Customise, sync) re-renders every consumer.
-import { createContext, useCallback, useContext, useMemo, type ReactNode } from 'react';
-import { Appearance as DeviceAppearance, useColorScheme } from 'react-native';
+import { createContext, useCallback, useContext, useEffect, useMemo, type ReactNode } from 'react';
+import { Appearance as DeviceAppearance, Platform, useColorScheme } from 'react-native';
 
 import { appearanceCustomKey } from '../storage/appearanceCustomKey';
 import { appearanceKey } from '../storage/keys';
@@ -52,6 +52,11 @@ export function ThemeProvider(props: {
   const [custom, setCustom] = useStoredValue(storage, appearanceCustomKey);
   const presetId = resolvePresetId(choice, system);
   const theme = useMemo(() => applyCustom(presetId, custom), [presetId, custom]);
+  useEffect(() => {
+    if (Platform.OS === 'web' && typeof document !== 'undefined') {
+      document.documentElement.style.colorScheme = theme.mode;
+    }
+  }, [theme.mode]);
   const updateChoice = useCallback(
     (f: (current: AppearanceChoice) => AppearanceChoice | null) => {
       const next = f(storage.get(appearanceKey));

@@ -1,7 +1,7 @@
 // The book and chapter picker (Picker.dc.html): a bottom sheet with a filter, recent passages,
 // Old / New Testament tabs and an expanding chapter grid per book.
 import { useMemo, useRef, useState, type ComponentRef } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import type { BookInfo } from '../../api/schemas';
@@ -101,7 +101,7 @@ export function BookPicker({
           autoCapitalize="none"
           autoCorrect={false}
           returnKeyType="search"
-          style={[styles.filterInput, { color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '400') }]}
+          style={[styles.filterInput, Platform.OS === 'web' && { outlineColor: theme.colors.accent }, { color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '400') }]}
         />
       </View>
 

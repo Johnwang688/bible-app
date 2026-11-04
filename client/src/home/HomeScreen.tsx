@@ -7,6 +7,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { useColumn } from '../components/ContentColumn';
 import { AuroraBackground } from '../aurora';
 import { useI18n } from '../i18n/I18nProvider';
 import type { DeviceLocale } from '../i18n/types';
@@ -58,6 +59,7 @@ export function HomeScreen({
   go?: (href: string) => void;
   random?: () => number;
 }) {
+  const column = useColumn('text', 16);
   const theme = useTheme();
   const { t, locale, formatDate, formatNumber } = useI18n();
   const insets = useSafeAreaInsets();
@@ -227,7 +229,7 @@ export function HomeScreen({
   return (
     <View testID="screen-home" style={[styles.fill, theme.backgrounds.app]}>
       <AuroraBackground />
-      <ScrollView style={styles.fill} contentContainerStyle={[styles.content, { paddingTop: insets.top + 16, paddingBottom: TAB_BAR_ROOM }]}>
+      <ScrollView testID="home-scroll" style={styles.fill} contentContainerStyle={[styles.content, column, { paddingTop: insets.top + 16, paddingBottom: TAB_BAR_ROOM }]}>
         <HomeHeader
           date={formatDate(today, { weekday: 'long', month: 'long', day: 'numeric' })}
           greeting={t(greetingKey(today))}

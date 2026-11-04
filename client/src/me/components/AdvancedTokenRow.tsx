@@ -1,6 +1,6 @@
 // One row of Advanced: a swatch of the current value, the token's name, a hex field with Apply,
 // and, when the token is edited, an "Edited" badge with a reset.
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { Platform, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { uiFace } from '../../fonts/fonts';
 import { useI18n } from '../../i18n/I18nProvider';
@@ -68,6 +68,7 @@ export function AdvancedTokenRow({
           spellCheck={false}
           style={[
             styles.input,
+            Platform.OS === 'web' && { outlineColor: theme.colors.accent },
             {
               color: theme.colors.text,
               borderColor: error ? theme.colors.text : theme.colors.muted,

@@ -6,6 +6,7 @@ import type { ReactNode } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { useColumn } from './ContentColumn';
 import { AuroraBackground, auroraTextShadow } from '../aurora';
 import { uiFace } from '../fonts/fonts';
 import { useT } from '../i18n/I18nProvider';
@@ -23,6 +24,7 @@ export function Screen({
   testID?: string;
   children?: ReactNode;
 }) {
+  const column = useColumn('text', 20);
   const theme = useTheme();
   const t = useT();
   const insets = useSafeAreaInsets();
@@ -30,7 +32,7 @@ export function Screen({
   return (
     <View testID={testID} style={[styles.fill, theme.backgrounds[background]]}>
       {onAurora ? <AuroraBackground /> : null}
-      <ScrollView contentContainerStyle={[styles.content, { paddingTop: insets.top + 16 }]}>
+      <ScrollView testID={testID ? `${testID}-scroll` : undefined} contentContainerStyle={[styles.content, column, { paddingTop: insets.top + 16 }]}>
         <Text
           accessibilityRole="header"
           style={{
