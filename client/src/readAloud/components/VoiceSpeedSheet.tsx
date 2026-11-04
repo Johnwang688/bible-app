@@ -51,8 +51,8 @@ export function VoiceSpeedSheet({ read, translation, sampleText, onClose }: {
             return <Pressable key={rate} {...rateKeys(i)} testID={`read-aloud-rate-${rate}`} accessibilityRole="radio"
               accessibilityLabel={t('readAloud.times', { x: rate })} accessibilityState={{ checked: on }} aria-checked={on}
               onPress={() => read.setRate(rate)} style={({ pressed }) => [buttonStyle(theme), { flex: 1, minWidth: 44, height: 44, justifyContent: 'center', alignItems: 'center', opacity: pressed ? 0.7 : 1 },
-                on && { backgroundColor: theme.colors.cta }]}>
-              <Text style={[bold, { fontSize: 14, color: on ? theme.colors.onCta : theme.colors.btnText }]}>{`${rate}×`}</Text>
+                on && { backgroundColor: theme.floatingTabBar ? theme.colors.cta : theme.colors.text }]}>
+              <Text style={[bold, { fontSize: 14, color: on ? (theme.floatingTabBar ? theme.colors.onCta : theme.colors.onAccent) : theme.colors.btnText }]}>{`${rate}×`}</Text>
             </Pressable>;
           })}
         </RadioGroup>
@@ -60,7 +60,7 @@ export function VoiceSpeedSheet({ read, translation, sampleText, onClose }: {
       <View style={{ gap: 8, flexShrink: 1, minHeight: 0 }}>
         <Text style={[bold, { fontSize: 14 }]}>{t('readAloud.voiceFor', { translation })}</Text>
         <Text style={[regular, { color: theme.colors.muted, fontSize: 13, lineHeight: 19 }]}>{t('readAloud.voiceHint')}</Text>
-        <ScrollView testID="read-aloud-voices" style={{ maxHeight: 56 * 3.5 + 6 * 3, flexShrink: 1 }} contentContainerStyle={{ flexDirection: 'row', gap: 8 }} keyboardShouldPersistTaps="handled">
+        <ScrollView testID="read-aloud-voices" nestedScrollEnabled style={{ maxHeight: 56 * 3.5 + 6 * 3, flexShrink: 1 }} contentContainerStyle={{ flexDirection: 'row', gap: 8 }} keyboardShouldPersistTaps="handled">
           <RadioGroup label={t('readAloud.voiceFor', { translation })} style={{ flex: 1, gap: 6 }}>
             {voices.map((voice, i) => {
               const on = voice.id === read.voice?.id;

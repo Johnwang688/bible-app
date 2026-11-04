@@ -49,12 +49,20 @@ describe('samples', () => {
   });
 });
 
-it('stacks using Latin/CJK label width and the narrow breakpoint', () => {
-  expect(barStacked(374, '')).toBe(true);
+it('stacks using only the available bar width and Latin/CJK label estimates', () => {
+  expect(barStacked(374, '')).toBe(false);
   expect(barStacked(400, 'Reading BSB')).toBe(false);
-  expect(barStacked(400, '正'.repeat(11))).toBe(true);
+  expect(barStacked(400, '正'.repeat(12))).toBe(true);
   expect(barStacked(400, 'a'.repeat(20))).toBe(false);
   expect(barStacked(400, 'a'.repeat(21))).toBe(true);
+});
+
+it.each(['Reading BSB', 'Paused · BSB', '正在朗读和合本', '已暂停 · 和合本'])('keeps %s in one row in a 358px bar', (label) => {
+  expect(barStacked(358, label)).toBe(false);
+});
+
+it('stacks a long translation name in a 358px bar', () => {
+  expect(barStacked(358, 'Reading CUV (Traditional)')).toBe(true);
 });
 
 it('finds the first number at or below the top line, with a top-of-chapter exception', () => {
@@ -83,7 +91,7 @@ async function renderBar(status: ReadAloudStatus, hidden = false) {
     prev: jest.fn(), next: jest.fn(), toggle: jest.fn(), resume: jest.fn(), playNextChapter: jest.fn() } as unknown as ReadAloud;
   return render(<I18nProvider storage={storage} locales={[EN]}><ThemeProvider storage={storage} systemScheme="light">
     <ReadAloudBar read={read} translation="BSB" endTitle="End of John 3" nextTitle="John 4" hidden={hidden} insets={{ bottom: 0 }}
-      onStop={jest.fn()} onOpenVoice={jest.fn()} onBack={jest.fn()} onHeight={jest.fn()} toggleRef={createRef()} speedRef={createRef()} />
+      onStop={jest.fn()} onOpenVoice={jest.fn()} onBack={jest.fn()} onPlayNext={jest.fn()} onHeight={jest.fn()} toggleRef={createRef()} speedRef={createRef()} />
   </ThemeProvider></I18nProvider>);
 }
 

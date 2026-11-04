@@ -116,6 +116,7 @@ test('speed/voice radios wrap with arrows, sample state does not announce a paus
   await expect(page.getByTestId('read-aloud-speed')).toBeFocused();
   await expect(page.getByTestId('read-aloud-toggle')).toHaveAccessibleName('Play');
   await expect(page.getByTestId('read-aloud-speed')).toHaveText('1.5×');
+  await expect(page.getByTestId('read-aloud-speed')).toHaveAccessibleName('Voice and speed, speed 1.5 times');
   await page.getByTestId('read-aloud-toggle').click();
   expect(await page.evaluate(() => window.__spoken.at(-1)?.rate)).toBe(1.5);
 });
@@ -128,6 +129,7 @@ test('end offer, Play next, Done and automatic next chapter', async ({ page }) =
   await page.getByTestId('read-aloud-play-next').click();
   await expect(page.getByTestId('reader-book-button')).toContainText('John 4');
   await expect.poll(() => current(page)).toBe('John 4:1 BSB');
+  await expect(page.getByTestId('read-aloud-toggle')).toBeFocused();
   await page.getByTestId('read-aloud-speed').click();
   await page.getByTestId('read-aloud-auto-next').click();
   await expect(page.getByTestId('read-aloud-auto-next')).toHaveAttribute('aria-checked', 'true');
@@ -159,6 +161,7 @@ test('parallel only reads/marks the first translation; verse sheet hides bar whi
   await page.keyboard.press('Escape');
   await expect(page.getByTestId('read-aloud-bar')).toBeVisible();
   await expect(page.getByTestId('verse-2')).toHaveAttribute('aria-current', 'true');
+  await expect(page.getByTestId('verse-1-tools')).toBeFocused();
 });
 
 test('no Chinese voice explains, retry stays inline, installed voice reads text without numbers or alternate readings', async ({ page }) => {
@@ -244,4 +247,20 @@ test('desktop centred column and 320px phone fit with 44px controls', async ({ p
     expect(b.x).toBeGreaterThanOrEqual(bar.x); expect(b.x + b.width).toBeLessThanOrEqual(bar.x + bar.width);
   }
   await page.screenshot({ path: info.outputPath('read-aloud.png') });
+});
+
+test('English BSB keeps a single-row player at 412px and 390px window widths', async ({ page }) => {
+  await setup(page);
+  await page.setViewportSize({ width: 412, height: 844 });
+  await open(page); await start(page);
+  for (const width of [412, 390]) {
+    await page.setViewportSize({ width, height: 844 });
+    await expect(page.getByTestId('read-aloud-status')).toHaveText('Reading BSB');
+    await expect(page.getByTestId('read-aloud-verse')).toHaveText('Verse 1');
+    await expect.poll(async () => {
+      const label = (await page.getByTestId('read-aloud-status').boundingBox())!;
+      const toggle = (await page.getByTestId('read-aloud-toggle').boundingBox())!;
+      return label.x + label.width <= toggle.x;
+    }).toBe(true);
+  }
 });

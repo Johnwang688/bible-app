@@ -51,6 +51,7 @@ export interface ChapterViewProps {
   textSize: number;
   /** The first selected verse (the selection is `selectedVerse` to `selectedEnd`). */
   selectedVerse: number | null;
+  /** The verse being read, marked in the first translation only. */
   readingVerse?: number | null;
   /** The last selected verse of a range; absent for a single verse. */
   selectedEnd?: number | null;
@@ -244,7 +245,6 @@ export function ChapterView({
     ...(Platform.OS === 'web' ? { textDecorationThickness: '3px', textUnderlineOffset: '5px' } : {}),
   } as TextStyle : undefined;
   const readingProps = (n: number) => Platform.OS === 'web' && n === readingVerse ? { 'aria-current': 'true' as const } : {};
-
 
   // Study items attach to the reference, so they show in every translation.
   const info = (n: number): VerseInfo => {

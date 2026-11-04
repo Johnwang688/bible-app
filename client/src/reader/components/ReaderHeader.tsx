@@ -42,6 +42,7 @@ export function ReaderHeader({
   onOpenBook(): void;
   onOpenVersions(): void;
   onOpenSettings(): void;
+  /** Opens the chapter tools sheet. */
   onOpenTools?(): void;
   toolsButtonRef?: Ref<ComponentRef<typeof View>>;
   /** Opens the search screen (default: push the `/search` route). */
@@ -94,7 +95,7 @@ export function ReaderHeader({
               <Text style={{ flexShrink: 0, color: theme.colors.btnText, fontFamily: uiFace(theme.type.head, '700'), fontSize: 18 }}>
                 {` ${position.chapter}`}
               </Text>
-              <Icon name="chevronDown" size={16} color={theme.colors.btnText} />
+              <View style={{ marginLeft: 6 }}><Icon name="chevronDown" size={16} color={theme.colors.btnText} /></View>
             </Pressable>
           ) : null}
           <Pressable
@@ -156,7 +157,7 @@ export function ReaderHeader({
 const styles = StyleSheet.create({
   header: { position: 'absolute', top: 0, left: 0, right: 0, zIndex: 2, paddingBottom: 8, paddingLeft: 14, paddingRight: 10 },
   row: { height: 44, flexDirection: 'row', alignItems: 'center', gap: 6 },
-  bookButton: { height: 44, paddingHorizontal: 10, flexDirection: 'row', alignItems: 'center', flexShrink: 1, minWidth: 0 },
+  bookButton: { height: 44, paddingHorizontal: 14, flexDirection: 'row', alignItems: 'center', flexShrink: 1, minWidth: 0 },
   translationButton: { minHeight: 44, minWidth: 44, paddingHorizontal: 8, justifyContent: 'center', flexShrink: 1 },
   spacer: { flex: 1 },
   iconButton: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },

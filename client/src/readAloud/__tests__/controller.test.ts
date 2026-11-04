@@ -54,6 +54,21 @@ describe('watchdog', () => {
 });
 
 describe('starting', () => {
+  it('keeps following off after a hand scroll while voices load', async () => {
+    const engine = new FakeEngine();
+    engine.holdVoices = true;
+    const c = new ReadAloudController({ engine });
+    const started = c.start(john3, 16);
+    c.userScrolled();
+    expect(c.getState()).toMatchObject({ status: 'preparing', following: false });
+    engine.releaseVoices();
+    await started;
+    expect(c.getState()).toMatchObject({ status: 'playing', verse: 16, following: false });
+    engine.finish();
+    expect(c.getState()).toMatchObject({ verse: 17, following: false });
+    c.dispose();
+  });
+
   it('unlocks the engine before waiting for voices (mobile Safari)', async () => {
     const engine = new FakeEngine();
     const unlock = jest.fn();
@@ -204,6 +219,27 @@ describe('reading through', () => {
 });
 
 describe('pause, previous, next and stop', () => {
+  it.each(['next', 'prev'] as const)('%s skips a failed verse and speaks the target', async (direction) => {
+    const { engine, c } = await playing(john3, 16);
+    engine.fail('synthesis-failed');
+    c[direction]();
+    const verse = direction === 'next' ? 17 : 15;
+    expect(c.getState()).toMatchObject({ status: 'playing', verse, error: null, following: true });
+    expect(engine.current).not.toBeNull();
+    expect(engine.current?.text).not.toBe(engine.texts[0]);
+    c.dispose();
+  });
+
+  it('Next past the end from error ends without auto-advancing', async () => {
+    const { engine, c } = await playing(john3, 17, memoryPrefs({ ...DEFAULT_PREFS, autoAdvance: true }));
+    engine.fail('synthesis-failed');
+    c.next();
+    expect(c.getState()).toMatchObject({ status: 'ended', verse: null });
+    expect(engine.current).toBeNull();
+    expect(engine.spoken).toHaveLength(1);
+    c.dispose();
+  });
+
   it('pause stops the engine; play restarts the verse from its beginning', async () => {
     const { engine, c } = await playing(john3, 16);
     const stopsBefore = engine.stops;

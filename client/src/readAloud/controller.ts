@@ -54,6 +54,7 @@ export interface ReadAloudState {
   rate: number;
   autoAdvance: boolean;
   error: string | null;
+  /** The voice whose sample is speaking; null when no sample is playing. */
   sampleVoiceId: string | null;
 }
 
@@ -263,7 +264,7 @@ export class ReadAloudController {
 
   /** The user scrolled by hand: stop keeping the verse in view (decision 5). */
   userScrolled(): void {
-    if (this.state.following && this.isActive()) this.set({ following: false });
+    if (this.state.following && (this.isActive() || this.state.status === 'preparing')) this.set({ following: false });
   }
 
   /** "Back to verse N". */
@@ -347,16 +348,16 @@ export class ReadAloudController {
   }
 
   private move(to: number): void {
-    if (!this.isActive()) return;
+    if (!this.isActive() && this.state.status !== 'error') return;
     if (to >= this.queue.length) {
-      // Paused, Next past the end only ends: it never starts the next chapter by itself.
+      // Paused or failed, Next past the end only ends: it never starts the next chapter by itself.
       const playing = this.state.status === 'playing';
       this.halt();
       this.finishChapter(playing);
       return;
     }
     this.index = to;
-    if (this.state.status === 'playing') {
+    if (this.state.status === 'playing' || this.state.status === 'error') {
       this.halt();
       this.set({ following: true });
       this.speakVerse();

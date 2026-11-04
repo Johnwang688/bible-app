@@ -76,6 +76,7 @@ const TAB_BAR_ROOM = 120;
 const HEADER_GAP = 16;
 
 export function ReaderScreen(props: {
+  /** Tests supply a speech engine; the app uses the platform adapter. */
   speechEngine?: SpeechEngine;
   storage?: Storage;
   locales?: readonly DeviceLocale[];
@@ -304,7 +305,7 @@ export function ReaderScreen(props: {
     layout: secondId ? 'rows' : 'text',
     shownKey: selectionKey,
   });
-  const { cancel: cancelScroll, scrollToVerse, retry: retryScroll, release: releaseScroll } = scroller;
+  const { cancel: cancelScroll, cancelFollow, scrollToVerse, retry: retryScroll, release: releaseScroll } = scroller;
   useEffect(() => {
     // A scroll to a verse of the chapter we are leaving must not happen.
     cancelScroll();
@@ -404,8 +405,9 @@ export function ReaderScreen(props: {
   const handScroll = useCallback(() => {
     followDeadline.current = 0;
     readRef.current.userScrolled();
+    cancelFollow();
     releaseScroll();
-  }, [releaseScroll]);
+  }, [cancelFollow, releaseScroll]);
   useEffect(() => {
     if (Platform.OS !== 'web') return;
     const node = (scrollRef.current as unknown as { getScrollableNode?(): HTMLElement } | null)?.getScrollableNode?.();
@@ -424,8 +426,11 @@ export function ReaderScreen(props: {
     if (!read.following || !chapter || read.chapterKey !== chapter.key || verseSheetOpen) return;
     const verse = read.status === 'ended' ? chapter.verses[chapter.verses.length - 1]?.verse : read.status === 'playing' || read.status === 'paused' ? read.verse : null;
     if (verse == null) return;
-    followDeadline.current = Date.now() + 700;
-    scrollToVerse(chapter.key, verse, chapter.verses, { animated: !reduceMotion });
+    scrollToVerse(chapter.key, verse, chapter.verses, {
+      animated: !reduceMotion,
+      follow: true,
+      onPlace: () => { followDeadline.current = Date.now() + 700; },
+    });
   }, [read.following, read.status, read.verse, read.chapterKey, chapter, verseSheetOpen, scrollToVerse, reduceMotion, barHeight]);
   useEffect(() => {
     if (read.status === 'advancing' && next && read.chapterKey === readAloudKey(position.bookNumber, position.chapter, first)) {
@@ -593,6 +598,7 @@ export function ReaderScreen(props: {
       <ReadAloudBar read={read} translation={translationName} endTitle={endTitle} nextTitle={nextTitle} hidden={verseSheetOpen}
         insets={insets} onStop={stopRead} onOpenVoice={() => setSheet('voice')}
         onBack={() => { read.backToVerse(); setFocusToggleRequest((n) => n + 1); }} onHeight={setBarHeight}
+        onPlayNext={() => { read.playNextChapter(); setFocusToggleRequest((n) => n + 1); }}
         toggleRef={toggleRef} speedRef={speedRef} focusToggleRequest={focusToggleRequest} />
       {sheet === 'tools' ? <ChapterToolsSheet title={chapterTitle} translation={translationName} fromVerse={fromVerse} ready={!!chapter} onStart={startRead} onClose={closeReadSheet} /> : null}
       {sheet === 'voice' ? <VoiceSpeedSheet read={read} translation={translationName} sampleText={sampleText} onClose={closeReadSheet} /> : null}

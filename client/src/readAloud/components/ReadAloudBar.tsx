@@ -18,44 +18,47 @@ export function playerBarBottom(theme: Theme, insets: { bottom: number }): numbe
 }
 
 export function barStacked(barWidth: number, label: string): boolean {
-  const estimate = Array.from(label).reduce((sum, c) => sum + (/[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u.test(c) ? 13 : 7), 0);
-  return barWidth < 375 || barWidth - 260 < estimate;
+  const estimate = Array.from(label).reduce((sum, c) => sum + (/[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u.test(c) ? 12 : 7), 0);
+  return barWidth - 258 < estimate;
 }
 
-export function ReadAloudBar({ read, translation, endTitle, nextTitle, hidden, insets, onStop, onOpenVoice, onBack, onHeight,
+export function ReadAloudBar({ read, translation, endTitle, nextTitle, hidden, insets, onStop, onOpenVoice, onBack, onPlayNext, onHeight,
   toggleRef, speedRef, focusToggleRequest = 0 }: {
   read: ReadAloud; translation: string; endTitle: string; nextTitle: string | null; hidden: boolean; insets: { bottom: number };
-  onStop(): void; onOpenVoice(): void; onBack(): void; onHeight(height: number): void;
+  onStop(): void; onOpenVoice(): void; onBack(): void; onPlayNext(): void; onHeight(height: number): void;
   toggleRef: RefObject<ComponentRef<typeof View> | null>; speedRef: RefObject<ComponentRef<typeof View> | null>; focusToggleRequest?: number;
 }) {
   const theme = useTheme();
   const t = useT();
   const { width } = useWindowDimensions();
   const [barWidth, setBarWidth] = useState(Math.min(720, width - (theme.floatingTabBar ? 32 : 24)));
+  const message = read.status === 'paused' && read.sampleVoiceId === null ? t('readAloud.paused') : read.status === 'ended' ? endTitle : null;
   const [announcement, setAnnouncement] = useState({ status: read.status, live: '' });
   if (announcement.status !== read.status) {
-    const message = read.status === 'paused' && read.sampleVoiceId === null ? t('readAloud.paused') : read.status === 'ended' ? endTitle : null;
     setAnnouncement({ status: read.status, live: message ? (announcement.live === message ? `${message} ` : message) : announcement.live });
   }
   const previous = useRef(read.status);
+  const handledToggleRequest = useRef(0);
   const endRef = useRef<ComponentRef<typeof View>>(null);
   const focusSoon = useFocusNodeSoon();
   const visible = !hidden && !['idle', 'no-voice'].includes(read.status);
   const ended = read.status === 'ended';
   useEffect(() => {
     if (previous.current !== read.status) {
-      const message = read.status === 'paused' && read.sampleVoiceId === null ? t('readAloud.paused') : read.status === 'ended' ? endTitle : null;
       if (message) {
         if (Platform.OS !== 'web') announce(message);
       }
     }
     previous.current = read.status;
-  }, [read.status, read.sampleVoiceId, endTitle, t]);
+  }, [read.status, message]);
   useEffect(() => {
     if (ended && visible) focusSoon(endRef.current);
   }, [ended, visible, focusSoon]);
   useEffect(() => {
-    if (focusToggleRequest && visible && !ended) focusSoon(toggleRef.current);
+    if (focusToggleRequest && focusToggleRequest !== handledToggleRequest.current && visible && !ended) {
+      handledToggleRequest.current = focusToggleRequest;
+      focusSoon(toggleRef.current);
+    }
   }, [focusToggleRequest, visible, ended, focusSoon, toggleRef]);
 
   const n = read.verse;
@@ -72,7 +75,7 @@ export function ReadAloudBar({ read, translation, endTitle, nextTitle, hidden, i
     <Action nodeRef={toggleRef} testID="read-aloud-toggle" label={t(paused || read.status === 'error' ? 'readAloud.play' : 'readAloud.pause')}
       icon={paused || read.status === 'error' ? 'play' : 'pause'} primary onPress={read.status === 'error' ? read.resume : read.toggle} />
     <Action testID="read-aloud-next" label={t('readAloud.next')} icon="nextVerse" onPress={read.next} />
-    <Pressable ref={speedRef} testID="read-aloud-speed" accessibilityRole="button" accessibilityLabel={t('readAloud.speedButton', { speed: `${read.rate}×` })}
+    <Pressable ref={speedRef} testID="read-aloud-speed" accessibilityRole="button" accessibilityLabel={t('readAloud.speedButton', { speed: t('readAloud.times', { x: read.rate }) })}
       aria-haspopup="dialog" onPress={onOpenVoice} style={({ pressed }) => [buttonStyle(theme), styles.speed, { opacity: pressed ? 0.7 : 1 }]}>
       <Text style={[ink, { fontSize: 14, color: theme.colors.btnText }]}>{`${read.rate}×`}</Text>
     </Pressable>
@@ -82,7 +85,7 @@ export function ReadAloudBar({ read, translation, endTitle, nextTitle, hidden, i
   return <>
     {Platform.OS === 'web' ? <Text testID="read-aloud-live" role="status" aria-live="polite" style={styles.visuallyHidden}>{announcement.live}</Text> : null}
     {visible ? <View pointerEvents="box-none" style={[styles.wrapper, { bottom: playerBarBottom(theme, insets), paddingHorizontal: theme.floatingTabBar ? 16 : 12 }]}>
-      <View testID="read-aloud-bar" {...(Platform.OS === 'web' ? { role: 'region' as const, 'aria-label': t('readAloud.region') } : { accessibilityLabel: t('readAloud.region') })}
+      <View testID="read-aloud-bar" pointerEvents="box-none" {...(Platform.OS === 'web' ? { role: 'region' as const, 'aria-label': t('readAloud.region') } : { accessibilityLabel: t('readAloud.region') })}
         style={styles.column} onLayout={(e) => { setBarWidth(e.nativeEvent.layout.width); onHeight(e.nativeEvent.layout.height); }}>
         {!read.following && (read.status === 'playing' || paused) && n !== null ?
           <Pressable testID="read-aloud-back" accessibilityRole="button" accessibilityLabel={t('readAloud.back', { n })} onPress={onBack}
@@ -94,7 +97,7 @@ export function ReadAloudBar({ read, translation, endTitle, nextTitle, hidden, i
             <Text testID="read-aloud-status" style={[ink, { fontFamily: uiFace(theme.type.head, '700'), fontSize: 16 }]}>{endTitle}</Text>
             {nextTitle ? <Text style={[ink, { color: theme.colors.muted, fontSize: 13 }]}>{t('readAloud.end.sub')}</Text> : null}
             <View style={{ flexDirection: 'row', gap: 10, flexWrap: 'wrap' }}>
-              {nextTitle ? <View style={{ flex: 1, minWidth: 120 }}><Action nodeRef={endRef} testID="read-aloud-play-next" primary wide icon="play" label={t('readAloud.playNext', { ref: nextTitle })} onPress={read.playNextChapter} /></View> : null}
+              {nextTitle ? <View style={{ flex: 1, minWidth: 120 }}><Action nodeRef={endRef} testID="read-aloud-play-next" primary wide icon="play" label={t('readAloud.playNext', { ref: nextTitle })} onPress={onPlayNext} /></View> : null}
               <Action nodeRef={nextTitle ? undefined : endRef} testID="read-aloud-done" wide label={t('readAloud.done')} onPress={onStop} />
             </View>
           </View> : <View style={[styles.player, stacked && { flexDirection: 'column', alignItems: 'stretch', paddingHorizontal: 10, gap: 6 }]}>
