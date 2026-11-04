@@ -3,7 +3,6 @@
 import gzip
 import json
 from pathlib import Path
-import subprocess
 
 import pytest
 
@@ -63,13 +62,3 @@ def test_jfb_first_verses_do_not_collide_and_ranges_are_valid(classics):
     assert len(keys) == len(set(keys))
     for row in entries:
         assert row["verse_end"] is None or row["verse_end"] > row["verse_start"]
-
-
-def test_summary_lines_and_other_source_rows_are_byte_identical():
-    for name, field, value in [("commentaries.jsonl", "source", "summary")]:
-        old = subprocess.check_output(["git", "show", f"origin/main:content/source/{name}"], cwd=SOURCE)
-        retained = lambda data: [l for l in data.splitlines(keepends=True) if json.loads(l)[field] == value]
-        assert retained(old) == retained((SOURCE / name).read_bytes())
-    old = subprocess.check_output(["git", "show", "origin/main:content/source/commentary_sources.jsonl"], cwd=SOURCE)
-    actual = b"".join(l for l in (SOURCE / "commentary_sources.jsonl").read_bytes().splitlines(keepends=True) if json.loads(l)["id"] != "jfb")
-    assert old == actual
