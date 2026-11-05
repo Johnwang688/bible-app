@@ -13,7 +13,7 @@ first. One-off edits to a few items don't need this workflow, but they still go 
 | 1. Draft | Requirements, factual checks and style checks | Claude, then John | John confirms the criteria |
 | 2. Pilot | Short pilot, John reviews, repeat | Sol, then John | The pilot passes and the spec is locked |
 | 3. Scale | The locked spec goes to a team of Sol agents | Sol | Every item is written |
-| 4. Screen | A deterministic classifier screens every item | Script, then Claude | Serious diversions are cleared |
+| 4. Screen | A deterministic classifier, then a Sol fact pass, on every item | Script, Sol, Claude | Serious diversions are cleared |
 
 ## Round 1: draft
 
@@ -98,6 +98,11 @@ is logged. Spec problems found here send the job back to round 2.
 
 If the classifier shows the same fault across many items, stop, find the cause, and recheck every
 item it could have touched.
+
+**Then a Sol fact pass.** A classifier can't tell whether a sentence is true, so fresh Sol agents
+check every item that cleared the classifier against the source text. They assume there are
+mistakes, can't change the items, and don't see the writers' notes. The same 272k limit and sizing
+apply. What they flag is handled by the thresholds in the locked spec, the same way as the classifier's.
 
 ## After round 4
 
