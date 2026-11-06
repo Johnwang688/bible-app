@@ -149,10 +149,6 @@
       "slug": "ahithophel"
     },
     {
-      "label": "Alexander",
-      "slug": "alexander"
-    },
-    {
       "label": "Amasa",
       "slug": "amasa"
     },
@@ -449,10 +445,6 @@
       "slug": "daniel"
     },
     {
-      "label": "Darius",
-      "slug": "darius"
-    },
-    {
       "label": "Dathan",
       "slug": "dathan"
     },
@@ -717,10 +709,6 @@
       "slug": "hanamel"
     },
     {
-      "label": "Hanani",
-      "slug": "hanani"
-    },
-    {
       "label": "Hananiah",
       "slug": "hananiah"
     },
@@ -749,8 +737,12 @@
       "slug": "heman"
     },
     {
-      "label": "Herod",
-      "slug": "herod"
+      "label": "Herod Agrippa I",
+      "slug": "herod-agrippa-i"
+    },
+    {
+      "label": "Herod Antipas",
+      "slug": "herod-antipas"
     },
     {
       "label": "Herodians",
@@ -873,20 +865,12 @@
       "slug": "jambres"
     },
     {
-      "label": "James",
-      "slug": "james"
-    },
-    {
       "label": "Jannes",
       "slug": "jannes"
     },
     {
       "label": "Jason",
       "slug": "jason"
-    },
-    {
-      "label": "Jeconiah",
-      "slug": "jeconiah"
     },
     {
       "label": "Jeduthun",
