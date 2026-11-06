@@ -1,10 +1,10 @@
 [
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 31,
     "chapter": 1,
-    "title": "Edom's downfall",
-    "summary_text": "Edom is condemned for pride, betrayal, and gloating over Judah's fall. The LORD announces that the nations will turn on Edom and that escape will fail on the day of his judgment. Zion will be delivered, and the kingdom will belong to the LORD.",
+    "title": "Edom Falls and Zion Is Delivered",
+    "summary_text": "Obadiah's vision announces the LORD's judgment against Edom, whose pride has made it feel safe in the heights. Its allies will betray it, and its strength and wisdom will fail. The LORD condemns Edom's violence against Jacob, including gloating, looting, and cutting off fugitives during Judah's disaster. The coming Day of the LORD will return the nations' deeds upon them. Mount Zion will be holy and find deliverance, Jacob's people will reclaim land, and the kingdom will belong to the LORD.",
     "themes": [
       "Pronounced judgment",
       "The nations",
@@ -24,27 +24,19 @@
       "the house of Joseph"
     ],
     "key_points": [
-      "Edom is condemned for pride, betrayal, and gloating over Judah's fall.",
-      "The LORD announces that the nations will turn on Edom and that escape will fail on the day of his judgment.",
-      "Zion will be delivered, and the kingdom will belong to the LORD.",
-      "what the Lord Yahweh says about Edom We."
+      "The LORD will bring proud Edom down despite its high homes and trusted allies.",
+      "Edom faces judgment for violence against Jacob and for helping those who attacked Jerusalem.",
+      "The Day of the LORD brings the nations the consequences of their own deeds.",
+      "Holy Mount Zion will see deliverance, Jacob's people will possess land, and the LORD will rule."
     ],
     "supporting_verses": [
-      "Obadiah 1:1",
-      "Obadiah 1:2",
-      "Obadiah 1:6",
-      "Obadiah 1:8",
-      "Obadiah 1:17",
-      "Obadiah 1:18",
-      "Obadiah 1:21"
+      "Obadiah 1:1-9",
+      "Obadiah 1:10-14",
+      "Obadiah 1:15-16",
+      "Obadiah 1:17-21"
     ],
-    "evidence_phrases": [
-      "what the Lord Yahweh says about Edom We",
-      "small among the nations You are greatly despised",
-      "How Esau will be ransacked How",
-      "out of Edom and understanding out",
-      "be holy The house of Jacob will possess their possessions",
-      "house of Jacob will be a fire"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   }
 ]

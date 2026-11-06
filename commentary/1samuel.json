@@ -1,10 +1,10 @@
 [
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 1,
-    "title": "Hannah's prayer and Samuel's birth",
-    "summary_text": "Hannah pours out her grief before the LORD at Shiloh and vows that if God gives her a son she will dedicate him to lifelong service. Eli misreads her silent prayer at first, then blesses her, and the LORD opens her womb. Samuel is born, weaned, and brought to the sanctuary as a living answer to prayer.",
+    "title": "Hannah Prays for and Dedicates Samuel",
+    "summary_text": "Hannah has no children, and Peninnah's taunts make her weep during the family's yearly trips to sacrifice at Shiloh. She asks the LORD for a son and vows to give him to Him for life, with his hair left uncut. Eli mistakes her silent prayer for drunkenness, but she explains her grief and he asks God to answer her. The LORD remembers Hannah, and she bears Samuel. Once he is weaned, she brings him to Eli and gives him to the LORD as promised.",
     "themes": [
       "Prayer and vows",
       "Barren woman made fruitful",
@@ -20,33 +20,29 @@
       "the LORD"
     ],
     "key_points": [
-      "Hannah prays from deep distress.",
-      "She vows to give her son to the LORD.",
-      "Eli blesses her after misunderstanding her prayer.",
-      "Samuel is born as an answer to faith.",
-      "He is brought to serve at Shiloh."
+      "Hannah weeps under Peninnah's taunts when the family goes to Shiloh for its yearly sacrifice.",
+      "Hannah vows to dedicate a son to the LORD for life if He answers her prayer.",
+      "Eli hears Hannah's explanation of her silent prayer and asks God to grant her request.",
+      "The LORD remembers Hannah, and she bears Samuel and nurses him until he is weaned.",
+      "Hannah brings Samuel to Shiloh and dedicates him to the LORD for his whole life."
     ],
     "supporting_verses": [
-      "1 Samuel 1:1-18",
+      "1 Samuel 1:1-8",
+      "1 Samuel 1:9-11",
+      "1 Samuel 1:12-18",
       "1 Samuel 1:19-23",
-      "1 Samuel 1:24-28",
-      "1 Samuel 1:1-28",
-      "1 Samuel 1:19-28"
+      "1 Samuel 1:24-28"
     ],
-    "evidence_phrases": [
-      "remember me",
-      "I have poured out my soul before the LORD",
-      "I will give him to the LORD",
-      "the LORD remembered her",
-      "as long as he lives"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 2,
-    "title": "Hannah's song and Eli's warning",
-    "summary_text": "Hannah praises the LORD for overturning the proud and lifting the humble, setting the tone for the whole book. The chapter then contrasts her faith with the corruption of Eli's sons, who abuse sacrifices and despise the LORD's offering. Samuel grows before God while a man of God warns Eli that his house will be judged for dishonoring the sanctuary.",
+    "title": "Hannah Praises God as Eli's Sons Sin",
+    "summary_text": "Hannah praises the holy LORD for salvation and His power to bring down the strong and raise the weak. As Samuel grows in God's favor, Hannah has more children. Eli's sons sin by taking sacrifice meat by force and sleeping with women who serve at the Tent of Meeting. They reject Eli's warning because the LORD intends to kill them. A man of God says Eli has honored his sons above God and announces judgment on his family, including both sons' deaths and a faithful priest to come.",
     "themes": [
       "Divine reversal",
       "Corrupt priesthood",
@@ -63,33 +59,29 @@
       "the LORD"
     ],
     "key_points": [
-      "Hannah celebrates the LORD's holy reversals.",
-      "Eli's sons exploit the sacrifices.",
-      "Samuel grows in favor with God and people.",
-      "A prophetic word condemns Eli's house.",
-      "The chapter contrasts faithful worship with abuse."
+      "Hannah praises the holy LORD's salvation and power to humble the strong, raise the needy, and strengthen His anointed.",
+      "Eli's sons commit serious sin by taking sacrifice meat by force and despising the LORD's offering.",
+      "Samuel serves the LORD, and Hannah bears three more sons and two daughters after Eli's blessing.",
+      "Eli rebukes his sons' wickedness, but they refuse to listen because the LORD intends to kill them.",
+      "God announces judgment against Eli's house and promises to raise up a faithful priest."
     ],
     "supporting_verses": [
       "1 Samuel 2:1-10",
       "1 Samuel 2:11-17",
-      "1 Samuel 2:18-26",
-      "1 Samuel 2:27-36",
-      "1 Samuel 2:1-36"
+      "1 Samuel 2:18-21",
+      "1 Samuel 2:22-26",
+      "1 Samuel 2:27-36"
     ],
-    "evidence_phrases": [
-      "my horn is exalted in the LORD",
-      "the LORD kills and makes alive",
-      "the sons of Eli were sons of Belial",
-      "the child Samuel grew before the LORD",
-      "those who despise me shall be lightly esteemed"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 3,
-    "title": "Samuel called by name",
-    "summary_text": "Samuel hears the LORD calling in the night, and after Eli's help he learns to answer, \"Speak, for your servant hears.\" The message confirms judgment on Eli's house and cannot be hidden. Samuel grows into a trustworthy prophet whose words are established throughout Israel.",
+    "title": "The LORD Calls Samuel as His Prophet",
+    "summary_text": "The LORD calls young Samuel at night, but at first he thinks Eli is calling. Eli learns who is speaking and tells him to listen. God announces judgment on Eli's house because his sons blasphemed Him and Eli failed to stop them; their iniquity, or serious wrongdoing, cannot be atoned for by sacrifice or offering. Samuel fears telling Eli but gives him the full word from God, and Eli accepts it. The LORD fulfills Samuel's words, and Israel knows him as His prophet.",
     "themes": [
       "Prophetic call",
       "Listening to God",
@@ -103,33 +95,29 @@
       "the LORD"
     ],
     "key_points": [
-      "The LORD calls Samuel in the night.",
-      "Eli helps Samuel recognize the voice.",
-      "God confirms judgment on Eli's house.",
-      "Samuel is established as a prophet.",
-      "Nothing the LORD says falls to the ground."
+      "The LORD calls Samuel repeatedly, and Eli eventually recognizes who is speaking.",
+      "Samuel listens as the LORD announces judgment because Eli failed to restrain sons who blasphemed God.",
+      "God declares that sacrifice or offering will never atone for the iniquity of Eli's house.",
+      "Samuel tells Eli the full message despite his fear, and Eli accepts the LORD's authority.",
+      "The LORD fulfills Samuel's words, confirms him as a prophet, and continues revealing Himself at Shiloh."
     ],
     "supporting_verses": [
-      "1 Samuel 3:1-10",
-      "1 Samuel 3:11-18",
-      "1 Samuel 3:19-21",
-      "1 Samuel 3:1-21",
-      "1 Samuel 3:1-10"
+      "1 Samuel 3:1-9",
+      "1 Samuel 3:10-13",
+      "1 Samuel 3:14",
+      "1 Samuel 3:15-18",
+      "1 Samuel 3:19-21"
     ],
-    "evidence_phrases": [
-      "Samuel, Samuel",
-      "Speak, for your servant hears",
-      "I will do a thing in Israel",
-      "the LORD revealed himself to Samuel",
-      "the LORD was with him"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 4,
-    "title": "The ark captured and Eli dies",
-    "summary_text": "Israel treats the ark like a talisman and marches it into battle, but the Philistines rout the army and capture the ark. Eli falls backward and dies when he hears the news, and his daughter-in-law names her son Ichabod because the glory has departed from Israel. The chapter is a stark warning that sacred objects cannot replace covenant faithfulness.",
+    "title": "The Ark Is Captured and Eli Dies",
+    "summary_text": "After losing a battle, Israel brings the ark of the covenant from Shiloh, hoping it will save them. The Philistines fight again, kill thirty thousand men and Eli's two sons, and take the ark. When Eli hears the news about the ark, he falls from his chair and dies. The news also brings on labor for Phinehas's wife, who dies after her son is born. She names him Ichabod, saying Israel's glory has left because God's ark was taken.",
     "themes": [
       "Misused religion",
       "Ark captured",
@@ -146,33 +134,27 @@
       "the ark of God"
     ],
     "key_points": [
-      "Israel brings the ark into battle without repentance.",
-      "The Philistines defeat Israel and seize the ark.",
-      "Eli dies upon hearing the news.",
-      "Ichabod marks the departure of glory.",
-      "The chapter shows religious presumption ending in loss."
+      "Israel brings the covenant ark into camp after losing a battle, hoping it will save them.",
+      "The frightened Philistines fight, defeat Israel, capture the ark, and kill Hophni and Phinehas.",
+      "A messenger reports the defeat and deaths, and Eli dies after hearing that the ark was captured.",
+      "Phinehas's dying wife names her newborn Ichabod, declaring that Israel's glory has departed with the captured ark."
     ],
     "supporting_verses": [
-      "1 Samuel 4:1-11",
+      "1 Samuel 4:1-5",
+      "1 Samuel 4:6-11",
       "1 Samuel 4:12-18",
-      "1 Samuel 4:19-22",
-      "1 Samuel 4:1-22",
-      "1 Samuel 4:1-11"
+      "1 Samuel 4:19-22"
     ],
-    "evidence_phrases": [
-      "the ark of the covenant of the LORD",
-      "let us fetch the ark",
-      "the glory is departed from Israel",
-      "she named the child Ichabod",
-      "his heart trembled for the ark of God"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 5,
-    "title": "The ark among the Philistines",
-    "summary_text": "The Philistines place the ark in Dagon's temple, but Dagon falls before it and the people are struck with affliction. Town after town suffers because the ark brings the LORD's presence into enemy territory. The chapter makes clear that the captured ark is not captive at all; it is still ruling.",
+    "title": "God Afflicts the Philistines Holding His Ark",
+    "summary_text": "The Philistines place God's captured ark beside Dagon's statue in his temple at Ashdod. Twice they find Dagon fallen before the ark, the second time with his head and hands broken off. The LORD afflicts Ashdod with tumors, and the rulers move the ark to Gath, where the same disaster follows. When it reaches Ekron, the people fear death and demand that it be sent back. God's heavy hand brings death, tumors, and cries of distress throughout the city.",
     "themes": [
       "The LORD's supremacy",
       "Judgment on idols",
@@ -187,33 +169,27 @@
       "the LORD"
     ],
     "key_points": [
-      "Dagon falls before the ark.",
-      "The Philistines are afflicted wherever the ark goes.",
-      "Their cities cry out under judgment.",
-      "The ark exposes the weakness of idols.",
-      "The enemy learns that Israel's God is not defeated."
+      "Dagon's statue falls before the ark in his temple and then loses its head and hands.",
+      "The LORD strikes Ashdod with tumors, and the Philistine rulers move the ark to Gath.",
+      "The LORD also afflicts Gath, and Ekron's people protest when the ark is sent to them.",
+      "As death and tumors spread, Ekron asks the rulers to send the ark back to its place."
     ],
     "supporting_verses": [
       "1 Samuel 5:1-5",
-      "1 Samuel 5:6-12",
-      "1 Samuel 5:1-12",
-      "1 Samuel 5:1-6",
-      "1 Samuel 5:7-12"
+      "1 Samuel 5:6-8",
+      "1 Samuel 5:9-10",
+      "1 Samuel 5:11-12"
     ],
-    "evidence_phrases": [
-      "Dagon fell on his face",
-      "the hand of the LORD was heavy",
-      "the ark of the God of Israel shall not remain with us",
-      "tumors sprang up",
-      "the cry of the city went up to heaven"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 6,
-    "title": "The ark returned",
-    "summary_text": "The Philistines send the ark back on a new cart with guilt offerings, testing whether the plague came from God or chance. The cows head straight for Beth-shemesh, confirming that the LORD is guiding the return. Israel rejoices but also learns reverence when some men look into the ark and are struck down.",
+    "title": "The Philistines Send Back God's Ark",
+    "summary_text": "After seven months, Philistine priests and diviners advise returning the ark with a guilt offering of gold tumors and rats. They arrange a test using a cart pulled by cows separated from their calves: the route will show whether the LORD caused the disaster. The cows go straight to Beth-shemesh, where the people rejoice and offer sacrifices to the LORD. God then kills seventy men for looking inside the ark. The grieving people ask who can stand before this holy God and send for Kiriath-jearim's people to take the ark.",
     "themes": [
       "Reverence",
       "Guilt offering",
@@ -229,33 +205,29 @@
       "the LORD"
     ],
     "key_points": [
-      "The ark returns with a guilt offering.",
-      "The cows head directly to Israel's town.",
-      "God proves the plague was his hand.",
-      "Rejoicing is tempered by reverence.",
-      "Holy things must not be treated casually."
+      "The priests and diviners advise a guilt offering and warn against hardening their hearts as Pharaoh did.",
+      "The Philistines send the ark on a cart, testing whether the cows will head toward Beth-shemesh.",
+      "The cows travel straight to Beth-shemesh, where the people rejoice, unload the ark, and make sacrifices.",
+      "God kills seventy men who look inside the ark, and the survivors fear His holiness.",
+      "Beth-shemesh asks the people of Kiriath-jearim to come and take the ark."
     ],
     "supporting_verses": [
-      "1 Samuel 6:1-9",
+      "1 Samuel 6:1-6",
+      "1 Samuel 6:7-9",
       "1 Samuel 6:10-18",
-      "1 Samuel 6:19-21",
-      "1 Samuel 6:1-21",
-      "1 Samuel 6:1-9"
+      "1 Samuel 6:19-20",
+      "1 Samuel 6:21"
     ],
-    "evidence_phrases": [
-      "make a new cart",
-      "the LORD has done us this great evil",
-      "the cows took the straight way",
-      "the hand of God was very heavy there",
-      "who is able to stand before this holy LORD God"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 7,
-    "title": "Samuel at Mizpah",
-    "summary_text": "Samuel calls Israel to put away foreign gods and gather at Mizpah in repentance and prayer. As the Philistines come up against them, Samuel cries to the LORD, and God thunders on the enemy while Israel pursues the victory. The chapter ends with Samuel judging Israel and setting up memorials to the LORD's help.",
+    "title": "Israel Returns to the LORD and Wins",
+    "summary_text": "The ark is brought to Kiriath-jearim, and after many years Israel seeks the LORD. Samuel calls the people to abandon foreign gods and serve Him alone, and they gather at Mizpah to fast and confess their sin. When the Philistines attack, Samuel brings a burnt offering and prays that God will save Israel. The LORD answers with thunder that throws the enemy into confusion, and Israel pursues them. Samuel raises a memorial stone for God's help, lost towns are restored, peace comes with the Amorites, and Samuel continues judging Israel.",
     "themes": [
       "Repentance",
       "Intercession",
@@ -270,33 +242,29 @@
       "the LORD"
     ],
     "key_points": [
-      "Israel turns from idols at Samuel's word.",
-      "They gather for prayer and confession.",
-      "The LORD fights with thunder from heaven.",
-      "The Philistines are subdued for a time.",
-      "Samuel is established as judge and prophet."
+      "The ark stays at Kiriath-jearim, and Samuel urges Israel to return to the LORD and remove foreign gods.",
+      "Israel gathers at Mizpah, fasts, and confesses sin while Samuel prays for the people.",
+      "Samuel brings a burnt offering, and the LORD answers his prayer by routing the Philistines with thunder.",
+      "Samuel sets up Ebenezer to mark God's help; Israel regains towns and has peace with the Amorites.",
+      "Samuel judges Israel throughout his life, visiting several towns and returning to his home in Ramah."
     ],
     "supporting_verses": [
-      "1 Samuel 7:1-6",
+      "1 Samuel 7:1-4",
+      "1 Samuel 7:5-6",
       "1 Samuel 7:7-11",
-      "1 Samuel 7:12-17",
-      "1 Samuel 7:1-17",
-      "1 Samuel 7:1-11"
+      "1 Samuel 7:12-14",
+      "1 Samuel 7:15-17"
     ],
-    "evidence_phrases": [
-      "put away the foreign gods",
-      "pour out water before the LORD",
-      "the LORD thundered with a great thunder",
-      "Ebenezer",
-      "Samuel judged Israel all the days of his life"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 8,
-    "title": "Israel demands a king",
-    "summary_text": "When Samuel grows old and his sons do not walk in his ways, Israel asks for a king like the nations around them. Samuel is grieved, but the LORD tells him that the request is really a rejection of God's own rule. Samuel warns them about royal cost and burden, yet the people persist and the monarchy becomes the answer to their demand.",
+    "title": "Israel Demands a King Despite the Warning",
+    "summary_text": "Samuel's sons accept bribes and corrupt justice, so Israel's elders ask for a king like other nations have. Samuel is displeased, but the LORD says the people have rejected Him as king and tells Samuel to warn them. Samuel explains that a king will take their children, land, produce, animals, and servants for his own use, leaving them enslaved. He warns that the LORD will not answer when they cry out because of their king. The people insist on having a ruler to lead their battles, and the LORD tells Samuel to grant their request.",
     "themes": [
       "Monarchy requested",
       "Rejection of divine kingship",
@@ -311,33 +279,29 @@
       "the LORD"
     ],
     "key_points": [
-      "Samuel's sons fail as judges.",
-      "Israel wants a king to rule them.",
-      "The request is treated as rejection of God.",
-      "Samuel warns about the cost of monarchy.",
-      "The people still insist on a king."
+      "Samuel's sons corrupt justice, and Israel's elders demand a king like those of other nations.",
+      "The LORD tells Samuel that Israel has rejected His kingship and must be warned about a human king.",
+      "Samuel warns that a king will take the people's children, property, and labor until they become his slaves.",
+      "The LORD will not answer their future cries for relief from the king they choose.",
+      "Israel refuses the warning and wants a king to fight its battles; the LORD tells Samuel to comply."
     ],
     "supporting_verses": [
-      "1 Samuel 8:1-9",
-      "1 Samuel 8:10-18",
-      "1 Samuel 8:19-22",
-      "1 Samuel 8:1-22",
-      "1 Samuel 8:1-9"
+      "1 Samuel 8:1-5",
+      "1 Samuel 8:6-9",
+      "1 Samuel 8:10-17",
+      "1 Samuel 8:18",
+      "1 Samuel 8:19-22"
     ],
-    "evidence_phrases": [
-      "make us a king to judge us",
-      "they have not rejected you, but they have rejected me",
-      "the manner of the king",
-      "he will take",
-      "we will have a king over us"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 9,
-    "title": "Saul seeks the donkeys",
-    "summary_text": "Saul searches for his father's lost donkeys and is led by providence to Samuel instead. The LORD tells Samuel to anoint the man from Benjamin, and Samuel identifies Saul as the chosen one with honor at the feast. The chapter quietly introduces Saul as a tall and promising king-to-be, even before he knows it himself.",
+    "title": "Saul's Search Leads Him to Samuel",
+    "summary_text": "Saul searches for his father's missing donkeys, and his servant suggests consulting Samuel, a respected prophet. The LORD has already told Samuel that He will send a man from Benjamin to be anointed ruler and save Israel from the Philistines. When Saul arrives, the LORD identifies him to Samuel, who says the donkeys have been found and speaks of Israel's desire resting on Saul's family. Saul questions this honor because his tribe and clan are small, but Samuel gives him a special place at the sacrifice meal. The next morning, Samuel keeps Saul behind to hear God's word.",
     "themes": [
       "Providence",
       "Hidden election",
@@ -353,33 +317,29 @@
       "the LORD"
     ],
     "key_points": [
-      "A donkey search leads Saul to Samuel.",
-      "God tells Samuel the chosen man is coming.",
-      "Saul is honored at the feast.",
-      "Samuel speaks of the kingdom in private terms.",
-      "The future king is still unaware of his calling."
+      "Saul and a servant search for Kish's donkeys and decide to consult the man of God.",
+      "The LORD identifies Saul as the man Samuel is to anoint to rule and save Israel from the Philistines.",
+      "Samuel says the donkeys are found and honors Saul, who questions his family's importance.",
+      "Samuel seats Saul in a place of honor and serves him a portion saved for the occasion.",
+      "Samuel sends the servant ahead so he can reveal God's word to Saul privately."
     ],
     "supporting_verses": [
       "1 Samuel 9:1-10",
-      "1 Samuel 9:11-21",
-      "1 Samuel 9:22-27",
-      "1 Samuel 9:1-27",
-      "1 Samuel 9:1-14"
+      "1 Samuel 9:11-17",
+      "1 Samuel 9:18-21",
+      "1 Samuel 9:22-25",
+      "1 Samuel 9:26-27"
     ],
-    "evidence_phrases": [
-      "the LORD had told Samuel",
-      "the man whom I spoke to you of",
-      "he shall reign over my people",
-      "the choicest portion",
-      "do you not know that the best is reserved"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 10,
-    "title": "Saul anointed and confirmed",
-    "summary_text": "Samuel anoints Saul, gives him signs, and tells him that the Spirit will come upon him as proof of God's choice. Saul prophesies with the prophets, and the people marvel because the change is so unmistakable. Yet Saul also hides, hinting that his kingship will be marked by uncertainty as well as promise.",
+    "title": "Saul Is Anointed and Presented as King",
+    "summary_text": "Samuel anoints Saul with oil as ruler over the LORD's inheritance and gives him signs of what will happen on his journey. God changes Saul's heart, and His Spirit comes upon him so that he prophesies with the prophets. Saul tells his uncle about the found donkeys but keeps the kingship secret. At Mizpah, Samuel rebukes Israel for rejecting the God who saves them, and Saul is chosen publicly but found hiding among the baggage. The people acclaim him as king, Samuel records the rights of kingship, and Saul returns home with supporters while others despise him.",
     "themes": [
       "Anointing",
       "Prophetic signs",
@@ -395,33 +355,29 @@
       "the LORD"
     ],
     "key_points": [
-      "Samuel privately anoints Saul.",
-      "Several signs confirm the message.",
-      "Saul is filled with prophetic power.",
-      "He is publicly identified by lot.",
-      "Some still despise his rule."
+      "Samuel anoints Saul and describes signs that will confirm God's presence with him.",
+      "God changes Saul's heart, and His Spirit enables Saul to prophesy, surprising those who know him.",
+      "Saul tells his uncle the donkeys were found but says nothing about the kingship.",
+      "Samuel rebukes Israel's rejection of God; Saul is chosen, found among the baggage, and acclaimed king.",
+      "Samuel records the rights of kingship, and Saul returns home with supporters while some men reject him."
     ],
     "supporting_verses": [
       "1 Samuel 10:1-8",
-      "1 Samuel 10:9-16",
-      "1 Samuel 10:17-27",
-      "1 Samuel 10:1-27",
-      "1 Samuel 10:1-16"
+      "1 Samuel 10:9-13",
+      "1 Samuel 10:14-16",
+      "1 Samuel 10:17-24",
+      "1 Samuel 10:25-27"
     ],
-    "evidence_phrases": [
-      "the Spirit of the LORD will come mightily on you",
-      "another man",
-      "God gave him another heart",
-      "Is Saul also among the prophets",
-      "there was no one like him among all the people"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 11,
-    "title": "Saul rescues Jabesh-gilead",
-    "summary_text": "When Nahash the Ammonite threatens Jabesh-gilead, Saul is moved by the Spirit and gathers Israel to rescue the city. The victory unites the tribes and confirms Saul's public kingship at Gilgal. The chapter shows the best side of Saul: courage, mercy, and the ability to rally a divided people.",
+    "title": "Saul Rescues Jabesh and Is Confirmed King",
+    "summary_text": "Nahash besieges Jabesh-gilead and offers a treaty only if he can put out the men's right eyes to disgrace Israel. The town sends for help, and God's Spirit comes upon Saul when he hears the news. Saul summons Israel with a warning involving cut-up oxen, then leads a surprise attack that scatters the Ammonites. He refuses to execute those who opposed his kingship, saying the LORD has brought salvation to Israel. At Gilgal, the people confirm Saul as king and celebrate with sacrifices and peace offerings.",
     "themes": [
       "Spirit-given courage",
       "National rescue",
@@ -437,33 +393,29 @@
       "the Spirit of God"
     ],
     "key_points": [
-      "Saul responds decisively to the threat.",
-      "Israel comes together for battle.",
-      "The city is rescued from humiliation.",
-      "Saul's kingship is renewed at Gilgal.",
-      "The people rejoice in deliverance."
+      "Jabesh seeks help after Nahash demands the men's right eyes as the price of surrender.",
+      "God's Spirit comes upon Saul, who sends cut-up oxen throughout Israel to summon an army.",
+      "Saul promises rescue and attacks the Ammonites in three divisions, scattering the survivors.",
+      "Saul spares his former opponents, crediting the LORD with Israel's salvation.",
+      "The people confirm Saul's kingship at Gilgal and rejoice before the LORD with sacrifices and peace offerings."
     ],
     "supporting_verses": [
-      "1 Samuel 11:1-11",
-      "1 Samuel 11:12-15",
-      "1 Samuel 11:1-15",
-      "1 Samuel 11:1-7",
-      "1 Samuel 11:8-15"
+      "1 Samuel 11:1-4",
+      "1 Samuel 11:5-8",
+      "1 Samuel 11:9-11",
+      "1 Samuel 11:12-13",
+      "1 Samuel 11:14-15"
     ],
-    "evidence_phrases": [
-      "the Spirit of God came mightily on Saul",
-      "tomorrow by this time",
-      "there is no one to save us",
-      "the LORD has worked salvation in Israel",
-      "they made Saul king before the LORD"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 12,
-    "title": "Samuel's farewell speech",
-    "summary_text": "Samuel reviews his leadership, insists that he has taken no bribe, and reminds Israel how the LORD repeatedly rescued them from enemies. He warns that asking for a king does not remove accountability, and he calls both ruler and people to fear and serve the LORD. The speech closes the era of judges with a moral and spiritual summary.",
+    "title": "Samuel Warns Israel to Serve the LORD",
+    "summary_text": "With Israel's agreement that he has not cheated or oppressed them, Samuel recalls the LORD's righteous acts of rescue despite their repeated rebellion. He says their demand for a king rejected the LORD's rule, and warns that both king and people must obey Him. Samuel calls for thunder and rain during the wheat harvest, and the storm makes Israel acknowledge its sin in asking for a king. He assures them that the LORD will not abandon His people for the sake of His name, and promises to keep praying and teaching. He urges faithful service and warns that continued evil will destroy both people and king.",
     "themes": [
       "Leadership integrity",
       "Historical review",
@@ -478,33 +430,29 @@
       "Israel"
     ],
     "key_points": [
-      "Samuel defends his integrity.",
-      "He recounts the LORD's saving acts.",
-      "The people acknowledge their sin in asking for a king.",
-      "Thunder and rain confirm Samuel's word.",
-      "The chapter urges fear and service to God."
+      "Israel confirms before the LORD and His anointed that Samuel has neither cheated nor oppressed them.",
+      "Samuel recalls the LORD's righteous acts of rescue and Israel's repeated rejection of Him.",
+      "Both Israel and its king must obey the LORD or face His opposition.",
+      "The LORD sends thunder and rain at Samuel's prayer, and Israel confesses its sin in demanding a king.",
+      "Samuel promises prayer and teaching, urges faithful service, and warns that persistent evil will sweep away people and king."
     ],
     "supporting_verses": [
       "1 Samuel 12:1-5",
-      "1 Samuel 12:6-15",
-      "1 Samuel 12:16-25",
-      "1 Samuel 12:1-25",
-      "1 Samuel 12:1-15"
+      "1 Samuel 12:6-12",
+      "1 Samuel 12:13-15",
+      "1 Samuel 12:16-19",
+      "1 Samuel 12:20-25"
     ],
-    "evidence_phrases": [
-      "whose ox have I taken",
-      "the LORD sent Jerubbaal",
-      "if you will fear the LORD",
-      "we have added to all our sins",
-      "only fear the LORD"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 13,
-    "title": "Saul's unlawful sacrifice",
-    "summary_text": "Saul grows anxious when the Philistines mass and Samuel does not arrive on time, so he offers the burnt offering himself. Samuel rebukes him for acting foolishly and announces that his kingdom will not endure. The chapter marks the first clear break between Saul's kingship and God's enduring purpose.",
+    "title": "Saul's Offering Costs Him an Enduring Kingdom",
+    "summary_text": "Jonathan attacks a Philistine outpost, and a large enemy army gathers while Israel's men hide or flee. Saul waits seven days at Gilgal, then brings a burnt offering as his troops desert him. Samuel arrives just afterward and says Saul has disobeyed the LORD, so his kingdom will not last. The LORD has sought a ruler after His own heart. Saul has about six hundred men left, and his troops lack swords and spears because the Philistines have blocked Israel from making them.",
     "themes": [
       "Impatience",
       "Disobedience",
@@ -520,33 +468,29 @@
       "the LORD"
     ],
     "key_points": [
-      "Saul panics under military pressure.",
-      "He offers sacrifice without waiting for Samuel.",
-      "Samuel declares the kingdom will not endure.",
-      "Israel's weapon shortage deepens the crisis.",
-      "Saul's fear leads to permanent loss."
+      "Jonathan's attack brings a Philistine response, and Israel's frightened troops hide or flee.",
+      "Saul presents a burnt offering before Samuel arrives, explaining that his troops were leaving and the enemy was gathering.",
+      "Samuel says Saul's disobedience means his kingdom will not endure and the LORD has sought another ruler.",
+      "Saul has about six hundred men, while Philistine raiders move in three directions.",
+      "Philistine control of metalworking leaves Israel's troops without swords or spears, except for Saul and Jonathan."
     ],
     "supporting_verses": [
       "1 Samuel 13:1-7",
-      "1 Samuel 13:8-14",
-      "1 Samuel 13:15-23",
-      "1 Samuel 13:1-23",
-      "1 Samuel 13:1-14"
+      "1 Samuel 13:8-12",
+      "1 Samuel 13:13-14",
+      "1 Samuel 13:15-18",
+      "1 Samuel 13:19-23"
     ],
-    "evidence_phrases": [
-      "you have not kept the commandment of the LORD",
-      "I forced myself therefore",
-      "your kingdom shall not continue",
-      "the people were distressed",
-      "there was no smith found"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 14,
-    "title": "Jonathan's victory and rash oath",
-    "summary_text": "Jonathan and his armor bearer trust the LORD and spark a panic among the Philistines, showing that faith can win where armies hesitate. Saul's rash oath, however, weakens the people and nearly costs Jonathan his life after the king's own son tastes honey. The chapter contrasts brave initiative with foolish religion and ends with Saul's damaged leadership.",
+    "title": "Jonathan's Victory and Saul's Dangerous Oath",
+    "summary_text": "Jonathan and his armor-bearer attack a Philistine outpost, trusting the LORD to save through a few. God spreads panic, and Israel joins the pursuit. Saul's curse against eating leaves his men weak, while Jonathan eats honey without knowing the oath and the troops later sin by eating meat with blood in it. When God does not answer Saul, a lot identifies Jonathan, but the people stop Saul from killing him. Saul ends the chase, and the account names his family and records his wars and victories.",
     "themes": [
       "Faith in action",
       "Rash oath",
@@ -562,33 +506,29 @@
       "the people"
     ],
     "key_points": [
-      "Jonathan attacks by faith, not numbers.",
-      "The Philistines panic and turn on one another.",
-      "Saul binds the people with a foolish oath.",
-      "Jonathan is nearly punished for eating honey.",
-      "The chapter reveals both courage and confusion."
+      "Jonathan attacks the uncircumcised Philistines, trusting the LORD's power to save, and God spreads panic among them.",
+      "Saul and other Israelites join the battle as the LORD saves Israel.",
+      "Saul's curse leaves the army hungry; Jonathan unknowingly eats honey, and the troops later sin by eating blood.",
+      "At the priest's urging, Saul consults God; a lot identifies Jonathan, but the people prevent his execution.",
+      "Saul fights surrounding enemies, recruits strong men, and continues battling the Philistines; his family and commander are named."
     ],
     "supporting_verses": [
       "1 Samuel 14:1-15",
       "1 Samuel 14:16-23",
-      "1 Samuel 14:24-46",
-      "1 Samuel 14:47-52",
-      "1 Samuel 14:1-52"
+      "1 Samuel 14:24-35",
+      "1 Samuel 14:36-46",
+      "1 Samuel 14:47-52"
     ],
-    "evidence_phrases": [
-      "there is no restraint to the LORD to save",
-      "the LORD has delivered them into the hand of Israel",
-      "cursed be the man that eats food until evening",
-      "you have troubled the land",
-      "Jonathan had not heard his father swear"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 15,
-    "title": "Saul rejected for Amalek",
-    "summary_text": "Samuel commands Saul to destroy Amalek completely, but Saul spares the best livestock and keeps King Agag alive. When confronted, Saul blames the people, but Samuel declares that obedience is better than sacrifice and that the LORD has rejected Saul as king. The chapter ends with Agag's death and Samuel's grief over Saul's failure.",
+    "title": "The LORD Rejects Saul for His Disobedience",
+    "summary_text": "The LORD orders Saul to destroy Amalek's people and animals, but Saul spares Agag and the best livestock. God regrets making Saul king, and Samuel confronts Saul about the animals he says were kept for sacrifice. Samuel says obedience matters more than sacrifice, and God rejects Saul as king for rejecting His word. Saul admits his sin and seeks forgiveness and public honor, but Samuel says God has given the kingdom to a better neighbor. Samuel kills Agag, leaves Saul, and mourns him.",
     "themes": [
       "Partial obedience",
       "Judgment on Amalek",
@@ -604,33 +544,29 @@
       "the LORD"
     ],
     "key_points": [
-      "Saul disobeys the command to devote Amalek to destruction.",
-      "He excuses his failure with spiritual language.",
-      "Samuel announces God's rejection of Saul.",
-      "Agag is killed after Samuel's rebuke.",
-      "Obedience is declared better than sacrifice."
+      "The LORD commands Saul to destroy the Amalekites, including women, children, infants, and livestock.",
+      "Saul defeats Amalek but spares Agag and the best animals, later claiming the animals were kept for sacrifice.",
+      "Samuel says obedience outweighs sacrifice and compares rebellion to divination and arrogance to the wickedness of idolatry.",
+      "Saul admits he transgressed the LORD's commandment, asks Samuel to forgive his sin, and seeks public honor.",
+      "Samuel kills Agag and never visits Saul again, though he mourns him; the LORD regrets making Saul king."
     ],
     "supporting_verses": [
-      "1 Samuel 15:1-9",
-      "1 Samuel 15:10-23",
-      "1 Samuel 15:24-35",
-      "1 Samuel 15:1-35",
-      "1 Samuel 15:1-23"
+      "1 Samuel 15:1-3",
+      "1 Samuel 15:4-21",
+      "1 Samuel 15:22-23",
+      "1 Samuel 15:24-31",
+      "1 Samuel 15:32-35"
     ],
-    "evidence_phrases": [
-      "to obey is better than sacrifice",
-      "the LORD has rejected you",
-      "Saul and the people spared Agag",
-      "I have performed the commandment of the LORD",
-      "the LORD regretted that he had made Saul king"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 16,
-    "title": "David is anointed",
-    "summary_text": "The LORD sends Samuel to Bethlehem to anoint a new king from Jesse's sons, and David is chosen because the LORD looks on the heart. The Spirit comes upon David, while an evil spirit troubles Saul and leads to the introduction of David as a musician in the court. The chapter quietly begins the rise of Israel's future king.",
+    "title": "David Is Anointed and Enters Saul's Service",
+    "summary_text": "The LORD sends Samuel to Jesse in Bethlehem to anoint one of his sons, telling him to bring a sacrifice because Samuel fears Saul. When Samuel favors Eliab's appearance, the LORD explains that He looks at the heart. None of the seven sons presented is chosen, but the LORD identifies the youngest, David, and Samuel anoints him with oil. The LORD's Spirit comes upon David and leaves Saul, who is tormented by a spirit of distress from the LORD. David enters Saul's service as a harp player and armor-bearer, and his music brings Saul relief.",
     "themes": [
       "Hidden election",
       "Anointing",
@@ -646,33 +582,29 @@
       "the LORD"
     ],
     "key_points": [
-      "Samuel is sent to Bethlehem.",
-      "David is chosen over his brothers.",
-      "The Spirit of the LORD comes on David.",
-      "Saul needs David's music for relief.",
-      "God is already preparing a replacement king."
+      "The LORD sends Samuel to Bethlehem with a sacrifice and directs him to anoint one of Jesse's sons.",
+      "The LORD rejects Samuel's judgment based on appearance and says He looks at the heart.",
+      "David is brought from tending sheep and anointed with oil, and the LORD's Spirit comes upon him.",
+      "The LORD's Spirit leaves Saul, and a spirit of distress from the LORD torments him.",
+      "Saul welcomes David into his service, and David's harp playing brings relief when the spirit troubles Saul."
     ],
     "supporting_verses": [
-      "1 Samuel 16:1-13",
-      "1 Samuel 16:14-23",
-      "1 Samuel 16:1-23",
-      "1 Samuel 16:1-13",
-      "1 Samuel 16:14-23"
+      "1 Samuel 16:1-5",
+      "1 Samuel 16:6-10",
+      "1 Samuel 16:11-13",
+      "1 Samuel 16:14-17",
+      "1 Samuel 16:18-23"
     ],
-    "evidence_phrases": [
-      "man looks on the outward appearance",
-      "the LORD looks on the heart",
-      "the Spirit of the LORD came mightily on David",
-      "the Spirit of the LORD departed from Saul",
-      "David took a harp"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 17,
-    "title": "David and Goliath",
-    "summary_text": "David comes to the battlefield with bread for his brothers and ends up facing Goliath, the giant who mocks the armies of the living God. David declares that the battle belongs to the LORD, strikes Goliath with a sling stone, and wins a decisive victory with the giant's own sword. The chapter celebrates faith that sees God's honor where others see only impossible odds.",
+    "title": "David Defeats Goliath in the LORD's Name",
+    "summary_text": "Goliath challenges Israel to send a man to fight him, and Saul's army is terrified. Bringing food to his brothers, David hears the challenge and offers to fight, trusting the LORD who saved him from lions and bears. He rejects Saul's armor, takes a sling and stones, and confronts the uncircumcised Philistine in the LORD's name, declaring that victory belongs to Him. David strikes Goliath with a stone and cuts off his head with Goliath's sword, and Israel pursues the fleeing Philistines. Afterward, David tells Saul that he is Jesse's son from Bethlehem.",
     "themes": [
       "Faith versus fear",
       "The living God",
@@ -689,33 +621,29 @@
       "the LORD"
     ],
     "key_points": [
-      "David hears Goliath's challenge.",
-      "He refuses Saul's armor and trusts the LORD.",
-      "The giant falls to a sling stone.",
-      "David finishes the fight with Goliath's own sword.",
-      "Israel wins because the LORD saves."
+      "Goliath challenges Israel to single combat, and Saul and the troops are afraid.",
+      "David brings supplies, hears Goliath defy Israel, and questions why the uncircumcised Philistine should challenge God's army.",
+      "David trusts the LORD's past rescue from wild animals and chooses a sling and stones instead of Saul's armor.",
+      "Goliath curses David by his gods, but David declares that the LORD saves without depending on swords or spears.",
+      "David kills Goliath, Israel pursues the Philistines, and David identifies himself to Saul as Jesse's son."
     ],
     "supporting_verses": [
       "1 Samuel 17:1-11",
       "1 Samuel 17:12-30",
       "1 Samuel 17:31-40",
-      "1 Samuel 17:41-54",
-      "1 Samuel 17:55-58"
+      "1 Samuel 17:41-47",
+      "1 Samuel 17:48-58"
     ],
-    "evidence_phrases": [
-      "who is this uncircumcised Philistine",
-      "the battle is the LORD's",
-      "I come to you in the name of the LORD",
-      "with a sling and with a stone",
-      "there is no sword like it"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 18,
-    "title": "David and Jonathan's covenant",
-    "summary_text": "Jonathan loves David as his own soul, and the two men form a covenant that lasts beyond politics. David succeeds in everything he does, which makes Saul jealous and afraid as the people's praise shifts toward the young warrior. The chapter moves from friendship to rising royal tension.",
+    "title": "David's Success Stirs Saul's Jealousy",
+    "summary_text": "Jonathan loves David and makes a covenant with him, while David wins battles and gains the people's favor. Saul grows jealous when women praise David more than him in song. Under a spirit of distress from God, Saul tries to spear David, then sends him away. He offers marriage to his daughters as a trap, hoping the Philistines will kill David, but David kills two hundred of them and brings their foreskins as payment to marry Michal. Saul becomes David's lasting enemy as he sees that the LORD is with him and Michal loves him.",
     "themes": [
       "Covenant friendship",
       "Jealousy",
@@ -731,33 +659,29 @@
       "the servants"
     ],
     "key_points": [
-      "Jonathan and David bind themselves in covenant.",
-      "David's victories deepen Saul's jealousy.",
-      "Michal becomes part of the royal story.",
-      "Saul fears David's popularity.",
-      "David keeps prospering under the LORD."
+      "Jonathan makes a covenant with David and gives him his robe and weapons, while David gains military success.",
+      "Saul becomes jealous when the women's victory songs give David greater praise.",
+      "Under a spirit of distress from God, Saul attacks David, then fears him because the LORD is with him.",
+      "Saul offers his daughters as a trap, but Merab marries another man and David wins Michal by killing Philistines.",
+      "Saul becomes David's lasting enemy as David's success and Michal's love increase his fear."
     ],
     "supporting_verses": [
-      "1 Samuel 18:1-9",
+      "1 Samuel 18:1-5",
+      "1 Samuel 18:6-9",
       "1 Samuel 18:10-16",
-      "1 Samuel 18:17-30",
-      "1 Samuel 18:1-30",
-      "1 Samuel 18:1-16"
+      "1 Samuel 18:17-27",
+      "1 Samuel 18:28-30"
     ],
-    "evidence_phrases": [
-      "the soul of Jonathan was knit with the soul of David",
-      "Saul eyed David from that day",
-      "David behaved himself wisely",
-      "the women sang",
-      "Saul became David's enemy continually"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 19,
-    "title": "Saul's attempts on David",
-    "summary_text": "Saul orders David killed, but Jonathan intercedes and briefly restores peace between them. When Saul's rage returns, David escapes through a window and Michal helps him flee while pretending he is ill. The chapter shows how family ties and loyal friendship still cannot overcome Saul's growing hostility.",
+    "title": "David Escapes Saul's Repeated Attempts to Kill",
+    "summary_text": "Jonathan persuades Saul to spare David, saying that killing him would be sin after the LORD's great salvation through him. Later, under a spirit of distress from the LORD, Saul tries to spear David. Michal helps David flee through a window and places an idol in his bed to fool Saul's men. David goes to Samuel, and God's Spirit makes three groups sent to capture him prophesy. Saul goes himself, but the Spirit comes upon him too, and he prophesies, removes his robes, and lies naked before Samuel.",
     "themes": [
       "Murderous jealousy",
       "Intercession",
@@ -773,33 +697,29 @@
       "Samuel"
     ],
     "key_points": [
-      "Jonathan successfully pleads for David.",
-      "Saul's hostility returns after a brief peace.",
-      "Michal helps David escape by night.",
-      "David flees to Samuel at Ramah.",
-      "God keeps David from Saul's hand."
+      "Jonathan warns that killing innocent David would be sin and persuades Saul to swear he will spare him.",
+      "After David wins another battle, a spirit of distress from the LORD comes upon Saul, who tries to spear him.",
+      "Michal helps David escape and places a household idol in his bed to deceive Saul's messengers.",
+      "David reaches Samuel, and three groups sent to capture him prophesy under God's Spirit.",
+      "Saul also prophesies under God's Spirit, removes his robes, and lies naked before Samuel."
     ],
     "supporting_verses": [
-      "1 Samuel 19:1-10",
+      "1 Samuel 19:1-7",
+      "1 Samuel 19:8-10",
       "1 Samuel 19:11-17",
-      "1 Samuel 19:18-24",
-      "1 Samuel 19:1-24",
-      "1 Samuel 19:1-12"
+      "1 Samuel 19:18-21",
+      "1 Samuel 19:22-24"
     ],
-    "evidence_phrases": [
-      "Jonathan delighted much in David",
-      "Saul sought to pin David to the wall",
-      "Michal let David down through the window",
-      "the Spirit of God was on the messengers",
-      "Is Saul also among the prophets"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 20,
-    "title": "David and Jonathan's covenant again",
-    "summary_text": "David and Jonathan use a secret sign at the feast to determine Saul's intent, and Saul's murderous anger is confirmed. The two friends renew their covenant and part with grief, knowing the kingdom's conflict will separate them. The chapter deepens the tragedy by showing loyalty trapped inside royal violence.",
+    "title": "Jonathan Warns David and Renews Their Covenant",
+    "summary_text": "David and Jonathan plan to test Saul's intent by leaving David's place empty at the New Moon meal. They renew their covenant, and Jonathan asks for loving devotion toward himself and his family. Saul demands David's death and throws a spear at Jonathan when he speaks in David's defense. Jonathan uses their agreed arrow signal to warn David to leave. They meet and weep, then part in peace after recalling their oath before the LORD for both their families.",
     "themes": [
       "Secret communication",
       "Covenant loyalty",
@@ -814,33 +734,29 @@
       "the messengers"
     ],
     "key_points": [
-      "Jonathan tests Saul's intentions by a sign.",
-      "Saul's anger proves David is in danger.",
-      "The friends renew their covenant.",
-      "David and Jonathan part in tears.",
-      "The kingdom's future now feels fractured."
+      "David asks how he has sinned and offers to die if Jonathan finds iniquity, or serious wrongdoing, in him.",
+      "Jonathan promises to warn David and renews their covenant, asking for lasting loving devotion toward his household.",
+      "The friends arrange an arrow signal to tell David whether he is safe or must leave.",
+      "Saul demands David's death and hurls a spear at Jonathan when he questions David's guilt.",
+      "Jonathan signals danger, meets David in tears, and sends him away in peace under their enduring oath."
     ],
     "supporting_verses": [
-      "1 Samuel 20:1-23",
+      "1 Samuel 20:1-8",
+      "1 Samuel 20:9-17",
+      "1 Samuel 20:18-23",
       "1 Samuel 20:24-34",
-      "1 Samuel 20:35-42",
-      "1 Samuel 20:1-42",
-      "1 Samuel 20:1-23"
+      "1 Samuel 20:35-42"
     ],
-    "evidence_phrases": [
-      "the LORD is between me and you forever",
-      "why should he be slain",
-      "Saul's anger was kindled",
-      "go in peace",
-      "we have sworn both of us in the name of the LORD"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 21,
-    "title": "Nob, bread, and Gath",
-    "summary_text": "David arrives at Nob hungry and receives the holy bread and Goliath's sword from Ahimelech, but the encounter later costs the priests their lives. He then flees to Gath, where he pretends madness to survive among the Philistines. The chapter shows David in exile, scrambling for food, weapons, and safety while Saul's violence expands.",
+    "title": "David Receives Bread and Pretends to Be Mad",
+    "summary_text": "At Nob, David claims to be on a secret mission for Saul and asks Ahimelech the priest for food. The priest gives him consecrated bread and Goliath's sword, and Saul's servant Doeg is there. David then flees Saul and goes to Achish in Gath. The king's servants know who he is and recall the songs praising his victories, so David grows afraid and pretends to be mad. He scratches at the gate and drools into his beard, and Achish objects to having him in his house.",
     "themes": [
       "Flight and survival",
       "Holy bread",
@@ -856,33 +772,27 @@
       "Achish"
     ],
     "key_points": [
-      "David receives bread and a sword at Nob.",
-      "Doeg's report leads to priestly slaughter.",
-      "David escapes to Gath.",
-      "He feigns madness to avoid death.",
-      "Saul's paranoia spreads beyond him."
+      "David asks Ahimelech for bread while claiming Saul has sent him on a secret mission.",
+      "David claims his men's bodies are holy, and the priest gives him consecrated bread while Doeg is present.",
+      "Ahimelech offers Goliath's sword, and David accepts it before fleeing Saul to Gath.",
+      "Recognized by Achish's servants, David fears the king and pretends to be mad, prompting Achish to reject his presence."
     ],
     "supporting_verses": [
-      "1 Samuel 21:1-9",
-      "1 Samuel 21:10-15",
-      "1 Samuel 21:1-15",
-      "1 Samuel 21:1-9",
-      "1 Samuel 21:10-15"
+      "1 Samuel 21:1-3",
+      "1 Samuel 21:4-7",
+      "1 Samuel 21:8-10",
+      "1 Samuel 21:11-15"
     ],
-    "evidence_phrases": [
-      "the bread of the presence",
-      "the sword of Goliath",
-      "he changed his behavior",
-      "they drove him away",
-      "David escaped"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 22,
-    "title": "Adullam and the priests killed",
-    "summary_text": "David gathers a band of distressed followers in the cave of Adullam while Saul's suspicion turns into murderous paranoia. Doeg tells Saul that Ahimelech helped David, and the king orders the priests of Nob killed, deepening the bloodguilt on his house. Abiathar escapes to David, linking the outlaw king and the surviving priesthood.",
+    "title": "Saul Orders the Slaughter of Nob's Priests",
+    "summary_text": "David gathers about four hundred troubled men, leaves his parents with Moab's king, and goes to Judah as the prophet Gad directs. Saul suspects a plot, and Doeg reports that Ahimelech helped David. The priest calls David faithful and denies knowing of a plot, but Saul orders the priests killed. When Saul's guards refuse, Doeg kills eighty-five priests and puts Nob's people and animals to the sword. Abiathar escapes to David, who accepts blame for his family's deaths and offers him safety.",
     "themes": [
       "Outlaw community",
       "Royal paranoia",
@@ -898,33 +808,29 @@
       "Abiathar"
     ],
     "key_points": [
-      "David gathers the afflicted at Adullam.",
-      "Saul accuses the priests of conspiracy.",
-      "Doeg carries out the slaughter at Nob.",
-      "Abiathar escapes to David with the ephod.",
-      "Saul's violence becomes indiscriminate."
+      "David gains followers, secures care for his parents in Moab, and enters Judah at the prophet Gad's direction.",
+      "Saul suspects conspiracy, and Doeg reports that Ahimelech fed David, gave him a sword, and inquired of God for him.",
+      "Ahimelech calls David faithful and denies knowing about any plot, but Saul condemns his family.",
+      "Saul's guards refuse to kill the priests, but Doeg kills eighty-five and destroys Nob, including children and infants.",
+      "Abiathar escapes to David, who accepts responsibility for the deaths and offers him protection."
     ],
     "supporting_verses": [
       "1 Samuel 22:1-5",
       "1 Samuel 22:6-10",
-      "1 Samuel 22:11-23",
-      "1 Samuel 22:1-23",
-      "1 Samuel 22:1-10"
+      "1 Samuel 22:11-16",
+      "1 Samuel 22:17-19",
+      "1 Samuel 22:20-23"
     ],
-    "evidence_phrases": [
-      "every one that was in distress",
-      "why have you conspired against me",
-      "Doeg the Edomite turned",
-      "I have occasioned the death of all the persons",
-      "remain with me"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 23,
-    "title": "Keilah and the Ziphites",
-    "summary_text": "David rescues Keilah from the Philistines and then discovers that the city may still betray him to Saul. He repeatedly seeks the LORD, who directs him away from capture and into the wilderness, where the Ziphites inform Saul of his location. The chapter shows David relying on God's guidance in every movement.",
+    "title": "David Saves Keilah and Escapes Saul",
+    "summary_text": "David consults the LORD and saves Keilah from the Philistines despite his men's fear. Before Saul can trap him there, David has Abiathar the priest bring the ephod and asks the LORD, who says the town would surrender him, so he leaves. Jonathan visits David in the wilderness, strengthens his trust in God, predicts his kingship, and makes a covenant with him. The Ziphites offer to help Saul capture David, and Saul closes in on him near Maon. News of a Philistine raid forces Saul to turn back, and David moves to En-gedi.",
     "themes": [
       "Seeking direction",
       "Deliverance of Keilah",
@@ -940,33 +846,29 @@
       "the LORD"
     ],
     "key_points": [
-      "David rescues Keilah from the Philistines.",
-      "The LORD warns that Keilah may betray him.",
-      "David escapes before Saul arrives.",
-      "The Ziphites report his hiding place.",
-      "God keeps directing David's steps."
+      "After twice consulting the LORD, David attacks the Philistines and saves Keilah.",
+      "David asks Abiathar the priest to bring the ephod, consults the LORD, and leaves Keilah before its citizens can surrender him.",
+      "God keeps Saul from capturing David, and Jonathan strengthens David in God and makes a covenant with him.",
+      "The Ziphites offer to deliver David to Saul, who orders a careful search for his hiding places.",
+      "Saul nearly surrounds David but leaves to face a Philistine raid, allowing David to move to En-gedi."
     ],
     "supporting_verses": [
-      "1 Samuel 23:1-14",
-      "1 Samuel 23:15-29",
-      "1 Samuel 23:1-29",
-      "1 Samuel 23:1-14",
-      "1 Samuel 23:15-29"
+      "1 Samuel 23:1-6",
+      "1 Samuel 23:7-13",
+      "1 Samuel 23:14-18",
+      "1 Samuel 23:19-23",
+      "1 Samuel 23:24-29"
     ],
-    "evidence_phrases": [
-      "shall I go and strike these Philistines",
-      "the LORD said, Go",
-      "will the men of Keilah deliver me up",
-      "the Ziphites came up to Saul",
-      "the wilderness of Ziph"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 24,
-    "title": "David spares Saul in the cave",
-    "summary_text": "David has the chance to kill Saul in the cave at En-gedi but chooses instead to cut off a corner of Saul's robe and let God judge between them. Saul is briefly softened and acknowledges David's future kingship, yet the conflict is not truly resolved. The chapter shows David's restraint and trust in the LORD rather than revenge.",
+    "title": "David Spares Saul in the Cave",
+    "summary_text": "While pursuing David, Saul enters the very cave where David and his men are hiding. David secretly cuts off a corner of Saul's robe but feels guilty and refuses to let his men attack the LORD's anointed. After Saul leaves, David shows him the cloth as proof that he spared him, denies having sinned against him, and asks the LORD to judge between them. Saul weeps, calls David more righteous than himself, and acknowledges that David will be king. David promises not to destroy Saul's descendants, and they go their separate ways.",
     "themes": [
       "Mercy over revenge",
       "Respect for God's anointed",
@@ -981,33 +883,29 @@
       "the LORD"
     ],
     "key_points": [
-      "David refuses to kill Saul when he can.",
-      "He appeals to the LORD as judge.",
-      "Saul admits David's righteousness.",
-      "The two part in apparent peace.",
-      "David trusts God's timing for vindication."
+      "Saul enters David's hiding place, and David cuts a corner from his robe despite his men's urging to act against him.",
+      "David's conscience troubles him, and he refuses to attack Saul because Saul is the LORD's anointed.",
+      "David shows the robe fragment, denies sin against Saul, and asks the LORD to judge and deliver him.",
+      "Saul weeps and calls David more righteous, recognizing his mercy and future kingship.",
+      "David swears to preserve Saul's descendants; Saul goes home, while David returns to the stronghold."
     ],
     "supporting_verses": [
-      "1 Samuel 24:1-7",
+      "1 Samuel 24:1-4",
+      "1 Samuel 24:5-7",
       "1 Samuel 24:8-15",
-      "1 Samuel 24:16-22",
-      "1 Samuel 24:1-22",
-      "1 Samuel 24:1-15"
+      "1 Samuel 24:16-20",
+      "1 Samuel 24:21-22"
     ],
-    "evidence_phrases": [
-      "the LORD's anointed",
-      "I will not put forth my hand",
-      "the LORD judge between me and you",
-      "you are more righteous than I",
-      "the LORD reward you good"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 25,
-    "title": "Abigail and Nabal",
-    "summary_text": "Samuel dies, and David moves deeper into the wilderness where Nabal insults him and refuses food for his men. Abigail quickly intervenes with provisions, speaks humbly to David, and prevents bloodshed by reminding him that the LORD will fight his battles. Nabal later dies after his drunken feast, and David receives Abigail as wife, turning restraint into mercy and provision into peace.",
+    "title": "Abigail Stops David From Taking Revenge",
+    "summary_text": "After Samuel dies, David asks Nabal for food, since his men have guarded Nabal's shepherds. Nabal insults him, and David sets out to kill every male in his house. Abigail brings food, asks forgiveness, and urges David to wait for the LORD's promised future without taking revenge. David blesses God and Abigail for stopping the bloodshed and agrees to spare the household. The LORD later kills Nabal, and David praises Him for judging Nabal's wickedness and marries Abigail.",
     "themes": [
       "Samuel's death",
       "Wise intercession",
@@ -1024,33 +922,29 @@
       "the LORD"
     ],
     "key_points": [
-      "Samuel's death is marked before the Nabal story.",
-      "Nabal refuses David's request for provisions.",
-      "Abigail rushes out with gifts and a plea for mercy.",
-      "David turns from vengeance after hearing her words.",
-      "Nabal dies and Abigail becomes David's wife."
+      "Samuel dies, and David later seeks food from Nabal after protecting his shepherds.",
+      "Nabal insults David's messengers, so David arms his men and sets out against his household.",
+      "Abigail brings food, asks David to forgive her offense, and urges him to avoid bloodshed before the LORD's promised kingship.",
+      "David blesses the LORD and Abigail for keeping him from revenge and accepts her request.",
+      "The LORD strikes Nabal dead, and Abigail becomes David's wife; Ahinoam is also his wife, while Michal is given to Palti."
     ],
     "supporting_verses": [
-      "1 Samuel 25:1-3",
-      "1 Samuel 25:4-11",
-      "1 Samuel 25:12-31",
+      "1 Samuel 25:1-9",
+      "1 Samuel 25:10-17",
+      "1 Samuel 25:18-31",
       "1 Samuel 25:32-35",
       "1 Samuel 25:36-44"
     ],
-    "evidence_phrases": [
-      "Samuel died",
-      "Who is David?",
-      "the LORD will certainly make my lord a sure house",
-      "the LORD has restrained my lord from bloodguiltiness",
-      "David took Abigail"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 26,
-    "title": "David spares Saul again",
-    "summary_text": "When Saul camps in the wilderness, David slips into the camp with Abishai and takes Saul's spear and water jug instead of killing him. From a distance he calls Saul to account, and Saul again admits that he has sinned and that David will surely prevail. The second chance underlines David's refusal to seize the throne by violence.",
+    "title": "David Spares Saul in His Sleeping Camp",
+    "summary_text": "Following another report from the Ziphites, Saul pursues David, who enters his camp at night with Abishai. David refuses to let Abishai kill the LORD's anointed and takes only Saul's spear and water jug while a deep sleep from the LORD keeps the camp unaware. From a safe distance, David rebukes Abner's failure to guard Saul and asks why Saul is pursuing him. Saul admits his sin and promises not to harm him again. David asks the LORD to reward righteousness and faithfulness and protect his life as he protected Saul's, then the two men part.",
     "themes": [
       "Mercy",
       "Respect for the LORD's anointed",
@@ -1066,33 +960,29 @@
       "the LORD"
     ],
     "key_points": [
-      "David enters Saul's camp by night.",
-      "He refuses Abishai's offer to kill Saul.",
-      "The spear and water jug become proof of restraint.",
-      "Saul confesses his wrongdoing again.",
-      "David leaves judgment to God."
+      "The Ziphites reveal David's location, and Saul leads three thousand men to search for him.",
+      "David spares the LORD's anointed and takes Saul's spear and jug while the LORD keeps the camp asleep.",
+      "From across a wide gap, David rebukes Abner for failing to protect the king.",
+      "David questions Saul's pursuit and protests being driven away from the LORD's inheritance toward other gods.",
+      "Saul admits his sin, and David asks the LORD to reward righteousness and faithfulness before they part."
     ],
     "supporting_verses": [
-      "1 Samuel 26:1-12",
-      "1 Samuel 26:13-20",
-      "1 Samuel 26:21-25",
-      "1 Samuel 26:1-25",
-      "1 Samuel 26:13-25"
+      "1 Samuel 26:1-5",
+      "1 Samuel 26:6-12",
+      "1 Samuel 26:13-16",
+      "1 Samuel 26:17-20",
+      "1 Samuel 26:21-25"
     ],
-    "evidence_phrases": [
-      "a deep sleep from the LORD",
-      "the LORD's anointed",
-      "where is the king's spear",
-      "I have sinned",
-      "the LORD rewards every man"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 27,
-    "title": "David lives among the Philistines",
-    "summary_text": "David decides he will perish by Saul's hand unless he finds refuge among the Philistines, so he settles in Ziklag under Achish. From there he raids surrounding peoples while telling Achish that he has struck Judah, keeping the king of Gath confident in his loyalty. The chapter captures David living by concealment and survival in enemy territory.",
+    "title": "David Lives Among the Philistines at Ziklag",
+    "summary_text": "David fears Saul will kill him, so he takes his six hundred men and their families to Achish in Gath, and Saul stops the search. Achish gives him Ziklag, and David stays in Philistine land for a year and four months. David raids the Geshurites, Girzites, and Amalekites, takes their goods, and kills every man and woman so no one can report him. He falsely tells Achish he has raided land belonging to Judah and other peoples. Achish trusts him, thinking Israel now hates David and he will serve him for life.",
     "themes": [
       "Exile",
       "Deception",
@@ -1109,33 +999,27 @@
       "the Amalekites"
     ],
     "key_points": [
-      "David seeks refuge in Philistine territory.",
-      "Achish gives him Ziklag.",
-      "David raids neighboring peoples.",
-      "He misleads Achish about his targets.",
-      "The arrangement masks ongoing conflict."
+      "David moves his men and their families to Gath because he fears Saul, who then stops pursuing him.",
+      "Achish gives David Ziklag, and David remains in Philistine territory for a year and four months.",
+      "David raids the Geshurites, Girzites, and Amalekites, leaving no men or women alive to report him.",
+      "David gives Achish false reports about his raids, leading Achish to trust that David will serve him permanently."
     ],
     "supporting_verses": [
-      "1 Samuel 27:1-7",
-      "1 Samuel 27:8-9",
-      "1 Samuel 27:10-12",
-      "1 Samuel 27:1-12",
-      "1 Samuel 27:1-7"
+      "1 Samuel 27:1-4",
+      "1 Samuel 27:5-7",
+      "1 Samuel 27:8-11",
+      "1 Samuel 27:10-12"
     ],
-    "evidence_phrases": [
-      "I shall now perish one day by the hand of Saul",
-      "Achish gave him Ziklag",
-      "David dwelt in the country of the Philistines",
-      "David went up, and invaded",
-      "he left neither man nor woman alive"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 28,
-    "title": "Saul and the medium at Endor",
-    "summary_text": "Saul becomes desperate when the Philistines gather and the LORD no longer answers him, so he disguises himself and seeks a medium at Endor. The woman summons Samuel, who rebukes Saul and repeats that the LORD has torn the kingdom away from him. Saul hears the sentence of death before returning to face the battle.",
+    "title": "Saul Seeks Samuel Through a Medium",
+    "summary_text": "Achish tells David to join the Philistines in battle, while Saul fears their army and gets no answer from the LORD. Saul puts on a disguise and asks a medium at Endor to consult a spirit and bring up Samuel. She sees Samuel and knows Saul, who bows when she describes an old man in a robe. Samuel says God rejected Saul for disobeying Him about Amalek and gave David the kingdom, then predicts Israel's defeat and the deaths of Saul and his sons the next day. Saul collapses in fear, then eats at the woman's urging and leaves that night.",
     "themes": [
       "Desperation",
       "Forbidden counsel",
@@ -1151,33 +1035,29 @@
       "the LORD"
     ],
     "key_points": [
-      "Saul seeks guidance after God is silent.",
-      "He disguises himself to visit the medium.",
-      "Samuel appears and speaks judgment.",
-      "Saul is told the kingdom is finished.",
-      "He falls into terror before battle."
+      "Achish expects David to join the Philistine campaign, while Saul receives no answer from God through dreams, Urim, or prophets.",
+      "Saul disguises himself and visits a medium at Endor, asking her to bring up Samuel.",
+      "The woman sees Samuel and recognizes Saul, who bows after hearing her description.",
+      "Samuel announces Saul's rejection, David's kingship, Israel's defeat, and the approaching deaths of Saul and his sons.",
+      "Saul collapses in fear and weakness, then eats food prepared by the medium and leaves that night."
     ],
     "supporting_verses": [
-      "1 Samuel 28:1-7",
-      "1 Samuel 28:8-14",
+      "1 Samuel 28:1-6",
+      "1 Samuel 28:7-11",
+      "1 Samuel 28:12-14",
       "1 Samuel 28:15-19",
-      "1 Samuel 28:20-25",
-      "1 Samuel 28:1-25"
+      "1 Samuel 28:20-25"
     ],
-    "evidence_phrases": [
-      "I am sore distressed",
-      "bring me up Samuel",
-      "why have you disquieted me",
-      "tomorrow you and your sons will be with me",
-      "the LORD has done to him"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 29,
-    "title": "David sent back from the Philistine army",
-    "summary_text": "As the Philistines assemble for war, their lords distrust David and insist that he not march with them. Achish defends David's loyalty, but the commanders fear he will turn against them in battle, so David is sent home from Aphek. The chapter frees David from an impossible battlefield alliance before the final crisis with Saul unfolds.",
+    "title": "Philistine Commanders Send David Away",
+    "summary_text": "David and his men march with Achish as the Philistines gather to fight Israel. Their commanders fear that David will turn against them to regain Saul's favor, despite Achish's trust in him. Achish sends David back, though David protests that he has done nothing wrong. David's men leave early the next morning while the Philistine army heads toward Jezreel.",
     "themes": [
       "Suspicion",
       "Military politics",
@@ -1193,33 +1073,27 @@
       "the Philistines"
     ],
     "key_points": [
-      "The Philistine leaders do not trust David.",
-      "Achish tries to defend him.",
-      "The lords refuse to let him fight with them.",
-      "David is sent back from the army.",
-      "His return prevents future conflict."
+      "David's men join Achish, but the other Philistine commanders question their presence.",
+      "The commanders remember David's victories and fear he will turn against them during battle.",
+      "Achish trusts David but orders him to leave because the commanders refuse to accept him.",
+      "David and his men return to Philistine territory while the army advances toward Jezreel."
     ],
     "supporting_verses": [
       "1 Samuel 29:1-3",
       "1 Samuel 29:4-5",
-      "1 Samuel 29:6-7",
-      "1 Samuel 29:8-11",
-      "1 Samuel 29:1-11"
+      "1 Samuel 29:6-10",
+      "1 Samuel 29:11"
     ],
-    "evidence_phrases": [
-      "what about these Hebrews",
-      "he has been good in my sight",
-      "he shall not go down with us to battle",
-      "return and go in peace",
-      "the lords of the Philistines"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 30,
-    "title": "Ziklag burned and recovered",
-    "summary_text": "While David and his men are away, Amalekites raid Ziklag, burn the city, and take the families captive. David strengthens himself in the LORD, pursues the raiders with divine guidance, and recovers everyone along with much spoil. The chapter ends with David sharing the recovered goods widely, showing both courage and generosity.",
+    "title": "David Rescues Ziklag's Captives",
+    "summary_text": "David finds Ziklag burned and its people taken captive, and his grieving men threaten to stone him. He finds strength in the LORD, who tells him to pursue the raiders and promises a rescue. An abandoned Egyptian slave guides David to the Amalekites, and David recovers every captive and all their goods. He insists that those who guarded the supplies share equally with the fighters, since the LORD gave them victory. He also sends gifts from the plunder to elders in Judah.",
     "themes": [
       "Crisis and recovery",
       "Seeking the LORD",
@@ -1237,33 +1111,29 @@
       "Abigail"
     ],
     "key_points": [
-      "Ziklag is burned and the families are taken.",
-      "David seeks strength and direction from the LORD.",
-      "The Egyptian servant guides them to the raiders.",
-      "David recovers all the captives and spoil.",
-      "The recovered goods are shared fairly."
+      "Facing grief and threats, David seeks the LORD through Abiathar the priest and receives a promise of rescue.",
+      "Two hundred exhausted men remain behind while an Egyptian leads David's remaining men to the raiders.",
+      "David defeats the Amalekites and recovers all the people and goods they took.",
+      "David rejects his wicked men's demand to deny a share to those who stayed with the supplies.",
+      "David sends gifts from the plunder to Judah's elders in places where his men had traveled."
     ],
     "supporting_verses": [
       "1 Samuel 30:1-8",
-      "1 Samuel 30:9-15",
-      "1 Samuel 30:16-20",
-      "1 Samuel 30:21-31",
-      "1 Samuel 30:1-31"
+      "1 Samuel 30:9-16",
+      "1 Samuel 30:17-20",
+      "1 Samuel 30:21-25",
+      "1 Samuel 30:26-31"
     ],
-    "evidence_phrases": [
-      "David was greatly distressed",
-      "David strengthened himself in the LORD",
-      "Pursue, for you shall surely overtake them",
-      "nothing of theirs was missing",
-      "David came to the two hundred"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 9,
     "chapter": 31,
-    "title": "Saul's death at Gilboa",
-    "summary_text": "The Philistines defeat Israel at Mount Gilboa, and Saul's sons fall beside him. Wounded and unable to continue, Saul falls on his own sword after his armor bearer refuses to kill him, and the Philistines later display the bodies in shame. Men of Jabesh-gilead recover the remains and bury them with fasting, ending Saul's reign in grief and honor.",
+    "title": "Saul and His Sons Die in Battle",
+    "summary_text": "Israel's army flees from the Philistines, who kill Saul's sons Jonathan, Abinadab, and Malchishua. Badly wounded and afraid of capture, Saul kills himself with his sword, and his armor-bearer does the same. Israelites abandon their towns, and the Philistines occupy them. The victors display Saul's body and place his armor in a temple, but men from Jabesh-gilead recover the bodies of Saul and his sons. They burn the bodies, bury the bones, and fast for seven days.",
     "themes": [
       "Tragic downfall",
       "Death in battle",
@@ -1279,25 +1149,21 @@
       "the men of Jabesh-gilead"
     ],
     "key_points": [
-      "Israel is defeated on Mount Gilboa.",
-      "Saul's sons die beside him.",
-      "Saul kills himself after the armor bearer refuses.",
-      "The Philistines display the bodies in triumph.",
-      "Jabesh-gilead gives Saul and his sons a burial."
+      "The Philistines kill Saul's three sons and leave Saul badly wounded.",
+      "Saul fears abuse by the uncircumcised enemy and kills himself when his armor-bearer refuses to kill him.",
+      "Israelites flee their towns, allowing the Philistines to occupy them.",
+      "The Philistines announce their victory among their idols' temples and display Saul's armor and body.",
+      "Men from Jabesh-gilead retrieve the bodies, burn them, bury the bones, and fast for seven days."
     ],
     "supporting_verses": [
-      "1 Samuel 31:1-6",
-      "1 Samuel 31:7-10",
-      "1 Samuel 31:11-13",
-      "1 Samuel 31:1-13",
-      "1 Samuel 31:7-13"
+      "1 Samuel 31:1-3",
+      "1 Samuel 31:4-6",
+      "1 Samuel 31:7",
+      "1 Samuel 31:8-10",
+      "1 Samuel 31:11-13"
     ],
-    "evidence_phrases": [
-      "the men of Israel fled",
-      "fall on your sword",
-      "Saul died",
-      "they fasted seven days",
-      "the Philistines stripped him"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   }
 ]

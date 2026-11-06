@@ -1,10 +1,10 @@
 [
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 37,
     "chapter": 1,
-    "title": "The people neglect the LORD's house",
-    "summary_text": "Haggai rebukes the returned community for living in paneled houses while the house of the LORD lies in ruins. He tells Zerubbabel and Joshua to consider their ways, and drought and shortage are explained as part of the covenant discipline. The chapter ends with the people stirred to obey and resume the work.",
+    "title": "The People Begin Rebuilding the LORD's House",
+    "summary_text": "Through the prophet Haggai, the LORD challenges people who improve their own houses while leaving His house in ruins. Their hard work brings little because He has withheld crops and sent drought over their neglect. He tells them to bring wood and rebuild so He may be glorified. Governor Zerubbabel, Joshua the high priest, and the people's remnant obey His words. The LORD promises His presence and stirs their spirits, and they begin work on His house.",
     "themes": [
       "Temple neglect",
       "Covenant discipline",
@@ -18,32 +18,27 @@
       "the people"
     ],
     "key_points": [
-      "The people delay rebuilding the temple.",
-      "God interprets their hardship as discipline.",
-      "Haggai calls them to consider their ways.",
-      "The leaders and people obey the prophetic word."
+      "The LORD's word through Haggai confronts people living in finished houses while His house remains ruined.",
+      "The LORD commands rebuilding so He may be glorified, explaining that their neglect has brought drought and poor harvests.",
+      "Zerubbabel, Joshua the high priest, and the remnant obey the LORD's words through the prophet.",
+      "The LORD promises His presence, stirs the people's spirits, and they begin rebuilding His house."
     ],
     "supporting_verses": [
-      "Haggai 1:4",
-      "Haggai 1:5",
-      "Haggai 1:7",
-      "Haggai 1:8",
-      "Haggai 1:12"
+      "Haggai 1:1-6",
+      "Haggai 1:7-11",
+      "Haggai 1:12",
+      "Haggai 1:13-15"
     ],
-    "evidence_phrases": [
-      "Consider your ways",
-      "this house lies waste",
-      "go up to the mountain",
-      "I am with you",
-      "they obeyed the voice of the LORD"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 37,
     "chapter": 2,
-    "title": "The latter glory and Zerubbabel's signet ring",
-    "summary_text": "Haggai encourages the builders not to be afraid because the LORD is with them and will shake the nations. He promises that the glory of the latter house will surpass the former and ends by setting Zerubbabel apart as a signet ring of chosen authority. The chapter strengthens the builders with future hope and present calling.",
+    "title": "God Promises Greater Glory and New Blessing",
+    "summary_text": "The LORD urges Zerubbabel, Joshua the high priest, and the people to work without fear because His Spirit remains with them. He promises greater glory for His house and peace there after He shakes the nations. Through the priests' rulings, Haggai shows that holiness does not spread by indirect contact, while defilement does; the people's work and offerings are defiled. The LORD recalls their failed harvests but promises blessing from the day the temple foundation was laid. He also promises to overthrow kingdoms and make chosen Zerubbabel like His signet ring.",
     "themes": [
       "Encouragement",
       "Future glory",
@@ -57,24 +52,21 @@
       "the nations"
     ],
     "key_points": [
-      "The builders are told to be strong and work.",
-      "God promises to shake heaven and earth.",
-      "The latter house will receive greater glory.",
-      "Zerubbabel is singled out as God's chosen signet ring."
+      "The LORD keeps His promise of presence and tells Joshua the high priest and the others to keep working.",
+      "God will shake the nations and give His house greater glory and peace.",
+      "The priests explain holy and defiled contact, and Haggai applies their rulings to the people's defiled work.",
+      "The LORD's word recalls failed harvests but promises to bless from the day of the temple foundation.",
+      "The LORD will overthrow kingdoms and make Zerubbabel, His chosen servant, like His signet ring."
     ],
     "supporting_verses": [
-      "Haggai 2:4",
-      "Haggai 2:6",
-      "Haggai 2:9",
-      "Haggai 2:21",
-      "Haggai 2:23"
+      "Haggai 2:1-5",
+      "Haggai 2:6-9",
+      "Haggai 2:10-14",
+      "Haggai 2:15-19",
+      "Haggai 2:20-23"
     ],
-    "evidence_phrases": [
-      "be strong and work",
-      "My Spirit remains among you",
-      "the glory of this latter house",
-      "I will make you as a signet ring",
-      "from this day forward"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   }
 ]

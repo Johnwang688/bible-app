@@ -1,10 +1,10 @@
 [
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 45,
     "chapter": 1,
-    "title": "Gospel power and wrath against ungodliness",
-    "summary_text": "Paul, servant of Jesus Christ, called apostle, writes to Rome’s believers about God’s gospel promised beforehand—the Son descended from David according to flesh, declared Son of God in power by resurrection. The gospel is God’s power for salvation to everyone believing, to Jew first and Greek; God’s wrath is revealed from heaven against ungodliness that suppresses truth. Gentiles knew God yet exchanged his glory for images; God gave them up to impurity, dishonorable passions, and a debased mind.",
+    "title": "Good News and Humanity's Rejection of God",
+    "summary_text": "Paul writes as an apostle with God's gospel about Jesus Christ, David's descendant, declared the Son of God through His resurrection. He hopes to visit Rome and says the gospel brings salvation and reveals God's righteousness through faith. Paul then turns to God's wrath against people who know Him through what He made but trade His glory for idols. God gives them over to shameful desires, including same-sex acts among women and men. He also gives them over to corrupt minds, and they do and praise evil though they know it deserves death.",
     "themes": [
       "Apostleship to Gentiles",
       "Gospel is God’s power",
@@ -18,37 +18,29 @@
       "Gentiles"
     ],
     "key_points": [
-      "The gospel was promised through the prophets.",
-      "In it God’s righteousness is revealed from faith to faith.",
-      "God’s wrath is revealed against ungodliness and unrighteousness.",
-      "They knew God but did not glorify him as God.",
-      "God gave them up in the lusts of their hearts."
+      "Paul's gospel concerns Jesus, descended from David and declared the Son of God in power through the Spirit of holiness by His resurrection.",
+      "Paul wants to visit Rome to share encouragement through faith and preach the gospel among Gentiles.",
+      "God's gospel brings salvation to believers and reveals His righteousness through faith.",
+      "People reject the Creator's visible evidence and worship created things, bringing God's wrath against their wickedness.",
+      "God gives people over to dishonorable sexual desires and corrupt thinking, with widespread wrongdoing and approval of evil."
     ],
     "supporting_verses": [
-      "Romans 1:1",
-      "Romans 1:4",
-      "Romans 1:16",
-      "Romans 1:17",
-      "Romans 1:18",
-      "Romans 1:21",
-      "Romans 1:24",
-      "Romans 1:28"
+      "Romans 1:1-7",
+      "Romans 1:8-15",
+      "Romans 1:16-17",
+      "Romans 1:18-25",
+      "Romans 1:26-32"
     ],
-    "evidence_phrases": [
-      "a servant of Jesus Christ",
-      "the gospel of God",
-      "it is the power of God for salvation",
-      "For the wrath of God is revealed",
-      "they exchanged the glory of the incorruptible God",
-      "God gave them up to the lusts of their hearts"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 45,
     "chapter": 2,
-    "title": "Impartial judgment and circumcision of heart",
-    "summary_text": "God’s judgment is according to truth against those who judge others while practicing the same. Kindness leads to repentance; stubbornness stores up wrath. There is no partiality with God; hearers of the law are not justified before doers. Gentiles without the law may show the law’s work on their hearts. True circumcision is of the heart in the Spirit, not merely letter and praise of men.",
+    "title": "God Judges Deeds Rather Than Outward Status",
+    "summary_text": "People who judge others for sins they also do condemn themselves, Paul says. God leads them toward repentance and judges their deeds fairly, giving eternal life or wrath. Doing the law, rather than just hearing it, leads to being declared righteous; Gentiles without it also have a conscience that accuses or defends them. Paul asks Jewish teachers why they break the laws they teach and so dishonor God. He says circumcision counts with obedience and must concern the heart through the Spirit.",
     "themes": [
       "Judgment without partiality",
       "Doers not hearers",
@@ -61,34 +53,29 @@
       "Gentiles"
     ],
     "key_points": [
-      "You are without excuse who judge another.",
-      "God will render to each according to his works.",
-      "There is no partiality with God.",
-      "Circumcision profits if you are a doer of the law.",
-      "He is not a Jew who is one outwardly only."
+      "People who judge others while doing the same wrongs cannot escape God's judgment.",
+      "God shows no favoritism and judges each person's deeds, bringing eternal life or wrath for wickedness.",
+      "Doing the law, rather than merely hearing it, leads to being declared righteous, and Gentile consciences also bear witness.",
+      "Paul challenges teachers who claim the law's wisdom but dishonor God by breaking it.",
+      "Lawbreaking turns circumcision into uncircumcision; obedience counts even for the uncircumcised, and true circumcision concerns the heart through the Spirit."
     ],
     "supporting_verses": [
-      "Romans 2:1",
-      "Romans 2:6",
-      "Romans 2:11",
-      "Romans 2:13",
-      "Romans 2:28",
-      "Romans 2:29"
+      "Romans 2:1-5",
+      "Romans 2:6-11",
+      "Romans 2:12-16",
+      "Romans 2:17-24",
+      "Romans 2:25-29"
     ],
-    "evidence_phrases": [
-      "the judgment of God is according to truth",
-      "repentance",
-      "there is no partiality with God",
-      "not the hearers of the law are righteous",
-      "he is not a Jew who is one outwardly"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 45,
     "chapter": 3,
-    "title": "All under sin; justification through faith",
-    "summary_text": "What advantage has the Jew? Much—in every way, chiefly that they were entrusted with God’s oracles. Unbelief does not nullify God’s faithfulness. All have sinned; no one is justified by works of law. God’s righteousness is manifested apart from law, witnessed by the Law and Prophets—through faith in Jesus Christ to all who believe. Boasting is excluded; one God justifies circumcision by faith and uncircumcision through faith.",
+    "title": "All Sin, but God Justifies Through Faith",
+    "summary_text": "The Jews received God's words, and their lack of faith cannot undo His faithfulness. Paul rejects the claim that God is unfair to judge sin, or that good results can excuse evil. Scripture shows that Jews and Greeks are all under sin, and the law shows guilt rather than justifying people before God. Through redemption in Jesus Christ, God reveals His righteousness and freely justifies believers by grace, putting them in right standing with Him through faith. No one can boast, since Jews and Gentiles share one God and one way of faith that upholds His law.",
     "themes": [
       "Oracles entrusted",
       "All have sinned",
@@ -103,37 +90,29 @@
       "God"
     ],
     "key_points": [
-      "Jews were entrusted with the oracles of God.",
-      "There is no one righteous; all have sinned.",
-      "Being justified freely by his grace through redemption in Christ.",
-      "God set him forth as a propitiation by faith in his blood.",
-      "We maintain that a man is justified by faith apart from works of the law."
+      "God remains faithful despite human failure, and Paul rejects using God's righteousness as an excuse for evil.",
+      "Scripture shows Jews and Greeks alike under sin, falling short of God's glory, with no one able to claim innocence.",
+      "The law holds people accountable and reveals sin, but works of the law do not justify them before God.",
+      "God presents Jesus as an atoning sacrifice through His blood, showing His righteousness as He justifies those who have faith in Jesus.",
+      "God justifies the circumcised and uncircumcised through faith, excluding boasting and upholding the law."
     ],
     "supporting_verses": [
-      "Romans 3:1",
-      "Romans 3:2",
-      "Romans 3:9",
-      "Romans 3:10",
-      "Romans 3:23",
-      "Romans 3:24",
-      "Romans 3:25",
-      "Romans 3:28"
+      "Romans 3:1-8",
+      "Romans 3:9-23",
+      "Romans 3:19-20",
+      "Romans 3:21-26",
+      "Romans 3:27-31"
     ],
-    "evidence_phrases": [
-      "they were entrusted with the oracles of God",
-      "There is no one righteous",
-      "for all have sinned",
-      "being justified freely by his grace",
-      "God set him forth to be a propitiation",
-      "We maintain therefore that a man is justified by faith apart from the deeds of the law"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 45,
     "chapter": 4,
-    "title": "Abraham justified by faith before circumcision",
-    "summary_text": "Abraham believed God and it was counted to him for righteousness before circumcision, that he might be father of all who believe without being circumcised. The promise is sure to faith, not law, lest it be of works. Faith is counted as righteousness as David describes blessedness of whose sins are forgiven. Abraham is father of circumcised who walk in faith’s steps and father of Gentile believers. Against hope he believed in hope regarding descendants.",
+    "title": "Abraham's Faith Is Credited as Righteousness",
+    "summary_text": "God credited Abraham's faith as righteousness apart from works, and David called those with forgiven sins blessed. This came before circumcision, so Abraham is the father of those who share his faith, circumcised or not. God's promise rests on faith and grace, rather than law. Abraham still trusted God's promise, though he was old and Sarah could not bear a child. Paul says God also credits righteousness to those who trust Him as the One who raised Jesus, who died for their trespasses and rose for their justification.",
     "themes": [
       "Counted for righteousness",
       "Not through law",
@@ -148,38 +127,29 @@
       "God"
     ],
     "key_points": [
-      "Abraham’s faith was counted for righteousness.",
-      "Righteousness is not of the law but of faith.",
-      "He is father of circumcision to those who walk in faith.",
-      "In hope he believed against hope.",
-      "He was fully convinced that what God promised he was able to perform."
+      "Abraham's faith and David's words about forgiven sins show the blessing of God crediting righteousness apart from works.",
+      "Abraham received circumcision as a seal of righteousness already credited through faith while he was uncircumcised.",
+      "The promise rests on faith and grace, while law brings wrath and transgression requires law.",
+      "Abraham trusts God's promise despite his old age and Sarah's inability to bear children.",
+      "God also credits righteousness to those who believe He raised Jesus, who died for their trespasses and rose for their justification."
     ],
     "supporting_verses": [
-      "Romans 4:3",
-      "Romans 4:5",
-      "Romans 4:11",
-      "Romans 4:12",
-      "Romans 4:13",
-      "Romans 4:17",
-      "Romans 4:18",
-      "Romans 4:24"
+      "Romans 4:1-8",
+      "Romans 4:9-12",
+      "Romans 4:13-17",
+      "Romans 4:18-22",
+      "Romans 4:23-25"
     ],
-    "evidence_phrases": [
-      "Abraham believed God",
-      "his faith is counted for righteousness",
-      "the heir of the world",
-      "the promise is of faith",
-      "David also pronounces blessing",
-      "who is the father of us all",
-      "who in hope believed against hope"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 45,
     "chapter": 5,
-    "title": "Peace, access, and Adam and Christ",
-    "summary_text": "Having been justified by faith, we have peace with God through Christ and rejoice in hope of God’s glory—even glory in tribulations that produce endurance. God’s love is poured into hearts through the Holy Spirit. While we were weak, Christ died for the ungodly; while sinners, we were reconciled. Where sin increased, grace abounded more. As through one man sin and death entered, so through one man grace and gift abound to many.",
+    "title": "Peace Through Jesus and Grace Beyond Sin",
+    "summary_text": "Being justified through faith brings peace with God, access to His grace, and hope of His glory. Paul says suffering builds endurance, character, and hope, while God gives His love through the Holy Spirit. Christ died for sinners, proving God's love; those reconciled to God through His death will be saved through His life. Paul contrasts Adam's sin, which brought death, with Jesus's obedience, which brings righteousness and life. The law increases trespass, but grace grows greater still and leads to eternal life through Jesus.",
     "themes": [
       "Peace with God",
       "Love poured out",
@@ -194,36 +164,29 @@
       "Moses"
     ],
     "key_points": [
-      "We have peace with God through our Lord Jesus Christ.",
-      "Christ died for the ungodly at the right time.",
-      "We were reconciled while enemies.",
-      "Where sin abounded, grace abounded more.",
-      "As through one trespass all men were condemned, so through one act of righteousness all will be justified."
+      "Faith brings peace with God, and suffering leads through endurance and character to hope.",
+      "Christ dies for ungodly sinners, proving God's love; those reconciled through His death will be saved through His life.",
+      "Sin and death enter through one man, and death reigns even before the law.",
+      "Adam's trespass brings condemnation, while Jesus's obedience brings justification, righteousness, and life.",
+      "Where the law increases trespass, God's grace overflows still more and brings eternal life through Jesus."
     ],
     "supporting_verses": [
-      "Romans 5:1",
-      "Romans 5:5",
-      "Romans 5:6",
-      "Romans 5:8",
-      "Romans 5:10",
-      "Romans 5:11",
-      "Romans 5:15",
-      "Romans 5:19"
+      "Romans 5:1-5",
+      "Romans 5:6-11",
+      "Romans 5:12-14",
+      "Romans 5:15-19",
+      "Romans 5:20-21"
     ],
-    "evidence_phrases": [
-      "we have peace with God",
-      "Christ died for the ungodly",
-      "while we were enemies, we were reconciled",
-      "where sin abounded, grace abounded more",
-      "as through one man sin entered into the world"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 45,
     "chapter": 6,
-    "title": "Buried and raised with Christ; slaves of righteousness",
-    "summary_text": "Shall we continue in sin that grace may abound? We died to sin—how can we live in it? Baptized into Christ’s death, buried with him, raised to walk in newness of life. Old man crucified; freed from sin. Present yourselves to God as alive from the dead; instruments of righteousness. Once slaves of sin, now obey from the heart the teaching; fruit unto sanctification, end eternal life—wages of sin is death, God’s gift eternal life.",
+    "title": "Freed from Sin to Serve God",
+    "summary_text": "Paul rejects the idea that people should keep sinning so God's grace can increase. Through baptism, believers share Christ's death and burial and walk in new life, freed from sin's slavery. Paul calls them to live for God and offer their bodies for righteousness rather than evil. Grace does not excuse sin: people serve the master they obey, and serving God leads to holiness. Sin pays death as its wage, but God gives eternal life through Jesus as a gift.",
     "themes": [
       "Dead to sin",
       "Buried with Christ",
@@ -236,38 +199,29 @@
       "Christ"
     ],
     "key_points": [
-      "We died to sin; how can we live any longer in it?",
-      "We were buried with him through baptism into death.",
-      "Our old man was crucified with him.",
-      "Present yourselves to God as alive from the dead.",
-      "The wages of sin is death, but the free gift of God is eternal life."
+      "Paul rejects continued sin and connects baptism with sharing Jesus's death, burial, and new life.",
+      "Believers' old self was crucified with Christ to break slavery to sin, and they will share His resurrection.",
+      "Paul calls believers to offer their bodies to God rather than let sin rule them.",
+      "Living under grace does not excuse sin; people become slaves of the master they obey.",
+      "Sin ends in death, while serving God leads to holiness and His gift of eternal life."
     ],
     "supporting_verses": [
-      "Romans 6:2",
-      "Romans 6:4",
-      "Romans 6:6",
-      "Romans 6:11",
-      "Romans 6:13",
-      "Romans 6:14",
-      "Romans 6:17",
-      "Romans 6:22",
-      "Romans 6:23"
+      "Romans 6:1-4",
+      "Romans 6:5-11",
+      "Romans 6:12-14",
+      "Romans 6:15-19",
+      "Romans 6:20-23"
     ],
-    "evidence_phrases": [
-      "How can we, who died to sin, still live in it?",
-      "We were buried therefore with him",
-      "our old man was crucified with him",
-      "present yourselves to God, as alive from the dead",
-      "But now, being made free from sin",
-      "the wages of sin is death"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 45,
     "chapter": 7,
-    "title": "Law, sin, and inner conflict",
-    "summary_text": "The law speaks to those who know law; through law knowledge of sin. Dead to law through Christ’s body to belong to another. Sin produced coveting through commandment. Sin working in me slew me; the law is spiritual but I am flesh sold under sin. I delight in God’s law inwardly but see another law in members. Wretched man—who delivers? Thanks be to God through Jesus Christ.",
+    "title": "God's Holy Law Exposes Sin's Power",
+    "summary_text": "Using marriage as an example, Paul explains that death releases a person from the law's authority. Believers have died to the law through Jesus so they can belong to the risen Christ and serve through the Spirit. Paul insists that the law is holy, while sin uses its commandment against coveting to stir wrong desires, deceive, and bring death. He then speaks of wanting to obey God's law but doing the evil he hates, with sin holding him captive. His cry for rescue leads to thanks to God through Jesus, though he ends by describing his mind serving God's law and his flesh serving sin's law.",
     "themes": [
       "Law and sin",
       "Good law, evil present",
@@ -281,37 +235,29 @@
       "law"
     ],
     "key_points": [
-      "Through the law comes the knowledge of sin.",
-      "Sin, finding occasion through the commandment, deceived me.",
-      "The law is spiritual, but I am fleshly.",
-      "I see a different law in my members.",
-      "Thanks be to God through Jesus Christ our Lord!"
+      "Paul uses a marriage ending at death to explain release from the law through Jesus.",
+      "Release from the law allows believers to serve through the Spirit rather than the written code.",
+      "The law is holy, righteous, and good, but sin exploits its commandment to produce coveting, deception, and death.",
+      "Paul describes wanting what is good while sin produces the opposite actions and holds him captive.",
+      "A cry for rescue leads to thanks through Jesus and a final contrast between service in the mind and in the flesh."
     ],
     "supporting_verses": [
-      "Romans 7:7",
-      "Romans 7:11",
-      "Romans 7:13",
-      "Romans 7:14",
-      "Romans 7:22",
-      "Romans 7:23",
-      "Romans 7:24",
-      "Romans 7:25"
+      "Romans 7:1-4",
+      "Romans 7:5-6",
+      "Romans 7:7-13",
+      "Romans 7:14-23",
+      "Romans 7:24-25"
     ],
-    "evidence_phrases": [
-      "through the law comes the knowledge of sin",
-      "sin, finding occasion through the commandment",
-      "the law is spiritual, but I am fleshly",
-      "I see a different law in my members",
-      "Who will deliver me",
-      "I thank God through Jesus Christ our Lord!"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 45,
     "chapter": 8,
-    "title": "Spirit life; heirs; nothing separates",
-    "summary_text": "No condemnation for those in Christ Jesus who walk after the Spirit. Law of Spirit of life freed from sin and death. Those in flesh cannot please God; you are in Spirit if God’s Spirit dwells in you. Heirs with Christ if we suffer with him. Creation groans; we groan for adoption redemption. God works all things for good. Who shall separate us from Christ’s love?",
+    "title": "Life in the Spirit and Unbreakable Love",
+    "summary_text": "Those in Christ Jesus face no condemnation: God condemned sin in the flesh through His Son, and His Spirit gives life. The Spirit leads God's children, who wait with creation through suffering in hope of future glory. The Spirit intercedes as they pray, and God works for the good of those who love Him and are called for His purpose. Those God foreknew He also predestined to become like His Son, then called, justified, and glorified. Paul ends sure that no suffering, power, or created thing can separate them from God's love in Jesus, who intercedes for them.",
     "themes": [
       "No condemnation",
       "Spirit of life",
@@ -326,41 +272,29 @@
       "Father"
     ],
     "key_points": [
-      "There is therefore now no condemnation.",
-      "The law of the Spirit of life in Christ Jesus made me free.",
-      "You are not in the flesh but in the Spirit.",
-      "We are children of God, and if children, then heirs.",
-      "Who shall separate us from the love of Christ?"
+      "God condemns sin through His Son; the Spirit's law brings freedom and life, unlike the flesh's hostility toward God.",
+      "The Spirit confirms believers' adoption as sons of God and heirs, sharing glory with Christ if they share His suffering.",
+      "Creation and believers groan in suffering, saved in hope while awaiting freedom, glory, and the redemption of their bodies.",
+      "The Spirit intercedes for believers, and God foreknew, predestined, called, justified, and glorified those He brings into His Son's likeness.",
+      "God justifies His elect, Christ intercedes for them, and nothing in creation can cut them off from God's love in Him."
     ],
     "supporting_verses": [
-      "Romans 8:1",
-      "Romans 8:2",
-      "Romans 8:9",
-      "Romans 8:11",
-      "Romans 8:14",
-      "Romans 8:16",
-      "Romans 8:17",
-      "Romans 8:28",
-      "Romans 8:31",
-      "Romans 8:38",
-      "Romans 8:39"
+      "Romans 8:1-11",
+      "Romans 8:12-17",
+      "Romans 8:18-25",
+      "Romans 8:26-30",
+      "Romans 8:31-39"
     ],
-    "evidence_phrases": [
-      "There is therefore now no condemnation",
-      "the law of the Spirit of life",
-      "the Spirit of God dwells in you",
-      "heirs of God, and joint heirs with Christ",
-      "the sufferings of this present time are not worthy to be compared",
-      "all things work together for good",
-      "Who shall separate us from the love of Christ?"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 45,
     "chapter": 9,
-    "title": "Election, sovereignty, and mercy",
-    "summary_text": "Paul has great sorrow for Israel’s unbelief; not all Israel are Israel. God’s word has not failed—children of promise are counted seed. God loved Jacob, hated Esau—not injustice; God has mercy on whom he will. Pharaoh raised up to show power. Vessels of wrath and mercy—Gentiles obtained righteousness Israel stumbled over. Stone of stumbling; whoever believes will not be disappointed.",
+    "title": "God's Promise, His Election, and Israel's Stumbling",
+    "summary_text": "Paul grieves for Israel, whose gifts include divine glory and the family line of Christ, whom he calls God over all. God's word has not failed: Isaac and Rebecca's twins show that His election rests on His call, not their works. God raised Pharaoh to show His power and shows mercy or hardens as He chooses; Paul answers a question about blame with a potter's right to shape clay. Prophets speak of God calling Gentiles His people and saving a remnant of Israel. Paul ends with Gentiles receiving righteousness by faith, while Israel fails in its quest through works and stumbles over God's stone in Zion.",
     "themes": [
       "God’s election",
       "Children of promise",
@@ -377,37 +311,29 @@
       "Isaiah"
     ],
     "key_points": [
-      "Not all who are descended from Israel are Israel.",
-      "It is not the children of the flesh who are children of God.",
-      "I will have mercy on whom I have mercy.",
-      "So then it is not of him who wills, nor of him who runs, but of God who has mercy.",
-      "They stumbled over the stumbling stone."
+      "Paul mourns for Israel, lists its gifts, and calls Christ, born from its people, God over all.",
+      "Isaac and Rebecca's twins illustrate God's promise and election rather than mere ancestry or works.",
+      "Paul rejects the charge of injustice and uses Pharaoh to discuss God's freedom to show mercy or harden.",
+      "Paul uses a potter's authority to answer blame, discusses vessels of wrath and mercy, and cites prophets about Gentiles and Israel's remnant.",
+      "Gentiles receive righteousness by faith, while Israel pursues it through works and stumbles over God's stone."
     ],
     "supporting_verses": [
-      "Romans 9:6",
-      "Romans 9:8",
-      "Romans 9:11",
-      "Romans 9:15",
-      "Romans 9:16",
-      "Romans 9:18",
-      "Romans 9:23",
-      "Romans 9:33"
+      "Romans 9:1-5",
+      "Romans 9:6-13",
+      "Romans 9:14-18",
+      "Romans 9:19-29",
+      "Romans 9:30-33"
     ],
-    "evidence_phrases": [
-      "not all who are descended from Israel are Israel",
-      "the children of the promise are counted as a seed",
-      "I will have mercy on whom I have mercy",
-      "So then it is not of him who wills",
-      "even us whom he also called, not from the Jews only",
-      "They stumbled over the stumbling stone"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 45,
     "chapter": 10,
-    "title": "Confession, hearing, and Israel’s rejection",
-    "summary_text": "Paul’s heart’s desire is Israel’s salvation; zeal without knowledge sought own righteousness. Christ is the end of the law for righteousness to everyone who believes. Confess with mouth Jesus is Lord, believe God raised him—saved. Faith comes by hearing; beautiful feet of gospel preachers. Israel did not obey; God stretched out hands to disobedient people.",
+    "title": "Salvation Through Faith and Hearing Christ's Word",
+    "summary_text": "Paul prays that Israel will be saved, but says its people seek their own righteousness instead of submitting to God's. He calls Christ the end of the law, bringing righteousness to believers, and says the word of faith is near. People are justified by believing that God raised Jesus and are saved as they confess Him as Lord, with the same promise for Jews and Greeks. Calling on the Lord requires faith, which comes through hearing Christ's word from those sent to preach the gospel. Paul says Israel has heard, and ends with God revealing Himself to those who did not seek Him and reaching out to a stubborn people.",
     "themes": [
       "Zeal not according to knowledge",
       "Christ end of law",
@@ -422,37 +348,29 @@
       "Isaiah"
     ],
     "key_points": [
-      "They being ignorant of God’s righteousness sought to establish their own.",
-      "Christ is the end of the law for righteousness to everyone who believes.",
-      "If you will confess with your mouth that Jesus is Lord",
-      "Faith comes by hearing, and hearing by the word of God.",
-      "All day long I spread out my hands to a disobedient people."
+      "Paul longs for Israel's salvation but says its zeal misses God's righteousness, which comes through Christ for believers.",
+      "The word of faith is near: belief in Jesus's resurrection and confession of Him as Lord bring justification and salvation.",
+      "The same Lord welcomes Jews and Greeks, saving all who call on Him.",
+      "Calling requires belief, belief requires hearing, and hearing requires messengers sent to proclaim Christ's word.",
+      "Israel has heard, and Scripture depicts God revealing Himself to unexpected people while reaching toward those who resist Him."
     ],
     "supporting_verses": [
-      "Romans 10:2",
-      "Romans 10:3",
-      "Romans 10:4",
-      "Romans 10:9",
-      "Romans 10:10",
-      "Romans 10:13",
-      "Romans 10:17",
-      "Romans 10:21"
+      "Romans 10:1-4",
+      "Romans 10:5-10",
+      "Romans 10:11-13",
+      "Romans 10:14-17",
+      "Romans 10:18-21"
     ],
-    "evidence_phrases": [
-      "They being ignorant of God’s righteousness",
-      "Christ is the end of the law",
-      "if you will confess with your mouth",
-      "Whoever believes in him will not be disappointed",
-      "faith comes by hearing",
-      "Did they not hear? Yes, they did"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 45,
     "chapter": 11,
-    "title": "Israel’s remnant and olive tree",
-    "summary_text": "God has not cast off his people—Paul himself is a remnant chosen by grace, not works. Israel stumbled that Gentiles might be saved to provoke jealousy. Gentiles are wild olive branches grafted; boast not; fear God’s severity and kindness. All Israel will be saved as written—Deliverer from Zion; gifts and calling of God are irrevocable. God shut all up in disobedience to have mercy on all.",
+    "title": "Israel, the Gentiles, and God's Mercy",
+    "summary_text": "God has not cast off His people: Paul points to a remnant chosen by grace, not works, while others are hardened. Israel's trespass has brought salvation to the Gentiles, and Paul hopes this will stir his own people to return. Using an olive tree, he warns Gentiles not to boast, since they stand by faith and God can cut them off or restore broken branches. He says Israel's hardening is in part until the Gentiles' full number comes in, and all Israel will be saved through God's covenant to remove sins. God's gifts and call stand, and Paul ends in praise of His mercy and wisdom.",
     "themes": [
       "Remnant by grace",
       "Gentiles grafted",
@@ -467,40 +385,29 @@
       "Gentiles"
     ],
     "key_points": [
-      "God has not rejected his people whom he foreknew.",
-      "There is also a remnant according to the election of grace.",
-      "If the root is holy, so are the branches.",
-      "You do not support the root, but the root supports you.",
-      "All Israel will be saved."
+      "God has not rejected those He foreknew; a remnant chosen by grace remains, while others are hardened.",
+      "As apostle to the Gentiles, Paul hopes their salvation will stir Israel, whose rejection has meant reconciliation for the world.",
+      "Gentiles grafted into the olive tree must fear rather than boast, since God can cut them off and restore unbelieving branches.",
+      "Paul announces Israel's partial hardening and salvation, affirming God's covenant and lasting election for the patriarchs' sake despite opposition to the gospel.",
+      "God consigns all to disobedience to show mercy to all, and Paul praises His wisdom and glory."
     ],
     "supporting_verses": [
-      "Romans 11:1",
-      "Romans 11:5",
-      "Romans 11:17",
-      "Romans 11:18",
-      "Romans 11:20",
-      "Romans 11:25",
-      "Romans 11:26",
-      "Romans 11:29",
-      "Romans 11:33",
-      "Romans 11:36"
+      "Romans 11:1-10",
+      "Romans 11:11-15",
+      "Romans 11:16-24",
+      "Romans 11:25-29",
+      "Romans 11:30-36"
     ],
-    "evidence_phrases": [
-      "God has not rejected his people",
-      "a remnant according to the election of grace",
-      "if some of the branches were broken off",
-      "don’t be conceited",
-      "all Israel will be saved",
-      "the gifts and the calling of God are irrevocable",
-      "God has imprisoned them all in disobedience"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 45,
     "chapter": 12,
-    "title": "Living sacrifice, gifts, and love",
-    "summary_text": "Present bodies a living sacrifice; do not be conformed to world but transformed by renewing mind. Humble gifts in one body in Christ. Love without hypocrisy; abhor evil; fervent in spirit; bless persecutors; repay no evil; overcome evil with good.",
+    "title": "Living Sacrifices and Sincere Love",
+    "summary_text": "Because of God's mercy, Paul calls believers to offer themselves as holy, living sacrifices and let their minds be renewed to recognize His will. They must think humbly about themselves and use their different gifts of grace as members of one body in Christ. Paul describes sincere love through mutual honor, service, hope, prayer, and care for saints in need. He tells them to bless persecutors, share others' joys and griefs, and seek peace without pride. Instead of taking revenge, they must leave room for God's wrath and answer an enemy's needs with good.",
     "themes": [
       "Living sacrifice",
       "One body many members",
@@ -513,37 +420,29 @@
       "believers"
     ],
     "key_points": [
-      "Present your bodies a living sacrifice.",
-      "Do not be conformed to this world.",
-      "We have many members in one body.",
-      "Let love be without hypocrisy.",
-      "Do not be overcome by evil, but overcome evil with good."
+      "Paul urges worship through living sacrifices and renewed minds that can recognize God's will.",
+      "Believers must think humbly and use gifts such as prophecy and service according to grace and faith.",
+      "Sincere love includes honoring others, serving the Lord, patient hope, prayer, and sharing with needy saints.",
+      "Believers must bless rather than curse persecutors, share others' feelings, and avoid pride.",
+      "Paul forbids revenge, urges peace wherever possible, and commands care for enemies instead of repayment of evil."
     ],
     "supporting_verses": [
-      "Romans 12:1",
-      "Romans 12:2",
-      "Romans 12:4",
-      "Romans 12:5",
-      "Romans 12:9",
-      "Romans 12:14",
-      "Romans 12:19",
-      "Romans 12:21"
+      "Romans 12:1-2",
+      "Romans 12:3-8",
+      "Romans 12:9-13",
+      "Romans 12:14-16",
+      "Romans 12:17-21"
     ],
-    "evidence_phrases": [
-      "present your bodies a living sacrifice",
-      "don’t be conformed to this world",
-      "we, who are many, are one body in Christ",
-      "Let love be without hypocrisy",
-      "Bless those who persecute you",
-      "Do not be overcome by evil, but overcome evil with good"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 45,
     "chapter": 13,
-    "title": "Authorities, love, and the day",
-    "summary_text": "Let every soul be subject to higher authorities—there is no authority except from God. Rulers are not terror to good work. Love is fulfillment of law; do this knowing the time—salvation nearer; cast off darkness, put on armor of light.",
+    "title": "Honor Authority, Love Neighbors, and Wake Up",
+    "summary_text": "Paul tells believers to submit to rulers, whose power comes from God and whose task is to punish wrong. They must pay what they owe in taxes, respect, and honor, and obey for the sake of conscience too. Love remains a debt, since love does no harm to a neighbor and thus fulfills the law's commands. With salvation nearer, Paul calls them to wake up, leave deeds of darkness, and put on light as armor. They must live decently, clothe themselves with the Lord Jesus Christ, and stop feeding the flesh's desires.",
     "themes": [
       "God-established authorities",
       "Love fulfills law",
@@ -555,36 +454,27 @@
       "rulers"
     ],
     "key_points": [
-      "There is no authority except from God.",
-      "Rulers are not a terror to the good work.",
-      "Love doesn’t harm a neighbor. Love therefore is the fulfillment of the law.",
-      "It is already time for you to awaken from sleep.",
-      "Put on the Lord Jesus Christ."
+      "Paul says resisting governing authority opposes God's appointment and brings judgment, while submission is also a matter of conscience.",
+      "Taxes and other dues must be paid, along with the respect and honor owed to others.",
+      "Love fulfills the law because it harms no neighbor and sums up the commandments.",
+      "Nearer salvation calls for wakefulness, decent conduct, and putting on Christ rather than feeding the flesh's desires."
     ],
     "supporting_verses": [
-      "Romans 13:1",
-      "Romans 13:3",
-      "Romans 13:4",
-      "Romans 13:10",
-      "Romans 13:11",
-      "Romans 13:12",
-      "Romans 13:14"
+      "Romans 13:1-5",
+      "Romans 13:6-7",
+      "Romans 13:8-10",
+      "Romans 13:11-14"
     ],
-    "evidence_phrases": [
-      "Let every soul be in subjection to the higher authorities",
-      "there is no authority except from God",
-      "rulers are not a terror to good work",
-      "love is therefore the fulfillment of the law",
-      "knowing the time",
-      "Put on the Lord Jesus Christ"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 45,
     "chapter": 14,
-    "title": "Weak and strong; kingdom of God",
-    "summary_text": "Receive weak in faith without disputes over doubtful things. Who are you who judge another’s servant? Each will stand before God. Kingdom is not eating/drinking but righteousness, peace, joy in Holy Spirit. Bear weaknesses of weak; please neighbor for good; accept one another as Christ accepted us.",
+    "title": "Welcome One Another Without Causing Stumbling",
+    "summary_text": "Paul tells believers to welcome those whose faith is weak without quarreling over food and days. Those who eat and those who abstain can both honor the Lord, and all belong to Christ in life and death and must answer to God. Paul considers food clean in itself, but urges believers not to harm someone who regards it as unclean. The kingdom of God concerns righteousness, peace, and joy in the Holy Spirit, so love must guide eating and drinking. Anyone who eats while doubting is condemned, because acting apart from faith is sin.",
     "themes": [
       "Doubtful things",
       "Judge not the servant",
@@ -598,35 +488,29 @@
       "strong"
     ],
     "key_points": [
-      "Receive one who is weak in faith.",
-      "Who are you who judge another’s servant?",
-      "The Kingdom of God is not eating and drinking",
-      "We ought to bear the weaknesses of the weak.",
-      "Therefore accept one another, even as Christ also accepted you."
+      "Believers must not despise or judge each other over food and observed days, since each serves the Lord.",
+      "Christ died and lived again as Lord of living and dead, and each person will face God's judgment.",
+      "Paul says nothing is unclean in itself, yet love forbids using food in a way that harms another believer.",
+      "God's kingdom centers on righteousness, peace, and joy in the Holy Spirit, so believers must build each other up.",
+      "A person who eats against his doubts is condemned because the act does not come from faith."
     ],
     "supporting_verses": [
-      "Romans 14:1",
-      "Romans 14:4",
-      "Romans 14:10",
-      "Romans 14:13",
-      "Romans 14:17",
-      "Romans 14:19"
+      "Romans 14:1-6",
+      "Romans 14:7-12",
+      "Romans 14:13-16",
+      "Romans 14:17-21",
+      "Romans 14:22-23"
     ],
-    "evidence_phrases": [
-      "Now accept one who is weak in faith",
-      "Who are you who judges another’s servant?",
-      "the Kingdom of God is not eating and drinking",
-      "We ought to bear the weaknesses of the weak",
-      "Therefore let’s follow after things which make for peace",
-      "Therefore accept one another"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 45,
     "chapter": 15,
-    "title": "Christ servant of circumcision; Gentile hope",
-    "summary_text": "We ought to bear weaknesses of neighbors for edification. Christ became servant of circumcision for God’s truth and promises to fathers; Gentiles glorify God for mercy as Scriptures testify. Paul’s ministry—priestly offering of Gentiles acceptable, sanctified by Holy Spirit. Paul plans to visit Rome; prays for journey in God’s will.",
+    "title": "Welcome One Another as Paul's Mission Continues",
+    "summary_text": "Paul calls the strong to bear with the weak and welcome each other as Christ has welcomed them, with hope drawn from Scripture. Christ serves the circumcised to confirm God's promises, while Gentiles glorify God for His mercy. Paul serves the gospel so that Gentiles may be an offering sanctified by the Holy Spirit, and seeks to preach where Christ is not known. He plans to take aid to poor saints in Jerusalem, then visit the believers on his way to Spain. He asks for prayer for safety, a welcome for his service, and a joyful visit.",
     "themes": [
       "Pleasing neighbor for good",
       "Christ confirmed promises",
@@ -640,36 +524,29 @@
       "Gentiles"
     ],
     "key_points": [
-      "Let each of us please his neighbor for good.",
-      "Now I say that Christ has been made a servant of the circumcision",
-      "Gentiles might glorify God for his mercy.",
-      "I have served as a priest the Good News of God.",
-      "I will come to you when I go to Spain."
+      "Christ's example and Scripture's encouragement call believers to bear with the weak and praise God together.",
+      "Christ confirms promises to the patriarchs, and Scripture speaks of Gentiles praising God and hoping in Him.",
+      "By God's grace, Paul serves the gospel so that Gentiles may become an offering sanctified by the Holy Spirit.",
+      "Paul plans to bring aid to Jerusalem's poor saints, then visit the believers on his way to Spain.",
+      "Paul requests prayer for protection in Judea, a welcome for his Jerusalem service, and a refreshing visit with the believers."
     ],
     "supporting_verses": [
-      "Romans 15:2",
-      "Romans 15:8",
-      "Romans 15:9",
-      "Romans 15:12",
-      "Romans 15:16",
-      "Romans 15:24",
-      "Romans 15:28",
-      "Romans 15:32"
+      "Romans 15:1-7",
+      "Romans 15:8-13",
+      "Romans 15:14-21",
+      "Romans 15:22-29",
+      "Romans 15:30-33"
     ],
-    "evidence_phrases": [
-      "Let each one of us please his neighbor for that which is good",
-      "Christ has been made a servant of the circumcision",
-      "the Gentiles might glorify God for his mercy",
-      "that I should be a servant of Christ Jesus to the Gentiles",
-      "when I go to Spain, I will come to you"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 45,
     "chapter": 16,
-    "title": "Greetings and victory over Satan",
-    "summary_text": "Commend Phoebe; greet Prisca, Aquila, and many co-workers. Watch those causing divisions; be wise to good, simple concerning evil. God of peace will crush Satan under feet shortly. Greetings from companions; glory to God.",
+    "title": "Greetings, a Warning, and Praise to God",
+    "summary_text": "Paul asks the believers to welcome Phoebe and help her, since she has helped him and many others. He greets workers and saints, including Prisca and Aquila, who risked their lives for him in their service to Christ. He warns against teachers who divide and deceive, and says the God of peace will soon crush Satan beneath their feet. Friends with Paul send greetings, including Tertius, who wrote the letter down. Paul gives glory to the wise God, who makes believers strong through the gospel and has made His mystery known to bring nations to faith and obedience.",
     "themes": [
       "Phoebe and coworkers",
       "Avoid divisive people",
@@ -685,28 +562,21 @@
       "Gaius"
     ],
     "key_points": [
-      "I commend to you Phoebe our sister.",
-      "Greet Prisca and Aquila.",
-      "Note those who cause divisions.",
-      "The God of peace will quickly crush Satan under your feet.",
-      "To the only wise God be the glory forever."
+      "Paul commends Phoebe's service and help and asks that she receive a welcome and any assistance she needs.",
+      "Paul greets Prisca and Aquila and others, including Andronicus and Junia, whom he describes as outstanding among the apostles.",
+      "The believers must avoid divisive deceivers, remain wise in good, and expect God to crush Satan beneath their feet.",
+      "Timothy, Tertius, Gaius, and other companions send greetings to the believers.",
+      "Paul praises God for the revealed gospel mystery, made known through the prophets' writings to bring nations to obedient faith."
     ],
     "supporting_verses": [
-      "Romans 16:1",
-      "Romans 16:3",
-      "Romans 16:17",
-      "Romans 16:19",
-      "Romans 16:20",
-      "Romans 16:25",
-      "Romans 16:26",
-      "Romans 16:27"
+      "Romans 16:1-2",
+      "Romans 16:3-16",
+      "Romans 16:17-20",
+      "Romans 16:21-23",
+      "Romans 16:25-27"
     ],
-    "evidence_phrases": [
-      "I commend to you Phoebe our sister",
-      "Greet Prisca and Aquila",
-      "Now I beg you, brothers, look out for those",
-      "The God of peace will soon crush Satan under your feet",
-      "to the only wise God, through Jesus Christ, be the glory forever"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   }
 ]

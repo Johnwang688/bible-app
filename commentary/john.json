@@ -1,10 +1,10 @@
 [
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 43,
     "chapter": 1,
-    "title": "The Word, John's witness, and first disciples",
-    "summary_text": "The chapter opens with the Word’s identity with God, creation through him, life and light for humanity, and John’s witness to the coming light. John denies being the Christ, Elijah, or the prophet, points to one greater after him, and calls Jesus the Lamb of God and Son of God after the Spirit’s descent. Andrew, Simon (named Peter), Philip, and Nathanael are drawn to Jesus, who shows knowledge of Nathanael and promises they will see greater things.",
+    "title": "The Word Becomes Flesh and Followers Gather",
+    "summary_text": "The narrator says the Word was with God and was God, that all things came through Him, and that He became flesh in Jesus Christ. Those who receive Him become God's children, and the Son reveals the Father with grace and truth. John denies being the Christ and identifies Jesus as the Lamb of God who removes the world's sin and as the Son of God. Andrew brings Simon to Jesus, who names him Peter, and Jesus calls Philip. Philip brings Nathanael, who calls Jesus the Son of God and Israel's King after Jesus reveals that He saw him before they met.",
     "themes": [
       "The Word with God",
       "Life and light",
@@ -28,45 +28,29 @@
       "Pharisees"
     ],
     "key_points": [
-      "The Word was with God and was God; all things were made through him.",
-      "John was sent to testify about the light so people might believe.",
-      "Those who received Jesus were given the right to become God’s children by believing in his name.",
-      "The Word became flesh; John identified Jesus as the Lamb of God and testified he is the Son of God.",
-      "Andrew brought Simon; Jesus renamed him Cephas (Peter).",
-      "Philip brought Nathanael; Jesus revealed knowledge of him under the fig tree.",
-      "Jesus said they would see heaven opened and angels on the Son of Man."
+      "The Word was God, became flesh, and showed the Son's glory, full of grace and truth.",
+      "John denies being the Christ and explains why he came to baptize and prepare the Lord's way.",
+      "John calls Jesus the Lamb of God and the Son of God, reporting that the Spirit rested on Him.",
+      "Andrew follows Jesus and brings Simon, whom Jesus names Peter.",
+      "Philip identifies Jesus as the One foretold in the Law and prophets; Jesus promises Nathanael angels attending the Son of Man."
     ],
     "supporting_verses": [
-      "John 1:1",
-      "John 1:3",
-      "John 1:7",
-      "John 1:12",
-      "John 1:14",
-      "John 1:29",
-      "John 1:34",
-      "John 1:42",
-      "John 1:48",
-      "John 1:51"
+      "John 1:1-18",
+      "John 1:19-28",
+      "John 1:29-34",
+      "John 1:35-42",
+      "John 1:43-51"
     ],
-    "evidence_phrases": [
-      "In the beginning was the Word",
-      "All things were made through him",
-      "The true light that enlightens everyone",
-      "to them he gave the right to become God’s children",
-      "The Word became flesh",
-      "Behold, the Lamb of God",
-      "this is the Son of God",
-      "You shall be called Cephas",
-      "when you were under the fig tree, I saw you",
-      "the angels of God ascending and descending on the Son of Man"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 43,
     "chapter": 2,
-    "title": "Sign at Cana and cleansing the temple",
-    "summary_text": "At a wedding in Cana, Jesus turns water into wine when his mother tells him there is no wine; the ruler of the feast praises the bridegroom, and the disciples believe as Jesus reveals his glory. Jesus then goes to Jerusalem for Passover, drives merchants from the temple, speaks of raising the temple in three days (meaning his body), and many believe while he does not entrust himself to them because he knows what is in people.",
+    "title": "Wedding Wine and a Cleared Temple",
+    "summary_text": "At a wedding in Cana, Jesus turns water into wine after His mother points out that the wine has run out. This first sign reveals His glory, and His disciples believe in Him. In Jerusalem, He drives animals and sellers from the temple courts, rejecting the use of His Father's house as a market. Asked for a sign of His authority, Jesus speaks of raising the destroyed temple in three days; the narrator explains that He means His body. Many believe because of His signs, but Jesus does not entrust Himself to them because He knows their hearts.",
     "themes": [
       "First sign at Cana",
       "Glory revealed",
@@ -87,45 +71,27 @@
       "servants"
     ],
     "key_points": [
-      "Jesus’s mother told him the wine had run out; he had servants fill jars and the water became wine.",
-      "The disciples believed because this was the beginning of his signs and he revealed his glory.",
-      "Jesus drove sellers and money changers from the temple and said not to make his Father’s house a marketplace.",
-      "Jesus said destroy this temple and in three days he would raise it up, speaking of the temple of his body.",
-      "After he was raised, the disciples remembered and believed the Scripture and his word.",
-      "Many believed at Passover when they saw his signs, but Jesus did not entrust himself to them.",
-      "Jesus knew what was in everyone without needing testimony."
+      "Jesus turns water into wine at Cana, revealing His glory and prompting His disciples' faith.",
+      "Jesus clears the temple courts and objects to turning His Father's house into a market.",
+      "Jesus's saying about rebuilding the temple refers to His body and is understood after His resurrection.",
+      "Jesus knows people's hearts and does not entrust Himself to those impressed by His signs."
     ],
     "supporting_verses": [
-      "John 2:3",
-      "John 2:7",
-      "John 2:9",
-      "John 2:11",
-      "John 2:16",
-      "John 2:19",
-      "John 2:21",
-      "John 2:23",
-      "John 2:24",
-      "John 2:25"
+      "John 2:1-11",
+      "John 2:13-17",
+      "John 2:18-22",
+      "John 2:23-25"
     ],
-    "evidence_phrases": [
-      "They have no wine",
-      "Fill the water pots with water",
-      "You have kept the good wine until now",
-      "This beginning of his signs",
-      "Don’t make my Father’s house a marketplace",
-      "Zeal for your house will eat me up",
-      "Destroy this temple, and in three days I will raise it up",
-      "he spoke of the temple of his body",
-      "Jesus didn’t entrust himself to them",
-      "he himself knew what was in man"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 43,
     "chapter": 3,
-    "title": "Born anew, God’s Son, and John’s joy",
-    "summary_text": "Nicodemus comes by night; Jesus teaches that one must be born anew of water and Spirit to enter God’s Kingdom and compares the Spirit to the wind. Jesus speaks of the Son of Man lifted up like Moses’s serpent, God’s love and sending of the Son for eternal life, and light versus darkness. Jesus then baptizes in Judea while John baptizes near Salim; John’s disciples question Jesus’s popularity, and John insists he must decrease while the one from heaven must increase, ending with belief in the Son and warning of God’s wrath on the disobedient.",
+    "title": "New Birth and Life Through the Son",
+    "summary_text": "Nicodemus visits Jesus at night and hears that people must be born again, born of water and the Spirit, to enter the kingdom of God. Jesus says the Son of Man must be lifted up so believers may have eternal life. God sent His Son to save the world out of love, but those who reject Him stand condemned and prefer darkness to light. John denies being the Christ and rejoices that Jesus gains followers while his own role grows smaller. The Son is above all, with eternal life for believers, while God's wrath remains on those who reject Him.",
     "themes": [
       "Night visit of Nicodemus",
       "Born anew",
@@ -144,46 +110,29 @@
       "Moses"
     ],
     "key_points": [
-      "Nicodemus said no one could do Jesus’s signs unless God were with him.",
-      "Jesus said one must be born anew to see God’s Kingdom and be born of water and Spirit to enter it.",
-      "Jesus compared the Spirit’s working to the wind’s unseen coming and going.",
-      "The Son of Man must be lifted up so believers may have eternal life.",
-      "God loved the world and gave his one and only Son so believers would not perish.",
-      "People loved darkness rather than light because their works were evil.",
-      "A dispute arose between John’s disciples and some Jews about purification.",
-      "John said he must decrease and Christ must increase; belief in the Son brings eternal life."
+      "Jesus distinguishes birth from flesh from being born again through the Spirit when He speaks to Nicodemus.",
+      "Jesus says believers receive eternal life through the Son of Man being lifted up.",
+      "God sends His Son to save, but unbelief brings condemnation as people prefer darkness to light.",
+      "John rejoices that Jesus gains followers and accepts that his own importance must decrease.",
+      "The Son has authority from the Father, and rejecting Him leaves a person under God's wrath."
     ],
     "supporting_verses": [
-      "John 3:2",
-      "John 3:3",
-      "John 3:5",
-      "John 3:8",
-      "John 3:14",
-      "John 3:16",
-      "John 3:19",
-      "John 3:25",
-      "John 3:30",
-      "John 3:36"
+      "John 3:1-10",
+      "John 3:13-15",
+      "John 3:16-21",
+      "John 3:22-30",
+      "John 3:31-36"
     ],
-    "evidence_phrases": [
-      "unless one is born anew",
-      "born of water and spirit",
-      "So is everyone who is born of the Spirit",
-      "even so must the Son of Man be lifted up",
-      "For God so loved the world",
-      "whoever believes in him should not perish, but have eternal life",
-      "men loved the darkness rather than the light",
-      "He must increase, but I must decrease",
-      "He who comes from above is above all",
-      "the wrath of God remains on him"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 43,
     "chapter": 4,
-    "title": "Samaritan woman, Samaritans believe, nobleman’s son",
-    "summary_text": "Jesus leaves Judea for Galilee via Samaria, meets a Samaritan woman at Jacob’s well, offers living water, exposes her marital history, identifies as the Messiah, and many Samaritans believe and urge him to stay two days. He then teaches the disciples that his food is doing the Father’s will and that the fields are ready for harvest. In Galilee he heals a nobleman’s son at a distance—the second sign after coming from Judea.",
+    "title": "Living Water and Faith Beyond Judea",
+    "summary_text": "At a well in Samaria, Jesus offers a woman living water that brings eternal life and shows that He knows her past. He says the Father seeks true worship in spirit and truth, and tells her He is the Messiah. As the townspeople approach, Jesus tells His disciples that doing God's work is His food and compares their work for eternal life to gathering a harvest. Many Samaritans believe and call Him the world's Savior after hearing His words. Later in Galilee, He tells an official that his son will live; the boy is healed at that hour, and the whole household believes.",
     "themes": [
       "Journey through Samaria",
       "Living water",
@@ -205,46 +154,29 @@
       "servants"
     ],
     "key_points": [
-      "Pharisees heard Jesus was making more disciples than John, so he left Judea for Galilee through Samaria.",
-      "Jesus asked a Samaritan woman for a drink, then spoke of the gift of God and living water.",
-      "He told her she had had five husbands and the man she had was not her husband.",
-      "He said worshipers must worship in spirit and truth, and identified himself as the one speaking to her.",
-      "Many Samaritans believed because of her word and then because of his word, calling him Christ and Savior of the world.",
-      "Jesus said his food was to do the will of the one who sent him and to accomplish his work.",
-      "A nobleman begged Jesus about his dying son; Jesus said “Your son lives” and the boy recovered at that hour.",
-      "The father and his whole house believed—this was the second sign after Jesus came from Judea to Galilee."
+      "Jesus offers a Samaritan woman living water that becomes a source of eternal life.",
+      "Jesus knows the woman's marriage history, teaches true worship, and identifies Himself as the Messiah.",
+      "Jesus compares doing God's work to food and gathering people for eternal life to a harvest.",
+      "Samaritans believe first through the woman's report and then through hearing Jesus themselves.",
+      "An official trusts Jesus's word, then learns that his son recovered when Jesus spoke, and his household believes."
     ],
     "supporting_verses": [
-      "John 4:4",
-      "John 4:7",
-      "John 4:10",
-      "John 4:18",
-      "John 4:24",
-      "John 4:26",
-      "John 4:39",
-      "John 4:42",
-      "John 4:50",
-      "John 4:54"
+      "John 4:7-15",
+      "John 4:16-26",
+      "John 4:31-38",
+      "John 4:39-42",
+      "John 4:46-54"
     ],
-    "evidence_phrases": [
-      "Give me a drink",
-      "living water",
-      "you have had five husbands",
-      "God is spirit",
-      "worship in spirit and truth",
-      "I am he, the one who speaks to you",
-      "He told me everything that I did",
-      "the Christ, the Savior of the world",
-      "Your son lives",
-      "This is again the second sign"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 43,
     "chapter": 5,
-    "title": "Healing at Bethesda and the Son’s authority",
-    "summary_text": "At a feast in Jerusalem, Jesus heals a man ill thirty-eight years at the pool called Bethesda and tells him to carry his mat on the Sabbath, provoking Jewish opposition. Jesus says his Father is still working and calls God his own Father, so they seek to kill him as one making himself equal with God. He then teaches that the Son does the Father’s works, gives life, has authority to judge, raises the dead, and that the Scriptures and Moses testify about him while the hearers refuse to come to him for life.",
+    "title": "A Sabbath Healing Reveals the Son's Authority",
+    "summary_text": "Jesus heals a man disabled for thirty-eight years, but carrying his mat on the Sabbath brings him into a dispute. Jesus calls God His Father and says the Son follows Him, gives life, and has the right to judge. Those who hear His word and believe the Father receive eternal life. All the dead will face resurrection to life or judgment. Jesus points to John, His works, the Father, and Scripture as witnesses, but His hearers refuse the life Moses's writings point toward.",
     "themes": [
       "Sabbath healing",
       "Sin and wellness",
@@ -263,41 +195,29 @@
       "Moses"
     ],
     "key_points": [
-      "Jesus healed a long-disabled man and told him to take up his mat and walk on the Sabbath.",
-      "Jesus later warned him to sin no more so nothing worse would happen.",
-      "Jesus said his Father is still working, so he works too; Jews sought to kill him for breaking Sabbath and calling God his Father.",
-      "The Son gives life and executes judgment so that all may honor the Son as they honor the Father.",
-      "Those who hear Jesus’s word and believe him who sent him have eternal life and pass from death to life.",
-      "Jesus cites John’s witness, the Father’s witness, and his works, and says the Scriptures testify about him.",
-      "Moses accuses them, for they do not believe his writings about Jesus."
+      "Jesus heals a long-disabled man, whose carrying his mat on the Sabbath leads to objections.",
+      "Jesus's opponents seek His death because His claim to God as His Father makes Him equal with God.",
+      "Jesus says the Son follows the Father, gives life, and deserves the same honor as the Father.",
+      "Jesus says the dead will hear Him as the Son of God, with resurrection bringing either life or judgment.",
+      "Jesus presents witnesses to His mission and says His hearers seek human glory and reject the One Scripture points toward."
     ],
     "supporting_verses": [
-      "John 5:8",
-      "John 5:14",
-      "John 5:17",
-      "John 5:21",
-      "John 5:24",
-      "John 5:29",
-      "John 5:39",
-      "John 5:46"
+      "John 5:1-15",
+      "John 5:16-18",
+      "John 5:19-24",
+      "John 5:25-30",
+      "John 5:31-47"
     ],
-    "evidence_phrases": [
-      "Arise, take up your mat, and walk",
-      "My Father is still working, so I am working, too",
-      "making himself equal with God",
-      "the Son also gives life to whom he desires",
-      "has passed out of death into life",
-      "resurrection of life",
-      "these are they which testify about me",
-      "if you believed Moses, you would believe me"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 43,
     "chapter": 6,
-    "title": "Bread from heaven and hard words",
-    "summary_text": "Jesus feeds about five thousand beside the Sea of Galilee, walks on the sea to the disciples’ boat, and withdraws when the crowd would make him king. In Capernaum he teaches that the work of God is to believe in him whom God sent, calls himself the bread of life come down from heaven, and speaks of eating his flesh and drinking his blood for eternal life. Many disciples turn back; Simon Peter confesses Jesus as the Holy One of God, and Jesus names Judas Iscariot as a devil who would betray him.",
+    "title": "Jesus Gives Bread and Promises Eternal Life",
+    "summary_text": "Jesus feeds about five thousand men with five loaves and two fish, then walks across the sea to His disciples. In Capernaum, He calls Himself the bread of life from heaven and promises to raise those who believe in Him. He says no one comes unless the Father draws them, and those who eat His flesh and drink His blood have eternal life. Many disciples find His teaching hard and leave, but Peter calls Jesus the Holy One of God, whose words give eternal life. Jesus then calls one of His chosen Twelve a devil, and the narrator names Judas as His future betrayer.",
     "themes": [
       "Feeding the multitude",
       "Signs and seeking bread",
@@ -319,42 +239,29 @@
       "disciples"
     ],
     "key_points": [
-      "Five barley loaves fed about five thousand men, with twelve baskets of fragments left.",
-      "Jesus walked on the sea; the boat immediately reached land.",
-      "He said the crowd sought him because they ate bread, not because they saw signs.",
-      "He declared himself the bread of life and the living bread from heaven; his flesh is given for the life of the world.",
-      "He taught that eating his flesh and drinking his blood is necessary for life and that his words are spirit and life.",
-      "Many disciples left; Peter said Jesus has the words of eternal life.",
-      "Jesus said one of the twelve is a devil—Judas, who would betray him."
+      "Jesus feeds about five thousand men and withdraws when people want to force Him to become king.",
+      "Jesus approaches His frightened disciples by walking on the sea and reassures them.",
+      "Asked about God's works, Jesus calls for belief in Him as the bread of life and promises believers resurrection.",
+      "Jesus contrasts manna with His flesh and blood, which give eternal life, and says the Father draws people to Him.",
+      "Jesus says the Spirit gives life; many disciples leave, Peter affirms faith, and Jesus warns of a devil among the Twelve."
     ],
     "supporting_verses": [
-      "John 6:10",
-      "John 6:19",
-      "John 6:29",
-      "John 6:35",
-      "John 6:51",
-      "John 6:53",
-      "John 6:63",
-      "John 6:68",
-      "John 6:71"
+      "John 6:1-15",
+      "John 6:16-21",
+      "John 6:26-40",
+      "John 6:44-58",
+      "John 6:60-71"
     ],
-    "evidence_phrases": [
-      "about five thousand",
-      "I am the bread of life",
-      "the bread which I will give for the life of the world is my flesh",
-      "unless you eat the flesh of the Son of Man and drink his blood",
-      "It is the spirit who gives life",
-      "You have the words of eternal life",
-      "one of you is a devil",
-      "Judas, the son of Simon Iscariot"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 43,
     "chapter": 7,
-    "title": "Feast of Booths, teaching, and division",
-    "summary_text": "Jesus stays in Galilee because Judean leaders seek to kill him, then goes secretly to Jerusalem for the Feast of Booths after his unbelieving brothers urge him to show himself openly. He teaches in the temple about his Father’s will, Moses, circumcision on the Sabbath, and his origin from the one who sent him. On the last day he cries out about living water (meaning the Spirit). The crowd divides over whether he is the Christ; officers fail to arrest him; Nicodemus urges fair hearing; the chapter ends with everyone going home.",
+    "title": "Jesus Divides the Crowds at the Feast",
+    "summary_text": "Though His brothers do not believe and some people want Him dead, Jesus goes to the feast in secret, then teaches in public. He says His words come from God and compares circumcision on the Sabbath with His Sabbath healing, calling for fair judgment. People argue about where He comes from and whether He is the Christ, but an attempt to seize Him fails because His hour has not yet come. Jesus calls the thirsty to drink living water, which the narrator explains as a promise of the Spirit to believers. The officers return without Him, and the leaders mock Nicodemus when he asks them to hear Jesus before they judge.",
     "themes": [
       "Jesus’s hour not yet",
       "Teaching at the feast",
@@ -377,42 +284,29 @@
       "multitude"
     ],
     "key_points": [
-      "Jesus said his time had not yet come while his brothers’ time was always ready.",
-      "He testified that the world’s works are evil and that the world hates him.",
-      "In the temple he argued from Moses and the Sabbath about making a man completely healthy.",
-      "He said they knew him and where he was from, yet did not know the Father who sent him.",
-      "On the last great day he invited the thirsty to come to him and drink rivers of living water—he spoke of the Spirit not yet given.",
-      "Many believed; chief priests and Pharisees sent officers who returned saying no one spoke like Jesus.",
-      "Nicodemus asked whether the law judges without first hearing the accused."
+      "Jesus's brothers do not believe in Him, and He attends the feast privately before teaching publicly.",
+      "Jesus says His teaching seeks God's glory and appeals to the law's allowance of Sabbath circumcision to defend His healing.",
+      "People dispute Jesus's identity and origin, while leaders send officers to arrest Him.",
+      "Jesus's invitation to drink living water points to the Spirit whom believers will receive.",
+      "Crowds debate whether Jesus is the Prophet or Christ; officers return without Him, and Nicodemus calls for a fair hearing."
     ],
     "supporting_verses": [
-      "John 7:4",
-      "John 7:7",
-      "John 7:23",
-      "John 7:28",
-      "John 7:37",
-      "John 7:39",
-      "John 7:46",
-      "John 7:50",
-      "John 7:53"
+      "John 7:1-14",
+      "John 7:15-24",
+      "John 7:25-36",
+      "John 7:37-39",
+      "John 7:40-52"
     ],
-    "evidence_phrases": [
-      "his brothers didn’t believe in him",
-      "My teaching is not mine, but his who sent me",
-      "If anyone desires to do his will, he will know about the teaching",
-      "If anyone is thirsty, let him come to me and drink",
-      "the Spirit, which those believing in him were to receive",
-      "No man ever spoke like this man!",
-      "Does our law judge a man, unless it first hears from him",
-      "Everyone went to his own house"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 43,
     "chapter": 8,
-    "title": "Adultery case, light, Abraham, and I AM",
-    "summary_text": "Scribes and Pharisees bring a woman caught in adultery; Jesus tells whoever is without sin to cast the first stone, and they leave; he sends her away without condemning her, telling her to sin no more. He declares himself the light of the world, disputes his testimony and judgment with the Pharisees, warns that without believing “I am he” they will die in their sins, and debates true sonship of Abraham versus doing the devil’s works. After claiming existence before Abraham, they take up stones but Jesus passes through them.",
+    "title": "Jesus Offers Freedom and Declares His Identity",
+    "summary_text": "Jesus challenges the accusers of a woman caught in adultery; they leave, and He sends her away without condemning her, telling her to stop sinning. He calls Himself the world's light and says those who refuse to believe will die in their sins. His truth frees people from sin's slavery, and He says those who seek His death follow the devil rather than Abraham or God. He promises that those who keep His word will not see death. Jesus then says, \"before Abraham was born, I am,\" and leaves as His foes pick up stones to throw at Him.",
     "themes": [
       "Neither do I condemn you",
       "Light of the world",
@@ -433,42 +327,29 @@
       "the devil"
     ],
     "key_points": [
-      "Jesus invited the sinless to throw the first stone; accusers departed from oldest to youngest.",
-      "He told the woman he did not condemn her and to sin no more.",
-      "He said he is the light of the world; followers will not walk in darkness.",
-      "He promised that knowing the truth would make them free, and that the Son makes them free indeed.",
-      "He charged his hearers with seeking to kill him and attributed their unbelief to being of their father the devil.",
-      "He said Abraham rejoiced to see his day.",
-      "He said, “before Abraham came into existence, I AM,” and they tried to stone him."
+      "Jesus's challenge disperses the woman's accusers, and He sends her away without condemnation, telling her to stop sinning.",
+      "Jesus calls Himself the world's light and says the Father supports His testimony.",
+      "Jesus warns that unbelief brings death in sin and says He speaks as the Father teaches Him.",
+      "Jesus promises freedom from sin to disciples who continue in His word and challenges His opponents' claims about their fathers.",
+      "Jesus says the Father gives Him glory, promises life, declares His existence before Abraham, and leaves as opponents pick up stones."
     ],
     "supporting_verses": [
-      "John 8:7",
-      "John 8:11",
-      "John 8:12",
-      "John 8:32",
-      "John 8:36",
-      "John 8:44",
-      "John 8:56",
-      "John 8:58",
-      "John 8:59"
+      "John 8:3-11",
+      "John 8:12-20",
+      "John 8:21-30",
+      "John 8:31-47",
+      "John 8:48-59"
     ],
-    "evidence_phrases": [
-      "He who is without sin among you, let him throw the first stone at her",
-      "Neither do I condemn you",
-      "I am the light of the world",
-      "the truth will make you free",
-      "You are of your father, the devil",
-      "before Abraham came into existence, I AM",
-      "they took up stones to throw at him",
-      "went out of the temple, having gone through the middle of them"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 43,
     "chapter": 9,
-    "title": "Man born blind: sight, conflict, and worship",
-    "summary_text": "Jesus heals a man blind from birth by sending him to wash mud from his eyes at Siloam, saying God’s works should be displayed while it is day and that he is the light of the world. Pharisees dispute whether the healer is from God because of the Sabbath; the man’s parents fear the synagogue rulers; the healed man reasons from his experience and is cast out. Jesus finds him, reveals himself as the Son of God, receives his worship, and teaches that judgment turns on spiritual blindness versus sight.",
+    "title": "A Blind Man Sees and Believes",
+    "summary_text": "Jesus rejects the idea that a man's blindness from birth comes from his own or his parents' sin, saying God's works will be shown in him. After Jesus applies mud and sends him to wash in Siloam, the man can see. A Sabbath dispute leads to repeated questioning, while his parents fear the synagogue's ban on anyone who would confess Jesus as the Christ. The healed man argues that Jesus must come from God and is thrown out. Jesus finds him and reveals Himself as the Son of Man; the man believes and worships, while Jesus speaks of judgment and warns that those claiming sight remain guilty.",
     "themes": [
       "Works of God revealed",
       "Light of the world",
@@ -489,42 +370,29 @@
       "the man’s parents"
     ],
     "key_points": [
-      "Neither the man nor his parents sinned to cause his blindness; it was so God’s works might be revealed.",
-      "Jesus sent him to wash in the pool of Siloam and he returned seeing.",
-      "Pharisees were divided over whether Jesus was from God.",
-      "His parents confirmed he was their blind son but would not say how he saw, fearing expulsion from the synagogue.",
-      "The man insisted that God hears those who worship him and do his will.",
-      "Jesus asked if he believed in the Son of God and revealed he was the one speaking with him; the man believed and worshiped.",
-      "Jesus said those who say they see remain in sin."
+      "Jesus says the man's blindness provides an occasion for God's works rather than blame for him or his parents.",
+      "Jesus applies mud, and the man receives sight after washing in Siloam.",
+      "The healing divides the Pharisees over the Sabbath; the man's parents fear exclusion because those who confess Jesus as Christ face expulsion.",
+      "The healed man defends Jesus as coming from God, and his questioners throw him out.",
+      "The man believes and worships Jesus, who contrasts receiving sight with the guilt of claiming to see."
     ],
     "supporting_verses": [
-      "John 9:3",
-      "John 9:7",
-      "John 9:16",
-      "John 9:22",
-      "John 9:25",
-      "John 9:33",
-      "John 9:35",
-      "John 9:38",
-      "John 9:41"
+      "John 9:1-5",
+      "John 9:6-12",
+      "John 9:13-23",
+      "John 9:24-34",
+      "John 9:35-41"
     ],
-    "evidence_phrases": [
-      "that the works of God might be revealed in him",
-      "Go, wash in the pool of Siloam",
-      "I am the light of the world",
-      "though I was blind, now I see",
-      "If this man were not from God, he could do nothing",
-      "Do you believe in the Son of God?",
-      "Lord, I believe!",
-      "your sin remains"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 43,
     "chapter": 10,
-    "title": "Good shepherd, one with the Father, beyond Jordan",
-    "summary_text": "Jesus teaches that he is the door and the good shepherd who lays down his life for the sheep, knows his own, has other sheep to gather into one flock, and takes his life again by the Father’s command. At the Feast of Dedication in Solomon’s porch, he says his works testify and that he and the Father are one; Jews again try to stone and seize him. He escapes to where John first baptized, and many believe because John’s words about him were true.",
+    "title": "The Good Shepherd Gives Life and Safety",
+    "summary_text": "Jesus calls Himself the gate through which sheep are saved and the good shepherd who gives His life for them. He says He will gather other sheep into one flock and has power to lay down His life and take it up again. At the Feast of Dedication in Jerusalem, He is asked whether He is the Christ, promises His sheep eternal life, and says He and the Father are one. His foes try to stone Him for blasphemy, accusing Him of claiming to be God, but He answers with Scripture and His works, then escapes. Across the Jordan, people say John's words about Jesus were true, and many believe in Him.",
     "themes": [
       "Sheepfold and door",
       "Good shepherd",
@@ -541,42 +409,29 @@
       "John"
     ],
     "key_points": [
-      "The shepherd enters by the door; sheep know his voice and flee strangers.",
-      "Jesus said he is the door by which one is saved and finds pasture.",
-      "The good shepherd lays down his life for the sheep, unlike a hired hand who flees.",
-      "He has other sheep not of this fold to bring so there is one flock and one shepherd.",
-      "He claimed power to lay down his life and take it again as the Father commanded.",
-      "He said, “I and the Father are one,” and Jews accused him of blasphemy for making himself God.",
-      "Many believed beyond the Jordan where John had baptized."
+      "Jesus describes sheep recognizing their shepherd and calls Himself the gate through which people are saved.",
+      "The good shepherd willingly gives His life, gathers other sheep, and has authority to take His life up again.",
+      "Jesus promises His sheep eternal life and safety, declaring His oneness with the Father.",
+      "Opponents accuse Jesus of blasphemy for claiming to be God, and He defends His claim as Son of God with Scripture and His works.",
+      "Across the Jordan, people affirm John's testimony about Jesus, and many there believe in Him."
     ],
     "supporting_verses": [
-      "John 10:9",
-      "John 10:11",
-      "John 10:16",
-      "John 10:18",
-      "John 10:27",
-      "John 10:30",
-      "John 10:33",
-      "John 10:41",
-      "John 10:42"
+      "John 10:1-10",
+      "John 10:11-18",
+      "John 10:24-30",
+      "John 10:31-39",
+      "John 10:40-42"
     ],
-    "evidence_phrases": [
-      "I am the good shepherd",
-      "I came that they may have life, and may have it abundantly",
-      "one flock with one shepherd",
-      "I lay it down by myself",
-      "I and the Father are one",
-      "you, being a man, make yourself God",
-      "everything that John said about this man is true",
-      "Many believed in him there"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 43,
     "chapter": 11,
-    "title": "Lazarus raised and a plot to kill Jesus",
-    "summary_text": "Lazarus of Bethany falls sick and dies while Jesus delays two days; Jesus tells the disciples Lazarus is dead and goes to Judea despite danger. Martha and Mary meet him; he declares himself the resurrection and the life, weeps at the tomb, and calls Lazarus out alive after four days. Many Jews believe, but the council fears Rome and Caiaphas says one man should die for the people—a saying interpreted as prophetic about Jesus dying for the nation and gathering God’s scattered children. Leaders resolve to kill Jesus; he withdraws to Ephraim as Passover nears.",
+    "title": "Jesus Raises Lazarus from the Dead",
+    "summary_text": "After hearing that Lazarus is sick, Jesus waits two days before returning to Judea, saying the sickness will reveal God's glory. Lazarus has been buried four days when Jesus arrives, and He tells Martha that He is the resurrection and the life; she confesses Him as the Christ and Son of God. Jesus shares the mourners' grief, weeps, and calls Lazarus alive from the tomb. Many believe, but the chief priests and Pharisees plan Jesus' death because they fear losing their nation and position to Rome. The narrator explains that high priest Caiaphas' call for one man's death prophesies Jesus dying for the nation and gathering God's scattered children.",
     "themes": [
       "Sickness for God’s glory",
       "Resurrection and the life",
@@ -600,42 +455,29 @@
       "Pharisees"
     ],
     "key_points": [
-      "Jesus said Lazarus’s sickness was not to death but for God’s Son to be glorified.",
-      "He told Martha he is the resurrection and the life; she confessed him as Christ, God’s Son.",
-      "Jesus wept, prayed aloud to the Father, and cried, “Lazarus, come out!”",
-      "The dead man came out bound; Jesus told them to loose him.",
-      "The council feared all would believe and Rome would destroy their place and nation.",
-      "Caiaphas advised that one man die for the people rather than the whole nation perish.",
-      "From that day they plotted to put Jesus to death; he stayed in Ephraim with disciples."
+      "Jesus delays His journey, then tells His disciples plainly that Lazarus has died and that they will have reason to believe.",
+      "Jesus declares Himself the resurrection and life, and Martha identifies Him as the Christ and Son of God.",
+      "Moved by grief, Jesus weeps, thanks the Father, and summons Lazarus from the tomb alive.",
+      "Caiaphas argues for one man's death, while the narrator explains his words as prophecy about Jesus' death and gathering work.",
+      "Jesus withdraws with His disciples, while leaders order people to report His location before Passover."
     ],
     "supporting_verses": [
-      "John 11:4",
-      "John 11:25",
-      "John 11:35",
-      "John 11:43",
-      "John 11:45",
-      "John 11:48",
-      "John 11:50",
-      "John 11:52",
-      "John 11:53"
+      "John 11:1-16",
+      "John 11:17-27",
+      "John 11:28-44",
+      "John 11:45-53",
+      "John 11:54-57"
     ],
-    "evidence_phrases": [
-      "This sickness is not to death, but for the glory of God",
-      "I am the resurrection and the life",
-      "Jesus wept",
-      "Lazarus, come out!",
-      "everyone will believe in him, and the Romans will come",
-      "it is advantageous for us that one man should die for the people",
-      "Jesus would die for the nation",
-      "they took counsel that they might put him to death"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 43,
     "chapter": 12,
-    "title": "Anointing, entry, Greeks, and unbelief",
-    "summary_text": "Six days before Passover at Bethany, Mary anoints Jesus’s feet with costly nard; Judas Iscariot objects while stealing from the money box. A crowd comes for Jesus and raised Lazarus; chief priests plot to kill Lazarus too. The next day Jesus enters Jerusalem on a donkey’s colt amid Hosannas; Greeks wish to see him through Philip and Andrew. Jesus speaks of the hour of the Son of Man’s glorification, the grain of wheat dying, service, a voice from heaven, judgment of this world, and being lifted up. Many still do not believe, fulfilling Isaiah; rulers believe secretly; Jesus urges belief in light and says his words are the Father’s command for eternal life.",
+    "title": "Jesus Enters Jerusalem and Faces His Hour",
+    "summary_text": "Mary anoints Jesus' feet with costly perfume, and He connects it with His burial despite Judas' objection. Crowds welcome Him into Jerusalem as Israel's King, while the chief priests also plot Lazarus' death because his raising draws people to Jesus. When Greeks ask to see Him, Jesus says the Son of Man's hour to be glorified has arrived, compares His death to a seed bearing fruit, and speaks of judgment and drawing everyone to Himself. The narrator connects continued unbelief with Isaiah's words about God blinding eyes and hardening hearts, while some believing leaders hide their faith. Jesus says He came to save, speaks the Father's commands leading to eternal life, and warns that His word will judge those rejecting Him.",
     "themes": [
       "Anointing for burial",
       "Judas and the poor",
@@ -662,43 +504,29 @@
       "rulers"
     ],
     "key_points": [
-      "Mary anointed Jesus’s feet; Judas complained though he was a thief.",
-      "Chief priests planned to kill Lazarus because many Jews believed on account of him.",
-      "Crowds hailed Jesus with palm branches as King of Israel on a donkey’s colt.",
-      "Greeks asked Philip to see Jesus; Jesus said the hour had come for the Son of Man to be glorified.",
-      "A voice from heaven answered his prayer to glorify the Father’s name.",
-      "He said he would draw all people to himself when lifted up, signifying his death.",
-      "Isaiah’s words about blinded eyes and hardened hearts were fulfilled in their unbelief.",
-      "Many rulers believed secretly for fear of the Pharisees."
+      "Mary anoints Jesus for burial, while Judas' concern about the poor masks his theft from the shared money bag.",
+      "Leaders plan to kill Lazarus, and crowds greet Jesus with palm branches and praise Him as Israel's blessed King.",
+      "Jesus describes His approaching death, prays for the Father's name to be glorified, and announces judgment on the world's ruler.",
+      "The crowd questions the Christ's death; Jesus urges belief in the Light, and the narrator explains unbelief and hidden belief.",
+      "Jesus says belief in Him reaches the Father who sent Him, and His spoken word will judge rejection on the last day."
     ],
     "supporting_verses": [
-      "John 12:3",
-      "John 12:6",
-      "John 12:13",
-      "John 12:21",
-      "John 12:23",
-      "John 12:28",
-      "John 12:32",
-      "John 12:40",
-      "John 12:42"
+      "John 12:1-8",
+      "John 12:9-19",
+      "John 12:20-33",
+      "John 12:34-43",
+      "John 12:44-50"
     ],
-    "evidence_phrases": [
-      "She has kept this for the day of my burial",
-      "he was a thief, and having the money box",
-      "Hosanna! Blessed is he who comes in the name of the Lord",
-      "Sir, we want to see Jesus",
-      "The time has come for the Son of Man to be glorified",
-      "I have both glorified it, and will glorify it again",
-      "I, if I am lifted up from the earth, will draw all people to myself",
-      "they loved men’s praise more than God’s praise"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 43,
     "chapter": 13,
-    "title": "Foot washing, betrayal, and love one another",
-    "summary_text": "Before Passover, knowing his hour has come, Jesus washes the disciples’ feet as an example of humble service, telling Peter that without this washing one has no part with him and that not all are clean. He identifies the betrayer by giving dipped bread to Judas, into whom Satan then enters; Judas leaves at night. Jesus speaks of glorification, his impending departure, a new commandment to love as he loved, and predicts Peter will deny him three times before the rooster crows.",
+    "title": "Jesus Washes Feet and Commands Love",
+    "summary_text": "Knowing He is returning to the Father, Jesus washes His disciples' feet and teaches them to follow His example of service. Peter objects, but Jesus says Peter must be washed to share in Him, and adds that not all the disciples are clean because He knows His betrayer. Jesus identifies Judas by giving him dipped bread; Satan enters Judas, who leaves into the night. Jesus then says the Son of Man and God are glorified and gives a new commandment for the disciples to love each other as He has loved them. When Peter promises to die for Him, Jesus predicts that Peter will deny Him three times before the rooster crows.",
     "themes": [
       "Loved them to the end",
       "Foot washing example",
@@ -718,42 +546,29 @@
       "the devil"
     ],
     "key_points": [
-      "Jesus washed the disciples’ feet and told them to wash one another’s feet as he had done.",
-      "He said one who is bathed needs only feet washed; Judas was not clean.",
-      "He quoted Scripture about the one who ate bread lifting his heel against him.",
-      "He gave dipped bread to Judas; after it Satan entered Judas, who went out into the night.",
-      "Jesus gave a new commandment: love one another as he loved them.",
-      "By this love all would know they are his disciples.",
-      "He told Peter the rooster would not crow until Peter had denied him three times."
+      "Jesus washes His disciples' feet, answers Peter's objections, and distinguishes the clean disciples from His betrayer.",
+      "As their Lord and Teacher, Jesus sets an example of humble service and promises blessing for doing it.",
+      "Jesus gives Judas the dipped bread, Satan enters him, and Judas leaves while the other disciples misunderstand.",
+      "Jesus announces coming glory and commands a love that will identify His disciples to others.",
+      "Jesus tells Peter he cannot follow yet and predicts his three denials despite Peter's promise of loyalty."
     ],
     "supporting_verses": [
-      "John 13:5",
-      "John 13:8",
-      "John 13:10",
-      "John 13:18",
-      "John 13:26",
-      "John 13:27",
-      "John 13:34",
-      "John 13:35",
-      "John 13:38"
+      "John 13:1-11",
+      "John 13:12-20",
+      "John 13:21-30",
+      "John 13:31-35",
+      "John 13:36-38"
     ],
-    "evidence_phrases": [
-      "he loved them to the end",
-      "If I don’t wash you, you have no part with me",
-      "You are clean, but not all of you",
-      "Satan entered into him",
-      "What you do, do quickly",
-      "A new commandment I give to you",
-      "if you have love for one another",
-      "the rooster won’t crow until you have denied me three times"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 43,
     "chapter": 14,
-    "title": "Way, truth, life, and the Counselor",
-    "summary_text": "Jesus tells troubled disciples to believe in God and in him, promising many dwelling places in the Father’s house and his return to receive them. He is the way, truth, and life; seeing him is seeing the Father. He promises greater works, prayer in his name, another Counselor—the Spirit of truth—love shown by keeping commandments, the Father and Son making their home with the lover, peace unlike the world’s, and obedience though the prince of the world comes with no claim on him.",
+    "title": "The Way to the Father",
+    "summary_text": "Facing His departure, Jesus tells His followers to trust Him and promises to prepare a place and return for them. He declares that He is the way, truth, and life, that access to the Father comes only through Him, and that seeing Him is seeing the Father. He promises greater works and answers to prayer in His name so the Father may be glorified. Love for Him is shown by keeping His commandments, and He promises the Father's presence and another Advocate, the Holy Spirit, who will teach and remind them. Jesus gives His peace, says the Father is greater than He is, and goes forward in obedience to the Father.",
     "themes": [
       "Believe and don’t fear",
       "Father’s house",
@@ -773,41 +588,29 @@
       "Holy Spirit"
     ],
     "key_points": [
-      "Jesus goes to prepare a place and will come again to take disciples to himself.",
-      "He said no one comes to the Father except through him.",
-      "Whoever has seen him has seen the Father; the Father is in him and he in the Father.",
-      "Believers will do greater works because he goes to the Father; whatever is asked in his name he will do.",
-      "The Father will send another Counselor, the Spirit of truth, to teach and remind them.",
-      "Jesus leaves peace, not as the world gives.",
-      "The prince of the world comes but has nothing in Jesus."
+      "Jesus promises a place with Him and identifies Himself as the only way to the Father.",
+      "Jesus says He and the Father dwell in each other, and believers will do greater works as He answers prayer.",
+      "Jesus links love with keeping His commandments and promises the Spirit of truth to remain with His followers.",
+      "The Father and Son will make their home with those who love Jesus and keep His word.",
+      "Jesus promises the Holy Spirit's teaching and His peace, then speaks of leaving and obeying the Father."
     ],
     "supporting_verses": [
-      "John 14:2",
-      "John 14:6",
-      "John 14:9",
-      "John 14:12",
-      "John 14:16",
-      "John 14:26",
-      "John 14:27",
-      "John 14:30"
+      "John 14:1-6",
+      "John 14:7-14",
+      "John 14:15-21",
+      "John 14:22-24",
+      "John 14:25-31"
     ],
-    "evidence_phrases": [
-      "In my Father’s house are many homes",
-      "I am the way, the truth, and the life",
-      "He who has seen me has seen the Father",
-      "he will do greater works than these",
-      "another Counselor",
-      "the Holy Spirit, whom the Father will send in my name",
-      "Peace I leave with you",
-      "the prince of the world comes, and he has nothing in me"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 43,
     "chapter": 15,
-    "title": "Vine, love, hatred, and the Spirit’s witness",
-    "summary_text": "Jesus teaches that he is the true vine: branches must remain in him to bear fruit; unfruitful branches are removed and burned. Joy is full as disciples keep his commandments, especially loving one another as he loved them, with the greatest love being laying down one’s life. The world hates them as it hated him; sin is inexcusable after his words and works. The Counselor from the Father will testify about him, and the disciples will testify because they have been with him from the beginning.",
+    "title": "The Vine, Love, and the World's Hatred",
+    "summary_text": "Describing Himself as the true vine and His Father as the vineyard's keeper, Jesus says His disciples must remain in Him to bear fruit; branches that do not remain are burned. Keeping His commandments means remaining in His love, and He commands them to love each other after His example of laying down His life for friends. He calls them friends, shares what He learned from the Father, and says He chose them to bear lasting fruit. The world will hate and persecute them as it hated Him, and its rejection of His words and works leaves its sin without excuse. The Spirit of truth and the disciples will testify about Jesus.",
     "themes": [
       "True vine",
       "Remain and bear fruit",
@@ -826,42 +629,29 @@
       "the world"
     ],
     "key_points": [
-      "The Father prunes branches so they bear more fruit; apart from Jesus one can do nothing.",
-      "Branches not remaining in him are burned.",
-      "Keeping Jesus’s commandments and remaining in his love fills joy.",
-      "His command is to love one another as he loved them; friends obey and know what he heard from the Father.",
-      "The world hates them because he chose them out of the world.",
-      "They have no excuse for sin after his coming and signs.",
-      "The Counselor, Spirit of truth, will testify about Jesus; disciples will testify too."
+      "The Father prunes fruitful branches, and Jesus says His disciples cannot produce fruit apart from Him.",
+      "Fruit brings the Father glory, while obedience, love, and Jesus' words shape the disciples' life in Him.",
+      "Jesus calls His followers friends and says He chose them for lasting fruit and prayer in His name.",
+      "The world's hatred reaches both Jesus and His Father, and His teaching and works leave it without excuse for sin.",
+      "The Spirit of truth will testify about Jesus, and His companions from the beginning must testify too."
     ],
     "supporting_verses": [
-      "John 15:5",
-      "John 15:6",
-      "John 15:11",
-      "John 15:13",
-      "John 15:15",
-      "John 15:19",
-      "John 15:24",
-      "John 15:26",
-      "John 15:27"
+      "John 15:1-8",
+      "John 15:3-12",
+      "John 15:13-17",
+      "John 15:18-25",
+      "John 15:26-27"
     ],
-    "evidence_phrases": [
-      "I am the true vine",
-      "apart from me you can do nothing",
-      "If a man doesn’t remain in me, he is thrown out as a branch",
-      "that my joy may remain in you",
-      "Greater love has no one than this",
-      "You didn’t choose me, but I chose you",
-      "They hated me without a cause",
-      "he will testify about me"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 43,
     "chapter": 16,
-    "title": "Sorrow, Counselor, and overcoming the world",
-    "summary_text": "Jesus warns of expulsion from synagogues and deadly hatred done in God’s name out of ignorance of the Father and him. It is better that he go so the Counselor may come to convict the world of sin, righteousness, and judgment. The Spirit will guide into all truth and glorify Jesus. Disciples grieve his departure but will rejoice when they see him again; the Father will give what they ask in Jesus’s name. Jesus speaks plainly of going to the Father; they profess belief, yet he foretells scattering and leaves peace and courage—they have trouble in the world, but he has overcome the world.",
+    "title": "The Spirit's Coming and Grief Becoming Joy",
+    "summary_text": "Jesus warns His disciples that people will expel them from synagogues and even kill them while thinking they serve God. His departure will bring the Advocate, the Spirit of truth, who will convict the world concerning sin, righteousness, and judgment, guide the disciples, and glorify Jesus. Their coming grief will become lasting joy when they see Him again, like a mother's joy after childbirth. Jesus promises answers to prayer in His name and says the Father Himself loves them because they love Jesus and believe He came from God. Though the disciples claim belief, Jesus predicts their scattering and offers peace amid trouble because He has overcome the world.",
     "themes": [
       "Persecution ahead",
       "Counselor’s advantage",
@@ -881,43 +671,29 @@
       "prince of this world"
     ],
     "key_points": [
-      "Enemies will think killing Jesus’s followers is serving God.",
-      "The Counselor convicts about sin (unbelief), righteousness (Jesus to the Father), and judgment (prince of this world judged).",
-      "The Spirit will guide into all truth and declare what is coming.",
-      "Sorrow will turn to joy like a woman after childbirth.",
-      "The Father loves them and will give what they ask in Jesus’s name.",
-      "Jesus came from the Father and returns to the Father.",
-      "Disciples will be scattered and leave him alone, yet the Father is with him.",
-      "In him they may have peace; he has overcome the world."
+      "Jesus warns of persecution so His disciples will remember His warning and not fall away.",
+      "The Spirit exposes unbelief as sin, addresses righteousness as Jesus goes to the Father, and judgment because the world's ruler is condemned.",
+      "The Spirit will speak what He hears, guide the disciples into truth, and glorify Jesus by revealing what belongs to Him.",
+      "Jesus promises renewed joy after grief, answered prayer in His name, and the Father's own love.",
+      "The disciples will abandon Jesus, yet the Father remains with Him and He offers peace despite the world's trouble."
     ],
     "supporting_verses": [
-      "John 16:2",
-      "John 16:7",
-      "John 16:8",
-      "John 16:13",
-      "John 16:20",
-      "John 16:23",
-      "John 16:28",
-      "John 16:32",
-      "John 16:33"
+      "John 16:1-4",
+      "John 16:5-11",
+      "John 16:12-15",
+      "John 16:16-28",
+      "John 16:29-33"
     ],
-    "evidence_phrases": [
-      "whoever kills you will think that he offers service to God",
-      "It is to your advantage that I go away",
-      "he will convict the world about sin, about righteousness, and about judgment",
-      "he will guide you into all truth",
-      "your sorrow will be turned into joy",
-      "whatever you may ask of the Father in my name, he will give it to you",
-      "you will be scattered, everyone to his own place",
-      "I have overcome the world"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 43,
     "chapter": 17,
-    "title": "Jesus prays for disciples and future believers",
-    "summary_text": "Jesus prays aloud to the Father to glorify the Son so the Son may glorify the Father, defining eternal life as knowing the only true God and Jesus Christ whom he sent. He prays for those the Father gave him: they kept his word, are not of the world, need keeping from the evil one, and sanctification in truth. He prays for their unity as the Father and Son are one, that the world may believe, and for future believers through the apostles’ word. He asks that they see his glory and that the Father’s love be in them as he is in them.",
+    "title": "Jesus Prays for His Followers' Unity",
+    "summary_text": "Praying to the Father, Jesus asks to be glorified with the glory He had before the world existed and describes eternal life as knowing the Father and Jesus Christ, whom He sent. He says His followers have received the Father's words and believed that He sent Jesus. As He returns to the Father, He asks the Holy Father to protect them, unite them, and sanctify them, setting them apart by the truth of His word. His prayer includes future believers, asking that their unity make the Father's sending and love known to the world. Jesus wants them with Him to see His glory and ends by speaking of the righteous Father's love dwelling in them.",
     "themes": [
       "Glorify the Son",
       "Eternal life defined",
@@ -937,42 +713,29 @@
       "son of destruction"
     ],
     "key_points": [
-      "Eternal life is knowing the only true God and him whom he sent, Jesus Christ.",
-      "Jesus glorified the Father on earth and asks to be glorified with pre-world glory.",
-      "He prays for those given him, not the world, that they be kept in the Father’s name.",
-      "None was lost except the son of destruction, to fulfill Scripture.",
-      "He sanctifies himself for their sake that they may be sanctified in truth.",
-      "He prays future believers may be one so the world may believe God sent him.",
-      "He desires they be with him to see his glory and that the Father’s love dwell in them."
+      "Jesus asks the Father to glorify Him and describes eternal life as knowing the only true God and Jesus Christ.",
+      "Jesus says the people given to Him have kept the Father's word and believed His sending.",
+      "Jesus asks for His followers' protection and unity while they remain in a world that hates them.",
+      "Jesus asks the Father to sanctify His followers by the truth as He sends them into the world.",
+      "Jesus prays for future believers' unity, their presence with Him, and the Father's love to dwell in them."
     ],
     "supporting_verses": [
-      "John 17:3",
-      "John 17:4",
-      "John 17:9",
-      "John 17:12",
-      "John 17:17",
-      "John 17:21",
-      "John 17:23",
-      "John 17:24",
-      "John 17:26"
+      "John 17:1-5",
+      "John 17:6-10",
+      "John 17:11-16",
+      "John 17:17-19",
+      "John 17:20-26"
     ],
-    "evidence_phrases": [
-      "Glorify your Son, that your Son may also glorify you",
-      "This is eternal life, that they should know you, the only true God, and him whom you sent, Jesus Christ",
-      "I pray for them. I don’t pray for the world",
-      "None of them is lost except the son of destruction",
-      "Sanctify them in your truth. Your word is truth",
-      "that they may all be one",
-      "that the world may know that you sent me and loved them",
-      "that the love with which you loved me may be in them, and I in them"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 43,
     "chapter": 18,
-    "title": "Arrest, denials, and trial before Pilate",
-    "summary_text": "After his prayer, Jesus crosses the Kidron to a garden; Judas leads soldiers and officers who arrest him after he twice identifies himself as “I am he,” and the disciples are let go. Peter cuts off Malchus’s ear; Jesus is bound and questioned first before Annas, then sent to Caiaphas, while Peter denies Jesus three times by a charcoal fire and the rooster crows. Jesus is taken to Pilate; Jews refuse to enter the Praetorium; Pilate finds no charge; they demand Barabbas instead of the King of the Jews.",
+    "title": "Jesus Is Arrested and Questioned by Pilate",
+    "summary_text": "Judas leads an armed group to Jesus in a garden, where Jesus steps forward, identifies Himself, and asks that His disciples be allowed to leave. Peter cuts off Malchus' right ear, but Jesus stops him and accepts the cup given by the Father. Jesus is taken first to Annas and then to Caiaphas the high priest, while Peter denies being His disciple three times before a rooster crows. Before Pilate, Jesus says His kingdom does not come from this world and that He came to bear witness to truth. Pilate finds no basis for a charge, but the crowd asks for Barabbas instead of Jesus.",
     "themes": [
       "Garden betrayal",
       "I am he",
@@ -997,43 +760,29 @@
       "Barabbas"
     ],
     "key_points": [
-      "Judas brought a detachment with lanterns and weapons to the garden Jesus often used.",
-      "Jesus identified himself; they drew back and fell; he secured the disciples’ release.",
-      "Peter struck Malchus; Jesus told him to sheath the sword and spoke of drinking the Father’s cup.",
-      "Jesus was sent from Annas to Caiaphas; an officer struck him for answering the high priest.",
-      "Peter denied being a disciple three times; the rooster crowed immediately.",
-      "Pilate found no basis for a charge; Jews said they could not put anyone to death.",
-      "Jesus said his kingdom is not of this world and that he was born to testify to the truth.",
-      "The crowd chose Barabbas over Jesus."
+      "Jesus identifies Himself to the arresting party, protects His disciples, and stops Peter's sword attack.",
+      "Jesus is taken to Annas, while another disciple gains access to the courtyard and brings Peter inside.",
+      "Jesus points to the public nature of His teaching, challenges an officer's slap, and is sent to Caiaphas.",
+      "Peter completes three denials, and Jesus' accusers bring Him to Pilate while seeking His execution.",
+      "Jesus describes His kingdom and witness to truth; Pilate finds no charge, but the crowd demands Barabbas."
     ],
     "supporting_verses": [
-      "John 18:5",
-      "John 18:8",
-      "John 18:10",
-      "John 18:11",
-      "John 18:24",
-      "John 18:27",
-      "John 18:36",
-      "John 18:38",
-      "John 18:40"
+      "John 18:1-11",
+      "John 18:12-18",
+      "John 18:19-24",
+      "John 18:25-32",
+      "John 18:33-40"
     ],
-    "evidence_phrases": [
-      "I am he",
-      "let these go their way",
-      "Put the sword into its sheath",
-      "The cup which the Father has given me",
-      "Annas sent him bound to Caiaphas",
-      "Peter therefore denied it again, and immediately the rooster crowed",
-      "My Kingdom is not of this world",
-      "Not this man, but Barabbas!"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 43,
     "chapter": 19,
-    "title": "Crucifixion, death, and burial",
-    "summary_text": "Pilate has Jesus flogged; soldiers mock him with a crown of thorns and purple robe. Despite Pilate’s reluctance, chief priests insist he must die for making himself God’s Son; Pilate yields to Caesar-threats, delivers Jesus, and posts the title “Jesus of Nazareth, the King of the Jews.” Jesus is crucified between two others at Golgotha; he commits his mother to the beloved disciple, says it is finished, and gives up his spirit. Soldiers break the others’ legs but pierce Jesus’s side; Scripture is cited. Joseph of Arimathaea and Nicodemus bury him in a new nearby tomb before the Preparation Day ends.",
+    "title": "Jesus Finishes His Work on the Cross",
+    "summary_text": "Pilate has Jesus flogged, and soldiers mock Him as King, while His accusers demand death because He claimed to be the Son of God. Despite finding no charge against Him, Pilate yields to pressure about loyalty to Caesar and hands Him over to be crucified. Jesus carries His cross to Golgotha, where His clothing is divided, His kingship is posted above Him, and He entrusts His mother to the disciple He loves. After receiving sour wine, Jesus declares His work finished and dies; soldiers leave His legs unbroken but pierce His side, fulfilling Scripture. Joseph and Nicodemus wrap His body with spices and place it in a nearby new tomb.",
     "themes": [
       "Ecce homo",
       "King of the Jews",
@@ -1058,43 +807,29 @@
       "Nicodemus"
     ],
     "key_points": [
-      "Pilate showed Jesus crowned and robed; crowds cried crucify though Pilate found no guilt.",
-      "Jews cited their law: he made himself the Son of God.",
-      "Pilate wrote the cross title in Hebrew, Latin, and Greek and would not change it.",
-      "Jesus gave his mother to the disciple and the disciple to her.",
-      "He said “I am thirsty,” received vinegar, said “It is finished,” and died.",
-      "His legs were not broken; a soldier pierced his side; blood and water came out.",
-      "Joseph asked Pilate for the body; Nicodemus brought a great weight of spices.",
-      "They buried Jesus in a new tomb in a garden because the tomb was near."
+      "Jesus says Pilate's authority comes from above and that the one who handed Him over bears greater sin.",
+      "The chief priests claim Caesar as their only king, and Pilate delivers Jesus for crucifixion.",
+      "Jesus is crucified between two others, soldiers divide His clothing, and He gives His mother into His beloved disciple's care.",
+      "Jesus dies, and preparations for the Sabbath lead soldiers to examine His body and pierce His side without breaking His legs.",
+      "With Pilate's permission, Joseph and Nicodemus prepare Jesus' body with linen and spices and bury Him nearby."
     ],
     "supporting_verses": [
-      "John 19:5",
-      "John 19:7",
-      "John 19:19",
-      "John 19:26",
-      "John 19:30",
-      "John 19:33",
-      "John 19:34",
-      "John 19:38",
-      "John 19:42"
+      "John 19:1-11",
+      "John 19:12-16",
+      "John 19:17-27",
+      "John 19:28-37",
+      "John 19:38-42"
     ],
-    "evidence_phrases": [
-      "Behold, the man!",
-      "he made himself the Son of God",
-      "JESUS OF NAZARETH, THE KING OF THE JEWS",
-      "Woman, behold, your son!",
-      "It is finished",
-      "they didn’t break his legs",
-      "blood and water came out",
-      "bound it in linen cloths with the spices"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 43,
     "chapter": 20,
-    "title": "Empty tomb, Mary, and Thomas",
-    "summary_text": "Mary Magdalene finds the stone rolled away and tells Peter and the beloved disciple, who see empty linen cloths and believe though they yet lack understanding of resurrection Scripture. Mary meets Jesus, who sends her to tell the brothers he ascends to his Father and God. That evening Jesus appears to fearful, locked-in disciples, shows his wounds, commissions them as the Father sent him, and breathes the Holy Spirit with authority about forgiveness. Thomas doubts until eight days later he touches Jesus’s wounds and confesses him as Lord and God; Jesus blesses those who believe without seeing and states the book’s purpose: belief in Christ the Son of God for life in his name.",
+    "title": "The Risen Jesus Appears to His Disciples",
+    "summary_text": "Mary Magdalene finds the tomb open, and Peter and the beloved disciple investigate; the other disciple believes, though they do not yet understand the Scripture about Jesus rising. Mary sees angels, then recognizes Jesus when He speaks her name and reports His message to the disciples. Jesus appears behind locked doors, gives them peace, sends them as the Father sent Him, and breathes on them with words about receiving the Holy Spirit and forgiving or retaining sins. Thomas refuses to believe without seeing, but later encounters Jesus and addresses Him as his Lord and God; Jesus calls unseen believers blessed. The account's signs are written to bring belief in Jesus as the Christ and Son of God, and life through Him.",
     "themes": [
       "Empty tomb",
       "Beloved disciple believes",
@@ -1114,43 +849,29 @@
       "disciples"
     ],
     "key_points": [
-      "The tomb was open; Peter and the other disciple saw linen wrappings and the face cloth rolled apart.",
-      "Mary mistook Jesus for the gardener until he called her name.",
-      "Jesus told her not to hold him and to announce his ascent to his Father and their Father.",
-      "He appeared through locked doors, showed hands and side, and said peace and sending as the Father sent him.",
-      "He breathed on them, saying receive the Holy Spirit, with words about retaining and forgiving sins.",
-      "Thomas required seeing nail prints and the side; Jesus invited him to see and believe.",
-      "Thomas called him “My Lord and my God!”",
-      "These things are written that readers may believe Jesus is the Christ, the Son of God, and have life in his name."
+      "Peter and the beloved disciple find the burial cloths, and the beloved disciple sees and believes.",
+      "Mary encounters two angels and then Jesus, who sends her to tell His brothers about His coming ascent.",
+      "Jesus shows His wounds, commissions the disciples, and speaks of the Holy Spirit and authority concerning forgiveness of sins.",
+      "Thomas demands visible proof, then calls Jesus his Lord and God when Jesus appears again.",
+      "The written signs aim to lead people to believe Jesus is the Christ and Son of God and receive life."
     ],
     "supporting_verses": [
-      "John 20:8",
-      "John 20:16",
-      "John 20:17",
-      "John 20:20",
-      "John 20:21",
-      "John 20:22",
-      "John 20:27",
-      "John 20:28",
-      "John 20:31"
+      "John 20:1-10",
+      "John 20:11-18",
+      "John 20:19-23",
+      "John 20:24-29",
+      "John 20:30-31"
     ],
-    "evidence_phrases": [
-      "he saw and believed",
-      "Rabboni!",
-      "I am ascending to my Father and your Father",
-      "Peace be to you",
-      "As the Father has sent me, even so I send you",
-      "Receive the Holy Spirit!",
-      "Don’t be unbelieving, but believing",
-      "that you may believe that Jesus is the Christ, the Son of God"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 43,
     "chapter": 21,
-    "title": "Fish, breakfast, and Peter restored",
-    "summary_text": "Jesus appears by the Sea of Tiberias to Peter, Thomas, Nathanael, Zebedee’s sons, and two others; after a fruitless night he directs a catch of 153 large fish and serves bread and fish on shore—his third post-resurrection revelation. He three times asks Simon son of Jonah whether Simon loves him, commissioning him to feed lambs and sheep, and foretells Peter’s bound hands and death glorifying God, then says “Follow me.” Peter asks about the beloved disciple; Jesus replies it is not Peter’s concern if that one should remain until Jesus comes—a rumor misunderstood as immortality. The beloved disciple attests that his written witness is true.",
+    "title": "Jesus Feeds His Disciples and Commissions Peter",
+    "summary_text": "After a fruitless night of fishing, the disciples follow a stranger's direction from shore and catch so many fish that they recognize Jesus. He shares a breakfast of bread and fish with them beside the Sea of Tiberias. Three times Jesus asks Peter whether he loves Him, and each time He charges Peter to care for His sheep. Jesus predicts the death by which Peter will glorify God and tells him to follow, then redirects Peter's question about the beloved disciple toward his own following. The account corrects a rumor that this disciple would never die, affirms his testimony, and closes by saying that Jesus did far more than could be recorded.",
     "themes": [
       "Catch of fish",
       "It is the Lord",
@@ -1171,33 +892,21 @@
       "the disciple whom Jesus loved"
     ],
     "key_points": [
-      "They caught nothing until Jesus told them to cast the net on the right; the net held 153 large fish without tearing.",
-      "Jesus had fish and bread on a charcoal fire and invited them to breakfast.",
-      "This was the third time Jesus showed himself to the disciples after rising.",
-      "Jesus asked Peter three times about love and commanded feed my lambs, tend my sheep, feed my sheep.",
-      "He foretold Peter would be carried where he did not wish, signifying the death by which Peter would glorify God.",
-      "Jesus told Peter not to concern himself with whether the beloved disciple remains until Jesus comes.",
-      "The beloved disciple is identified as the one who testifies and wrote these things."
+      "Jesus directs the disciples to a great catch after they have caught nothing all night.",
+      "The net holds 153 large fish without tearing, and Jesus shares breakfast with the disciples.",
+      "Jesus asks Peter about his love three times and commands him to feed and shepherd His sheep.",
+      "Jesus foretells Peter's death and tells him to follow without making the beloved disciple's future his concern.",
+      "The beloved disciple's written testimony is affirmed as true, while many other deeds of Jesus remain unrecorded."
     ],
     "supporting_verses": [
-      "John 21:6",
-      "John 21:12",
-      "John 21:14",
-      "John 21:15",
-      "John 21:17",
-      "John 21:19",
-      "John 21:22",
-      "John 21:24"
+      "John 21:1-8",
+      "John 21:9-14",
+      "John 21:15-17",
+      "John 21:18-23",
+      "John 21:24-25"
     ],
-    "evidence_phrases": [
-      "Cast the net on the right side of the boat",
-      "one hundred fifty-three great fish",
-      "Come and eat breakfast!",
-      "Do you love me more than these?",
-      "Feed my lambs",
-      "Tend my sheep",
-      "Follow me",
-      "If I desire that he stay until I come, what is that to you?"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   }
 ]

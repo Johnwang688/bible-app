@@ -1,10 +1,10 @@
 [
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 1,
-    "title": "Creation, light, and humanity",
-    "summary_text": "In the beginning God created the heavens and the earth. God saw the light, that it was good: and God divided the light from the darkness. God created the great sea-monsters, and every living creature that moveth, wherewith the waters swarmed, after their kind, and every winged bird after its kind: and God saw that it was good. God created man in his own image, in the image of God created he him; male and female created he them.",
+    "title": "God Creates a World Full of Life",
+    "summary_text": "God creates the world, bringing light, sky, land, and seas into order by His word. Across six days, He fills it with plants, lights in the sky, creatures in the water, birds, and land animals. He makes humans, male and female, in His image, blesses them, and gives them rule over the earth and its creatures. God provides plants for food and declares everything He has made very good.",
     "themes": [
       "Creation and order",
       "Image of God and fruitfulness",
@@ -24,33 +24,29 @@
       "land"
     ],
     "key_points": [
-      "In the beginning God created the heavens and the earth.",
-      "God saw the light, that it was good: and God divided the light from the darkness.",
-      "God created the great sea-monsters.",
-      "God created man in his own image, in the image of God created he him; male and female created he them."
+      "God's Spirit hovers over the waters, and God brings light, sky, dry land, and plants into being.",
+      "God places lights in the sky to mark time and light the earth.",
+      "God fills the waters, sky, and land with living creatures.",
+      "Humans bear God's image and receive authority over the earth's creatures.",
+      "God supplies food and calls His whole creation very good."
     ],
     "supporting_verses": [
-      "Genesis 1:1",
-      "Genesis 1:4",
-      "Genesis 1:21",
-      "Genesis 1:27",
-      "Genesis 1:16",
-      "Genesis 1:31"
+      "Genesis 1:1-13",
+      "Genesis 1:14-19",
+      "Genesis 1:20-25",
+      "Genesis 1:26-28",
+      "Genesis 1:29-31"
     ],
-    "evidence_phrases": [
-      "In the beginning God created the heavens and the earth",
-      "God saw the light, that it was good",
-      "God saw that it was good",
-      "male and female created he them",
-      "Let us make man in our image, after our likeness"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 2,
-    "title": "God blessed seventh day hallowed because",
-    "summary_text": "The heavens and the earth were finished, and all the host of them. God blessed the seventh day, and hallowed it; because that in it he rested from all his work which God had created and made. Out of the ground made the LORD God to grow every tree that is pleasant to the sight, and good for food; the tree of life also in the midst of the garden, and the tree of the knowledge of good and evil. Out of the ground the LORD God formed every beast of the field, and every bird of the heavens; and brought them unto the man to see what he would call them: and whatsoever the man called every living creature, that was the name thereof.",
+    "title": "God Gives the Man a Home and Companion",
+    "summary_text": "With creation finished, God rests; the seventh day is blessed and sanctified, set apart as holy. He forms the man from dust, gives him life, and places him in Eden's garden to tend it. God allows him to eat from the garden's trees except the tree of the knowledge of good and evil, warning that eating from it brings death. When no animal proves a suitable helper for Adam, God makes a woman from his rib. The man welcomes her, and the account describes husband and wife becoming one flesh, naked without shame.",
     "themes": [
       "Creation and order",
       "The fall and judgment",
@@ -68,33 +64,29 @@
       "woman"
     ],
     "key_points": [
-      "The heavens and the earth were finished, and all the host of them.",
-      "God blessed the seventh day, and hallowed it.",
-      "Out of the ground made the LORD God to grow every tree that is pleasant to the sight, and good for food.",
-      "Out of the ground the LORD God formed every beast of the field, and every bird of the heavens."
+      "God rests from His work and blesses the seventh day, setting it apart as holy.",
+      "God gives the man life and a garden home in Eden.",
+      "The man must tend the garden and obey God's warning about the forbidden tree.",
+      "God makes a woman from the man's rib as his suitable helper.",
+      "Marriage joins husband and wife in one flesh, and the couple feels no shame."
     ],
     "supporting_verses": [
-      "Genesis 2:1",
-      "Genesis 2:3",
-      "Genesis 2:9",
-      "Genesis 2:19",
-      "Genesis 2:13",
-      "Genesis 2:25"
+      "Genesis 2:1-3",
+      "Genesis 2:7-9",
+      "Genesis 2:15-17",
+      "Genesis 2:18-23",
+      "Genesis 2:24-25"
     ],
-    "evidence_phrases": [
-      "The heavens and the earth were finished, and all the host of them",
-      "God blessed the seventh day, and hallowed it",
-      "the tree of life also in the midst of the garden, and the tree of the knowledge ",
-      "every living creature, that was the name thereof",
-      "These are the generations of the heavens and of the earth when they were created"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 3,
-    "title": "The fall and the promise of victory",
-    "summary_text": "The serpent was more subtle than any beast of the field which the LORD God had made. And he said unto the woman, Yea, has God said, Ye shall not eat of any tree of the garden? The woman said unto the serpent, Of the fruit of the trees of the garden we may eat:. The LORD God said unto the woman, What is this thou hast done? And the woman said, The serpent beguiled me, and I did eat. Unto Adam he said, Because thou hast hearkened unto the voice of thy wife, and hast eaten of the tree, of which I commanded thee, saying, Thou shalt not eat of it: cursed is the ground for thy sake; in toil shalt thou eat of it all the days of thy life;.",
+    "title": "Disobedience Brings Shame and Exile from Eden",
+    "summary_text": "The serpent denies God's warning, and the woman and her husband eat the forbidden fruit. Aware of their nakedness, they cover themselves and hide; when God questions them, the man blames the woman and she blames the serpent. God announces hostility between the serpent and the woman's offspring, pain in childbirth, the husband's rule, hard work on cursed ground, and death. Adam names his wife Eve, and God clothes them before driving the man from Eden. Cherubim and a flaming sword guard the way to the tree of life.",
     "themes": [
       "Image of God and fruitfulness",
       "The fall and judgment",
@@ -109,32 +101,29 @@
       "serpent"
     ],
     "key_points": [
-      "The serpent was more subtle than any beast of the field which the LORD God had made. And he said unto the woman.",
-      "The woman said unto the serpent, Of the fruit of the trees of the garden we may eat:.",
-      "The LORD God said unto the woman.",
-      "Unto Adam he said."
+      "The serpent deceives the woman, and both she and her husband eat the fruit.",
+      "The couple hides in fear and shifts blame when God questions them.",
+      "God sets hostility between the serpent and the woman's offspring, who will crush the serpent's head while the serpent strikes his heel.",
+      "God announces childbirth pain, the husband's rule, painful work, and a return to dust.",
+      "God clothes the couple and blocks the way to the tree of life."
     ],
     "supporting_verses": [
-      "Genesis 3:1",
-      "Genesis 3:2",
-      "Genesis 3:13",
-      "Genesis 3:17",
-      "Genesis 3:24"
+      "Genesis 3:1-6",
+      "Genesis 3:7-13",
+      "Genesis 3:14-15",
+      "Genesis 3:16-19",
+      "Genesis 3:21-24"
     ],
-    "evidence_phrases": [
-      "Yea, has God said, Ye shall not eat of any",
-      "Of the fruit of the trees of the garden we",
-      "What is this thou hast done? And the woman said",
-      "Because thou hast hearkened unto the voice of thy wife",
-      "Because thou hast done this, cursed art thou above all"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 4,
-    "title": "Cain and Abel",
-    "summary_text": "The man knew Eve his wife; and she conceived, and bare Cain, and said, I have gotten a man with [the help of] the LORD. In process of time it came to pass, that Cain brought of the fruit of the ground an offering unto the LORD. The LORD said unto Cain, Where is Abel thy brother? And he said, I know not: am I my brother`s keeper? Adam knew his wife again; and she bare a son, and called his name Seth. For, [said she], God has appointed me another seed instead of Abel; for Cain slew him.",
+    "title": "Cain Kills Abel and His Family Grows",
+    "summary_text": "Angry that God accepts Abel's offering but not his, Cain ignores God's warning about sin and kills his brother. God curses him and sentences him to restless wandering, but marks him to protect him from being killed. Cain settles in Nod, builds a city, and has descendants linked with livestock, music, and metalwork; Lamech boasts of killing a man and claims greater revenge than Cain's. Eve later gives birth to Seth in Abel's place. After Seth's son Enosh is born, people begin calling on the LORD's name.",
     "themes": [
       "Covenant promise",
       "The call of Abraham",
@@ -151,33 +140,29 @@
       "Abel"
     ],
     "key_points": [
-      "The man knew Eve his wife.",
-      "In process of time it came to pass, that Cain brought of the fruit of the ground an offering unto the LORD.",
-      "The LORD said unto Cain, Where is Abel thy brother? And he said, I know not: am I my brother`s keeper?",
-      "Adam knew his wife again."
+      "God accepts Abel's offering and warns angry Cain to master sin.",
+      "Cain murders Abel, and God makes him a wanderer while protecting his life.",
+      "Cain's family grows, with descendants associated with raising livestock, music, and metalwork.",
+      "Lamech tells his wives he killed a man and boasts of greater revenge.",
+      "Seth and Enosh are born, and people begin calling on the LORD's name."
     ],
     "supporting_verses": [
-      "Genesis 4:1",
-      "Genesis 4:3",
-      "Genesis 4:9",
-      "Genesis 4:25",
-      "Genesis 4:14",
-      "Genesis 4:26"
+      "Genesis 4:3-7",
+      "Genesis 4:8-15",
+      "Genesis 4:16-22",
+      "Genesis 4:23-24",
+      "Genesis 4:25-26"
     ],
-    "evidence_phrases": [
-      "I have gotten a man with [the help of] the",
-      "In process of time it came to pass, that Cain brought of the fruit of the ground",
-      "Where is Abel thy brother? And he said, I know",
-      "his name Seth",
-      "Cain was very wroth, and his countenance fell"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 5,
-    "title": "Male female created blessed called name",
-    "summary_text": "This is the book of the generations of Adam. In the day that God created man, in the likeness of God made he him;. Male and female created he them, and blessed them, and called their name Adam, in the day when they were created. And all the days of Enosh were nine hundred and five years: and he died. And Enoch walked with God after he begat Methuselah three hundred years, and begat sons and daughters:.",
+    "title": "Adam's Family Line Reaches Noah",
+    "summary_text": "A family record traces Adam's line through Seth to Noah, beginning with God's creation and blessing of humans in His likeness. It lists fathers, children, and long lifespans, repeatedly recording that each man died. Enoch's account breaks that pattern: he walks with God, and God takes him away. Lamech names his son Noah, hoping for comfort from work on the ground God cursed. The record ends by naming Noah's sons, Shem, Ham, and Japheth.",
     "themes": [
       "Creation and order",
       "Image of God and fruitfulness",
@@ -192,33 +177,29 @@
       "sons"
     ],
     "key_points": [
-      "This is the book of the generations of Adam. In the day that God created man, in the likeness of God made he him.",
-      "Male and female created he them, and blessed them, and called their name Adam, in the day when they were created.",
-      "And all the days of Enosh were nine hundred and five years: and he died.",
-      "And Enoch walked with God after he begat Methuselah three hundred years, and begat sons and daughters:."
+      "God creates and blesses male and female humans in His likeness.",
+      "The family record follows Adam through Seth and later generations, recording their lifespans and deaths.",
+      "Enoch walks with God, who takes him away.",
+      "Lamech hopes Noah will bring comfort amid painful work on cursed ground.",
+      "Noah becomes the father of Shem, Ham, and Japheth."
     ],
     "supporting_verses": [
-      "Genesis 5:1",
-      "Genesis 5:2",
-      "Genesis 5:11",
-      "Genesis 5:22",
-      "Genesis 5:17",
+      "Genesis 5:1-2",
+      "Genesis 5:3-20",
+      "Genesis 5:21-24",
+      "Genesis 5:28-29",
       "Genesis 5:32"
     ],
-    "evidence_phrases": [
-      "This is the book of the generations of Adam",
-      "called their name Adam, in the day when they were",
-      "he died",
-      "Enoch walked with God after he begat Methuselah three hundred years, and begat s",
-      "his name Seth"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 6,
-    "title": "Creation, light, and humanity",
-    "summary_text": "It came to pass, when men began to multiply on the face of the ground, and daughters were born unto them,. The LORD said, I will destroy man whom I have created from the face of the ground; both man, and beast, and creeping things, and birds of the heavens; for it repenteth me that I have made them. Make thee an ark of gopher wood; rooms shalt thou make in the ark, and shalt pitch it within and without with pitch. A light shalt thou make to the ark, and to a cubit shalt thou finish it upward; and the door of the ark shalt thou set in the side thereof; with lower, second, and third stories shalt thou make it.",
+    "title": "God Warns Noah of the Coming Flood",
+    "summary_text": "As people multiply, the sons of God take human women as wives, and the account mentions the Nephilim and mighty men of renown. Human wickedness and violence grieve God, who announces that He will destroy life on earth. Noah, however, finds God's favor and is a righteous man who walks with Him. God tells Noah to build an ark for his family, animals, and stored food, and promises to make a covenant, a binding commitment, with him. Noah does everything God commands.",
     "themes": [
       "Creation and order",
       "Image of God and fruitfulness",
@@ -236,33 +217,29 @@
       "ark"
     ],
     "key_points": [
-      "It came to pass, when men began to multiply on the face of the ground, and daughters were born unto them,.",
-      "The LORD said, I will destroy man whom I have created from the face of the ground.",
-      "Make thee an ark of gopher wood.",
-      "A light shalt thou make to the ark, and to a cubit shalt thou finish it upward."
+      "The sons of God take human wives, and God sets a limit on human days.",
+      "God grieves over human wickedness and announces destruction, but Noah finds His favor.",
+      "Noah walks with God amid a world filled with corruption and violence.",
+      "God gives ark instructions and promises to establish His covenant with Noah.",
+      "Noah obeys God's commands to preserve animals and gather food."
     ],
     "supporting_verses": [
-      "Genesis 6:1",
-      "Genesis 6:7",
-      "Genesis 6:14",
-      "Genesis 6:16",
-      "Genesis 6:12",
-      "Genesis 6:22"
+      "Genesis 6:1-4",
+      "Genesis 6:5-8",
+      "Genesis 6:9-13",
+      "Genesis 6:14-18",
+      "Genesis 6:19-22"
     ],
-    "evidence_phrases": [
-      "It came to pass, when men began to multiply on the face of the ground, and daugh",
-      "I will destroy man whom I have created from the",
-      "Make thee an ark of gopher wood",
-      "with lower, second, and third stories shalt thou make it",
-      "I will establish my covenant with thee"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 7,
-    "title": "Noah and the flood",
-    "summary_text": "The LORD said unto Noah, Come thou and all thy house into the ark; for thee have I seen righteous before me in this generation. Noah went in, and his sons, and his wife, and his sons` wives with him, into the ark, because of the waters of the flood. The flood was forty days upon the earth; and the waters increased, and bare up the ark, and it was lifted up above the earth. The waters prevailed, and increased greatly upon the earth; and the ark went upon the face of the waters.",
+    "title": "The Flood Covers the Earth",
+    "summary_text": "Noah obeys God's command to enter the ark with his family and animals, including seven pairs of each clean kind and each kind of bird. When Noah is 600, water bursts from below and rain pours down for forty days and nights. The LORD shuts him inside, and the rising water lifts the ark above the earth and covers the mountains. All people and land creatures outside die, leaving only Noah and those with him in the ark. The floodwaters prevail for 150 days.",
     "themes": [
       "Creation and order",
       "Judgment and rescue",
@@ -281,33 +258,29 @@
       "ark"
     ],
     "key_points": [
-      "The LORD said unto Noah, Come thou and all thy house into the ark.",
-      "Noah went in, and his sons, and his wife, and his sons` wives with him, into the ark, because of the waters.",
-      "The flood was forty days upon the earth.",
-      "The waters prevailed, and increased greatly upon the earth; and the ark went upon the face of the waters."
+      "God calls Noah righteous and commands seven pairs of each clean animal and bird kind, and one pair of each unclean kind.",
+      "The flood begins when Noah is 600, with water from below and forty days of rain.",
+      "Noah, his family, and the animals enter, and the LORD shuts him inside.",
+      "Water covers the mountains, and only those inside the ark survive the destruction on land.",
+      "The floodwaters prevail over the earth for 150 days."
     ],
     "supporting_verses": [
-      "Genesis 7:1",
-      "Genesis 7:7",
-      "Genesis 7:17",
-      "Genesis 7:18",
-      "Genesis 7:13",
+      "Genesis 7:1-5",
+      "Genesis 7:6-12",
+      "Genesis 7:13-16",
+      "Genesis 7:17-23",
       "Genesis 7:24"
     ],
-    "evidence_phrases": [
-      "Come thou and all thy house into the ark",
-      "Noah went in, and his sons, and his wife, and his sons` wives with him, into the",
-      "The flood was forty days upon the earth",
-      "The waters prevailed, and increased greatly upon the earth",
-      "It came to pass after the seven days, that the waters of the flood were upon the"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 8,
-    "title": "Noah and the flood",
-    "summary_text": "God remembered Noah, and all the beasts, and all the cattle that were with him in the ark: and God made a wind to pass over the earth, and the waters assuaged;. The ark rested in the seventh month, on the seventeenth day of the month, upon the mountains of Ararat. But the dove found no rest for the sole of her foot, and she returned unto him to the ark; for the waters were on the face of the whole earth: and he put forth his hand, and took her, and brought her in unto him into the ark. The LORD smelled the sweet savor; and the LORD said in his heart, I will not again curse the ground any more for man`s sake, for that the imagination of man`s heart is evil from his youth; neither will I again smite any more everything living, as I have done.",
+    "title": "Noah Leaves the Ark and Offers Sacrifices",
+    "summary_text": "God remembers Noah and the animals, sends a wind, and lowers the floodwaters until the ark rests on Ararat's mountains. Noah sends out a raven, then a dove; the dove brings back an olive leaf on a later trip and finally stays away. Once the earth is dry, God tells Noah to lead his family and the animals out so the animals can multiply. Noah builds an altar for burnt offerings, and God vows not to curse the ground again because of humans or repeat this loss of life. He says that crops, seasons, and day and night will last as long as the earth does.",
     "themes": [
       "Creation and order",
       "Image of God and fruitfulness",
@@ -326,33 +299,29 @@
       "sons"
     ],
     "key_points": [
-      "God remembered Noah, and all the beasts, and all the cattle that were with him in the ark.",
-      "The ark rested in the seventh month, on the seventeenth day of the month, upon the mountains of Ararat.",
-      "But the dove found no rest for the sole of her foot, and she returned unto him to the ark.",
-      "The LORD smelled the sweet savor."
+      "God causes the water to recede, and the ark rests on Ararat's mountains.",
+      "Noah sends birds out, and the dove's journeys show the water is falling.",
+      "God tells Noah to leave with his family and bring out the animals so the animals can multiply.",
+      "Noah brings burnt offerings to the LORD on an altar, and God resolves against repeating the destruction despite human evil.",
+      "God promises continuing seasons, harvests, and days and nights while the earth endures."
     ],
     "supporting_verses": [
-      "Genesis 8:1",
-      "Genesis 8:4",
-      "Genesis 8:9",
-      "Genesis 8:21",
-      "Genesis 8:12",
+      "Genesis 8:1-5",
+      "Genesis 8:6-12",
+      "Genesis 8:13-19",
+      "Genesis 8:20-21",
       "Genesis 8:22"
     ],
-    "evidence_phrases": [
-      "God made a wind to pass over the earth, and the waters assuaged",
-      "The ark rested in the seventh month, on the seventeenth day of the month, upon t",
-      "for the waters were on the face of the whole earth",
-      "The LORD smelled the sweet savor",
-      "Noah removed the covering of the ark, and looked, and, behold, the face of the g"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 9,
-    "title": "Noah and the flood",
-    "summary_text": "God blessed Noah and his sons, and said unto them, Be fruitful, and multiply, and replenish the earth. Whoso sheddeth man`s blood, by man shall his blood be shed: For in the image of God made he man. I will establish my covenant with you; neither shall all flesh be cut off any more by the waters of the flood; neither shall there any more be a flood to destroy the earth. Noah lived after the flood three hundred and fifty years.",
+    "title": "God's Rainbow Promise and Noah's Family Trouble",
+    "summary_text": "God blesses Noah's family and allows them to eat meat without its lifeblood, but demands life for taking human life because humans bear His image. The rainbow marks His covenant, a lasting pledge to Noah's family and all creatures that no flood will again destroy all life. Later, Noah gets drunk and lies bare; Ham sees him, but Shem and Japheth cover their father without looking. Noah wakes and curses Canaan to serve his brothers, praises Shem's God, and asks God to make Japheth's land larger. He dies at 950.",
     "themes": [
       "Creation and order",
       "Image of God and fruitfulness",
@@ -370,33 +339,29 @@
       "flood"
     ],
     "key_points": [
-      "God blessed Noah and his sons, and said unto them, Be fruitful, and multiply, and replenish the earth.",
-      "Whoso sheddeth man`s blood, by man shall his blood be shed: For in the image of God made he man.",
-      "I will establish my covenant with you.",
-      "Noah lived after the flood three hundred and fifty years."
+      "God permits meat without lifeblood and requires life for taking human life, which bears His image.",
+      "God promises Noah's descendants and living creatures that a flood will never again destroy all life.",
+      "The rainbow marks God's lasting covenant with the earth and its living creatures.",
+      "Ham sees Noah uncovered, but Shem and Japheth cover their father without looking at him.",
+      "Noah curses Canaan, praises Shem's God, and asks for Japheth's territory to expand."
     ],
     "supporting_verses": [
-      "Genesis 9:1",
-      "Genesis 9:6",
-      "Genesis 9:11",
-      "Genesis 9:28",
-      "Genesis 9:15",
-      "Genesis 9:29"
+      "Genesis 9:1-7",
+      "Genesis 9:8-11",
+      "Genesis 9:12-17",
+      "Genesis 9:20-23",
+      "Genesis 9:24-27"
     ],
-    "evidence_phrases": [
-      "Be fruitful, and multiply, and replenish the earth",
-      "For in the image of God made he man",
-      "I will establish my covenant with you",
-      "Noah lived after the flood three hundred and fifty years",
-      "the waters shall no more become a flood to destroy all flesh"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 10,
-    "title": "Noah and the flood",
-    "summary_text": "These are the generations of the sons of Noah, [namely], of Shem, Ham, and Japheth: and unto them were sons born after the flood. The beginning of his kingdom was Babel, and Erech, and Accad, and Calneh, in the land of Shinar. The border of the Canaanite was from Sidon, as thou goest toward Gerar, unto Gaza; as thou goest toward Sodom and Gomorrah and Admah and Zeboiim, unto Lasha. These are the sons of Shem, after their families, after their tongues, in their lands, after their nations.",
+    "title": "Nations Spread from Noah's Family",
+    "summary_text": "After the flood, the families of Noah's sons spread across the earth. The record groups the lines of Japheth, Ham, and Shem by their clans, lands, nations, and languages. Ham's line includes Nimrod, a mighty hunter whose kingdom starts in Shinar and who builds cities in Assyria, and Canaan's growing family. Shem's line includes Eber and his sons Peleg and Joktan. The text says the earth was divided in Peleg's days, and ends by tracing the spread of nations to Noah's sons.",
     "themes": [
       "Judgment and rescue",
       "Nations and scattering",
@@ -412,33 +377,29 @@
       "sons"
     ],
     "key_points": [
-      "These are the generations of the sons of Noah, [namely], of Shem, Ham, and Japheth.",
-      "The beginning of his kingdom was Babel, and Erech, and Accad, and Calneh, in the land of Shinar.",
-      "The border of the Canaanite was from Sidon, as thou goest toward Gerar, unto Gaza.",
-      "These are the sons of Shem, after their families, after their tongues, in their lands, after their nations."
+      "Japheth's descendants spread into coastal territories, forming peoples with their own languages and family groups.",
+      "Nimrod becomes a mighty hunter, establishes a kingdom in Shinar, and builds cities in Assyria.",
+      "Ham's family includes Canaan's descendants, whose lands and borders are described.",
+      "Shem's family record follows Eber's line through Peleg and Joktan's descendants.",
+      "The nations spread across the earth from the families of Noah's sons after the flood."
     ],
     "supporting_verses": [
-      "Genesis 10:1",
-      "Genesis 10:10",
-      "Genesis 10:19",
-      "Genesis 10:31",
-      "Genesis 10:17",
-      "Genesis 10:32"
+      "Genesis 10:2-5",
+      "Genesis 10:8-12",
+      "Genesis 10:15-20",
+      "Genesis 10:21-30",
+      "Genesis 10:31-32"
     ],
-    "evidence_phrases": [
-      "unto them were sons born after the flood",
-      "The beginning of his kingdom was Babel, and Erech, and Accad, and Calneh, in the",
-      "as thou goest toward Sodom and Gomorrah and Admah and Zeboiim, unto Lasha",
-      "These are the sons of Shem, after their families, after their tongues, in their ",
-      "of these were the nations divided in the earth after the flood"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, pilot 2, 2026-11-05",
+    "spec_version": "summary-0.2"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 11,
-    "title": "Noah and the flood",
-    "summary_text": "The whole earth was of one language and of one speech. These are the generations of Shem. Shem was a hundred years old, and begat Arpachshad two years after the flood. And Shem lived after he begat Arpachshad five hundred years, and begat sons and daughters. Terah took Abram his son, and Lot the son of Haran, his son`s son, and Sarai his daughter-in-law, his son Abram`s wife; and they went forth with them from Ur of the Chaldees, to go into the land of Canaan; and they came unto Haran, and dwelt there.",
+    "title": "God Scatters Babel's Builders",
+    "summary_text": "People who share one language build a city and tower to make themselves famous and keep from being scattered. The LORD confuses their speech and scatters them, bringing the work at Babel to a stop. A family list traces Shem's line down to Terah, the father of Abram, Nahor, and Haran. After Haran dies, Terah leaves Ur with Abram, Sarai, and Lot, but they settle in Haran instead of reaching Canaan. Sarai has no children, and Terah dies in Haran.",
     "themes": [
       "Judgment and rescue",
       "Nations and scattering",
@@ -453,33 +414,27 @@
       "sons"
     ],
     "key_points": [
-      "The whole earth was of one language and of one speech.",
-      "These are the generations of Shem. Shem was a hundred years old, and begat Arpachshad two years after the flood.",
-      "And Shem lived after he begat Arpachshad five hundred years, and begat sons and daughters.",
-      "Terah took Abram his son, and Lot the son of Haran, his son`s son, and Sarai his daughter-in-law, his son Abram`s wife."
+      "The builders want a famous city and tower that will keep them together.",
+      "The LORD confuses their language and scatters them, so work on the city stops.",
+      "Shem's family line leads to Terah and his sons Abram, Nahor, and Haran.",
+      "Terah's household sets out for Canaan but settles in Haran, where Terah dies."
     ],
     "supporting_verses": [
-      "Genesis 11:1",
-      "Genesis 11:10",
-      "Genesis 11:11",
-      "Genesis 11:31",
-      "Genesis 11:17",
-      "Genesis 11:32"
+      "Genesis 11:1-4",
+      "Genesis 11:5-9",
+      "Genesis 11:10-26",
+      "Genesis 11:27-32"
     ],
-    "evidence_phrases": [
-      "The whole earth was of one language and of one speech",
-      "These are the generations of Shem",
-      "Shem lived after he begat Arpachshad five hundred years, and begat sons and daug",
-      "they came unto Haran, and dwelt there",
-      "Abram and Nahor took them wives"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 12,
-    "title": "Abram called from his country",
-    "summary_text": "The LORD said unto Abram, Get thee out of thy country, and from thy kindred, and from thy father`s house, unto the land that I will show thee:. Abram went, as the LORD had spoken unto him; and Lot went with him: and Abram was seventy and five years old when he departed out of Haran. There was a famine in the land: and Abram went down into Egypt to sojourn there; for the famine was sore in the land. The LORD plagued Pharaoh and his house with great plagues because of Sarai, Abram`s wife.",
+    "title": "Abram Follows God's Call to Canaan",
+    "summary_text": "The LORD tells Abram to leave home and promises him a great nation and a blessing that will reach all families on earth. Abram goes to Canaan, where God promises the land to his offspring, and he builds altars to the LORD. A severe famine then takes Abram to Egypt. Afraid he will be killed because of Sarai's beauty, Abram asks her to say she is his sister, and Pharaoh takes her as his wife. The LORD sends plagues on Pharaoh's household, and Pharaoh returns Sarai and sends Abram away.",
     "themes": [
       "The fall and judgment",
       "Covenant promise",
@@ -499,33 +454,27 @@
       "famine"
     ],
     "key_points": [
-      "The LORD said unto Abram.",
-      "Abram went, as the LORD had spoken unto him.",
-      "There was a famine in the land: and Abram went down into Egypt to sojourn there.",
-      "The LORD plagued Pharaoh and his house with great plagues because of Sarai, Abram`s wife."
+      "The LORD promises to bless Abram and those who bless him, and to curse those who curse him.",
+      "Abram reaches Canaan, receives God's promise of land for his offspring, and builds altars to the LORD.",
+      "During a famine, Abram enters Egypt and asks Sarai to hide their marriage because he fears being killed.",
+      "Pharaoh takes Sarai, but the LORD's plagues lead him to return her and send Abram away."
     ],
     "supporting_verses": [
-      "Genesis 12:1",
-      "Genesis 12:4",
-      "Genesis 12:10",
-      "Genesis 12:17",
-      "Genesis 12:11",
-      "Genesis 12:20"
+      "Genesis 12:1-3",
+      "Genesis 12:4-9",
+      "Genesis 12:10-13",
+      "Genesis 12:14-20"
     ],
-    "evidence_phrases": [
-      "Get thee out of thy country, and from thy kindred",
-      "Lot went with him",
-      "There was a famine in the land",
-      "The LORD plagued Pharaoh and his house with great plagues because of Sarai, Abra",
-      "What is this that thou hast done unto me? why"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 13,
-    "title": "Sodom judged and Lot rescued",
-    "summary_text": "Abram went up out of Egypt, he, and his wife, and all that he had, and Lot with him, into the South. Lot also, who went with Abram, had flocks, and herds, and tents. Abram dwelt in the land of Canaan, and Lot dwelt in the cities of the Plain, and moved his tent as far as Sodom. The LORD said unto Abram, after that Lot was separated from him, Lift up now thine eyes, and look from the place where thou art, northward and southward and eastward and westward:.",
+    "title": "Abram and Lot Choose Separate Lands",
+    "summary_text": "Back from Egypt, Abram calls on the LORD at his earlier altar near Bethel. His herdsmen and Lot's quarrel because their many animals cannot share the land, so Abram offers Lot first choice of where to settle. Lot takes the well-watered Jordan plain and moves toward Sodom, whose people are wicked and sin against the LORD. After they part, God promises Abram the land he can see and offspring too many to count. Abram settles at Hebron and builds an altar to the LORD.",
     "themes": [
       "Covenant promise",
       "The call of Abraham",
@@ -540,33 +489,27 @@
       "Egypt"
     ],
     "key_points": [
-      "Abram went up out of Egypt, he, and his wife, and all that he had, and Lot with him, into the South.",
-      "Lot also, who went with Abram, had flocks, and herds, and tents.",
-      "Abram dwelt in the land of Canaan.",
-      "The LORD said unto Abram."
+      "Abram returns to his earlier altar and calls on the LORD.",
+      "With too little land for both households, Abram offers Lot the first choice of where to go.",
+      "Lot chooses the Jordan plain and settles near Sodom, where the people sin greatly against the LORD.",
+      "God promises Abram lasting land and countless offspring, and Abram builds an altar at Hebron."
     ],
     "supporting_verses": [
-      "Genesis 13:1",
-      "Genesis 13:5",
-      "Genesis 13:12",
-      "Genesis 13:14",
-      "Genesis 13:10",
-      "Genesis 13:18"
+      "Genesis 13:1-4",
+      "Genesis 13:5-9",
+      "Genesis 13:10-13",
+      "Genesis 13:14-18"
     ],
-    "evidence_phrases": [
-      "Abram went up out of Egypt, he, and his wife, and all that he had, and Lot with ",
-      "Lot also, who went with Abram, had flocks, and herds, and tents",
-      "Abram dwelt in the land of Canaan, and Lot dwelt in the cities of the Plain, and",
-      "after that Lot was separated from him, Lift up now",
-      "Let there be no strife, I pray thee, between me"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 14,
-    "title": "Sodom judged and Lot rescued",
-    "summary_text": "It came to pass in the days of Amraphel king of Shinar, Arioch king of Ellasar, Chedorlaomer king of Elam, and Tidal king of Goiim,. That they made war with Bera king of Sodom, and with Birsha king of Gomorrah, Shinab king of Admah, and Shemeber king of Zeboiim, and the king of Bela (the same is Zoar). They took Lot, Abram`s brother`s son, who dwelt in Sodom, and his goods, and departed. The king of Sodom said unto Abram, Give me the persons, and take the goods to thyself.",
+    "title": "Abram Rescues Lot and Meets Melchizedek",
+    "summary_text": "Four kings defeat Sodom and its allies, carrying away goods and people, including Lot. Abram leads his trained men after them, attacks at night, and brings back Lot, the other captives, and their possessions. Melchizedek, Salem's king and a priest of God Most High, blesses Abram and praises God for the victory, and Abram gives him a tenth of everything. Abram refuses the king of Sodom's goods so that the king cannot claim to have made him rich. He allows food for his men and shares for his allies.",
     "themes": [
       "The call of Abraham",
       "Sodom and Lot",
@@ -581,33 +524,27 @@
       "Abram"
     ],
     "key_points": [
-      "It came to pass in the days of Amraphel king of Shinar.",
-      "That they made war with Bera king of Sodom.",
-      "They took Lot, Abram`s brother`s son, who dwelt in Sodom, and his goods, and departed.",
-      "The king of Sodom said unto Abram, Give me the persons, and take the goods to thyself."
+      "Chedorlaomer and his allies defeat the opposing kings and capture Lot in Sodom.",
+      "Abram pursues with 318 trained men and recovers the captives and goods.",
+      "Melchizedek, a priest and king, blesses Abram, praises God, and receives a tenth from Abram.",
+      "Abram refuses Sodom's wealth while allowing the food already eaten and his allies' shares."
     ],
     "supporting_verses": [
-      "Genesis 14:1",
-      "Genesis 14:2",
-      "Genesis 14:12",
-      "Genesis 14:21",
-      "Genesis 14:13",
-      "Genesis 14:24"
+      "Genesis 14:1-12",
+      "Genesis 14:13-16",
+      "Genesis 14:17-20",
+      "Genesis 14:21-24"
     ],
-    "evidence_phrases": [
-      "It came to pass in the days of Amraphel king of Shinar, Arioch king of Ellasar, ",
-      "That they made war with Bera king of Sodom, and with Birsha king of Gomorrah, Sh",
-      "They took Lot, Abram`s brother`s son, who dwelt in Sodom, and his goods, and dep",
-      "Give me the persons, and take the goods to thyself",
-      "they set the battle in array against them in the vale of Siddim"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 15,
-    "title": "After things word LORD came Abram",
-    "summary_text": "After these things the word of the LORD came unto Abram in a vision, saying, Fear not, Abram: I am thy shield, [and] thy exceeding great reward. Abram said, Behold, to me thou hast given no seed: and, lo, one born in my house is mine heir. When the sun was going down, a deep sleep fell upon Abram; and, lo, a horror of great darkness fell upon him. In that day the LORD made a covenant with Abram, saying, Unto thy seed have I given this land, from the river of Egypt unto the great river, the river Euphrates:.",
+    "title": "God Makes a Covenant With Abram",
+    "summary_text": "God promises childless Abram an heir of his own and offspring as many as the stars. Abram trusts Him, and God credits his belief as righteousness. When Abram asks how he can be sure of the land, God tells him to prepare some animals. God then tells him his offspring will be slaves, leave with wealth, and return to this land. A smoking firepot and burning torch pass between the cut pieces as God makes His covenant, a binding promise of land.",
     "themes": [
       "Creation and order",
       "Covenant promise",
@@ -623,33 +560,27 @@
       "covenant"
     ],
     "key_points": [
-      "After these things the word of the LORD came unto Abram in a vision, saying, Fear not, Abram.",
-      "Abram said, Behold, to me thou hast given no seed: and, lo, one born in my house is mine heir.",
-      "When the sun was going down, a deep sleep fell upon Abram; and, lo, a horror of great darkness fell upon him.",
-      "In that day the LORD made a covenant with Abram."
+      "God promises Abram his own heir and countless offspring, and credits his belief as righteousness.",
+      "Abram prepares the animals God requests after asking how he can be sure of possessing the land.",
+      "God foretells slavery and release, followed by a return when the Amorites' iniquity has reached its full measure.",
+      "A firepot and torch pass between the pieces as God makes His covenant and names the promised land."
     ],
     "supporting_verses": [
-      "Genesis 15:1",
-      "Genesis 15:3",
-      "Genesis 15:12",
-      "Genesis 15:18",
-      "Genesis 15:11",
-      "Genesis 15:21"
+      "Genesis 15:1-6",
+      "Genesis 15:7-12",
+      "Genesis 15:13-16",
+      "Genesis 15:17-21"
     ],
-    "evidence_phrases": [
-      "I am thy shield, [and] thy exceeding great reward",
-      "Behold, to me thou hast given no seed: and, lo",
-      "and, lo, a horror of great darkness fell upon him",
-      "In that day the LORD made a covenant with Abram, saying, Unto thy seed have I gi",
-      "Know of a surety that thy seed shall be sojourners"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 16,
-    "title": "Sarai Abram s wife took Hagar",
-    "summary_text": "Sarai, Abram`s wife, bare him no children: and she had a handmaid, an Egyptian, whose name was Hagar. Sarai, Abram`s wife, took Hagar the Egyptian, her handmaid, after Abram had dwelt ten years in the land of Canaan, and gave her to Abram her husband to be his wife. Abram said unto Sarai, Behold, thy maid is in thy hand; do to her that which is good in thine eyes. And Sarai dealt hardly with her, and she fled from her face. Hagar bare Abram a son: and Abram called the name of his son, whom Hagar bare, Ishmael.",
+    "title": "Hagar Flees and Hears God's Promise",
+    "summary_text": "Unable to have children, Sarai gives her servant Hagar to Abram as a wife, and Hagar becomes pregnant. Hagar then looks down on Sarai, who treats her so harshly that she runs away. The angel of the LORD finds Hagar, tells her to return and submit to Sarai, and promises her many descendants. He says her son will be named Ishmael because the LORD has heard her suffering, and describes a life of conflict for him. Hagar names the LORD as the God who sees her, and later bears Ishmael to Abram.",
     "themes": [
       "Image of God and fruitfulness",
       "Covenant promise",
@@ -665,33 +596,27 @@
       "Abram"
     ],
     "key_points": [
-      "Sarai, Abram`s wife, bare him no children: and she had a handmaid, an Egyptian, whose name was Hagar.",
-      "Sarai, Abram`s wife, took Hagar the Egyptian, her handmaid, after Abram had dwelt ten years in the land of Canaan, and gave.",
-      "Abram said unto Sarai, Behold, thy maid is in thy hand.",
-      "Hagar bare Abram a son: and Abram called the name of his son, whom Hagar bare, Ishmael."
+      "Sarai gives Hagar to Abram to have a family through her, and Hagar becomes pregnant.",
+      "Conflict between Sarai and Hagar ends with Hagar fleeing harsh treatment.",
+      "The angel of the LORD tells Hagar to return and promises many descendants through her son Ishmael.",
+      "Hagar recognizes God as the One who sees her, and she gives birth to Ishmael."
     ],
     "supporting_verses": [
-      "Genesis 16:1",
-      "Genesis 16:3",
-      "Genesis 16:6",
-      "Genesis 16:15",
-      "Genesis 16:9",
-      "Genesis 16:16"
+      "Genesis 16:1-4",
+      "Genesis 16:4-6",
+      "Genesis 16:7-12",
+      "Genesis 16:13-16"
     ],
-    "evidence_phrases": [
-      "Sarai, Abram`s wife, bare him no children",
-      "her to Abram her husband to be his wife",
-      "Behold, thy maid is in thy hand",
-      "the name of his son, whom Hagar bare, Ishmael",
-      "Abram was fourscore and six years old, when Hagar bare Ishmael to Abram"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 17,
-    "title": "I am God Almighty",
-    "summary_text": "When Abram was ninety years old and nine, the LORD appeared to Abram, and said unto him, I am God Almighty; walk before me, and be thou perfect. Neither shall thy name any more be called Abram, but thy name shall be Abraham; for the father of a multitude of nations have I made thee. God said, Nay, but Sarah thy wife shall bear thee a son; and thou shalt call his name Isaac: and I will establish my covenant with him for an everlasting covenant for his seed after him. My covenant will I establish with Isaac, whom Sarah shall bear unto thee at this set time in the next year.",
+    "title": "God Gives Circumcision as His Covenant Sign",
+    "summary_text": "God names Abram Abraham and promises him nations, kings, and land through a covenant that will last forever. He commands circumcision, cutting off the foreskin, for every male in the household and in the years to come. God names Sarai Sarah and says she will bear Isaac, with whom He will keep His covenant. Abraham laughs at their ages, and God promises to bless Ishmael too. That day Abraham and every male in his household are circumcised.",
     "themes": [
       "Image of God and fruitfulness",
       "Covenant promise",
@@ -709,33 +634,29 @@
       "covenant"
     ],
     "key_points": [
-      "When Abram was ninety years old and nine, the LORD appeared to Abram, and said unto him, I am God Almighty.",
-      "Neither shall thy name any more be called Abram, but thy name shall be Abraham.",
-      "God said, Nay, but Sarah thy wife shall bear thee a son.",
-      "My covenant will I establish with Isaac, whom Sarah shall bear unto thee at this set time in the next year."
+      "God names Abram Abraham and promises nations, kings, and Canaan through an everlasting covenant with his descendants.",
+      "Every household male must be circumcised, with newborn boys circumcised at eight days; refusal breaks the covenant.",
+      "God names Sarai Sarah and promises her a son, Isaac, despite Abraham's laughter about their ages.",
+      "God promises to bless Ishmael but says His covenant will be established with Isaac.",
+      "Abraham obeys immediately by circumcising himself, Ishmael, and every male in his household."
     ],
     "supporting_verses": [
-      "Genesis 17:1",
-      "Genesis 17:5",
-      "Genesis 17:19",
-      "Genesis 17:21",
-      "Genesis 17:14",
-      "Genesis 17:27"
+      "Genesis 17:1-8",
+      "Genesis 17:9-14",
+      "Genesis 17:15-19",
+      "Genesis 17:20-22",
+      "Genesis 17:23-27"
     ],
-    "evidence_phrases": [
-      "I am God Almighty",
-      "Abram, but thy name shall be Abraham",
-      "Nay, but Sarah thy wife shall bear thee a son",
-      "My covenant will I establish with Isaac, whom Sarah shall bear unto thee at this",
-      "as for thee, thou shalt keep my covenant, thou, and"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 18,
-    "title": "Sodom judged and Lot rescued",
-    "summary_text": "The LORD appeared unto him by the oaks of Mamre, as he sat in the tent door in the heat of the day;. Abraham ran unto the herd, and fetched a calf tender and good, and gave it unto the servant; and he hasted to dress it. The men rose up from thence, and looked toward Sodom: and Abraham went with them to bring them on the way. The LORD said, If I find in Sodom fifty righteous within the city, then I will spare all the place for their sake.",
+    "title": "Sarah Laughs and Abraham Pleads for Sodom",
+    "summary_text": "The LORD appears to Abraham, who welcomes three visitors with a meal. Sarah laughs when she hears that she will have a son in a year, but the LORD challenges her doubt and repeats His promise. The LORD then speaks of the great sin of Sodom and Gomorrah and says He will examine the outcry against them. Abraham asks whether the Judge of all the earth would destroy righteous people along with the wicked. He lowers his request from fifty righteous people to ten, and the LORD agrees to spare Sodom if ten are found there.",
     "themes": [
       "Sabbath rest",
       "Nations and scattering",
@@ -750,33 +671,29 @@
       "household"
     ],
     "key_points": [
-      "The LORD appeared unto him by the oaks of Mamre, as he sat in the tent door in the heat of the day.",
-      "Abraham ran unto the herd, and fetched a calf tender and good, and gave it unto the servant.",
-      "The men rose up from thence, and looked toward Sodom: and Abraham went with them to bring them on the way.",
-      "The LORD said, If I find in Sodom fifty righteous within the city, then I will spare all the place for their."
+      "Abraham welcomes three visitors and has food prepared for them.",
+      "The LORD promises Sarah a son within a year and confronts her laughter and denial.",
+      "God has chosen Abraham to guide his household in justice, and nations will be blessed through him.",
+      "The LORD says He will examine the outcry against Sodom and Gomorrah's sin.",
+      "Abraham pleads for the righteous, and God agrees to spare Sodom for as few as ten."
     ],
     "supporting_verses": [
-      "Genesis 18:1",
-      "Genesis 18:7",
-      "Genesis 18:16",
-      "Genesis 18:26",
-      "Genesis 18:17",
-      "Genesis 18:33"
+      "Genesis 18:1-8",
+      "Genesis 18:9-15",
+      "Genesis 18:16-19",
+      "Genesis 18:20-22",
+      "Genesis 18:23-33"
     ],
-    "evidence_phrases": [
-      "The LORD appeared unto him by the oaks of Mamre, as he sat in the tent door in t",
-      "it unto the servant",
-      "The men rose up from thence, and looked toward Sodom",
-      "If I find in Sodom fifty righteous within the city",
-      "but Abraham stood yet before the LORD"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 19,
-    "title": "Sodom judged and Lot rescued",
-    "summary_text": "The two angels came to Sodom at even; and Lot sat in the gate of Sodom: and Lot saw them, and rose up to meet them; and he bowed himself with his face to the earth;. Before they lay down, the men of the city, [even] the men of Sodom, compassed the house round, both young and old, all the people from every quarter;. The LORD rained upon Sodom and upon Gomorrah brimstone and fire from the LORD out of heaven;. It came to pass, when God destroyed the cities of the Plain, that God remembered Abraham, and sent Lot out of the midst of the overthrow, when he overthrew the cities in which Lot dwelt.",
+    "title": "Lot Escapes as God Destroys Sodom",
+    "summary_text": "Lot takes in two angels, and Sodom's men demand to have sex with them. The angels stop the attack and lead Lot's family out because the LORD has compassion on them. Lot reaches Zoar before God burns Sodom and Gomorrah with sulfur and fire, but his wife looks back and turns to salt. God saves Lot, remembering Abraham. Later, Lot's daughters get him drunk and sleep with him to keep his family line alive, bearing Moab and Ben-ammi.",
     "themes": [
       "Covenant promise",
       "The call of Abraham",
@@ -794,33 +711,29 @@
       "sons"
     ],
     "key_points": [
-      "The two angels came to Sodom at even.",
-      "Before they lay down.",
-      "The LORD rained upon Sodom and upon Gomorrah brimstone and fire from the LORD out of heaven;.",
-      "It came to pass."
+      "Lot calls the mob's demand wicked but offers his daughters; the angels protect him and blind the attackers.",
+      "The angels warn Lot's family and lead them out when he hesitates, showing the LORD's compassion.",
+      "Lot receives permission to flee to Zoar before the destruction begins.",
+      "The LORD destroys the cities, Lot's wife becomes salt, and God remembers Abraham by rescuing Lot.",
+      "Lot's daughters become pregnant by their drunken, unaware father and bear the ancestors of Moab and Ammon."
     ],
     "supporting_verses": [
-      "Genesis 19:1",
-      "Genesis 19:4",
-      "Genesis 19:24",
-      "Genesis 19:29",
-      "Genesis 19:20",
-      "Genesis 19:38"
+      "Genesis 19:1-11",
+      "Genesis 19:12-16",
+      "Genesis 19:17-23",
+      "Genesis 19:24-29",
+      "Genesis 19:30-38"
     ],
-    "evidence_phrases": [
-      "The two angels came to Sodom at even",
-      "Before they lay down, the men of the city, [even] the men of Sodom, compassed th",
-      "The LORD rained upon Sodom and upon Gomorrah brimstone and fire from the LORD ou",
-      "It came to pass, when God destroyed the cities of the Plain, that God remembered",
-      "he looked toward Sodom and Gomorrah, and toward all the land of the Plain, and b"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 20,
-    "title": "He is my brother",
-    "summary_text": "Abraham journeyed from thence toward the land of the South, and dwelt between Kadesh and Shur. And he sojourned in Gerar. Abraham said of Sarah his wife, She is my sister. And Abimelech king of Gerar sent, and took Sarah. Abimelech called Abraham, and said unto him, What hast thou done unto us? And wherein have I sinned against thee, that thou hast brought on me and on my kingdom a great sin? Thou hast done deeds unto me that ought not to be done. Abimelech took sheep and oxen, and men-servants and women-servants, and gave them unto Abraham, and restored him Sarah his wife.",
+    "title": "God Warns Abimelech to Return Sarah",
+    "summary_text": "While staying in Gerar, Abraham calls Sarah his sister, and King Abimelech takes her. God warns Abimelech in a dream that she is married and says He has kept him from sinning by preventing him from touching her. He tells Abimelech to return Sarah and have Abraham, a prophet, pray for him. Abraham explains that fear led him to hide their marriage and that Sarah is also his half sister. Abimelech returns her with gifts, and after Abraham prays, God heals the household so its women can bear children again.",
     "themes": [
       "The call of Abraham",
       "Providence in Egypt",
@@ -836,33 +749,27 @@
       "Sarah"
     ],
     "key_points": [
-      "Abraham journeyed from thence toward the land of the South, and dwelt between Kadesh and Shur. And he sojourned in Gerar.",
-      "Abraham said of Sarah his wife, She is my sister. And Abimelech king of Gerar sent, and took Sarah.",
-      "Abimelech called Abraham, and said unto him, What hast thou done unto us? And wherein have I sinned against thee, that thou.",
-      "Abimelech took sheep and oxen, and men-servants and women-servants, and gave them unto Abraham, and restored him Sarah his wife."
+      "Abimelech takes Sarah after Abraham says she is his sister, but God warns him that she is married.",
+      "God says He prevented Abimelech's sin and commands him to return Sarah and seek Abraham's prayer.",
+      "Abraham says he feared being killed and explains that Sarah is both his wife and half sister.",
+      "Abimelech returns Sarah with gifts, and God heals his household after Abraham prays."
     ],
     "supporting_verses": [
-      "Genesis 20:1",
-      "Genesis 20:2",
-      "Genesis 20:9",
-      "Genesis 20:14",
-      "Genesis 20:10",
-      "Genesis 20:18"
+      "Genesis 20:1-3",
+      "Genesis 20:4-7",
+      "Genesis 20:8-13",
+      "Genesis 20:14-18"
     ],
-    "evidence_phrases": [
-      "he sojourned in Gerar",
-      "Abimelech king of Gerar sent, and took Sarah",
-      "What hast thou done unto us? And wherein have I",
-      "them unto Abraham, and restored him Sarah his wife",
-      "Yea, I know that in the integrity of thy heart"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 21,
-    "title": "and the LORD did unto Sarah",
-    "summary_text": "The LORD visited Sarah as he had said, and the LORD did unto Sarah as he had spoken. The child grew, and was weaned. And Abraham made a great feast on the day that Isaac was weaned. God said unto Abraham, Let it not be grievous in thy sight because of the lad, and because of thy handmaid. In all that Sarah says unto thee, hearken unto her voice. For in Isaac shall thy seed be called. Abraham took sheep and oxen, and gave them unto Abimelech. And they two made a covenant.",
+    "title": "Isaac Is Born and Hagar Finds Water",
+    "summary_text": "Sarah bears Isaac as God promised, and Abraham has him circumcised at eight days old. After Ishmael mocks Isaac, Sarah demands that he and Hagar leave so he will not share Isaac's inheritance. God tells Abraham to listen to Sarah but promises Ishmael a nation too. In the wilderness, their water runs out, but God's angel speaks to Hagar and God shows her a well. Abraham later makes a covenant with Abimelech and confirms his claim to a well at Beersheba.",
     "themes": [
       "Covenant promise",
       "The call of Abraham",
@@ -881,33 +788,29 @@
       "covenant"
     ],
     "key_points": [
-      "The LORD visited Sarah as he had said, and the LORD did unto Sarah as he had spoken.",
-      "The child grew, and was weaned. And Abraham made a great feast on the day that Isaac was weaned.",
-      "God said unto Abraham.",
-      "Abraham took sheep and oxen, and gave them unto Abimelech. And they two made a covenant."
+      "Sarah gives birth as God promised, and Abraham names and circumcises Isaac.",
+      "Sarah demands Hagar and Ishmael's removal; God affirms Isaac's place and promises Ishmael a nation.",
+      "God hears the boy, His angel reassures Hagar, and she sees a well when their water is gone.",
+      "God stays with Ishmael as he grows into an archer, and Hagar finds him an Egyptian wife.",
+      "Abraham makes a covenant with Abimelech, establishes his claim to a well, and calls on the LORD at Beersheba."
     ],
     "supporting_verses": [
-      "Genesis 21:1",
-      "Genesis 21:8",
-      "Genesis 21:12",
-      "Genesis 21:27",
-      "Genesis 21:18",
-      "Genesis 21:34"
+      "Genesis 21:1-7",
+      "Genesis 21:8-13",
+      "Genesis 21:14-19",
+      "Genesis 21:20-21",
+      "Genesis 21:22-34"
     ],
-    "evidence_phrases": [
-      "the LORD did unto Sarah as he had spoken",
-      "The child grew, and was weaned",
-      "Let it not be grievous in thy sight because of",
-      "them unto Abimelech",
-      "Cast out this handmaid and her son"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 22,
-    "title": "Rebekah chosen for Isaac",
-    "summary_text": "It came to pass after these things, that God did prove Abraham, and said unto him, Abraham. And he said, Here am I. Abraham rose early in the morning, and saddled his ass, and took two of his young men with him, and Isaac his son. And he clave the wood for the burnt-offering, and rose up, and went unto the place of which God had told him. Abraham lifted up his eyes, and looked, and behold, behind [him] a ram caught in the thicket by his horns. And Abraham went and took the ram, and offered him up for a burnt-offering in the stead of his son. That in blessing I will bless thee, and in multiplying I will multiply thy seed as the stars of the heavens, and as the sand which is upon the seashore. And thy seed shall possess the gate of his enemies.",
+    "title": "God Tests Abraham and Spares Isaac",
+    "summary_text": "God tests Abraham by telling him to give his son Isaac as a burnt offering. On the mountain, Abraham says God will provide and binds Isaac on an altar. As he takes the knife, the LORD's angel stops him, and he offers a ram in Isaac's place. Because Abraham obeyed, God swears to bless him with many offspring, victory, and blessing for all nations through them. News then comes of Nahor's family, including Bethuel, the father of Rebekah.",
     "themes": [
       "Image of God and fruitfulness",
       "Covenant promise",
@@ -927,32 +830,29 @@
       "Rebekah"
     ],
     "key_points": [
-      "It came to pass after these things.",
-      "Abraham rose early in the morning.",
-      "Abraham lifted up his eyes.",
-      "That in blessing I will bless thee."
+      "God commands Abraham to offer Isaac, and Abraham sets out for the place He shows him.",
+      "Abraham says God will provide the lamb, then binds Isaac and places him on the altar.",
+      "The LORD's angel stops Abraham, who offers a trapped ram in Isaac's place and names the site for God's provision.",
+      "The LORD swears to multiply Abraham's offspring and bless all nations through them because Abraham obeyed.",
+      "News of Nahor's family names his sons and identifies Bethuel as Rebekah's father."
     ],
     "supporting_verses": [
-      "Genesis 22:1",
-      "Genesis 22:3",
-      "Genesis 22:13",
-      "Genesis 22:17",
-      "Genesis 22:24"
+      "Genesis 22:1-5",
+      "Genesis 22:6-10",
+      "Genesis 22:11-14",
+      "Genesis 22:15-19",
+      "Genesis 22:20-24"
     ],
-    "evidence_phrases": [
-      "Here am I",
-      "he clave the wood for the burnt-offering, and rose up, and went unto the place o",
-      "Abraham lifted up his eyes, and looked, and behold, behind [him] a ram caught in",
-      "thy seed shall possess the gate of his enemies",
-      "he said, Here am I, my son"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 23,
-    "title": "life Sarah hundred seven twenty years",
-    "summary_text": "The life of Sarah was a hundred and seven and twenty years. These were the years of the life of Sarah. Sarah died in Kiriath-arba (the same is Hebron), in the land of Canaan. And Abraham came to mourn for Sarah, and to weep for her. Abraham rose up, and bowed himself to the people of the land, even to the children of Heth. Abraham hearkened unto Ephron. And Abraham weighed to Ephron the silver which he had named in the audience of the children of Heth, four hundred shekels of silver, current [money] with the merchant.",
+    "title": "Abraham Buys a Burial Place for Sarah",
+    "summary_text": "Sarah dies at 127 in Hebron, and Abraham mourns her. As a foreigner among the Hittites, he asks to buy a burial place and requests Ephron's cave at Machpelah. Although Ephron offers the field and cave, Abraham insists on paying and gives him four hundred shekels of silver before witnesses. The field, cave, and trees become Abraham's property, and he buries Sarah there.",
     "themes": [
       "The call of Abraham",
       "God at work",
@@ -965,33 +865,27 @@
       "Sarah"
     ],
     "key_points": [
-      "The life of Sarah was a hundred and seven and twenty years. These were the years of the life of Sarah.",
-      "Sarah died in Kiriath-arba (the same is Hebron).",
-      "Abraham rose up, and bowed himself to the people of the land, even to the children of Heth.",
-      "Abraham hearkened unto Ephron. And Abraham weighed to Ephron the silver which he had named in the audience of the children of Heth."
+      "Abraham mourns Sarah after she dies at 127 in Hebron.",
+      "The Hittites offer access to their tombs, but Abraham asks to buy Ephron's cave at full price.",
+      "Abraham pays Ephron four hundred shekels of silver in front of the Hittites.",
+      "The field and cave become Abraham's burial property, and he buries Sarah at Machpelah."
     ],
     "supporting_verses": [
-      "Genesis 23:1",
-      "Genesis 23:2",
-      "Genesis 23:7",
-      "Genesis 23:16",
-      "Genesis 23:11",
-      "Genesis 23:20"
+      "Genesis 23:1-2",
+      "Genesis 23:3-9",
+      "Genesis 23:10-16",
+      "Genesis 23:17-20"
     ],
-    "evidence_phrases": [
-      "These were the years of the life of Sarah",
-      "Abraham came to mourn for Sarah, and to weep for her",
-      "Abraham rose up, and bowed himself to the people of the land, even to the childr",
-      "Abraham hearkened unto Ephron",
-      "After this, Abraham buried Sarah his wife in the cave of the field of Machpelah "
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 24,
-    "title": "Rebekah chosen for Isaac",
-    "summary_text": "Abraham was old, [and] well stricken in age. And the LORD had blessed Abraham in all things. He said, O the LORD, the God of my master Abraham, send me, I pray thee, good speed this day, and show kindness unto my master Abraham. He said, Blessed be the LORD, the God of my master Abraham, who has not forsaken his lovingkindness and his truth toward my master. As for me, the LORD has led me in the way to the house of my master`s brethren. They sent away Rebekah their sister, and her nurse, and Abraham`s servant, and his men.",
+    "title": "Abraham's Servant Finds a Wife for Isaac",
+    "summary_text": "Abraham sends his servant to find Isaac a wife from his family, but Isaac must stay in Canaan. The servant prays for a woman who will give him a drink and also water his camels. Rebekah does this, and he praises God's kindness and faithfulness when he learns whose family she is from. Her family hears his story, agrees to the match, and blesses her as she chooses to go. Isaac takes her as his wife, loves her, and finds comfort after his mother's death.",
     "themes": [
       "Covenant promise",
       "The call of Abraham",
@@ -1010,33 +904,29 @@
       "Isaac"
     ],
     "key_points": [
-      "Abraham was old, [and] well stricken in age. And the LORD had blessed Abraham in all things.",
-      "He said, O the LORD, the God of my master Abraham, send me, I pray thee, good speed this day, and show.",
-      "He said, Blessed be the LORD, the God of my master Abraham, who has not forsaken his lovingkindness and his truth toward.",
-      "They sent away Rebekah their sister, and her nurse, and Abraham`s servant, and his men."
+      "Abraham trusts God to send His angel and makes his servant swear to seek a wife among his relatives.",
+      "Rebekah offers water to the servant and his camels, matching his prayer for guidance.",
+      "The servant recounts his task, his prayer, and how the LORD led him to Abraham's relatives.",
+      "Rebekah's family agrees to the marriage, and she chooses to leave without the delay they request.",
+      "Isaac takes Rebekah as his wife and loves her, finding comfort after Sarah's death."
     ],
     "supporting_verses": [
-      "Genesis 24:1",
-      "Genesis 24:12",
-      "Genesis 24:27",
-      "Genesis 24:59",
-      "Genesis 24:34",
-      "Genesis 24:67"
+      "Genesis 24:1-9",
+      "Genesis 24:10-27",
+      "Genesis 24:28-49",
+      "Genesis 24:50-61",
+      "Genesis 24:62-67"
     ],
-    "evidence_phrases": [
-      "Abraham was old, [and] well stricken in age",
-      "O the LORD, the God of my master Abraham, send",
-      "Blessed be the LORD, the God of my master Abraham",
-      "They sent away Rebekah their sister, and her nurse, and Abraham`s servant, and h",
-      "he loved her"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 25,
-    "title": "Rebekah chosen for Isaac",
-    "summary_text": "Abraham took another wife, and her name was Keturah. It came to pass after the death of Abraham, that God blessed Isaac his son. And Isaac dwelt by Beer-lahai-roi. These are the generations of Isaac, Abraham`s son. Abraham begat Isaac. Isaac loved Esau, because he did eat of his venison. And Rebekah loved Jacob.",
+    "title": "Abraham Dies and Esau Sells His Birthright",
+    "summary_text": "Abraham has more sons through Keturah, leaves his wealth to Isaac, and dies at 175. Isaac and Ishmael bury him, God blesses Isaac, and a list names Ishmael's twelve sons. God hears Isaac's prayer, and Rebekah bears twins after God says two nations are within her and the older will serve the younger. Isaac favors Esau, while Rebekah favors Jacob. Esau later sells Jacob his birthright, his rights as the firstborn son, for bread and stew, showing how little he values it.",
     "themes": [
       "Nations and scattering",
       "The call of Abraham",
@@ -1055,33 +945,29 @@
       "Esau"
     ],
     "key_points": [
-      "Abraham took another wife, and her name was Keturah.",
-      "It came to pass after the death of Abraham, that God blessed Isaac his son. And Isaac dwelt by Beer-lahai-roi.",
-      "These are the generations of Isaac, Abraham`s son. Abraham begat Isaac.",
-      "Isaac loved Esau, because he did eat of his venison. And Rebekah loved Jacob."
+      "Abraham gives Isaac his estate, gives gifts to other sons, and is buried by Isaac and Ishmael after his death.",
+      "Ishmael's twelve sons become tribal princes, and his descendants live in hostility toward their brothers.",
+      "God answers Isaac's prayer and tells Rebekah that her twins represent two nations, with the older serving the younger.",
+      "Esau is born before Jacob, and the parents favor different sons as they grow.",
+      "Esau swears away his birthright to Jacob in exchange for food."
     ],
     "supporting_verses": [
-      "Genesis 25:1",
-      "Genesis 25:11",
-      "Genesis 25:19",
-      "Genesis 25:28",
-      "Genesis 25:18",
-      "Genesis 25:34"
+      "Genesis 25:1-11",
+      "Genesis 25:12-18",
+      "Genesis 25:19-23",
+      "Genesis 25:24-28",
+      "Genesis 25:29-34"
     ],
-    "evidence_phrases": [
-      "Abraham took another wife, and her name was Keturah",
-      "Isaac dwelt by Beer-lahai-roi",
-      "These are the generations of Isaac, Abraham`s son",
-      "Rebekah loved Jacob",
-      "Unto the sons of the concubines, that Abraham had, Abraham gave gifts"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 26,
-    "title": "Rebekah chosen for Isaac",
-    "summary_text": "There was a famine in the land, besides the first famine that was in the days of Abraham. And Isaac went unto Abimelech king of the Philistines, unto Gerar. It came to pass, when he had been there a long time, that Abimelech king of the Philistines looked out at a window, and saw, and, behold, Isaac was sporting with Rebekah his wife. Isaac digged again the wells of water, which they had digged in the days of Abraham his father. For the Philistines had stopped them after the death of Abraham. And he called their names after the names by which his father had called them. The LORD appeared unto him the same night, and said, I am the God of Abraham thy father. Fear not, for I am with thee, and will bless thee, and multiply thy seed for my servant Abraham`s sake.",
+    "title": "God Blesses Isaac Amid Conflict Over Wells",
+    "summary_text": "During a famine, God tells Isaac to stay in the land and promises to bless him with land and many offspring. Isaac says his wife is his sister out of fear, but Abimelech learns the truth and protects them. Isaac grows rich, faces envy, and moves from place to place as men quarrel over his wells. At Beersheba, God speaks to him, and he builds an altar. Abimelech sees that God is with Isaac and makes a covenant of peace with him, and Isaac's men find water.",
     "themes": [
       "Image of God and fruitfulness",
       "Covenant promise",
@@ -1100,32 +986,29 @@
       "Rebekah"
     ],
     "key_points": [
-      "There was a famine in the land.",
-      "It came to pass.",
-      "Isaac digged again the wells of water.",
-      "The LORD appeared unto him the same night."
+      "God promises Isaac land and descendants because Abraham obeyed His commandments and laws.",
+      "Abimelech discovers that Rebekah is Isaac's wife and warns the people not to harm either of them.",
+      "Isaac grows wealthy, leaves amid envy, and keeps moving as people quarrel over his wells.",
+      "God reassures Isaac at Beersheba, where he builds an altar and later makes a covenant with Abimelech.",
+      "Esau's marriages to two Hittite women bring grief to Isaac and Rebekah."
     ],
     "supporting_verses": [
-      "Genesis 26:1",
-      "Genesis 26:8",
-      "Genesis 26:18",
-      "Genesis 26:24",
-      "Genesis 26:35"
+      "Genesis 26:1-6",
+      "Genesis 26:7-11",
+      "Genesis 26:12-22",
+      "Genesis 26:23-33",
+      "Genesis 26:34-35"
     ],
-    "evidence_phrases": [
-      "Isaac went unto Abimelech king of the Philistines, unto Gerar",
-      "It came to pass, when he had been there a long time, that Abimelech king of the ",
-      "their names after the names by which his father had",
-      "I am the God of Abraham thy father",
-      "Sojourn in this land, and I will be with thee, and will bless thee"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 27,
-    "title": "Rebekah chosen for Isaac",
-    "summary_text": "It came to pass, that when Isaac was old, and his eyes were dim, so that he could not see, he called Esau his elder son, and said unto him, My son. And he said unto him, Here am I. My father peradventure will feel me, and I shall seem to him as a deceiver. And I shall bring a curse upon me, and not a blessing. It came to pass, as soon as Isaac had made an end of blessing Jacob, and Jacob was yet scarce gone out from the presence of Isaac his father, that Esau his brother came in from his hunting. He said, Is not he rightly name Jacob? for he has supplanted me these two time. He took away my birthright. And, behold, now he has taken away my blessing. And he said, Hast thou not reserved a blessing for me?",
+    "title": "Jacob Deceives Isaac and Receives Esau's Blessing",
+    "summary_text": "Isaac, old and blind, asks Esau to bring him cooked game so he can bless him. Rebekah dresses Jacob as Esau, the firstborn, and sends him in with food. Jacob lies to Isaac and receives a blessing of rich crops and rule over his brothers. Esau returns in grief and hears that he will serve his brother but later break free. When Esau plans to kill Jacob, Rebekah tells Jacob to flee and tells Isaac she dreads Jacob taking a Hittite wife.",
     "themes": [
       "The fall and judgment",
       "Nations and scattering",
@@ -1145,33 +1028,29 @@
       "Esau"
     ],
     "key_points": [
-      "It came to pass.",
-      "My father peradventure will feel me.",
-      "It came to pass.",
-      "He said, Is not he rightly name Jacob? for he has supplanted me these two time. He took away my birthright. And."
+      "Isaac plans to bless Esau, but Rebekah prepares food and a disguise so Jacob can receive the blessing.",
+      "Jacob claims to be Esau, and Isaac blesses him after touching his disguised hands and smelling his clothes.",
+      "Isaac gives Jacob harvest abundance and mastery over his brothers, with blessing for supporters and a curse for enemies.",
+      "Esau mourns his lost blessing and hears that he will live by the sword and eventually break his brother's rule.",
+      "Rebekah hears Esau's plan to kill Jacob, tells Jacob to flee, and raises his marriage prospects with Isaac."
     ],
     "supporting_verses": [
-      "Genesis 27:1",
-      "Genesis 27:12",
-      "Genesis 27:30",
-      "Genesis 27:36",
-      "Genesis 27:24",
-      "Genesis 27:46"
+      "Genesis 27:1-17",
+      "Genesis 27:18-27",
+      "Genesis 27:28-29",
+      "Genesis 27:30-40",
+      "Genesis 27:41-46"
     ],
-    "evidence_phrases": [
-      "Esau his elder son, and said unto him, My son",
-      "I shall bring a curse upon me, and not a blessing",
-      "It came to pass, as soon as Isaac had made an end of blessing Jacob, and Jacob w",
-      "Is not he rightly name Jacob? for he has supplanted",
-      "The days of mourning for my father are at hand"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 28,
-    "title": "Rebekah chosen for Isaac",
-    "summary_text": "Isaac called Jacob, and blessed him, and charged him, and said unto him, Thou shalt not take a wife of the daughters of Canaan. Give thee the blessing of Abraham, to thee, and to thy seed with thee. That thou mayest inherit the land of thy sojournings, which God gave unto Abraham. And, behold, the LORD stood above it, and said, I am the LORD, the God of Abraham thy father, and the God of Isaac. The land whereon thou liest, to thee will I give it, and to thy seed. And, behold, I am with thee, and will keep thee, whithersoever thou goest, and will bring thee again into this land. For I will not leave thee, until I have done that which I have spoken to thee of.",
+    "title": "Jacob Dreams of Heaven at Bethel",
+    "summary_text": "Isaac blesses Jacob and sends him to Laban's family to find a wife, while Esau adds Ishmael's daughter Mahalath to his wives. On the journey, Jacob dreams of a ladder between earth and heaven with angels moving on it. The LORD promises him land, many descendants, blessing for all families through his offspring, and protection until He brings him back. Jacob wakes in awe, sets up his stone as a pillar, pours oil on it, and names the place Bethel. He vows that if God protects and provides for him and brings him home safely, the LORD will be his God and he will give Him a tenth.",
     "themes": [
       "Image of God and fruitfulness",
       "Covenant promise",
@@ -1189,33 +1068,27 @@
       "Jacob"
     ],
     "key_points": [
-      "Isaac called Jacob, and blessed him, and charged him, and said unto him, Thou shalt not take a wife of the daughters.",
-      "Give thee the blessing of Abraham.",
-      "And, behold, the LORD stood above it, and said, I am the LORD, the God of Abraham thy father, and the God.",
-      "And, behold, I am with thee, and will keep thee, whithersoever thou goest, and will bring thee again into this land. For."
+      "Isaac sends Jacob to marry within Laban's family and blesses him with Abraham's promised land and descendants.",
+      "Seeing Isaac's disapproval of Canaanite wives, Esau also marries Mahalath, Ishmael's daughter.",
+      "Jacob dreams of angels on a ladder, and the LORD promises land, offspring, blessing, protection, and return.",
+      "Jacob marks the place with a stone pillar, calls it Bethel, and makes a vow to God."
     ],
     "supporting_verses": [
-      "Genesis 28:1",
-      "Genesis 28:4",
-      "Genesis 28:13",
-      "Genesis 28:15",
-      "Genesis 28:12",
-      "Genesis 28:22"
+      "Genesis 28:1-5",
+      "Genesis 28:6-9",
+      "Genesis 28:10-15",
+      "Genesis 28:16-22"
     ],
-    "evidence_phrases": [
-      "Thou shalt not take a wife of the daughters of",
-      "Give thee the blessing of Abraham, to thee, and to thy seed with thee",
-      "I am the LORD, the God of Abraham thy father",
-      "For I will not leave thee, until I have done that which I have spoken to thee of",
-      "Isaac sent away Jacob"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 29,
-    "title": "Rebekah chosen for Isaac",
-    "summary_text": "Jacob went on his journey, and came to the land of the children of the east. Jacob told Rachel that he was her father`s brother, and that he was Rebekah`s son. And she ran and told her father. Jacob served seven years for Rachel. And they seemed unto him but a few days, for the love he had to her. Leah conceived, and bare a son, and she called his name Reuben. For she said, Because the LORD has looked upon my affliction. For now my husband will love me.",
+    "title": "Laban Deceives Jacob and Leah Bears Sons",
+    "summary_text": "At a well, Jacob meets Rachel, and her father Laban welcomes him as his nephew. Jacob loves Rachel and works seven years to marry her, but Laban tricks him into marrying Leah. After the wedding week, Laban gives him Rachel too in return for seven more years of work. Jacob loves Rachel more, but God sees Leah's pain and gives her children while Rachel has none. Leah bears Reuben, Simeon, Levi, and Judah, first hoping for Jacob's love and then praising the LORD.",
     "themes": [
       "Land promise"
     ],
@@ -1230,33 +1103,27 @@
       "sons"
     ],
     "key_points": [
-      "Jacob went on his journey, and came to the land of the children of the east.",
-      "Jacob told Rachel that he was her father`s brother, and that he was Rebekah`s son. And she ran and told her father.",
-      "Jacob served seven years for Rachel. And they seemed unto him but a few days, for the love he had to her.",
-      "Leah conceived, and bare a son, and she called his name Reuben. For she said, Because the LORD has looked upon my."
+      "Jacob waters Rachel's sheep, tells her they are relatives, and receives a welcome from Laban.",
+      "Jacob agrees to work seven years for Rachel, whom he loves.",
+      "Laban secretly gives Jacob Leah, then gives him Rachel after the wedding week for seven more years of work.",
+      "The LORD enables unloved Leah to bear four sons, and her words move from longing for love to praise."
     ],
     "supporting_verses": [
-      "Genesis 29:1",
-      "Genesis 29:12",
-      "Genesis 29:20",
-      "Genesis 29:32",
-      "Genesis 29:18",
-      "Genesis 29:35"
+      "Genesis 29:1-14",
+      "Genesis 29:15-20",
+      "Genesis 29:21-30",
+      "Genesis 29:31-35"
     ],
-    "evidence_phrases": [
-      "Jacob went on his journey, and came to the land of the children of the east",
-      "she ran and told her father",
-      "Jacob served seven years for Rachel",
-      "Because the LORD has looked upon my affliction",
-      "Laban gathered together all the men of the place, and made a feast"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 30,
-    "title": "called name Joseph saying LORD add",
-    "summary_text": "When Rachel saw that she bare Jacob no children, Rachel envied her sister; and she said unto Jacob, Give me children, or else I die. Leah said, Happy am I! for the daughters will call me happy: and she called his name Asher. And she called his name Joseph, saying, the LORD add to me another son. And he set three days` journey betwixt himself and Jacob: and Jacob fed the rest of Laban`s flocks.",
+    "title": "Jacob's Family and Flocks Grow",
+    "summary_text": "Rivalry between Rachel and Leah leads each to give Jacob her servant as a wife, and both servants bear sons. Leah later bears more children, and God listens to Rachel, who gives birth to Joseph and hopes for another son. Jacob asks to leave, but Laban says the LORD has blessed him through Jacob and offers wages to keep him. They agree that Jacob will receive sheep and goats with certain colors or markings, but Laban removes those animals from the flock. Jacob uses peeled branches while breeding the remaining animals and gains strong flocks, becoming very wealthy.",
     "themes": [
       "Sabbath rest",
       "The call of Abraham",
@@ -1275,33 +1142,29 @@
       "sons"
     ],
     "key_points": [
-      "When Rachel saw that she bare Jacob no children, Rachel envied her sister.",
-      "Leah said, Happy am I! for the daughters will call me happy: and she called his name Asher.",
-      "And she called his name Joseph, saying, the LORD add to me another son.",
-      "And he set three days` journey betwixt himself and Jacob: and Jacob fed the rest of Laban`s flocks."
+      "Bilhah bears Dan and Naphtali for Rachel, while Zilpah bears Gad and Asher for Leah.",
+      "After an exchange involving mandrakes, God listens to Leah, who bears Issachar, Zebulun, and later Dinah.",
+      "God enables Rachel to bear Joseph, and she asks the LORD for another son.",
+      "Laban wants Jacob to stay, and they agree on certain marked or dark animals as Jacob's wages.",
+      "Jacob places peeled branches before breeding animals and gains the stronger offspring and great wealth."
     ],
     "supporting_verses": [
-      "Genesis 30:1",
-      "Genesis 30:13",
-      "Genesis 30:24",
-      "Genesis 30:36",
-      "Genesis 30:22",
-      "Genesis 30:43"
+      "Genesis 30:1-13",
+      "Genesis 30:14-21",
+      "Genesis 30:22-24",
+      "Genesis 30:25-36",
+      "Genesis 30:37-43"
     ],
-    "evidence_phrases": [
-      "Give me children, or else I die",
-      "Happy am I! for the daughters will call me happy",
-      "his name Joseph, saying, the LORD add to me another",
-      "Jacob fed the rest of Laban`s flocks",
-      "Send me away, that I may go unto mine own"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 31,
-    "title": "heard words Laban s sons saying",
-    "summary_text": "He heard the words of Laban`s sons, saying, Jacob has taken away all that was our father`s; and of that which was our father`s has he gotten all this glory. And he carried away all his cattle, and all his substance which he had gathered, the cattle of his getting, which he had gathered in Paddan-aram, to go to Isaac his father unto the land of Canaan. God came to Laban the Syrian in a dream of the night, and said unto him, Take heed to thyself that thou speak not to Jacob either good or bad. The God of Abraham, and the God of Nahor, the God of their father, judge betwixt us. And Jacob swore by the Fear of his father Isaac.",
+    "title": "Jacob Leaves Laban and Makes a Covenant",
+    "summary_text": "God tells Jacob to go home, and his wives agree that he should leave their father. Jacob takes his family and flocks away in secret, not knowing that Rachel has stolen Laban's idols. Laban follows, but God warns him in a dream to take care how he speaks to Jacob. When Laban fails to find the hidden idols, Jacob speaks angrily about his years of hard work and Laban's cheating. The two make a covenant not to cross their stone markers to harm each other, and Jacob offers a sacrifice before they part.",
     "themes": [
       "Covenant promise",
       "The call of Abraham",
@@ -1319,33 +1182,29 @@
       "Rachel"
     ],
     "key_points": [
-      "He heard the words of Laban`s sons, saying, Jacob has taken away all that was our father`s.",
-      "And he carried away all his cattle.",
-      "God came to Laban the Syrian in a dream of the night.",
-      "The God of Abraham."
+      "Jacob tells his wives that God's angel commanded his return and that God protected him from Laban's changing wages.",
+      "Jacob leaves without telling Laban, and Rachel secretly takes her father's household idols.",
+      "God warns Laban before he catches Jacob, and Rachel keeps the stolen idols hidden during Laban's search.",
+      "Jacob recounts his costly service and says God saw his suffering and gave judgment.",
+      "Jacob and Laban establish a covenant boundary, share a meal after Jacob's sacrifice, and part the next morning."
     ],
     "supporting_verses": [
-      "Genesis 31:1",
-      "Genesis 31:18",
-      "Genesis 31:24",
-      "Genesis 31:53",
-      "Genesis 31:28",
-      "Genesis 31:55"
+      "Genesis 31:1-16",
+      "Genesis 31:17-21",
+      "Genesis 31:22-35",
+      "Genesis 31:36-42",
+      "Genesis 31:43-55"
     ],
-    "evidence_phrases": [
-      "of that which was our father`s has he gotten all this glory",
-      "he carried away all his cattle, and all his substance which he had gathered, the",
-      "Take heed to thyself that thou speak not to Jacob",
-      "Jacob swore by the Fear of his father Isaac",
-      "God has seen mine affliction and the labor of my hands, and rebuked thee yestern"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 32,
-    "title": "Esau and Jacob",
-    "summary_text": "Jacob went on his way, and the angels of God met him. Jacob said, O God of my father Abraham, and God of my father Isaac, O the LORD, who saidst unto me, Return unto thy country, and to thy kindred, and I will do thee good:. Thou saidst, I will surely do thee good, and make thy seed as the sand of the sea, which cannot be numbered for multitude. He rose up that night, and took his two wives, and his two handmaids, and his eleven children, and passed over the ford of the Jabbok.",
+    "title": "Jacob Fears Esau and Wrestles Until Dawn",
+    "summary_text": "God's angels meet Jacob, but news that Esau is approaching with four hundred men fills him with fear. Jacob divides his camp, thanks God for His kindness and faithfulness, asks for rescue, and sends herds ahead as gifts to calm Esau. After sending his household across the Jabbok, Jacob is left alone and wrestles with a man until dawn. The man injures Jacob's hip, names him Israel because he has struggled with God and men and prevailed, and blesses him. Jacob names the place Peniel because he says he has seen God and survived, then leaves limping.",
     "themes": [
       "Covenant promise",
       "The call of Abraham",
@@ -1364,33 +1223,29 @@
       "Laban"
     ],
     "key_points": [
-      "Jacob went on his way, and the angels of God met him.",
-      "Jacob said, O God of my father Abraham, and God of my father Isaac, O the LORD, who saidst unto me, Return.",
-      "Thou saidst, I will surely do thee good, and make thy seed as the sand of the sea, which cannot be numbered.",
-      "He rose up that night."
+      "Jacob meets God's angels and learns that Esau is coming with four hundred men.",
+      "Afraid of an attack, Jacob divides his camp and appeals to God's kindness, faithfulness, and promise of many descendants.",
+      "Jacob sends separate herds as gifts, hoping Esau will accept him.",
+      "A man wrestles with Jacob, injures his hip, names him Israel, and gives him the blessing he requests.",
+      "Jacob says he has seen God and lived, and his injured hip explains an Israelite food practice."
     ],
     "supporting_verses": [
-      "Genesis 32:1",
-      "Genesis 32:9",
-      "Genesis 32:12",
-      "Genesis 32:22",
-      "Genesis 32:17",
-      "Genesis 32:32"
+      "Genesis 32:1-6",
+      "Genesis 32:7-12",
+      "Genesis 32:13-21",
+      "Genesis 32:22-29",
+      "Genesis 32:30-32"
     ],
-    "evidence_phrases": [
-      "Jacob went on his way, and the angels of God met him",
-      "O God of my father Abraham, and God of my",
-      "Thou saidst, I will surely do thee good, and make thy seed as the sand of the se",
-      "He rose up that night, and took his two wives, and his two handmaids, and his el",
-      "the third, and all that followed the droves, saying, On"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 33,
-    "title": "Esau and Jacob",
-    "summary_text": "Jacob lifted up his eyes, and looked, and, behold, Esau was coming, and with him four hundred men. And he divided the children unto Leah, and unto Rachel, and unto the two handmaids. He put the handmaids and their children foremost, and Leah and her children after, and Rachel and Joseph hindermost. Leah also and her children came near, and bowed themselves: and after came Joseph near and Rachel, and they bowed themselves. Esau said, Let me now leave with thee some of the folk that are with me. And he said, What needeth it? let me find favor in the sight of my lord.",
+    "title": "Esau Welcomes Jacob With an Embrace",
+    "summary_text": "Jacob approaches Esau with repeated bows, but Esau runs to embrace him, and both brothers weep. Jacob introduces his family and urges Esau to accept his gift, saying God has given him all he needs. Esau offers to travel with him or leave men behind, but Jacob declines, explaining that the children and nursing animals need a slow pace. Esau returns to Seir, while Jacob travels to Succoth and later arrives safely near Shechem. There Jacob buys a plot of land and sets up an altar.",
     "themes": [
       "God at work",
       "Land promise"
@@ -1405,33 +1260,27 @@
       "Joseph"
     ],
     "key_points": [
-      "Jacob lifted up his eyes.",
-      "He put the handmaids and their children foremost, and Leah and her children after, and Rachel and Joseph hindermost.",
-      "Leah also and her children came near, and bowed themselves: and after came Joseph near and Rachel, and they bowed themselves.",
-      "Esau said, Let me now leave with thee some of the folk that are with me. And he said, What needeth it?."
+      "Jacob bows as he approaches, and Esau greets him with an embrace, a kiss, and tears.",
+      "Jacob presents his family and persuades Esau to accept his gift as a sign of welcome.",
+      "Jacob declines Esau's company and escort, saying his household and animals must move slowly.",
+      "The brothers go separate ways, and Jacob eventually buys land near Shechem and builds an altar."
     ],
     "supporting_verses": [
-      "Genesis 33:1",
-      "Genesis 33:2",
-      "Genesis 33:7",
-      "Genesis 33:15",
-      "Genesis 33:11",
-      "Genesis 33:20"
+      "Genesis 33:1-4",
+      "Genesis 33:5-11",
+      "Genesis 33:12-15",
+      "Genesis 33:16-20"
     ],
-    "evidence_phrases": [
-      "he divided the children unto Leah, and unto Rachel, and unto the two handmaids",
-      "He put the handmaids and their children foremost, and Leah and her children afte",
-      "Leah also and her children came near, and bowed themselves",
-      "Let me now leave with thee some of the folk",
-      "Esau returned that day on his way unto Seir"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 34,
-    "title": "Dinah daughter Leah whom bare Jacob",
-    "summary_text": "Dinah the daughter of Leah, whom she bare unto Jacob, went out to see the daughters of the land. Shechem the son of Hamor the Hivite, the prince of the land, saw her; And he took her, and lay with her, and humbled her. Shechem said unto her father and unto her brethren, Let me find favor in your eyes, and what ye shall say unto me I will give. These men are peaceable with us; therefore let them dwell in the land, and trade therein; for, behold, the land is large enough for them; let us take their daughters to us for wives, and let us give them our daughters.",
+    "title": "Dinah Is Assaulted and Her Brothers Retaliate",
+    "summary_text": "Shechem forces Dinah to have sex with him, then asks to marry her. Jacob's sons are full of grief and anger but trick Hamor and Shechem by agreeing if all the city's males are circumcised. While the men are still in pain, Simeon and Levi kill them and take Dinah home. The other brothers loot the city and take its women and children away. Jacob fears the peoples around them will attack and wipe out his family, but his sons defend what they did because of the way Dinah was treated.",
     "themes": [
       "Land promise"
     ],
@@ -1443,33 +1292,29 @@
       "sons"
     ],
     "key_points": [
-      "Dinah the daughter of Leah, whom she bare unto Jacob, went out to see the daughters of the land.",
-      "Shechem the son of Hamor the Hivite, the prince of the land, saw her.",
-      "Shechem said unto her father and unto her brethren.",
-      "These men are peaceable with us."
+      "Shechem assaults Dinah and seeks marriage, while Jacob's sons return in grief and anger.",
+      "Jacob's sons call marriage to an uncircumcised man disgraceful and deceitfully require circumcision for all the city's males.",
+      "Hamor and Shechem persuade the city that joining Jacob's household will benefit them, and every male is circumcised.",
+      "Simeon and Levi kill the males and retrieve Dinah, while the other brothers plunder goods and take captives.",
+      "Jacob fears a deadly response from neighboring peoples, but his sons defend their retaliation over Dinah."
     ],
     "supporting_verses": [
-      "Genesis 34:1",
-      "Genesis 34:2",
-      "Genesis 34:11",
-      "Genesis 34:21",
-      "Genesis 34:16",
-      "Genesis 34:31"
+      "Genesis 34:1-12",
+      "Genesis 34:13-17",
+      "Genesis 34:18-24",
+      "Genesis 34:25-29",
+      "Genesis 34:30-31"
     ],
-    "evidence_phrases": [
-      "Dinah the daughter of Leah, whom she bare unto Jacob, went out to see the daught",
-      "he took her, and lay with her, and humbled her",
-      "Let me find favor in your eyes, and what ye",
-      "These men are peaceable with us",
-      "Should he deal with our sister as with a harlot?"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 35,
-    "title": "Rebekah chosen for Isaac",
-    "summary_text": "God said unto Jacob, Arise, go up to Beth-el, and dwell there: and make there an altar unto God, who appeared unto thee when thou fleddest from the face of Esau thy brother. Deborah Rebekah`s nurse died, and she was buried below Beth-el under the oak: and the name of it was called Allon-bacuth. And the land which I gave unto Abraham and Isaac, to thee I will give it, and to thy seed after thee will I give the land. Jacob came unto Isaac his father to Mamre, to Kiriath-arba (the same is Hebron), where Abraham and Isaac sojourned.",
+    "title": "Jacob Returns to Bethel as Family Members Die",
+    "summary_text": "God sends Jacob to Bethel, where he builds an altar after telling his household to remove foreign gods and purify themselves. God protects them on the journey, blesses Jacob, names him Israel, and promises nations, kings, and the land given to Abraham and Isaac. Deborah dies near Bethel, and later Rachel dies giving birth to the son Jacob names Benjamin. Reuben sleeps with Jacob's concubine Bilhah, and the account lists Jacob's twelve sons. Jacob returns to Isaac, who dies at 180 and is buried by Esau and Jacob.",
     "themes": [
       "Image of God and fruitfulness",
       "Covenant promise",
@@ -1487,33 +1332,29 @@
       "Jacob"
     ],
     "key_points": [
-      "God said unto Jacob, Arise, go up to Beth-el, and dwell there.",
-      "Deborah Rebekah`s nurse died, and she was buried below Beth-el under the oak: and the name of it was called Allon-bacuth.",
-      "And the land which I gave unto Abraham and Isaac.",
-      "Jacob came unto Isaac his father to Mamre, to Kiriath-arba (the same is Hebron), where Abraham and Isaac sojourned."
+      "Jacob removes the household's foreign gods, calls for purification, and builds an altar at Bethel under God's protection.",
+      "After Deborah's death, God blesses Jacob as Israel and promises nations, kings, and land for his descendants.",
+      "Jacob makes a drink offering and anoints a stone pillar where God spoke to him.",
+      "Rachel dies bearing Benjamin, Reuben sleeps with Bilhah, and Jacob's twelve sons are listed by their mothers.",
+      "Jacob returns to Isaac, and both sons bury their father when he dies at 180."
     ],
     "supporting_verses": [
-      "Genesis 35:1",
-      "Genesis 35:8",
-      "Genesis 35:12",
-      "Genesis 35:27",
-      "Genesis 35:15",
-      "Genesis 35:29"
+      "Genesis 35:1-7",
+      "Genesis 35:8-13",
+      "Genesis 35:14-15",
+      "Genesis 35:16-26",
+      "Genesis 35:27-29"
     ],
-    "evidence_phrases": [
-      "Arise, go up to Beth-el, and dwell there: and make",
-      "the name of it was called Allon-bacuth",
-      "unto Abraham and Isaac, to thee I will give it",
-      "Jacob came unto Isaac his father to Mamre, to Kiriath-arba (the same is Hebron)",
-      "up the ghost, and died, and was gathered unto his"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 36,
-    "title": "Esau and Jacob",
-    "summary_text": "These are the generations of Esau (the same is Edom). And Oholibamah bare Jeush, and Jalam, and Korah: these are the sons of Esau, that were born unto him in the land of Canaan. These are the sons of Oholibamah, Esau`s wife: chief Jeush, chief Jalam, chief Korah: these are the chiefs that came of Oholibamah the daughter of Anah, Esau`s wife. Shaul died, and Baal-hanan the son of Achbor reigned in his stead.",
+    "title": "Esau's Descendants and the Rulers of Edom",
+    "summary_text": "Esau, also known as Edom, moves to Mount Seir because his flocks and Jacob's need too much land to stay together. A list traces his sons and grandsons through his three wives and names their chiefs. Seir's Horite family is also listed, with a note that Anah found hot springs. Edom's kings are named from the time before Israel had a king, including Hadad, who beat Midian in Moab. The account ends by naming Esau's chiefs and the places where their clans lived.",
     "themes": [
       "Land promise",
       "Wilderness testing"
@@ -1525,33 +1366,29 @@
       "sons"
     ],
     "key_points": [
-      "These are the generations of Esau (the same is Edom).",
-      "And Oholibamah bare Jeush, and Jalam, and Korah.",
-      "These are the sons of Oholibamah, Esau`s wife.",
-      "Shaul died, and Baal-hanan the son of Achbor reigned in his stead."
+      "Esau takes his family and wealth away from Jacob and settles at Mount Seir because their livestock need more land.",
+      "Esau's descendants and chiefs include Amalek, the son of Eliphaz and his concubine Timna.",
+      "Seir's Horite families and chiefs are listed, including Anah, who found hot springs while tending donkeys.",
+      "Edom's kings are named in succession, with Hadad son of Bedad singled out for defeating Midian in Moab.",
+      "The final list records chiefs descended from Esau according to their families, regions, and settlements."
     ],
     "supporting_verses": [
-      "Genesis 36:1",
-      "Genesis 36:5",
-      "Genesis 36:18",
-      "Genesis 36:38",
-      "Genesis 36:22",
-      "Genesis 36:43"
+      "Genesis 36:1-8",
+      "Genesis 36:9-19",
+      "Genesis 36:20-30",
+      "Genesis 36:31-39",
+      "Genesis 36:40-43"
     ],
-    "evidence_phrases": [
-      "These are the generations of Esau (the same is Edom)",
-      "Oholibamah bare Jeush, and Jalam, and Korah",
-      "chief Jeush, chief Jalam, chief Korah",
-      "Shaul died, and Baal-hanan the son of Achbor reigned in his stead",
-      "she bare to Esau Jeush, and Jalam, and Korah"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 37,
-    "title": "Joseph sold by his brothers",
-    "summary_text": "Jacob dwelt in the land of his father`s sojournings, in the land of Canaan. His brethren said to him, Shalt thou indeed reign over us? Or shalt thou indeed have dominion over us? And they hated him yet the more for his dreams, and for his words. It came to pass, when Joseph was come unto his brethren, that they stripped Joseph of his coat, the coat of many colors that was on him;. There passed by Midianites, merchantmen; and they drew and lifted up Joseph out of the pit, and sold Joseph to the Ishmaelites for twenty pieces of silver. And they brought Joseph into Egypt.",
+    "title": "Joseph's Brothers Sell Him Into Egypt",
+    "summary_text": "Jacob favors Joseph and gives him a special robe, while Joseph's dreams of his family bowing to him deepen his brothers' hatred. When Jacob sends Joseph to check on them, the brothers plan to kill him, but Reuben persuades them to put him in a pit instead. At Judah's suggestion, they sell Joseph to traders heading to Egypt. They stain his robe with goat's blood, leading Jacob to believe a wild animal killed him, and he mourns without comfort. Joseph is sold in Egypt to Potiphar, one of Pharaoh's officers.",
     "themes": [
       "Image of God and fruitfulness",
       "Testing and provision",
@@ -1570,33 +1407,29 @@
       "dreams"
     ],
     "key_points": [
-      "Jacob dwelt in the land of his father`s sojournings, in the land of Canaan.",
-      "His brethren said to him.",
-      "It came to pass, when Joseph was come unto his brethren, that they stripped Joseph of his coat, the coat of many colors that was on him.",
-      "There passed by Midianites, merchantmen."
+      "Jacob's favoritism and Joseph's dreams stir his brothers' hatred and jealousy, though Jacob keeps the dreams in mind.",
+      "Sent to check on his brothers, Joseph follows them from Shechem to Dothan.",
+      "Reuben plans to rescue Joseph, but after Judah calls him their own flesh, the brothers sell him instead.",
+      "The bloodstained robe deceives Jacob, who says he will mourn his son down to Sheol, the realm of the dead.",
+      "The Midianites sell Joseph to Potiphar, Pharaoh's officer and captain of the guard."
     ],
     "supporting_verses": [
-      "Genesis 37:1",
-      "Genesis 37:8",
-      "Genesis 37:23",
-      "Genesis 37:28",
-      "Genesis 37:19",
+      "Genesis 37:1-11",
+      "Genesis 37:12-17",
+      "Genesis 37:18-28",
+      "Genesis 37:29-35",
       "Genesis 37:36"
     ],
-    "evidence_phrases": [
-      "Jacob dwelt in the land of his father`s sojournings, in the land of Canaan",
-      "His brethren said to him, Shalt thou indeed reign over us? Or shalt thou indeed ",
-      "It came to pass, when Joseph was come unto his brethren, that they stripped Jose",
-      "they brought Joseph into Egypt",
-      "Behold, I have dreamed yet a dream: and, behold, the"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 38,
-    "title": "Lest he also die, like his",
-    "summary_text": "It came to pass at that time, that Judah went down from his brethren, and turned in to a certain Adullamite, whose name was Hirah. Judah said unto Onan, Go in unto thy brother`s wife, and perform the duty of a husband`s brother unto her, and raise up seed to thy brother. Said Judah to Tamar his daughter-in-law, Remain a widow in thy father`s house, till Shelah my son be grown up; for he said, Lest he also die, like his brethren. And Tamar went and dwelt in her father`s house. He asked the men of her place, saying, Where is the prostitute, that was at Enaim by the wayside? And they said, There has been no prostitute here.",
+    "title": "Tamar Exposes Judah's Failure Toward Her",
+    "summary_text": "God puts Er to death for wickedness, then kills Onan for keeping Tamar from bearing offspring for his dead brother. Judah tells her to wait for Shelah but does not let her marry him. Wearing a veil, Tamar poses as a prostitute, sleeps with Judah, and keeps his seal, cord, and staff as a pledge. When her pregnancy leads Judah to demand her death, she shows his things, and he calls her more righteous for his failure to give her Shelah. She bears twins named Perez and Zerah.",
     "themes": [
       "Covenant promise"
     ],
@@ -1605,33 +1438,29 @@
       "woman"
     ],
     "key_points": [
-      "It came to pass at that time.",
-      "Judah said unto Onan.",
-      "Said Judah to Tamar his daughter-in-law, Remain a widow in thy father`s house, till Shelah my son be grown up.",
-      "He asked the men of her place."
+      "Er dies for wickedness, and Onan dies after deliberately preventing Tamar from bearing offspring for his brother.",
+      "Judah withholds Shelah, and Tamar disguises herself and becomes pregnant by Judah while keeping his belongings as a pledge.",
+      "Judah's friend cannot find the woman to exchange the promised goat for Judah's belongings.",
+      "Tamar's evidence stops Judah's accusation, and he calls her more righteous because he failed to give her Shelah.",
+      "Perez is born before Zerah, whose hand had first appeared and been marked with a scarlet thread."
     ],
     "supporting_verses": [
-      "Genesis 38:1",
-      "Genesis 38:8",
-      "Genesis 38:11",
-      "Genesis 38:21",
-      "Genesis 38:16",
-      "Genesis 38:30"
+      "Genesis 38:1-10",
+      "Genesis 38:11-19",
+      "Genesis 38:20-23",
+      "Genesis 38:24-26",
+      "Genesis 38:27-30"
     ],
-    "evidence_phrases": [
-      "It came to pass at that time, that Judah went down from his brethren, and turned",
-      "Go in unto thy brother`s wife, and perform the duty",
-      "Lest he also die, like his brethren",
-      "There has been no prostitute here",
-      "Onan knew that the seed would not be his"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 39,
-    "title": "came pass time made him overseer",
-    "summary_text": "Joseph was brought down to Egypt; and Potiphar, an officer of Pharaoh`s, the captain of the guard, an Egyptian, bought him of the hand of the Ishmaelites, that had brought him down thither. It came to pass from the time that he made him overseer in his house, and over all that he had, that the LORD blessed the Egyptian`s house for Joseph`s sake; and the blessing of the LORD was upon all that he had, in the house and in the field. It came to pass, as she spoke to Joseph day by day, that he hearkened not unto her, to lie by her, [or] to be with her. Joseph`s master took him, and put him into the prison, the place where the king`s prisoners were bound: and he was there in the prison.",
+    "title": "Joseph Refuses Sin and Is Falsely Accused",
+    "summary_text": "The LORD gives Joseph success in Potiphar's house, and Potiphar puts him in charge of everything he owns. God's blessing reaches the household because of Joseph. Potiphar's wife repeatedly asks Joseph to sleep with her, but he refuses to betray his master or sin against God. When he flees her grasp and leaves his cloak behind, she uses it to support a false accusation, and Potiphar sends him to prison. The LORD remains with Joseph there, giving him favor with the warden, who entrusts the prisoners and prison work to him.",
     "themes": [
       "Birthright and blessing",
       "Providence in Egypt",
@@ -1647,33 +1476,27 @@
       "blessing"
     ],
     "key_points": [
-      "Joseph was brought down to Egypt.",
-      "It came to pass from the time that he made him overseer in his house.",
-      "It came to pass.",
-      "Joseph`s master took him, and put him into the prison, the place where the king`s prisoners were bound."
+      "Potiphar sees the LORD giving Joseph success and places his household and possessions under Joseph's care.",
+      "Joseph repeatedly refuses Potiphar's wife, calling sex with her a great evil and sin against God.",
+      "Joseph escapes when she grabs his cloak, but she falsely claims that he approached her for sex.",
+      "Potiphar imprisons Joseph, but the LORD gives him success and the warden's trust there too."
     ],
     "supporting_verses": [
-      "Genesis 39:1",
-      "Genesis 39:5",
-      "Genesis 39:10",
-      "Genesis 39:20",
-      "Genesis 39:12",
-      "Genesis 39:23"
+      "Genesis 39:1-6",
+      "Genesis 39:7-10",
+      "Genesis 39:11-18",
+      "Genesis 39:19-23"
     ],
-    "evidence_phrases": [
-      "Joseph was brought down to Egypt",
-      "in the house and in the field",
-      "It came to pass, as she spoke to Joseph day by day, that he hearkened not unto h",
-      "he was there in the prison",
-      "Joseph was comely, and well-favored"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 40,
-    "title": "put ward house captain guard prison",
-    "summary_text": "It came to pass after these things, that the butler of the king of Egypt and his baker offended their lord the king of Egypt. They dreamed a dream both of them, each man his dream, in one night, each man according to the interpretation of his dream, the butler and the baker of the king of Egypt, who were bound in the prison. The chief butler told his dream to Joseph, and said to him, In my dream, behold, a vine was before me;. When the chief baker saw that the interpretation was good, he said unto Joseph, I also was in my dream, and, behold, three baskets of white bread were on my head:.",
+    "title": "Joseph Explains Two Prisoners' Dreams",
+    "summary_text": "Pharaoh's chief cupbearer and chief baker are sent to prison, where Joseph serves them. Both have dreams that trouble them, and Joseph says God gives their meanings. He says the cupbearer will get his job back in three days, but the baker will be put to death. Joseph asks the cupbearer to tell Pharaoh about him so he can leave prison. Both dreams come true at Pharaoh's birthday feast, but the cupbearer forgets Joseph.",
     "themes": [
       "Providence in Egypt",
       "God at work",
@@ -1688,33 +1511,27 @@
       "Pharaoh"
     ],
     "key_points": [
-      "It came to pass after these things.",
-      "They dreamed a dream both of them.",
-      "The chief butler told his dream to Joseph, and said to him, In my dream, behold, a vine was before me;.",
-      "When the chief baker saw that the interpretation was good."
+      "Joseph serves two imprisoned royal officers and tells them that God gives the meanings of dreams.",
+      "The cupbearer's dream points to restoration in three days, and Joseph asks him to seek his release.",
+      "Joseph explains that the baker's dream points to execution in three days.",
+      "Pharaoh restores the cupbearer and executes the baker as Joseph predicted, but the cupbearer forgets him."
     ],
     "supporting_verses": [
-      "Genesis 40:1",
-      "Genesis 40:5",
-      "Genesis 40:9",
-      "Genesis 40:16",
-      "Genesis 40:12",
-      "Genesis 40:23"
+      "Genesis 40:1-8",
+      "Genesis 40:9-15",
+      "Genesis 40:16-19",
+      "Genesis 40:20-23"
     ],
-    "evidence_phrases": [
-      "It came to pass after these things, that the butler of the king of Egypt and his",
-      "They dreamed a dream both of them, each man his dream, in one night, each man ac",
-      "The chief butler told his dream to Joseph, and said to him, In my dream, behold",
-      "I also was in my dream, and, behold, three baskets",
-      "We have dreamed a dream, and there is none that"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 41,
-    "title": "Joseph sold by his brothers",
-    "summary_text": "It came to pass at the end of two full years, that Pharaoh dreamed: and, behold, he stood by the river. Pharaoh said unto Joseph, I have dreamed a dream, and there is none that can interpret it: and I have heard say of thee, that when thou hearest a dream thou canst interpret it. And there shall arise after them seven years of famine; and all the plenty shall be forgotten in the land of Egypt; and the famine shall consume the land;. The famine was over all the face of the earth: and Joseph opened all the store-houses, and sold unto the Egyptians; and the famine was sore in the land of Egypt.",
+    "title": "Joseph Prepares Egypt for Seven Hungry Years",
+    "summary_text": "Pharaoh dreams of thin cows eating fat ones and thin heads of grain swallowing full ones, but no one can explain them. The cupbearer recalls Joseph, who says God has shown Pharaoh seven years of plenty followed by seven of famine. Joseph advises storing food, and Pharaoh puts him in charge of Egypt, second only to himself. Joseph stores grain and has two sons with his wife Asenath, naming them Manasseh and Ephraim. When the famine comes, people from Egypt and other lands buy food from him.",
     "themes": [
       "Image of God and fruitfulness",
       "Providence in Egypt",
@@ -1733,33 +1550,29 @@
       "dreams"
     ],
     "key_points": [
-      "It came to pass at the end of two full years, that Pharaoh dreamed: and, behold, he stood by the river.",
-      "Pharaoh said unto Joseph, I have dreamed a dream, and there is none that can interpret it.",
-      "And there shall arise after them seven years of famine.",
-      "The famine was over all the face of the earth: and Joseph opened all the store-houses, and sold unto the Egyptians."
+      "After two years, Pharaoh's troubling dreams lead the cupbearer to recall Joseph's accurate explanations in prison.",
+      "Joseph says God has decreed seven plentiful years followed by seven years of devastating famine.",
+      "Joseph advises collecting a fifth of the harvest during the good years to preserve food for the famine.",
+      "Pharaoh recognizes God's Spirit in Joseph, places him over Egypt, and gives him a new name and a wife.",
+      "Joseph stores grain, has two sons, and opens the storehouses to sell food when the famine begins."
     ],
     "supporting_verses": [
-      "Genesis 41:1",
-      "Genesis 41:15",
-      "Genesis 41:30",
-      "Genesis 41:56",
-      "Genesis 41:29",
-      "Genesis 41:57"
+      "Genesis 41:1-13",
+      "Genesis 41:14-32",
+      "Genesis 41:33-36",
+      "Genesis 41:37-46",
+      "Genesis 41:47-57"
     ],
-    "evidence_phrases": [
-      "and, behold, he stood by the river",
-      "I have dreamed a dream, and there is none that",
-      "the famine shall consume the land",
-      "The famine was over all the face of the earth",
-      "there was famine in all lands"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 42,
-    "title": "Joseph sold by his brothers",
-    "summary_text": "Jacob saw that there was grain in Egypt, and Jacob said unto his sons, Why do ye look one upon another? Joseph remembered the dreams which he dreamed of them, and said unto them, Ye are spies; to see the nakedness of the land ye are come. If ye be true men, let one of your brethren be bound in your prison-house; but go ye, carry grain for the famine of your houses:. The man, the lord of the land, said unto us, Hereby shall I know that ye are true men: leave one of your brethren with me, and take [grain for] the famine of your houses, and go your way;.",
+    "title": "Joseph Tests His Brothers in Egypt",
+    "summary_text": "Jacob sends ten sons to Egypt for grain but keeps Benjamin home. Joseph knows his brothers when they bow to him, but they do not know him, and he calls them spies. After three days in prison, he keeps Simeon and sends the others home, telling them to bring Benjamin. They speak of their sin against Joseph, who weeps in secret and has their silver put back in their sacks. The silver makes them afraid, and Jacob will not let Benjamin go, despite Reuben's pledge to bring him back.",
     "themes": [
       "Providence in Egypt",
       "God at work",
@@ -1776,33 +1589,29 @@
       "Pharaoh"
     ],
     "key_points": [
-      "Jacob saw that there was grain in Egypt, and Jacob said unto his sons, Why do ye look one upon another?",
-      "Joseph remembered the dreams which he dreamed of them, and said unto them, Ye are spies.",
-      "If ye be true men, let one of your brethren be bound in your prison-house.",
-      "The man, the lord of the land, said unto us, Hereby shall I know that ye are true men."
+      "Ten brothers come for grain, bow before Joseph, and face his accusation of spying without recognizing him.",
+      "Joseph holds them three days, then requires one brother to stay while the others fetch Benjamin.",
+      "The brothers recall their sin against Joseph, and he weeps privately before taking Simeon into custody.",
+      "Joseph has their silver returned with the grain, and its discovery leaves the brothers and Jacob afraid.",
+      "Jacob refuses to send Benjamin, saying another loss would bring him to Sheol in grief."
     ],
     "supporting_verses": [
-      "Genesis 42:1",
-      "Genesis 42:9",
-      "Genesis 42:19",
-      "Genesis 42:33",
-      "Genesis 42:20",
-      "Genesis 42:38"
+      "Genesis 42:1-14",
+      "Genesis 42:15-20",
+      "Genesis 42:21-24",
+      "Genesis 42:25-35",
+      "Genesis 42:36-38"
     ],
-    "evidence_phrases": [
-      "Why do ye look one upon another?",
-      "Ye are spies",
-      "but go ye, carry grain for the famine of your houses",
-      "Hereby shall I know that ye are true men: leave",
-      "Joseph was the governor over the land"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 43,
-    "title": "Esau and Jacob",
-    "summary_text": "The famine was sore in the land. It came to pass, when they had eaten up the grain which they had brought out of Egypt, their father said unto them, Go again, buy us a little food. The man did as Joseph bade; and the man brought the men to Joseph`s house. Joseph made haste; for his heart yearned over his brother: and he sought where to weep; and he entered into his chamber, and wept there.",
+    "title": "Benjamin Joins His Brothers at Joseph's Table",
+    "summary_text": "Judah pledges to bring Benjamin home safely, and Jacob sends them to Egypt with gifts and more silver, praying for mercy. Joseph has the brothers brought to his house, where they fear the returned money will lead to slavery. His steward tells them not to fear, says God gave them their treasure, and brings out Simeon. Joseph asks about their father and leaves the room to weep at the sight of Benjamin. At the meal, they are amazed to sit in birth order, and Benjamin gets five times the food they do.",
     "themes": [
       "The fall and judgment",
       "Birthright and blessing",
@@ -1820,33 +1629,29 @@
       "famine"
     ],
     "key_points": [
-      "The famine was sore in the land.",
-      "It came to pass.",
-      "The man did as Joseph bade; and the man brought the men to Joseph`s house.",
-      "Joseph made haste; for his heart yearned over his brother."
+      "Judah guarantees Benjamin's safety so the family can return to Egypt for food.",
+      "Jacob sends Benjamin with gifts and double silver, asking God Almighty to grant them mercy.",
+      "The frightened brothers explain the returned silver, but the steward reassures them and brings out Simeon.",
+      "Joseph hears that his father lives and withdraws to weep when he sees Benjamin.",
+      "The brothers dine apart from the Egyptians, sit in birth order, and see Benjamin receive an unusually large portion."
     ],
     "supporting_verses": [
-      "Genesis 43:1",
-      "Genesis 43:2",
-      "Genesis 43:17",
-      "Genesis 43:30",
-      "Genesis 43:18",
-      "Genesis 43:34"
+      "Genesis 43:1-10",
+      "Genesis 43:11-15",
+      "Genesis 43:16-25",
+      "Genesis 43:26-31",
+      "Genesis 43:32-34"
     ],
-    "evidence_phrases": [
-      "The famine was sore in the land",
-      "Go again, buy us a little food",
-      "The man did as Joseph bade",
-      "he sought where to weep",
-      "the men marvelled one with another"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 44,
-    "title": "soon morning light men sent away",
-    "summary_text": "He commanded the steward of his house, saying, Fill the men`s sacks with food, as much as they can carry, and put every man`s money in his sack`s mouth. As soon as the morning was light, the men were sent away, they and their asses. Judah and his brethren came to Joseph`s house; and he was yet there: and they fell before him on the ground. Thou saidst unto thy servants, Except your youngest brother come down with you, ye shall see my face no more.",
+    "title": "Judah Offers Himself in Benjamin's Place",
+    "summary_text": "Joseph has his silver cup hidden in Benjamin's sack, then sends his steward to charge the brothers with theft. They all return in grief when the cup is found. Judah says God has exposed their iniquity, but Joseph says only Benjamin must stay as a slave. Judah speaks of their father's love for the boy and says losing him would bring their father to Sheol in sorrow. Having pledged to bring Benjamin home safely, Judah asks to stay as a slave in his place.",
     "themes": [
       "Creation and order",
       "Providence in Egypt",
@@ -1863,33 +1668,29 @@
       "sons"
     ],
     "key_points": [
-      "He commanded the steward of his house.",
-      "As soon as the morning was light, the men were sent away, they and their asses.",
-      "Judah and his brethren came to Joseph`s house; and he was yet there: and they fell before him on the ground.",
-      "Thou saidst unto thy servants, Except your youngest brother come down with you, ye shall see my face no more."
+      "Joseph has the brothers' silver returned and his own cup placed in Benjamin's sack before sending them away.",
+      "The steward accuses the brothers, finds the planted cup, and brings them back after they tear their clothes.",
+      "Judah acknowledges their iniquity, while Joseph says Benjamin alone must stay as his slave.",
+      "Judah recounts the demand to bring Benjamin and says losing him would bring their father to Sheol in sorrow.",
+      "Judah asks to take Benjamin's place because he guaranteed his return and cannot bear his father's grief."
     ],
     "supporting_verses": [
-      "Genesis 44:1",
-      "Genesis 44:3",
-      "Genesis 44:14",
-      "Genesis 44:23",
-      "Genesis 44:18",
-      "Genesis 44:34"
+      "Genesis 44:1-3",
+      "Genesis 44:4-13",
+      "Genesis 44:14-17",
+      "Genesis 44:18-31",
+      "Genesis 44:32-34"
     ],
-    "evidence_phrases": [
-      "saying, Fill the men`s sacks with food, as much as",
-      "As soon as the morning was light, the men were sent away, they and their asses",
-      "he was yet there",
-      "Thou saidst unto thy servants, Except your youngest brother come down with you, ",
-      "What deed is this that ye have done? know ye"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 45,
-    "title": "Joseph sold by his brothers",
-    "summary_text": "Joseph could not refrain himself before all them that stood before him; and he cried, Cause every man to go out from me. And there stood no man with him, while Joseph made himself known unto his brethren. Joseph said unto his brethren, Come near to me, I pray you. And they came near. And he said, I am Joseph your brother, whom ye sold into Egypt. And there will I nourish thee; for there are yet five years of famine; lest thou come to poverty, thou, and thy household, and all that thou hast. The sons of Israel did so: and Joseph gave them wagons, according to the commandment of Pharaoh, and gave them provision for the way.",
+    "title": "Joseph Reveals Himself and Sends for Jacob",
+    "summary_text": "Joseph sends his attendants away and reveals himself to his terrified brothers with loud tears. He tells them that God sent him ahead to save lives and preserve them as a remnant, a surviving group, during the famine. With five more years of famine ahead, Joseph asks them to bring their father and households to Goshen, where he will provide for them. Pharaoh supports the move, and Joseph sends wagons, supplies, and gifts before his brothers return home. Jacob first doubts their news, but their account and the wagons revive him, and he decides to see Joseph before he dies.",
     "themes": [
       "The fall and judgment",
       "Providence in Egypt",
@@ -1907,33 +1708,29 @@
       "Pharaoh"
     ],
     "key_points": [
-      "Joseph could not refrain himself before all them that stood before him.",
-      "Joseph said unto his brethren.",
-      "And there will I nourish thee.",
-      "The sons of Israel did so."
+      "Joseph identifies himself to his frightened brothers and says God sent him ahead to preserve their lives.",
+      "Joseph promises food and a home near him in Goshen and urges the brothers to bring their father quickly.",
+      "Joseph embraces Benjamin and kisses his brothers, who then begin talking with him.",
+      "Pharaoh welcomes the family, and Joseph sends his brothers home with wagons, food, clothing, and gifts.",
+      "Jacob comes to believe Joseph is alive and decides to travel to see him."
     ],
     "supporting_verses": [
-      "Genesis 45:1",
-      "Genesis 45:4",
-      "Genesis 45:11",
-      "Genesis 45:21",
-      "Genesis 45:15",
-      "Genesis 45:28"
+      "Genesis 45:1-8",
+      "Genesis 45:9-13",
+      "Genesis 45:14-15",
+      "Genesis 45:16-24",
+      "Genesis 45:25-28"
     ],
-    "evidence_phrases": [
-      "he cried, Cause every man to go out from me",
-      "Come near to me, I pray you",
-      "there will I nourish thee",
-      "them wagons, according to the commandment of Pharaoh, and gave",
-      "These two years has the famine been in the land"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 46,
-    "title": "I go down thee Egypt I",
-    "summary_text": "Israel took his journey with all that he had, and came to Beer-sheba, and offered sacrifices unto the God of his father Isaac. I will go down with thee into Egypt; and I will also surely bring thee up again: and Joseph shall put his hand upon thine eyes. The sons of Rachel Jacob`s wife: Joseph and Benjamin. Joseph said unto his brethren, and unto his father`s house, I will go up, and tell Pharaoh, and will say unto him, My brethren, and my father`s house, who were in the land of Canaan, are come unto me;.",
+    "title": "God Reassures Jacob on His Journey to Egypt",
+    "summary_text": "At Beersheba, Jacob offers sacrifices, and God tells him not to fear the move to Egypt. God promises to go with him, make him a great nation, and bring him back, with Joseph there to close his eyes. Jacob takes his family and all he owns to Egypt, and the family list counts seventy people in all. In Goshen, Joseph hugs his father and weeps, and Jacob says he can now die knowing his son lives. Joseph tells the family how to ask Pharaoh for a home in Goshen as keepers of flocks.",
     "themes": [
       "Covenant promise",
       "The call of Abraham",
@@ -1951,33 +1748,29 @@
       "Laban"
     ],
     "key_points": [
-      "Israel took his journey with all that he had.",
-      "I will go down with thee into Egypt.",
-      "The sons of Rachel Jacob`s wife: Joseph and Benjamin.",
-      "Joseph said unto his brethren."
+      "After Jacob offers sacrifices, God promises His presence in Egypt and reassures him about his family's future.",
+      "Jacob's whole household travels to Egypt with the livestock and possessions acquired in Canaan.",
+      "The family list includes Dinah, Serah, and Joseph's Egyptian-born sons, with seventy family members counted in all.",
+      "Judah goes ahead toward Goshen, and Joseph reunites with Jacob in a tearful embrace.",
+      "Joseph instructs his family to tell Pharaoh they raise livestock so they can live in Goshen."
     ],
     "supporting_verses": [
-      "Genesis 46:1",
-      "Genesis 46:4",
-      "Genesis 46:19",
-      "Genesis 46:31",
-      "Genesis 46:18",
-      "Genesis 46:34"
+      "Genesis 46:1-4",
+      "Genesis 46:5-7",
+      "Genesis 46:8-27",
+      "Genesis 46:28-30",
+      "Genesis 46:31-34"
     ],
-    "evidence_phrases": [
-      "Israel took his journey with all that he had, and came to Beer-sheba, and offere",
-      "I will go down with thee into Egypt",
-      "The sons of Rachel Jacob`s wife",
-      "unto his father`s house, I will go up, and tell",
-      "It shall come to pass, when Pharaoh shall call you, and shall say, What is your "
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 47,
-    "title": "Joseph sold by his brothers",
-    "summary_text": "Joseph went in and told Pharaoh, and said, My father and my brethren, and their flocks, and their herds, and all that they have, are come out of the land of Canaan; and, behold, they are in the land of Goshen. They said unto Pharaoh, To sojourn in the land are we come; for there is no pasture for thy servants` flocks; for the famine is sore in the land of Canaan: now therefore, we pray thee, let thy servants dwell in the land of Goshen. Joseph bought all the land of Egypt for Pharaoh; for the Egyptians sold every man his field, because the famine was sore upon them: and the land became Pharaoh`s. Joseph said unto the people, Behold, I have bought you this day and your land for Pharaoh: lo, here is seed for you, and ye shall sow the land.",
+    "title": "Joseph Feeds Egypt and Settles His Family",
+    "summary_text": "Pharaoh gives Joseph's family a home in Goshen, Jacob blesses him, and Joseph feeds his family. As famine grows worse, the people trade their money, then their flocks, then their land and freedom for food. Joseph buys them and their land for Pharaoh, though not the priests' land, and sets a law giving Pharaoh one-fifth of each crop. Israel's family gains land and grows in number. Near death, Jacob makes Joseph promise to take his body from Egypt and bury him with his fathers.",
     "themes": [
       "Image of God and fruitfulness",
       "Covenant promise",
@@ -1997,33 +1790,29 @@
       "household"
     ],
     "key_points": [
-      "Joseph went in and told Pharaoh.",
-      "They said unto Pharaoh, To sojourn in the land are we come.",
-      "Joseph bought all the land of Egypt for Pharaoh.",
-      "Joseph said unto the people, Behold, I have bought you this day and your land for Pharaoh."
+      "Pharaoh grants the family land, Jacob blesses him, and Joseph supplies food for his relatives.",
+      "When money runs out, Joseph exchanges food for the Egyptians' livestock.",
+      "The Egyptians sell their land and become Pharaoh's servants, but the priests keep their land because Pharaoh supplies them.",
+      "The people say Joseph has saved their lives, and he establishes the harvest law giving Pharaoh one-fifth.",
+      "As Israel's family prospers, Jacob asks Joseph for kindness and faithfulness through an oath to bury him with his fathers."
     ],
     "supporting_verses": [
-      "Genesis 47:1",
-      "Genesis 47:4",
-      "Genesis 47:20",
-      "Genesis 47:23",
-      "Genesis 47:16",
-      "Genesis 47:31"
+      "Genesis 47:1-12",
+      "Genesis 47:13-17",
+      "Genesis 47:18-22",
+      "Genesis 47:23-26",
+      "Genesis 47:27-31"
     ],
-    "evidence_phrases": [
-      "My father and my brethren, and their flocks, and their",
-      "To sojourn in the land are we come",
-      "the land became Pharaoh`s",
-      "Behold, I have bought you this day and your land",
-      "There was no bread in all the land"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 48,
-    "title": "came pass after things one said",
-    "summary_text": "It came to pass after these things, that one said to Joseph, Behold, thy father is sick: and he took with him his two sons, Manasseh and Ephraim. And said unto me, Behold, I will make thee fruitful, and multiply thee, and I will make of thee a company of peoples, and will give this land to thy seed after thee for an everlasting possession. He blessed Joseph, and said, The God before whom my fathers Abraham and Isaac did walk, the God who has fed me all my life long unto this day,. The angel who has redeemed me from all evil, bless the lads; and let my name be named on them, and the name of my fathers Abraham and Isaac; and let them grow into a multitude in the midst of the earth.",
+    "title": "Jacob Places Ephraim Before Manasseh",
+    "summary_text": "Joseph brings his sons to his sick father, who counts them as his own and recalls God's promise of land. Jacob hugs the boys and speaks of God as his shepherd and the angel who redeemed him from harm. He crosses his hands to bless younger Ephraim with his right hand rather than Manasseh, the firstborn. Joseph objects, but Jacob says both will be great and Ephraim's offspring will be greater. Jacob says God will bring Joseph back to his fathers' land and gives him the ridge he took from the Amorites.",
     "themes": [
       "Image of God and fruitfulness",
       "Covenant promise",
@@ -2041,33 +1830,29 @@
       "Rachel"
     ],
     "key_points": [
-      "It came to pass after these things, that one said to Joseph, Behold, thy father is sick.",
-      "And said unto me.",
-      "He blessed Joseph, and said, The God before whom my fathers Abraham and Isaac did walk, the God who has fed me.",
-      "The angel who has redeemed me from all evil, bless the lads."
+      "Jacob recalls God's land promise, counts Ephraim and Manasseh as his sons for inheritance, and remembers Rachel's death.",
+      "Jacob embraces Joseph's sons and rejoices that God has let him see them.",
+      "Jacob crosses his hands and invokes the God who shepherded him and the angel who redeemed him to bless the boys.",
+      "Despite Joseph's objection about the firstborn, Jacob deliberately places Ephraim before Manasseh and foretells greater descendants for Ephraim.",
+      "Jacob says God will bring Joseph back to his fathers' land and gives him a ridge taken from the Amorites."
     ],
     "supporting_verses": [
-      "Genesis 48:1",
-      "Genesis 48:4",
-      "Genesis 48:15",
-      "Genesis 48:16",
-      "Genesis 48:12",
-      "Genesis 48:22"
+      "Genesis 48:1-7",
+      "Genesis 48:8-12",
+      "Genesis 48:13-16",
+      "Genesis 48:17-20",
+      "Genesis 48:21-22"
     ],
-    "evidence_phrases": [
-      "he took with him his two sons, Manasseh and Ephraim",
-      "Behold, I will make thee fruitful, and multiply thee, and",
-      "The God before whom my fathers Abraham and Isaac did",
-      "The angel who has redeemed me from all evil, bless the lads",
-      "I had not thought to see thy face: and, lo"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 49,
-    "title": "The binding of Isaac",
-    "summary_text": "Jacob called unto his sons, and said: gather yourselves together, that I may tell you that which shall befall you in the latter days. Binding his foal unto the vine, And his ass`s colt unto the choice vine; He has washed his garments in wine, And his vesture in the blood of grapes:. Joseph is a fruitful bough, A fruitful bough by a fountain; His branches run over the wall. There they buried Abraham and Sarah his wife; there they buried Isaac and Rebekah his wife; and there I buried Leah:.",
+    "title": "Jacob Speaks Over His Sons and Dies",
+    "summary_text": "Jacob calls his sons to hear what lies ahead and gives each a fitting blessing. Reuben loses his leading place for defiling his father's bed, and Simeon and Levi face scattering for their cruel acts. Judah is like a lion, with a ruling staff until Shiloh comes and the nations give him their loyalty. Jacob speaks of his other sons through images of beasts, land, food, and war, with rich blessings for Joseph from God. He asks for burial in the family cave at Machpelah, where Leah also lies, and dies.",
     "themes": [
       "Image of God and fruitfulness",
       "The fall and judgment",
@@ -2086,33 +1871,29 @@
       "Rebekah"
     ],
     "key_points": [
-      "Jacob called unto his sons, and said.",
-      "Binding his foal unto the vine, And his ass`s colt unto the choice vine.",
-      "Joseph is a fruitful bough, A fruitful bough by a fountain; His branches run over the wall.",
-      "There they buried Abraham and Sarah his wife; there they buried Isaac and Rebekah his wife; and there I buried Leah:."
+      "Reuben loses his firstborn honor, and Jacob curses Simeon and Levi's cruel anger and wrath and foretells their scattering.",
+      "Judah receives praise and a lion's image, with a ruling staff until Shiloh comes and gains the nations' allegiance.",
+      "Jacob describes roles and fortunes for Zebulun, Issachar, Dan, Gad, Asher, and Naphtali, and awaits the LORD's salvation.",
+      "Joseph is a fruitful vine strengthened and blessed by God, while Benjamin is compared to a wolf dividing prey.",
+      "After blessing the twelve tribes, Jacob requests burial with his family at Machpelah and breathes his last."
     ],
     "supporting_verses": [
-      "Genesis 49:1",
-      "Genesis 49:11",
-      "Genesis 49:22",
-      "Genesis 49:31",
-      "Genesis 49:17",
-      "Genesis 49:33"
+      "Genesis 49:1-7",
+      "Genesis 49:8-12",
+      "Genesis 49:13-21",
+      "Genesis 49:22-27",
+      "Genesis 49:28-33"
     ],
-    "evidence_phrases": [
-      "unto his sons, and said: gather yourselves together, that I",
-      "Binding his foal unto the vine, And his ass`s colt unto the choice vine",
-      "His branches run over the wall",
-      "there I buried Leah",
-      "Dan shall be a serpent in the way, An adder in the path, That biteth the horse`s"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 1,
     "chapter": 50,
-    "title": "Josephs final charge and death",
-    "summary_text": "Joseph fell upon his father`s face, and wept upon him, and kissed him. When the days of weeping for him were past, Joseph spoke unto the house of Pharaoh, saying, If now I have found favor in your eyes, speak, I pray you, in the ears of Pharaoh, saying,. For his sons carried him into the land of Canaan, and buried him in the cave of the field of Machpelah, which Abraham bought with the field, for a possession of a burying-place, of Ephron the Hittite, before Mamre. Joseph said unto his brethren, I die; but God will surely visit you, and bring you up out of this land unto the land which he swore to Abraham, to Isaac, and to Jacob.",
+    "title": "Joseph Buries Jacob and Reassures His Brothers",
+    "summary_text": "Joseph weeps for Jacob, has his body embalmed, and gains leave from Pharaoh to bury him in Canaan. A large group joins the family as the sons take Jacob to the cave at Machpelah. Fearing revenge, the brothers ask Joseph to forgive them and say their father had asked this before his death. Joseph weeps and promises them food, saying God meant their evil acts for good to save many lives. Before dying at 110, he says God will bring them to the promised land and asks them to take his bones; he is placed in a coffin in Egypt.",
     "themes": [
       "The call of Abraham",
       "Providence in Egypt",
@@ -2130,25 +1911,21 @@
       "Egypt"
     ],
     "key_points": [
-      "Joseph fell upon his father`s face, and wept upon him, and kissed him.",
-      "When the days of weeping for him were past.",
-      "For his sons carried him into the land of Canaan.",
-      "Joseph said unto his brethren, I die."
+      "Joseph has Jacob embalmed, Egypt mourns him, and Pharaoh allows Joseph to fulfill his burial oath.",
+      "Jacob's family and Egyptian officials mourn together, and his sons bury him in the family cave at Machpelah.",
+      "The brothers ask Joseph to forgive their transgression and sin, reporting a request they say Jacob left.",
+      "Joseph says God turned their evil intent toward preserving lives and assures them he will provide for their families.",
+      "Joseph foretells God's promised return to the land, requests that his bones go too, and dies at 110."
     ],
     "supporting_verses": [
-      "Genesis 50:1",
-      "Genesis 50:4",
-      "Genesis 50:13",
-      "Genesis 50:24",
-      "Genesis 50:14",
-      "Genesis 50:26"
+      "Genesis 50:1-6",
+      "Genesis 50:7-14",
+      "Genesis 50:15-18",
+      "Genesis 50:19-21",
+      "Genesis 50:22-26"
     ],
-    "evidence_phrases": [
-      "Joseph fell upon his father`s face, and wept upon him, and kissed him",
-      "When the days of weeping for him were past, Joseph spoke unto the house of Phara",
-      "For his sons carried him into the land of Canaan, and buried him in the cave of ",
-      "Joseph said unto his brethren, I die",
-      "Joseph saw Ephraim`s children of the third generation"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   }
 ]

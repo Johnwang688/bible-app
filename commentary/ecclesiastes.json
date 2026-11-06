@@ -1,10 +1,10 @@
 [
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 21,
     "chapter": 1,
-    "title": "Vanity under the sun; wisdom and weariness",
-    "summary_text": "The Teacher opens by declaring that everything under the sun is vapor and that generations come and go while the earth remains. He watches the ceaseless cycles of creation and human labor, yet none of it leaves lasting satisfaction. Even wisdom cannot straighten what is crooked, and greater knowledge often brings greater grief.",
+    "title": "The Teacher Finds Toil and Wisdom Frustrating",
+    "summary_text": "The Teacher, David's son and king in Jerusalem, calls all things futile and asks what people gain from work. People come and go while the sun, wind, and rivers follow the same paths. Eyes and ears never have enough, and what seems new has happened before. Those who come later forget earlier lives. The Teacher uses his great wisdom to study life but finds it like chasing wind, with more knowledge bringing more grief.",
     "themes": [
       "Vanity of human life",
       "Cycles of creation",
@@ -17,32 +17,27 @@
       "The wise man"
     ],
     "key_points": [
-      "All things are full of weariness, and nothing is truly new under the sun.",
-      "The sun rises and sets, but human striving never reaches completion.",
-      "The Teacher applied his heart to wisdom and found its limits.",
-      "What is crooked cannot be made straight by human effort."
+      "The Teacher calls everything futile and questions what human labor gains.",
+      "Nature repeats its movements while generations pass, desires remain unsatisfied, and earlier lives are forgotten.",
+      "The Teacher's search through wisdom finds human activity frustrating and unable to straighten what is crooked.",
+      "Examining wisdom, madness, and folly leaves him with more sorrow as knowledge increases."
     ],
     "supporting_verses": [
-      "Ecclesiastes 1:2",
-      "Ecclesiastes 1:4",
-      "Ecclesiastes 1:9",
-      "Ecclesiastes 1:13",
-      "Ecclesiastes 1:18"
+      "Ecclesiastes 1:1-3",
+      "Ecclesiastes 1:4-11",
+      "Ecclesiastes 1:12-15",
+      "Ecclesiastes 1:16-18"
     ],
-    "evidence_phrases": [
-      "Vanity of vanities",
-      "under the sun",
-      "there is nothing new",
-      "I applied my heart",
-      "much wisdom is much grief"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 21,
     "chapter": 2,
-    "title": "Pleasure tested; toil exposed as vanity",
-    "summary_text": "The Teacher tests laughter, pleasure, projects, wealth, and labor, but each pursuit ends in emptiness. He sees that wisdom is better than folly, yet both the wise man and the fool die and are forgotten. The only good left in life is to receive God's gifts with gratitude, because all toil ultimately rests in God's hands.",
+    "title": "Pleasure and Achievement Cannot Escape Death",
+    "summary_text": "The Teacher tests pleasure through wine, great building works, gardens, servants, riches, music, and many concubines. He enjoys his labor but finds no lasting gain when he looks back at all he has achieved. Wisdom is better than folly, yet wise and foolish people both die and are forgotten. He despairs because someone who did not work for his wealth will inherit it and may be foolish. He then describes enjoying food, drink, and work as God's gift, contrasting God's gifts to those who please Him with the sinner's task of gathering for others.",
     "themes": [
       "Pleasure without lasting gain",
       "Wisdom and folly",
@@ -55,33 +50,27 @@
       "The fool"
     ],
     "key_points": [
-      "The Teacher pursued joy, wealth, and great works, but all proved vanity.",
-      "Wisdom excels folly, yet death levels both.",
-      "A person's labor may be left to another who did not work for it.",
-      "The best portion is to eat, drink, and receive life as God's gift."
+      "The Teacher gathers pleasures, possessions, servants, and great works, yet finds the results like chasing wind.",
+      "Wisdom exceeds folly, but death and forgetfulness come to both wise and foolish people.",
+      "Leaving hard-earned wealth to an unknown successor makes the Teacher despair over his labor.",
+      "Enjoyment comes from God, who gives wisdom and joy to those pleasing Him and gathering work to the sinner."
     ],
     "supporting_verses": [
-      "Ecclesiastes 2:1",
-      "Ecclesiastes 2:11",
-      "Ecclesiastes 2:13",
-      "Ecclesiastes 2:18",
-      "Ecclesiastes 2:24",
-      "Ecclesiastes 2:26"
+      "Ecclesiastes 2:1-11",
+      "Ecclesiastes 2:12-17",
+      "Ecclesiastes 2:18-23",
+      "Ecclesiastes 2:24-26"
     ],
-    "evidence_phrases": [
-      "all was vanity",
-      "there is nothing better",
-      "wisdom excels folly",
-      "one who pleases God",
-      "eat and drink"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 21,
     "chapter": 3,
-    "title": "A time for everything; fear God",
-    "summary_text": "The Teacher sets human life within God's ordered seasons, showing that every joy, loss, and labor has its appointed time. God makes all things beautiful in their season, yet people cannot fully grasp his work from beginning to end. Because judgment belongs to God, the proper response is to enjoy present gifts with reverence and humility.",
+    "title": "Human Times and God's Enduring Work",
+    "summary_text": "A poem places birth and death, grief and joy, war and peace within their appointed times. The Teacher says God makes everything beautiful in its time and puts eternity in human hearts, yet people cannot grasp His whole work. Enjoying life and work is God's gift, and His lasting deeds call for fear of Him. Seeing wickedness where judgment belongs, the Teacher says God will judge righteous and wicked people. He then considers humans and animals sharing death and dust, questions where their spirits go, and returns to enjoying one's work.",
     "themes": [
       "Appointed seasons",
       "God's sovereignty",
@@ -94,32 +83,27 @@
       "Man"
     ],
     "key_points": [
-      "There is a season for every matter under heaven.",
-      "God has made everything beautiful in its time.",
-      "God will judge both the righteous and the wicked.",
-      "It is good to rejoice in labor and receive life as a gift."
+      "Different human activities and experiences, from birth and death to war and peace, each have their time.",
+      "People cannot grasp God's whole work, but enjoyment is His gift and His enduring deeds call for reverence.",
+      "Despite wickedness in places of judgment, God will judge both the righteous and the wicked.",
+      "Humans and animals share death and dust, and the Teacher questions where their spirits go before commending enjoyment of work."
     ],
     "supporting_verses": [
-      "Ecclesiastes 3:1",
-      "Ecclesiastes 3:11",
-      "Ecclesiastes 3:14",
-      "Ecclesiastes 3:17",
-      "Ecclesiastes 3:22"
+      "Ecclesiastes 3:1-8",
+      "Ecclesiastes 3:9-15",
+      "Ecclesiastes 3:16-17",
+      "Ecclesiastes 3:18-22"
     ],
-    "evidence_phrases": [
-      "a time to",
-      "beautiful in its time",
-      "God shall judge",
-      "nothing better than",
-      "under the sun"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 21,
     "chapter": 4,
-    "title": "Oppression, companionship, and unstable power",
-    "summary_text": "The Teacher looks at oppression and sees tears with no comforter, revealing how lonely and harsh human systems can be. He then celebrates the value of companionship, where two are better than one and a threefold cord is not quickly broken. The chapter closes by warning that popularity, youth, and power all pass away, so vanity still shadows human success.",
+    "title": "Oppression, Lonely Toil, and the Need for Companions",
+    "summary_text": "The Teacher sees oppressed people weeping with no one to comfort them and calls the dead, and even the unborn, better off. He sees envy behind success but also warns that idle hands bring ruin. A lone worker keeps gaining wealth with no one to share it and no joy in it. Friends can lift, warm, and defend each other. A poor, wise youth can replace a foolish king, yet even this new king will lose the praise of those who come later.",
     "themes": [
       "Oppression and loneliness",
       "Companionship",
@@ -132,31 +116,27 @@
       "The king"
     ],
     "key_points": [
-      "The Teacher saw the tears of the oppressed and the absence of comfort.",
-      "Two people can help, warm, and protect one another better than one alone.",
-      "A poor and wise youth can surpass an old king who no longer listens.",
-      "Crowd favor is unstable and quickly turns to emptiness."
+      "The powerless have no comforter, leading the Teacher to call the dead and unborn better off than the living.",
+      "Envious labor, destructive idleness, and a solitary worker's endless wealth-gathering show the frustration of work without rest or enjoyment.",
+      "Companions help after a fall, provide warmth, and resist attack more effectively than someone alone.",
+      "A wise youth can rise from poverty and prison to replace a foolish king, but later people will not celebrate him."
     ],
     "supporting_verses": [
-      "Ecclesiastes 4:1",
-      "Ecclesiastes 4:9",
-      "Ecclesiastes 4:10",
-      "Ecclesiastes 4:13",
-      "Ecclesiastes 4:16"
+      "Ecclesiastes 4:1-3",
+      "Ecclesiastes 4:4-8",
+      "Ecclesiastes 4:9-12",
+      "Ecclesiastes 4:13-16"
     ],
-    "evidence_phrases": [
-      "no comforter",
-      "two are better than one",
-      "a threefold cord",
-      "better is a poor and wise youth"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 21,
     "chapter": 5,
-    "title": "Reverence in worship; wealth and contentment",
-    "summary_text": "The Teacher moves from public oppression to the worshiper’s posture before God, urging careful words, humble hearing, and restraint in vows. He warns that riches cannot satisfy the appetite of the soul and that money often multiplies worry rather than peace. The chapter ends by showing that true gladness is to enjoy what God gives, not to store up what cannot be kept.",
+    "title": "Fear God and Receive Enjoyment as His Gift",
+    "summary_text": "The Teacher urges people to hear God rather than offer a fool's sacrifice, speak few words, and keep their vows. Rash speech can bring sin and God's anger. He sees layers of rulers where the poor are denied justice and righteousness. Money cannot satisfy those who love it, can rob its owner of sleep, and may cause harm or be lost, while death leaves no wealth to carry away. He ends by calling the joy found in food, drink, wealth, and work a gift from God.",
     "themes": [
       "Reverence before God",
       "Careful vows",
@@ -169,33 +149,29 @@
       "The wealthy man"
     ],
     "key_points": [
-      "Approach God with listening rather than empty words.",
-      "Do not make vows lightly and then delay fulfilling them.",
-      "Loving silver never leaves a person satisfied.",
-      "The ability to enjoy food, work, and rest is a gift from God."
+      "Listening before God is better than foolish sacrifice, and vows must be kept rather than excused through sinful speech.",
+      "The Teacher observes oppression and denied righteousness under layers of officials, while even kings depend on the fields.",
+      "Love of wealth does not satisfy, and abundance can keep its owner from sleeping.",
+      "Hoarded or lost wealth can harm its owner, and nothing earned can be carried away at death.",
+      "Enjoying food, drink, wealth, and work during one's God-given days is itself a gift from God."
     ],
     "supporting_verses": [
-      "Ecclesiastes 5:1",
-      "Ecclesiastes 5:4",
-      "Ecclesiastes 5:8",
-      "Ecclesiastes 5:10",
-      "Ecclesiastes 5:18",
-      "Ecclesiastes 5:19"
+      "Ecclesiastes 5:1-7",
+      "Ecclesiastes 5:8-9",
+      "Ecclesiastes 5:10-12",
+      "Ecclesiastes 5:13-17",
+      "Ecclesiastes 5:18-20"
     ],
-    "evidence_phrases": [
-      "Keep your foot",
-      "better that you should not vow",
-      "he who loves silver",
-      "he who beholds the sun",
-      "it is good and fitting"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06, fix 1",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 21,
     "chapter": 6,
-    "title": "Unenjoyed riches and the hunger of desire",
-    "summary_text": "The Teacher describes the tragedy of wealth, honor, and long life when God does not grant the ability to enjoy them. Even a full house, many children, and a long name cannot satisfy a person whose appetite remains empty. The chapter presses the question of what is truly good, since human desire keeps asking for more than the world can give.",
+    "title": "Wealth and Long Life Without Enjoyment",
+    "summary_text": "The Teacher sees a man given wealth and honor by God who cannot enjoy them, while a stranger does. Many children and a long life do not help if the man finds no joy and is not properly buried. The Teacher calls a stillborn child better off, with more rest than that man. Work feeds the mouth but never fills desire, and what one has is better than wandering wishes. He ends by asking who knows what is good in a brief life or what will come after it.",
     "themes": [
       "Wealth without joy",
       "Unsatisfied desire",
@@ -208,33 +184,27 @@
       "The child"
     ],
     "key_points": [
-      "Riches are a burden if God does not grant the power to enjoy them.",
-      "A stillborn child can be more at rest than a life filled with frustration.",
-      "Human appetite is never finally satisfied by more possessions.",
-      "No one can tell a person what will truly be good for life."
+      "A person may receive wealth from God but lack enjoyment while a stranger benefits from it.",
+      "The Teacher calls a stillborn child more at rest than a long-lived, prosperous person without satisfaction or burial.",
+      "Work does not end appetite, and visible possessions are better than wandering desire.",
+      "More words do not solve human limits, and no one can explain life's good or predict what follows it."
     ],
     "supporting_verses": [
-      "Ecclesiastes 6:1",
-      "Ecclesiastes 6:3",
-      "Ecclesiastes 6:7",
-      "Ecclesiastes 6:9",
-      "Ecclesiastes 6:11",
-      "Ecclesiastes 6:12"
+      "Ecclesiastes 6:1-2",
+      "Ecclesiastes 6:3-6",
+      "Ecclesiastes 6:7-9",
+      "Ecclesiastes 6:10-12"
     ],
-    "evidence_phrases": [
-      "God gives him not power",
-      "an untimely birth",
-      "the appetite is not filled",
-      "all the labor of man",
-      "who knows what is good"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 21,
     "chapter": 7,
-    "title": "Wisdom, moderation, and the fall of man",
-    "summary_text": "The Teacher compares sorrow and laughter, showing that hard realities often teach more than easy pleasures. He calls for wisdom that is humble, patient, and careful, instead of self-righteousness or reckless wickedness. Yet even wisdom cannot fully solve the mystery of human sin, because God made people upright and they have sought many schemes.",
+    "title": "Wisdom Faces Sorrow and Its Own Limits",
+    "summary_text": "The Teacher values mourning, wise rebuke, and patience above empty pleasure, pride, and anger. He sees the righteous die and the wicked live long, warns against being too righteous or wise and too wicked or foolish, and says those fearing God heed both warnings. No one is free from sin, and wisdom stays beyond his reach. He describes a woman who traps the sinner, while one pleasing God escapes. In his search he found one upright man among a thousand but no such woman, concluding that God made people upright but they chose schemes.",
     "themes": [
       "Wisdom and restraint",
       "Mortality and sorrow",
@@ -247,33 +217,29 @@
       "God"
     ],
     "key_points": [
-      "A good name and a sober heart are better than shallow joy.",
-      "The end of a matter is better than its beginning when it teaches wisdom.",
-      "Do not be overly righteous or overly wicked.",
-      "God made man upright, but people have pursued many schemes."
+      "Mourning brings death to the living person's attention, and wise rebuke is better than foolish entertainment.",
+      "Patience is better than pride, wisdom shelters life, and God makes both prosperity and adversity.",
+      "The Teacher observes unexpected outcomes for righteous and wicked people and gives paired warnings to be held with fear of God.",
+      "Wisdom gives strength, but everyone sins and has reason to remember their own curses before reacting to others' words.",
+      "The Teacher's unfinished search describes a woman's trap and rare uprightness, ending with humanity's schemes despite God's upright creation."
     ],
     "supporting_verses": [
-      "Ecclesiastes 7:1",
-      "Ecclesiastes 7:2",
-      "Ecclesiastes 7:8",
-      "Ecclesiastes 7:16",
-      "Ecclesiastes 7:20",
-      "Ecclesiastes 7:29"
+      "Ecclesiastes 7:1-6",
+      "Ecclesiastes 7:7-14",
+      "Ecclesiastes 7:15-18",
+      "Ecclesiastes 7:19-22",
+      "Ecclesiastes 7:23-29"
     ],
-    "evidence_phrases": [
-      "the day of death",
-      "sorrow is better than laughter",
-      "wisdom is a defense",
-      "do not be overly righteous",
-      "God made man upright"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 21,
     "chapter": 8,
-    "title": "Authority, delay, and reverence before God",
-    "summary_text": "The Teacher considers kings and courts, urging wise obedience and patience under authority. Though evil is sometimes not punished quickly, he insists that judgment still belongs to God and that the wicked cannot escape forever. In the end, the right posture is not cynicism but fear of God, because human wisdom cannot master all his works.",
+    "title": "Wisdom Confronts Royal Power and Unjust Outcomes",
+    "summary_text": "The Teacher urges obedience to the king because of an oath before God, with wisdom recognizing the proper time and way to act. Yet people cannot predict the future or control death. Delayed punishment encourages evil, but the Teacher says that even if a sinner lives long, those who fear God will fare well and the wicked will not. He also sees righteous people suffering what the wicked deserve and the reverse. He commends enjoyment during God-given life and admits that even the wise cannot fully understand God's work.",
     "themes": [
       "Civil authority",
       "Delayed justice",
@@ -286,32 +252,29 @@
       "God"
     ],
     "key_points": [
-      "Keep the king's command and do not rush into rebellion.",
-      "The wise heart knows the right time and judgment.",
-      "Because sentence is delayed, the wicked often grow bold.",
-      "Human labor cannot fully comprehend God's works."
+      "An oath before God calls for obedience to the king, whose word carries power.",
+      "Wisdom recognizes time and procedure, but no one controls the future or the day of death.",
+      "The Teacher sees harmful rule and honored wicked people, while delayed punishment encourages further evil.",
+      "He expects good for those fearing God, yet observes righteous people and sinners receiving what the other deserves.",
+      "Enjoyment accompanies life's labor, while God's work remains beyond even a wise person's full understanding."
     ],
     "supporting_verses": [
-      "Ecclesiastes 8:2",
-      "Ecclesiastes 8:5",
-      "Ecclesiastes 8:11",
-      "Ecclesiastes 8:15",
-      "Ecclesiastes 8:17"
+      "Ecclesiastes 8:1-5",
+      "Ecclesiastes 8:6-8",
+      "Ecclesiastes 8:9-11",
+      "Ecclesiastes 8:12-14",
+      "Ecclesiastes 8:15-17"
     ],
-    "evidence_phrases": [
-      "keep the king's command",
-      "heart of the wise",
-      "sentence against an evil work",
-      "there is nothing better",
-      "though a man labor"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 21,
     "chapter": 9,
-    "title": "Death comes to all; enjoy life while you can",
-    "summary_text": "The Teacher faces the hard truth that death comes to the righteous and the wicked alike, and that the dead no longer participate in life under the sun. Since the future is uncertain, he urges cheerful faithfulness in work, love, and daily enjoyments. Wisdom is still precious, even if the world often forgets the wise person who quietly saves a city.",
+    "title": "Life's Enjoyment and Wisdom Amid Shared Death",
+    "summary_text": "The Teacher says the righteous and wise are in God's hands, yet death comes to everyone, and only the living still have hope. He urges enjoyment of meals, marriage, and work during fleeting life, since Sheol has no work, plans, knowledge, or wisdom. Strength, speed, and skill do not guarantee success because time and chance reach everyone and disaster comes unexpectedly. A poor wise man saves a small city from a powerful king but is forgotten. Wisdom surpasses strength and weapons, though one sinner can undo much good.",
     "themes": [
       "Universal mortality",
       "Uncertain future",
@@ -324,33 +287,29 @@
       "The wise man"
     ],
     "key_points": [
-      "One event happens to all people, so life must be received as grace.",
-      "Enjoy your portion with the wife whom you love.",
-      "Do whatever your hand finds to do with all your might.",
-      "Wisdom may be forgotten, but it is still better than strength."
+      "Death comes to righteous and wicked alike, whether they offer sacrifice or not, while the living retain hope.",
+      "The Teacher urges joyful meals, married love, and wholehearted work before life gives way to Sheol.",
+      "Talent and strength cannot guarantee results, and people can be caught suddenly by disaster.",
+      "A poor man's wisdom saves a besieged city, but afterward he is forgotten and his words ignored.",
+      "Calm wisdom is better than shouted rule or weapons, but one sinner can destroy much good."
     ],
     "supporting_verses": [
-      "Ecclesiastes 9:1",
-      "Ecclesiastes 9:4",
-      "Ecclesiastes 9:7",
-      "Ecclesiastes 9:10",
-      "Ecclesiastes 9:13",
-      "Ecclesiastes 9:18"
+      "Ecclesiastes 9:1-6",
+      "Ecclesiastes 9:7-10",
+      "Ecclesiastes 9:11-12",
+      "Ecclesiastes 9:13-16",
+      "Ecclesiastes 9:17-18"
     ],
-    "evidence_phrases": [
-      "the dead know nothing",
-      "live joyfully",
-      "whatever your hand finds to do",
-      "wisdom is better than strength",
-      "one sinner destroys much good"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 21,
     "chapter": 10,
-    "title": "Folly in high places and careless words",
-    "summary_text": "The Teacher shows how a little folly can ruin honor, and how foolish leadership spreads trouble through a land. He contrasts wise speech and skillful labor with the reckless talk of fools who cannot guide themselves. The chapter warns that even private thoughts and words matter, because folly eventually reveals itself in public harm.",
+    "title": "A Little Folly Can Undo Much Wisdom",
+    "summary_text": "A little folly can outweigh wisdom and honor, and a fool soon shows his lack of sense. The Teacher urges calm before an angry ruler and sees harm when rulers put fools in high places. Daily work has risks, but skill helps, while a fool's stream of words ends in evil madness. A land suffers when its rulers feast at the wrong time but is blessed when they eat for strength. Idle hands let a house fall apart, and even curses spoken in private may reach the king or the rich.",
     "themes": [
       "Folly and honor",
       "Leadership",
@@ -363,33 +322,29 @@
       "The ruler"
     ],
     "key_points": [
-      "A little folly can spoil the value of wisdom and honor.",
-      "Fools talk too much and too carelessly.",
-      "Lazy hands create trouble, while skill helps preserve order.",
-      "A land suffers when its rulers and servants indulge folly."
+      "Small amounts of folly can outweigh wisdom, while calmness can settle a ruler's anger.",
+      "The Teacher sees rulers place folly high and reverse the positions of slaves and princes.",
+      "Digging, breaking walls, quarrying, and woodcutting bring danger, while skill and timely action matter.",
+      "Wise words are gracious, but a fool's multiplying speech leads from folly to destructive madness.",
+      "A land is blessed by disciplined rulers, while laziness damages homes and private curses risk becoming known."
     ],
     "supporting_verses": [
-      "Ecclesiastes 10:1",
-      "Ecclesiastes 10:4",
-      "Ecclesiastes 10:10",
-      "Ecclesiastes 10:12",
-      "Ecclesiastes 10:16",
-      "Ecclesiastes 10:20"
+      "Ecclesiastes 10:1-4",
+      "Ecclesiastes 10:5-7",
+      "Ecclesiastes 10:8-11",
+      "Ecclesiastes 10:12-15",
+      "Ecclesiastes 10:16-20"
     ],
-    "evidence_phrases": [
-      "a little folly",
-      "the words of a fool",
-      "the wise man's heart",
-      "woe to you, O land",
-      "a bird of the air"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 21,
     "chapter": 11,
-    "title": "Generosity, uncertainty, and the call to act",
-    "summary_text": "The Teacher counsels bold generosity because life is uncertain and outcomes cannot be controlled. He calls people to sow, labor, and do good while they can, instead of waiting for ideal conditions that never arrive. Youth is a gift, but it must be enjoyed with awareness that God will bring every hidden thing into judgment.",
+    "title": "Work Amid Uncertainty and Enjoy Fleeting Youth",
+    "summary_text": "The Teacher speaks of sending bread over water and dividing a portion widely because disaster cannot be predicted. Waiting for perfect wind or clouds prevents planting and harvest, and God's work remains beyond human understanding. He urges sowing at different times because no one knows which planting will succeed. Life in the light is pleasant and worth enjoying, though dark days will come. Young people are told to enjoy their brief youth while remembering that God will bring their actions into judgment.",
     "themes": [
       "Generous action",
       "Uncertain outcomes",
@@ -402,32 +357,27 @@
       "God"
     ],
     "key_points": [
-      "Cast your bread on the waters and keep doing good.",
-      "You do not know which work will prosper, so keep working.",
-      "Rejoice in youth, but remember that God sees it all.",
-      "Every hidden thing will be brought into judgment."
+      "Bread sent over water may return later, and portions are to be divided because disaster is uncertain.",
+      "Watching weather can prevent work, and people cannot understand all that God does.",
+      "Sowing in morning and evening allows for results that cannot be known beforehand.",
+      "Life is to be enjoyed with dark days remembered, and youthful joy remains subject to God's judgment."
     ],
     "supporting_verses": [
-      "Ecclesiastes 11:1",
-      "Ecclesiastes 11:4",
+      "Ecclesiastes 11:1-2",
+      "Ecclesiastes 11:3-5",
       "Ecclesiastes 11:6",
-      "Ecclesiastes 11:9",
-      "Ecclesiastes 11:10"
+      "Ecclesiastes 11:7-10"
     ],
-    "evidence_phrases": [
-      "cast your bread",
-      "you do not know",
-      "in the morning sow",
-      "rejoice, O young man",
-      "God will bring you into judgment"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 21,
     "chapter": 12,
-    "title": "Remember your Creator; fear God and keep his commandments",
-    "summary_text": "The Teacher ends by urging the young to remember their Creator before the weakness of age steals strength, joy, and desire. He pictures the body’s decay in vivid poetic language and reminds the reader that dust returns to dust, just as the spirit returns to God. The book closes by reducing human duty to one clear response: fear God, keep his commandments, and wait for his final judgment.",
+    "title": "Remember the Creator and Fear God",
+    "summary_text": "Young people are urged to remember their Creator before hard years come, with images of dim lights, shaking keepers, and a broken bowl leading toward death. Dust goes back to earth, and the spirit goes back to God. The Teacher again calls all things futile. The closing speaker praises the Teacher's search for true words, compares wise sayings to prods and nails, and warns that endless books and study bring weariness. The final call is to fear God and keep His commandments, since even hidden deeds face His judgment.",
     "themes": [
       "Aging and decay",
       "Remembering the Creator",
@@ -440,25 +390,21 @@
       "God"
     ],
     "key_points": [
-      "Remember your Creator in the days of your youth.",
-      "The body will weaken and the grave will finally claim it.",
-      "The dust returns to the earth and the spirit returns to God.",
-      "Fear God and keep his commandments, for he will judge every work."
+      "The young are urged to remember their Creator before difficult years and images of decline lead toward mourning.",
+      "Broken cord, bowl, pitcher, and wheel precede dust returning to earth and the spirit returning to God.",
+      "The Teacher repeats his verdict of futility, and the closing speaker describes his careful work arranging truthful proverbs.",
+      "Wise words are compared with prods and fixed nails from one Shepherd, while endless books and study bring weariness.",
+      "The conclusion calls for fear of God and obedience to His commandments because He judges every good, evil, and hidden deed."
     ],
     "supporting_verses": [
-      "Ecclesiastes 12:1",
-      "Ecclesiastes 12:6",
-      "Ecclesiastes 12:7",
-      "Ecclesiastes 12:8",
-      "Ecclesiastes 12:13",
-      "Ecclesiastes 12:14"
+      "Ecclesiastes 12:1-5",
+      "Ecclesiastes 12:6-7",
+      "Ecclesiastes 12:8-10",
+      "Ecclesiastes 12:11-12",
+      "Ecclesiastes 12:13-14"
     ],
-    "evidence_phrases": [
-      "remember also your Creator",
-      "the silver cord is loosed",
-      "vanity of vanities",
-      "fear God and keep his commandments",
-      "God will bring every work"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   }
 ]

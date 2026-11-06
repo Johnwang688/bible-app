@@ -1,10 +1,10 @@
 [
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 1,
-    "title": "From Adam to Israel",
-    "summary_text": "The chapter traces the family line from Adam through the patriarchs to Israel and his sons. It places the covenant people inside the wider story of the nations and shows that Israel's history begins with God's long, ordered providence. The genealogy grounds everything that follows in promise, continuity, and divine purpose.",
+    "title": "Family Lines From Adam to Edom's Chiefs",
+    "summary_text": "The family lists begin with Adam and reach Noah, then branch through Noah's sons Shem, Ham, and Japheth. They note Nimrod's might and the division of the earth in Peleg's days before tracing Shem's line to Abraham. Abraham's descendants include the families of Ishmael and Keturah, while Isaac's sons are Esau and Israel. The lists then follow Esau's and Seir's families and name Edom's kings and chiefs, noting that Edom had kings before Israel did.",
     "themes": [
       "Human origins",
       "Patriarchal promise",
@@ -18,32 +18,29 @@
       "Israel"
     ],
     "key_points": [
-      "The line runs from creation to the patriarchs.",
-      "Abraham becomes the hinge point for the covenant family.",
-      "The nations are listed alongside Israel's ancestors.",
-      "Israel's identity is rooted in remembered history."
+      "The opening names trace the family line from Adam to Noah and his three sons.",
+      "The families of Japheth, Ham, and Shem are listed, with notes about Nimrod and Peleg.",
+      "Shem's line reaches Abraham, whose descendants include Ishmael's sons, Keturah's children, and Isaac's sons Esau and Israel.",
+      "Esau's and Seir's descendants are named before the list turns to Edom's rulers.",
+      "Edom's kings ruled before Israel had a king, and a list of Edomite chiefs follows."
     ],
     "supporting_verses": [
-      "1 Chronicles 1:1",
-      "1 Chronicles 1:27",
-      "1 Chronicles 1:34",
-      "1 Chronicles 1:42",
-      "1 Chronicles 1:54"
+      "1 Chronicles 1:1-4",
+      "1 Chronicles 1:5-23",
+      "1 Chronicles 1:24-34",
+      "1 Chronicles 1:35-42",
+      "1 Chronicles 1:43-54"
     ],
-    "evidence_phrases": [
-      "Adam, Seth, Enosh",
-      "Abraham, Isaac, and Israel",
-      "the sons of Jacob",
-      "the nations",
-      "the covenant line"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 2,
-    "title": "Judah's line and the family of David",
-    "summary_text": "The chapter narrows the focus to Judah and the line that will lead to David. It pauses for the family of Caleb and the descendants of Hezron, showing the breadth of Judah's clans and village life. The genealogy points forward to kingship while still preserving the ordinary families that carried the promise.",
+    "title": "Judah's Families and the Line to David",
+    "summary_text": "Judah's family list follows the names of Israel's sons and notes Er's wickedness and Achar's offense. Er is Judah's firstborn, whom the LORD puts to death. Ram's line leads through Jesse to David, whose brothers, sisters, and nephews are named. Other branches follow Caleb and Jerahmeel, including Sheshan's line through his daughter and his Egyptian servant Jarha. The lists also name Bezalel and Jair and link families with towns and groups of scribes.",
     "themes": [
       "Judah's lineage",
       "Davidic preparation",
@@ -57,32 +54,29 @@
       "David"
     ],
     "key_points": [
-      "Judah's line is traced carefully toward David.",
-      "Caleb's family receives special attention.",
-      "The chapter preserves the names of many smaller clans.",
-      "David's future kingship is prepared by family history."
+      "Judah's descendants include Er, whom the LORD killed for wickedness, and Achar, who violated the ban on devoted things.",
+      "Hezron's son Ram stands in the family line leading to Jesse and David.",
+      "Caleb's family includes Hur, Uri, and Bezalel, while another branch of Hezron's family leads to Jair.",
+      "Jerahmeel's descendants include Sheshan, whose family line continues through his daughter's marriage to Jarha.",
+      "The remaining Calebite family lists connect descendants with towns, clans, and scribal families."
     ],
     "supporting_verses": [
-      "1 Chronicles 2:3",
-      "1 Chronicles 2:18",
-      "1 Chronicles 2:24",
-      "1 Chronicles 2:50",
-      "1 Chronicles 2:55"
+      "1 Chronicles 2:1-8",
+      "1 Chronicles 2:9-17",
+      "1 Chronicles 2:18-24",
+      "1 Chronicles 2:25-41",
+      "1 Chronicles 2:42-55"
     ],
-    "evidence_phrases": [
-      "the sons of Judah",
-      "the house of Caleb",
-      "Hezron",
-      "the father of Bethlehem",
-      "David the king"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 3,
-    "title": "David's sons and the royal line",
-    "summary_text": "The genealogy of David's family follows the royal line from Hebron and Jerusalem through the kings of Judah. It reaches beyond the exile and preserves the hope that David's house is not forgotten. Even in a chapter of names, the chronicler keeps the promise of kingship alive.",
+    "title": "David's Children and the Royal Family Line",
+    "summary_text": "David's sons are grouped by their births in Hebron and Jerusalem, and their sister Tamar is also named. Solomon is one of Bathsheba's sons. His line runs through successive generations to Josiah and his sons. The list then turns to Jehoiakim's successors and the family of Jeconiah, who is a captive. It names Pedaiah and his son Zerubbabel, then follows more branches down to Elioenai's sons.",
     "themes": [
       "Davidic kingship",
       "Royal succession",
@@ -96,32 +90,27 @@
       "Jeconiah"
     ],
     "key_points": [
-      "David's sons are listed by birthplace and generation.",
-      "The royal line continues through Judah's kings.",
-      "The genealogy extends into the exile.",
-      "The line of promise survives national collapse."
+      "David's six sons born in Hebron are listed with their mothers, followed by his children born in Jerusalem.",
+      "Solomon's family line runs through successive generations to Josiah and his sons.",
+      "Jeconiah is identified as a captive, and his descendants include Pedaiah, the father of Zerubbabel and Shimei.",
+      "Zerubbabel's children and later family branches are recorded, ending with the sons of Elioenai."
     ],
     "supporting_verses": [
-      "1 Chronicles 3:1",
-      "1 Chronicles 3:5",
-      "1 Chronicles 3:10",
-      "1 Chronicles 3:16",
-      "1 Chronicles 3:24"
+      "1 Chronicles 3:1-9",
+      "1 Chronicles 3:10-16",
+      "1 Chronicles 3:17-19",
+      "1 Chronicles 3:19-24"
     ],
-    "evidence_phrases": [
-      "sons born to him in Hebron",
-      "the kings of Judah",
-      "until the exile",
-      "the sons of Jeconiah",
-      "the house of David"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06, fix 1",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 4,
-    "title": "Judah's clans and Jabez's prayer",
-    "summary_text": "Judah's descendants are listed with a special note about Jabez, whose prayer for blessing and enlargement is answered by God. The chapter also records craftspeople, shepherds, and settlement patterns, showing the life of Judah beyond royal names. It celebrates ordinary faith, work, and divine favor in the middle of a long genealogy.",
+    "title": "Judah's Families and Simeon's New Settlements",
+    "summary_text": "Judah's family lists link people with towns, clans, and their work. God answers Jabez's prayer for blessing, more land, and freedom from harm and pain. Other entries name Caleb's sons, Pharaoh's daughter Bithiah, cloth workers, and potters who serve the king. Simeon's families and towns are then listed, with leaders whose growing clans seek pasture. Some destroy Hamite and Meunite settlements and take their land; others defeat the Amalekite remnant at Mount Seir and live there.",
     "themes": [
       "Clan records",
       "Answered prayer",
@@ -135,32 +124,29 @@
       "Hammuel"
     ],
     "key_points": [
-      "The genealogy includes towns, trades, and family branches.",
-      "Jabez prays for blessing and protection.",
-      "God grants the request of Jabez.",
-      "The chapter honors faithful work and remembered names."
+      "Judah's descendants are connected with families and settlements, including those descended from Hur.",
+      "Jabez calls on God for blessing, wider territory, and freedom from harm and pain, and God grants his request.",
+      "Judah's lists include craftsmen, Caleb's sons, Bithiah's children, linen workers, and potters in royal service.",
+      "Simeon's families keep genealogical records of their members and settlements.",
+      "Simeonite groups conquer pastureland and settle at Mount Seir after defeating the Amalekite remnant."
     ],
     "supporting_verses": [
-      "1 Chronicles 4:9",
-      "1 Chronicles 4:10",
-      "1 Chronicles 4:14",
-      "1 Chronicles 4:21",
-      "1 Chronicles 4:23"
+      "1 Chronicles 4:1-8",
+      "1 Chronicles 4:9-10",
+      "1 Chronicles 4:11-23",
+      "1 Chronicles 4:24-38",
+      "1 Chronicles 4:39-43"
     ],
-    "evidence_phrases": [
-      "Jabez was more honorable",
-      "Oh that you would bless me",
-      "God granted what he requested",
-      "the sons of Shelah",
-      "inhabitants of Gedor"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 5,
-    "title": "The eastern tribes and their exile",
-    "summary_text": "Reuben, Gad, and half the tribe of Manasseh are traced with special attention to their territory east of the Jordan. Their unfaithfulness leads to defeat and exile when God uses Assyria to remove them from the land. The chapter explains that heritage alone cannot protect a people who abandon the LORD.",
+    "title": "Eastern Tribes Win Battles but Face Exile",
+    "summary_text": "Reuben is Israel's firstborn, but his sexual wrongdoing against his father costs him his birthright, which passes to Joseph's sons, while a ruler comes from Judah. The family lists name Reuben's and Gad's descendants, leaders, and settlements. Warriors from Reuben, Gad, and the half-tribe of Manasseh trust God in battle, and He answers their prayers with victory over the Hagrites and their allies. The half-tribe's families and leaders are also named. When these tribes turn to other gods, God stirs the spirit of Assyria's king to take them into exile.",
     "themes": [
       "Tribal heritage",
       "Unfaithfulness",
@@ -174,32 +160,29 @@
       "Assyria"
     ],
     "key_points": [
-      "The eastern tribes are listed by clan and territory.",
-      "They prospered when they trusted God in war.",
-      "They sinned by going after foreign gods.",
-      "Assyria carries them away in judgment."
+      "Reuben loses his firstborn rights to Joseph's sons, while Judah's line provides a ruler.",
+      "Reuben's descendants include Beerah, an exiled leader, and families who spread eastward with their livestock.",
+      "Gad's family leaders and settlements are recorded alongside the times when their genealogies were registered.",
+      "God answers the eastern tribes' prayers in battle, giving them victory, livestock, captives, and land.",
+      "The eastern tribes become unfaithful to God, who stirs Assyria's king to deport them."
     ],
     "supporting_verses": [
-      "1 Chronicles 5:1",
-      "1 Chronicles 5:9",
-      "1 Chronicles 5:18",
-      "1 Chronicles 5:25",
-      "1 Chronicles 5:26"
+      "1 Chronicles 5:1-2",
+      "1 Chronicles 5:3-10",
+      "1 Chronicles 5:11-17",
+      "1 Chronicles 5:18-22",
+      "1 Chronicles 5:23-26"
     ],
-    "evidence_phrases": [
-      "they transgressed",
-      "the God of their fathers",
-      "the king of Assyria",
-      "carried them away",
-      "they were unfaithful"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 6,
-    "title": "Levi, priests, and cities of refuge",
-    "summary_text": "The chapter gives the genealogy of Levi and the priestly families, anchoring worship in a long line of service. It also records the Levitical cities and refuge cities distributed throughout the land. The record shows that Israel's worship life depended on ordered ministry and God-provided spaces of mercy.",
+    "title": "Levi's Families, Worship Duties, and Towns",
+    "summary_text": "Levi's family lists trace Aaron's line of priests down to the exile. Other branches include Samuel and the singers Heman, Asaph, and Ethan. David assigns the singers to serve at the tabernacle before Solomon builds the temple. Aaron's sons serve at the altars and in the Most Holy Place, making atonement for Israel as Moses commanded. The lists end with the towns and grazing land given to Levite families among Israel's tribes.",
     "themes": [
       "Priestly lineage",
       "Temple service",
@@ -213,32 +196,29 @@
       "Moses"
     ],
     "key_points": [
-      "The priestly line is traced from Levi to Aaron.",
-      "The Levites are assigned cities across Israel.",
-      "The cities of refuge are identified.",
-      "Worship and justice are linked through the Levitical order."
+      "Aaron's priestly family line reaches Jehozadak, who is taken into exile under Nebuchadnezzar.",
+      "The clans descended from Gershom, Kohath, and Merari include Samuel's family.",
+      "Heman, Asaph, and Ethan lead appointed musical service, and their family lines are traced to Levi.",
+      "Levites serve at the tabernacle, while Aaron's descendants present offerings and make atonement according to Moses' commands.",
+      "The Levite families receive towns and pasturelands allotted among the tribes of Israel."
     ],
     "supporting_verses": [
-      "1 Chronicles 6:1",
-      "1 Chronicles 6:16",
-      "1 Chronicles 6:31",
-      "1 Chronicles 6:54",
-      "1 Chronicles 6:67"
+      "1 Chronicles 6:1-15",
+      "1 Chronicles 6:16-30",
+      "1 Chronicles 6:31-47",
+      "1 Chronicles 6:48-53",
+      "1 Chronicles 6:54-81"
     ],
-    "evidence_phrases": [
-      "the sons of Levi",
-      "Aaron and his sons",
-      "cities of their possession",
-      "cities of refuge",
-      "to minister in the house"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 7,
-    "title": "The remaining tribes of Israel",
-    "summary_text": "The chapter records the descendants of Issachar, Benjamin, Naphtali, Manasseh, Ephraim, and Asher. It also preserves the names of mighty warriors and family heads who shaped the life of the tribes. The list shows that the whole nation, not only Judah and Levi, belongs in the story of God's people.",
+    "title": "Tribal Families, Warriors, and Joseph's Settlements",
+    "summary_text": "Family lists name leaders and fighting men from Issachar and Benjamin, then the sons of Naphtali. Manasseh's families include Machir and Zelophehad, who has only daughters. Ephraim grieves when Ezer and Elead are killed stealing livestock, and he later has a son named Beriah. His daughter Sheerah builds towns, and his family line reaches Joshua son of Nun. The lists name towns where Joseph's families live, then close with Asher's leaders and men fit for war.",
     "themes": [
       "Tribal identity",
       "Mighty men",
@@ -252,32 +232,29 @@
       "Asher"
     ],
     "key_points": [
-      "Several northern and central tribes are recorded.",
-      "The chapter highlights warrior families and chiefs.",
-      "Israel's history includes many ordinary clans.",
-      "The whole covenant nation is remembered before God."
+      "Issachar's and Benjamin's family lists record their leaders and numbers of warriors, and Naphtali's sons are named.",
+      "Manasseh's descendants include Machir's family and Zelophehad, who has only daughters.",
+      "Ephraim mourns Ezer and Elead, Beriah is born, and Sheerah is noted for building towns.",
+      "Ephraim's family line reaches Joshua, and the towns occupied by Joseph's descendants are listed.",
+      "Asher's descendants include family chiefs and twenty-six thousand men fit for battle."
     ],
     "supporting_verses": [
-      "1 Chronicles 7:1",
-      "1 Chronicles 7:6",
-      "1 Chronicles 7:11",
-      "1 Chronicles 7:20",
-      "1 Chronicles 7:40"
+      "1 Chronicles 7:1-13",
+      "1 Chronicles 7:14-19",
+      "1 Chronicles 7:20-24",
+      "1 Chronicles 7:25-29",
+      "1 Chronicles 7:30-40"
     ],
-    "evidence_phrases": [
-      "the sons of Issachar",
-      "the sons of Benjamin",
-      "mighty men of valor",
-      "the sons of Ephraim",
-      "their generations"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 8,
-    "title": "Benjamin and the house of Saul",
-    "summary_text": "Benjamin's genealogy is traced with special attention to the family of Saul. The chapter connects Saul to the tribe's wider family lines and preserves the names of villages, warriors, and descendants. It gives Saul a place in Israel's memory even as the narrative prepares to move toward David.",
+    "title": "Benjamin's Families and Saul's Descendants",
+    "summary_text": "Benjamin's family lists name his sons and clans linked to Geba, Moab, and other places. Shemed builds towns, while Beriah and Shema drive out the people of Gath. The lists also name family chiefs who live in Jerusalem. Another line runs through Ner and Kish to Saul, then through Jonathan, Merib-baal, and Micah. Later branches include Ulam's sons, who are skilled with the bow and have many sons and grandsons.",
     "themes": [
       "Benjamin's genealogy",
       "Saul's family",
@@ -291,32 +268,29 @@
       "Mica"
     ],
     "key_points": [
-      "Benjamin's line is traced carefully.",
-      "Saul's family is preserved in the record.",
-      "The chapter keeps tribal and royal history together.",
-      "The genealogy prepares for the move to the monarchy."
+      "Benjamin's sons and their descendants include families moved from Geba to Manahath and Shaharaim's sons born in Moab.",
+      "Shemed builds Ono and Lod, while Beriah and Shema drive out Gath's inhabitants.",
+      "The named branches of Benjamin's families include chiefs who live in Jerusalem.",
+      "The family list connects Ner and Kish with Saul, Jonathan, and Jonathan's descendants through Merib-baal.",
+      "Later descendants include Azel's six sons and Ulam's family of warriors skilled with the bow."
     ],
     "supporting_verses": [
-      "1 Chronicles 8:1",
-      "1 Chronicles 8:21",
-      "1 Chronicles 8:29",
-      "1 Chronicles 8:33",
-      "1 Chronicles 8:40"
+      "1 Chronicles 8:1-11",
+      "1 Chronicles 8:12-13",
+      "1 Chronicles 8:14-28",
+      "1 Chronicles 8:29-35",
+      "1 Chronicles 8:36-40"
     ],
-    "evidence_phrases": [
-      "the sons of Benjamin",
-      "Saul begot",
-      "Jonathan",
-      "the father of Gibeon",
-      "the house of Saul"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 9,
-    "title": "Jerusalem residents and Saul's summary",
-    "summary_text": "The exiles who return to Jerusalem are listed along with priests, Levites, gatekeepers, and workers in the city. The chapter closes with a brief summary of Saul's reign and the transfer of leadership to David. It links postexilic life with the earlier monarchy so the reader sees continuity across judgment and return.",
+    "title": "Families and Temple Servants in Jerusalem",
+    "summary_text": "Judah's unfaithfulness leads to exile, and families later settle again in Jerusalem. Priests and Levites serve at God's house, with Shallum leading the gatekeepers. Others care for supplies, music, and the bread prepared each Sabbath. Their duties are set out by family. A final list traces Saul's line through Jonathan and Merib-baal to Azel's sons.",
     "themes": [
       "Postexilic return",
       "Temple personnel",
@@ -330,32 +304,29 @@
       "Saul"
     ],
     "key_points": [
-      "Jerusalem's residents are carefully listed.",
-      "Priests and Levites resume service.",
-      "Gatekeepers and craftsmen are named.",
-      "Saul's end is summarized before the story moves on."
+      "Judah went into exile for unfaithfulness, and Israelites and temple servants later resettled their towns.",
+      "The Jerusalem families include priests and Levites assigned to serve in God's house.",
+      "Shallum and the gatekeepers guard entrances, with chief gatekeepers responsible for rooms, treasuries, and opening the gates.",
+      "Other servants manage worship supplies, prepare Sabbath bread, and provide music day and night.",
+      "The closing genealogy traces Saul's family through Jonathan and later descendants."
     ],
     "supporting_verses": [
-      "1 Chronicles 9:2",
-      "1 Chronicles 9:10",
-      "1 Chronicles 9:17",
-      "1 Chronicles 9:22",
-      "1 Chronicles 9:39"
+      "1 Chronicles 9:1-3",
+      "1 Chronicles 9:10-16",
+      "1 Chronicles 9:17-27",
+      "1 Chronicles 9:28-34",
+      "1 Chronicles 9:35-44"
     ],
-    "evidence_phrases": [
-      "the first inhabitants",
-      "the gatekeepers",
-      "they were able men",
-      "the sons of Saul",
-      "the city of Jerusalem"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 10,
-    "title": "Saul's death and the end of his house",
-    "summary_text": "Saul falls in battle at Gilboa after rejecting the word of the LORD and seeking guidance from forbidden sources. His sons die with him, and the kingdom is handed over to David as the record of Saul's house closes. The chapter explains the fall of the first king as a tragic consequence of disobedience.",
+    "title": "Saul Dies and His Kingdom Passes Away",
+    "summary_text": "The Philistines defeat Israel and kill three of Saul's sons. Wounded by archers, Saul falls on his sword after his armor-bearer refuses to kill him, and the armor-bearer also dies. The Philistines display Saul's armor and head in their temples, but men from Jabesh-gilead recover and bury the bodies of Saul and his sons. The account says the LORD put Saul to death for rejecting His word and seeking a medium instead of Him, and gave the kingdom to David.",
     "themes": [
       "Kingly failure",
       "Judgment in battle",
@@ -369,33 +340,27 @@
       "David"
     ],
     "key_points": [
-      "Saul is defeated at Mount Gilboa.",
-      "Jonathan dies alongside his father.",
-      "Saul's death is traced to his unfaithfulness.",
-      "The kingdom passes to David."
+      "Israel flees, Saul's three sons die, and Saul takes his own life after being wounded.",
+      "The Philistines announce Saul's death among their idols and display his head in Dagon's temple.",
+      "Men from Jabesh-gilead recover the bodies, bury the bones, and fast for seven days.",
+      "The LORD ends Saul's reign for unfaithfulness and gives the kingdom to David."
     ],
     "supporting_verses": [
-      "1 Chronicles 10:3",
-      "1 Chronicles 10:6",
-      "1 Chronicles 10:13",
-      "1 Chronicles 10:14",
-      "1 Chronicles 10:15"
+      "1 Chronicles 10:1-7",
+      "1 Chronicles 10:8-10",
+      "1 Chronicles 10:11-12",
+      "1 Chronicles 10:13-14"
     ],
-    "evidence_phrases": [
-      "Saul died for his trespass",
-      "the LORD slew him",
-      "Jonathan his son",
-      "the kingdom was turned",
-      "David the son of Jesse"
-    ]
-  }
-,
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
+  },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 11,
-    "title": "David becomes king and captures Jerusalem",
-    "summary_text": "The tribes gather at Hebron to anoint David, and he establishes his rule over all Israel. He captures Jerusalem and makes it the political center of the kingdom, while Joab secures the city for him. The chapter then lists David's mighty men, tying royal success to loyal warriors around the king.",
+    "title": "David Becomes King and Captures Jerusalem",
+    "summary_text": "Israel's elders make David king at Hebron, where he makes a covenant with them before the LORD. David captures Jerusalem, and Joab becomes commander by leading the attack. The LORD is with David as his power grows. The account then names his mighty men and describes the courage of Jashobeam, Eleazar, Abishai, and Benaiah. When three warriors risk their lives to bring David water from Bethlehem, he pours it out to the LORD instead of drinking it.",
     "themes": [
       "Davidic kingship",
       "Jerusalem secured",
@@ -409,32 +374,29 @@
       "the mighty men"
     ],
     "key_points": [
-      "David is anointed king over all Israel.",
-      "Jerusalem becomes his capital.",
-      "Joab leads the capture of the city.",
-      "The chapter records David's chief warriors."
+      "Israel's elders anoint David king after he makes a covenant with them, fulfilling the LORD's word through Samuel.",
+      "David captures Zion, Joab becomes commander, and the LORD makes David increasingly great.",
+      "Jashobeam and Eleazar stand out among the warriors who strengthen David's kingdom.",
+      "David pours out the water brought by three warriors because they risked their lives for it.",
+      "Abishai and Benaiah win honor through courageous deeds, followed by a list of other mighty men."
     ],
     "supporting_verses": [
-      "1 Chronicles 11:1",
-      "1 Chronicles 11:4",
-      "1 Chronicles 11:6",
-      "1 Chronicles 11:10",
-      "1 Chronicles 11:41"
+      "1 Chronicles 11:1-3",
+      "1 Chronicles 11:4-9",
+      "1 Chronicles 11:10-14",
+      "1 Chronicles 11:15-19",
+      "1 Chronicles 11:20-47"
     ],
-    "evidence_phrases": [
-      "bone of your bone",
-      "David took the stronghold of Zion",
-      "Joab the son of Zeruiah",
-      "mighty men",
-      "the chief of the thirty"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 12,
-    "title": "Warriors gather around David",
-    "summary_text": "Men from every tribe join David, first while he is still on the run and then at Hebron when the kingdom is being transferred. The chapter emphasizes practical courage, skill, and unity as Israel moves from Saul's decline toward David's reign. David's growing support shows that God's choice is being recognized by the people and by history.",
+    "title": "Warriors Gather to Make David King",
+    "summary_text": "Skilled warriors from several tribes join David while he is still kept away from Saul. When David questions one group, the Spirit comes upon Amasai, who pledges loyalty and peace because God helps David. More men arrive each day until David has a great army. Troops from across Israel gather at Hebron to make him king, as the LORD's word said. They share a joyful feast with plenty of food.",
     "themes": [
       "Gathering support",
       "Military courage",
@@ -448,32 +410,29 @@
       "the tribes"
     ],
     "key_points": [
-      "Support comes to David from multiple tribes.",
-      "Skilled fighters join him while he is still in danger.",
-      "More men come at Hebron to hand over the kingdom.",
-      "The kingdom transfers with joy and unity."
+      "Benjamite archers and strong Gadite commanders join David while he is separated from Saul.",
+      "The Spirit comes upon Amasai, who assures David of the newcomers' loyalty and peaceful intentions.",
+      "Men from Manasseh help David fight raiders as his army grows daily.",
+      "Armed men from across Israel gather at Hebron to transfer Saul's kingdom to David according to the LORD's word.",
+      "The people share food and celebrate David's kingship with joy for three days."
     ],
     "supporting_verses": [
-      "1 Chronicles 12:1",
-      "1 Chronicles 12:8",
-      "1 Chronicles 12:18",
-      "1 Chronicles 12:23",
-      "1 Chronicles 12:38"
+      "1 Chronicles 12:1-15",
+      "1 Chronicles 12:16-18",
+      "1 Chronicles 12:19-22",
+      "1 Chronicles 12:23-38",
+      "1 Chronicles 12:39-40"
     ],
-    "evidence_phrases": [
-      "mighty men of valor",
-      "came to David",
-      "to turn the kingdom",
-      "all their brethren",
-      "one heart to make David king"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 13,
-    "title": "Uzzah struck and the ark halted",
-    "summary_text": "David tries to bring the ark to Jerusalem, but the journey stops when Uzzah touches it and dies. David is angry and afraid, and the ark is left temporarily in the house of Obed-edom. The chapter stresses that holy things must be handled according to God's command, not merely with good intentions.",
+    "title": "Uzzah Dies as the Ark Is Moved",
+    "summary_text": "David and Israel agree to bring back God's ark, since they had not sought God during Saul's reign. They move it on a new cart and celebrate with songs and instruments. When the oxen stumble, Uzzah grabs the ark, and the LORD strikes him dead for touching it. David becomes angry and afraid, so he leaves the ark at Obed-edom's house, where the LORD blesses the household during its three-month stay.",
     "themes": [
       "Holy reverence",
       "Unauthorized handling",
@@ -487,32 +446,27 @@
       "the Levites"
     ],
     "key_points": [
-      "David attempts to move the ark to Jerusalem.",
-      "Uzzah dies for touching the ark.",
-      "David pauses the transfer in fear.",
-      "The ark brings blessing to Obed-edom's house."
+      "David consults the leaders and gathers Israel to bring back the ark of God.",
+      "Uzzah and Ahio guide a new cart carrying the ark while Israel celebrates before God.",
+      "The LORD strikes Uzzah dead after he reaches out to steady the ark.",
+      "David leaves the ark with Obed-edom in fear, and the LORD blesses that household."
     ],
     "supporting_verses": [
-      "1 Chronicles 13:3",
-      "1 Chronicles 13:9",
-      "1 Chronicles 13:11",
-      "1 Chronicles 13:13",
-      "1 Chronicles 13:14"
+      "1 Chronicles 13:1-6",
+      "1 Chronicles 13:7-8",
+      "1 Chronicles 13:9-10",
+      "1 Chronicles 13:11-14"
     ],
-    "evidence_phrases": [
-      "the ark of God",
-      "Uzzah put forth his hand",
-      "God struck him",
-      "the anger of David was kindled",
-      "the house of Obed-edom"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 14,
-    "title": "David's house established and Philistines defeated",
-    "summary_text": "Hiram sends support to David, and David recognizes that the LORD has established his kingdom in Jerusalem. The chapter then recounts two defeats of the Philistines, where David seeks God's guidance before attacking. The king's household grows and his victories show that his rule is now firmly grounded in divine favor.",
+    "title": "God Gives David Victory Over the Philistines",
+    "summary_text": "Hiram helps build David's palace, and David sees that the LORD has made him king for Israel's sake. His family grows in Jerusalem. When the Philistines attack, David seeks God's help, defeats them, and burns the gods they leave behind. In a second battle, he obeys God's order to circle around and wait for marching sounds in the trees. David's fame spreads, and the LORD makes the nations fear him.",
     "themes": [
       "Established kingdom",
       "Divine guidance",
@@ -526,32 +480,27 @@
       "the LORD"
     ],
     "key_points": [
-      "Hiram's help confirms David's rise.",
-      "David asks God before fighting.",
-      "The Philistines are defeated twice.",
-      "David's household in Jerusalem grows."
+      "David recognizes the LORD's support for his kingdom as Hiram helps build his palace and his family grows.",
+      "God tells David to attack the Philistines, and David defeats them and burns their abandoned gods.",
+      "David obeys God's different instructions for a second battle and wins another victory.",
+      "The LORD makes the nations fear David as his reputation spreads."
     ],
     "supporting_verses": [
-      "1 Chronicles 14:2",
-      "1 Chronicles 14:10",
-      "1 Chronicles 14:14",
-      "1 Chronicles 14:16",
+      "1 Chronicles 14:1-7",
+      "1 Chronicles 14:8-12",
+      "1 Chronicles 14:13-16",
       "1 Chronicles 14:17"
     ],
-    "evidence_phrases": [
-      "David perceived that the LORD",
-      "go up after them",
-      "the LORD has broken out",
-      "the Philistines had left",
-      "his fame went out"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 15,
-    "title": "The ark brought in by the Levites",
-    "summary_text": "David learns that the ark must be carried by the Levites, and he organizes the procession accordingly. Sacrifice, singing, and careful ordering now mark the return of the ark to Jerusalem. The chapter corrects the earlier failure and presents worship as joyful but exact obedience.",
+    "title": "Levites Bring the Ark to Jerusalem",
+    "summary_text": "David prepares a tent for God's ark and gathers Israel to bring it to Jerusalem. He says the LORD chose the Levites to carry it, and the earlier disaster came from failing to follow God's order. The priests and Levites set themselves apart for this task and carry the ark on poles. Songs and sacrifices mark the joyful journey as God helps them. Michal sees David dancing as the ark of the covenant enters the city and despises him.",
     "themes": [
       "Levitical order",
       "Joyful worship",
@@ -565,32 +514,27 @@
       "Obed-edom"
     ],
     "key_points": [
-      "David prepares the Levites to carry the ark.",
-      "Musicians and singers lead the procession.",
-      "The ark is brought to Jerusalem with joy.",
-      "David dances before the LORD with all his might."
+      "David prepares a place for the ark and says only the Levites chosen by God may carry it.",
+      "The priests and Levites consecrate themselves and carry the ark according to the LORD's word through Moses.",
+      "Levite singers and musicians receive duties for the joyful procession.",
+      "The people offer sacrifices and celebrate as the ark of the covenant enters Jerusalem, but Michal despises David."
     ],
     "supporting_verses": [
-      "1 Chronicles 15:2",
-      "1 Chronicles 15:12",
-      "1 Chronicles 15:15",
-      "1 Chronicles 15:25",
-      "1 Chronicles 15:29"
+      "1 Chronicles 15:1-10",
+      "1 Chronicles 15:11-15",
+      "1 Chronicles 15:16-24",
+      "1 Chronicles 15:25-29"
     ],
-    "evidence_phrases": [
-      "none ought to carry the ark",
-      "sanctify yourselves",
-      "the Levites bore the ark",
-      "David danced",
-      "with shouting and sound of the trumpet"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 16,
-    "title": "The ark placed and thanksgiving sung",
-    "summary_text": "The ark is set in the tent David prepared, and the chapter turns into a great hymn of praise. David gives thanks, appoints ministers, and invites Israel to remember God's covenant and mighty works. The song centers the nation on worship, memory, and the LORD's enduring faithfulness.",
+    "title": "Thanksgiving Before the Ark of God",
+    "summary_text": "David offers sacrifices before the ark, blesses the people, and assigns Levites to lead worship. His song recalls God's covenant with Abraham, Isaac, and Jacob and His care for them. It calls the nations to praise His glory and salvation, for He comes to judge the earth. It praises His lasting loving devotion and asks Him to gather His people. David sets up daily worship before the ark and at the tabernacle in Gibeon.",
     "themes": [
       "Thanksgiving",
       "Covenant memory",
@@ -604,32 +548,29 @@
       "Israel"
     ],
     "key_points": [
-      "The ark rests in the tent prepared for it.",
-      "David appoints regular worship before the ark.",
-      "A psalm of thanks is sung to the LORD.",
-      "The nation is told to remember God's works."
+      "David provides offerings, food, and Levite musicians as worship begins before the ark.",
+      "The song calls Israel to remember God's covenant promise of Canaan and His protection of their ancestors.",
+      "The nations must honor the LORD's holy name and glory, for He made the heavens while their gods are idols.",
+      "Creation rejoices at God's coming judgment, and the song praises His loving devotion and asks for rescue.",
+      "David assigns regular service before the ark and priests to offer sacrifices at Gibeon according to the Law."
     ],
     "supporting_verses": [
-      "1 Chronicles 16:1",
-      "1 Chronicles 16:8",
-      "1 Chronicles 16:10",
-      "1 Chronicles 16:23",
-      "1 Chronicles 16:34"
+      "1 Chronicles 16:1-7",
+      "1 Chronicles 16:8-22",
+      "1 Chronicles 16:23-30",
+      "1 Chronicles 16:31-36",
+      "1 Chronicles 16:37-43"
     ],
-    "evidence_phrases": [
-      "give thanks to the LORD",
-      "seek his face continually",
-      "he remembers his covenant",
-      "the ark of the covenant",
-      "declare his glory"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 17,
-    "title": "David's covenant promise",
-    "summary_text": "David wants to build a house for the LORD, but God instead promises to build David a house. Nathan delivers the covenant word that David's line and kingdom will endure. The chapter anchors the future monarchy in God's gracious promise rather than human ambition.",
+    "title": "God Promises David an Enduring House",
+    "summary_text": "David wants to build a house for God, but the LORD sends Nathan to say that David will not build it. Instead, God promises to establish David's family and raise up a son who will build His house and have an enduring throne. God will be his Father and will not withdraw His loving devotion from him. David responds with wonder and praise, remembering how God redeemed Israel from Egypt. He asks God to fulfill His word and bless his family forever.",
     "themes": [
       "Davidic covenant",
       "Dynastic promise",
@@ -643,32 +584,29 @@
       "David's house"
     ],
     "key_points": [
-      "David desires to build a temple.",
-      "God reverses the plan and promises David a house.",
-      "Nathan delivers the covenant message.",
-      "David responds with humble prayer."
+      "The prophet Nathan first approves David's desire to build, but God's word gives him a different answer.",
+      "The LORD recalls His care for David and promises security for Israel and an enduring family for David.",
+      "David's son will build God's house, receive His loving devotion, and have a throne established forever.",
+      "David praises God's greatness and recalls how He redeemed Israel to be His own people.",
+      "David asks the LORD to fulfill His promise and bless his house forever."
     ],
     "supporting_verses": [
-      "1 Chronicles 17:1",
-      "1 Chronicles 17:4",
-      "1 Chronicles 17:11",
-      "1 Chronicles 17:16",
-      "1 Chronicles 17:27"
+      "1 Chronicles 17:1-6",
+      "1 Chronicles 17:7-10",
+      "1 Chronicles 17:11-15",
+      "1 Chronicles 17:16-22",
+      "1 Chronicles 17:23-27"
     ],
-    "evidence_phrases": [
-      "You shall not build me a house",
-      "I will build you a house",
-      "your throne shall be established",
-      "Nathan spoke to David",
-      "the word of the LORD"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 18,
-    "title": "David's victories and administration",
-    "summary_text": "David defeats the Philistines, Moab, Hadadezer, and other surrounding enemies as the kingdom expands. The chapter also records the officials who serve in his administration, showing that victory is matched by ordered governance. David's reign is presented as strong on the battlefield and stable in the court.",
+    "title": "David Wins Battles and Rules With Righteousness",
+    "summary_text": "The LORD gives David victory over the Philistines, Moabites, Hadadezer, and the Arameans. Defeated nations must serve him and bring tribute. David sets apart captured wealth and King Tou's gifts for the LORD. Abishai defeats Edom and puts troops there to hold it. David rules all Israel with justice and righteousness, with his chief officers named alongside him.",
     "themes": [
       "Military conquest",
       "National expansion",
@@ -682,32 +620,27 @@
       "Joab"
     ],
     "key_points": [
-      "David wins victories over neighboring powers.",
-      "Plunder from the wars is set apart for the LORD.",
-      "His officers and court officials are named.",
-      "The kingdom expands under his leadership."
+      "The LORD gives David victory over neighboring enemies, including Hadadezer and the Arameans of Damascus.",
+      "David dedicates King Tou's gifts and wealth taken from conquered nations to the LORD.",
+      "Abishai defeats the Edomites, who become subject to David.",
+      "David rules with justice and righteousness, supported by military, priestly, and royal officials."
     ],
     "supporting_verses": [
-      "1 Chronicles 18:1",
-      "1 Chronicles 18:6",
-      "1 Chronicles 18:11",
-      "1 Chronicles 18:14",
-      "1 Chronicles 18:17"
+      "1 Chronicles 18:1-8",
+      "1 Chronicles 18:9-11",
+      "1 Chronicles 18:12-13",
+      "1 Chronicles 18:14-17"
     ],
-    "evidence_phrases": [
-      "the LORD gave victory",
-      "he put garrisons in Edom",
-      "David reigned over all Israel",
-      "captains of the army",
-      "all the kings of the earth"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 19,
-    "title": "Ammon and Aram oppose David",
-    "summary_text": "After showing kindness to Hanun, David is insulted and drawn into a war with the Ammonites and their Aramean allies. Joab and Abishai lead Israel to victory, and the enemy turns back when God's help is evident. The chapter shows that faithful leadership and divine aid turn an insult into defeat for the aggressor.",
+    "title": "Hanun's Insult Leads to War",
+    "summary_text": "David sends men to comfort Hanun after his father's death, but Hanun treats them as spies and shames them. The Ammonites then hire troops from other lands for war. With enemies on two sides, Joab divides his army with Abishai. Both enemy forces flee, but the Arameans gather more troops. David defeats them, and Hadadezer's subjects make peace with him and stop helping the Ammonites.",
     "themes": [
       "Insult and war",
       "Brotherly cooperation",
@@ -721,32 +654,27 @@
       "Hanun"
     ],
     "key_points": [
-      "David's kindness is answered with humiliation.",
-      "Joab and Abishai divide the battle.",
-      "The Ammonites and Arameans retreat.",
-      "Victory is attributed to God's help."
+      "Hanun humiliates David's messengers after his advisers accuse them of spying.",
+      "The Ammonites hire chariots and horsemen, and David sends Joab with Israel's army.",
+      "Joab and Abishai divide the troops, agree to help each other, and drive both enemy forces back.",
+      "David defeats Aramean reinforcements, and Hadadezer's subjects make peace and submit to him."
     ],
     "supporting_verses": [
-      "1 Chronicles 19:1",
-      "1 Chronicles 19:8",
-      "1 Chronicles 19:13",
-      "1 Chronicles 19:16",
-      "1 Chronicles 19:18"
+      "1 Chronicles 19:1-5",
+      "1 Chronicles 19:6-9",
+      "1 Chronicles 19:10-15",
+      "1 Chronicles 19:16-19"
     ],
-    "evidence_phrases": [
-      "the children of Ammon",
-      "be strong, and let us be brave",
-      "the LORD do that which is good",
-      "they fled",
-      "Arameans no more were willing"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 20,
-    "title": "Rabbah captured and battles continued",
-    "summary_text": "David's army takes Rabbah, and the chapter continues with victories over giant descendants in Philistine territory. The repeated battles underline that Israel's security still depends on God's sustaining power. The narrative closes the major war section by showing David's continuing supremacy over surrounding enemies.",
+    "title": "Rabbah Falls and Philistine Warriors Are Defeated",
+    "summary_text": "Joab destroys Rabbah while David stays in Jerusalem. David takes the king's crown and much plunder, then puts people from the Ammonite cities to work. Later, three battles bring victories over the Philistines. Sibbecai, Elhanan, and Jonathan kill descendants of Rapha. Among those killed are Lahmi, Goliath's brother, and a huge man who taunts Israel.",
     "themes": [
       "Urban conquest",
       "Ongoing warfare",
@@ -760,33 +688,25 @@
       "the Philistines"
     ],
     "key_points": [
-      "Rabbah is captured after a long siege.",
-      "David receives the crown of the conquered king.",
-      "Further battles are fought against giant descendants.",
-      "Israel's victories continue under David's rule."
+      "Joab destroys Rabbah, and David takes its crown and plunder and puts the people to work.",
+      "Sibbecai kills Sippai, and Elhanan kills Lahmi, the brother of Goliath.",
+      "Jonathan kills a huge descendant of Rapha who has twenty-four fingers and toes and taunts Israel."
     ],
     "supporting_verses": [
-      "1 Chronicles 20:1",
-      "1 Chronicles 20:2",
-      "1 Chronicles 20:4",
-      "1 Chronicles 20:6",
-      "1 Chronicles 20:8"
+      "1 Chronicles 20:1-3",
+      "1 Chronicles 20:4-5",
+      "1 Chronicles 20:6-8"
     ],
-    "evidence_phrases": [
-      "the crown of their king",
-      "Joab smote Rabbah",
-      "a man of great stature",
-      "descendants of the giants",
-      "David's servants"
-    ]
-  }
-,
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
+  },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 21,
-    "title": "The census and the plague",
-    "summary_text": "David orders a census and then recognizes that the act has brought guilt on Israel. God sends a plague, David sees the angel of judgment, and an altar is built on the threshing floor of Ornan. The chapter shows both the seriousness of sin and the mercy that comes when David seeks the LORD's mercy at the place of sacrifice.",
+    "title": "David's Census Brings a Deadly Plague",
+    "summary_text": "Satan urges David to count Israel, and David insists despite Joab's warning. God strikes Israel, and David admits his sin and appeals to His mercy when given three choices of punishment. A plague kills seventy thousand men, but God stops the angel sent to destroy Jerusalem. At God's command, David buys Ornan's threshing floor and builds an altar, refusing to offer what costs him nothing. He offers sacrifices, God answers with fire, and the angel puts away his sword.",
     "themes": [
       "Sinful pride",
       "Divine judgment",
@@ -800,32 +720,29 @@
       "the angel of the LORD"
     ],
     "key_points": [
-      "David's census brings guilt on the nation.",
-      "A plague strikes Israel as judgment.",
-      "David repents and pleads for mercy.",
-      "An altar is built where the plague stops."
+      "David orders the census despite Joab's warning, then asks God to remove his iniquity, the guilt of his wrongdoing.",
+      "Given three punishments, David appeals to God's mercy, and the LORD sends a plague that kills seventy thousand men.",
+      "God halts the angel at Jerusalem, and David asks that punishment fall on his own family instead of the people.",
+      "David obeys the command to build an altar and insists on paying Ornan fully for the site.",
+      "God answers David's offerings with fire, and the angel puts away his sword while David continues worshiping there."
     ],
     "supporting_verses": [
-      "1 Chronicles 21:1",
-      "1 Chronicles 21:8",
-      "1 Chronicles 21:13",
-      "1 Chronicles 21:18",
-      "1 Chronicles 21:26"
+      "1 Chronicles 21:1-8",
+      "1 Chronicles 21:9-14",
+      "1 Chronicles 21:15-17",
+      "1 Chronicles 21:18-25",
+      "1 Chronicles 21:26-30"
     ],
-    "evidence_phrases": [
-      "Satan stood up",
-      "I have sinned greatly",
-      "the angel of the LORD",
-      "saw the sword",
-      "the fire from heaven"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 22,
-    "title": "Temple preparations begin",
-    "summary_text": "David identifies the temple site and begins gathering materials and labor for the house the LORD will allow Solomon to build. He explains the sacred purpose of the work and urges Solomon to be strong and faithful. The chapter turns David's setback into preparation, showing that even if he will not build, he still prepares carefully.",
+    "title": "David Prepares Solomon to Build God's Temple",
+    "summary_text": "David identifies the site for God's house and gathers workers and great stores of building materials. He tells Solomon that the LORD has forbidden him to build because he has shed much blood in war. Solomon will instead build the temple during a reign of peace, and God promises to establish his throne forever. David urges him to obey God's Law and begin the work with courage. He also commands Israel's leaders to seek God and help Solomon prepare a place for the ark of the covenant and the holy articles.",
     "themes": [
       "Temple preparation",
       "Davidic instruction",
@@ -839,32 +756,27 @@
       "the strangers"
     ],
     "key_points": [
-      "David prepares materials for the temple.",
-      "He explains why Solomon must build the house.",
-      "Workers and resources are organized in advance.",
-      "Solomon is charged to be strong and obedient."
+      "David prepares workers and abundant materials because Solomon is young and God's house must be magnificent.",
+      "David reports God's word that Solomon, rather than David, will build His house during a time of peace.",
+      "David urges Solomon to obey the Law and courageously begin building with the workers and supplies already prepared.",
+      "Israel's leaders must seek God and help build the temple for the ark of the covenant and holy articles."
     ],
     "supporting_verses": [
-      "1 Chronicles 22:1",
-      "1 Chronicles 22:5",
-      "1 Chronicles 22:11",
-      "1 Chronicles 22:16",
-      "1 Chronicles 22:19"
+      "1 Chronicles 22:1-5",
+      "1 Chronicles 22:6-10",
+      "1 Chronicles 22:11-16",
+      "1 Chronicles 22:17-19"
     ],
-    "evidence_phrases": [
-      "the house of the LORD",
-      "Solomon my son",
-      "be strong and of good courage",
-      "gold, silver, and bronze",
-      "arise and build"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 23,
-    "title": "Levites counted for service",
-    "summary_text": "David organizes the Levites for temple service and assigns their work in a careful pattern. The chapter explains that their tasks now center on ministry, music, administration, and support for the sons of Aaron. It marks the shift from travel and war to ordered worship in the temple era.",
+    "title": "David Assigns the Levites Their Duties",
+    "summary_text": "David makes Solomon king and gives the Levites their duties by family. Aaron's line is set apart for holy service. The Levites no longer need to carry the tabernacle, since God has given Israel rest and dwells in Jerusalem. David's final orders count men from age twenty for this work. They help the priests, care for holy things and offerings, and praise God each day and at the feasts.",
     "themes": [
       "Temple ministry",
       "Levite organization",
@@ -878,32 +790,29 @@
       "the sons of Gershon"
     ],
     "key_points": [
-      "The Levites are numbered and reassigned.",
-      "Their duties are divided by family group.",
-      "They support priests and temple worship.",
-      "The chapter prepares for permanent temple service."
+      "David makes Solomon king and divides the counted Levites among service, leadership, gatekeeping, and praise.",
+      "The family lists distinguish Aaron's holy responsibilities from the other descendants of Levi, including Moses' sons.",
+      "David's final count includes Levites aged twenty and above, whose work no longer requires carrying the tabernacle.",
+      "Levites assist Aaron's descendants with purification of holy things, food preparations, and other duties in God's house.",
+      "They praise the LORD morning and evening and serve when offerings are made on Sabbaths and other appointed days."
     ],
     "supporting_verses": [
-      "1 Chronicles 23:2",
-      "1 Chronicles 23:4",
-      "1 Chronicles 23:12",
-      "1 Chronicles 23:24",
-      "1 Chronicles 23:28"
+      "1 Chronicles 23:1-6",
+      "1 Chronicles 23:7-23",
+      "1 Chronicles 23:24-27",
+      "1 Chronicles 23:28-29",
+      "1 Chronicles 23:30-32"
     ],
-    "evidence_phrases": [
-      "the Levites were numbered",
-      "to wait on the sons of Aaron",
-      "for the service of the house",
-      "their office",
-      "from twenty years old and upward"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 24,
-    "title": "The priestly divisions",
-    "summary_text": "The priests are organized into divisions under Aaron's descendants so that temple service can continue in order. The lots distribute responsibility fairly and keep the priesthood functioning around the calendar of worship. The chapter shows that sacred work requires structure, not improvisation.",
+    "title": "Priests and Levites Receive Their Service Order",
+    "summary_text": "David divides Aaron's family into groups for priestly service. Zadok and Ahimelech help him. The groups come through Eleazar and Ithamar, with sixteen family heads from the first line and eight from the second. Lots set the order in which the twenty-four groups serve at God's house. Other Levite families also draw lots, with older and younger men taking part alike.",
     "themes": [
       "Priestly order",
       "Temple rotation",
@@ -917,32 +826,25 @@
       "the priests"
     ],
     "key_points": [
-      "Priests are grouped into divisions.",
-      "Lots assign duties among the families.",
-      "Temple service is regularized.",
-      "The priesthood is organized for steady worship."
+      "David divides the priests from Eleazar's and Ithamar's families with help from Zadok and Ahimelech.",
+      "Twenty-four lots establish the priests' order of service according to the LORD's instructions to Aaron.",
+      "Other Levite families also cast lots before David and the leaders, with older and younger relatives participating alike."
     ],
     "supporting_verses": [
-      "1 Chronicles 24:1",
-      "1 Chronicles 24:5",
-      "1 Chronicles 24:7",
-      "1 Chronicles 24:19",
-      "1 Chronicles 24:31"
+      "1 Chronicles 24:1-6",
+      "1 Chronicles 24:7-19",
+      "1 Chronicles 24:20-31"
     ],
-    "evidence_phrases": [
-      "the sons of Aaron",
-      "cast lots",
-      "their fathers' houses",
-      "the office of their service",
-      "according to their order"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 25,
-    "title": "Singers and musicians appointed",
-    "summary_text": "David sets apart the singers and musicians for prophetic praise with lyres, harps, and cymbals. Their service is organized by lot so that worship continues in rhythm and fairness. The chapter makes music part of the temple's ordered ministry rather than a casual ornament.",
+    "title": "Musicians Are Organized for the LORD's House",
+    "summary_text": "David and the army commanders set apart sons of Asaph, Heman, and Jeduthun to prophesy with musical instruments. These musicians serve under their fathers, who answer to the king, and their work includes thanking and praising the LORD. The trained singers and their relatives number 288. They cast lots for service without separating young from old or teachers from pupils, forming twenty-four groups of twelve.",
     "themes": [
       "Musical worship",
       "Prophetic praise",
@@ -956,32 +858,25 @@
       "Jeduthun"
     ],
     "key_points": [
-      "Musicians are set apart for temple worship.",
-      "Their work includes prophecy in song.",
-      "Lots assign the orders of service.",
-      "Praise becomes an organized ministry."
+      "Asaph's, Jeduthun's, and Heman's sons are set apart to prophesy with instruments for service in God's house.",
+      "The skilled singers number 288, and teachers and pupils alike cast lots for their duties.",
+      "The lots assign twenty-four groups of twelve, beginning with Joseph and ending with Romamti-ezer."
     ],
     "supporting_verses": [
-      "1 Chronicles 25:1",
-      "1 Chronicles 25:3",
-      "1 Chronicles 25:6",
-      "1 Chronicles 25:8",
-      "1 Chronicles 25:31"
+      "1 Chronicles 25:1-6",
+      "1 Chronicles 25:7-8",
+      "1 Chronicles 25:9-31"
     ],
-    "evidence_phrases": [
-      "prophesied with a harp",
-      "to give thanks",
-      "according to their father's house",
-      "cast lots",
-      "songs of the LORD"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 26,
-    "title": "Gatekeepers, treasurers, and officers",
-    "summary_text": "The gatekeepers are assigned to guard the temple entrances, and other Levites are placed over stores, treasuries, and external affairs. The chapter is careful and practical, showing that holiness includes faithful management. David's administration extends to every part of temple life, from doors to deposits.",
+    "title": "Gatekeepers, Treasurers, and Officials Receive Their Duties",
+    "summary_text": "The gatekeepers come from several families, including those of Meshelemiah, Obed-edom, and Hosah. They draw lots for duty at the gates and storehouses of God's house. Other Levites guard the wealth set apart for God. This includes battle plunder kept for repairs. Still others serve as judges and officers, handling matters for God and the king.",
     "themes": [
       "Temple security",
       "Treasury management",
@@ -995,32 +890,27 @@
       "Levites"
     ],
     "key_points": [
-      "Gatekeepers guard the temple entrances.",
-      "Treasurers watch the dedicated gifts.",
-      "Officials oversee outside affairs.",
-      "The chapter stresses careful stewardship."
+      "The gatekeepers include strong, capable men from the families of Meshelemiah, Obed-edom, and Hosah.",
+      "Families cast lots for gate assignments, and guards are stationed around the LORD's house.",
+      "Levites oversee treasuries and dedicated property, including plunder set aside to repair God's house.",
+      "Other Levites serve as officers, judges, and administrators for matters concerning God and the king."
     ],
     "supporting_verses": [
-      "1 Chronicles 26:1",
-      "1 Chronicles 26:12",
-      "1 Chronicles 26:20",
-      "1 Chronicles 26:26",
-      "1 Chronicles 26:32"
+      "1 Chronicles 26:1-12",
+      "1 Chronicles 26:13-19",
+      "1 Chronicles 26:20-28",
+      "1 Chronicles 26:29-32"
     ],
-    "evidence_phrases": [
-      "the divisions of the gatekeepers",
-      "over the treasures",
-      "for the service of God",
-      "over the outside business",
-      "faithful and mighty men"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06, fix 1",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 27,
-    "title": "Army divisions and tribal officers",
-    "summary_text": "David organizes the standing army by monthly divisions and names the tribal officers who oversee the nation. The structure shows a kingdom ready for defense without constant emergency. The chapter pairs military readiness with a wide civil administration under David's rule.",
+    "title": "David's Army Divisions and Royal Officials",
+    "summary_text": "Israel's army serves in twelve groups of twenty-four thousand men, each on duty for one month. Their commanders and the tribal leaders are named. David leaves those twenty and younger out of the count because God promised to make Israel grow. Joab's count remains unfinished and brings wrath on Israel. Other officers manage the king's stores, land, and animals, while trusted men advise him at court.",
     "themes": [
       "Military organization",
       "Civil administration",
@@ -1034,32 +924,27 @@
       "the army"
     ],
     "key_points": [
-      "The army is divided by months of service.",
-      "Tribal leaders are named across Israel.",
-      "David's rule reaches into civil administration.",
-      "Preparedness is built into the kingdom."
+      "Twelve army divisions of twenty-four thousand men serve by monthly rotation, beginning with Jashobeam's division.",
+      "Named tribal leaders include Zadok over Aaron's descendants and David's brother Elihu over Judah.",
+      "The census excludes men twenty and younger, remains unfinished, and brings wrath upon Israel.",
+      "Royal officials oversee stored goods, crops, and animals, while counselors and Joab serve the king."
     ],
     "supporting_verses": [
-      "1 Chronicles 27:1",
-      "1 Chronicles 27:4",
-      "1 Chronicles 27:8",
-      "1 Chronicles 27:16",
-      "1 Chronicles 27:25"
+      "1 Chronicles 27:1-15",
+      "1 Chronicles 27:16-22",
+      "1 Chronicles 27:23-24",
+      "1 Chronicles 27:25-34"
     ],
-    "evidence_phrases": [
-      "the first month",
-      "over the tribes of Israel",
-      "the captains of the army",
-      "monthly by month",
-      "the king's business"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 28,
-    "title": "David charges Solomon with the temple plans",
-    "summary_text": "David gathers the leaders and publicly hands the temple plans and materials to Solomon. He charges his son to know the God of Israel, serve him with a willing mind, and complete the work. The chapter makes the succession explicit: David prepares, Solomon must finish, and God will bless faithfulness.",
+    "title": "David Entrusts the Temple Work to Solomon",
+    "summary_text": "David tells Israel's leaders that God chose Solomon to build His house for the ark of the covenant. He calls them to obey God's commandments and warns Solomon to seek God, who will reject him if he turns away. David gives him plans for the temple and its gold and silver objects. He says the LORD made these plans clear to him in writing. Solomon must work with courage, trusting God's help and the support of priests, Levites, workers, and leaders.",
     "themes": [
       "Succession planning",
       "Temple blueprint",
@@ -1073,32 +958,27 @@
       "the LORD"
     ],
     "key_points": [
-      "David presents the temple plans publicly.",
-      "Solomon is charged to know and serve God.",
-      "The leaders hear the instructions firsthand.",
-      "The work is framed as a divine assignment."
+      "David says God barred him from building because of his bloodshed and chose Solomon to build and reign.",
+      "David urges obedience to God's commandments and warns Solomon that abandoning God will bring lasting rejection.",
+      "David gives Solomon temple plans, including furnishings and gold cherubim over the ark of the covenant.",
+      "David credits the LORD with the plans and assures Solomon of God's help and the people's support."
     ],
     "supporting_verses": [
-      "1 Chronicles 28:2",
-      "1 Chronicles 28:5",
-      "1 Chronicles 28:9",
-      "1 Chronicles 28:11",
-      "1 Chronicles 28:20"
+      "1 Chronicles 28:1-7",
+      "1 Chronicles 28:8-10",
+      "1 Chronicles 28:11-18",
+      "1 Chronicles 28:19-21"
     ],
-    "evidence_phrases": [
-      "the pattern of all that he had by the Spirit",
-      "serve him with a perfect heart",
-      "be strong and courageous",
-      "the house of the LORD",
-      "the work for the service"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 13,
     "chapter": 29,
-    "title": "Gifts, prayer, Solomon's coronation, and David's death",
-    "summary_text": "The leaders and people give generously for the temple, and David prays with humility before the gathered assembly. Solomon is recognized and enthroned a second time, showing the succession in public form. The chapter closes with David's death and summary, ending the book with worship, generosity, and an orderly handoff of the kingdom.",
+    "title": "Gifts for the Temple and Solomon's Kingship",
+    "summary_text": "David and Israel's leaders freely give wealth for the holy temple, and the people rejoice. David praises God's power and glory, since all their gifts first came from Him. He asks God to keep the people true to Him and give Solomon a heart to obey and build. After worship and sacrifices, Solomon is anointed king again, and all Israel pledges to serve him. David dies old and honored after forty years as king, and Solomon takes his place.",
     "themes": [
       "Generous giving",
       "Humility in prayer",
@@ -1112,24 +992,21 @@
       "the people"
     ],
     "key_points": [
-      "The people give willingly for the temple.",
-      "David prays that everything belongs to God.",
-      "Solomon is made king publicly.",
-      "David's reign ends in honor and order."
+      "David and Israel's leaders give willingly and generously for the holy temple, bringing joy to the people.",
+      "David blesses God for His glory and rule, recognizing that all their wealth comes from Him.",
+      "David asks God to preserve the people's devotion and give Solomon wholehearted obedience to His commandments.",
+      "The people worship and offer sacrifices, and Solomon is anointed king again with Israel's full allegiance.",
+      "David dies wealthy and honored after forty years as king, and Solomon reigns in his place."
     ],
     "supporting_verses": [
-      "1 Chronicles 29:1",
-      "1 Chronicles 29:10",
-      "1 Chronicles 29:14",
-      "1 Chronicles 29:22",
-      "1 Chronicles 29:28"
+      "1 Chronicles 29:1-9",
+      "1 Chronicles 29:10-16",
+      "1 Chronicles 29:17-19",
+      "1 Chronicles 29:20-25",
+      "1 Chronicles 29:26-30"
     ],
-    "evidence_phrases": [
-      "who then is willing to consecrate himself",
-      "all things come of you",
-      "the people rejoiced",
-      "they made Solomon king",
-      "David died in a good old age"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   }
 ]

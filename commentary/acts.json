@@ -1,10 +1,10 @@
 [
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 1,
-    "title": "Ascension, Spirit promise, Matthias",
-    "summary_text": "Writing again to Theophilus, Luke recounts Jesus’s post-resurrection teaching on the Kingdom, the command to stay in Jerusalem for the Father’s promise, the Spirit baptism coming soon, and the commission to witness to the ends of the earth. Jesus ascends in a cloud; two figures promise his return. The believers pray together; Peter applies Scripture to Judas, and Matthias is chosen by lot to join the eleven.",
+    "title": "Jesus Ascends and Matthias Joins the Apostles",
+    "summary_text": "The risen Jesus appears to His chosen apostles over forty days, teaching about the kingdom of God and telling them to wait in Jerusalem to be baptized with the promised Holy Spirit. He says the Father controls the times, while the Spirit will empower them to witness from Jerusalem to the earth's farthest places. Jesus is taken into heaven, and two men in white announce that He will return the same way. His followers gather in prayer, and Peter explains from Scripture the need to replace Judas, whose betrayal and death are described. After praying and casting lots, they add Matthias to the eleven as a witness of Jesus' resurrection.",
     "themes": [
       "Kingdom and forty days",
       "Spirit baptism promised",
@@ -36,40 +36,29 @@
       "Matthias"
     ],
     "key_points": [
-      "Jesus showed himself alive forty days and spoke about God’s Kingdom.",
-      "Apostles were told to wait in Jerusalem for the Father’s promise.",
-      "They would receive power when the Holy Spirit came and be witnesses everywhere.",
-      "Jesus was taken up in a cloud; two men said he would return the same way.",
-      "Peter said Scripture required Judas’s office to pass to another.",
-      "A successor must have been with them from John’s baptism to the ascension.",
-      "They drew lots and Matthias was numbered with the eleven apostles."
+      "Jesus proves He is alive and tells the apostles to wait for the Father's promised baptism with the Holy Spirit.",
+      "Jesus promises power for worldwide witness, then ascends as His followers watch and hear that He will return.",
+      "The apostles return to Jerusalem and pray together with the women, Jesus' mother Mary, and His brothers.",
+      "Peter cites Scripture about replacing Judas and says the replacement must have accompanied Jesus and witnessed His resurrection.",
+      "The group proposes Joseph and Matthias, prays for the Lord's choice, and adds Matthias after casting lots."
     ],
     "supporting_verses": [
-      "Acts 1:1",
-      "Acts 1:3",
-      "Acts 1:4",
-      "Acts 1:8",
-      "Acts 1:9",
-      "Acts 1:11",
-      "Acts 1:16",
-      "Acts 1:22",
-      "Acts 1:26"
+      "Acts 1:1-5",
+      "Acts 1:6-11",
+      "Acts 1:12-14",
+      "Acts 1:15-22",
+      "Acts 1:23-26"
     ],
-    "evidence_phrases": [
-      "you will be baptized in the Holy Spirit",
-      "You will be witnesses to me",
-      "a cloud received him out of their sight",
-      "will come back in the same way",
-      "Let another take his office",
-      "the lot fell on Matthias"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 2,
-    "title": "Pentecost, Peter’s sermon, three thousand",
-    "summary_text": "On Pentecost the believers are filled with the Holy Spirit and speak other languages as devout Jews from many nations hear God’s mighty works in their own tongues. Peter denies drunkenness and quotes Joel, then proclaims Jesus approved by God, crucified yet raised, exalted to pour out the Spirit. Cut to the heart, hearers ask what to do; Peter calls for repentance, baptism in Jesus’s name, and the gift of the Spirit. About three thousand are baptized and devote themselves to the apostles’ teaching, fellowship, breaking bread, and prayer, with signs and shared possessions.",
+    "title": "The Spirit Comes and Thousands Believe",
+    "summary_text": "At Pentecost, the Holy Spirit fills the gathered believers, who speak of God's wonders in languages understood by visitors from many nations. Peter rejects the charge of drunkenness and identifies this as what Joel prophesied about God pouring out His Spirit. He says Jesus was handed over by God's plan and foreknowledge and crucified by his hearers through lawless hands, but God raised Him, exalted Him, and made Him Lord and Christ. Peter calls the crowd to repent and be baptized for forgiveness of sins and receive the Spirit, and about three thousand join them. The believers devote themselves to the apostles' teaching, fellowship, shared meals, and prayer, selling possessions to meet needs as the Lord adds those being saved.",
     "themes": [
       "Wind, fire, and languages",
       "Joel’s prophecy",
@@ -88,43 +77,29 @@
       "Joel"
     ],
     "key_points": [
-      "A sound like wind filled the house; tongues like fire rested on each.",
-      "They spoke in languages the Spirit gave them.",
-      "Peter said this fulfilled Joel’s outpouring on all flesh.",
-      "He declared Jesus crucified by lawless hands but raised by God.",
-      "God made Jesus both Lord and Christ.",
-      "About three thousand were baptized that day.",
-      "The Lord added to the assembly daily those being saved."
+      "A sound like wind and tongues like fire accompany the Spirit's coming, and many hear God's wonders in their own languages.",
+      "Peter explains the event through Joel's prophecy of the Spirit's outpouring and salvation for those calling on the Lord.",
+      "Peter says David foretold the Christ's resurrection: Jesus was not left in Hades but exalted to pour out the promised Spirit.",
+      "Peter urges repentance and baptism in Jesus Christ's name for forgiveness of sins, promising the Spirit to those God calls.",
+      "The growing believers share possessions, meals, teaching, and prayer, while the apostles perform signs and wonders."
     ],
     "supporting_verses": [
-      "Acts 2:2",
-      "Acts 2:4",
-      "Acts 2:6",
-      "Acts 2:14",
-      "Acts 2:22",
-      "Acts 2:24",
-      "Acts 2:32",
-      "Acts 2:36",
-      "Acts 2:38",
-      "Acts 2:41",
-      "Acts 2:47"
+      "Acts 2:1-13",
+      "Acts 2:14-21",
+      "Acts 2:22-36",
+      "Acts 2:37-41",
+      "Acts 2:42-47"
     ],
-    "evidence_phrases": [
-      "filled with the Holy Spirit",
-      "this is what has been spoken through the prophet Joel",
-      "God raised up",
-      "God has made him both Lord and Christ",
-      "Repent, and be baptized",
-      "about three thousand souls",
-      "The Lord added to the assembly"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 3,
-    "title": "Lame man healed, Solomon’s Porch sermon",
-    "summary_text": "Peter and John heal a man lame from birth at the Beautiful Gate in Jesus’s name; he walks and praises God. In Solomon’s porch Peter denies their own power, says the God of the fathers glorified his Servant Jesus whom they delivered up and killed, and that faith in Jesus’s name made the man whole. He urges repentance for sins to be blotted out and times of refreshing, cites Moses on the prophet to hear and Abraham’s blessing to all families, and says God raised Jesus to bless them by turning them from wickedness.",
+    "title": "A Lame Man Walks and Peter Speaks",
+    "summary_text": "At the temple, Peter heals a man lame from birth in the name of Jesus Christ, and the man walks, leaps, and praises God. As people gather in amazement, Peter denies that his own power or godliness caused the healing and credits Jesus' name and faith through Him. He says they rejected the Holy and Righteous One and killed the Author of life, whom God raised from death. Peter acknowledges their ignorance but says the Christ's suffering fulfilled the prophets, and calls them to repent so their sins may be wiped away. He connects the promised restoration and Abraham's covenant with God's blessing through Jesus, sent first to turn them from wickedness.",
     "themes": [
       "Healing at the temple gate",
       "Silver and gold I have not",
@@ -143,39 +118,29 @@
       "Pilate"
     ],
     "key_points": [
-      "Peter commanded the beggar to walk in the name of Jesus Christ of Nazareth.",
-      "The man leaped and walked into the temple praising God.",
-      "Peter said they denied the Holy and Righteous One before Pilate.",
-      "Faith in Jesus’s name gave the man perfect soundness.",
-      "He called for repentance so sins might be blotted out.",
-      "He cited Moses about the prophet they must hear.",
-      "God sent Jesus first to bless by turning them from wickedness."
+      "Peter gives the beggar healing in Jesus Christ's name instead of money, and the man enters the temple praising God.",
+      "Peter credits the glorified Jesus and faith through Him for the healing, contrasting God's action with the crowd's rejection of Jesus.",
+      "Peter says the people acted in ignorance but God's foretold purpose for the Christ to suffer was fulfilled.",
+      "Peter calls for repentance and describes refreshing, restoration, and the promised prophet whom everyone must heed.",
+      "The prophets and Abraham's covenant point to blessing, and God sends His Servant first to turn Peter's hearers from wickedness."
     ],
     "supporting_verses": [
-      "Acts 3:6",
-      "Acts 3:8",
-      "Acts 3:13",
-      "Acts 3:15",
-      "Acts 3:16",
-      "Acts 3:19",
-      "Acts 3:22",
-      "Acts 3:26"
+      "Acts 3:1-10",
+      "Acts 3:11-16",
+      "Acts 3:17-18",
+      "Acts 3:19-23",
+      "Acts 3:24-26"
     ],
-    "evidence_phrases": [
-      "In the name of Jesus Christ of Nazareth, get up and walk",
-      "Silver and gold I have not",
-      "whom you delivered up, and denied in the presence of Pilate",
-      "killed the Prince of life, whom God raised from the dead",
-      "Repent therefore, and turn again",
-      "All the families of the earth will be blessed"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 4,
-    "title": "Sanhedrin threat, prayer, Barnabas",
-    "summary_text": "Priests and Sadducees arrest Peter and John for teaching resurrection in Jesus; many believe, reaching about five thousand men. Before rulers Peter declares the crippled man healed in Jesus’s name, crucified and raised—the stone rejected, the only name for salvation. The council marvels at unlearned boldness and the healed man, threaten silence, but Peter and John say they must speak what they saw and heard. The church prays for boldness amid threats; the place shakes and they are filled with the Spirit. Believers share possessions; Barnabas sells a field for the apostles.",
+    "title": "The Apostles Speak Boldly Despite Threats",
+    "summary_text": "Peter and John are arrested for proclaiming resurrection through Jesus, but many hearers believe. Filled with the Holy Spirit, Peter tells the rulers that the crucified and risen Jesus Christ healed the man and that salvation is found in no other name. The council cannot deny the healing, so it threatens them and forbids further teaching, but they insist on speaking what they have witnessed. The believers pray to their Creator, describing the rulers' opposition to God's Anointed as carrying out His decided purpose, and ask for boldness and healing; their meeting place shakes and they speak God's word boldly. The apostles continue witnessing to Jesus' resurrection amid abundant grace, while believers sell property and share with anyone in need.",
     "themes": [
       "Resurrection preaching",
       "No other name",
@@ -198,42 +163,29 @@
       "Joses Barnabas"
     ],
     "key_points": [
-      "They were seized for proclaiming resurrection in Jesus.",
-      "Peter said the man stands whole in the name of Jesus raised from the dead.",
-      "There is no other name by which we must be saved.",
-      "Peter and John refused to stop speaking what they witnessed.",
-      "The company prayed for boldness despite threats.",
-      "The place was shaken; they spoke God’s word with boldness.",
-      "Barnabas sold a field and laid the money at the apostles’ feet."
+      "The authorities imprison Peter and John, while belief spreads and the number of men reaches about five thousand.",
+      "Before the high priest and other rulers, Peter attributes the healing and salvation to Jesus Christ alone.",
+      "Peter and John refuse the council's command to stop speaking about Jesus and are released after threats.",
+      "The believers pray for boldness and signs, and the Holy Spirit fills them to speak God's word.",
+      "The united believers share their possessions through the apostles, and Barnabas sells a field and gives its proceeds."
     ],
     "supporting_verses": [
-      "Acts 4:2",
-      "Acts 4:10",
-      "Acts 4:12",
-      "Acts 4:19",
-      "Acts 4:20",
-      "Acts 4:24",
-      "Acts 4:29",
-      "Acts 4:31",
-      "Acts 4:33",
-      "Acts 4:36"
+      "Acts 4:1-4",
+      "Acts 4:5-12",
+      "Acts 4:13-22",
+      "Acts 4:23-31",
+      "Acts 4:32-37"
     ],
-    "evidence_phrases": [
-      "proclaimed in Jesus the resurrection from the dead",
-      "whom you crucified, whom God raised from the dead",
-      "There is salvation in no one else",
-      "We must obey God rather than men",
-      "the place was shaken",
-      "of one heart and soul",
-      "Joses, who by the apostles was also called Barnabas"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 5,
-    "title": "Ananias and Sapphira, prison break, Gamaliel",
-    "summary_text": "Ananias and Sapphira fall dead for lying to the Holy Spirit about their sale price. Great fear attends signs at Solomon’s porch; multitudes are healed. The high priest’s party jails the apostles, but an angel opens the prison and sends them to teach in the temple. Brought before the council, Peter says we must obey God: God raised Jesus as Prince and Savior. Gamaliel urges caution, comparing past failed movements; the apostles are beaten, rejoice in dishonor for Jesus’s name, and keep teaching daily.",
+    "title": "Deceit, Healing, and the Apostles' Courage",
+    "summary_text": "Ananias and Sapphira conceal part of a property sale's proceeds and lie about it; each dies after Peter exposes their deceit against the Holy Spirit, bringing fear upon the church. The apostles perform many healings, and believers continue to increase. Jealous authorities imprison the apostles, but an angel frees them and sends them back to teach in the temple. Before the council, they insist on obeying God and testify that He raised and exalted Jesus as Prince and Savior to give Israel repentance and forgiveness of sins. Gamaliel warns against opposing a work that may be God's, so the apostles are flogged and released, rejoicing in suffering and continuing the gospel that Jesus is the Christ.",
     "themes": [
       "Lying to the Spirit",
       "Signs and fear",
@@ -254,42 +206,29 @@
       "Judas of Galilee"
     ],
     "key_points": [
-      "Peter charged Ananias with lying to the Holy Spirit, not merely men.",
-      "Sapphira fell dead after agreeing to the lie.",
-      "An angel freed the apostles to speak in the temple.",
-      "Peter said God exalted Jesus to give repentance and forgiveness to Israel.",
-      "Gamaliel warned against fighting God if the work is of him.",
-      "The apostles were beaten yet rejoiced to suffer for Jesus’s name.",
-      "They did not stop teaching and preaching Jesus the Christ."
+      "Peter says Ananias lied to God, and both Ananias and Sapphira die after concealing the truth about their sale.",
+      "The apostles' signs draw growing numbers of believers, and crowds bring sick people and those tormented by unclean spirits for healing.",
+      "An angel releases the jailed apostles, who return to the temple to teach despite the high priest's opposition.",
+      "The apostles place obedience to God above human orders and testify with the Spirit about Jesus' exaltation and saving work.",
+      "Gamaliel counsels restraint; the council flogs and releases the apostles, who rejoice and continue teaching about Jesus."
     ],
     "supporting_verses": [
-      "Acts 5:3",
-      "Acts 5:5",
-      "Acts 5:9",
-      "Acts 5:19",
-      "Acts 5:20",
-      "Acts 5:29",
-      "Acts 5:31",
-      "Acts 5:34",
-      "Acts 5:38",
-      "Acts 5:40",
-      "Acts 5:41",
-      "Acts 5:42"
+      "Acts 5:1-11",
+      "Acts 5:12-16",
+      "Acts 5:17-28",
+      "Acts 5:29-32",
+      "Acts 5:33-42"
     ],
-    "evidence_phrases": [
-      "You haven’t lied to men, but to God",
-      "Go stand and speak in the temple",
-      "We must obey God rather than men",
-      "fighting against God",
-      "rejoicing that they were counted worthy to suffer dishonor"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 6,
-    "title": "Seven chosen, Stephen accused",
-    "summary_text": "Hellenist widows’ neglect leads the twelve to appoint seven Spirit-filled men for table service while they give themselves to word and prayer. Stephen, full of faith and power, does wonders; opponents dispute him, suborn false witnesses about Moses and the holy place, and drag him to the council where his face shines like an angel’s.",
+    "title": "Seven Are Chosen and Stephen Faces Accusations",
+    "summary_text": "Grecian Jews complain that their widows are missed when food is given out each day. The apostles have the disciples choose seven men full of the Spirit and wisdom to take charge, freeing the Twelve for prayer and God's word. The group grows, and many priests accept the faith. Stephen, full of grace and power, performs signs and speaks with wisdom his opponents cannot defeat. They seize him and bring false charges of blasphemy and attacks on the law and holy place before the Sanhedrin, where his face looks like an angel's.",
     "themes": [
       "Serving tables vs. the word",
       "Seven appointed",
@@ -310,38 +249,29 @@
       "Jesus of Nazareth"
     ],
     "key_points": [
-      "Complaint arose that Hellenist widows were neglected.",
-      "Seven men full of the Spirit and wisdom were chosen and hands laid on them.",
-      "The word multiplied; many priests obeyed the faith.",
-      "Stephen did great wonders among the people.",
-      "False witnesses said he spoke against the holy place and Moses’s customs.",
-      "The council saw his face like an angel’s face."
+      "Neglect of Grecian Jewish widows in the food distribution brings a complaint as the disciples increase.",
+      "Seven men are chosen for this responsibility, and the apostles pray and lay hands on them.",
+      "God's word spreads, disciples multiply, and many priests become obedient to the faith.",
+      "Stephen's signs and Spirit-given wisdom draw opposition that cannot defeat his words.",
+      "False witnesses accuse Stephen before the Sanhedrin, whose members see that his face looks like an angel's."
     ],
     "supporting_verses": [
-      "Acts 6:2",
-      "Acts 6:3",
-      "Acts 6:5",
+      "Acts 6:1",
+      "Acts 6:2-6",
       "Acts 6:7",
-      "Acts 6:8",
-      "Acts 6:10",
-      "Acts 6:11",
-      "Acts 6:14",
-      "Acts 6:15"
+      "Acts 6:8-10",
+      "Acts 6:11-15"
     ],
-    "evidence_phrases": [
-      "It is not appropriate for us to forsake the word of God and serve tables",
-      "Stephen, a man full of faith and of the Holy Spirit",
-      "The word of God increased",
-      "They weren’t able to withstand the wisdom and the Spirit",
-      "his face like it was the face of an angel"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 7,
-    "title": "Stephen’s speech and stoning",
-    "summary_text": "The high priest asks if charges are true; Stephen recounts God’s dealings with Abraham, Joseph, Moses, the exodus, the golden calf, the tabernacle, David, Solomon, and the prophets—charging the council with resisting the Holy Spirit as their fathers did, persecuting prophets, and betraying the Righteous One. He sees heaven opened and the Son of Man at God’s right hand; they stone him as he prays Jesus receive his spirit and not hold the sin against them. Witnesses lay garments at Saul’s feet.",
+    "title": "Stephen Accuses the Council and Is Stoned",
+    "summary_text": "Stephen recalls God's promise to Abraham and His care for Joseph and Moses despite their people's rejection. Though God sent Moses as ruler and redeemer, Israel turned to idols. Stephen recalls the tabernacle and Solomon's house, then says God does not live in houses built by people. He charges his hearers with resisting the Holy Spirit, breaking the law, and murdering the Righteous One. Stephen sees God's glory and Jesus at His right hand, then is stoned to death as he asks Jesus to receive his spirit and not hold his attackers' sin against them.",
     "themes": [
       "Abraham to Moses",
       "Rejection of Moses",
@@ -365,38 +295,29 @@
       "Saul"
     ],
     "key_points": [
-      "Stephen traced Israel’s history from Abraham through Moses and the prophets.",
-      "He accused them of always resisting the Holy Spirit.",
-      "He said they betrayed and murdered the Righteous One.",
-      "He saw the Son of Man standing at God’s right hand.",
-      "They stoned him outside the city.",
-      "He asked the Lord Jesus to receive his spirit.",
-      "He asked that their sin not be held against them."
+      "God promised Abraham land, gave the covenant of circumcision, and sustained Joseph after his brothers sold him.",
+      "God sent the rejected Moses as ruler and redeemer, yet Israel rejected his words and sacrificed to an idol.",
+      "Stephen recounts the tabernacle and Solomon's house, then declares that God is not confined to human buildings.",
+      "Stephen charges them with uncircumcised hearts and ears, resisting the Spirit, disobeying the law, and murdering the Righteous One foretold by prophets.",
+      "Stephen sees the Son of Man beside God and dies praying for his attackers while witnesses leave their clothes with Saul."
     ],
     "supporting_verses": [
-      "Acts 7:2",
-      "Acts 7:35",
-      "Acts 7:51",
-      "Acts 7:52",
-      "Acts 7:55",
-      "Acts 7:56",
-      "Acts 7:59",
-      "Acts 7:60"
+      "Acts 7:2-16",
+      "Acts 7:17-43",
+      "Acts 7:44-50",
+      "Acts 7:51-53",
+      "Acts 7:54-60"
     ],
-    "evidence_phrases": [
-      "You stiff-necked and uncircumcised in heart and ears",
-      "I see the heavens opened, and the Son of Man standing",
-      "Lord Jesus, receive my spirit",
-      "don’t hold this sin against them",
-      "the witnesses placed their garments at the feet of a young man named Saul"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 8,
-    "title": "Persecution, Philip, Simon, Ethiopian eunuch",
-    "summary_text": "Saul consents to Stephen’s death; persecution scatters all but apostles; Saul ravages the church. Scattered believers preach the word. Philip evangelizes Samaria with signs; Simon believes but tries to buy the Spirit’s gift and is rebuked. An angel sends Philip to the Gaza road; he explains Isaiah’s suffering servant to an Ethiopian official, baptizes him at water, and is caught away to Azotus, preaching to Caesarea.",
+    "title": "The Gospel Reaches Samaria and an Ethiopian",
+    "summary_text": "Violent attacks scatter the church, but the believers carry God's word with them. Philip preaches Christ and the kingdom of God in Samaria, where people believe and are baptized. The apostles Peter and John come, and the believers receive the Holy Spirit through their prayers and the laying on of hands. Peter rebukes Simon for trying to buy this power and tells him to repent. Guided to an Ethiopian official reading Isaiah the prophet, Philip explains the gospel about Jesus and baptizes him before the Spirit carries Philip away.",
     "themes": [
       "Scattering and preaching",
       "Philip in Samaria",
@@ -415,41 +336,29 @@
       "Candace"
     ],
     "key_points": [
-      "Saul consented to Stephen’s death and later dragged believers to prison.",
-      "Those scattered preached the word.",
-      "Philip proclaimed Christ in Samaria with deliverances and healings.",
-      "Peter and John prayed and laid hands so Samaritans received the Holy Spirit.",
-      "Peter told Simon his money should perish for seeking to buy God’s gift.",
-      "Philip baptized the eunuch after preaching Jesus from Isaiah.",
-      "The Spirit caught Philip away; he preached to cities as far as Caesarea."
+      "Saul imprisons believers, while those scattered by persecution spread God's word.",
+      "Philip's preaching and healings bring joy, and Samaritans believe and are baptized.",
+      "The Samaritans receive the Holy Spirit when Peter and John lay hands on them.",
+      "Peter calls Simon's desire to buy God's gift wickedness and tells him to repent and seek forgiveness.",
+      "Philip explains Isaiah's words about suffering through the good news of Jesus and baptizes the Ethiopian official."
     ],
     "supporting_verses": [
-      "Acts 8:1",
-      "Acts 8:3",
-      "Acts 8:4",
-      "Acts 8:5",
-      "Acts 8:12",
-      "Acts 8:17",
-      "Acts 8:20",
-      "Acts 8:35",
-      "Acts 8:39",
-      "Acts 8:40"
+      "Acts 8:1-4",
+      "Acts 8:5-13",
+      "Acts 8:14-17",
+      "Acts 8:18-24",
+      "Acts 8:26-40"
     ],
-    "evidence_phrases": [
-      "Saul was consenting to his death",
-      "Philip went down to the city of Samaria",
-      "May your silver perish with you",
-      "they received the Holy Spirit",
-      "Philip opened his mouth, and beginning from this Scripture, preached to him about Jesus",
-      "the Spirit of the Lord caught Philip away"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 9,
-    "title": "Saul’s conversion, Peter’s healings",
-    "summary_text": "Saul, breathing threats, seeks Damascus letters; the risen Lord blinds him and calls him chosen vessel to bear Christ’s name to nations, kings, and Israel. Ananias restores sight and fills him with the Spirit; Saul preaches Christ in Damascus, escapes in a basket, and Barnabas introduces him in Jerusalem. Churches have peace; Peter heals Aeneas at Lydda and raises Tabitha (Dorcas) at Joppa, then stays with Simon the tanner.",
+    "title": "Saul Meets Jesus and Begins Preaching",
+    "summary_text": "Saul travels to Damascus to arrest disciples, but Jesus speaks to him on the road, and Saul loses his sight. The Lord sends Ananias to him, saying Saul is chosen to carry His name to Gentiles, kings, and Israel and to suffer for Him. Saul regains his sight, is baptized, and begins declaring that Jesus is the Son of God and the Christ. After escaping death plots in Damascus and Jerusalem, he leaves for Tarsus, and the church enjoys peace and the Holy Spirit's encouragement. Peter heals Aeneas in Jesus' name and, after praying, presents Tabitha alive to the saints and widows.",
     "themes": [
       "Damascus road",
       "Chosen vessel",
@@ -473,43 +382,29 @@
       "Simon the tanner"
     ],
     "key_points": [
-      "Jesus identified himself as the one Saul persecuted.",
-      "Ananias laid hands so Saul received sight and the Holy Spirit.",
-      "Saul immediately proclaimed Jesus as the Son of God in synagogues.",
-      "Disciples lowered him in a basket when Jews plotted to kill him.",
-      "Barnabas told the apostles how Saul had seen the Lord.",
-      "Peter healed paralyzed Aeneas in Lydda.",
-      "Peter raised Tabitha, and many believed in Joppa."
+      "Saul seeks the high priest's permission to arrest disciples, but an encounter with Jesus leaves him blind.",
+      "Ananias obeys the Lord's command to visit Saul, who regains his sight and is baptized.",
+      "Saul preaches Jesus, escapes a murder plot, and gains a hearing with the apostles through Barnabas.",
+      "Another death threat sends Saul away, while the church grows during a time of peace.",
+      "Aeneas is healed, and Tabitha rises after Peter prays; many people turn to the Lord."
     ],
     "supporting_verses": [
-      "Acts 9:4",
-      "Acts 9:5",
-      "Acts 9:15",
-      "Acts 9:17",
-      "Acts 9:20",
-      "Acts 9:22",
-      "Acts 9:25",
-      "Acts 9:27",
-      "Acts 9:34",
-      "Acts 9:40",
-      "Acts 9:43"
+      "Acts 9:1-9",
+      "Acts 9:10-19",
+      "Acts 9:20-27",
+      "Acts 9:28-31",
+      "Acts 9:32-43"
     ],
-    "evidence_phrases": [
-      "Saul, Saul, why do you persecute me?",
-      "I am Jesus, whom you are persecuting",
-      "he is my chosen vessel",
-      "lowered him in a basket",
-      "Barnabas took him and brought him to the apostles",
-      "Jesus Christ heals you. Get up and make your bed",
-      "Tabitha, get up!"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 10,
-    "title": "Cornelius, Peter’s vision, Gentiles receive the Spirit",
-    "summary_text": "Devout centurion Cornelius is told by an angel to send for Peter in Joppa. Peter’s trance teaches not to call unclean what God cleansed. At Caesarea Peter preaches Jesus anointed with the Spirit, crucified, raised, and appointed judge; while he speaks the Holy Spirit falls on the Gentiles as on Pentecost. Peter orders their baptism in Jesus’s name.",
+    "title": "Gentiles Receive the Holy Spirit",
+    "summary_text": "An angel tells Cornelius to send for Peter, while Peter sees a vision of animals and hears that God's cleansing must not be rejected. The Spirit sends Peter with Cornelius's men, and Peter explains that God has shown him not to call any person unclean. He announces the gospel of peace through Jesus Christ, describing His works, death, resurrection, and appointment as judge. Peter says everyone who believes in Jesus receives forgiveness of sins through Him. As he speaks, the Gentiles receive the Holy Spirit, astonishing the circumcised believers, and Peter orders their baptism.",
     "themes": [
       "Cornelius’s vision",
       "Sheet and unclean animals",
@@ -527,39 +422,29 @@
       "Jesus"
     ],
     "key_points": [
-      "An angel told Cornelius to send for Peter at Joppa.",
-      "Peter saw the sheet vision three times with the command to eat.",
-      "Peter said God showed him not to call any man unholy or unclean.",
-      "He testified that God accepts those who fear him and work righteousness.",
-      "The Holy Spirit fell on hearers before baptism was finished.",
-      "They spoke in languages and magnified God.",
-      "Peter commanded baptism in the name of Jesus Christ."
+      "An angel tells Cornelius that God has heard his prayers and directs him to send for Peter.",
+      "Peter's vision challenges his refusal to eat unclean animals, and the Spirit directs him to Cornelius's messengers.",
+      "Peter visits Cornelius and explains that God has taught him not to regard any person as unclean.",
+      "Peter proclaims Jesus' resurrection, His role as judge, and forgiveness for everyone who believes in Him.",
+      "The Gentiles speak in tongues and praise God after receiving the Holy Spirit, and Peter has them baptized."
     ],
     "supporting_verses": [
-      "Acts 10:3",
-      "Acts 10:4",
-      "Acts 10:15",
-      "Acts 10:28",
-      "Acts 10:34",
-      "Acts 10:38",
-      "Acts 10:44",
-      "Acts 10:47",
-      "Acts 10:48"
+      "Acts 10:1-8",
+      "Acts 10:9-23",
+      "Acts 10:24-33",
+      "Acts 10:34-43",
+      "Acts 10:44-48"
     ],
-    "evidence_phrases": [
-      "Your prayers and your gifts to the needy have gone up for a memorial",
-      "What God has cleansed, you must not call unclean",
-      "God doesn’t show favoritism",
-      "the Holy Spirit fell on all those who heard the word",
-      "They have received the Holy Spirit just like us"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 11,
-    "title": "Peter’s defense, Antioch, Christians, famine relief",
-    "summary_text": "Circumcision believers challenge Peter; he recounts the vision, the Spirit’s command to go, and the Spirit falling as at first, asking who could withstand God. They glorify God for Gentile repentance. Scattered believers reach Phoenicia, Cyprus, and Antioch; some preach to Hellenists at Antioch. Barnabas encourages the church, fetches Saul, and they teach a year—the disciples are first called Christians. Agabus prophesies famine; the church sends relief by Barnabas and Saul to Judean elders.",
+    "title": "God Gives Gentiles Repentance and Life",
+    "summary_text": "Circumcised believers question Peter for eating with uncircumcised men. He recounts his vision, the Spirit's instructions, and the gift of the Holy Spirit to the Gentiles who heard him speak. His listeners praise God for granting Gentiles repentance that leads to life. In Antioch, Greeks hear the gospel and turn to Jesus; Barnabas sees God's grace there and brings Saul to help teach the disciples, who are first called Christians there. After Agabus predicts a widespread famine through the Spirit, the disciples send help to the believers in Judea.",
     "themes": [
       "Peter’s orderly report",
       "Gentiles granted repentance",
@@ -577,36 +462,29 @@
       "Claudius"
     ],
     "key_points": [
-      "Peter retold the sheet vision and Spirit falling on Gentiles.",
-      "The Jerusalem group glorified God for Gentile repentance to life.",
-      "A great number believed at Antioch.",
-      "Disciples were first called Christians in Antioch.",
-      "Agabus foretold a great famine in Claudius’s days.",
-      "Disciples sent relief to Judea by Barnabas and Saul."
+      "Peter answers objections to his visit by recounting his vision and the Spirit's direction.",
+      "Peter recalls Jesus' promise of baptism with the Holy Spirit and refuses to oppose God's gift to Gentiles.",
+      "The believers stop objecting and praise God for giving Gentiles repentance leading to life.",
+      "Barnabas and Saul teach the growing church in Antioch for a year.",
+      "Agabus predicts famine, and the disciples send relief through Barnabas and Saul according to what each can give."
     ],
     "supporting_verses": [
-      "Acts 11:15",
-      "Acts 11:17",
+      "Acts 11:1-14",
+      "Acts 11:15-17",
       "Acts 11:18",
-      "Acts 11:21",
-      "Acts 11:26",
-      "Acts 11:28",
-      "Acts 11:29",
-      "Acts 11:30"
+      "Acts 11:19-26",
+      "Acts 11:27-30"
     ],
-    "evidence_phrases": [
-      "God gave to them the same gift as us",
-      "God has also granted to the Gentiles repentance to life",
-      "The disciples were first called Christians in Antioch",
-      "there should be a great famine all over the world"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 12,
-    "title": "James killed, Peter freed, Herod struck",
-    "summary_text": "Herod kills James and imprisons Peter during Unleavened Bread; prayer is made for Peter. An angel frees Peter from chains and the iron gate; Rhoda’s joy delays the door; Peter reports to James and the brothers then leaves. Herod executes guards, accepts Tyre and Sidon’s flattery, is struck by an angel for not giving God glory, and dies eaten by worms. God’s word grows; Barnabas and Saul return with John Mark.",
+    "title": "Peter Is Rescued and Herod Dies",
+    "summary_text": "Herod has James, John's brother, killed and imprisons Peter, while the church prays earnestly for him. An angel leads Peter past the guards and out of prison, and Peter realizes the Lord has rescued him. At Mary's house, the praying believers struggle to believe Rhoda's report that Peter is outside until they see him. Herod later has the guards executed, then accepts a crowd's praise of him as a god. Because he does not give God glory, an angel strikes him, and he dies, while God's word keeps spreading.",
     "themes": [
       "James slain",
       "Angel and Peter’s chains",
@@ -626,39 +504,29 @@
       "John Mark"
     ],
     "key_points": [
-      "Herod killed James with the sword and seized Peter.",
-      "An angel woke Peter, chains fell, and the iron gate opened.",
-      "Rhoda recognized Peter’s voice but the house doubted.",
-      "Herod had the guards put to death when Peter vanished.",
-      "An angel struck Herod for accepting divine honors; worms consumed him.",
-      "Barnabas and Saul returned from Jerusalem with John Mark."
+      "Herod kills James and places Peter under heavy guard, while the church prays for Peter.",
+      "An angel frees Peter from his chains and leads him safely out of prison.",
+      "Peter's arrival amazes the praying believers, and he explains how the Lord rescued him.",
+      "Herod executes Peter's guards and later dies after accepting divine praise without giving glory to God.",
+      "God's word spreads, and Barnabas and Saul return with John Mark after completing their mission."
     ],
     "supporting_verses": [
-      "Acts 12:2",
-      "Acts 12:5",
-      "Acts 12:7",
-      "Acts 12:11",
-      "Acts 12:12",
-      "Acts 12:19",
-      "Acts 12:23",
-      "Acts 12:24",
-      "Acts 12:25"
+      "Acts 12:1-5",
+      "Acts 12:6-11",
+      "Acts 12:12-17",
+      "Acts 12:18-23",
+      "Acts 12:24-25"
     ],
-    "evidence_phrases": [
-      "constant prayer was made by the assembly to God for him",
-      "His chains fell off his hands",
-      "Now I truly know that the Lord has sent out his angel",
-      "The voice of a god, and not of a man",
-      "he was eaten by worms and died",
-      "the word of God grew and multiplied"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 13,
-    "title": "First missionary journey begins",
-    "summary_text": "At Antioch the Holy Spirit sets apart Barnabas and Saul; after fasting and laying on of hands they sail to Cyprus, confound Elymas at Paphos where Sergius Paulus believes, and John Mark returns to Jerusalem. At Pisidian Antioch Paul preaches Israel’s history, Jesus crucified and raised, forgiveness through him, and warns from Habakkuk. Jews reject; Paul turns to Gentiles per Isaiah; believers rejoice amid persecution as Paul and Barnabas go to Iconium.",
+    "title": "Paul Proclaims Jesus and Turns to Gentiles",
+    "summary_text": "The Holy Spirit sends Barnabas and Saul out from Antioch, and in Cyprus the official Sergius Paulus believes after Elymas's opposition ends in blindness. In Pisidian Antioch on the Sabbath, Paul traces God's dealings with Israel to His promised Savior, Jesus. He announces that God raised Jesus from death and offers forgiveness of sins through Him, with everyone who believes justified beyond what Moses' law could provide. When jealous opponents reject God's word, Paul and Barnabas turn to the Gentiles, and those appointed for eternal life believe. Persecution drives the two men away, but the disciples remain joyful and filled with the Holy Spirit.",
     "themes": [
       "Sent by the Spirit",
       "Elymas blinded",
@@ -679,42 +547,29 @@
       "Gentiles"
     ],
     "key_points": [
-      "The Spirit said to separate Barnabas and Saul for his work.",
-      "Paul struck Elymas blind for opposing the faith.",
-      "Paul preached Jesus crucified, buried, raised, and seen by witnesses.",
-      "He offered remission of sins and justification not by Moses’s law alone.",
-      "Jews contradicted; Paul said they judged themselves unworthy of eternal life.",
-      "Gentiles glorified the word; as many as appointed to eternal life believed."
+      "The church prays and fasts before sending Barnabas and Saul on the work assigned by the Holy Spirit.",
+      "Paul announces temporary blindness for Elymas, and Sergius Paulus believes after seeing what happens.",
+      "Paul recounts Israel's history and identifies Jesus as the Savior God promised from David's descendants.",
+      "Paul proclaims Jesus' resurrection, forgiveness of sins, and justification through believing, then warns against rejecting God's work.",
+      "Opposition leads Paul and Barnabas to address the Gentiles, who welcome the good news before persecution forces their departure."
     ],
     "supporting_verses": [
-      "Acts 13:2",
-      "Acts 13:3",
-      "Acts 13:9",
-      "Acts 13:11",
-      "Acts 13:12",
-      "Acts 13:29",
-      "Acts 13:38",
-      "Acts 13:39",
-      "Acts 13:46",
-      "Acts 13:47",
-      "Acts 13:48",
-      "Acts 13:52"
+      "Acts 13:1-4",
+      "Acts 13:5-12",
+      "Acts 13:13-25",
+      "Acts 13:26-41",
+      "Acts 13:42-52"
     ],
-    "evidence_phrases": [
-      "Separate Barnabas and Saul for me",
-      "Saul, who is also called Paul",
-      "the hand of the Lord is on you, and you will be blind",
-      "God has fulfilled this to us in that he raised up Jesus",
-      "we turn to the Gentiles",
-      "as many as were appointed to eternal life believed"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 14,
-    "title": "Iconium, Lystra, gods mistaken, return with elders",
-    "summary_text": "In Iconium Paul and Barnabas speak boldly with signs amid division and flee a stoning plot to Lycaonia. At Lystra Paul heals a cripple; crowds call them Jupiter and Mercury until the apostles tear their clothes and preach the living Creator. Jews from Antioch and Iconium stone Paul; he rises and goes to Derbe. They return appointing elders in every church, report God opening faith to nations, and stay long at Antioch.",
+    "title": "Paul and Barnabas Face Worship and Violence",
+    "summary_text": "Many Jews and Greeks believe at Iconium, where the Lord confirms the message of His grace, but a plot to stone the apostles forces them to flee. At Lystra, Paul heals a man who has never walked, and the crowd tries to offer sacrifice to Paul and Barnabas as gods. They insist they are human and urge the people to turn to the living Creator. Opponents then win over the crowd, who stone Paul and leave him for dead, but he gets up and continues preaching. After making disciples in Derbe, the two return to strengthen the churches in faith, appoint elders, and report in Antioch how God has welcomed Gentiles.",
     "themes": [
       "Signs at Iconium",
       "Lystra healing",
@@ -732,38 +587,29 @@
       "disciples"
     ],
     "key_points": [
-      "The Lord testified to his word with signs in Iconium.",
-      "Paul healed a lifelong cripple who had faith to be healed.",
-      "They urged Lycaonians to turn from vain things to the living God.",
-      "Jews persuaded the crowd to stone Paul; he entered the city next day.",
-      "They appointed elders with prayer and fasting in each assembly.",
-      "They reported God had opened a door of faith to the nations."
+      "The apostles preach boldly at Iconium until a violent plot drives them elsewhere to continue the gospel.",
+      "A man with faith to be healed begins walking, and the crowd mistakes Paul and Barnabas for gods.",
+      "Paul and Barnabas resist sacrifice to themselves and point to the living God who gives rain and food.",
+      "Paul survives stoning and goes with Barnabas to Derbe, where they make many disciples.",
+      "They teach that entering the kingdom of God involves hardship, appoint elders, and report God's work among Gentiles."
     ],
     "supporting_verses": [
-      "Acts 14:3",
-      "Acts 14:9",
-      "Acts 14:10",
-      "Acts 14:15",
-      "Acts 14:19",
-      "Acts 14:20",
-      "Acts 14:22",
-      "Acts 14:23",
-      "Acts 14:27"
+      "Acts 14:1-7",
+      "Acts 14:8-13",
+      "Acts 14:14-18",
+      "Acts 14:19-21",
+      "Acts 14:22-28"
     ],
-    "evidence_phrases": [
-      "the Lord, who testified to the word of his grace",
-      "Stand upright on your feet!",
-      "We also are men of like passions with you",
-      "through many afflictions we must enter into God’s Kingdom",
-      "he had opened a door of faith to the nations"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 15,
-    "title": "Jerusalem council, letter, Paul and Silas",
-    "summary_text": "Men from Judea say Gentiles must be circumcised to be saved; Paul and Barnabas dispute and go to Jerusalem. Peter recalls Cornelius: God gave the Spirit without distinction, cleansing hearts by faith; James cites Amos on Gentiles called by God’s name and urges letter on abstaining from idol pollution, sexual immorality, strangled meat, and blood. Judas Barsabbas and Silas deliver the letter; after sharp words over Mark, Barnabas sails to Cyprus with Mark while Paul takes Silas through Syria and Cilicia.",
+    "title": "The Church Settles the Gentile Circumcision Dispute",
+    "summary_text": "A dispute over whether Gentiles need circumcision and Moses' law for salvation brings Paul and Barnabas to Jerusalem's apostles and elders. Peter says God cleansed Gentile hearts through faith and that Jews and Gentiles alike are saved by Jesus' grace. After hearing Barnabas and Paul, James cites the prophets and advises against troubling Gentiles who are turning to God. The church sends a letter requiring them to avoid food sacrificed to idols, blood, strangled meat, and sexual immorality, and the believers in Antioch rejoice. Later, disagreement about taking Mark separates Paul and Barnabas; Barnabas leaves with Mark, while Paul takes Silas to strengthen the churches.",
     "themes": [
       "Circumcision for salvation?",
       "Peter and James",
@@ -783,40 +629,29 @@
       "John Mark"
     ],
     "key_points": [
-      "Some said Gentiles must be circumcised after Moses to be saved.",
-      "Peter said God gave Gentiles the Holy Spirit as to Jewish believers.",
-      "James judged not to trouble Gentile converts beyond four abstentions.",
-      "The letter said they gave no command to circumcise and keep the whole law.",
-      "It seemed good to the Holy Spirit and to the apostles and elders.",
-      "Paul and Barnabas separated over taking Mark; Paul went with Silas."
+      "The apostles and elders consider the claim that Gentiles must be circumcised and keep Moses' law.",
+      "Peter points to the Holy Spirit's gift and says salvation comes through Jesus' grace for both groups.",
+      "James cites the prophets in support of Gentiles belonging to God and proposes limited requirements.",
+      "The church sends its decision with Judas and Silas, who encourage the believers in Antioch.",
+      "Paul refuses to take Mark, leading Barnabas and Paul to continue their work separately."
     ],
     "supporting_verses": [
-      "Acts 15:7",
-      "Acts 15:8",
-      "Acts 15:9",
-      "Acts 15:11",
-      "Acts 15:19",
-      "Acts 15:20",
-      "Acts 15:28",
-      "Acts 15:29",
-      "Acts 15:39",
-      "Acts 15:40",
-      "Acts 15:41"
+      "Acts 15:1-6",
+      "Acts 15:7-11",
+      "Acts 15:12-21",
+      "Acts 15:22-35",
+      "Acts 15:36-41"
     ],
-    "evidence_phrases": [
-      "cleansing their hearts by faith",
-      "we are saved through the grace of the Lord Jesus",
-      "It seemed good to the Holy Spirit, and to us",
-      "abstain from things sacrificed to idols, from blood",
-      "Barnabas took Mark with him and sailed away to Cyprus"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 16,
-    "title": "Timothy, Macedonia call, Philippian jail",
-    "summary_text": "Paul takes Timothy, circumcised for Jews’ sake, and delivers the Jerusalem decrees. The Spirit blocks Asia and Bithynia; a Macedonian vision sends them to Philippi. Lydia believes; Paul casts out a spirit of divination, is beaten and jailed, but an earthquake opens doors; the jailer asks how to be saved, believes with his household, and Paul reveals Roman citizenship before leaving Lydia’s house.",
+    "title": "The Gospel Reaches Philippi Through Hardship",
+    "summary_text": "Timothy joins Paul after being circumcised because of the local Jews, and the churches grow stronger in faith as the travelers deliver Jerusalem's decisions. The Holy Spirit blocks some routes, but a vision directs them to Macedonia to preach the gospel. In Philippi, the Lord opens Lydia's heart, and she and her household are baptized. Paul commands a fortune-telling spirit to leave a slave girl in Jesus Christ's name, and her angry owners have Paul and Silas beaten and imprisoned. After an earthquake opens the prison, they prevent the jailer's suicide and tell him to believe in Jesus for salvation; his household hears God's word and is baptized before the officials release the men.",
     "themes": [
       "Timothy and the decrees",
       "Macedonian vision",
@@ -835,39 +670,29 @@
       "magistrates"
     ],
     "key_points": [
-      "Paul circumcised Timothy because Jews knew his father was Greek.",
-      "They delivered the apostles’ and elders’ decrees to strengthen churches.",
-      "Paul saw a man of Macedonia begging help in a vision.",
-      "The Lord opened Lydia’s heart to Paul’s words.",
-      "Paul commanded an unclean spirit out in Jesus’s name.",
-      "The jailer and household were baptized after believing.",
-      "Magistrates begged Paul and Silas when they learned they were Romans."
+      "Timothy joins Paul, and they deliver the apostles' decisions as the churches grow.",
+      "The Spirit redirects the travelers, and Paul's vision leads them to Macedonia.",
+      "Lydia responds to Paul's teaching, is baptized with her household, and welcomes the travelers into her home.",
+      "A slave girl's owners lose their income after Paul expels her spirit, and Paul and Silas are imprisoned.",
+      "The jailer believes after the earthquake, and Paul later demands a public release because the men are Roman citizens."
     ],
     "supporting_verses": [
-      "Acts 16:3",
-      "Acts 16:4",
-      "Acts 16:9",
-      "Acts 16:10",
-      "Acts 16:14",
-      "Acts 16:18",
-      "Acts 16:26",
-      "Acts 16:31",
-      "Acts 16:37"
+      "Acts 16:1-5",
+      "Acts 16:6-12",
+      "Acts 16:13-15",
+      "Acts 16:16-24",
+      "Acts 16:25-40"
     ],
-    "evidence_phrases": [
-      "Come over into Macedonia and help us",
-      "The Lord opened her heart",
-      "I command you in the name of Jesus Christ to come out of her!",
-      "Believe in the Lord Jesus Christ, and you will be saved",
-      "They have beaten us publicly without a trial, men who are Romans"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 17,
-    "title": "Thessalonica, Beroea, Athens Areopagus",
-    "summary_text": "Paul reasons in Thessalonica’s synagogue that Christ must suffer and rise; some Jews stir a mob against Jason. In Beroea Jews search Scripture daily; Thessalonian Jews pursue Paul to the sea. In Athens Paul argues in synagogue and marketplace, is taken to the Areopagus, proclaims the unknown God as Creator who commands repentance and will judge the world by the man raised from the dead. Some mock; others want to hear more; Dionysius, Damaris, and others believe.",
+    "title": "Paul Proclaims Jesus and the Living God",
+    "summary_text": "In Thessalonica, Paul uses the Scriptures to explain that Jesus is the Christ who had to suffer and rise, but jealous opponents stir up a mob. At Berea, people eagerly test his teaching against the Scriptures and many believe, until opponents arrive and Paul leaves for Athens. Troubled by the city's idols, Paul announces the good news about Jesus and the resurrection. Speaking at the Areopagus, he identifies the unknown God as the Creator who gives everyone life and cannot be represented by human-made images. He says God commands everyone to repent because judgment is coming through the Man He raised; some mock, some want to hear more, and some believe.",
     "themes": [
       "Christ suffered and rose",
       "Jason and the mob",
@@ -887,38 +712,29 @@
       "Damaris"
     ],
     "key_points": [
-      "Paul showed from Scripture that Christ must suffer and rise.",
-      "Accusers charged Jason with welcoming those who say another king, Jesus.",
-      "Beroeans examined the Scriptures daily.",
-      "Paul cited the altar TO AN UNKNOWN GOD.",
-      "He said God commands all people everywhere to repent.",
-      "He set a day of judgment by the man God raised from the dead."
+      "Paul reasons from Scripture on three Sabbaths, but a mob accuses the believers of serving another king, Jesus.",
+      "The Bereans examine Scripture daily, and many believe before renewed opposition forces Paul away.",
+      "Paul's preaching about Jesus and the resurrection draws questions from philosophers in Athens.",
+      "Paul says the Creator gives life to all nations and is not an image shaped by human skill.",
+      "God commands repentance before His appointed judgment, and Paul's listeners respond with mockery, interest, or belief."
     ],
     "supporting_verses": [
-      "Acts 17:3",
-      "Acts 17:6",
-      "Acts 17:7",
-      "Acts 17:11",
-      "Acts 17:23",
-      "Acts 17:24",
-      "Acts 17:30",
-      "Acts 17:31",
-      "Acts 17:34"
+      "Acts 17:1-9",
+      "Acts 17:10-15",
+      "Acts 17:16-21",
+      "Acts 17:22-29",
+      "Acts 17:30-34"
     ],
-    "evidence_phrases": [
-      "This Jesus, whom I proclaim to you, is the Christ",
-      "examining the Scriptures daily to see whether these things were so",
-      "TO AN UNKNOWN GOD",
-      "he has appointed a day in which he will judge the world",
-      "raised him from the dead"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 18,
-    "title": "Corinth, Gallio, Apollos",
-    "summary_text": "Paul joins tentmakers Aquila and Priscilla in Corinth, teaches in the synagogue until opposition, then stays with Justus next door; Crispus and many believe. The Lord encourages Paul in a vision not to fear harm. Gallio dismisses the Jewish case as words and law. Paul sails with Priscilla and Aquila, stops briefly at Ephesus, vows at Cenchreae, greets Jerusalem and Antioch, then strengthens Galatia and Phrygia. Apollos, knowing only John’s baptism, is instructed more accurately by Priscilla and Aquila and proves Jesus is the Christ in Achaia.",
+    "title": "Paul Teaches in Corinth and Apollos Begins",
+    "summary_text": "Paul works with the tentmakers Aquila and Priscilla in Corinth and teaches that Jesus is the Christ. When opponents reject him, he turns to the Gentiles, and many Corinthians believe and are baptized. The Lord tells him to keep speaking without fear, and he teaches God's word there for a year and a half; Gallio later refuses to judge the accusation against him. Paul then travels through Ephesus and Antioch before strengthening other disciples. In Ephesus, Priscilla and Aquila explain God's way more fully to Apollos, who knows only John's baptism, and he goes to Achaia to help believers and show from Scripture that Jesus is the Christ.",
     "themes": [
       "Tentmaking in Corinth",
       "I will go to the Gentiles",
@@ -939,39 +755,29 @@
       "Claudius"
     ],
     "key_points": [
-      "Paul reasoned in Corinth’s synagogue every Sabbath.",
-      "The Lord told Paul not to fear; he had many people in the city.",
-      "Gallio refused to judge questions of Jewish law.",
-      "Paul left Priscilla and Aquila at Ephesus.",
-      "Apollos knew only John’s baptism until Priscilla and Aquila taught him.",
-      "Apollos publicly showed from Scripture that Jesus was the Christ."
+      "Paul stays with Aquila and Priscilla and reasons with Jews and Greeks each Sabbath.",
+      "Despite opposition, many Corinthians believe, and the Lord's promise encourages Paul to keep teaching.",
+      "Gallio dismisses the case against Paul as a dispute about Jewish law and ignores the beating of Sosthenes.",
+      "Paul leaves Corinth, visits Ephesus, Jerusalem, and Antioch, then travels to strengthen the disciples.",
+      "After further instruction from Priscilla and Aquila, Apollos helps those who believed by grace and publicly argues from Scripture."
     ],
     "supporting_verses": [
-      "Acts 18:4",
-      "Acts 18:6",
-      "Acts 18:8",
-      "Acts 18:9",
-      "Acts 18:10",
-      "Acts 18:12",
-      "Acts 18:15",
-      "Acts 18:18",
-      "Acts 18:26",
-      "Acts 18:28"
+      "Acts 18:1-4",
+      "Acts 18:5-11",
+      "Acts 18:12-17",
+      "Acts 18:18-23",
+      "Acts 18:24-28"
     ],
-    "evidence_phrases": [
-      "I am with you, and no one will attack you to harm you",
-      "From now on, I will go to the Gentiles!",
-      "I don’t want to be a judge of these matters",
-      "explained to him the way of God more accurately",
-      "publicly showing by the Scriptures that Jesus was the Christ"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 19,
-    "title": "Ephesus: Spirit, school, riot",
-    "summary_text": "Paul finds disciples baptized only with John’s baptism; they are baptized in Jesus’s name, receive the Spirit with tongues and prophecy. He teaches boldly in the synagogue then two years in Tyrannus’s school so all Asia hears. Unusual miracles through Paul include handkerchiefs; sons of Sceva are beaten by an evil spirit. Many confess and burn magic books. Paul resolves to see Rome after Jerusalem. Demetrius the silversmith stirs a riot over Artemis; the town clerk calms the crowd about Gaius and Aristarchus.",
+    "title": "God's Word Spreads and Ephesus Erupts",
+    "summary_text": "In Ephesus, Paul explains John's baptism of repentance to some disciples, who are baptized in Jesus' name and receive the Holy Spirit. He teaches about the kingdom of God, and the Lord's word spreads throughout Asia as God works remarkable miracles through him. When men try to use Jesus' name against an evil spirit, it overpowers them; many believers then confess their deeds, and people burn their magic books. Demetrius fears Paul's teaching will ruin the trade in Artemis shrines and damage her temple's honor, so he stirs up a riot. The city clerk directs complaints to the courts, warns of charges over the riot, and dismisses the crowd.",
     "themes": [
       "John’s baptism corrected",
       "Tyrannus’s school",
@@ -994,43 +800,29 @@
       "Erastus"
     ],
     "key_points": [
-      "Twelve men were re-baptized and received the Holy Spirit through Paul’s hands.",
-      "Paul taught daily two years; Asia heard the word.",
-      "Evil spirit knew Jesus and Paul but not the exorcists.",
-      "Believers burned books worth fifty thousand pieces of silver.",
-      "Paul said he must see Rome after Jerusalem.",
-      "Demetrius feared Paul’s teaching hurt the Artemis trade.",
-      "The town clerk warned against riot without cause."
+      "Disciples who know only John's baptism hear about Jesus, are baptized, and receive the Holy Spirit through Paul's hands.",
+      "Paul moves his teaching to Tyrannus's hall, and Jews and Greeks throughout Asia hear God's word.",
+      "God works miracles through Paul, while an evil spirit defeats men trying to invoke Jesus' name.",
+      "Believers confess their deeds, magic books are publicly burned, and God's word grows in power.",
+      "Demetrius stirs up anger over Artemis, but the city clerk ends the riot and points to lawful courts."
     ],
     "supporting_verses": [
-      "Acts 19:2",
-      "Acts 19:5",
-      "Acts 19:6",
-      "Acts 19:10",
-      "Acts 19:11",
-      "Acts 19:15",
-      "Acts 19:17",
-      "Acts 19:19",
-      "Acts 19:20",
-      "Acts 19:21",
-      "Acts 19:27",
-      "Acts 19:35",
-      "Acts 19:41"
+      "Acts 19:1-7",
+      "Acts 19:8-10",
+      "Acts 19:11-17",
+      "Acts 19:18-22",
+      "Acts 19:23-41"
     ],
-    "evidence_phrases": [
-      "we haven’t even heard that there is a Holy Spirit",
-      "reasoning daily in the school of Tyrannus",
-      "Jesus I know, and Paul I know, but who are you?",
-      "fifty thousand pieces of silver",
-      "Great is Artemis of the Ephesians!"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 20,
-    "title": "Miletus farewell to elders",
-    "summary_text": "After the riot Paul encourages disciples, tours Macedonia and Greece, and sails from Philippi. At Troas Eutychus falls from a third story; Paul embraces him and he lives. Paul bypasses Ephesus and calls elders to Miletus, recalling his humble teaching, tears, and call to repentance and faith. He warns of wolves and perverse speakers, commends them to God and grace, cites giving more than receiving, prays, and they weep at his face they will see no more.",
+    "title": "Paul Says Farewell to the Ephesian Elders",
+    "summary_text": "Paul encourages believers through Macedonia and Greece, then travels to Troas, where Eutychus falls from a window during his long talk but is taken home alive. At Miletus, Paul calls for the Ephesian elders and recalls teaching repentance toward God and faith in Jesus Christ. Though the Holy Spirit warns of imprisonment and suffering, Paul is determined to finish his work of announcing the gospel of God's grace. He charges the elders to care for God's church and guard it against false teachers, including men from among themselves. Entrusting them to God and His word, Paul recalls his work to support others, then prays with the grieving elders before leaving.",
     "themes": [
       "Plot and return",
       "Eutychus restored",
@@ -1052,40 +844,29 @@
       "Trophimus"
     ],
     "key_points": [
-      "Paul raised Eutychus after he fell dead from the window.",
-      "He said he declared the whole counsel of God publicly and house to house.",
-      "He testified to repentance toward God and faith toward Jesus.",
-      "He warned overseers to shepherd the church God purchased with his own blood.",
-      "He foretold grievous wolves and men speaking perverse things.",
-      "He quoted Jesus: it is more blessed to give than to receive."
+      "A plot changes Paul's travel plans, and he rejoins his companions in Troas.",
+      "Eutychus falls from an upstairs window and is picked up dead, but the gathering later takes him home alive.",
+      "Paul recalls his service and teaching, accepting the suffering ahead as he carries out Jesus' commission.",
+      "The elders must guard the church against false teachers, trusting God's grace for an inheritance among those sanctified.",
+      "Paul recalls working to help the weak, then prays with the elders as they weep over his departure."
     ],
     "supporting_verses": [
-      "Acts 20:7",
-      "Acts 20:9",
-      "Acts 20:10",
-      "Acts 20:12",
-      "Acts 20:21",
-      "Acts 20:24",
-      "Acts 20:27",
-      "Acts 20:28",
-      "Acts 20:29",
-      "Acts 20:32",
-      "Acts 20:35"
+      "Acts 20:1-6",
+      "Acts 20:7-12",
+      "Acts 20:17-27",
+      "Acts 20:28-32",
+      "Acts 20:33-38"
     ],
-    "evidence_phrases": [
-      "his life is in him",
-      "I didn’t shrink from declaring to you the whole counsel of God",
-      "to shepherd the assembly of the Lord and God which he purchased with his own blood",
-      "vicious wolves will enter in among you",
-      "It is more blessed to give than to receive"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 21,
-    "title": "Journey to Jerusalem, temple uproar",
-    "summary_text": "Paul sails through Tyre and Caesarea; disciples and Agabus warn against Jerusalem via the Spirit, but Paul is ready to die for Jesus’s name. In Jerusalem he reports to James and elders; they ask him to purify with four men under vow to refute rumors. Jews from Asia seize him in the temple over Trophimus; the crowd tries to kill him until the Roman commander rescues and binds him. Paul speaks Greek, identifies as Tarsus, and is allowed to address the people in Hebrew.",
+    "title": "Paul Reaches Jerusalem and Is Arrested",
+    "summary_text": "As Paul travels toward Jerusalem, disciples urge him not to go, and the prophet Agabus reports the Holy Spirit's warning that he will be bound and handed to Gentiles. Paul insists he is ready even to die for Jesus. In Jerusalem, James and the elders praise God for Paul's ministry, then advise him to join four men in purification to answer rumors that he teaches Jews to abandon Moses' law. Jews from Asia later accuse Paul of bringing Greeks into the temple, based on an assumption, and a mob tries to kill him. Roman soldiers stop the beating and arrest him, and Paul gains permission to address the crowd.",
     "themes": [
       "Spirit’s warnings",
       "Agabus’s belt",
@@ -1105,40 +886,29 @@
       "commanding officer"
     ],
     "key_points": [
-      "Tyre disciples said through the Spirit not to go up to Jerusalem.",
-      "Agabus bound Paul’s belt symbolizing binding at Jerusalem.",
-      "Paul said he was ready to die for the Lord Jesus’s name.",
-      "Elders asked Paul to join purification to show he kept the law.",
-      "Jews falsely accused him of bringing Trophimus into the temple.",
-      "The commander arrested Paul and bound him with chains.",
-      "Paul asked to speak to the crowd in Hebrew."
+      "Disciples warn Paul against Jerusalem, but he continues despite Agabus's prediction of imprisonment.",
+      "James and the elders hear Paul's report and propose public purification to answer rumors about his teaching.",
+      "The elders reaffirm the requirements for Gentiles, while Paul joins four men in purification at the temple.",
+      "A false assumption about Trophimus leads to accusations against Paul, and soldiers interrupt the mob's attack.",
+      "Paul identifies himself to the commander and receives permission to speak to the crowd in Hebrew."
     ],
     "supporting_verses": [
-      "Acts 21:4",
-      "Acts 21:11",
-      "Acts 21:13",
-      "Acts 21:19",
-      "Acts 21:24",
-      "Acts 21:28",
-      "Acts 21:33",
-      "Acts 21:37",
-      "Acts 21:40"
+      "Acts 21:1-16",
+      "Acts 21:17-24",
+      "Acts 21:25-26",
+      "Acts 21:27-36",
+      "Acts 21:37-40"
     ],
-    "evidence_phrases": [
-      "through the Spirit that he should not go up to Jerusalem",
-      "I am ready not only to be bound, but also to die",
-      "The Lord’s will be done",
-      "purify yourself with them",
-      "he also brought Greeks into the temple",
-      "I am a Jew, from Tarsus in Cilicia"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 22,
-    "title": "Paul’s defense to the crowd",
-    "summary_text": "Paul tells the Jerusalem crowd in Hebrew of his Gamaliel training, zeal persecuting the Way, Damascus light and Jesus’s voice, Ananias restoring sight and commissioning witness, and the temple trance sending him to the Gentiles. The crowd erupts until the commander orders scourging; Paul claims Roman citizenship born, so examination stops. Next day he is brought before the council.",
+    "title": "Paul Defends His Calling Before the Crowd",
+    "summary_text": "Speaking in Hebrew, Paul recalls his strict training in the law and his violent persecution of Jesus' followers. He describes the light near Damascus, Jesus' words to him, and the blindness that followed. Ananias restored his sight, told him he would witness to what he had seen and heard, and urged him to be baptized and have his sins washed away while calling on Jesus' name. Paul says the Lord later sent him to the Gentiles, at which the crowd demands his death. The commander orders a flogging to question him, but Paul's Roman citizenship stops it, and the next day he is brought before the Sanhedrin.",
     "themes": [
       "Hebrew speech",
       "Gamaliel and zeal",
@@ -1158,37 +928,29 @@
       "centurion"
     ],
     "key_points": [
-      "Paul said he was educated under Gamaliel and persecuted the Way.",
-      "Jesus identified himself on the Damascus road.",
-      "Ananias told him to be baptized and wash away sins.",
-      "The Lord sent him far to the Gentiles.",
-      "The crowd raged when he mentioned Gentiles.",
-      "Paul’s Roman birth halted illegal scourging."
+      "Paul describes his zeal for the law and his authorization from the high priest to arrest believers.",
+      "Paul recounts Jesus speaking to him near Damascus and sending him into the city while blind.",
+      "Ananias says Paul has seen the Righteous One and must become His witness, then urges him to be baptized.",
+      "Paul reports the Lord's command to go to the Gentiles, and the crowd calls for his death.",
+      "Paul's Roman citizenship halts the planned flogging, and the commander arranges a hearing before the Sanhedrin."
     ],
     "supporting_verses": [
-      "Acts 22:3",
-      "Acts 22:8",
-      "Acts 22:16",
-      "Acts 22:21",
-      "Acts 22:22",
-      "Acts 22:25",
-      "Acts 22:28",
-      "Acts 22:29"
+      "Acts 22:1-5",
+      "Acts 22:6-11",
+      "Acts 22:12-16",
+      "Acts 22:17-23",
+      "Acts 22:24-30"
     ],
-    "evidence_phrases": [
-      "I am Jesus of Nazareth, whom you persecute",
-      "Arise, and go into Damascus",
-      "wash away your sins, calling on the name of the Lord",
-      "I will send you out far from here to the Gentiles",
-      "But I was born a Roman"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 23,
-    "title": "Sanhedrin split, plot foiled, Felix",
-    "summary_text": "Paul claims good conscience; high priest Ananias orders a strike; Paul apologizes unknowingly insulting the ruler. He divides Pharisees and Sadducees over resurrection hope. A night vision assures Paul he will testify at Rome. Forty Jews vow to kill Paul; his nephew warns the commander, who sends Paul with heavy escort and a letter to Felix at Caesarea.",
+    "title": "A Murder Plot Sends Paul to Caesarea",
+    "summary_text": "Paul clashes with the high priest Ananias, then declares that his hope in the resurrection is the reason for his trial. The Sanhedrin divides over this, and soldiers remove him when the dispute becomes violent. That night, the Lord assures Paul that he will testify in Rome as he has in Jerusalem. More than forty men vow not to eat or drink until they kill him, but Paul's nephew uncovers their planned ambush and tells the commander. The commander sends Paul under heavy guard to Governor Felix in Caesarea, with a letter saying he found no charge deserving death or imprisonment.",
     "themes": [
       "Whitewashed wall",
       "Resurrection dispute",
@@ -1207,38 +969,29 @@
       "Paul’s sister’s son"
     ],
     "key_points": [
-      "Paul said he lived in good conscience before God.",
-      "He split the council by professing hope in the resurrection.",
-      "The Lord said Paul would testify at Rome as at Jerusalem.",
-      "More than forty men vowed not to eat until they killed Paul.",
-      "Paul’s nephew told the commander the ambush plan.",
-      "Paul was sent by night with soldiers to Felix in Caesarea."
+      "Paul challenges Ananias's unlawful order to strike him, then acknowledges the command against insulting a ruler.",
+      "Paul's statement about resurrection divides the Pharisees and Sadducees, and the commander rescues him from the violent dispute.",
+      "The Lord tells Paul he must also testify in Rome.",
+      "Paul's nephew warns the commander about more than forty men preparing to murder Paul on the road.",
+      "Soldiers escort Paul to Caesarea, where Felix keeps him under guard while awaiting his accusers."
     ],
     "supporting_verses": [
-      "Acts 23:1",
-      "Acts 23:6",
-      "Acts 23:8",
+      "Acts 23:1-5",
+      "Acts 23:6-10",
       "Acts 23:11",
-      "Acts 23:12",
-      "Acts 23:16",
-      "Acts 23:21",
-      "Acts 23:30",
-      "Acts 23:33",
-      "Acts 23:35"
+      "Acts 23:12-22",
+      "Acts 23:23-35"
     ],
-    "evidence_phrases": [
-      "Concerning the hope and resurrection of the dead I am being judged",
-      "Cheer up, Paul, for as you have testified about me at Jerusalem, so you must testify also at Rome",
-      "neither eat nor drink until they have killed Paul",
-      "Claudius Lysias to the most excellent governor Felix"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 24,
-    "title": "Trial before Felix",
-    "summary_text": "Tertullus accuses Paul before Felix as a plague, sect ringleader, and temple profaner. Paul denies stirring crowds, confesses serving the God of fathers in the Way, hopes in resurrection of just and unjust, and came to bring alms. Felix defers until Lysias comes, keeps Paul with privileges, hears him with Drusilla on faith, trembles at judgment talk, hopes for a bribe, and leaves Paul bound two years until Festus succeeds.",
+    "title": "Paul Answers His Accusers Before Felix",
+    "summary_text": "Before Felix, Tertullus accuses Paul of stirring up unrest, leading the Nazarenes, and trying to defile the temple. Paul denies the charges and says he worships according to the Way, believing the Law and Prophets and hoping for the resurrection of righteous and wicked alike. Felix delays a decision but allows Paul's friends to care for him. Later, Paul speaks about faith in Christ Jesus, righteousness, self-control, and coming judgment, which frightens Felix. Hoping for a bribe, Felix keeps meeting with Paul, then leaves him imprisoned after two years to please the Jews when Festus succeeds him.",
     "themes": [
       "Tertullus’s flattery",
       "Way and resurrection hope",
@@ -1256,36 +1009,29 @@
       "Jews"
     ],
     "key_points": [
-      "Tertullus called Paul a ringleader of the Nazarene sect.",
-      "Paul confessed worshiping the God of the fathers according to the Way.",
-      "He said he believed in resurrection of both just and unjust.",
-      "Felix postponed judgment wanting Lysias’s account.",
-      "Felix trembled when Paul spoke of righteousness and coming judgment.",
-      "Felix left Paul bound two years to please the Jews."
+      "Tertullus presents accusations of unrest and temple desecration, and the Jewish accusers support him.",
+      "Paul denies causing a disturbance and affirms his belief in the Law, the Prophets, and resurrection.",
+      "Paul says he came with aid and offerings, and the witnesses from Asia should bring any charges themselves.",
+      "Felix postpones judgment, later fears Paul's teaching about righteousness and judgment, and hopes to receive a bribe.",
+      "Felix leaves Paul imprisoned when Festus replaces him two years later."
     ],
     "supporting_verses": [
-      "Acts 24:5",
-      "Acts 24:10",
-      "Acts 24:14",
-      "Acts 24:15",
-      "Acts 24:22",
-      "Acts 24:25",
+      "Acts 24:1-9",
+      "Acts 24:10-16",
+      "Acts 24:17-21",
+      "Acts 24:22-26",
       "Acts 24:27"
     ],
-    "evidence_phrases": [
-      "a ringleader of the sect of the Nazarenes",
-      "I serve the God of our fathers, believing all things which are according to the law",
-      "there will be a resurrection of the dead, both of the just and unjust",
-      "Felix was terrified",
-      "Felix left Paul in bonds"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 25,
-    "title": "Festus and appeal to Caesar",
-    "summary_text": "Festus refuses to send Paul to Jerusalem for ambush; at Caesarea Paul denies sin against law, temple, or Caesar. Festus favors Jews; Paul appeals to Caesar. Agrippa and Bernice visit; Festus explains the case is about their religion and a dead Jesus Paul says is alive. Agrippa hears Paul next day.",
+    "title": "Paul Appeals to Caesar",
+    "summary_text": "Jewish leaders ask Festus to bring Paul to Jerusalem while planning to ambush him, but Festus first hears their case in Caesarea. Paul denies their unproved charges, and when Festus proposes a Jerusalem trial, he appeals to Caesar. Festus agrees to send him to the emperor. When Agrippa visits, Festus describes a dispute about religion and Paul's claim that Jesus is alive. He brings Paul before Agrippa and the assembled leaders, explaining that he has found no crime deserving death and needs definite charges to send with the prisoner.",
     "themes": [
       "Jerusalem trap refused",
       "Caesar’s judgment seat",
@@ -1302,37 +1048,27 @@
       "Felix"
     ],
     "key_points": [
-      "Jews asked Festus to summon Paul to Jerusalem to kill him en route.",
-      "Paul said he stood before Caesar’s seat where he ought be tried.",
-      "Paul appealed to Caesar; Festus granted it.",
-      "Festus told Agrippa the dispute was about Jesus dead vs. alive.",
-      "Agrippa wanted to hear Paul himself."
+      "Festus refuses an immediate transfer to Jerusalem and tells Paul's accusers to present their case in Caesarea.",
+      "Paul denies breaking Jewish law, defiling the temple, or offending Caesar, and appeals to Caesar rather than accept transfer.",
+      "Festus tells Agrippa that the dispute includes Paul's assertion that Jesus, though dead, is alive.",
+      "Festus presents Paul before Agrippa because he needs a clear account of charges to send to the emperor."
     ],
     "supporting_verses": [
-      "Acts 25:3",
-      "Acts 25:4",
-      "Acts 25:8",
-      "Acts 25:10",
-      "Acts 25:11",
-      "Acts 25:12",
-      "Acts 25:19",
-      "Acts 25:21",
-      "Acts 25:22"
+      "Acts 25:1-5",
+      "Acts 25:6-12",
+      "Acts 25:13-22",
+      "Acts 25:23-27"
     ],
-    "evidence_phrases": [
-      "plotting to kill him on the way",
-      "I am standing before Caesar’s judgment seat",
-      "I appeal to Caesar!",
-      "one Jesus, who was dead, whom Paul affirmed to be alive",
-      "Tomorrow you shall hear him"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 26,
-    "title": "Before Agrippa",
-    "summary_text": "Paul tells Agrippa he is judged for hope in the patriarchs’ promise and resurrection. He recounts persecuting saints, Damascus light, Jesus’s commission to open Gentile eyes to repentance and forgiveness, and his obedience preaching repentance. Festus calls him mad; Paul appeals to truth and Agrippa’s knowledge. Agrippa asks if Paul would make him a Christian; rulers find no death-worthy crime; Agrippa says Paul could have been freed without appealing to Caesar.",
+    "title": "Paul Describes His Commission to Agrippa",
+    "summary_text": "Before Agrippa, Paul describes his life as a Pharisee and says his trial concerns hope in God's promise to Israel and the raising of the dead. He admits imprisoning the saints and pursuing them violently until Jesus appeared to him near Damascus. Jesus sent him to turn people from darkness and Satan to God, bringing forgiveness of sins and an inheritance among those sanctified by faith in Him. Paul says he obeyed by preaching repentance and proclaiming, as Moses and the prophets said, that the Christ would suffer and rise to bring light to Jews and Gentiles. Festus calls him mad, but Paul appeals to Agrippa, and the rulers conclude he deserves neither death nor imprisonment.",
     "themes": [
       "Hope of the promise",
       "Heavenly vision commission",
@@ -1351,39 +1087,29 @@
       "prophets"
     ],
     "key_points": [
-      "Paul said he was a Pharisee judged for hope of resurrection.",
-      "Jesus commissioned him to turn Gentiles from darkness to light.",
-      "Festus said Paul’s learning made him insane.",
-      "Paul said he spoke true and reasonable words.",
-      "Agrippa asked if Paul tried to make him a Christian.",
-      "The king and governor agreed Paul did nothing worthy of death or chains."
+      "Paul says his hope rests on God's promise to Israel and challenges disbelief that God raises the dead.",
+      "Paul admits imprisoning saints, supporting their deaths, and trying to force them to blaspheme.",
+      "Jesus appoints Paul as a witness to turn people toward God for forgiveness and an inheritance among those sanctified by faith.",
+      "Paul reports preaching repentance with fitting deeds and proclaiming the suffering and resurrection of the Christ.",
+      "Paul wants his hearers to share his faith, and Agrippa says he could be released except for his appeal."
     ],
     "supporting_verses": [
-      "Acts 26:6",
-      "Acts 26:8",
-      "Acts 26:14",
-      "Acts 26:18",
-      "Acts 26:19",
-      "Acts 26:23",
-      "Acts 26:24",
-      "Acts 26:28",
-      "Acts 26:31",
-      "Acts 26:32"
+      "Acts 26:1-8",
+      "Acts 26:9-11",
+      "Acts 26:12-18",
+      "Acts 26:19-23",
+      "Acts 26:24-32"
     ],
-    "evidence_phrases": [
-      "for the hope of the promise made by God to our fathers",
-      "to open their eyes, that they may turn from darkness to light",
-      "I am not crazy, most excellent Festus",
-      "With a little persuasion are you trying to make me a Christian?",
-      "This man might have been set free if he had not appealed to Caesar"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 27,
-    "title": "Storm and shipwreck",
-    "summary_text": "Paul and prisoners sail under Julius; contrary winds delay them. Paul warns sailing from Fair Havens will bring loss and danger; the centurion heeds the ship’s master over Paul. Euroclydon drives them; cargo and tackle are cast overboard. An angel tells Paul all aboard will be saved though the ship is lost; Paul urges food after fourteen days fasting. They run aground at Malta; soldiers’ plan to kill prisoners is stopped by Julius; all reach shore safely.",
+    "title": "A Storm Wrecks the Ship Without Deaths",
+    "summary_text": "Paul sails toward Italy as a prisoner, but dangerous weather slows the voyage, and the centurion follows the pilot's advice instead of Paul's warning. A fierce storm drives the ship for many days until those aboard lose hope. Paul then reports an angel's assurance that he will stand before Caesar and that everyone aboard will survive, though the ship will be lost. He stops the sailors from escaping and encourages everyone to eat, thanking God before them. When the ship runs aground and breaks apart, the centurion prevents the soldiers from killing the prisoners, and all 276 people reach land safely.",
     "themes": [
       "Paul’s voyage warning",
       "Euroclydon",
@@ -1401,40 +1127,29 @@
       "sailors"
     ],
     "key_points": [
-      "Paul foresaw injury and loss if they sailed from Crete.",
-      "The ship was caught by Euroclydon and driven days without sun or stars.",
-      "An angel said Paul must stand before Caesar and all would be saved.",
-      "Paul said not a hair would perish from their heads.",
-      "Two hundred seventy-six people were on the ship.",
-      "Julius kept soldiers from killing prisoners so Paul could be saved."
+      "Contrary winds delay the voyage, but the centurion follows the pilot and owner rather than Paul's warning.",
+      "A violent storm drives the ship, forcing the crew to discard cargo and equipment as hope fades.",
+      "Paul reports God's promise through an angel that everyone will survive, although the ship must run aground.",
+      "The soldiers prevent the sailors' escape, and Paul encourages everyone to eat before the ship approaches land.",
+      "The ship breaks apart, but the centurion spares the prisoners, and everyone reaches shore by swimming or holding wreckage."
     ],
     "supporting_verses": [
-      "Acts 27:10",
-      "Acts 27:14",
-      "Acts 27:20",
-      "Acts 27:23",
-      "Acts 27:24",
-      "Acts 27:25",
-      "Acts 27:34",
-      "Acts 27:37",
-      "Acts 27:43",
-      "Acts 27:44"
+      "Acts 27:1-12",
+      "Acts 27:13-20",
+      "Acts 27:21-26",
+      "Acts 27:27-38",
+      "Acts 27:39-44"
     ],
-    "evidence_phrases": [
-      "the voyage will be with injury and much loss",
-      "which is called Euroclydon",
-      "all hope that we would be saved was now taken away",
-      "You must stand before Caesar",
-      "two hundred seventy-six souls on the ship",
-      "So they all escaped safely to the land"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 44,
     "chapter": 28,
-    "title": "Malta, Rome, Isaiah, open preaching",
-    "summary_text": "On Malta Paul is unharmed by a viper; natives first call him murderer then a god. He heals Publius’s father and many sick. After three months they sail to Rome via Syracuse and Puteoli; brothers encourage Paul on the road. Under guard he calls Jewish leaders, explains his appeal for Israel’s hope, and testifies to the Kingdom and Jesus from Moses and prophets all day. Some believe, some not; he cites Isaiah on hardened hearts and says salvation is sent to the nations. Two years he teaches boldly unhindered in his rented lodging.",
+    "title": "Paul Reaches Rome and Keeps Preaching",
+    "summary_text": "On Malta, the islanders welcome the survivors, and Paul suffers no harm from a viper bite. After Paul prays and heals Publius's father, other sick people are cured, and the islanders supply the travelers for their departure. In Rome, Paul lives under guard and explains to Jewish leaders that his chains concern Israel's hope. He teaches about Jesus and the kingdom of God from Moses' law and the prophets, but his hearers divide, so he cites the Holy Spirit's words through Isaiah about people who refuse to understand and says God's salvation has gone to Gentiles. For two years, he welcomes visitors and freely teaches about Jesus Christ.",
     "themes": [
       "Viper and Publius",
       "Road to Rome",
@@ -1452,31 +1167,21 @@
       "Isaiah"
     ],
     "key_points": [
-      "Paul shook off the viper into the fire unharmed.",
-      "He healed Publius’s father of fever and dysentery.",
-      "In Rome he said he was bound for the hope of Israel.",
-      "He reasoned about God’s Kingdom and Jesus from law and prophets.",
-      "He applied Isaiah about dull hearing and closed eyes.",
-      "He said God’s salvation was sent to the nations who would listen.",
-      "Two years he preached God’s Kingdom and taught about Jesus boldly."
+      "The islanders change their judgment of Paul when the viper's bite leaves him unharmed.",
+      "Paul heals Publius's father after praying, and the islanders later provide supplies for the voyage.",
+      "Believers encourage Paul on his journey to Rome, where he lives with a soldier guarding him.",
+      "Paul explains his imprisonment and teaches about Jesus; some believe, while he warns others with Isaiah's words.",
+      "For two years, Paul welcomes visitors and boldly proclaims God's kingdom and the Lord Jesus Christ."
     ],
     "supporting_verses": [
-      "Acts 28:5",
-      "Acts 28:8",
-      "Acts 28:15",
-      "Acts 28:20",
-      "Acts 28:23",
-      "Acts 28:24",
-      "Acts 28:28",
-      "Acts 28:30",
-      "Acts 28:31"
+      "Acts 28:1-6",
+      "Acts 28:7-10",
+      "Acts 28:11-16",
+      "Acts 28:17-28",
+      "Acts 28:30-31"
     ],
-    "evidence_phrases": [
-      "he shook off the creature into the fire, and wasn’t harmed",
-      "because of the hope of Israel I am bound with this chain",
-      "persuading them concerning Jesus, both from the law of Moses and from the prophets",
-      "the salvation of God is sent to the nations",
-      "preaching God’s Kingdom, and teaching the things concerning the Lord Jesus Christ with all boldness, without hindrance"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   }
 ]

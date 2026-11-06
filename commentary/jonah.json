@@ -1,10 +1,10 @@
 [
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 32,
     "chapter": 1,
-    "title": "Running from the call",
-    "summary_text": "The LORD sends Jonah to Nineveh, but he flees by ship in the opposite direction. A storm, the sailors' fear, and Jonah's casting overboard reveal that the sea obeys God. Running from God only deepens the crisis.",
+    "title": "Jonah Flees and the LORD Sends a Storm",
+    "summary_text": "The LORD's word sends Jonah to speak against Nineveh's wickedness, but Jonah boards a ship for Tarshish instead. When the LORD sends a violent storm, the sailors cast lots and discover that Jonah is responsible. Jonah tells them to throw him overboard, and after failing to row ashore, they do so while asking the LORD to spare them. The sea becomes calm, and the sailors fear the LORD, offer a sacrifice, and make vows. The LORD appoints a great fish to swallow Jonah for three days and nights.",
     "themes": [
       "Repentance",
       "Urgency",
@@ -18,35 +18,27 @@
       "the fish"
     ],
     "key_points": [
-      "The LORD sends Jonah to Nineveh, but he flees by ship in the opposite direction.",
-      "A storm, the sailors' fear, and Jonah's casting overboard reveal that the sea obeys God.",
-      "Running from God only deepens the crisis.",
-      "came to Jonah the son of Amittai saying."
+      "Jonah sails toward Tarshish instead of obeying the LORD's word to confront Nineveh's wickedness.",
+      "During the storm, the lot falls on Jonah, who admits he is fleeing from the LORD.",
+      "The sailors throw Jonah into the sea, then offer a sacrifice when the storm stops.",
+      "A fish appointed by the LORD swallows Jonah for three days and three nights."
     ],
     "supporting_verses": [
-      "Jonah 1:1",
-      "Jonah 1:2",
-      "Jonah 1:3",
-      "Jonah 1:5",
-      "Jonah 1:6",
-      "Jonah 1:7",
+      "Jonah 1:1-3",
+      "Jonah 1:4-10",
+      "Jonah 1:11-16",
       "Jonah 1:17"
     ],
-    "evidence_phrases": [
-      "came to Jonah the son of Amittai saying",
-      "go to Nineveh that great city and preach",
-      "Jonah rose up to flee",
-      "ship But Jonah had gone down",
-      "sleeper' Arise call on your God Maybe your",
-      "fell on Jonah"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 32,
     "chapter": 2,
-    "title": "Prayer from the fish",
-    "summary_text": "Jonah prays from the belly of the fish after being swallowed in mercy. He remembers the LORD from the depths and vows thanksgiving. The fish spits him out, showing that deliverance begins with repentance.",
+    "title": "Jonah Thanks the LORD for Rescue",
+    "summary_text": "Inside the fish, Jonah prays about calling to the LORD from the depths of Sheol, the realm of the dead. He recalls sinking beneath the waves and says God raised him from the pit as his life faded. His prayer reached God's holy temple. Jonah says those who cling to idols abandon God's loving devotion, and he promises thankful sacrifice and fulfilled vows because salvation comes from the LORD. At God's command, the fish vomits Jonah onto land.",
     "themes": [
       "Compassion",
       "Relenting grace",
@@ -59,35 +51,27 @@
       "the fish"
     ],
     "key_points": [
-      "Jonah prays from the belly of the fish after being swallowed in mercy.",
-      "He remembers the LORD from the depths and vows thanksgiving.",
-      "The fish spits him out, showing that deliverance begins with repentance.",
-      "out of the fish s belly."
+      "Jonah prays from the fish and says the LORD heard him when he called from Sheol.",
+      "Near death in the sea, Jonah remembered the LORD, whose holy temple his prayer reached.",
+      "Jonah rejects idols, speaks of God's loving devotion, and promises sacrifice in thanks for the LORD's salvation.",
+      "The fish vomits Jonah onto land when the LORD commands it."
     ],
     "supporting_verses": [
-      "Jonah 2:1",
-      "Jonah 2:2",
-      "Jonah 2:3",
-      "Jonah 2:4",
-      "Jonah 2:6",
-      "Jonah 2:7",
+      "Jonah 2:1-2",
+      "Jonah 2:3-7",
+      "Jonah 2:8-9",
       "Jonah 2:10"
     ],
-    "evidence_phrases": [
-      "out of the fish s belly",
-      "He said, “I called because of my affliction to",
-      "you threw me into the depths, in the heart",
-      "I said, ‘I have been banished from your sight",
-      "I went down to the bottoms of the mountains",
-      "Yahweh My prayer came in to you"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 32,
     "chapter": 3,
-    "title": "Nineveh repents",
-    "summary_text": "Jonah goes to Nineveh, preaches judgment, and the city believes God. From king to cattle, the people fast and turn from violence, and God relents from the threatened disaster. The chapter is a stunning picture of Gentile repentance.",
+    "title": "Nineveh Turns from Evil and Is Spared",
+    "summary_text": "When the LORD's word comes again, Jonah goes to Nineveh and warns that the city will be overturned in forty days. The people believe God and respond with fasting and sackcloth. Their king joins them and orders people and animals to fast, while everyone must call to God and leave evil and violence behind. He hopes God may turn from His anger and spare them. Seeing their changed actions, God relents from the threatened disaster.",
     "themes": [
       "Turning back",
       "Fasting",
@@ -102,35 +86,27 @@
       "the people of Nineveh"
     ],
     "key_points": [
-      "Jonah goes to Nineveh, preaches judgment, and the city believes God.",
-      "From king to cattle, the people fast and turn from violence, and God relents from the threatened disaster.",
-      "The chapter is a stunning picture of Gentile repentance.",
-      "came to Jonah the second time saying."
+      "Jonah obeys the LORD's renewed word and announces Nineveh's overthrow in forty days.",
+      "The people believe God, fast, and wear sackcloth, and the king joins their mourning.",
+      "The king orders fasting and urges everyone to call to God and turn from violence.",
+      "God sees the people turn from evil and does not bring the disaster He announced."
     ],
     "supporting_verses": [
-      "Jonah 3:1",
-      "Jonah 3:2",
-      "Jonah 3:3",
-      "Jonah 3:4",
-      "Jonah 3:5",
-      "Jonah 3:6",
-      "Jonah 3:7"
+      "Jonah 3:1-4",
+      "Jonah 3:5-6",
+      "Jonah 3:7-9",
+      "Jonah 3:10"
     ],
-    "evidence_phrases": [
-      "came to Jonah the second time saying",
-      "go to Nineveh that great city and preach",
-      "went to Nineveh according to Yahweh s word",
-      "forty days Nineveh will be overthrown",
-      "people of Nineveh believed God and they proclaimed",
-      "news reached the king of Nineveh and he arose"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 32,
     "chapter": 4,
-    "title": "The plant and the prophet",
-    "summary_text": "Jonah is angry that God spares the city he wanted judged. The LORD uses a plant, a worm, and the scorching wind to expose Jonah's narrow compassion. The book ends by asking whether God's mercy should extend to more than one people.",
+    "title": "The LORD Questions Jonah's Anger",
+    "summary_text": "Angry that God has withheld disaster, Jonah says he fled because he knew the LORD's compassion and loving devotion. He asks to die, then waits outside the city to see what happens. God provides a vine for shade, then sends a worm that destroys it and a hot wind that leaves Jonah faint. Jonah insists he has a right to be angry about the plant. The LORD contrasts Jonah's concern for a short-lived plant with His own concern for Nineveh's many people and cattle.",
     "themes": [
       "Compassion",
       "Relenting grace",
@@ -143,27 +119,19 @@
       "Nineveh"
     ],
     "key_points": [
-      "Jonah is angry that God spares the city he wanted judged.",
-      "The LORD uses a plant, a worm, and the scorching wind to expose Jonah's narrow compassion.",
-      "The book ends by asking whether God's mercy should extend to more than one people.",
-      "it displeased Jonah exceedingly and he was angry."
+      "Jonah resents God's compassion and loving devotion and asks the LORD to take his life.",
+      "Outside the city, Jonah enjoys shade from a vine God provides.",
+      "God sends a worm and hot wind, and Jonah becomes angry enough to wish for death.",
+      "The LORD asks why He should not care about Nineveh when Jonah cares about a plant."
     ],
     "supporting_verses": [
-      "Jonah 4:1",
-      "Jonah 4:2",
-      "Jonah 4:5",
-      "Jonah 4:6",
-      "Jonah 4:8",
-      "Jonah 4:9",
-      "Jonah 4:11"
+      "Jonah 4:1-4",
+      "Jonah 4:5-6",
+      "Jonah 4:7-9",
+      "Jonah 4:10-11"
     ],
-    "evidence_phrases": [
-      "it displeased Jonah exceedingly and he was angry",
-      "He prayed to Yahweh, and said, “Please, Yahweh, wasn’t",
-      "Jonah went out of the city",
-      "up over Jonah that it might be",
-      "beat on Jonah s head so that he",
-      "said to Jonah Is it right for you"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   }
 ]
