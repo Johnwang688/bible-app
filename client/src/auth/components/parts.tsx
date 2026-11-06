@@ -23,7 +23,7 @@ import { dangerColours } from '../../theme/danger';
 import { buttonStyle } from '../../reader/components/ui';
 import { fieldBorderColour, fieldBorderWidth } from './fieldStyle';
 
-export type GlyphName = 'person' | 'check' | 'sync' | 'offline' | 'alert' | 'close' | 'back' | 'eye' | 'eyeOff' | 'mail' | 'info' | 'pause' | 'chevron';
+export type GlyphName = 'person' | 'check' | 'sync' | 'offline' | 'alert' | 'info' | 'close' | 'back' | 'eye' | 'eyeOff' | 'mail' | 'pause' | 'chevron';
 
 const PATHS: Record<GlyphName, string> = {
   person: 'M12 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8zM4 21a8 8 0 0 1 16 0',
@@ -32,13 +32,13 @@ const PATHS: Record<GlyphName, string> = {
   offline:
     'M2 8.8a15 15 0 0 1 4.2-2.6M22 8.8a15 15 0 0 0-8.5-3.7M5 12.9a10 10 0 0 1 5-2.7M19 12.9a10 10 0 0 0-2.4-2M8.5 16.4a5 5 0 0 1 7 0M12 20h.01M2 2l20 20',
   alert: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 8v5M12 16.5h.01',
+  info: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 11v5M12 7.5h.01',
   close: 'M6 6l12 12M18 6 6 18',
   back: 'm15 6-6 6 6 6',
   eye: 'M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z',
   eyeOff:
     'M3 3l18 18M10.6 5.1A9.8 9.8 0 0 1 12 5c6.5 0 10 7 10 7a17 17 0 0 1-3.2 4.1M6.6 6.6A16.7 16.7 0 0 0 2 12s3.5 7 10 7a9.7 9.7 0 0 0 4.2-.9M9.9 9.9a3 3 0 0 0 4.2 4.2',
   mail: 'M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zM3.5 7.5 12 13l8.5-5.5',
-  info: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 11v5M12 7.5h.01',
   pause: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM10 9v6M14 9v6',
   chevron: 'm9 6 6 6-6 6',
 };

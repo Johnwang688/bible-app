@@ -11,11 +11,24 @@
 // still signs in: the card shows it. A delete that completes after Close still reports through `onDeleted`
 // (the card's banner), since the account is gone either way.
 //
+// Google (GOOGLE, board 11-03 row 7; prototype design/proposed/r6b-google.html): with EXPO_PUBLIC_GOOGLE_SIGN_IN on
+// the web, "Continue with Google" sits above the email form on the sign-in and sign-up views. While Google's window is
+// open the button stays pressable (a second press replaces the first request and window) and the email form waits.
+// An email that already has a password account moves to the sign-in view with the email filled in. An account with
+// Google and no password confirms a delete through Google's window instead of a password (whatever the flag: a
+// password field would be a dead end for it); while that window is open, Cancel and Close give the delete up (the
+// abort is read before anything is stopped or sent), and once Google has proven the account the delete locks the
+// sheet like a password delete.
+//
 // Email verification (11-03, prototype r6b-verify.html): a sign-up whose email must be confirmed does not close the
 // sheet; it turns into "Confirm your email" (no Back: the account exists), with I've confirmed, Send again (its 60 s
 // countdown) and "Wrong email? Change it". While that view is open the app checks by itself every 10 s for up to
 // 10 minutes; once the email is confirmed the sheet closes (the card says so). `changeEmail` (from the card, or from
 // the confirm view) asks for the new address and the password, then shows "Link sent".
+//
+// Google meets email verification: a Google sign-in comes back with a confirmed email (Firebase marks a Gmail address
+// verified), so it closes the sheet like an email sign-in and never reaches "Confirm your email" (only an email sign-up
+// goes there).
 import { router } from 'expo-router';
 import { useCallback, useEffect, useRef, useState, type ComponentRef } from 'react';
 import { Keyboard, Platform, ScrollView, StyleSheet, Text, TextInput, useWindowDimensions, View } from 'react-native';
@@ -27,7 +40,10 @@ import { programmaticFocus, useFocusOnMount } from '../../reader/components/a11y
 import { SheetModal } from '../../reader/components/SheetModal';
 import { useTheme } from '../../theme/ThemeProvider';
 import { emailLanguage, useAccount } from '../AccountProvider';
-import { authError, deleteError, isEmailShaped, MIN_PASSWORD_LENGTH, type ShownError } from './authErrors';
+import { googleSignInEnabled } from '../googleFlag';
+import { reauthKindFor } from '../types';
+import { authError, deleteError, existingEmail, googleDeleteError, isEmailShaped, MIN_PASSWORD_LENGTH, type ShownError } from './authErrors';
+import { GoogleButton, GoogleG, OrDivider, QuietLine as GoogleQuietLine } from './GoogleButton';
 import { ActionButton, AuthField, ErrorLine, Glyph, Para, RoundButton, TextButton } from './parts';
 import { failureStatus, QuietLine, StatusSlot, useCountdown, useVerifyActions, WithAddresses } from './verifyParts';
 import type { MessageKey } from '../../i18n/translate';
@@ -102,6 +118,17 @@ export function AccountSheet({
   const [deleteMessage, setDeleteMessage] = useState<MessageKey | null>(null);
   const [sent, setSent] = useState(false);
   const [busy, setBusy] = useState(false);
+  /** A quiet, non-error line (Google's window closed: nothing failed). */
+  const [notice, setNotice] = useState<MessageKey | null>(null);
+  /** Google's window is open for this view's request (sign-in, or a delete's re-auth). */
+  const [googleWaiting, setGoogleWaiting] = useState(false);
+  const googleWaitingNow = useRef(false);
+  /**
+   * A Google delete waiting on Google's window, or null: Cancel and Close may give it up until Google has proven the
+   * account (`onProven` clears it). Read synchronously, like `owner`.
+   */
+  const googleAbort = useRef<AbortController | null>(null);
+  const [focusPassword, setFocusPassword] = useState(0);
   /** Where "back" goes from the reset view. */
   const [resetFrom, setResetFrom] = useState<'signIn' | 'delete'>('signIn');
   /** Change email: the new address typed, and where the link went. */
@@ -122,8 +149,11 @@ export function AccountSheet({
   }, []);
 
   const accountEmail = account.user?.email ?? '';
+  const showGoogle = googleSignInEnabled();
+  /** The delete views confirm with Google's window (an account with Google and no password). */
+  const googleDelete = view === 'delete' ? reauthKindFor(account.user) === 'google' : view === 'offerDelete' && account.under13Offer?.method === 'google';
   /** A delete is running: closing cannot stop it, so nothing may close the sheet until its result is shown. */
-  const deleting = busy && (view === 'delete' || view === 'offerDelete');
+  const deleting = busy && (view === 'delete' || view === 'offerDelete') && !googleWaiting;
 
   /**
    * The request that owns the current view's form (its seq), or 0. Set synchronously: a second submit in the same
@@ -141,9 +171,22 @@ export function AccountSheet({
    * seq), and `go` refuses to leave a delete view while this is true, so nothing in the same turn can unlock it.
    */
   const deleteRunning = useCallback(
-    () => owner.current !== 0 && owner.current === seq.current && (viewNow.current === 'delete' || viewNow.current === 'offerDelete'),
+    () =>
+      owner.current !== 0 &&
+      owner.current === seq.current &&
+      (viewNow.current === 'delete' || viewNow.current === 'offerDelete') &&
+      googleAbort.current === null, // still waiting on Google's window: it can be given up
     [],
   );
+
+  /** Gives up a Google delete still waiting on Google's window (nothing was stopped or sent yet). */
+  const abandonGoogleDelete = useCallback((): boolean => {
+    const waiting = googleAbort.current;
+    if (!waiting) return false;
+    googleAbort.current = null;
+    waiting.abort();
+    return true;
+  }, []);
 
   /**
    * Every close path of the sheet (Close, Cancel, the scrim, Escape and Android Back through `onRequestClose`). Reads
@@ -152,9 +195,10 @@ export function AccountSheet({
    * (U13-R2-2).
    */
   const closeUnlessDeleting = useCallback(() => {
+    if (abandonGoogleDelete()) return onClose();
     if (deleting || deleteRunning()) return;
     onClose();
-  }, [deleting, deleteRunning, onClose]);
+  }, [abandonGoogleDelete, deleting, deleteRunning, onClose]);
 
   /**
    * Starts a request, or returns null when one is already running for this view (leaving the view with `go`
@@ -167,6 +211,7 @@ export function AccountSheet({
     setBusy(true);
     setError(null);
     setDeleteMessage(null);
+    setNotice(null);
     const current = () => alive.current && seq.current === mine;
     const finish = () => {
       if (owner.current === mine) owner.current = 0;
@@ -183,18 +228,27 @@ export function AccountSheet({
    */
   const go = useCallback((next: SheetView): void => {
     if (deleteRunning()) return;
+    abandonGoogleDelete();
     seq.current++;
     viewNow.current = next;
     setView(next);
     setError(null);
     setDeleteMessage(null);
+    setNotice(null);
+    googleWaitingNow.current = false;
+    setGoogleWaiting(false);
     setBusy(false);
     setPassword('');
     setDeletePassword('');
     setShowPassword(false);
     setSent(false);
     setVerifyStatus(null);
-  }, [deleteRunning, setVerifyStatus]);
+  }, [deleteRunning, abandonGoogleDelete, setVerifyStatus]);
+
+  // An email that already has a password account: the password field takes the focus.
+  useEffect(() => {
+    if (focusPassword > 0) passwordInput.current?.focus();
+  }, [focusPassword]);
 
   // Signed in (by a sign-in whose view was left meanwhile), or signed out while deleting: nothing left to do here.
   // (Decided by how the sheet was opened, not by the view: the delete sheet can pass through the reset view.)
@@ -273,6 +327,77 @@ export function AccountSheet({
     } catch (e) {
       if (current()) setError(authError(e));
     } finally {
+      request.finish();
+    }
+  };
+
+  /**
+   * Continue with Google (sign-in and sign-up views). A press while Google's window is open replaces the earlier
+   * request (Firebase cancels its window; that request's result is ignored here).
+   */
+  const submitGoogle = async () => {
+    if (busy && !googleWaitingNow.current) return;
+    if (googleWaitingNow.current) seq.current++; // abandon the earlier request
+    const request = begin();
+    if (!request) return;
+    const { current } = request;
+    googleWaitingNow.current = true;
+    setGoogleWaiting(true);
+    try {
+      await account.signIn({ kind: 'google' });
+      if (current()) onClose();
+    } catch (e) {
+      if (current()) {
+        const shown = authError(e);
+        if (shown.place === 'notice') setNotice(shown.key);
+        else if (shown.key === 'account.google.exists') {
+          // Sign in with the email and password instead (never linked): from sign-up, move to sign-in first.
+          const address = existingEmail(e);
+          if (viewNow.current !== 'signIn') go('signIn');
+          if (address) setEmail(address);
+          setError(shown);
+          setFocusPassword((n) => n + 1);
+        } else setError(shown);
+      }
+    } finally {
+      if (current()) {
+        googleWaitingNow.current = false;
+        setGoogleWaiting(false);
+      }
+      request.finish();
+    }
+  };
+
+  /** A delete confirmed with Google's window (`offer`: the Under 13 offer's delete). */
+  const submitGoogleDelete = async (offer: boolean) => {
+    if (busy) return;
+    const request = begin();
+    if (!request) return;
+    const { current } = request;
+    const controller = new AbortController();
+    const signal = controller.signal;
+    googleAbort.current = controller;
+    setGoogleWaiting(true);
+    // Google has proven the account and the delete proper starts: from here the sheet locks (deleteRunning).
+    const onProven = () => {
+      if (googleAbort.current === controller) googleAbort.current = null;
+      if (current()) setGoogleWaiting(false);
+    };
+    try {
+      if (offer) await account.deleteOfferedAccount({ kind: 'google' }, { signal, onProven });
+      else await account.deleteAccount({ kind: 'google' }, { signal, onProven });
+      onDeleted();
+      if (current()) onClose();
+    } catch (e) {
+      if (current()) {
+        const shown = googleDeleteError(e);
+        const key = offer && shown.key === 'delete.error.network' ? 'account.under13Offer.network' : shown.key;
+        if (shown.quiet) setNotice(key);
+        else setDeleteMessage(key);
+      }
+    } finally {
+      if (googleAbort.current === controller) googleAbort.current = null;
+      if (current()) setGoogleWaiting(false);
       request.finish();
     }
   };
@@ -444,6 +569,42 @@ export function AccountSheet({
   const signInPassword = passwordField('current', () => void submitSignIn());
   const signUpPassword = passwordField('new', () => void submitSignUp());
   const formMessage = message('form');
+  const deleteEmail = view === 'offerDelete' ? (account.under13Offer?.email ?? '') : accountEmail;
+
+  const googleBlock = showGoogle ? (
+    <>
+      <GoogleButton testID="auth-google" waiting={googleWaiting} disabled={busy && !googleWaiting} onPress={() => void submitGoogle()} />
+      {googleWaiting ? <GoogleQuietLine testID="auth-google-wait" text={t('account.google.waitHint')} /> : null}
+      {notice ? <GoogleQuietLine testID="auth-notice" text={t(notice)} /> : null}
+      <OrDivider text={t('account.google.or')} />
+    </>
+  ) : null;
+
+  // The delete views for an account with Google and no password: no password field; Google's window confirms.
+  const googleDeleteBody = (offer: boolean) => (
+    <>
+      <Para text={t('delete.body')} tone="text" />
+      <Para text={t('delete.keeps')} />
+      <View style={styles.googleAccount}>
+        <GoogleG />
+        <Text testID={offer ? 'offer-email' : 'delete-google-email'} numberOfLines={1} ellipsizeMode="middle" style={{ flex: 1, color: theme.colors.text, fontFamily: uiFace(theme.type.ui, '400'), fontSize: 15 }}>
+          {deleteEmail}
+        </Text>
+      </View>
+      <Para text={t('account.google.deleteHint', { email: deleteEmail })} />
+      {deleteMessage ? <ErrorLine testID="delete-error" text={t(deleteMessage, { email: deleteEmail })} boxed /> : null}
+      {notice ? <GoogleQuietLine testID="delete-notice" text={t(notice)} /> : null}
+      <ActionButton
+        testID="delete-confirm"
+        variant="danger"
+        label={googleWaiting ? t('account.google.waiting') : busy ? t('delete.busy') : t('delete.confirm')}
+        busy={busy}
+        onPress={() => void submitGoogleDelete(offer)}
+      />
+      {googleWaiting ? <GoogleQuietLine testID="delete-google-wait" text={t('account.google.deleteWaitHint')} /> : null}
+      <ActionButton testID="delete-cancel" variant="secondary" label={t('delete.cancel')} disabled={deleting} onPress={closeUnlessDeleting} />
+    </>
+  );
   // In the sent state no field is shown, so a failed resend shows its error here whatever its place.
   const sentMessage = error ? <ErrorLine testID="auth-error" text={t(error.key)} boxed /> : undefined;
 
@@ -487,8 +648,8 @@ export function AccountSheet({
             <>
               <Para text={t('auth.signIn.intro')} />
               <Para text={t('auth.signIn.mergeNote')} size={13} />
-              {/* Room for Continue with Apple / Google later: nothing is drawn. */}
-              <View accessible={false} style={styles.socialSlot} />
+              {/* Continue with Google (flag on, web), else the room kept for it and for Apple later. */}
+              {googleBlock ?? <View accessible={false} style={styles.socialSlot} />}
               {signInEmail}
               {signInPassword}
               {formMessage}
@@ -503,6 +664,7 @@ export function AccountSheet({
 
           {view === 'signUp' ? (
             <>
+              {googleBlock}
               {signUpEmail}
               {signUpPassword}
               {formMessage}
@@ -650,7 +812,9 @@ export function AccountSheet({
             </>
           ) : null}
 
-          {view === 'offerDelete' ? (
+          {view === 'offerDelete' && googleDelete ? googleDeleteBody(true) : null}
+
+          {view === 'offerDelete' && !googleDelete ? (
             <>
               <Para text={t('delete.body')} tone="text" />
               <Para text={t('delete.keeps')} />
@@ -688,7 +852,9 @@ export function AccountSheet({
             </>
           ) : null}
 
-          {view === 'delete' ? (
+          {view === 'delete' && googleDelete ? googleDeleteBody(false) : null}
+
+          {view === 'delete' && !googleDelete ? (
             <>
               <Para text={t('delete.body')} tone="text" />
               <Para text={t('delete.keeps')} />
@@ -734,5 +900,6 @@ const styles = StyleSheet.create({
   newHere: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' },
   sent: { alignItems: 'center', gap: 14, paddingTop: 8, paddingBottom: 4 },
   offerEmail: { gap: 4 },
+  googleAccount: { flexDirection: 'row', alignItems: 'center', gap: 10, minHeight: 44 },
   mailCircle: { minWidth: 64, minHeight: 64, borderRadius: 999, alignItems: 'center', justifyContent: 'center' },
 });

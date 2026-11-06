@@ -4,7 +4,8 @@
 // on the device, so it survives a restart, until the account is deleted, "Not now" is picked, or anyone signs in.
 //
 // It holds the account's uid (to check that the re-auth signed in to the same account) and its email (for the
-// re-auth). Nothing else.
+// re-auth), and `method: 'google'` for an account with Google and no password (GOOGLE: its re-auth is Google's
+// window). Absent means a password, so values stored before Google sign-in read the same. Nothing else.
 import { z } from 'zod';
 
 import type { Storage, StorageKey } from '../storage/storage';
@@ -12,12 +13,20 @@ import type { Storage, StorageKey } from '../storage/storage';
 export interface Under13Offer {
   uid: string;
   email: string;
+  /** How the account proves itself again; absent: a password. */
+  method?: 'google';
+}
+
+const offerSchema = z.object({ uid: z.string().min(1), email: z.string().min(1), method: z.literal('google').optional() }).nullable();
+
+function stored(v: Under13Offer): Under13Offer {
+  return v.method === 'google' ? { uid: v.uid, email: v.email, method: 'google' } : { uid: v.uid, email: v.email };
 }
 
 export const under13OfferKey: StorageKey<Under13Offer | null> = {
   key: 'account.under13Offer',
   version: 1,
-  schema: z.object({ uid: z.string().min(1), email: z.string().min(1) }).nullable(),
+  schema: offerSchema,
   fallback: null,
 };
 
@@ -32,7 +41,7 @@ export function readUnder13Offer(storage: Storage): Under13Offer | null {
 }
 
 export function recordUnder13Offer(storage: Storage, offer: Under13Offer): void {
-  storage.set(under13OfferKey, { uid: offer.uid, email: offer.email });
+  storage.set(under13OfferKey, stored(offer));
 }
 
 export function clearUnder13Offer(storage: Storage): void {
@@ -45,13 +54,13 @@ export function clearUnder13Offer(storage: Storage): void {
 // the app between Under 13 being picked and the gate's sign-out (which first waits for the sync run in flight), or
 // right after that sign-out, still ends in the offer on the next launch. Cleared when the gate opens again, when anyone
 // signs in, when an ordinary sign-out starts, when the account is deleted, and when it becomes the offer. Like the
-// offer, the auth layer's own key (not in storage/keys.ts), and it holds only the uid and the email for the offer.
+// offer, the auth layer's own key (not in storage/keys.ts), and it holds only the uid, the email and the method for the offer.
 export type Under13Closing = Under13Offer;
 
 export const under13ClosingKey: StorageKey<Under13Closing | null> = {
   key: 'account.under13Closing',
   version: 1,
-  schema: z.object({ uid: z.string().min(1), email: z.string().min(1) }).nullable(),
+  schema: offerSchema,
   fallback: null,
 };
 
@@ -74,7 +83,7 @@ export function loadUnder13Closing(storage: Storage): Under13Closing | null {
 }
 
 export function recordUnder13Closing(storage: Storage, closing: Under13Closing): void {
-  storage.set(under13ClosingKey, { uid: closing.uid, email: closing.email });
+  storage.set(under13ClosingKey, stored(closing));
 }
 
 export function clearUnder13Closing(storage: Storage): void {
