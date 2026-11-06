@@ -1,10 +1,10 @@
 [
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 48,
     "chapter": 1,
-    "title": "Not another gospel; Paul’s call",
-    "summary_text": "Paul apostle not from men—through Jesus Christ and God who raised him. Astonished they turn to different gospel—if anyone preaches other than received, let him be accursed. Paul’s gospel not from man but revelation of Jesus Christ.",
+    "title": "Paul Defends the Gospel Received from Christ",
+    "summary_text": "Paul says his work as an apostle comes from Jesus Christ and God, not people. He rebukes the Galatians for leaving Christ's grace for a false gospel and puts its preachers under a curse. His gospel came from Christ's revelation, not human teaching. Once a fierce enemy of the church, he was called by God to preach His Son among Gentiles. He describes his early travels and brief contact with apostles, while churches praised God for his changed life.",
     "themes": [
       "Apostle not from men",
       "Different gospel accursed",
@@ -17,32 +17,29 @@
       "John"
     ],
     "key_points": [
-      "I marvel that you are so quickly deserting him who called you.",
-      "But even though we, or an angel from heaven, should preach to you any ‘good news’ other than that which we preached to you, let him be cursed.",
-      "I didn’t receive it from man, nor was I taught it, but it was revealed to me by Jesus Christ."
+      "Paul's apostleship comes from Jesus Christ and God, and Jesus gave Himself to rescue people from their sins and this evil age.",
+      "Paul condemns any gospel that contradicts the one the Galatians received, even if an angel proclaims it.",
+      "Paul received his gospel from Jesus Christ by revelation, despite his former efforts to destroy God's church.",
+      "Paul first went to Arabia and Damascus, then later visited Cephas and saw James in Jerusalem.",
+      "The churches of Judea glorified God on hearing that their former persecutor now preached the faith."
     ],
     "supporting_verses": [
-      "Galatians 1:6",
-      "Galatians 1:7",
-      "Galatians 1:8",
-      "Galatians 1:11",
-      "Galatians 1:12",
-      "Galatians 1:16"
+      "Galatians 1:1-5",
+      "Galatians 1:6-10",
+      "Galatians 1:11-16",
+      "Galatians 1:17-20",
+      "Galatians 1:21-24"
     ],
-    "evidence_phrases": [
-      "I marvel that you are so quickly deserting",
-      "there isn’t another ‘good news.’",
-      "let him be cursed",
-      "I didn’t receive it from man",
-      "it was revealed to me by Jesus Christ"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 48,
     "chapter": 2,
-    "title": "Justified by faith; Peter rebuked",
-    "summary_text": "Paul went to Jerusalem privately to confirm gospel to Gentiles. Titus not compelled circumcised. Peter ate with Gentiles then drew back—Paul rebuked: Jews live like Gentiles not by works of law—why compel Gentiles Judaize? Crucified with Christ; live by faith in Son.",
+    "title": "The Gospel and Justification Through Faith",
+    "summary_text": "Jerusalem's leaders accept Paul's gospel to Gentiles without forcing Titus to be circumcised. Paul later confronts Cephas for refusing to eat with Gentiles out of fear, drawing others into hypocrisy. People are justified by faith in Christ, not works of the law, and Christ does not promote sin. Paul describes himself as crucified with Christ and living by faith in the Son of God. He will not set aside grace, since righteousness through law would make Christ's death pointless.",
     "themes": [
       "Private meeting",
       "Titus not circumcised",
@@ -57,32 +54,29 @@
       "James"
     ],
     "key_points": [
-      "We know that a man is not justified by the works of the law.",
-      "I withstood him to his face, because he stood condemned.",
-      "I have been crucified with Christ, and it is no longer I that live.",
-      "I live in the faith of the Son of God, who loved me, and gave himself up for me."
+      "Paul resists pressure to circumcise Titus so that the gospel's truth and freedom in Christ remain intact.",
+      "The leaders recognize Paul's apostleship to the uncircumcised and ask him to remember the poor.",
+      "Paul says Cephas stood condemned and confronts his refusal to eat with Gentiles, which drew others into hypocrisy.",
+      "People are justified by faith in Christ rather than works of the law, and Christ does not promote sin.",
+      "Paul lives by faith in God's Son, declaring that righteousness through law would make Christ's death pointless."
     ],
     "supporting_verses": [
-      "Galatians 2:16",
-      "Galatians 2:11",
-      "Galatians 2:14",
-      "Galatians 2:19",
-      "Galatians 2:20"
+      "Galatians 2:1-5",
+      "Galatians 2:6-10",
+      "Galatians 2:11-14",
+      "Galatians 2:15-18",
+      "Galatians 2:19-21"
     ],
-    "evidence_phrases": [
-      "a man is not justified by the works of the law",
-      "I withstood him to his face",
-      "I have been crucified with Christ",
-      "I live in the faith of the Son of God",
-      "I don’t reject the grace of God"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 48,
     "chapter": 3,
-    "title": "Law schoolmaster; sons and heirs",
-    "summary_text": "Foolish Galatians—who bewitched you? Received Spirit by works of law or hearing faith? Abraham believed God—those of faith are sons. Law was schoolmaster until Christ—we sons through faith. No Jew Greek bond free male female—all one in Christ.",
+    "title": "Abraham's Promise and Faith in Christ",
+    "summary_text": "The Galatians received the Spirit through faith, so Paul challenges their turn to works of the law. God credited Abraham's faith as righteousness, and Christ redeemed people from the law's curse to bring blessing to Gentiles. The later law cannot cancel God's covenant or His promise to Abraham's seed, Christ. It was added because of transgressions and guarded people under sin until they could be justified by faith. Those baptized into Christ are sons of God, united in Him and heirs of Abraham's promise.",
     "themes": [
       "Bewitched",
       "Spirit by faith",
@@ -96,36 +90,29 @@
       "Christ"
     ],
     "key_points": [
-      "Who has bewitched you not to obey the truth?",
-      "Did you receive the Spirit by the works of the law, or by hearing of faith?",
-      "Know therefore that those who are of faith are children of Abraham.",
-      "The law has been our tutor to bring us to Christ.",
-      "There is neither Jew nor Greek … for you are all one in Christ Jesus."
+      "Having heard Christ presented as crucified and received the Spirit through faith, the Galatians now turn toward the flesh.",
+      "The gospel announced blessing for Gentiles through Abraham, whose faith God credited as righteousness.",
+      "Christ redeemed people by taking the law's curse, bringing Abraham's blessing and the promised Spirit through faith.",
+      "The law does not cancel God's covenant; it was added because of transgressions and served as a guardian until Christ.",
+      "Baptized believers are sons of God, united in Christ and heirs of Abraham's promise."
     ],
     "supporting_verses": [
-      "Galatians 3:1",
-      "Galatians 3:2",
-      "Galatians 3:5",
-      "Galatians 3:7",
-      "Galatians 3:24",
-      "Galatians 3:26",
-      "Galatians 3:28"
+      "Galatians 3:1-5",
+      "Galatians 3:6-9",
+      "Galatians 3:10-14",
+      "Galatians 3:15-25",
+      "Galatians 3:26-29"
     ],
-    "evidence_phrases": [
-      "Who has bewitched you",
-      "Did you receive the Spirit",
-      "those who are of faith are children of Abraham",
-      "The law has been our tutor",
-      "you are all children of God, through faith",
-      "There is neither Jew nor Greek"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 48,
     "chapter": 4,
-    "title": "Slavery and sonship; allegory Hagar Sarah",
-    "summary_text": "Heir as child differs not from slave until time appointed. God sent Son born of woman under law to redeem under law—we receive adoption. No longer slaves but sons—Abba Father. Allegory: Hagar Sinai bondage; Sarah Jerusalem above is free—we children of promise.",
+    "title": "Sons and Heirs Rather Than Slaves",
+    "summary_text": "God sent His Son to redeem those under law and give them adoption as sons and heirs. His Son's Spirit cries to the Father from their hearts, so Paul asks why they want slavery again. He recalls their care when illness brought him to preach the gospel and longs for Christ to be formed in them. Using Abraham's sons, Paul compares two covenants: Hagar means slavery, while the Jerusalem above is free. He calls believers children of promise like Isaac, born by the Spirit and belonging to the free woman.",
     "themes": [
       "Heirs under guardians",
       "Redemption under law",
@@ -140,36 +127,29 @@
       "Hagar"
     ],
     "key_points": [
-      "When we were children, we were held in bondage under the elemental principles of the world.",
-      "God sent out his Son, born to a woman, born under the law.",
-      "That we might receive adoption as children.",
-      "Because you are sons, God sent out the Spirit of his Son into your hearts, crying, ‘Abba, Father!’",
-      "The Jerusalem above is free, which is the mother of us all."
+      "God sent His Son to redeem those under law, giving them adoption and the Spirit who cries to the Father.",
+      "Paul fears that observing days and seasons marks a return to the slavery the Galatians left.",
+      "Paul recalls their care during his illness and warns that others seek to separate them from him.",
+      "Paul makes Hagar and the free woman illustrations of two covenants, contrasting slavery with the freedom of Jerusalem above.",
+      "Like Isaac, believers are children of promise, persecuted by those born of the flesh but belonging to the free woman's inheritance."
     ],
     "supporting_verses": [
-      "Galatians 4:3",
-      "Galatians 4:4",
-      "Galatians 4:5",
-      "Galatians 4:6",
-      "Galatians 4:7",
-      "Galatians 4:26",
-      "Galatians 4:31"
+      "Galatians 4:1-7",
+      "Galatians 4:8-11",
+      "Galatians 4:12-20",
+      "Galatians 4:21-27",
+      "Galatians 4:28-31"
     ],
-    "evidence_phrases": [
-      "we were held in bondage",
-      "God sent out his Son",
-      "that we might receive adoption",
-      "Abba, Father!",
-      "Cast out the servant and her son",
-      "we are not children of a servant, but of the free woman"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 48,
     "chapter": 5,
-    "title": "Stand fast; walk in Spirit; fruit",
-    "summary_text": "Christ freed us—stand fast, don’t be entangled yoke of bondage. Faith working through love. Bite and devour one another—walk in Spirit, fulfill not lust of flesh. Fruit of Spirit vs works of flesh—crucified flesh with passions.",
+    "title": "Freedom in Christ and the Spirit's Fruit",
+    "summary_text": "Paul warns that seeking to be justified through circumcision cuts people off from Christ and grace. He points instead to faith active in love. Freedom means serving others in love, not feeding the flesh, which fights against the Spirit. Acts such as sexual sin, idolatry, and hatred keep those practicing them from the kingdom of God. Those who belong to Christ have crucified the flesh, while the Spirit bears fruit such as love, joy, and peace.",
     "themes": [
       "Liberty in Christ",
       "Faith working through love",
@@ -181,34 +161,29 @@
       "Christ"
     ],
     "key_points": [
-      "Stand firm therefore in the liberty by which Christ has made us free.",
-      "For through the Spirit, by faith, a persistent hope of righteousness is in us.",
-      "Walk by the Spirit, and you won’t fulfill the lust of the flesh.",
-      "The fruit of the Spirit is love, joy, peace, patience, kindness, goodness, faith, gentleness, and self-control.",
-      "Those who belong to Christ have crucified the flesh."
+      "By the Spirit, believers await the hope of righteousness through faith; circumcision and uncircumcision have no value beside faith active in love.",
+      "Paul says the teachers disturbing them will face judgment and rejects their pressure for circumcision.",
+      "Called to freedom, believers must serve others in love, fulfilling the law's command to love one's neighbor.",
+      "The Spirit and flesh oppose each other, and those practicing the flesh's sinful acts will not inherit God's kingdom.",
+      "The Spirit's fruit includes faithfulness and self-control, and believers must follow the Spirit without conceit or envy."
     ],
     "supporting_verses": [
-      "Galatians 5:1",
-      "Galatians 5:5",
-      "Galatians 5:6",
-      "Galatians 5:16",
-      "Galatians 5:22",
-      "Galatians 5:24"
+      "Galatians 5:1-6",
+      "Galatians 5:7-12",
+      "Galatians 5:13-15",
+      "Galatians 5:16-21",
+      "Galatians 5:22-26"
     ],
-    "evidence_phrases": [
-      "Stand firm therefore in the liberty",
-      "faith working through love",
-      "Walk by the Spirit",
-      "the fruit of the Spirit is love",
-      "Those who belong to Christ have crucified the flesh"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 48,
     "chapter": 6,
-    "title": "Bear burdens; sowing and reaping",
-    "summary_text": "Restore gentleness; bear one another’s burdens—law of Christ. Do not be deceived—God not mocked; sow to flesh reap corruption, to Spirit reap eternal life. Boast only in cross—world crucified to me. Israel of God peace mercy.",
+    "title": "Bearing Burdens and Boasting in the Cross",
+    "summary_text": "Paul urges gentle care for anyone caught in a trespass, shared burdens, and honest judgment of one's own work. Sowing to the flesh brings ruin, while sowing to the Spirit brings eternal life, so believers must keep doing good. Those pressing circumcision want to avoid suffering and boast about others. Paul boasts only in Christ's cross, which has crucified him to the world, and says what matters is a new creation, not circumcision or uncircumcision. He closes with peace, mercy, and grace.",
     "themes": [
       "Bear burdens",
       "Restore gently",
@@ -220,26 +195,21 @@
       "Paul"
     ],
     "key_points": [
-      "Brothers, even if a man is caught in some fault, you who are spiritual restore such a one.",
-      "Bear one another’s burdens, and so fulfill the law of Christ.",
-      "God is not mocked, for whatever a man sows, that he will also reap.",
-      "For neither is circumcision anything, nor uncircumcision, but a new creation.",
-      "But far be it from me to boast, except in the cross of our Lord Jesus Christ."
+      "Gentle care and shared burdens fulfill Christ's law, while each person must examine his own work.",
+      "Paul urges support for teachers of the word and warns that sowing to flesh or Spirit brings destruction or eternal life.",
+      "Believers must persist in doing good, especially toward others in the family of faith.",
+      "Paul rejects boasting in circumcision and boasts only in Christ's cross, emphasizing the new creation.",
+      "Paul blesses those following this rule, points to Jesus' marks on his body, and closes with grace."
     ],
     "supporting_verses": [
-      "Galatians 6:1",
-      "Galatians 6:2",
-      "Galatians 6:7",
-      "Galatians 6:15",
-      "Galatians 6:16"
+      "Galatians 6:1-5",
+      "Galatians 6:6-8",
+      "Galatians 6:9-10",
+      "Galatians 6:11-15",
+      "Galatians 6:16-18"
     ],
-    "evidence_phrases": [
-      "restore such a one in a spirit of gentleness",
-      "Bear one another’s burdens",
-      "God is not mocked",
-      "a new creation",
-      "boast, except in the cross",
-      "the Israel of God"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   }
 ]

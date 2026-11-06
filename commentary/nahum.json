@@ -1,10 +1,10 @@
 [
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 34,
     "chapter": 1,
-    "title": "The LORD's wrath and goodness",
-    "summary_text": "Nahum opens by announcing that the LORD is both jealous in judgment and good as a stronghold for those who trust him. The oracle moves from divine power over the sea and mountains to a promise that Assyria's oppression will end. Judah hears not only warning, but also good news that the yoke will be broken.",
+    "title": "The LORD Judges Nineveh and Frees Judah",
+    "summary_text": "Nahum's vision against Nineveh describes the LORD as patient but powerful, pouring out wrath on His enemies. Mountains shake and waters dry up before Him, yet He protects those who trust Him. Nineveh's wicked plots will end, and the LORD promises to break the yoke weighing on Judah. He announces the end of Nineveh's name and idols. A messenger brings good news of peace, calling Judah to celebrate because its wicked invaders will be destroyed.",
     "themes": [
       "Divine judgment",
       "God's goodness",
@@ -18,32 +18,27 @@
       "Judah"
     ],
     "key_points": [
-      "God is presented as both avenging and protective.",
-      "The LORD controls sea, storm, and mountains.",
-      "Assyria's oppression will not last forever.",
-      "Judah receives a message of peace."
+      "The LORD's wrath brings judgment on the guilty, and His power shakes the whole earth.",
+      "The LORD shelters those who trust Him but will destroy Nineveh and end its wicked plots.",
+      "The LORD will free Judah from its oppressor and destroy Nineveh's idols and continuing name.",
+      "Good news of peace calls Judah to celebrate and fulfill vows because the wicked invader is finished."
     ],
     "supporting_verses": [
-      "Nahum 1:2",
-      "Nahum 1:3",
-      "Nahum 1:7",
-      "Nahum 1:12",
+      "Nahum 1:1-6",
+      "Nahum 1:7-11",
+      "Nahum 1:12-14",
       "Nahum 1:15"
     ],
-    "evidence_phrases": [
-      "a jealous God and avenging",
-      "the LORD is good",
-      "stronghold in the day of trouble",
-      "affliction will not rise up",
-      "behold, on the mountains"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 34,
     "chapter": 2,
-    "title": "Nineveh's defenses collapse",
-    "summary_text": "The attacker is already at the gates as Nahum describes shields, chariots, and panic in the streets of Nineveh. The city that once feared no rival is now told to gather its strength and watch it fail. The chapter paints the collapse of the empire in vivid, immediate images.",
+    "title": "Nineveh Is Attacked and Stripped of Wealth",
+    "summary_text": "An attacker advances on Nineveh while the LORD promises to restore Jacob's splendor. Warriors and flashing chariots rush forward, the river gates open, and the palace collapses. People flee, captives mourn, and the city's treasures are plundered until terror replaces its wealth. Nineveh is pictured as a lions' den once filled with prey. The LORD declares Himself against it and promises to burn its chariots, destroy its young lions, and silence its messengers.",
     "themes": [
       "Siege",
       "Military collapse",
@@ -57,32 +52,27 @@
       "the mighty men"
     ],
     "key_points": [
-      "The city braces for assault.",
-      "The defenses are overwhelmed.",
-      "Plunder is taken from Nineveh.",
-      "The lion's den is emptied and burned."
+      "Nineveh is told to prepare for attack as the LORD promises to restore Jacob's splendor.",
+      "Warriors and chariots advance, the river gates open, and the palace collapses.",
+      "Captivity, flight, and plunder empty Nineveh of its people and riches.",
+      "The LORD opposes the city pictured as a lions' den and will end its power to prey on others."
     ],
     "supporting_verses": [
-      "Nahum 2:1",
-      "Nahum 2:3",
-      "Nahum 2:8",
-      "Nahum 2:12",
-      "Nahum 2:13"
+      "Nahum 2:1-2",
+      "Nahum 2:3-6",
+      "Nahum 2:7-10",
+      "Nahum 2:11-13"
     ],
-    "evidence_phrases": [
-      "the shield of his mighty men",
-      "the chariots rage",
-      "take the spoil",
-      "Nineveh is laid waste",
-      "the voice of your messengers"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 34,
     "chapter": 3,
-    "title": "Woe to the bloody city",
-    "summary_text": "Nahum finishes with a direct woe against Nineveh, calling it a city of blood, lies, and endless violence. The prophet compares it to No-Amon to show that even great cities can fall when God acts against them. The chapter closes with no healing for Assyria's wound, only public ruin.",
+    "title": "Nineveh's Cruelty Ends in Public Ruin",
+    "summary_text": "Nineveh, a city of bloodshed, lies, and plunder, faces an attack that fills its streets with bodies. The LORD describes it as a prostitute who ensnares nations, and He promises public shame with no one to comfort it. Thebes fell despite its defenses and allies, and Nineveh will fall too. Its preparations cannot save it, and its many merchants and officials disappear like locusts. The people scatter without leaders, while those who suffered its cruelty applaud its downfall.",
     "themes": [
       "Violence",
       "Bloodguilt",
@@ -96,24 +86,19 @@
       "the LORD"
     ],
     "key_points": [
-      "Nineveh is condemned for bloodshed and deceit.",
-      "Its power is compared to fallen No-Amon.",
-      "Foreign nations mock and abandon it.",
-      "The wound is fatal and beyond repair."
+      "Violent Nineveh faces slaughter and public shame for its plunder and its betrayal of nations.",
+      "Thebes suffered captivity despite powerful allies, and Nineveh has no reason to expect safety.",
+      "Nineveh's defenses will fail, and its many merchants and officials will vanish like locusts.",
+      "Assyria's people scatter, and others applaud its incurable wound because they have endured its cruelty."
     ],
     "supporting_verses": [
-      "Nahum 3:1",
-      "Nahum 3:4",
-      "Nahum 3:8",
-      "Nahum 3:10",
-      "Nahum 3:19"
+      "Nahum 3:1-7",
+      "Nahum 3:8-11",
+      "Nahum 3:12-17",
+      "Nahum 3:18-19"
     ],
-    "evidence_phrases": [
-      "Woe to the bloody city",
-      "the whips",
-      "No-Amon",
-      "there is no healing",
-      "all who hear the news"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   }
 ]

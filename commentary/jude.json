@@ -1,10 +1,10 @@
 [
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 65,
     "chapter": 1,
-    "title": "Contend for faith; judgment on ungodly",
-    "summary_text": "Jude servant Jesus brother James—to called sanctified kept—mercy peace love multiplied—contend earnestly faith delivered—certain men crept turning grace licentiousness denying Master—examples Israel angels Sodom dreamers—Michael disputed devil—woe way Cain error Balaam Korah—spots love feasts—Enoch prophecy—keep yourselves love God mercy life.",
+    "title": "Defend the Faith and Show Mercy",
+    "summary_text": "Jude warns of intruders who twist grace into permission for sin and deny Jesus Christ. He recalls God's judgments on unbelievers, angels, and cities that pursued strange flesh, showing the intruders' coming condemnation. Their empty words and greed match Enoch's warning about judgment on ungodly sinners. Believers must guard the saints' holy faith, heed the apostles, pray in the Spirit, and show mercy while awaiting Christ's eternal life. Jude ends by praising God, who can keep them from falling and bring them into His glory.",
     "themes": [
       "Contend for faith",
       "Ungodly crept in",
@@ -21,27 +21,21 @@
       "Korah"
     ],
     "key_points": [
-      "Jude, a servant of Jesus Christ, and brother of James.",
-      "I thought it necessary to write to you exhorting you to contend earnestly for the faith which was once for all delivered to the saints.",
-      "For there are certain men who crept in secretly.",
-      "I desire to remind you, though you already know this.",
-      "To these people is reserved the blackness of darkness forever.",
-      "Now to him who is able to keep them from stumbling."
+      "Jude calls for defense of the faith against intruders who misuse grace and deny Jesus Christ.",
+      "Jesus destroyed those He freed from Egypt who later disbelieved; Michael's dispute over Moses' body contrasts with the intruders' slander.",
+      "Enoch prophesied judgment on their wickedness, while images of useless clouds, dead trees, wild waves, and wandering stars expose them.",
+      "Remembering the apostles, believers must grow in faith, pray in the Spirit, and seek others' salvation with mercy and care.",
+      "Jude praises God's power to guard believers and bring them unblemished into His glorious presence."
     ],
     "supporting_verses": [
-      "Jude 1:1",
-      "Jude 1:3",
-      "Jude 1:4",
-      "Jude 1:5",
-      "Jude 1:13"
+      "Jude 1:1-4",
+      "Jude 1:5-10",
+      "Jude 1:11-16",
+      "Jude 1:17-23",
+      "Jude 1:24-25"
     ],
-    "evidence_phrases": [
-      "a servant of Jesus Christ",
-      "contend earnestly for the faith",
-      "certain men who crept in secretly",
-      "Sodom and Gomorrah",
-      "the blackness of darkness forever",
-      "Now to him who is able to keep them from stumbling"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   }
 ]

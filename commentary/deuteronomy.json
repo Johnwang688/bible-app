@@ -1,10 +1,10 @@
 [
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 1,
-    "title": "Moses reviews Horeb and Kadesh",
-    "summary_text": "These are the words which Moses spoke unto all Israel beyond the Jordan in the wilderness, in the Arabah over against Suph, between Paran, and Tophel, and Laban, and Hazeroth, and Di-zahab. After he had smitten Sihon the king of the Amorites, who dwelt in Heshbon, and Og the king of Bashan, who dwelt in Ashtaroth, at Edrei. I charged your judges at that time, saying, Hear [the causes] between your brethren, and judge righteously between a man and his brother, and the sojourner that is with him. As for you, turn you, and take your journey into the wilderness by the way to the Red Sea.",
+    "title": "Moses Recalls Israel's Refusal to Enter",
+    "summary_text": "Moses begins teaching the law east of the Jordan, recalling the command to leave Horeb and take the land. He chose leaders and judges to share his work and judge fairly. Israel sent twelve scouts but then refused to enter the good land, despite God's care. The LORD barred that generation and Moses from entering, but Caleb, Joshua, and the children would inherit the land. The people confessed their sin but fought against God's warning and were defeated.",
     "themes": [
       "Wilderness review",
       "Covenant instruction",
@@ -23,33 +23,29 @@
       "judges"
     ],
     "key_points": [
-      "These are the words which Moses spoke unto all Israel beyond the Jordan in the wilderness.",
-      "After he had smitten Sihon the king of the Amorites.",
-      "I charged your judges at that time.",
-      "As for you, turn you, and take your journey into the wilderness by the way to the Red Sea."
+      "Moses recalls the LORD's order to leave Horeb and take the land sworn to Israel's ancestors.",
+      "Leaders and judges are appointed to share Moses' burden and judge fairly, since judgment belongs to God.",
+      "Israel sends scouts but refuses to advance, fearing the inhabitants instead of trusting the LORD.",
+      "The LORD excludes the rebellious generation and Moses, while Caleb, Joshua, and the children will enter.",
+      "After confessing sin, Israel ignores the warning against fighting and is routed by the Amorites."
     ],
     "supporting_verses": [
-      "Deuteronomy 1:1",
-      "Deuteronomy 1:4",
-      "Deuteronomy 1:16",
-      "Deuteronomy 1:40",
-      "Deuteronomy 1:24",
-      "Deuteronomy 1:46"
+      "Deuteronomy 1:1-8",
+      "Deuteronomy 1:9-18",
+      "Deuteronomy 1:19-33",
+      "Deuteronomy 1:34-40",
+      "Deuteronomy 1:41-46"
     ],
-    "evidence_phrases": [
-      "These are the words which Moses spoke unto all Israel beyond the Jordan in the w",
-      "After he had smitten Sihon the king of the Amorites, who dwelt in Heshbon, and O",
-      "I charged your judges at that time, saying, Hear [the causes] between your breth",
-      "As for you, turn you, and take your journey into the wilderness by the way to th",
-      "the cities are great and fortified up to heaven"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 2,
-    "title": "Sihon king Heshbon let us pass",
-    "summary_text": "We turned, and took our journey into the wilderness by the way to the Red Sea, as the LORD spoke unto me; and we compassed mount Seir many days. Command thou the people, saying, Ye are to pass through the border of your brethren the children of Esau, that dwell in Seir; and they will be afraid of you: take ye good heed unto yourselves therefore;. Rise ye up, take your journey, and pass over the valley of the Arnon: behold, I have given into thy hand Sihon the Amorite, king of Heshbon, and his land; begin to possess it, and contend with him in battle. Sihon king of Heshbon would not let us pass by him; for the LORD thy God hardened his spirit, and made his heart obstinate, that he might deliver him into thy hand, as at this day.",
+    "title": "Israel Passes Neighbors and Defeats Sihon",
+    "summary_text": "As Israel traveled north, the LORD forbade attacks on Esau's people, Moab, and Ammon, whose lands He had given them. Moses recalls God's care and the death of the old generation of fighting men. The LORD then told Israel to take Sihon's land, and Moses asked Sihon for peace and passage. Sihon refused because the LORD made his spirit stubborn so Israel could defeat him. Israel killed his people, including women and children, and took his land and goods while avoiding the forbidden lands.",
     "themes": [
       "Wilderness review",
       "Covenant instruction",
@@ -67,33 +63,29 @@
       "people"
     ],
     "key_points": [
-      "We turned, and took our journey into the wilderness by the way to the Red Sea, as the LORD spoke unto me.",
-      "Command thou the people, saying, Ye are to pass through the border of your brethren the children of Esau, that dwell in Seir.",
-      "Rise ye up, take your journey, and pass over the valley of the Arnon.",
-      "Sihon king of Heshbon would not let us pass by him."
+      "The LORD forbids provoking Esau's descendants and tells Israel to pay for its food and water.",
+      "Moab and Ammon are also protected because the LORD gave their lands to Lot's descendants.",
+      "Thirty-eight years pass before the earlier generation of fighting men has died, as the LORD declared.",
+      "Moses offers peace, but Sihon refuses passage because the LORD has made his spirit stubborn.",
+      "Israel destroys Sihon's people and takes his land while avoiding Ammon's forbidden territory."
     ],
     "supporting_verses": [
-      "Deuteronomy 2:1",
-      "Deuteronomy 2:4",
-      "Deuteronomy 2:24",
-      "Deuteronomy 2:30",
-      "Deuteronomy 2:19",
-      "Deuteronomy 2:37"
+      "Deuteronomy 2:1-8",
+      "Deuteronomy 2:9-23",
+      "Deuteronomy 2:13-16",
+      "Deuteronomy 2:24-31",
+      "Deuteronomy 2:32-37"
     ],
-    "evidence_phrases": [
-      "we compassed mount Seir many days",
-      "they will be afraid of you",
-      "begin to possess it, and contend with him in battle",
-      "Sihon king of Heshbon would not let us pass by him",
-      "I sent messengers out of the wilderness of Kedemoth unto Sihon king of Heshbon w"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 3,
-    "title": "Victory over Sihon and Og",
-    "summary_text": "We turned, and went up the way to Bashan: and Og the king of Bashan came out against us, he and all his people, unto battle at Edrei. The LORD said unto me, Fear him not; for I have delivered him, and all his people, and his land, into thy hand; and thou shalt do unto him as thou didst unto Sihon king of the Amorites, who dwelt at Heshbon. (For only Og king of Bashan remained of the remnant of the Rephaim; behold, his bedstead was a bedstead of iron; is it not in Rabbah of the children of Ammon? nine cubits was the length thereof, and four cubits the breadth of it, after the cubit of a man.). Until the LORD give rest unto your brethren, as unto you, and they also possess the land which the LORD your God giveth them beyond the Jordan: then shall ye return every man unto his possession, which I have given you.",
+    "title": "Eastern Victories and Moses' Plea to Cross",
+    "summary_text": "Moses recalls Israel's defeat of Og and the killing of his people, including women and children. He gave the eastern lands to Reuben, Gad, and half of Manasseh. Their men must still cross the Jordan and fight until the other tribes have land too. Moses tells Joshua to trust the LORD, who will fight for Israel. The LORD refuses Moses' plea to cross, but lets him view the land and tells him to strengthen Joshua, who will lead Israel to inherit it.",
     "themes": [
       "Just leadership",
       "God at work",
@@ -110,33 +102,29 @@
       "people"
     ],
     "key_points": [
-      "We turned, and went up the way to Bashan.",
-      "The LORD said unto me, Fear him not.",
-      "(For only Og king of Bashan remained of the remnant of the Rephaim.",
-      "Until the LORD give rest unto your brethren."
+      "The LORD gives Israel victory over Og, and Israel captures all sixty of his cities.",
+      "Moses describes the conquered lands and assigns eastern territory to Reuben, Gad, and half of Manasseh.",
+      "The eastern tribes must fight alongside Israel until the other tribes have land and rest.",
+      "Moses tells Joshua that the LORD will fight for Israel as He did against Sihon and Og.",
+      "The LORD denies Moses permission to cross the Jordan but allows him to see the land and commission Joshua."
     ],
     "supporting_verses": [
-      "Deuteronomy 3:1",
-      "Deuteronomy 3:2",
-      "Deuteronomy 3:11",
-      "Deuteronomy 3:20",
-      "Deuteronomy 3:15",
-      "Deuteronomy 3:29"
+      "Deuteronomy 3:1-7",
+      "Deuteronomy 3:8-17",
+      "Deuteronomy 3:18-20",
+      "Deuteronomy 3:21-22",
+      "Deuteronomy 3:23-29"
     ],
-    "evidence_phrases": [
-      "We turned, and went up the way to Bashan",
-      "Fear him not",
-      "behold, his bedstead was a bedstead of iron",
-      "then shall ye return every man unto his possession, which I have given you",
-      "We utterly destroyed them, as we did unto Sihon king of Heshbon, utterly destroy"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 4,
-    "title": "Victory over Sihon and Og",
-    "summary_text": "Now, O Israel, hearken unto the statutes and unto the ordinances, which I teach you, to do them; that ye may live, and go in and possess the land which the LORD, the God of your fathers, giveth you. Ye came near and stood under the mountain; and the mountain burned with fire unto the heart of heaven, with darkness, cloud, and thick darkness. The likeness of any beast that is on the earth, the likeness of any winged bird that flieth in the heavens,. Beyond the Jordan, in the valley over against Beth-peor, in the land of Sihon king of the Amorites, who dwelt at Heshbon, whom Moses and the children of Israel smote, when they came forth out of Egypt.",
+    "title": "Remember the Covenant and Reject Idols",
+    "summary_text": "Israel must obey the LORD's law without changing it and teach their children what they have seen. They heard God's words but saw no form, so they must keep His covenant and avoid idols. False worship will bring destruction, with only a few survivors scattered among the nations, but the merciful LORD will not abandon them when they turn back. His voice and rescue from Egypt show that He alone is God. Moses also sets apart three cities east of the Jordan as refuges for those who kill by accident.",
     "themes": [
       "Wilderness review",
       "Covenant instruction",
@@ -156,33 +144,29 @@
       "heart"
     ],
     "key_points": [
-      "Now, O Israel, hearken unto the statutes and unto the ordinances, which I teach you, to do them.",
-      "Ye came near and stood under the mountain.",
-      "The likeness of any beast that is on the earth, the likeness of any winged bird that flieth in the heavens,.",
-      "Beyond the Jordan, in the valley over against Beth-peor, in the land of Sihon king of the Amorites, who dwelt at Heshbon."
+      "Israel must preserve the LORD's commandments, whose righteous laws display wisdom to other peoples.",
+      "Israel heard God's voice without seeing His form, so Moses warns against making images or worshiping the heavenly bodies.",
+      "Idolatry will bring destruction and scattering, leaving few survivors, but the LORD's mercy leaves a way to seek Him and return.",
+      "The LORD alone is God, who chose Israel's ancestors' descendants and gave them a land inheritance.",
+      "Moses appoints Bezer, Ramoth, and Golan as eastern refuges for those who kill without prior hatred."
     ],
     "supporting_verses": [
-      "Deuteronomy 4:1",
-      "Deuteronomy 4:11",
-      "Deuteronomy 4:17",
-      "Deuteronomy 4:46",
-      "Deuteronomy 4:25",
-      "Deuteronomy 4:49"
+      "Deuteronomy 4:1-8",
+      "Deuteronomy 4:9-24",
+      "Deuteronomy 4:25-31",
+      "Deuteronomy 4:32-40",
+      "Deuteronomy 4:41-43"
     ],
-    "evidence_phrases": [
-      "Now, O Israel, hearken unto the statutes and unto the ordinances, which I teach ",
-      "Ye came near and stood under the mountain",
-      "The likeness of any beast that is on the earth, the likeness of any winged bird ",
-      "Beyond the Jordan, in the valley over against Beth-peor, in the land of Sihon ki",
-      "They took his land in possession, and the land of Og king of Bashan, the two kin"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06, fix 1",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 5,
-    "title": "The Shema and love for God",
-    "summary_text": "Moses called unto all Israel, and said unto them, Hear, O Israel, the statutes and the ordinances which I speak in your ears this day, that ye may learn them, and observe to do them. And showing lovingkindness unto thousands of them that love me and keep my commandments. Observe the sabbath day, to keep it holy, as the LORD thy God commanded thee. Oh that there were such a heart in them, that they would fear me, and keep all my commandments always, that it might be well with them, and with their children for ever!",
+    "title": "Moses Repeats the Ten Commandments",
+    "summary_text": "At Horeb, the LORD made a covenant with Israel and spoke the Ten Commandments from the fire. Moses repeats His commands against other gods, idols, and misuse of His name. The Sabbath must be holy, with rest for servants and animals, since God freed Israel from slavery. The people must honor parents and avoid murder, adultery, theft, false witness, and coveting. Afraid of God's voice, they asked Moses to hear Him for them, and the LORD approved while calling for lasting obedience.",
     "themes": [
       "Wilderness review",
       "Covenant instruction",
@@ -200,33 +184,29 @@
       "children"
     ],
     "key_points": [
-      "Moses called unto all Israel.",
-      "And showing lovingkindness unto thousands of them that love me and keep my commandments.",
-      "Observe the sabbath day, to keep it holy, as the LORD thy God commanded thee.",
-      "Oh that there were such a heart in them."
+      "Moses recalls Israel's covenant at Horeb, where he stood between the LORD and the frightened people.",
+      "The LORD forbids other gods, idols, and misuse of His name, punishing iniquity but showing loving devotion to those who love Him.",
+      "Sabbath rest extends to servants and animals, and Israel must remember its own slavery and deliverance.",
+      "The commandments require honoring parents and forbid murder, adultery, theft, false testimony, and coveting.",
+      "God approves the people's request for Moses to speak for Him and calls for obedience leading to life."
     ],
     "supporting_verses": [
-      "Deuteronomy 5:1",
-      "Deuteronomy 5:10",
-      "Deuteronomy 5:12",
-      "Deuteronomy 5:29",
-      "Deuteronomy 5:17",
-      "Deuteronomy 5:33"
+      "Deuteronomy 5:1-5",
+      "Deuteronomy 5:6-11",
+      "Deuteronomy 5:12-15",
+      "Deuteronomy 5:16-22",
+      "Deuteronomy 5:23-33"
     ],
-    "evidence_phrases": [
-      "Hear, O Israel, the statutes and the ordinances which I",
-      "showing lovingkindness unto thousands of them that love me and keep my commandme",
-      "Observe the sabbath day, to keep it holy, as the LORD thy God commanded thee",
-      "Oh that there were such a heart in them, that they would fear me, and keep all m",
-      "Thou shalt not make unto thee a graven image, [nor] any likeness [of anything] t"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 6,
-    "title": "The Shema and love for God",
-    "summary_text": "This is the commandment, the statutes, and the ordinances, which the LORD your God commanded to teach you, that ye might do them in the land whither ye go over to possess it;. And thou shalt love the LORD thy God with all thy heart, and with all thy soul, and with all thy might. It shall be, when the LORD thy God shall bring thee into the land which he swore unto thy fathers, to Abraham, to Isaac, and to Jacob, to give thee, great and goodly cities, which thou buildest not,. Ye shall diligently keep the commandments of the LORD your God, and his testimonies, and his statutes, which he has commanded thee.",
+    "title": "Love the LORD and Teach His Commands",
+    "summary_text": "Moses declares that the LORD is One and commands Israel to love Him fully, with heart, soul, and strength. His words must stay in their hearts, shape everyday conversation, be taught to children, and be written as reminders. Moses warns that prosperity in the promised land must not make them forget the LORD, worship other gods, or test Him. When children ask about the commandments, parents must explain how the LORD freed Israel from Egyptian slavery and gave them these laws for their good and survival. Moses says obeying all His commandments will be their righteousness.",
     "themes": [
       "Covenant instruction",
       "Love and loyalty",
@@ -242,33 +222,29 @@
       "fathers"
     ],
     "key_points": [
-      "This is the commandment.",
-      "And thou shalt love the LORD thy God with all thy heart, and with all thy soul, and with all thy might.",
-      "It shall be, when the LORD thy God shall bring thee into the land which he swore unto thy fathers, to Abraham.",
-      "Ye shall diligently keep the commandments of the LORD your God, and his testimonies, and his statutes, which he has commanded thee."
+      "Moses teaches the LORD's commandments so Israel and future generations may fear Him, live long, and prosper.",
+      "The LORD is One, and Israel must love Him with heart, soul, and strength.",
+      "God's words must be remembered, taught throughout daily life, and placed on hands, foreheads, doorposts, and gates.",
+      "Israel must remember its Deliverer amid prosperity, serve Him alone, and neither follow other gods nor test Him.",
+      "Parents must explain Israel's deliverance and God's commands, whose observance Moses calls Israel's righteousness."
     ],
     "supporting_verses": [
-      "Deuteronomy 6:1",
-      "Deuteronomy 6:5",
-      "Deuteronomy 6:10",
-      "Deuteronomy 6:17",
-      "Deuteronomy 6:13",
-      "Deuteronomy 6:25"
+      "Deuteronomy 6:1-3",
+      "Deuteronomy 6:4-5",
+      "Deuteronomy 6:6-9",
+      "Deuteronomy 6:10-19",
+      "Deuteronomy 6:20-25"
     ],
-    "evidence_phrases": [
-      "that ye might do them in the land whither ye",
-      "thou shalt love the LORD thy God with all thy heart, and with all thy soul, and ",
-      "It shall be, when the LORD thy God shall bring thee into the land which he swore",
-      "Ye shall diligently keep the commandments of the LORD your God, and his testimon",
-      "These words, which I command thee this day, shall be upon thy heart"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 7,
-    "title": "LORD did set love you nor",
-    "summary_text": "When the LORD thy God shall bring thee into the land whither thou goest to possess it, and shall cast out many nations before thee, the Hittite, and the Girgashite, and the Amorite, and the Canaanite, and the Perizzite, and the Hivite, and the Jebusite, seven nations greater and mightier than thou;. But because the LORD loveth you, and because he would keep the oath which he swore unto your fathers, has the LORD brought you out with a mighty hand, and redeemed you out of the house of bondage, from the hand of Pharaoh king of Egypt. Know therefore that the LORD thy God, he is God, the faithful God, who keepeth covenant and lovingkindness with them that love him and keep his commandments to a thousand generations,. Thou shalt not be afraid of them: thou shalt well remember what the LORD thy God did unto Pharaoh, and unto all Egypt;.",
+    "title": "A Holy People Must Reject Other Gods",
+    "summary_text": "Israel must destroy the seven nations, show no mercy, and reject treaties, marriages, and their gods. The LORD chose Israel as His holy people out of love, and redeemed them from slavery to keep His oath. He is faithful to His covenant of loving devotion, but destroys those who hate Him. Obeying His commandments will bring blessing to families, crops, herds, and health. Israel must trust Him to defeat the nations little by little and burn their idols without taking the gold or silver.",
     "themes": [
       "Covenant instruction",
       "Love and loyalty",
@@ -286,33 +262,29 @@
       "fathers"
     ],
     "key_points": [
-      "When the LORD thy God shall bring thee into the land whither thou goest to possess it.",
-      "But because the LORD loveth you.",
-      "Know therefore that the LORD thy God.",
-      "Thou shalt not be afraid of them: thou shalt well remember what the LORD thy God did unto Pharaoh, and unto all Egypt."
+      "Israel must destroy the nations and their altars and idols, avoiding treaties and marriages that would lead to other gods.",
+      "The LORD chose Israel as His holy people and redeemed them because of His love and oath.",
+      "God keeps His covenant and loving devotion with the obedient but repays those who hate Him with destruction.",
+      "Obedience brings blessings of children, abundant produce, healthy livestock, and protection from sickness.",
+      "Israel must remember God's power, expect gradual victory, and neither covet idol metals nor bring detestable things home."
     ],
     "supporting_verses": [
-      "Deuteronomy 7:1",
-      "Deuteronomy 7:8",
-      "Deuteronomy 7:9",
-      "Deuteronomy 7:18",
-      "Deuteronomy 7:14",
-      "Deuteronomy 7:26"
+      "Deuteronomy 7:1-5",
+      "Deuteronomy 7:6-8",
+      "Deuteronomy 7:9-11",
+      "Deuteronomy 7:12-16",
+      "Deuteronomy 7:17-26"
     ],
-    "evidence_phrases": [
-      "When the LORD thy God shall bring thee into the land whither thou goest to posse",
-      "But because the LORD loveth you, and because he would keep the oath which he swo",
-      "Know therefore that the LORD thy God, he is God, the faithful God, who keepeth c",
-      "Thou shalt not be afraid of them",
-      "he will love thee, and bless thee, and multiply thee"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 8,
-    "title": "Thou shalt remember all way which",
-    "summary_text": "All the commandment which I command thee this day shall ye observe to do, that ye may live, and multiply, and go in and possess the land which the LORD swore unto your fathers. Thou shalt remember all the way which the LORD thy God has led thee these forty years in the wilderness, that he might humble thee, to prove thee, to know what was in thy heart, whether thou wouldest keep his commandments, or not. Then thy heart be lifted up, and thou forget the LORD thy God, who brought thee forth out of the land of Egypt, out of the house of bondage;. And [lest] thou say in thy heart, My power and the might of my hand has gotten me this wealth.",
+    "title": "Remember the LORD When Wealth Increases",
+    "summary_text": "Moses calls Israel to remember how the LORD humbled and tested them during forty years in the wilderness. He fed them manna and cared for their clothing and feet, teaching that life depends on His word, not food alone. As they enter a land rich in water, food, and minerals, they must bless Him and keep His commandments. Moses warns that wealth can lead to pride and forgetfulness, since the LORD gives the ability to gain wealth in keeping with His covenant. If Israel abandons Him for other gods, it will perish like the nations He destroys before them.",
     "themes": [
       "Covenant instruction",
       "Love and loyalty",
@@ -328,33 +300,29 @@
       "fathers"
     ],
     "key_points": [
-      "All the commandment which I command thee this day shall ye observe to do.",
-      "Thou shalt remember all the way which the LORD thy God has led thee these forty years in the wilderness.",
-      "Then thy heart be lifted up, and thou forget the LORD thy God, who brought thee forth out of the land of Egypt, out of the house of bondage.",
-      "And [lest] thou say in thy heart, My power and the might of my hand has gotten me this wealth."
+      "The wilderness journey tested Israel's obedience, while manna taught dependence on the LORD's word.",
+      "Israel must bless the LORD after eating its fill in the abundant land He is giving.",
+      "Growing wealth must not make Israel proud or forgetful of the LORD's deliverance and wilderness care.",
+      "The ability to gain wealth comes from the LORD, who confirms His covenant with Israel's ancestors.",
+      "Worshiping other gods will bring destruction on Israel just as on the nations before it."
     ],
     "supporting_verses": [
-      "Deuteronomy 8:1",
-      "Deuteronomy 8:2",
-      "Deuteronomy 8:14",
-      "Deuteronomy 8:17",
-      "Deuteronomy 8:11",
-      "Deuteronomy 8:20"
+      "Deuteronomy 8:1-6",
+      "Deuteronomy 8:7-10",
+      "Deuteronomy 8:11-16",
+      "Deuteronomy 8:17-18",
+      "Deuteronomy 8:19-20"
     ],
-    "evidence_phrases": [
-      "All the commandment which I command thee this day shall ye observe to do, that y",
-      "Thou shalt remember all the way which the LORD thy God has led thee these forty ",
-      "Then thy heart be lifted up, and thou forget the LORD thy God, who brought thee ",
-      "[lest] thou say in thy heart, My power and the might of my hand has gotten me th",
-      "Thou shalt consider in thy heart, that, as a man chasteneth his son, so the LORD"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 9,
-    "title": "Arise, get thee down quickly from",
-    "summary_text": "Hear, O Israel: thou art to pass over the Jordan this day, to go in to dispossess nations greater and mightier than thyself, cities great and fortified up to heaven,. Not for thy righteousness, or for the uprightness of thy heart, dost thou go in to possess their land; but for the wickedness of these nations the LORD thy God doth drive them out from before thee, and that he may establish the word which the LORD swore unto thy fathers, to Abraham, to Isaac, and to Jacob. The LORD said unto me, Arise, get thee down quickly from hence; for thy people that thou hast brought forth out of Egypt have corrupted themselves; they are quickly turned aside out of the way which I commanded them; they have made them a molten image. When the LORD sent you from Kadesh-barnea, saying, Go up and possess the land which I have given you; then ye rebelled against the commandment of the LORD your God, and ye believed him not, nor hearkened to his voice.",
+    "title": "Israel's Rebellion and Moses' Plea for Mercy",
+    "summary_text": "The LORD will give Israel the land because of the nations' wickedness and His promise, not Israel's righteousness. Moses recalls their sin in making a metal calf while he received the covenant tablets. He broke the tablets, destroyed the calf, and fasted and prayed as God's wrath threatened Israel. He also prayed for Aaron, whom God threatened to destroy. Moses asked God to spare His redeemed people, remember His servants, and consider what the Egyptians would say if Israel died.",
     "themes": [
       "Wilderness review",
       "Love and loyalty",
@@ -374,33 +342,29 @@
       "people"
     ],
     "key_points": [
-      "Hear, O Israel: thou art to pass over the Jordan this day, to go in to dispossess nations greater and mightier than.",
-      "Not for thy righteousness, or for the uprightness of thy heart, dost thou go in to possess their land.",
-      "The LORD said unto me, Arise, get thee down quickly from hence.",
-      "When the LORD sent you from Kadesh-barnea, saying, Go up and possess the land which I have given you."
+      "The LORD gives Israel the land because of the nations' wickedness and His promise, not Israel's righteousness.",
+      "While Moses receives the covenant tablets, Israel makes an image and the LORD threatens destruction.",
+      "Moses breaks the tablets, prays for Israel and Aaron, and destroys the calf.",
+      "Moses recalls further provocations, including Israel's refusal to trust and obey at Kadesh-barnea.",
+      "Moses appeals for Israel as God's redeemed people and inheritance, asking Him to remember Abraham, Isaac, and Jacob."
     ],
     "supporting_verses": [
-      "Deuteronomy 9:1",
-      "Deuteronomy 9:5",
-      "Deuteronomy 9:12",
-      "Deuteronomy 9:23",
-      "Deuteronomy 9:15",
-      "Deuteronomy 9:29"
+      "Deuteronomy 9:1-6",
+      "Deuteronomy 9:7-14",
+      "Deuteronomy 9:15-21",
+      "Deuteronomy 9:22-24",
+      "Deuteronomy 9:25-29"
     ],
-    "evidence_phrases": [
-      "Hear, O Israel",
-      "Not for thy righteousness, or for the uprightness of thy heart, dost thou go in ",
-      "Arise, get thee down quickly from hence",
-      "When the LORD sent you from Kadesh-barnea, saying, Go up and possess the land wh",
-      "Remember thy servants, Abraham, Isaac, and Jacob"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 10,
-    "title": "The Ten Commandments repeated",
-    "summary_text": "At that time the LORD said unto me, Hew thee two tables of stone like unto the first, and come up unto me into the mount, and make thee an ark of wood. At that time the LORD set apart the tribe of Levi, to bear the ark of the covenant of the LORD, to stand before the LORD to minister unto him, and to bless in his name, unto this day. Now, Israel, what doth the LORD thy God require of thee, but to fear the LORD thy God, to walk in all his ways, and to love him, and to serve the LORD thy God with all thy heart and with all thy soul,. Only the LORD had a delight in thy fathers to love them, and he chose their seed after them, even you above all peoples, as at this day.",
+    "title": "New Tablets and a Call to Love",
+    "summary_text": "The LORD wrote the Ten Commandments again, and Moses placed the new tablets in a wooden ark. Moses recalls Aaron's death, Levi's call to serve, and God's choice to spare Israel and send them onward. The LORD is Levi's inheritance, and they carry His covenant ark. Moses tells Israel to love God with heart and soul, obey Him, and circumcise their hearts instead of being stubborn. God judges fairly and cares for those in need, so Israel must love foreigners too and hold firmly to Him.",
     "themes": [
       "Wilderness review",
       "Covenant instruction",
@@ -420,32 +384,29 @@
       "people"
     ],
     "key_points": [
-      "At that time the LORD said unto me.",
-      "At that time the LORD set apart the tribe of Levi.",
-      "Now, Israel, what doth the LORD thy God require of thee, but to fear the LORD thy God, to walk in all.",
-      "Only the LORD had a delight in thy fathers to love them."
+      "The LORD writes the Ten Commandments on replacement tablets, which Moses stores in the wooden ark.",
+      "Eleazar succeeds Aaron as priest, and Levi carries the covenant ark, serves the LORD, and pronounces blessings.",
+      "The LORD listens to Moses, does not destroy Israel, and commands him to lead the people onward.",
+      "God chose Israel, and Moses calls them to love Him, obey His commandments, and circumcise their hearts instead of remaining stubborn.",
+      "God's justice and love for foreigners require Israel to love them too and serve Him alone."
     ],
     "supporting_verses": [
-      "Deuteronomy 10:1",
-      "Deuteronomy 10:8",
-      "Deuteronomy 10:12",
-      "Deuteronomy 10:15",
-      "Deuteronomy 10:22"
+      "Deuteronomy 10:1-5",
+      "Deuteronomy 10:6-9",
+      "Deuteronomy 10:10-11",
+      "Deuteronomy 10:12-16",
+      "Deuteronomy 10:17-22"
     ],
-    "evidence_phrases": [
-      "Hew thee two tables of stone like unto the first",
-      "At that time the LORD set apart the tribe of Levi, to bear the ark of the covena",
-      "Now, Israel, what doth the LORD thy God require of thee, but to fear the LORD th",
-      "Only the LORD had a delight in thy fathers to love them, and he chose their seed",
-      "Wherefore Levi has no portion nor inheritance with his brethren"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 11,
-    "title": "I set before you day blessing",
-    "summary_text": "Therefore thou shalt love the LORD thy God, and keep his charge, and his statutes, and his ordinances, and his commandments, alway. And his signs, and his works, which he did in the midst of Egypt unto Pharaoh the king of Egypt, and unto all his land;. It shall come to pass, if ye shall hearken diligently unto my commandments which I command you this day, to love the LORD your God, and to serve him with all your heart and with all your soul,. If ye shall diligently keep all this commandment which I command you, to do it, to love the LORD your God, to walk in all his ways, and to cleave unto him;.",
+    "title": "Obedience Brings Blessing and Disobedience a Curse",
+    "summary_text": "Moses addresses Israelites who have seen the LORD's mighty works in Egypt and His discipline in the wilderness, urging them to love Him and obey His commandments. Their new land depends on rain and receives the LORD's constant care. Serving Him with heart and soul will bring rain and food, but worshiping other gods will bring drought and death. They must keep His words close, teach their children, and trust His promise of victory as they remain faithful to Him. Moses sets before them blessing for obedience and a curse for turning away, to be proclaimed on Mount Gerizim and Mount Ebal.",
     "themes": [
       "Covenant instruction",
       "Love and loyalty",
@@ -464,33 +425,29 @@
       "children"
     ],
     "key_points": [
-      "Therefore thou shalt love the LORD thy God, and keep his charge, and his statutes, and his ordinances, and his commandments, alway.",
-      "And his signs, and his works, which he did in the midst of Egypt unto Pharaoh the king of Egypt, and unto all his land.",
-      "It shall come to pass.",
-      "If ye shall diligently keep all this commandment which I command you."
+      "Israel's own generation has seen God's works, including Egypt's defeat and the earth swallowing Dathan and Abiram.",
+      "Obedience brings strength to possess a land watered by rain and watched over by the LORD.",
+      "Loving service to God brings seasonal rain, while turning to other gods brings drought and destruction.",
+      "Israel must preserve God's words, teach its children, and remain loyal to Him as He grants victory.",
+      "Moses sets out a blessing for obedience and a curse for disobedience, to be declared on two mountains."
     ],
     "supporting_verses": [
-      "Deuteronomy 11:1",
-      "Deuteronomy 11:3",
-      "Deuteronomy 11:13",
-      "Deuteronomy 11:22",
-      "Deuteronomy 11:17",
-      "Deuteronomy 11:32"
+      "Deuteronomy 11:1-7",
+      "Deuteronomy 11:8-12",
+      "Deuteronomy 11:13-17",
+      "Deuteronomy 11:18-25",
+      "Deuteronomy 11:26-32"
     ],
-    "evidence_phrases": [
-      "Therefore thou shalt love the LORD thy God, and keep his charge, and his statute",
-      "his signs, and his works, which he did in the midst of Egypt unto Pharaoh the ki",
-      "It shall come to pass, if ye shall hearken diligently unto my commandments which",
-      "If ye shall diligently keep all this commandment which I command you, to do it, ",
-      "the curse, if ye shall not hearken unto the commandments of the LORD your God, b"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 12,
-    "title": "Clean food and tithes",
-    "summary_text": "These are the statutes and the ordinances which ye shall observe to do in the land which the LORD, the God of thy fathers, has given thee to possess it, all the days that ye live upon the earth. Then it shall come to pass that to the place which the LORD your God shall choose, to cause his name to dwell there, thither shall ye bring all that I command you: your burnt-offerings, and your sacrifices, your tithes, and the heave-offering of your hand, and all your choice vows which ye vow unto the LORD. Notwithstanding, thou mayest kill and eat flesh within all thy gates, after all the desire of thy soul, according to the blessing of the LORD thy God which he has given thee: the unclean and the clean may eat thereof, as of the gazelle, and as of the hart. Even as the gazelle and as the hart is eaten, so thou shalt eat thereof: the unclean and the clean may eat thereof alike.",
+    "title": "Worship Where the LORD Chooses",
+    "summary_text": "Israel must tear down the nations' worship sites and idols. Sacrifices and other sacred offerings belong at the place the LORD chooses, where families and Levites are to share a feast. Both clean and unclean people may eat ordinary meat at home, but not its blood, since blood is the life. Israel must care for the Levites and bring holy things to God's altar. Moses forbids copying the nations' worship, including child sacrifice, or changing God's commands.",
     "themes": [
       "Covenant instruction",
       "Love and loyalty",
@@ -507,33 +464,29 @@
       "fathers"
     ],
     "key_points": [
-      "These are the statutes and the ordinances which ye shall observe to do in the land which the LORD.",
-      "Then it shall come to pass that to the place which the LORD your God shall choose.",
-      "Notwithstanding, thou mayest kill and eat flesh within all thy gates, after all the desire of thy soul, according to the blessing.",
-      "Even as the gazelle and as the hart is eaten, so thou shalt eat thereof."
+      "Israel must destroy pagan worship sites and seek the place the LORD chooses for His Name.",
+      "Once Israel receives rest and its inheritance, offerings must be brought to God's chosen place with the Levites included.",
+      "Meat may be eaten locally without blood, but tithes, firstborn animals, and sacred gifts belong at the chosen place.",
+      "Blood must not be eaten, and sacrifices and holy things must still be brought to the LORD's altar.",
+      "Israel must not copy the nations' worship, including child sacrifice, or add to or subtract from God's commands."
     ],
     "supporting_verses": [
-      "Deuteronomy 12:1",
-      "Deuteronomy 12:11",
-      "Deuteronomy 12:15",
-      "Deuteronomy 12:22",
-      "Deuteronomy 12:17",
-      "Deuteronomy 12:32"
+      "Deuteronomy 12:1-7",
+      "Deuteronomy 12:8-14",
+      "Deuteronomy 12:15-19",
+      "Deuteronomy 12:20-28",
+      "Deuteronomy 12:29-32"
     ],
-    "evidence_phrases": [
-      "These are the statutes and the ordinances which ye shall observe to do in the la",
-      "your burnt-offerings, and your sacrifices, your tithes, and the heave-offering o",
-      "the unclean and the clean may eat thereof, as of the gazelle, and as of the hart",
-      "the unclean and the clean may eat thereof alike",
-      "thou shalt rejoice before the LORD thy God in all that thou puttest thy hand unt"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 13,
-    "title": "False prophets and idols",
-    "summary_text": "If there arise in the midst of thee a prophet, or a dreamer of dreams, and he give thee a sign or a wonder,. Thou shalt not hearken unto the words of that prophet, or unto that dreamer of dreams: for the LORD your God proveth you, to know whether ye love the LORD your God with all your heart and with all your soul. Thou shalt stone him to death with stones, because he has sought to draw thee away from the LORD thy God, who brought thee out of the land of Egypt, out of the house of bondage. There shall cleave nought of the devoted thing to thy hand; that the LORD may turn from the fierceness of his anger, and show thee mercy, and have compassion upon thee, and multiply thee, as he has sworn unto thy fathers;.",
+    "title": "Reject Those Who Urge Worship of Other Gods",
+    "summary_text": "Even a prophet whose sign comes true must be rejected if he urges Israel to follow other gods. The LORD uses this to test their love for Him. Such a prophet must die, as must a relative or friend who urges false worship. A city that has turned to other gods must face a thorough inquiry, then the killing of its people and herds and the burning of its goods. Israel must keep none of the spoils, so the LORD may turn from anger and show mercy.",
     "themes": [
       "Covenant instruction",
       "Love and loyalty",
@@ -549,32 +502,29 @@
       "fathers"
     ],
     "key_points": [
-      "If there arise in the midst of thee a prophet.",
-      "Thou shalt not hearken unto the words of that prophet, or unto that dreamer of dreams.",
-      "Thou shalt stone him to death with stones.",
-      "There shall cleave nought of the devoted thing to thy hand."
+      "A fulfilled sign does not justify following a prophet who urges Israel to worship other gods.",
+      "Israel must keep the LORD's commandments and execute the prophet who promotes rebellion against its Redeemer.",
+      "Even family members or close friends who entice others toward false worship must be stoned, without protection or pity.",
+      "An accusation that wicked men led a city astray requires careful investigation before the city is destroyed.",
+      "Israel must keep none of the condemned plunder, so the LORD may show mercy as it obeys Him."
     ],
     "supporting_verses": [
-      "Deuteronomy 13:1",
-      "Deuteronomy 13:3",
-      "Deuteronomy 13:10",
-      "Deuteronomy 13:17",
-      "Deuteronomy 13:18"
+      "Deuteronomy 13:1-3",
+      "Deuteronomy 13:4-5",
+      "Deuteronomy 13:6-11",
+      "Deuteronomy 13:12-16",
+      "Deuteronomy 13:17-18"
     ],
-    "evidence_phrases": [
-      "If there arise in the midst of thee a prophet, or a dreamer of dreams, and he gi",
-      "Thou shalt not hearken unto the words of that prophet, or unto that dreamer of d",
-      "Thou shalt stone him to death with stones, because he has sought to draw thee aw",
-      "There shall cleave nought of the devoted thing to thy hand",
-      "So shalt thou put away the evil from the midst of thee"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 14,
-    "title": "Clean food and tithes",
-    "summary_text": "Ye are the children of the LORD your God: ye shall not cut yourselves, nor make any baldness between your eyes for the dead. Thou art a holy people unto the LORD thy God, and the LORD has chosen thee to be a people for his own possession, above all peoples that are upon the face of the earth. Of all clean birds ye may eat. Thou shalt eat before the LORD thy God, in the place which he shall choose, to cause his name to dwell there, the tithe of thy grain, of thy new wine, and of thine oil, and the firstlings of thy herd and of thy flock; that thou mayest learn to fear the LORD thy God always.",
+    "title": "Food Rules and Tithes for a Holy People",
+    "summary_text": "The LORD's holy, chosen people must not cut themselves or shave their foreheads for the dead. Moses gives food rules that set clean creatures apart from unclean ones. Israel must not eat carcasses or cook a young goat in its mother's milk. A tenth of each year's crops and the firstborn livestock form a feast before the LORD; crops may be exchanged for money if the journey is too far. Each third year's tithe stays in town to feed Levites, foreigners, orphans, and widows.",
     "themes": [
       "Blessing and curse",
       "Holy living and giving",
@@ -588,33 +538,29 @@
       "people"
     ],
     "key_points": [
-      "Ye are the children of the LORD your God.",
-      "Thou art a holy people unto the LORD thy God.",
-      "Of all clean birds ye may eat.",
-      "Thou shalt eat before the LORD thy God."
+      "Israel's identity as the LORD's holy, chosen people rules out cutting themselves or shaving their foreheads for the dead.",
+      "Land animals must both chew the cud and have divided hooves, and water creatures must have fins and scales.",
+      "Moses permits clean birds but prohibits named birds, flying insects, carcasses, and cooking a young goat in its mother's milk.",
+      "The yearly tithe and firstborn livestock provide a feast before the LORD, with provision for exchanging distant produce for money.",
+      "The third-year tithe feeds Levites without an inheritance and others in need, with the LORD promising blessing."
     ],
     "supporting_verses": [
-      "Deuteronomy 14:1",
-      "Deuteronomy 14:2",
-      "Deuteronomy 14:11",
-      "Deuteronomy 14:23",
-      "Deuteronomy 14:15",
-      "Deuteronomy 14:29"
+      "Deuteronomy 14:1-2",
+      "Deuteronomy 14:3-10",
+      "Deuteronomy 14:11-21",
+      "Deuteronomy 14:22-27",
+      "Deuteronomy 14:28-29"
     ],
-    "evidence_phrases": [
-      "Ye are the children of the LORD your God",
-      "Thou art a holy people unto the LORD thy God, and the LORD has chosen thee to be",
-      "Of all clean birds ye may eat",
-      "that thou mayest learn to fear the LORD thy God always",
-      "that the LORD thy God may bless thee in all the work of thy hand which thou does"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 15,
-    "title": "If there thee poor man one",
-    "summary_text": "At the end of every seven years thou shalt make a release. Howbeit there shall be no poor with thee; (for the LORD will surely bless thee in the land which the LORD thy God giveth thee for an inheritance to possess it;). Thou shalt surely give him, and thy heart shall not be grieved when thou givest unto him; because that for this thing the LORD thy God will bless thee in all thy work, and in all that thou puttest thy hand unto. Thou shalt eat it within thy gates: the unclean and the clean [shall eat it] alike, as the gazelle, and as the hart.",
+    "title": "Release Debts and Servants and Give Generously",
+    "summary_text": "Every seventh year, lenders must forgive debts owed by fellow Israelites. They must still lend freely to the poor as that year nears, since refusing is sin and giving brings God's blessing. Hebrew servants must be freed after six years and given supplies, remembering that God redeemed Israel from slavery. Those who choose to stay serve for life. Firstborn male livestock belong to the LORD, but animals with defects cannot be sacrificed and may be eaten at home without their blood.",
     "themes": [
       "Covenant instruction",
       "Love and loyalty",
@@ -628,33 +574,29 @@
       "heart"
     ],
     "key_points": [
-      "At the end of every seven years thou shalt make a release.",
-      "Howbeit there shall be no poor with thee.",
-      "Thou shalt surely give him, and thy heart shall not be grieved when thou givest unto him.",
-      "Thou shalt eat it within thy gates."
+      "Creditors must forgive fellow Israelites' debts in the seventh year, and obedience brings the LORD's blessing.",
+      "Israel must not harden its heart toward the poor or withhold loans because the release year is near.",
+      "Hebrew servants must be freed in their seventh year and generously supplied because the LORD redeemed Israel from slavery.",
+      "A servant who chooses to remain has an ear pierced and stays for life; release must not be resented.",
+      "Firstborn livestock are set apart for the LORD, but animals with serious defects cannot be offered as a sacrifice."
     ],
     "supporting_verses": [
-      "Deuteronomy 15:1",
-      "Deuteronomy 15:4",
-      "Deuteronomy 15:10",
-      "Deuteronomy 15:22",
-      "Deuteronomy 15:12",
-      "Deuteronomy 15:23"
+      "Deuteronomy 15:1-6",
+      "Deuteronomy 15:7-11",
+      "Deuteronomy 15:12-15",
+      "Deuteronomy 15:16-18",
+      "Deuteronomy 15:19-23"
     ],
-    "evidence_phrases": [
-      "At the end of every seven years thou shalt make a release",
-      "Howbeit there shall be no poor with thee",
-      "Thou shalt surely give him, and thy heart shall not be grieved when thou givest ",
-      "Thou shalt eat it within thy gates",
-      "Thou shalt eat it before the LORD thy God year by year in the place which the LO"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 16,
-    "title": "Thou shalt sacrifice passover LORD thy",
-    "summary_text": "Observe the month of Abib, and keep the passover unto the LORD thy God; for in the month of Abib the LORD thy God brought thee forth out of Egypt by night. Thou shalt sacrifice the passover unto the LORD thy God, of the flock and the herd, in the place which the LORD shall choose, to cause his name to dwell there. Seven days shalt thou keep a feast unto the LORD thy God in the place which the LORD shall choose; because the LORD thy God will bless thee in all thine increase, and in all the work of thy hands, and thou shalt be altogether joyful. Three times in a year shall all thy males appear before the LORD thy God in the place which he shall choose: in the feast of unleavened bread, and in the feast of weeks, and in the feast of tabernacles; and they shall not appear before the LORD empty:.",
+    "title": "Celebrate the Festivals and Appoint Righteous Judges",
+    "summary_text": "Passover sacrifice and unleavened bread recall Israel's hurried flight from Egypt. Moses also commands the Feast of Weeks and the Feast of Tabernacles, with joy and gifts at God's chosen place. The feasts include servants, Levites, foreigners, orphans, and widows. All Israel's men must come before the LORD three times a year with gifts that reflect His blessing. Town judges must give righteous judgment without bribes or bias, and Israel must reject Asherah poles and sacred pillars.",
     "themes": [
       "Covenant instruction",
       "Blessing and curse",
@@ -669,33 +611,29 @@
       "people"
     ],
     "key_points": [
-      "Observe the month of Abib, and keep the passover unto the LORD thy God.",
-      "Thou shalt sacrifice the passover unto the LORD thy God.",
-      "Seven days shalt thou keep a feast unto the LORD thy God in the place which the LORD shall choose.",
-      "Three times in a year shall all thy males appear before the LORD thy God in the place which he shall choose."
+      "Passover sacrifice and unleavened bread at God's chosen place commemorate Israel's departure from Egypt.",
+      "The Feast of Weeks includes a freewill offering and shared joy, remembering Israel's former slavery.",
+      "The Feast of Tabernacles celebrates the gathered harvest, and men must bring gifts at all three festivals.",
+      "Town judges must pursue justice without favoritism or bribes so Israel may live and possess the land.",
+      "Israel must not place an Asherah pole beside the LORD's altar or erect a sacred pillar."
     ],
     "supporting_verses": [
-      "Deuteronomy 16:1",
-      "Deuteronomy 16:2",
-      "Deuteronomy 16:15",
-      "Deuteronomy 16:16",
-      "Deuteronomy 16:12",
-      "Deuteronomy 16:22"
+      "Deuteronomy 16:1-8",
+      "Deuteronomy 16:9-12",
+      "Deuteronomy 16:13-17",
+      "Deuteronomy 16:18-20",
+      "Deuteronomy 16:21-22"
     ],
-    "evidence_phrases": [
-      "Observe the month of Abib, and keep the passover unto the LORD thy God",
-      "Thou shalt sacrifice the passover unto the LORD thy God, of the flock and the he",
-      "Seven days shalt thou keep a feast unto the LORD thy God in the place which the ",
-      "they shall not appear before the LORD empty",
-      "But at the place which the LORD thy God shall choose, to cause his name to dwell"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 17,
-    "title": "Justice, kings, and priests",
-    "summary_text": "Thou shalt not sacrifice unto the LORD thy God an ox, or a sheep, wherein is a blemish, [or] anything evil; for that is an abomination unto the LORD thy God. At the mouth of two witnesses, or three witnesses, shall he that is to die be put to death; at the mouth of one witness he shall not be put to death. If there arise a matter too hard for thee in judgment, between blood and blood, between plea and plea, and between stroke and stroke, being matters of controversy within thy gates; then shalt thou arise, and get thee up unto the place which the LORD thy God shall choose;. Thou shalt surely set him king over thee, whom the LORD thy God shall choose: one from among thy brethren shalt thou set king over thee; thou mayest not put a foreigner over thee, who is not thy brother.",
+    "title": "Justice and Kingship Under the LORD's Commands",
+    "summary_text": "Moses forbids flawed animals as a sacrifice to the LORD. A charge of breaking His covenant through false worship needs careful inquiry and two or three witnesses before a death sentence. Hard cases go to the priests and judge, whose ruling must be obeyed on pain of death. Israel's king must be chosen by the LORD from their own people and must not gather many horses, wives, or riches. He must copy and read God's teaching all his life, learning to obey and stay humble.",
     "themes": [
       "Covenant instruction",
       "Love and loyalty",
@@ -713,33 +651,29 @@
       "covenant"
     ],
     "key_points": [
-      "Thou shalt not sacrifice unto the LORD thy God an ox, or a sheep, wherein is a blemish, [or] anything evil.",
-      "At the mouth of two witnesses, or three witnesses, shall he that is to die be put to death.",
-      "If there arise a matter too hard for thee in judgment.",
-      "Thou shalt surely set him king over thee, whom the LORD thy God shall choose: one from among thy brethren shalt thou set king over thee."
+      "Animals with defects must not be offered as a sacrifice to the LORD.",
+      "False worship requires careful investigation, and execution requires multiple witnesses, who must begin the stoning.",
+      "Priests and the judge decide difficult cases according to law, and refusing their verdict is punishable by death.",
+      "Israel's king must be chosen by the LORD from Israel and avoid multiplying horses, wives, silver, and gold.",
+      "The king must copy and continually read the instruction so he keeps God's commandments and does not exalt himself."
     ],
     "supporting_verses": [
       "Deuteronomy 17:1",
-      "Deuteronomy 17:6",
-      "Deuteronomy 17:8",
-      "Deuteronomy 17:15",
-      "Deuteronomy 17:11",
-      "Deuteronomy 17:20"
+      "Deuteronomy 17:2-7",
+      "Deuteronomy 17:8-13",
+      "Deuteronomy 17:14-17",
+      "Deuteronomy 17:18-20"
     ],
-    "evidence_phrases": [
-      "for that is an abomination unto the LORD thy God",
-      "at the mouth of one witness he shall not be put to death",
-      "then shalt thou arise, and get thee up unto the place which the LORD thy God sha",
-      "one from among thy brethren shalt thou set king over thee",
-      "neither shall he greatly multiply to himself silver and gold"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 18,
-    "title": "Priests, Levites, and the prophet",
-    "summary_text": "The priests the Levites, [even] all the tribe of Levi, shall have no portion nor inheritance with Israel: they shall eat the offerings of the LORD made by fire, and his inheritance. If a Levite come from any of thy gates out of all Israel, where he sojourneth, and come with all the desire of his soul unto the place which the LORD shall choose;. The LORD thy God will raise up unto thee a prophet from the midst of thee, of thy brethren, like unto me; unto him ye shall hearken;. According to all that thou desiredst of the LORD thy God in Horeb in the day of the assembly, saying, Let me not hear again the voice of the LORD my God, neither let me see this great fire any more, that I die not.",
+    "title": "Support for Levi and a Prophet Like Moses",
+    "summary_text": "The LORD is Levi's inheritance, and the priests live on shares of offerings, sacrifices, firstfruits, and wool. A Levite who comes to serve at God's chosen place shares equally with those there. Israel must reject child sacrifice, sorcery, reading omens, and seeking the dead. God will raise up a prophet like Moses to speak His words, which Israel must obey. False prophets must die, and a failed prediction shows that the LORD did not speak those words.",
     "themes": [
       "Wilderness review",
       "Covenant instruction",
@@ -757,33 +691,29 @@
       "people"
     ],
     "key_points": [
-      "The priests the Levites, [even] all the tribe of Levi, shall have no portion nor inheritance with Israel.",
-      "If a Levite come from any of thy gates out of all Israel.",
-      "The LORD thy God will raise up unto thee a prophet from the midst of thee, of thy brethren, like unto me.",
-      "According to all that thou desiredst of the LORD thy God in Horeb in the day of the assembly."
+      "The priests receive food from sacrifices and firstfruits because the LORD chose Levi for service and is their inheritance.",
+      "A Levite coming to the chosen sanctuary may serve and eat an equal share with the other Levites.",
+      "Israel must reject the nations' child sacrifice, sorcery, divination, and attempts to consult the dead.",
+      "The LORD will provide a prophet like Moses whose words Israel must hear and obey.",
+      "False claims to speak for God bring death, and failed predictions reveal messages that He did not give."
     ],
     "supporting_verses": [
-      "Deuteronomy 18:1",
-      "Deuteronomy 18:6",
-      "Deuteronomy 18:15",
-      "Deuteronomy 18:16",
-      "Deuteronomy 18:12",
-      "Deuteronomy 18:22"
+      "Deuteronomy 18:1-5",
+      "Deuteronomy 18:6-8",
+      "Deuteronomy 18:9-14",
+      "Deuteronomy 18:15-19",
+      "Deuteronomy 18:20-22"
     ],
-    "evidence_phrases": [
-      "they shall eat the offerings of the LORD made by fire, and his inheritance",
-      "If a Levite come from any of thy gates out of all Israel, where he sojourneth, a",
-      "unto him ye shall hearken",
-      "According to all that thou desiredst of the LORD thy God in Horeb in the day of ",
-      "This shall be the priests` due from the people, from them that offer a sacrifice"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 19,
-    "title": "Lest avenger blood pursue manslayer heart",
-    "summary_text": "When the LORD thy God shall cut off the nations, whose land the LORD thy God giveth thee, and thou succeedest them, and dwellest in their cities, and in their houses;. Lest the avenger of blood pursue the manslayer, while his heart is hot, and overtake him, because the way is long, and smite him mortally; whereas he was not worthy of death, inasmuch as he hated him not in time past. If thou shalt keep all this commandment to do it, which I command thee this day, to love the LORD thy God, and to walk ever in his ways; then shalt thou add three cities more for thee, besides these three:. Then both the men, between whom the controversy is, shall stand before the LORD, before the priests and the judges that shall be in those days;.",
+    "title": "Refuge Cities and Safeguards for Fair Trials",
+    "summary_text": "Three refuge cities must give safety to those who kill by accident, with three more added if God expands Israel's land and they obey Him. A planned murder still brings death, even if the killer flees to refuge. Land markers must stay in place to guard each neighbor's inheritance. A charge of sin requires two or three witnesses, and priests and judges must hear disputed claims. A false witness receives the punishment he meant to bring on someone else.",
     "themes": [
       "Covenant instruction",
       "Love and loyalty",
@@ -803,33 +733,29 @@
       "heart"
     ],
     "key_points": [
-      "When the LORD thy God shall cut off the nations.",
-      "Lest the avenger of blood pursue the manslayer, while his heart is hot, and overtake him, because the way is long, and smite him mortally.",
-      "If thou shalt keep all this commandment to do it, which I command thee this day, to love the LORD thy God, and to walk ever in his ways.",
-      "Then both the men."
+      "Roads and three refuge cities must make safety accessible for someone who kills accidentally without hatred.",
+      "If the LORD expands Israel's territory as promised and Israel obeys, three more refuge cities must be added.",
+      "A murderer who planned his attack cannot shelter in refuge but must be handed over for execution.",
+      "Israel must not move the boundary markers that define a neighbor's inheritance.",
+      "Multiple witnesses are required, and a proven false witness receives the punishment he meant to bring on another."
     ],
     "supporting_verses": [
-      "Deuteronomy 19:1",
-      "Deuteronomy 19:6",
-      "Deuteronomy 19:9",
-      "Deuteronomy 19:17",
-      "Deuteronomy 19:11",
-      "Deuteronomy 19:21"
+      "Deuteronomy 19:1-7",
+      "Deuteronomy 19:8-10",
+      "Deuteronomy 19:11-13",
+      "Deuteronomy 19:14",
+      "Deuteronomy 19:15-21"
     ],
-    "evidence_phrases": [
-      "When the LORD thy God shall cut off the nations, whose land the LORD thy God giv",
-      "whereas he was not worthy of death, inasmuch as he hated him not in time past",
-      "then shalt thou add three cities more for thee, besides these three",
-      "Then both the men, between whom the controversy is, shall stand before the LORD",
-      "That innocent blood be not shed in the midst of thy land, which the LORD thy God"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 20,
-    "title": "The Shema and love for God",
-    "summary_text": "When thou goest forth to battle against thine enemies, and seest horses, and chariots, [and] a people more than thou, thou shalt not be afraid of them; for the LORD thy God is with thee, who brought thee up out of the land of Egypt. And shall say unto them, Hear, O Israel, ye draw nigh this day unto battle against your enemies: let not your heart faint; fear not, nor tremble, neither be ye affrighted at them;. The officers shall speak further unto the people, and they shall say, What man is there that is fearful and faint-hearted? let him go and return unto his house, lest his brethren`s heart melt as his heart. Of the cities of these peoples, that the LORD thy God giveth thee for an inheritance, thou shalt save alive nothing that breatheth;.",
+    "title": "Rules for Israel's Army and Sieges",
+    "summary_text": "A priest must urge Israel to trust God in battle, and officers send home men who are afraid or have certain unfinished commitments. Distant cities must first be offered peace, with forced labor if they agree. If they fight, their males are killed and their women, children, and goods taken as spoils. Among the nations given as Israel's inheritance, nothing breathing may be left alive, so their worship will not lead Israel into sin. Fruit trees must be spared during a siege, though other trees may be cut to build siege structures.",
     "themes": [
       "Love and loyalty",
       "Holy living and giving",
@@ -847,33 +773,29 @@
       "people"
     ],
     "key_points": [
-      "When thou goest forth to battle against thine enemies.",
-      "And shall say unto them, Hear, O Israel, ye draw nigh this day unto battle against your enemies: let not your heart faint.",
-      "The officers shall speak further unto the people.",
-      "Of the cities of these peoples, that the LORD thy God giveth thee for an inheritance, thou shalt save alive nothing that breatheth."
+      "The priest tells Israel not to fear larger armies because the LORD will fight alongside them.",
+      "Officers send home men with specified unfinished commitments or fear, then appoint commanders.",
+      "Distant cities receive peace terms before attack; surrender means forced labor, while resistance brings death for males and capture for others.",
+      "The nations within Israel's inheritance must be completely destroyed to prevent their worship from leading Israel into sin.",
+      "Fruit trees must survive a siege, but trees without fruit may be used to build siege structures."
     ],
     "supporting_verses": [
-      "Deuteronomy 20:1",
-      "Deuteronomy 20:3",
-      "Deuteronomy 20:8",
-      "Deuteronomy 20:16",
-      "Deuteronomy 20:11",
-      "Deuteronomy 20:20"
+      "Deuteronomy 20:1-4",
+      "Deuteronomy 20:5-9",
+      "Deuteronomy 20:10-15",
+      "Deuteronomy 20:16-18",
+      "Deuteronomy 20:19-20"
     ],
-    "evidence_phrases": [
-      "for the LORD thy God is with thee, who brought thee up out of the land of Egypt",
-      "let not your heart faint",
-      "The officers shall speak further unto the people, and they shall say, What man i",
-      "Of the cities of these peoples, that the LORD thy God giveth thee for an inherit",
-      "thou shalt build bulwarks against the city that makes war with thee, until it fa"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 21,
-    "title": "thy elders thy judges come forth",
-    "summary_text": "If one be found slain in the land which the LORD thy God giveth thee to possess it, lying in the field, and it be not known who has smitten him;. Forgive, O the LORD, thy people Israel, whom thou hast redeemed, and suffer not innocent blood [to remain] in the midst of thy people Israel. And the blood shall be forgiven them. Shalt thou put away the innocent blood from the midst of thee, when thou shalt do that which is right in the eyes of the LORD. All the men of his city shall stone him to death with stones: so shalt thou put away the evil from the midst of thee; and all Israel shall hear, and fear.",
+    "title": "Removing Bloodguilt and Governing Household Disputes",
+    "summary_text": "For an unsolved killing, the nearest city's elders break a heifer's neck and seek atonement for innocent blood. A captive woman must have a month to mourn before marriage, and if rejected she must go free. A firstborn son gets a double inheritance even if his mother is the less-loved wife. A stubborn son who keeps rebelling must be brought to the elders and stoned by the city's men. Someone put to death for sin and hung on a tree is under God's curse and must be buried that day.",
     "themes": [
       "Love and loyalty",
       "Blessing and curse",
@@ -893,33 +815,29 @@
       "people"
     ],
     "key_points": [
-      "If one be found slain in the land which the LORD thy God giveth thee to possess it.",
-      "Forgive, O the LORD, thy people Israel, whom thou hast redeemed, and suffer not innocent blood [to remain] in the midst of.",
-      "Shalt thou put away the innocent blood from the midst of thee.",
-      "All the men of his city shall stone him to death with stones: so shalt thou put away the evil from the midst of thee."
+      "The nearest city's elders deny responsibility for an unsolved killing and seek atonement for Israel, whom the LORD redeemed.",
+      "A captive woman must mourn before marriage and cannot be sold or enslaved if her husband rejects her.",
+      "The firstborn receives a double share as the firstfruits of his father's strength, regardless of which wife is loved.",
+      "Parents must bring a stubborn, rebellious son to the elders, and the men of his city must stone him.",
+      "An executed person's body hung on a tree must be buried that day because it is under God's curse."
     ],
     "supporting_verses": [
-      "Deuteronomy 21:1",
-      "Deuteronomy 21:8",
-      "Deuteronomy 21:9",
-      "Deuteronomy 21:21",
-      "Deuteronomy 21:12",
-      "Deuteronomy 21:23"
+      "Deuteronomy 21:1-9",
+      "Deuteronomy 21:10-14",
+      "Deuteronomy 21:15-17",
+      "Deuteronomy 21:18-21",
+      "Deuteronomy 21:22-23"
     ],
-    "evidence_phrases": [
-      "If one be found slain in the land which the LORD thy God giveth thee to possess ",
-      "the blood shall be forgiven them",
-      "Shalt thou put away the innocent blood from the midst of thee, when thou shalt d",
-      "all Israel shall hear, and fear",
-      "The priests the sons of Levi shall come near"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 22,
-    "title": "Thou shalt see thy brother s",
-    "summary_text": "Thou shalt not see thy brother`s ox or his sheep go astray, and hide thyself from them: thou shalt surely bring them again unto thy brother. When thou buildest a new house, then thou shalt make a battlement for thy roof, that thou bring not blood upon thy house, if any man fall from thence. Then they shall bring out the damsel to the door of her father`s house, and the men of her city shall stone her to death with stones, because she has wrought folly in Israel, to play the harlot in her father`s house: so shalt thou put away the evil from the midst of thee. Then ye shall bring them both out unto the gate of that city, and ye shall stone them to death with stones; the damsel, because she cried not, being in the city; and the man, because he has humbled his neighbor`s wife: so thou shalt put away the evil from the midst of thee.",
+    "title": "Laws Protect Neighbors and Govern Sexual Conduct",
+    "summary_text": "Israel must return lost goods, help fallen animals, build roof railings, and obey rules about clothes, crops, and birds. Marriage laws punish a husband's false charge and require death for a bride's sexual misconduct before marriage and for adultery. Sex with a woman pledged to marry brings death for both in a city if she did not cry out, but only her attacker dies if he forces her in the country. A man who seizes and has sex with a virgin not pledged to marry must pay her father, marry her, and never divorce her. A man must not marry his father's wife.",
     "themes": [
       "God at work"
     ],
@@ -929,33 +847,29 @@
       "elders"
     ],
     "key_points": [
-      "Thou shalt not see thy brother`s ox or his sheep go astray, and hide thyself from them.",
-      "When thou buildest a new house.",
-      "Then they shall bring out the damsel to the door of her father`s house.",
-      "Then ye shall bring them both out unto the gate of that city, and ye shall stone them to death with stones."
+      "Israel must return lost belongings, help fallen animals, protect life, and observe rules about clothing, birds, planting, and plowing.",
+      "A husband who falsely accuses his bride is punished, while proven premarital promiscuity and adultery carry death sentences.",
+      "The city case punishes both parties, but a betrothed woman forced in the countryside has no sin deserving death.",
+      "A man who seizes an unbetrothed virgin and has sex with her must pay fifty shekels, marry her, and never divorce her.",
+      "A man must not marry his father's wife and dishonor his father's marriage."
     ],
     "supporting_verses": [
-      "Deuteronomy 22:1",
-      "Deuteronomy 22:8",
-      "Deuteronomy 22:21",
-      "Deuteronomy 22:24",
-      "Deuteronomy 22:16",
+      "Deuteronomy 22:1-12",
+      "Deuteronomy 22:13-22",
+      "Deuteronomy 22:23-27",
+      "Deuteronomy 22:28-29",
       "Deuteronomy 22:30"
     ],
-    "evidence_phrases": [
-      "thou shalt surely bring them again unto thy brother",
-      "When thou buildest a new house, then thou shalt make a battlement for thy roof, ",
-      "so shalt thou put away the evil from the midst of thee",
-      "the damsel, because she cried not, being in the city",
-      "But unto the damsel thou shalt do nothing"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 23,
-    "title": "Nevertheless LORD thy God hearken Balaam",
-    "summary_text": "He that is wounded in the stones, or has his privy member cut off, shall not enter into the assembly of the LORD. Nevertheless the LORD thy God would not hearken unto Balaam; but the LORD thy God turned the curse into a blessing unto thee, because the LORD thy God loved thee. He shall dwell with thee, in the midst of thee, in the place which he shall choose within one of thy gates, where it pleaseth him best: thou shalt not oppress him. That which is gone out of thy lips thou shalt observe and do; according as thou hast vowed unto the LORD thy God, a freewill-offering, which thou hast promised with thy mouth.",
+    "title": "Israel's Assembly, Camp, and Daily Dealings",
+    "summary_text": "Moses sets limits on who may join the LORD's assembly, recalling how God turned Balaam's curse into a blessing. Israel must keep its camp holy because the LORD is present there, with rules for anyone unclean and for burying human waste. An escaped slave must receive shelter, shrine prostitution is forbidden, and its earnings cannot fulfill a vow to God. Israelites must not charge one another interest, and failing to keep a vow brings sin. People may eat a neighbor's grapes or grain by hand but may not gather a supply to take away.",
     "themes": [
       "Blessing and curse",
       "Holy living and giving",
@@ -974,33 +888,29 @@
       "children"
     ],
     "key_points": [
-      "He that is wounded in the stones.",
-      "Nevertheless the LORD thy God would not hearken unto Balaam.",
-      "He shall dwell with thee, in the midst of thee, in the place which he shall choose within one of thy gates, where it pleaseth him best.",
-      "That which is gone out of thy lips thou shalt observe and do."
+      "Rules for entering the assembly distinguish several groups and recall God's protection from Balaam's curse.",
+      "The camp must be holy, with provisions for people who become unclean and for disposing of waste.",
+      "Israel must shelter escaped slaves and reject shrine prostitution and offerings from prostitution earnings.",
+      "Loans to fellow Israelites must carry no interest, and vows to the LORD must be kept.",
+      "A neighbor's crops may satisfy immediate hunger but must not be harvested for storage."
     ],
     "supporting_verses": [
-      "Deuteronomy 23:1",
-      "Deuteronomy 23:5",
-      "Deuteronomy 23:16",
-      "Deuteronomy 23:23",
-      "Deuteronomy 23:13",
-      "Deuteronomy 23:25"
+      "Deuteronomy 23:1-8",
+      "Deuteronomy 23:9-14",
+      "Deuteronomy 23:15-18",
+      "Deuteronomy 23:19-23",
+      "Deuteronomy 23:24-25"
     ],
-    "evidence_phrases": [
-      "He that is wounded in the stones, or has his privy member cut off, shall not ent",
-      "Nevertheless the LORD thy God would not hearken unto Balaam",
-      "thou shalt not oppress him",
-      "with thy mouth",
-      "Because they met you not with bread and with water in the way, when ye came fort"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 24,
-    "title": "Take heed plague leprosy thou observe",
-    "summary_text": "When a man taketh a wife, and marrieth her, then it shall be, if she find no favor in his eyes, because he has found some unseemly thing in her, that he shall write her a bill of divorcement, and give it in her hand, and send her out of his house. Take heed in the plague of leprosy, that thou observe diligently, and do according to all that the priests the Levites shall teach you: as I commanded them, so ye shall observe to do. In his day thou shalt give him his hire, neither shall the sun go down upon it; for he is poor, and setteth his heart upon it: lest he cry against thee unto the LORD, and it be sin unto thee. The fathers shall not be put to death for the children, neither shall the children be put to death for the fathers: every man shall be put to death for his own sin.",
+    "title": "Laws Protect Families and People in Need",
+    "summary_text": "A woman divorced and then married to another man cannot return to her first husband. Moses gives rules for new husbands, skin diseases, loans, wages, and punishment for each person's own sin. Returning a poor man's cloak is credited as righteousness before God. Israel must give justice to people in need and leave crops for them to gather. God redeemed Israel from slavery in Egypt, and Moses calls the people to remember this.",
     "themes": [
       "Covenant instruction",
       "Love and loyalty",
@@ -1020,33 +930,29 @@
       "fathers"
     ],
     "key_points": [
-      "When a man taketh a wife.",
-      "Take heed in the plague of leprosy, that thou observe diligently, and do according to all that the priests the Levites shall teach you.",
-      "In his day thou shalt give him his hire, neither shall the sun go down upon it.",
-      "The fathers shall not be put to death for the children, neither shall the children be put to death for the fathers."
+      "A first husband cannot remarry his former wife after her marriage to another man ends.",
+      "New husbands receive a year at home, kidnapping brings death, and priests direct care for skin diseases.",
+      "Lenders must respect borrowers' homes and return a poor person's cloak before night.",
+      "Workers must receive daily wages, and people face death only for their own sin.",
+      "Israel must give justice and harvest leftovers to vulnerable people, remembering its own slavery."
     ],
     "supporting_verses": [
-      "Deuteronomy 24:1",
-      "Deuteronomy 24:8",
-      "Deuteronomy 24:15",
-      "Deuteronomy 24:16",
-      "Deuteronomy 24:12",
-      "Deuteronomy 24:22"
+      "Deuteronomy 24:1-4",
+      "Deuteronomy 24:5-9",
+      "Deuteronomy 24:10-13",
+      "Deuteronomy 24:14-16",
+      "Deuteronomy 24:17-22"
     ],
-    "evidence_phrases": [
-      "When a man taketh a wife, and marrieth her, then it shall be, if she find no fav",
-      "so ye shall observe to do",
-      "for he is poor, and setteth his heart upon it",
-      "every man shall be put to death for his own sin",
-      "Thou shalt not oppress a hired servant that is poor and needy, whether he be of "
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 25,
-    "title": "If there controversy between men come",
-    "summary_text": "If there be a controversy between men, and they come unto judgment, and [the judges] judge them; then they shall justify the righteous, and condemn the wicked;. And it shall be, if the wicked man be worthy to be beaten, that the judge shall cause him to lie down, and to be beaten before his face, according to his wickedness, by number. If the man like not to take his brother`s wife, then his brother`s wife shall go up to the gate unto the elders, and say, My husband`s brother refuseth to raise up unto his brother a name in Israel; he will not perform the duty of a husband`s brother unto me. Thou shalt not have in thy bag diverse weights, a great and a small.",
+    "title": "Justice, Family Duties, and Honest Trade",
+    "summary_text": "Courts must clear the innocent, condemn the guilty, and limit beatings to forty lashes to prevent shame. A man must marry his dead brother's widow to preserve his brother's name if they lived together and the brother died without a son. Refusal brings public shame, while a woman who grabs a man's genitals in a fight must lose her hand. Israel must use honest weights and measures. Once at rest in its land, Israel must wipe out Amalek's memory for attacking its tired stragglers.",
     "themes": [
       "Just leadership",
       "God at work",
@@ -1061,33 +967,29 @@
       "land"
     ],
     "key_points": [
-      "If there be a controversy between men, and they come unto judgment, and [the judges] judge them.",
-      "And it shall be.",
-      "If the man like not to take his brother`s wife.",
-      "Thou shalt not have in thy bag diverse weights, a great and a small."
+      "Courts must condemn the guilty fairly and never punish with more than forty lashes.",
+      "An ox must not be prevented from eating the grain it treads.",
+      "A brother who refuses his duty to his brother's widow faces shame before the elders.",
+      "The law orders a severe penalty for grabbing genitals and requires honest trading measures.",
+      "Israel must erase Amalek's memory after gaining rest because Amalek attacked the weak along the journey."
     ],
     "supporting_verses": [
-      "Deuteronomy 25:1",
-      "Deuteronomy 25:2",
-      "Deuteronomy 25:7",
-      "Deuteronomy 25:13",
-      "Deuteronomy 25:10",
-      "Deuteronomy 25:19"
+      "Deuteronomy 25:1-3",
+      "Deuteronomy 25:4",
+      "Deuteronomy 25:5-10",
+      "Deuteronomy 25:11-16",
+      "Deuteronomy 25:17-19"
     ],
-    "evidence_phrases": [
-      "then they shall justify the righteous, and condemn the wicked",
-      "it shall be, if the wicked man be worthy to be beaten, that the judge shall caus",
-      "he will not perform the duty of a husband`s brother unto me",
-      "Thou shalt not have in thy bag diverse weights, a great and a small",
-      "thou shalt not forget"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 26,
-    "title": "Clean food and tithes",
-    "summary_text": "It shall be, when thou art come in unto the land which the LORD thy God giveth thee for an inheritance, and possessest it, and dwellest therein,. That thou shalt take of the first of all the fruit of the ground, which thou shalt bring in from thy land that the LORD thy God giveth thee; and thou shalt put it in a basket, and shalt go unto the place which the LORD thy God shall choose, to cause his name to dwell there. Thou shalt say before the LORD thy God, I have put away the hallowed things out of my house, and also have given them unto the Levite, and unto the sojourner, to the fatherless, and to the widow, according to all thy commandment which thou hast commanded me: I have not transgressed any of thy commandments, neither have I forgotten them:. This day the LORD thy God commandeth thee to do these statutes and ordinances: thou shalt therefore keep and do them with all thy heart, and with all thy soul.",
+    "title": "Firstfruits and Israel's Commitment to the LORD",
+    "summary_text": "After settling in the land, Israelites must bring firstfruits, the first part of their harvest, to the LORD through the priest. They must recount their family's growth in Egypt, their suffering there, and God's rescue and gift of the land. The third-year tithe must feed Levites, foreigners, orphans, and widows, and the giver must declare that the sacred portion was handled as commanded. Moses calls Israel to obey God wholeheartedly. Israel declares the LORD its God, and He declares Israel His treasured people, promised honor as a holy nation.",
     "themes": [
       "Covenant instruction",
       "Love and loyalty",
@@ -1106,33 +1008,27 @@
       "fathers"
     ],
     "key_points": [
-      "It shall be, when thou art come in unto the land which the LORD thy God giveth thee for an inheritance, and.",
-      "That thou shalt take of the first of all the fruit of the ground, which thou shalt bring in from thy land that the LORD thy God giveth thee.",
-      "Thou shalt say before the LORD thy God.",
-      "This day the LORD thy God commandeth thee to do these statutes and ordinances."
+      "A basket of firstfruits goes before the LORD's altar as the giver acknowledges receiving the land.",
+      "The giver recounts Israel's oppression and rescue, then bows before God and shares in rejoicing.",
+      "The third-year tithe feeds Levites and vulnerable neighbors, with a declaration of obedience and prayer for blessing.",
+      "Israel commits to God's commandments, and He promises to establish it as His honored, holy people."
     ],
     "supporting_verses": [
-      "Deuteronomy 26:1",
-      "Deuteronomy 26:2",
-      "Deuteronomy 26:13",
-      "Deuteronomy 26:16",
-      "Deuteronomy 26:10",
-      "Deuteronomy 26:19"
+      "Deuteronomy 26:1-4",
+      "Deuteronomy 26:5-11",
+      "Deuteronomy 26:12-15",
+      "Deuteronomy 26:16-19"
     ],
-    "evidence_phrases": [
-      "It shall be, when thou art come in unto the land which the LORD thy God giveth t",
-      "thou shalt put it in a basket, and shalt go unto the place which the LORD thy Go",
-      "neither have I forgotten them",
-      "This day the LORD thy God commandeth thee to do these statutes and ordinances",
-      "When thou hast made an end of tithing all the tithe of thine increase in the thi"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 27,
-    "title": "saying, Keep silence, and hearken, O",
-    "summary_text": "Moses and the elders of Israel commanded the people, saying, Keep all the commandment which I command you this day. And thou shalt sacrifice peace-offerings, and shalt eat there; and thou shalt rejoice before the LORD thy God. These shall stand upon mount Ebal for the curse: Reuben, Gad, and Asher, and Zebulun, Dan, and Naphtali. Cursed be he that lieth with his mother-in-law. And all the people shall say, Amen.",
+    "title": "The Law and Curses on Mount Ebal",
+    "summary_text": "Moses commands Israel to write the law on plastered stones after crossing the Jordan. On Mount Ebal they must build an altar, bring offerings, and sacrifice peace offerings with a joyful meal. Moses and the priests urge the people to obey the LORD. The tribes must stand on two mountains for blessings and curses. The people must say Amen to curses against making idols, injustice, forbidden sexual acts, murder, and breaking the law.",
     "themes": [
       "Covenant instruction",
       "Blessing and curse",
@@ -1152,33 +1048,27 @@
       "curse"
     ],
     "key_points": [
-      "Moses and the elders of Israel commanded the people, saying, Keep all the commandment which I command you this day.",
-      "And thou shalt sacrifice peace-offerings, and shalt eat there; and thou shalt rejoice before the LORD thy God.",
-      "These shall stand upon mount Ebal for the curse: Reuben, Gad, and Asher, and Zebulun, Dan, and Naphtali.",
-      "Cursed be he that lieth with his mother-in-law. And all the people shall say, Amen."
+      "Israel must record the words of the law on plastered stones on Mount Ebal.",
+      "An altar of uncut stones will receive burnt offerings and peace offerings, followed by eating and rejoicing.",
+      "Moses and the priests urge obedience, and the tribes are assigned mountains for blessings and curses.",
+      "The people must answer Amen to curses against secret wrongdoing, injustice, sexual sins, murder, and disobedience."
     ],
     "supporting_verses": [
-      "Deuteronomy 27:1",
-      "Deuteronomy 27:7",
-      "Deuteronomy 27:13",
-      "Deuteronomy 27:23",
-      "Deuteronomy 27:14",
-      "Deuteronomy 27:26"
+      "Deuteronomy 27:1-4",
+      "Deuteronomy 27:5-8",
+      "Deuteronomy 27:9-13",
+      "Deuteronomy 27:14-26"
     ],
-    "evidence_phrases": [
-      "saying, Keep all the commandment which I command you this",
-      "thou shalt sacrifice peace-offerings, and shalt eat there",
-      "These shall stand upon mount Ebal for the curse",
-      "all the people shall say, Amen",
-      "Simeon, and Levi, and Judah, and Issachar, and Joseph, and Benjamin"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 28,
-    "title": "LORD command blessing thee thy barns",
-    "summary_text": "It shall come to pass, if thou shalt hearken diligently unto the voice of the LORD thy God, to observe to do all his commandments which I command thee this day, that the LORD thy God will set thee on high above all the nations of the earth:. The LORD will command the blessing upon thee in thy barns, and in all that thou puttest thy hand unto; and he will bless thee in the land which the LORD thy God giveth thee. The LORD will bring thee, and thy king whom thou shalt set over thee, unto a nation that thou hast not known, thou nor thy fathers; and there shalt thou serve other gods, wood and stone. Because thou servedst not the LORD thy God with joyfulness, and with gladness of heart, by reason of the abundance of all things;.",
+    "title": "Blessings for Obedience and Curses for Rebellion",
+    "summary_text": "Moses promises blessings if Israel obeys the LORD's commandments, including rich harvests and victory in battle. If Israel refuses, curses will bring sickness, drought, defeat, and loss. A cruel foreign army will surround its cities, and hunger will drive parents to eat their own children. Refusing God's law will bring lasting plagues and removal from the land. Those scattered among the nations will serve other gods and live in fear, with no relief even in Egypt.",
     "themes": [
       "Covenant instruction",
       "Love and loyalty",
@@ -1198,33 +1088,29 @@
       "fathers"
     ],
     "key_points": [
-      "It shall come to pass.",
-      "The LORD will command the blessing upon thee in thy barns, and in all that thou puttest thy hand unto.",
-      "The LORD will bring thee, and thy king whom thou shalt set over thee, unto a nation that thou hast not known, thou nor thy fathers.",
-      "Because thou servedst not the LORD thy God with joyfulness, and with gladness of heart, by reason of the abundance of all things."
+      "Obedience will bring blessings in family life, farming, work, and battle, establishing Israel as God's holy people.",
+      "Abandoning the LORD will bring curses, sickness, defeat, oppression, and losses that no one will prevent.",
+      "Exile, failed harvests, captivity, and dependence on foreigners will replace Israel's prosperity.",
+      "A merciless nation will lay siege, leaving families so hungry that they eat their children.",
+      "Refusal to obey God's law will end in plagues, scattering, constant fear, and return to Egypt."
     ],
     "supporting_verses": [
-      "Deuteronomy 28:1",
-      "Deuteronomy 28:8",
-      "Deuteronomy 28:36",
-      "Deuteronomy 28:47",
-      "Deuteronomy 28:35",
-      "Deuteronomy 28:68"
+      "Deuteronomy 28:1-14",
+      "Deuteronomy 28:15-35",
+      "Deuteronomy 28:36-48",
+      "Deuteronomy 28:49-57",
+      "Deuteronomy 28:58-68"
     ],
-    "evidence_phrases": [
-      "It shall come to pass, if thou shalt hearken diligently unto the voice of the LO",
-      "he will bless thee in the land which the LORD thy God giveth thee",
-      "there shalt thou serve other gods, wood and stone",
-      "Because thou servedst not the LORD thy God with joyfulness, and with gladness of",
-      "All these curses shall come upon thee, and shall pursue thee, and overtake thee"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 29,
-    "title": "Victory over Sihon and Og",
-    "summary_text": "These are the words of the covenant which the LORD commanded Moses to make with the children of Israel in the land of Moab, besides the covenant which he made with them in Horeb. When ye came unto this place, Sihon the king of Heshbon, and Og the king of Bashan, came out against us unto battle, and we smote them:. And it come to pass, when he heareth the words of this curse, that he bless himself in his heart, saying, I shall have peace, though I walk in the stubbornness of my heart, to destroy the moist with the dry. The LORD will not pardon him, but then the anger of the LORD and his jealousy will smoke against that man, and all the curse that is written in this book shall lie upon him, and the LORD will blot out his name from under heaven.",
+    "title": "Israel Enters the Covenant in Moab",
+    "summary_text": "Moses recalls God's wonders and care, yet says Israel still lacks the understanding He gives. Those gathered in Moab enter God's covenant, which also includes people who are absent. Anyone who turns to idols while expecting peace will face curses, for God will not forgive such rebellion. Later people will see the ruined land and say God's wrath drove Israel out for leaving Him. God's secrets remain His, but Israel and its children must obey the law He has revealed.",
     "themes": [
       "Wilderness review",
       "Covenant instruction",
@@ -1244,33 +1130,29 @@
       "land"
     ],
     "key_points": [
-      "These are the words of the covenant which the LORD commanded Moses to make with the children of Israel in the land of Moab.",
-      "When ye came unto this place, Sihon the king of Heshbon, and Og the king of Bashan, came out against us unto battle, and we smote them.",
-      "And it come to pass.",
-      "The LORD will not pardon him."
+      "Israel has witnessed God's wonders and care but has not received a mind to understand.",
+      "The covenant includes leaders, families, foreigners, and people not present at the gathering.",
+      "A person who worships other gods cannot claim peace while ignoring the covenant's curses.",
+      "Later generations will identify Israel's ruined land and exile as judgment for abandoning God's covenant.",
+      "What God reveals belongs to Israel and its children so they can obey His law."
     ],
     "supporting_verses": [
-      "Deuteronomy 29:1",
-      "Deuteronomy 29:7",
-      "Deuteronomy 29:19",
-      "Deuteronomy 29:20",
-      "Deuteronomy 29:15",
+      "Deuteronomy 29:2-8",
+      "Deuteronomy 29:9-15",
+      "Deuteronomy 29:16-21",
+      "Deuteronomy 29:22-28",
       "Deuteronomy 29:29"
     ],
-    "evidence_phrases": [
-      "besides the covenant which he made with them in Horeb",
-      "When ye came unto this place, Sihon the king of Heshbon, and Og the king of Bash",
-      "it come to pass, when he heareth the words of this curse, that he bless himself ",
-      "The LORD will not pardon him, but then the anger of the LORD and his jealousy wi",
-      "Therefore the anger of the LORD was kindled against this land, to bring upon it "
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 30,
-    "title": "Blessing and curse before the land",
-    "summary_text": "It shall come to pass, when all these things are come upon thee, the blessing and the curse, which I have set before thee, and thou shalt call them to mind among all the nations, whither the LORD thy God has driven thee,. The LORD thy God will circumcise thy heart, and the heart of thy seed, to love the LORD thy God with all thy heart, and with all thy soul, that thou mayest live. If thou shalt obey the voice of the LORD thy God, to keep his commandments and his statutes which are written in this book of the law; if thou turn unto the LORD thy God with all thy heart, and with all thy soul. I call heaven and earth to witness against you this day, that I have set before thee life and death, the blessing and the curse: therefore choose life, that thou mayest live, thou and thy seed;.",
+    "title": "Return to the LORD and Choose Life",
+    "summary_text": "Moses says that if scattered Israel returns to the LORD wholeheartedly, He will gather the people and restore them to their land. God will circumcise their hearts so they love Him and live, and He will place the curses on their enemies. His commandments are within reach, with His word already in their hearts and mouths. Moses sets life and blessing against death and disaster, depending on whether Israel obeys God or turns to other gods. He urges the people to choose life by loving the LORD, obeying Him, and holding firmly to Him.",
     "themes": [
       "Covenant instruction",
       "Love and loyalty",
@@ -1289,33 +1171,27 @@
       "fathers"
     ],
     "key_points": [
-      "It shall come to pass.",
-      "The LORD thy God will circumcise thy heart.",
-      "If thou shalt obey the voice of the LORD thy God, to keep his commandments and his statutes which are written in this book of the law.",
-      "I call heaven and earth to witness against you this day, that I have set before thee life and death, the blessing and the curse."
+      "The LORD will gather His scattered people when they return to Him and obey.",
+      "God will circumcise their hearts, restore their prosperity, and turn the curses against their enemies.",
+      "The law's command is near enough to know and obey, rather than beyond their reach.",
+      "Moses urges Israel to choose life through love and obedience, warning that worshiping other gods brings death."
     ],
     "supporting_verses": [
-      "Deuteronomy 30:1",
-      "Deuteronomy 30:6",
-      "Deuteronomy 30:10",
-      "Deuteronomy 30:19",
-      "Deuteronomy 30:11",
-      "Deuteronomy 30:20"
+      "Deuteronomy 30:1-5",
+      "Deuteronomy 30:6-10",
+      "Deuteronomy 30:11-14",
+      "Deuteronomy 30:15-20"
     ],
-    "evidence_phrases": [
-      "It shall come to pass, when all these things are come upon thee, the blessing an",
-      "The LORD thy God will circumcise thy heart, and the heart of thy seed, to love t",
-      "if thou turn unto the LORD thy God with all thy heart, and with all thy soul",
-      "therefore choose life, that thou mayest live, thou and thy seed",
-      "In that I command thee this day to love the LORD thy God, to walk in his ways, a"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 31,
-    "title": "Joshua commissioned and the law read",
-    "summary_text": "Moses went and spoke these words unto all Israel. Moses wrote this law, and delivered it unto the priests the sons of Levi, that bare the ark of the covenant of the LORD, and unto all the elders of Israel. Therefore write ye this song for you, and teach thou it the children of Israel: put it in their mouths, that this song may be a witness for me against the children of Israel. It shall come to pass, when many evils and troubles are come upon them, that this song shall testify before them as a witness; for it shall not be forgotten out of the mouths of their seed: for I know their imagination which they frame this day, before I have brought them into the land which I swore.",
+    "title": "Joshua Is Commissioned as Moses Prepares to Die",
+    "summary_text": "As Moses nears death, he tells Israel that Joshua will lead them across the Jordan with the LORD's help. He gives the written law to the priests and elders for reading aloud to everyone every seven years. God appoints Joshua but warns Moses that Israel will break His covenant and serve other gods, and that in His anger He will abandon them to destruction and suffering. Moses teaches a song that will stand as a witness against them. He orders the law kept beside the ark and warns the leaders of coming rebellion.",
     "themes": [
       "Covenant instruction",
       "Love and loyalty",
@@ -1334,33 +1210,29 @@
       "priests"
     ],
     "key_points": [
-      "Moses went and spoke these words unto all Israel.",
-      "Moses wrote this law.",
-      "Therefore write ye this song for you, and teach thou it the children of Israel.",
-      "It shall come to pass, when many evils and troubles are come upon them, that this song shall testify before them as a witness."
+      "Moses encourages Israel and Joshua because the LORD will accompany them into the land.",
+      "Priests and elders must have the law read to everyone every seven years at the Feast of Tabernacles.",
+      "The LORD foretells Israel's betrayal of His covenant and commands a song as a witness against them.",
+      "God commissions Joshua, and Moses orders the completed law placed beside the ark as a witness.",
+      "Moses gathers Israel's leaders, warns of corruption after his death, and recites the song to the people."
     ],
     "supporting_verses": [
-      "Deuteronomy 31:1",
-      "Deuteronomy 31:9",
-      "Deuteronomy 31:19",
-      "Deuteronomy 31:21",
-      "Deuteronomy 31:16",
-      "Deuteronomy 31:30"
+      "Deuteronomy 31:1-8",
+      "Deuteronomy 31:9-13",
+      "Deuteronomy 31:14-22",
+      "Deuteronomy 31:23-27",
+      "Deuteronomy 31:28-30"
     ],
-    "evidence_phrases": [
-      "Moses went and spoke these words unto all Israel",
-      "Moses wrote this law, and delivered it unto the priests the sons of Levi, that b",
-      "Therefore write ye this song for you, and teach thou it the children of Israel",
-      "for it shall not be forgotten out of the mouths of their seed",
-      "Moses spoke in the ears of all the assembly of Israel the words of this song, un"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06, fix 1",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 32,
-    "title": "Justice, kings, and priests",
-    "summary_text": "Give ear, ye heavens, and I will speak; And let the earth hear the words of my mouth. When the Most High gave to the nations their inheritance, When he separated the children of men, He set the bounds of the peoples According to the number of the children of Israel. Were it not that I feared the provocation of the enemy, Lest their adversaries should judge amiss, Lest they should say, Our hand is exalted, And the LORD has not done all this. Moses came and spoke all the words of this song in the ears of the people, he, and Hoshea the son of Nun.",
+    "title": "Moses Sings of Israel's Unfaithfulness and Judgment",
+    "summary_text": "Moses' song praises the LORD as a righteous, faithful Rock who cared for Israel like an eagle for its young. Israel grew rich but left Him, sacrificing to demons and turning to idols. The LORD declares judgment but will not let enemies claim credit for His acts. He will pity His powerless people, expose their helpless gods, avenge His servants, and cleanse His land and people. After the song, Moses urges Israel to keep the law, and God sends him to view Canaan before dying outside it.",
     "themes": [
       "Wilderness review",
       "Covenant instruction",
@@ -1380,32 +1252,29 @@
       "land"
     ],
     "key_points": [
-      "Give ear, ye heavens, and I will speak; And let the earth hear the words of my mouth.",
-      "When the Most High gave to the nations their inheritance.",
-      "Were it not that I feared the provocation of the enemy.",
-      "Moses came and spoke all the words of this song in the ears of the people."
+      "The song contrasts God's faithfulness and fatherly care with Israel's corruption and ingratitude.",
+      "Israel abandons its saving Rock for demons and idols, provoking anger pictured as fire reaching Sheol.",
+      "The LORD restrains destruction lest enemies boast, while the song exposes Israel's lack of understanding.",
+      "The LORD promises compassion for His powerless servants and vengeance against His enemies.",
+      "Moses urges obedience, then learns he will die outside Canaan because he broke faith and failed to treat God as holy."
     ],
     "supporting_verses": [
-      "Deuteronomy 32:1",
-      "Deuteronomy 32:8",
-      "Deuteronomy 32:27",
-      "Deuteronomy 32:44",
-      "Deuteronomy 32:52"
+      "Deuteronomy 32:1-14",
+      "Deuteronomy 32:15-25",
+      "Deuteronomy 32:26-35",
+      "Deuteronomy 32:36-43",
+      "Deuteronomy 32:44-52"
     ],
-    "evidence_phrases": [
-      "Give ear, ye heavens, and I will speak",
-      "to the nations their inheritance, When he separated the children",
-      "Were it not that I feared the provocation of the enemy, Lest their adversaries s",
-      "Moses came and spoke all the words of this song in the ears of the people, he, a",
-      "behold the land of Canaan, which I give unto the children of Israel for a posses"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 33,
-    "title": "blessing wherewith Moses man God blessed",
-    "summary_text": "This is the blessing, wherewith Moses the man of God blessed the children of Israel before his death. He said, the LORD came from Sinai, And rose from Seir unto them; He shined forth from mount Paran, And he came from the ten thousands of holy ones: At his right hand was a fiery law for them. For the precious things of the earth and the fulness thereof, And the good will of him that dwelt in the bush. Let [the blessing] come upon the head of Joseph, And upon the crown of the head of him that was separate from his brethren. Of Naphtali he said, O Naphtali, satisfied with favor, And full with the blessing of the LORD, Possess thou the west and the south.",
+    "title": "Moses Blesses the Tribes of Israel",
+    "summary_text": "Before dying, Moses blesses Israel and praises the LORD, who came with holy ones and gave His people the law. He speaks to the named tribes with prayers for life, help, rich crops, safety, and strength. Levi's words concern teaching and worship, while Joseph's describe fruitful land and power against nations. Moses ends by praising the eternal God as the shelter and defender of the people He saved.",
     "themes": [
       "Covenant instruction",
       "Love and loyalty",
@@ -1424,33 +1293,29 @@
       "people"
     ],
     "key_points": [
-      "This is the blessing, wherewith Moses the man of God blessed the children of Israel before his death.",
-      "He said, the LORD came from Sinai, And rose from Seir unto them.",
-      "For the precious things of the earth and the fulness thereof.",
-      "Of Naphtali he said."
+      "Moses begins his blessing by recalling the LORD's coming, His love for His people, and His law.",
+      "Moses asks life for Reuben and help for Judah, then praises Levi's covenant loyalty, teaching, and offerings.",
+      "Benjamin is sheltered by God, and Joseph receives blessings of rich land and power over nations.",
+      "Moses blesses the remaining named tribes with abundance, strength, security, and sacrifices of righteousness.",
+      "The closing blessing praises the eternal God as Israel's refuge, defender, and source of victory."
     ],
     "supporting_verses": [
-      "Deuteronomy 33:1",
-      "Deuteronomy 33:2",
-      "Deuteronomy 33:16",
-      "Deuteronomy 33:23",
-      "Deuteronomy 33:15",
-      "Deuteronomy 33:29"
+      "Deuteronomy 33:1-5",
+      "Deuteronomy 33:6-11",
+      "Deuteronomy 33:12-17",
+      "Deuteronomy 33:18-25",
+      "Deuteronomy 33:26-29"
     ],
-    "evidence_phrases": [
-      "This is the blessing, wherewith Moses the man of God blessed the children of Isr",
-      "the LORD came from Sinai, And rose from Seir unto",
-      "For the precious things of the earth and the fulness thereof, And the good will ",
-      "O Naphtali, satisfied with favor, And full with the blessing",
-      "Hear, the LORD, the voice of Judah, And bring him"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 5,
     "chapter": 34,
-    "title": "Moses dies on Mount Nebo",
-    "summary_text": "Moses went up from the plains of Moab unto mount Nebo, to the top of Pisgah, that is over against Jericho. And the LORD showed him all the land of Gilead, unto Dan,. The LORD said unto him, This is the land which I swore unto Abraham, unto Isaac, and unto Jacob, saying, I will give it unto thy seed: I have caused thee to see it with thine eyes, but thou shalt not go over thither. Moses the servant of the LORD died there in the land of Moab, according to the word of the LORD. There has not arisen a prophet since in Israel like unto Moses, whom the LORD knew face to face,.",
+    "title": "Moses Dies After Seeing the Land",
+    "summary_text": "From Mount Nebo, the LORD shows Moses the land He swore to give Abraham, Isaac, and Jacob's descendants, but Moses will not enter it. Moses dies in Moab at 120, with his sight and strength still intact, and the LORD buries him in a place no one knows. Israel mourns him for thirty days. Joshua, filled with the spirit of wisdom after Moses laid hands on him, receives the people's obedience. The account closes by honoring Moses as an unmatched prophet, known personally by the LORD and sent to perform mighty wonders in Egypt and before Israel.",
     "themes": [
       "Song, blessing, and farewell",
       "Moses and leadership",
@@ -1464,25 +1329,19 @@
       "children"
     ],
     "key_points": [
-      "Moses went up from the plains of Moab unto mount Nebo.",
-      "The LORD said unto him, This is the land which I swore unto Abraham, unto Isaac, and unto Jacob, saying, I will give it unto thy seed.",
-      "Moses the servant of the LORD died there in the land of Moab, according to the word of the LORD.",
-      "There has not arisen a prophet since in Israel like unto Moses, whom the LORD knew face to face,."
+      "The LORD lets Moses see the promised land from Mount Nebo while denying him entry.",
+      "Moses dies at 120, the LORD buries him, and Israel mourns for thirty days.",
+      "Joshua has the spirit of wisdom and receives Israel's obedience after Moses laid hands on him.",
+      "Moses is remembered as an unmatched prophet because of his closeness to God and mighty deeds."
     ],
     "supporting_verses": [
-      "Deuteronomy 34:1",
-      "Deuteronomy 34:4",
-      "Deuteronomy 34:5",
-      "Deuteronomy 34:10",
-      "Deuteronomy 34:7",
-      "Deuteronomy 34:12"
+      "Deuteronomy 34:1-4",
+      "Deuteronomy 34:5-8",
+      "Deuteronomy 34:9",
+      "Deuteronomy 34:10-12"
     ],
-    "evidence_phrases": [
-      "the LORD showed him all the land of Gilead, unto Dan",
-      "This is the land which I swore unto Abraham, unto",
-      "Moses the servant of the LORD died there in the land of Moab, according to the w",
-      "There has not arisen a prophet since in Israel like unto Moses, whom the LORD kn",
-      "all Naphtali, and the land of Ephraim and Manasseh, and all the land of Judah, u"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   }
 ]

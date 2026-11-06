@@ -1,10 +1,10 @@
 [
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 7,
     "chapter": 1,
-    "title": "Incomplete conquest and early failures",
-    "summary_text": "After Joshua's death, Judah leads the first campaigns, but the book quickly shows that conquest is incomplete and uneven. Some tribes defeat key enemies, while others fail to drive out Canaanites and instead live alongside them. The chapter introduces the pattern of partial obedience that will mark much of Judges.",
+    "title": "Israel's Victories Leave Many Nations in Place",
+    "summary_text": "After Joshua dies, the LORD sends Judah first to fight, and Simeon joins it. A captured king loses his thumbs and big toes, which he sees as God's repayment for his own cruelty. Judah takes cities, and Othniel marries Acsah after capturing Debir. Joseph's descendants take Bethel, but many tribes leave the local people in place. Some impose forced labor, while Amorites force Dan into the hills.",
     "themes": [
       "Post-Joshua transition",
       "Incomplete obedience",
@@ -21,33 +21,29 @@
       "Adoni-bezek"
     ],
     "key_points": [
-      "Judah begins the post-Joshua fighting.",
-      "Caleb's family continues to show courage.",
-      "Several tribes fail to drive out the inhabitants.",
-      "The chapter records both victories and compromises.",
-      "Israel's partial obedience plants future trouble."
+      "Judah and Simeon fight together, and the captured Adoni-bezek sees his mutilation as repayment for his own actions.",
+      "Judah captures Jerusalem, and Othniel's victory at Debir leads to marriage with Acsah, who asks Caleb for a blessing of springs.",
+      "Judah gains territory but cannot remove the plains' inhabitants, while Benjamin leaves the Jebusites in Jerusalem.",
+      "Joseph's descendants capture Bethel with a resident's help and spare his family.",
+      "Several tribes leave Canaanites among them, and Amorites force Dan into the hill country."
     ],
     "supporting_verses": [
       "Judges 1:1-7",
-      "Judges 1:8-21",
-      "Judges 1:22-36",
-      "Judges 1:1-36",
-      "Judges 1:8-36"
+      "Judges 1:8-15",
+      "Judges 1:16-21",
+      "Judges 1:22-26",
+      "Judges 1:27-36"
     ],
-    "evidence_phrases": [
-      "Who shall go up for us",
-      "Judah shall go up",
-      "they did not drive out",
-      "the children of Benjamin did not drive out",
-      "the Canaanite dwelt among them"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 7,
     "chapter": 2,
-    "title": "The angel rebukes Israel",
-    "summary_text": "The angel of the LORD rebukes Israel at Bochim for making covenant with the inhabitants of the land and for tearing down altars too slowly. The chapter then explains the cycle that will define Judges: Israel forsakes the LORD, oppression follows, they cry out, and the LORD raises deliverers. Even in judgment, God's compassion remains evident as he is moved by the groaning of his people.",
+    "title": "Israel Abandons the LORD and Needs Rescuers",
+    "summary_text": "The LORD's angel rebukes Israel for breaking God's covenant: the remaining peoples will be thorns, and their gods will be snares. The people weep and offer sacrifices. Israel had served God under Joshua and the elders, but the next generation does not know Him or His works. They worship other gods, and the LORD gives them over to enemies, then raises judges to save them. Israel returns to worse evil when each judge dies, so God leaves nations to test the people who have transgressed His covenant.",
     "themes": [
       "Covenant breach",
       "Divine rebuke",
@@ -63,33 +59,29 @@
       "the LORD"
     ],
     "key_points": [
-      "Israel is rebuked for failing to finish the conquest.",
-      "The land becomes a source of temptation.",
-      "A new generation forgets the LORD's works.",
-      "The book explains the rise of judges.",
-      "God still hears the groaning of his oppressed people."
+      "The LORD's angel announces consequences for disobedience, and Israel responds with tears and sacrifices at Bochim.",
+      "After Joshua and his generation die, a generation grows up without knowing the LORD or His works.",
+      "Israel abandons the LORD for other gods, and He gives its enemies power over it.",
+      "The LORD raises judges to save Israel, but the people return to deeper corruption after each judge's death.",
+      "God leaves nations in the land to test Israel because it has transgressed His covenant."
     ],
     "supporting_verses": [
       "Judges 2:1-5",
       "Judges 2:6-10",
       "Judges 2:11-15",
-      "Judges 2:16-23",
-      "Judges 2:1-23"
+      "Judges 2:16-19",
+      "Judges 2:20-23"
     ],
-    "evidence_phrases": [
-      "you have not obeyed my voice",
-      "I will not drive them out",
-      "the people wept aloud",
-      "there arose another generation",
-      "the LORD raised up judges"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 7,
     "chapter": 3,
-    "title": "Othniel, Ehud, and Shamgar",
-    "summary_text": "The chapter opens with the nations left in the land as a test for Israel, then moves through three early deliverers. Othniel frees Israel from Aram, Ehud kills Eglon with a hidden dagger and leads a victory over Moab, and Shamgar strikes down Philistines with an oxgoad. Together they show that the LORD can save by unexpected people and unexpected means.",
+    "title": "Othniel, Ehud, and Shamgar Rescue Israel",
+    "summary_text": "The LORD leaves nations to test Israel and teach it war, but Israel marries among them and serves their gods. When Israel cries out after eight years of foreign rule, God's Spirit empowers Othniel to rescue it, bringing forty years of rest. Israel does evil again, and Eglon of Moab rules for eighteen years before God sends Ehud to save them. Ehud kills the king, escapes, and leads Israel to defeat Moab at the Jordan crossings, bringing eighty years of rest. Shamgar also saves Israel, killing six hundred Philistines with an oxgoad.",
     "themes": [
       "Testing and training",
       "Deliverance",
@@ -106,33 +98,29 @@
       "the LORD"
     ],
     "key_points": [
-      "The remaining nations test Israel's faithfulness.",
-      "Othniel brings the first recorded deliverance.",
-      "Ehud's bold assassination defeats Moab.",
-      "Shamgar kills Philistines with an oxgoad.",
-      "God uses humble instruments to rescue his people."
+      "The remaining nations test whether Israel will keep God's commandments, but Israel intermaries with them and serves their gods.",
+      "The Spirit of the LORD empowers Othniel to defeat Israel's oppressor, and the land rests for forty years.",
+      "After eighteen years of Moabite rule, Ehud carries tribute to Eglon and kills him with a hidden sword.",
+      "Ehud escapes and leads Israel to defeat Moab at the Jordan crossings, followed by eighty years of rest.",
+      "Shamgar saves Israel by striking down six hundred Philistines with an oxgoad."
     ],
     "supporting_verses": [
-      "Judges 3:1-11",
-      "Judges 3:12-30",
-      "Judges 3:31",
-      "Judges 3:1-31",
-      "Judges 3:12-31"
+      "Judges 3:1-7",
+      "Judges 3:8-11",
+      "Judges 3:12-25",
+      "Judges 3:26-30",
+      "Judges 3:31"
     ],
-    "evidence_phrases": [
-      "the children of Israel did that which was evil",
-      "the Spirit of the LORD came on him",
-      "he had made himself a sword",
-      "I have a message from God for you",
-      "he also saved Israel"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 7,
     "chapter": 4,
-    "title": "Deborah and Barak",
-    "summary_text": "Deborah, a prophet and judge, summons Barak to gather troops against Sisera and Jabin's iron chariots. Barak wins the battle only when the LORD throws the enemy into confusion and drives Sisera to flight, where Jael finishes him with a tent peg. The chapter shows that deliverance comes through prophetic direction, courage, and surprising instruments.",
+    "title": "Deborah, Barak, and Jael Defeat Sisera",
+    "summary_text": "Israel does evil again, and God gives it over to Jabin, whose commander Sisera has nine hundred iron chariots. Deborah, a prophetess, judges Israel and gives Barak God's command to lead an attack. He will go only if she comes, and she says a woman will receive the honor over Sisera. The LORD defeats Sisera's army, but he escapes to Jael's tent, where she kills him with a tent peg as he sleeps. Barak finds him dead, and Israel grows stronger until Jabin is destroyed.",
     "themes": [
       "Prophetic leadership",
       "Faith under fear",
@@ -149,33 +137,29 @@
       "the LORD"
     ],
     "key_points": [
-      "Deborah calls Barak to battle.",
-      "The LORD defeats Sisera's army.",
-      "Jael kills Sisera in her tent.",
-      "The enemy's power is broken by a woman.",
-      "Israel's victory comes through obedience to God's word."
+      "Israel cries to the LORD after twenty years of oppression under Jabin and Sisera's chariots.",
+      "Deborah gives judgment in Israel and delivers God's command for Barak to lead ten thousand men into battle.",
+      "Barak insists that Deborah accompany him, and she announces that a woman will receive the honor over Sisera.",
+      "The LORD defeats Sisera's army, while Jael kills the fleeing commander as he sleeps in her tent.",
+      "God subdues Jabin, and Israel presses against him until he is destroyed."
     ],
     "supporting_verses": [
-      "Judges 4:1-10",
-      "Judges 4:11-16",
-      "Judges 4:17-24",
-      "Judges 4:1-24",
-      "Judges 4:11-24"
+      "Judges 4:1-3",
+      "Judges 4:4-7",
+      "Judges 4:8-10",
+      "Judges 4:12-22",
+      "Judges 4:23-24"
     ],
-    "evidence_phrases": [
-      "Haven't the LORD commanded you",
-      "the LORD routed Sisera",
-      "a woman shall sell Sisera",
-      "he fell at her feet",
-      "the hand of the children of Israel prospered"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 7,
     "chapter": 5,
-    "title": "Deborah's song",
-    "summary_text": "Deborah and Barak celebrate the victory in a poetic song that remembers willing tribes, condemns hesitant ones, and praises the LORD as warrior and deliverer. The song highlights Jael's courage and Sisera's shame, turning the battle into a theological memory. Israel's triumph is framed as a gift from the LORD, not a human achievement.",
+    "title": "Deborah and Barak Sing of the LORD's Victory",
+    "summary_text": "Deborah and Barak praise the LORD's righteous acts and Israel's willing fighters. They recall fear on the roads, honor tribes that fought, and question those that stayed away. The song pictures stars and the Kishon fighting Sisera, curses Meroz, and blesses Jael for killing him. His mother waits, thinking he is still dividing plunder, including captive girls. It asks that God's enemies die and those who love Him shine like the sun, and the land rests forty years.",
     "themes": [
       "Praise after deliverance",
       "Willingness and hesitation",
@@ -192,33 +176,29 @@
       "the LORD"
     ],
     "key_points": [
-      "The song praises tribes that volunteered.",
-      "It rebukes tribes that stayed behind.",
-      "Jael is honored for striking Sisera down.",
-      "The LORD's storm and victory are celebrated.",
-      "The chapter turns battle into worship."
+      "Deborah and Barak praise the LORD's power and Israel's volunteers after recalling the people's former distress.",
+      "The song honors tribes that fought and challenges those that remained away from the battle.",
+      "Stars and the Kishon fight against Sisera, while the LORD's angel curses Meroz for failing to help.",
+      "Jael is blessed for killing Sisera, while his mother imagines his delayed return means he is gathering plunder.",
+      "The closing wish contrasts the fate of God's enemies with those who love Him, and the land rests forty years."
     ],
     "supporting_verses": [
-      "Judges 5:1-11",
-      "Judges 5:12-18",
+      "Judges 5:1-12",
+      "Judges 5:13-18",
       "Judges 5:19-23",
-      "Judges 5:24-31",
-      "Judges 5:1-31"
+      "Judges 5:24-30",
+      "Judges 5:31"
     ],
-    "evidence_phrases": [
-      "I, even I, will sing to the LORD",
-      "awake, awake, Deborah",
-      "the stars fought from heaven",
-      "blessed above women shall Jael be",
-      "let all your enemies perish, O LORD"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 7,
     "chapter": 6,
-    "title": "Gideon is called",
-    "summary_text": "When Midian devastates the land, Gideon hides in fear until the angel of the LORD calls him a mighty man of valor. Gideon asks for signs, destroys his father's Baal altar, and hears God promise victory with him. The chapter begins a deliverance story that rests entirely on divine initiative and human weakness.",
+    "title": "The LORD Calls Gideon to Save Israel",
+    "summary_text": "Midian's raids leave Israel hungry and hiding, and a prophet says the people have disobeyed God. The LORD's angel appears to Gideon, and God sends him to save Israel despite his doubts. Fire consumes his offering, and God calms his fear. Gideon builds an altar, then destroys his father's altar to Baal at night, and his father defends him from the townspeople. God's Spirit empowers him to gather fighters, and God grants two signs with dew and a fleece.",
     "themes": [
       "Oppression by Midian",
       "Calling of Gideon",
@@ -235,33 +215,29 @@
       "the LORD"
     ],
     "key_points": [
-      "Midian's oppression drives Israel to cry out.",
-      "Gideon is called while threshing in secret.",
-      "He tears down his father's Baal altar.",
-      "God accepts Gideon's sacrifice by fire.",
-      "The mission begins with fear and reassurance."
+      "Israel cries out under Midian's raids, and a prophet confronts its failure to obey the LORD.",
+      "God commissions Gideon, confirms the encounter through fire, and reassures him; Gideon names his altar The LORD Is Peace.",
+      "Gideon destroys Baal's altar and makes a burnt offering to the LORD, while Joash challenges Baal to defend himself.",
+      "As enemy forces gather, the Spirit of the LORD empowers Gideon to summon Israelite fighters.",
+      "God grants Gideon's fleece signs, first wet wool on dry ground and then dry wool on wet ground."
     ],
     "supporting_verses": [
       "Judges 6:1-10",
       "Judges 6:11-24",
       "Judges 6:25-32",
-      "Judges 6:33-40",
-      "Judges 6:1-40"
+      "Judges 6:33-35",
+      "Judges 6:36-40"
     ],
-    "evidence_phrases": [
-      "the LORD is with you, you mighty man of valor",
-      "Go in this your might",
-      "throw down the altar of Baal",
-      "the Spirit of the LORD came on Gideon",
-      "if now I have found favor in your sight"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 7,
     "chapter": 7,
-    "title": "Gideon's reduced army",
-    "summary_text": "God reduces Gideon's army so that Israel cannot boast in its own strength, leaving only three hundred men. With trumpets, pitchers, and torches, the small band surrounds the Midianite camp and God throws the enemy into panic and self-destruction. The chapter makes the point that victory comes by the LORD's power, not by numbers.",
+    "title": "The LORD Defeats Midian Through Three Hundred",
+    "summary_text": "God reduces Gideon's army to three hundred so Israel cannot claim it saved itself. Gideon visits the enemy camp and hears a man explain a dream as a sign of his victory. He worships, then returns and divides his men into three groups with horns, jars, and torches. They blow the horns, smash the jars, and shout, while God makes the enemy soldiers turn their swords on each other. Other Israelites join the chase, and Ephraim seizes the crossings and kills Oreb and Zeeb.",
     "themes": [
       "Divine reduction",
       "Faith over numbers",
@@ -276,33 +252,27 @@
       "the LORD"
     ],
     "key_points": [
-      "God trims Gideon's army in stages.",
-      "The small group receives a strange battle plan.",
-      "The Midianites turn on one another in panic.",
-      "The victory prevents Israel from boasting.",
-      "God proves strong through weakness."
+      "God sends most of Gideon's men home so Israel cannot glorify itself for the rescue.",
+      "Gideon hears a soldier interpret a dream as God giving him victory, then worships and returns encouraged.",
+      "Three groups surround the enemy with horns and torches, and the LORD makes the soldiers attack one another.",
+      "Israel pursues the fleeing army, and Ephraim captures the crossings and kills Oreb and Zeeb."
     ],
     "supporting_verses": [
       "Judges 7:1-8",
       "Judges 7:9-15",
-      "Judges 7:16-25",
-      "Judges 7:1-25",
-      "Judges 7:1-15"
+      "Judges 7:16-22",
+      "Judges 7:23-25"
     ],
-    "evidence_phrases": [
-      "the people with you are too many",
-      "the LORD set every man's sword against his fellow",
-      "the sword of the LORD and of Gideon",
-      "the people bowed down and worshiped",
-      "the LORD has delivered Midian into your hand"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 7,
     "chapter": 8,
-    "title": "Gideon's victory and ephod",
-    "summary_text": "Gideon pursues the fleeing Midianite kings, crossing rivers and punishing Succoth and Penuel when they refuse to help him. He defeats Zebah and Zalmunna and rejects the offer to rule, insisting that the LORD should govern Israel. Yet the ephod he makes becomes a snare, and the chapter ends with Gideon's death and Israel's relapse into idolatry.",
+    "title": "Gideon's Victory Ends in a New Snare",
+    "summary_text": "Gideon calms Ephraim's anger, then pursues and captures Midian's kings. He punishes Succoth with thorns, tears down Penuel's tower and kills its men, then kills the kings for killing his brothers. He refuses to make his family rulers but makes a gold ephod that Israel worships and that becomes a snare. The land rests forty years during his life, and his sons include Abimelech, born to his concubine. After Gideon dies, Israel serves the Baals again, forgets God's rescue, and shows no kindness to Gideon's family.",
     "themes": [
       "Pursuit and revenge",
       "Refusal of kingship",
@@ -319,33 +289,29 @@
       "the LORD"
     ],
     "key_points": [
-      "Gideon finishes the battle against Midian.",
-      "He punishes towns that refused him bread.",
-      "He declines kingship over Israel.",
-      "The ephod becomes a spiritual trap.",
-      "Gideon's death is followed by renewed Baal worship."
+      "Gideon quiets Ephraim's complaint by honoring its capture of Midian's princes.",
+      "Gideon captures Midian's kings, punishes towns that refused food, and kills the kings to avenge his brothers.",
+      "Israel asks Gideon to rule because he saved them, but he says the LORD must rule; his ephod becomes a snare through false worship.",
+      "Midian remains subdued during forty years of rest, and Gideon's family includes many sons and Abimelech.",
+      "After Gideon's death, Israel serves the Baals, forgets the LORD, and shows no kindness to Gideon's household."
     ],
     "supporting_verses": [
-      "Judges 8:1-9",
-      "Judges 8:10-21",
-      "Judges 8:22-28",
-      "Judges 8:29-35",
-      "Judges 8:1-35"
+      "Judges 8:1-3",
+      "Judges 8:4-21",
+      "Judges 8:22-27",
+      "Judges 8:28-32",
+      "Judges 8:33-35"
     ],
-    "evidence_phrases": [
-      "the LORD has delivered Zebah and Zalmunna",
-      "I will not rule over you",
-      "the LORD will rule over you",
-      "it became a snare to Gideon and to his house",
-      "they remembered not the LORD"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 7,
     "chapter": 9,
-    "title": "Abimelech's rise and ruin",
-    "summary_text": "Abimelech murders his brothers and is crowned by the men of Shechem, but Jotham's parable warns that the bramble-king will burn both cedar and vine alike. Betrayal spreads through Shechem and Abimelech's rule collapses into bloodshed, curses, and a fatal blow from a millstone woman. The chapter is a dark satire on kingship without covenant faithfulness.",
+    "title": "Abimelech and Shechem Destroy Each Other",
+    "summary_text": "Shechem helps Abimelech kill his brothers and become king, but Jotham escapes and warns them with a story about trees choosing a thornbush to rule. His curse warns that they will destroy each other. God sends a spirit of hostility to punish their wickedness. Abimelech defeats Gaal's revolt, destroys Shechem, and burns those hiding in its temple. At Thebez, a woman crushes his skull with a millstone, and his armor-bearer kills him at his request, bringing God's judgment on his crimes.",
     "themes": [
       "Illegitimate kingship",
       "Fratricide",
@@ -362,33 +328,29 @@
       "the LORD"
     ],
     "key_points": [
-      "Abimelech seizes power by killing his brothers.",
-      "Jotham's parable exposes the danger of his rule.",
-      "Shechem turns against Abimelech.",
-      "God sends evil between the ruler and the city.",
-      "The chapter ends with Abimelech's shameful death."
+      "Abimelech gains Shechem's support and kills his brothers, while Jotham escapes.",
+      "Jotham's story and curse warn that Abimelech and Shechem will bring destruction on each other.",
+      "God sends a spirit of hostility to bring justice for the brothers' blood.",
+      "Abimelech defeats Gaal, destroys Shechem, and burns those hiding in the temple.",
+      "Abimelech dies after a woman strikes him, and God repays his wickedness and Shechem's."
     ],
     "supporting_verses": [
       "Judges 9:1-6",
       "Judges 9:7-21",
-      "Judges 9:22-41",
-      "Judges 9:42-57",
-      "Judges 9:1-57"
+      "Judges 9:22-25",
+      "Judges 9:26-49",
+      "Judges 9:50-57"
     ],
-    "evidence_phrases": [
-      "my father fought for you",
-      "the bramble said",
-      "let fire come out",
-      "God sent an evil spirit",
-      "a certain woman cast an upper millstone"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 7,
     "chapter": 10,
-    "title": "Tola, Jair, and Ammon's oppression",
-    "summary_text": "Tola and Jair briefly provide stability after Abimelech, but Israel again abandons the LORD and is handed over to enemies on every side. When the Ammonites crush Gilead, the people finally cry out, though the LORD reminds them how often they have chased other gods. The chapter sets the stage for Jephthah by showing both memory and desperation.",
+    "title": "Israel Abandons Its Gods and Seeks Rescue",
+    "summary_text": "Tola and then Jair lead Israel as judges before the people again abandon the LORD to serve other gods. The LORD gives them over to the Philistines and Ammonites, whose attacks leave Israel in distress. When the people admit they have sinned, He tells them to ask their chosen gods to save them. Israel removes its foreign gods and serves Him, and He can no longer bear their suffering. As the armies gather, Gilead's leaders offer authority to whoever will lead the attack against Ammon.",
     "themes": [
       "Short-lived peace",
       "Repeated apostasy",
@@ -404,33 +366,29 @@
       "the Ammonites"
     ],
     "key_points": [
-      "Two minor judges hold the land for a time.",
-      "Israel again serves false gods.",
-      "The LORD hands them over to enemies.",
-      "The Ammonite threat becomes unbearable.",
-      "Israel's plea is answered only after repentance language."
+      "Tola judges Israel for twenty-three years, followed by Jair for twenty-two.",
+      "Israel serves foreign gods, and the LORD hands the people over to enemy oppression.",
+      "The Israelites confess their sin, but the LORD challenges them to seek rescue from their other gods.",
+      "Israel removes the foreign gods and serves the LORD, who can no longer bear their misery.",
+      "Gilead's rulers seek someone to lead the fight against the Ammonites."
     ],
     "supporting_verses": [
       "Judges 10:1-5",
-      "Judges 10:6-16",
-      "Judges 10:17-18",
-      "Judges 10:1-18",
-      "Judges 10:6-18"
+      "Judges 10:6-9",
+      "Judges 10:10-14",
+      "Judges 10:15-16",
+      "Judges 10:17-18"
     ],
-    "evidence_phrases": [
-      "the children of Israel did that which was evil",
-      "you have forsaken me",
-      "cry to the gods which you have chosen",
-      "his soul was grieved",
-      "who will begin to fight"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 7,
     "chapter": 11,
-    "title": "Jephthah's vow and victory",
-    "summary_text": "Jephthah, rejected by his brothers but empowered by the elders, argues Israel's case with the king of Ammon and is clothed by the Spirit for battle. He wins a major victory after making a tragic vow, and his return home is marked by grief because his only child comes out to meet him. The chapter combines faith, diplomacy, and terrible cost.",
+    "title": "Jephthah's Victory and His Costly Vow",
+    "summary_text": "Gilead's elders ask Jephthah to lead against Ammon after his brothers have driven him away and denied him an inheritance. He defends Israel's claim to the disputed land, but Ammon's king will not listen. The LORD's Spirit comes upon Jephthah, who vows a burnt offering of whatever comes from his house to greet him if he wins. The LORD gives him victory, but his only child, his daughter, comes out to meet him. She spends two months mourning that she has never slept with a man, then returns, and he fulfills his vow; Israel's young women mourn her yearly.",
     "themes": [
       "Outsider deliverer",
       "Spirit-empowered battle",
@@ -446,33 +404,29 @@
       "the Spirit of the LORD"
     ],
     "key_points": [
-      "Jephthah recounts Israel's right to the land.",
-      "The Spirit of the LORD empowers him.",
-      "He vows to offer whatever comes from his house.",
-      "The Ammonites are defeated decisively.",
-      "His vow leads to deep personal loss."
+      "Gilead's elders bring back the rejected Jephthah and make him their leader.",
+      "Jephthah defends Israel's possession of the disputed land and asks the LORD to judge the conflict.",
+      "The LORD's Spirit comes upon Jephthah, who vows a burnt offering and defeats the Ammonites.",
+      "Jephthah grieves when his only daughter greets him, but she accepts that he has given his word.",
+      "After his daughter mourns with her friends, Jephthah fulfills his vow, and Israel's young women lament her yearly."
     ],
     "supporting_verses": [
       "Judges 11:1-11",
       "Judges 11:12-28",
-      "Judges 11:29-40",
-      "Judges 11:1-40",
-      "Judges 11:12-40"
+      "Judges 11:29-33",
+      "Judges 11:34-37",
+      "Judges 11:38-40"
     ],
-    "evidence_phrases": [
-      "the Spirit of the LORD came on Jephthah",
-      "the LORD delivered them into his hand",
-      "whoever comes out of the doors of my house",
-      "I have opened my mouth to the LORD",
-      "she had never known a man"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 7,
     "chapter": 12,
-    "title": "Ephraim's quarrel and the minor judges",
-    "summary_text": "Ephraim quarrels with Jephthah over honor, and the dispute ends in violent civil conflict at the Jordan crossings. The chapter then records three minor judges, reminding readers that deliverers continued even when national unity did not. It closes Jephthah's era and returns attention to the fragile peace of the tribes.",
+    "title": "Gilead Defeats Ephraim at the Jordan",
+    "summary_text": "Ephraim's men threaten Jephthah because they say he fought Ammon without inviting them. Jephthah replies that they failed to help when he called and that the LORD gave him victory. The dispute becomes a battle, and Gilead's men control the Jordan crossings, killing escaping Ephraimites whose pronunciation gives them away. Forty-two thousand Ephraimites die in the conflict. After Jephthah's six years as judge, Ibzan, Elon, and Abdon lead Israel in turn.",
     "themes": [
       "Civil strife",
       "Pride and offense",
@@ -488,33 +442,27 @@
       "Abdon"
     ],
     "key_points": [
-      "Ephraim is offended by Jephthah's victory.",
-      "The dispute turns into a deadly border conflict.",
-      "Three minor judges are briefly recorded.",
-      "The judges' lives are quieter than the wars.",
-      "Israel's unity remains fragile."
+      "Jephthah answers Ephraim's threat by saying they failed to help him against Ammon.",
+      "Gilead defeats Ephraim and uses the pronunciation of Shibboleth to identify fugitives at the Jordan crossings.",
+      "Jephthah dies after judging Israel for six years.",
+      "Ibzan, Elon, and Abdon follow as judges, and their years of leadership and burial places are recorded."
     ],
     "supporting_verses": [
-      "Judges 12:1-7",
-      "Judges 12:8-15",
-      "Judges 12:1-15",
-      "Judges 12:1-7",
+      "Judges 12:1-3",
+      "Judges 12:4-6",
+      "Judges 12:7",
       "Judges 12:8-15"
     ],
-    "evidence_phrases": [
-      "you went over to fight against the children of Ammon",
-      "Shibboleth",
-      "forty-two thousand fell",
-      "he judged Israel",
-      "and he died and was buried"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 7,
     "chapter": 13,
-    "title": "Samson's birth announced",
-    "summary_text": "Israel falls under Philistine domination again, but the angel of the LORD announces that Manoah's barren wife will bear a son who begins to save Israel. The child is set apart as a Nazirite from birth, and the parents learn that the promise comes from God rather than human initiative. The chapter introduces Samson as a deliverer whose life is marked by divine calling before he speaks a word.",
+    "title": "An Angel Announces Samson's Birth",
+    "summary_text": "While Israel suffers under Philistine rule, the angel of the LORD promises Manoah's childless wife a son who will begin Israel's rescue. The boy must remain a Nazirite, set apart to God, with his hair uncut, and his mother must avoid wine and unclean food. At Manoah's request, God sends the angel again to repeat the instructions. The angel rises in the flame of their offering, and Manoah fears death, but his wife points to God's accepted offering and promise. Samson is born, the LORD blesses him, and His Spirit begins to stir him.",
     "themes": [
       "Barren-wife promise",
       "Nazirite calling",
@@ -531,33 +479,29 @@
       "the LORD"
     ],
     "key_points": [
-      "A barren woman receives a promise of a son.",
-      "The child is consecrated from the womb.",
-      "The angel of the LORD accepts worship in flame.",
-      "Samson is designated to begin Israel's rescue.",
-      "The parents are taught reverence and obedience."
+      "The LORD gives Israel over to Philistine rule for forty years.",
+      "The angel promises a son who will be a Nazirite and begin Israel's deliverance.",
+      "God answers Manoah's prayer, and the angel repeats the mother's restrictions on wine and unclean food.",
+      "The angel ascends in the altar's flame, and Manoah's wife answers his fear by recalling God's actions.",
+      "Samson is born, receives the LORD's blessing, and begins to be stirred by His Spirit."
     ],
     "supporting_verses": [
-      "Judges 13:1-7",
+      "Judges 13:1",
+      "Judges 13:2-7",
       "Judges 13:8-14",
-      "Judges 13:15-25",
-      "Judges 13:1-25",
-      "Judges 13:8-25"
+      "Judges 13:15-23",
+      "Judges 13:24-25"
     ],
-    "evidence_phrases": [
-      "you shall conceive and bear a son",
-      "he shall begin to save Israel",
-      "a Nazirite to God from the womb",
-      "the angel of the LORD ascended in the flame",
-      "his name was called Samson"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 7,
     "chapter": 14,
-    "title": "Samson's riddle",
-    "summary_text": "Samson seeks a Philistine wife, and the chapter quickly shows how desire and conflict are already tangled together. A lion attack, a honey-filled carcass, and a wedding feast become the setting for Samson's riddle and the Philistines' treachery. The chapter ends with anger, betrayal, and the first open collision between Samson and the Philistines.",
+    "title": "Samson's Wedding Riddle Leads to Bloodshed",
+    "summary_text": "Samson insists on marrying a Philistine woman, and the account says the LORD is seeking an opening against the Philistines through this. Empowered by the LORD's Spirit, Samson kills a lion and later finds honey in its body. He turns this experience into a wedding riddle with clothing as the wager. Threatened by the guests, his wife presses him for the answer and reveals it to them. The Spirit empowers Samson again, and he kills thirty men to pay the wager, returns home angry, and loses his wife to a wedding companion.",
     "themes": [
       "Desire and conflict",
       "Riddle and deception",
@@ -573,33 +517,29 @@
       "the Philistines"
     ],
     "key_points": [
-      "Samson insists on taking a Philistine wife.",
-      "He kills a lion with his bare hands.",
-      "Honey from the carcass becomes the riddle's image.",
-      "The Philistines coerce the answer from his bride.",
-      "The wedding ends in rage and loss."
+      "Samson wants a Philistine wife, despite his parents' objection that the Philistines are uncircumcised.",
+      "The LORD's Spirit enables Samson to kill a lion, whose body later holds bees and honey.",
+      "Samson offers his wedding companions a riddle and wagers thirty sets of clothes.",
+      "The men threaten Samson's wife, and she gets the answer from him and passes it on.",
+      "Samson kills thirty men for their clothing, and his wife is given to one of his companions."
     ],
     "supporting_verses": [
       "Judges 14:1-4",
       "Judges 14:5-9",
-      "Judges 14:10-20",
-      "Judges 14:1-20",
-      "Judges 14:5-20"
+      "Judges 14:10-14",
+      "Judges 14:15-18",
+      "Judges 14:19-20"
     ],
-    "evidence_phrases": [
-      "get her for me",
-      "a young lion roared against him",
-      "out of the eater came forth food",
-      "you have ploughed with my heifer",
-      "the Spirit of the LORD came mightily on him"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 7,
     "chapter": 15,
-    "title": "Samson and the Philistines",
-    "summary_text": "After being betrayed by his wife, Samson burns the Philistine crops, breaks free from his own people, and strikes down many with the jawbone of a donkey. His strength keeps escalating, yet the chapter frames it as the LORD's enabling rather than mere fury. Samson ends exhausted and thirsty, and God answers him with water from a hollow place.",
+    "title": "Samson Fights the Philistines at Lehi",
+    "summary_text": "Finding that his wife has been given to another man, Samson burns Philistine crops using foxes with torches tied between their tails. The Philistines burn his wife and her father, and Samson strikes back with a great slaughter. Judah's men bind him for the Philistines, but the Spirit of the LORD empowers him to break free and kill a thousand men with a donkey's jawbone. Exhausted by thirst, he asks God for help, and God opens a source of water that restores him. Samson judges Israel for twenty years under Philistine rule.",
     "themes": [
       "Retaliation",
       "Spirit-given strength",
@@ -614,33 +554,29 @@
       "the LORD"
     ],
     "key_points": [
-      "Samson retaliates after betrayal.",
-      "Judah binds him to avoid Philistine wrath.",
-      "The LORD empowers him for battle.",
-      "A donkey's jawbone becomes his weapon.",
-      "God answers his thirst with water."
+      "Samson burns Philistine crops after learning that his wife has been given away.",
+      "The Philistines kill Samson's wife and her father, and he takes revenge.",
+      "Judah's men hand Samson over, but the LORD's Spirit empowers him to kill a thousand Philistines.",
+      "Samson fears dying of thirst and falling to the uncircumcised, but God supplies water.",
+      "Samson serves as Israel's judge for twenty years during Philistine rule."
     ],
     "supporting_verses": [
-      "Judges 15:1-8",
+      "Judges 15:1-5",
+      "Judges 15:6-8",
       "Judges 15:9-17",
-      "Judges 15:18-20",
-      "Judges 15:1-20",
-      "Judges 15:9-20"
+      "Judges 15:18-19",
+      "Judges 15:20"
     ],
-    "evidence_phrases": [
-      "the Spirit of the LORD came mightily on him",
-      "with the jawbone of a donkey",
-      "he called that place Ramath Lehi",
-      "you have given this great deliverance",
-      "God split the hollow place"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 7,
     "chapter": 16,
-    "title": "Samson and Delilah",
-    "summary_text": "Samson's strength and weakness collide as Delilah repeatedly presses him to reveal the secret of his power. He eventually tells her about his Nazirite hair, and when it is cut the LORD departs from him and the Philistines seize him. The chapter ends with a tragic reversal in which Samson's final prayer brings down the temple and kills more enemies in death than in life.",
+    "title": "Samson's Capture and Final Act of Strength",
+    "summary_text": "Samson escapes an ambush in Gaza by carrying away its gates, but later Delilah is paid to uncover the secret of his strength. After repeated lies, he tells her that his uncut hair marks him as a Nazirite to God. She has his hair shaved, the LORD leaves him, and the Philistines blind and imprison him. During a sacrifice to Dagon, they bring Samson into their temple for entertainment. Samson asks God for strength to avenge his eyes, pulls down the temple's supporting pillars, and dies with the crowd, killing more people than during his life.",
     "themes": [
       "Betrayal",
       "Hidden strength",
@@ -655,33 +591,29 @@
       "the LORD"
     ],
     "key_points": [
-      "Delilah wears Samson down with repeated demands.",
-      "Samson reveals the secret of his strength.",
-      "His hair is cut and his strength leaves.",
-      "He is blinded and imprisoned by the Philistines.",
-      "His death destroys the idol temple."
+      "Samson visits a prostitute in Gaza and escapes his enemies by carrying off the city gates.",
+      "Philistine rulers offer Delilah silver to discover how Samson can be subdued.",
+      "Samson reveals his secret, loses his hair and strength, and is blinded and imprisoned after the LORD leaves him.",
+      "The Philistines celebrate with a sacrifice to Dagon and bring Samson into their crowded temple.",
+      "Samson prays for strength and pulls down the temple, dying with the Philistines before his family buries him."
     ],
     "supporting_verses": [
-      "Judges 16:1-14",
-      "Judges 16:15-21",
-      "Judges 16:22-31",
-      "Judges 16:1-31",
-      "Judges 16:15-31"
+      "Judges 16:1-3",
+      "Judges 16:4-14",
+      "Judges 16:15-22",
+      "Judges 16:23-27",
+      "Judges 16:28-31"
     ],
-    "evidence_phrases": [
-      "if I be shaven, then my strength will go from me",
-      "the LORD had departed from him",
-      "the Philistines took him",
-      "remember me, I pray you",
-      "let me die with the Philistines"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 7,
     "chapter": 17,
-    "title": "Micah's private shrine",
-    "summary_text": "Micah steals his mother's silver, restores it, and then uses it to build a private shrine with an ephod and household gods. A Levite from Bethlehem becomes his personal priest, showing how easily religion can be shaped by convenience instead of covenant. The chapter is a snapshot of spiritual confusion in a time when everyone does what is right in his own eyes.",
+    "title": "Micah Makes Idols and Hires a Priest",
+    "summary_text": "Micah admits stealing his mother's silver after hearing her curse, and she responds by blessing him in the LORD's name. She dedicates the silver to the LORD, then uses some of it to have idols made for Micah's house. Micah sets up a shrine and makes his son a priest during a time when Israel has no king and people follow their own judgment. Later he hires a traveling Levite as his priest and claims this will secure the LORD's goodness toward him.",
     "themes": [
       "Idolatry",
       "Corrupted worship",
@@ -696,33 +628,29 @@
       "the LORD"
     ],
     "key_points": [
-      "A theft leads to homemade worship.",
-      "Micah installs an image and ephod.",
-      "A Levite is hired as a private priest.",
-      "The chapter shows religion without obedience.",
-      "Personal preference replaces God's order."
+      "Micah returns the stolen silver, and his mother blesses him after having uttered a curse.",
+      "His mother dedicates silver to the LORD but pays a silversmith to make idols.",
+      "Micah makes his son a priest in his shrine while Israel has no king.",
+      "A Levite accepts Micah's offer of wages, clothing, and food to serve as his priest.",
+      "Micah claims that having a Levite as priest will bring him the LORD's favor."
     ],
     "supporting_verses": [
-      "Judges 17:1-6",
-      "Judges 17:7-13",
-      "Judges 17:1-13",
-      "Judges 17:1-6",
-      "Judges 17:7-13"
+      "Judges 17:1-2",
+      "Judges 17:3-4",
+      "Judges 17:5-6",
+      "Judges 17:7-12",
+      "Judges 17:13"
     ],
-    "evidence_phrases": [
-      "every man did that which was right in his own eyes",
-      "a house of gods",
-      "an ephod and teraphim",
-      "now know that the LORD will do me good",
-      "the Levite became to him as one of his sons"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 7,
     "chapter": 18,
-    "title": "Dan steals the shrine",
-    "summary_text": "The tribe of Dan, still searching for territory, sends spies who notice Micah's priest and religious setup. They steal the idol, persuade the Levite to come with them, and later conquer Laish, renaming it Dan. The chapter shows how spiritual compromise and tribal ambition reinforce one another.",
+    "title": "Dan Captures Laish and Takes Micah's Idols",
+    "summary_text": "Seeking land for their inheritance, Dan's scouts consult Micah's priest and discover the prosperous, unsuspecting people of Laish. Six hundred armed Danites set out, taking Micah's idols and persuading his priest to serve their whole tribe. When Micah protests, they threaten him, and he turns back because they are stronger. The Danites kill the people of Laish, burn the city, rebuild it, and name it Dan. They establish worship with the stolen idols, and Jonathan and his sons serve as their priests.",
     "themes": [
       "Tribal migration",
       "Idol theft",
@@ -738,33 +666,29 @@
       "Jonathan"
     ],
     "key_points": [
-      "Dan searches for a safer inheritance.",
-      "They steal Micah's image and priest.",
-      "The Levite prefers the larger opportunity.",
-      "Laish is attacked and renamed Dan.",
-      "The chapter ends with idolatry institutionalized."
+      "Dan's scouts receive the priest's assurance about their journey and find Laish wealthy and unprotected by allies.",
+      "Armed Danites take Micah's idols, and the priest gladly agrees to serve their tribe.",
+      "Micah gives up pursuing the Danites after they threaten his household.",
+      "The Danites destroy Laish and its people, then rebuild the city and name it Dan.",
+      "Dan sets up Micah's image, and Jonathan, a descendant of Moses, and his sons become priests."
     ],
     "supporting_verses": [
       "Judges 18:1-10",
       "Judges 18:11-20",
-      "Judges 18:21-31",
-      "Judges 18:1-31",
-      "Judges 18:11-31"
+      "Judges 18:21-26",
+      "Judges 18:27-29",
+      "Judges 18:30-31"
     ],
-    "evidence_phrases": [
-      "for until that day all their inheritance had not fallen",
-      "take heed unto yourself",
-      "better for you to be a priest to a family",
-      "they set up for themselves the engraved image",
-      "the tribe of Dan"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 7,
     "chapter": 19,
-    "title": "The Levite and the concubine",
-    "summary_text": "A Levite's concubine is abused in Gibeah, dies, and is cut into pieces as a horrific summons to Israel. The atrocity exposes deep moral collapse and forces the tribes to face what has become of Benjamin's city. The chapter is meant to shock, and it does, because covenant society has broken down almost completely.",
+    "title": "A Woman Is Abused at Gibeah",
+    "summary_text": "A Levite retrieves his concubine from her father's home, then travels with her and his servant to Gibeah, where an old man shelters them. Wicked men surround the house and demand to rape the Levite, while the host offers the women instead. The Levite sends his concubine outside, and the men rape and abuse her through the night. She collapses at the doorway and does not respond when he speaks to her in the morning. He takes her home, cuts her into twelve pieces, and sends them throughout Israel, provoking horror and calls for a response.",
     "themes": [
       "Moral collapse",
       "Hospitality violated",
@@ -780,33 +704,29 @@
       "Benjamin"
     ],
     "key_points": [
-      "A home in Gibeah becomes a place of terror.",
-      "The concubine dies after abuse by violent men.",
-      "The Levite sends her body parts to Israel.",
-      "The tribe is forced to confront the evil.",
-      "The chapter sets up civil war."
+      "The Levite goes to Bethlehem to bring back his concubine, but her father repeatedly delays their departure.",
+      "He avoids a foreign city and reaches Gibeah, where an old man takes the travelers in.",
+      "Wicked men demand the Levite, but he sends his concubine outside, where they rape and abuse her.",
+      "The woman collapses at the house and gives no answer when the Levite speaks to her.",
+      "The Levite cuts her into twelve pieces and sends them throughout Israel, prompting horrified demands for action."
     ],
     "supporting_verses": [
       "Judges 19:1-10",
       "Judges 19:11-21",
-      "Judges 19:22-30",
-      "Judges 19:1-30",
-      "Judges 19:11-30"
+      "Judges 19:22-25",
+      "Judges 19:26-28",
+      "Judges 19:29-30"
     ],
-    "evidence_phrases": [
-      "there was no king in Israel",
-      "the men of the city, sons of Belial",
-      "they knew her and abused her",
-      "consider it, take counsel",
-      "such a thing has not been done"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 7,
     "chapter": 20,
-    "title": "Civil war against Benjamin",
-    "summary_text": "Israel gathers at Mizpah and demands that Benjamin surrender the wicked men of Gibeah, but Benjamin refuses and the tribes go to war. After repeated losses, Israel finally prevails and nearly wipes out Benjamin, only to grieve the near extinction of a brother tribe. The chapter shows that even righteous outrage can leave a nation shattered.",
+    "title": "Israel's War Against Benjamin",
+    "summary_text": "Israel hears the Levite's account of his concubine's death and demands that Benjamin hand over Gibeah's wicked men. Benjamin refuses and goes to war. After losing twice, Israel weeps, fasts, and brings offerings to the LORD, who promises victory. Israel wins with an ambush and destroys Gibeah, while six hundred men escape to the rock of Rimmon. The victors kill the people and animals in Benjamin's other towns and burn the towns.",
     "themes": [
       "Civil war",
       "Justice and grief",
@@ -822,33 +742,29 @@
       "the LORD"
     ],
     "key_points": [
-      "Israel demands justice for Gibeah.",
-      "Benjamin defends the guilty men.",
-      "The war is costly for all sides.",
-      "Benjamin is nearly destroyed.",
-      "Victory leaves a moral and political wound."
+      "After hearing the Levite's account, Israel unites to punish Gibeah's wickedness.",
+      "Benjamin refuses to hand over Gibeah's men and mobilizes to fight the other tribes.",
+      "Israel consults the LORD but suffers heavy losses on the first two days of battle.",
+      "Israel fasts and brings offerings where God's covenant ark stands, and the LORD promises victory.",
+      "Israel's ambush defeats Benjamin; six hundred men escape, while Israel destroys the remaining cities and their inhabitants."
     ],
     "supporting_verses": [
-      "Judges 20:1-17",
-      "Judges 20:18-28",
-      "Judges 20:29-48",
-      "Judges 20:1-48",
-      "Judges 20:18-48"
+      "Judges 20:1-11",
+      "Judges 20:12-17",
+      "Judges 20:18-25",
+      "Judges 20:26-28",
+      "Judges 20:29-48"
     ],
-    "evidence_phrases": [
-      "gathered together as one man",
-      "put away evil from Israel",
-      "the children of Benjamin would not listen",
-      "the LORD said, Go up",
-      "there was no king in Israel"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 7,
     "chapter": 21,
-    "title": "Wives for Benjamin",
-    "summary_text": "After the war, Israel realizes that Benjamin has nearly no women left and seeks a way to preserve the tribe without breaking the oath not to give wives directly. Through a series of painful compromises and a festival seizure, the Benjamites receive wives and the tribe survives. The book ends with a weary reminder that everyone did what was right in his own eyes because there was no king in Israel.",
+    "title": "Israel Finds Wives for Benjamin's Survivors",
+    "summary_text": "Israel mourns for Benjamin but has sworn not to give its men wives. Since Jabesh-gilead missed the assembly, Israel destroys it, sparing only four hundred women who have never slept with men. Israel offers Benjamin peace and gives these women as wives, but more are needed. The elders tell the remaining men to seize dancers at Shiloh, claiming their families will not break the oath since they are not giving them away. Benjamin rebuilds its towns, and the account ends with Israel having no king and people following their own judgment.",
     "themes": [
       "Aftermath of civil war",
       "Tribal survival",
@@ -864,25 +780,21 @@
       "the LORD"
     ],
     "key_points": [
-      "Israel grieves the near loss of Benjamin.",
-      "A workaround is found for giving wives.",
-      "Benjamin survives through reluctant restoration.",
-      "The chapter closes with a moral summary of the era.",
-      "The need for a king is still unresolved."
+      "Israel weeps before God and brings offerings, grieving that its oath prevents giving wives to Benjamin.",
+      "Israel destroys Jabesh-gilead for missing the assembly, sparing four hundred young women who have not slept with men.",
+      "Israel offers Benjamin peace and gives the survivors the spared women, but they still need more wives.",
+      "The elders direct Benjamites to seize dancers at Shiloh, claiming their families will not be guilty of giving them away.",
+      "The Benjamites take wives and rebuild their cities; Israel has no king, and everyone follows personal judgment."
     ],
     "supporting_verses": [
       "Judges 21:1-7",
-      "Judges 21:8-14",
-      "Judges 21:15-25",
-      "Judges 21:1-25",
-      "Judges 21:1-14"
+      "Judges 21:8-12",
+      "Judges 21:13-15",
+      "Judges 21:16-22",
+      "Judges 21:23-25"
     ],
-    "evidence_phrases": [
-      "how shall we do for wives",
-      "they were sorry for Benjamin",
-      "let them ravish them",
-      "every man did that which was right in his own eyes",
-      "in those days there was no king in Israel"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   }
 ]
