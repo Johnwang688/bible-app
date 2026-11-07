@@ -45,6 +45,14 @@
       "slug": "abimelech"
     },
     {
+      "label": "Abimelech (king of Gerar in Abraham's time)",
+      "slug": "abimelech-abrahams-contemporary"
+    },
+    {
+      "label": "Abimelech (king of Gerar in Isaac's time)",
+      "slug": "abimelech-isaacs-contemporary"
+    },
+    {
       "label": "Abiram",
       "slug": "abiram"
     },
@@ -147,6 +155,26 @@
     {
       "label": "Ahithophel",
       "slug": "ahithophel"
+    },
+    {
+      "label": "Alexander (at Ephesus)",
+      "slug": "alexander-of-ephesus"
+    },
+    {
+      "label": "Alexander (disciplined with Hymenaeus)",
+      "slug": "alexander-disciplined-by-paul"
+    },
+    {
+      "label": "Alexander (high-priestly family)",
+      "slug": "alexander-of-the-high-priestly-family"
+    },
+    {
+      "label": "Alexander (son of Simon)",
+      "slug": "alexander-son-of-simon"
+    },
+    {
+      "label": "Alexander (the coppersmith)",
+      "slug": "alexander-the-coppersmith"
     },
     {
       "label": "Amasa",
@@ -445,6 +473,14 @@
       "slug": "daniel"
     },
     {
+      "label": "Darius (king of Persia in Ezra)",
+      "slug": "darius-king-of-persia"
+    },
+    {
+      "label": "Darius the Mede",
+      "slug": "darius-the-mede"
+    },
+    {
       "label": "Dathan",
       "slug": "dathan"
     },
@@ -709,6 +745,14 @@
       "slug": "hanamel"
     },
     {
+      "label": "Hanani (brother of Nehemiah)",
+      "slug": "hanani-brother-of-nehemiah"
+    },
+    {
+      "label": "Hanani (the seer)",
+      "slug": "hanani-the-seer"
+    },
+    {
       "label": "Hananiah",
       "slug": "hananiah"
     },
@@ -743,6 +787,10 @@
     {
       "label": "Herod Antipas",
       "slug": "herod-antipas"
+    },
+    {
+      "label": "Herod the Great",
+      "slug": "herod-the-great"
     },
     {
       "label": "Herodians",
@@ -863,6 +911,18 @@
     {
       "label": "Jambres",
       "slug": "jambres"
+    },
+    {
+      "label": "James (brother of Jesus)",
+      "slug": "james-brother-of-jesus"
+    },
+    {
+      "label": "James (son of Alphaeus)",
+      "slug": "james-son-of-alphaeus"
+    },
+    {
+      "label": "James (son of Zebedee)",
+      "slug": "james-brother-of-john"
     },
     {
       "label": "Jannes",
@@ -1403,6 +1463,14 @@
     {
       "label": "Pharisees",
       "slug": "pharisees"
+    },
+    {
+      "label": "Phicol (commander in Abraham's time)",
+      "slug": "phicol-abrahams-contemporary"
+    },
+    {
+      "label": "Phicol (commander in Isaac's time)",
+      "slug": "phicol-isaacs-contemporary"
     },
     {
       "label": "Philemon",
