@@ -317,11 +317,10 @@ def test_endpoint_returns_503_on_api_error(settings, monkeypatch):
 
     httpx = _httpx()
 
-    from app.main import app
-    from app.memory.transcribe import require_memory_user
+    from app.main import app, require_ai_user
     from app.services import ai_service
 
-    monkeypatch.setitem(app.dependency_overrides, require_memory_user, lambda: "user-1")
+    monkeypatch.setitem(app.dependency_overrides, require_ai_user, lambda: "user-1")
     ai_service.reset_rate_limit_state()
     req = httpx.Request("POST", "https://api.anthropic.com/v1/messages")
     use_fake(monkeypatch, [anthropic.APIConnectionError(request=req)])

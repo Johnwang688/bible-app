@@ -7,14 +7,13 @@ import app.main as app_main
 from app.schemas.ai import AIChatResponse, AIContext, AIHistoryMessage, AIModelResponse
 from app.schemas.bible import ChapterOut, VerseOut
 from app.services import ai_service
-from app.memory.transcribe import require_memory_user
 
 
 @pytest.fixture(autouse=True)
 def signed_in_reader():
-    app_main.app.dependency_overrides[require_memory_user] = lambda: "user-1"
+    app_main.app.dependency_overrides[app_main.require_ai_user] = lambda: "user-1"
     yield
-    app_main.app.dependency_overrides.pop(require_memory_user, None)
+    app_main.app.dependency_overrides.pop(app_main.require_ai_user, None)
 
 
 def make_verse(book: str, chapter: int, verse: int, text: str) -> VerseOut:

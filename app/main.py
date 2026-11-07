@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 from fastapi import Depends, FastAPI, HTTPException, Query, Request, Response, status
@@ -413,6 +414,17 @@ async def put_user_settings(
     return upsert_user_settings(current_user["id"], payload)
 
 
+def require_ai_user(user_id: str = Depends(require_memory_user)) -> str:
+    """A confirmed reader, while the AI routes are switched on.
+
+    No released client uses these routes, and each call spends paid API money, so they stay off until
+    the study agent ships. Set AI_ROUTES_ENABLED=true to turn them on.
+    """
+    if os.environ.get("AI_ROUTES_ENABLED", "").strip().lower() != "true":
+        raise HTTPException(status_code=503, detail="AI features aren't available yet.")
+    return user_id
+
+
 @app.get("/api/v1/ai/guided-chapter/sections", response_model=GuidedChapterSectionsOut, tags=["ai"])
 async def read_guided_chapter_sections(
     request: Request,
@@ -439,7 +451,7 @@ async def read_guided_chapter_sections(
 @app.post("/api/v1/ai/guided-chapter", response_model=GuidedChapterResponse, tags=["ai"])
 async def post_guided_chapter(
     payload: GuidedChapterRequest,
-    user_id: str = Depends(require_memory_user),
+    user_id: str = Depends(require_ai_user),
 ) -> GuidedChapterResponse:
     if payload.verse_start < 1 or payload.verse_end < payload.verse_start:
         raise HTTPException(status_code=400, detail="Invalid verse range.")
@@ -462,7 +474,7 @@ async def post_guided_chapter(
 
 
 @app.post("/api/v1/ai/chat", response_model=AIChatResponse, tags=["ai"])
-async def ai_chat(payload: AIChatRequest, user_id: str = Depends(require_memory_user)) -> AIChatResponse:
+async def ai_chat(payload: AIChatRequest, user_id: str = Depends(require_ai_user)) -> AIChatResponse:
     message = payload.message.strip()
     if not message:
         raise HTTPException(status_code=400, detail="Please enter a question for the AI assistant.")
@@ -488,7 +500,7 @@ async def ai_chat(payload: AIChatRequest, user_id: str = Depends(require_memory_
 @app.post("/api/v1/ai/entity-content", response_model=EntityContentResponse, tags=["ai"])
 async def ai_entity_content(
     payload: EntityContentRequest,
-    user_id: str = Depends(require_memory_user),
+    user_id: str = Depends(require_ai_user),
 ) -> EntityContentResponse:
     """Generate free-form entity page content (descriptions, timelines) without chat schema constraints."""
     prompt = payload.prompt.strip()
