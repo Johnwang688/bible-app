@@ -372,9 +372,12 @@ class ScripturePayload:
 
 
 def get_request_identity(request: Request) -> str:
-    forwarded_for = request.headers.get("x-forwarded-for")
-    if forwarded_for:
-        return forwarded_for.split(",")[0].strip()
+    # Cloud Run appends the address it saw, so only the last entry is trustworthy. Anything before it
+    # comes from the caller, who could otherwise pick a new identity for every request.
+    forwarded_for = ",".join(request.headers.getlist("x-forwarded-for"))
+    last = forwarded_for.split(",")[-1].strip()
+    if last:
+        return last
     if request.client and request.client.host:
         return request.client.host
     return "anonymous"
