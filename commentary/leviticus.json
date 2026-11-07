@@ -1,10 +1,10 @@
 [
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 3,
     "chapter": 1,
-    "title": "Burnt offering instructions",
-    "summary_text": "The LORD called unto Moses, and spoke unto him out of the tent of meeting, saying,. He shall lay his hand upon the head of the burnt-offering; and it shall be accepted for him to make atonement for him. But its inwards and its legs shall he wash with water: and the priest shall burn the whole on the altar, for a burnt-offering, an offering made by fire, of a sweet savor unto the LORD. But the inwards and the legs shall he wash with water; and the priest shall offer the whole, and burn it upon the altar: it is a burnt-offering, an offering made by fire, of a sweet savor unto the LORD.",
+    "title": "Instructions for Burnt Offerings",
+    "summary_text": "From the Tent of Meeting, the LORD gives Moses instructions for Israel's burnt offerings from cattle, sheep, goats, or birds. An animal from the herd or flock must be a male without blemish, and the person bringing a bull lays a hand on its head for acceptance and atonement. The worshiper prepares the animal while Aaron's sons handle its blood and burn the offering on the altar. Turtledoves and young pigeons have their own preparation rules for the priest. Each kind is described as an offering whose aroma pleases the LORD.",
     "themes": [
       "Sacrifice and atonement",
       "Priestly service",
@@ -23,32 +23,29 @@
       "atonement"
     ],
     "key_points": [
-      "The LORD called unto Moses, and spoke unto him out of the tent of meeting, saying,.",
-      "He shall lay his hand upon the head of the burnt-offering.",
-      "But its inwards and its legs shall he wash with water.",
-      "But the inwards and the legs shall he wash with water."
+      "God instructs Israel about burnt offerings brought from the herd or flock.",
+      "The worshiper places a hand on the bull's head for acceptance and atonement before its blood is applied.",
+      "The bull's pieces are arranged and burned on the altar after the legs and inner parts are washed.",
+      "An unblemished male sheep or goat is prepared and burned under similar rules.",
+      "A priest prepares a turtledove or young pigeon, drains its blood, and burns it as commanded."
     ],
     "supporting_verses": [
-      "Leviticus 1:1",
-      "Leviticus 1:4",
-      "Leviticus 1:9",
-      "Leviticus 1:13",
-      "Leviticus 1:17"
+      "Leviticus 1:1-3",
+      "Leviticus 1:4-5",
+      "Leviticus 1:6-9",
+      "Leviticus 1:10-13",
+      "Leviticus 1:14-17"
     ],
-    "evidence_phrases": [
-      "unto Moses, and spoke unto him out of the tent",
-      "He shall lay his hand upon the head of the burnt-offering",
-      "But its inwards and its legs shall he wash with water",
-      "But the inwards and the legs shall he wash with water",
-      "he shall rend it by the wings thereof, [but] shall not divide it asunder"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 3,
     "chapter": 2,
-    "title": "any one offereth oblation meal offering",
-    "summary_text": "When any one offereth an oblation of a meal-offering unto the LORD, his oblation shall be of fine flour; and he shall pour oil upon it, and put frankincense thereon:. And that which is left of the meal-offering shall be Aaron`s and his sons`: it is a thing most holy of the offerings of the LORD made by fire. The priest shall take up from the meal-offering the memorial thereof, and shall burn it upon the altar, an offering made by fire, of a sweet savor unto the LORD. No meal-offering, which ye shall offer unto the LORD, shall be made with leaven; for ye shall burn no leaven, nor any honey, as an offering made by fire unto the LORD.",
+    "title": "Grain Offerings and the Salt of the Covenant",
+    "summary_text": "The LORD gives rules for grain offerings made from fine flour and oil, whether uncooked, baked, or prepared on a griddle or in a pan. A priest burns a memorial portion on the altar, and the rest belongs to Aaron and his sons as most holy food. Leaven and honey must not be burned as food offerings, though they may be brought as firstfruits. Every offering must include salt, described as the salt of God's covenant. Firstfruits of new grain may be roasted and crushed, with oil and frankincense added before the memorial portion is burned.",
     "themes": [
       "Sacrifice and atonement",
       "Priestly service",
@@ -66,32 +63,29 @@
       "holy"
     ],
     "key_points": [
-      "When any one offereth an oblation of a meal-offering unto the LORD, his oblation shall be of fine flour.",
-      "And that which is left of the meal-offering shall be Aaron`s and his sons`.",
-      "The priest shall take up from the meal-offering the memorial thereof.",
-      "No meal-offering, which ye shall offer unto the LORD, shall be made with leaven."
+      "A priest burns part of the flour, oil, and frankincense, while the rest is most holy food for Aaron's family.",
+      "Grain offerings may be baked or cooked in different ways, with a memorial portion burned and the remainder kept.",
+      "Leaven and honey may be brought as firstfruits but must not be burned on the altar.",
+      "Every offering must include the salt of God's covenant.",
+      "Roasted, crushed new grain is offered with oil and frankincense, and the priest burns its memorial portion."
     ],
     "supporting_verses": [
-      "Leviticus 2:1",
-      "Leviticus 2:3",
-      "Leviticus 2:9",
-      "Leviticus 2:11",
-      "Leviticus 2:16"
+      "Leviticus 2:1-3",
+      "Leviticus 2:4-10",
+      "Leviticus 2:11-12",
+      "Leviticus 2:13",
+      "Leviticus 2:14-16"
     ],
-    "evidence_phrases": [
-      "he shall pour oil upon it, and put frankincense thereon",
-      "that which is left of the meal-offering shall be Aaron`s and his sons`",
-      "The priest shall take up from the meal-offering the memorial thereof, and shall ",
-      "No meal-offering, which ye shall offer unto the LORD, shall be made with leaven",
-      "That which is left of the meal-offering shall be Aaron`s and his sons`"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 3,
     "chapter": 3,
-    "title": "Burnt offering instructions",
-    "summary_text": "If his oblation be a sacrifice of peace-offerings; if he offer of the herd, whether male or female, he shall offer it without blemish before the LORD. He shall offer of the sacrifice of peace-offerings an offering made by fire unto the LORD; the fat that covereth the inwards, and all the fat that is upon the inwards,. He shall offer of the sacrifice of peace-offerings an offering made by fire unto the LORD; the fat thereof, the fat tail entire, he shall take away hard by the backbone; and the fat that covereth the inwards, and all the fat that is upon the inwards,. The priest shall burn them upon the altar: it is the food of the offering made by fire, for a sweet savor; all the fat is the LORD`s.",
+    "title": "Peace Offerings and the LORD's Portion",
+    "summary_text": "A peace offering may come from cattle, sheep, or goats and may be male or female, but it must have no blemish. The worshiper places a hand on its head and slaughters it at the meeting tent, while Aaron's sons apply its blood around the altar. The priests burn the specified fat, kidneys, and part of the liver as food offered to the LORD, including the fat tail when a lamb is brought. The fat belongs to the LORD, and Israel receives a lasting command against eating fat or blood.",
     "themes": [
       "Sacrifice and atonement",
       "Priestly service",
@@ -105,32 +99,27 @@
       "blood"
     ],
     "key_points": [
-      "If his oblation be a sacrifice of peace-offerings.",
-      "He shall offer of the sacrifice of peace-offerings an offering made by fire unto the LORD.",
-      "He shall offer of the sacrifice of peace-offerings an offering made by fire unto the LORD.",
-      "The priest shall burn them upon the altar: it is the food of the offering made by fire, for a sweet savor."
+      "A peace offering from cattle must be without blemish, with its blood applied and specified parts burned on the altar.",
+      "An offering from sheep follows similar rules, including burning a lamb's fat tail.",
+      "A goat's blood is applied to the altar, and its specified fat and organs are burned.",
+      "The LORD claims the fat, and Israel must never eat fat or blood."
     ],
     "supporting_verses": [
-      "Leviticus 3:1",
-      "Leviticus 3:3",
-      "Leviticus 3:9",
-      "Leviticus 3:16",
-      "Leviticus 3:17"
+      "Leviticus 3:1-5",
+      "Leviticus 3:6-11",
+      "Leviticus 3:12-16",
+      "Leviticus 3:16-17"
     ],
-    "evidence_phrases": [
-      "If his oblation be a sacrifice of peace-offerings",
-      "the fat that covereth the inwards, and all the fat that is upon the inwards",
-      "the fat thereof, the fat tail entire, he shall take away hard by the backbone",
-      "all the fat is the LORD`s",
-      "it is an offering made by fire, of a sweet savor unto the LORD"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 3,
     "chapter": 4,
-    "title": "Burnt offering instructions",
-    "summary_text": "The LORD spoke unto Moses, saying,. The priest shall put of the blood upon the horns of the altar of sweet incense before the LORD, which is in the tent of meeting; and all the blood of the bullock shall he pour out at the base of the altar of burnt-offering, which is at the door of the tent of meeting. Thus shall he do with the bullock; as he did with the bullock of the sin-offering, so shall he do with this; and the priest shall make atonement for them, and they shall be forgiven. The priest shall take of the blood of the sin-offering with his finger, and put it upon the horns of the altar of burnt-offering; and the blood thereof shall he pour out at the base of the altar of burnt-offering.",
+    "title": "Sin Offerings for Unintentional Wrongdoing",
+    "summary_text": "God gives rules for sin offerings when people break His commandments without meaning to. An anointed priest brings a bull if his sin brings guilt on the people, and Israel as a whole brings a bull when its sin is known. Blood goes before the veil and on the incense altar, while the remains burn outside camp. A leader brings a male goat, and an ordinary person brings a female goat or lamb, with blood put on the burnt-offering altar. The priest makes atonement, with forgiveness promised for the people, leader, and ordinary person.",
     "themes": [
       "Sacrifice and atonement",
       "Priestly service",
@@ -148,33 +137,29 @@
       "clean"
     ],
     "key_points": [
-      "The LORD spoke unto Moses, saying,.",
-      "The priest shall put of the blood upon the horns of the altar of sweet incense before the LORD, which is in the tent of meeting.",
-      "Thus shall he do with the bullock.",
-      "The priest shall take of the blood of the sin-offering with his finger, and put it upon the horns of the altar of burnt-offering."
+      "An anointed priest must bring a bull when his unintentional sin brings guilt on the people.",
+      "The bull's blood is applied inside the sanctuary, its fat is burned on the altar, and its remains burn outside camp.",
+      "When the congregation recognizes its unintentional sin, it offers a bull, and the priest makes atonement for forgiveness.",
+      "A leader who recognizes his sin brings a male goat, and the priest makes atonement for him.",
+      "An ordinary person brings a female goat or lamb, and the priest makes atonement so the person is forgiven."
     ],
     "supporting_verses": [
-      "Leviticus 4:1",
-      "Leviticus 4:7",
-      "Leviticus 4:20",
-      "Leviticus 4:25",
-      "Leviticus 4:18",
-      "Leviticus 4:35"
+      "Leviticus 4:1-4",
+      "Leviticus 4:5-12",
+      "Leviticus 4:13-21",
+      "Leviticus 4:22-26",
+      "Leviticus 4:27-35"
     ],
-    "evidence_phrases": [
-      "The LORD spoke unto Moses, saying",
-      "The priest shall put of the blood upon the horns of the altar of sweet incense b",
-      "Thus shall he do with the bullock",
-      "the blood thereof shall he pour out at the base of the altar of burnt-offering",
-      "all the blood thereof shall he pour out at the base of the altar"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 3,
     "chapter": 5,
-    "title": "Burnt offering instructions",
-    "summary_text": "If any one sin, in that he heareth the voice of adjuration, he being a witness, whether he has seen or known, if he do not utter [it], then he shall bear his iniquity. And he shall bring his trespass-offering unto the LORD for his sin which he has sinned, a female from the flock, a lamb or a goat, for a sin-offering; and the priest shall make atonement for him as concerning his sin. And he shall sprinkle of the blood of the sin-offering upon the side of the altar; and the rest of the blood shall be drained out at the base of the altar: it is a sin-offering. And he shall make restitution for that which he has done amiss in the holy thing, and shall add the fifth part thereto, and give it unto the priest; and the priest shall make atonement for him with the ram of the trespass-offering, and he shall be forgiven.",
+    "title": "Confession, Affordable Offerings, and Repayment",
+    "summary_text": "Failing to testify, touching what is unclean, or making rash oaths can bring guilt, and the guilty must confess their sin. They must bring a female sheep or goat, but may bring two birds, or even flour, if they cannot afford more. The priest makes atonement, and they will be forgiven. Someone who wrongs God's holy things without meaning to must bring a ram and repay the loss plus one fifth. Breaking His commandments without knowing it still brings guilt and requires a ram as an offering.",
     "themes": [
       "Sacrifice and atonement",
       "Priestly service",
@@ -193,33 +178,29 @@
       "holy"
     ],
     "key_points": [
-      "If any one sin.",
-      "And he shall bring his trespass-offering unto the LORD for his sin which he has sinned.",
-      "And he shall sprinkle of the blood of the sin-offering upon the side of the altar.",
-      "And he shall make restitution for that which he has done amiss in the holy thing."
+      "Failing to testify brings iniquity, and guilt involving testimony, uncleanness, or rash oaths requires confession and an offering.",
+      "Someone unable to afford a lamb may bring two birds, one for sin and one as a burnt offering.",
+      "Someone unable to afford birds may bring flour without oil or frankincense, and the priest makes atonement for forgiveness.",
+      "Wronging holy things requires a ram and repayment of the loss plus one fifth to the priest.",
+      "Unknowingly breaking God's commandments still brings guilt, with a ram required for atonement and forgiveness."
     ],
     "supporting_verses": [
-      "Leviticus 5:1",
-      "Leviticus 5:6",
-      "Leviticus 5:9",
-      "Leviticus 5:16",
-      "Leviticus 5:10",
-      "Leviticus 5:19"
+      "Leviticus 5:1-6",
+      "Leviticus 5:7-10",
+      "Leviticus 5:11-13",
+      "Leviticus 5:14-16",
+      "Leviticus 5:17-19"
     ],
-    "evidence_phrases": [
-      "If any one sin, in that he heareth the voice of adjuration, he being a witness, ",
-      "the priest shall make atonement for him as concerning his sin",
-      "it is a sin-offering",
-      "the priest shall make atonement for him with the ram of the trespass-offering, a",
-      "Or if any one touch any unclean thing, whether it be the carcass of an unclean b"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 3,
     "chapter": 6,
-    "title": "Burnt offering instructions",
-    "summary_text": "The LORD spoke unto Moses, saying,. He shall bring his trespass-offering unto the LORD, a ram without blemish out of the flock, according to thy estimation, for a trespass-offering, unto the priest:. It shall not be baken with leaven. I have given it as their portion of my offerings made by fire; it is most holy, as the sin-offering, and as the trespass-offering. Speak unto Aaron and to his sons, saying, This is the law of the sin-offering: in the place where the burnt-offering is killed shall the sin-offering be killed before the LORD: it is most holy.",
+    "title": "Repaying Wrongs and Handling Holy Offerings",
+    "summary_text": "Those who steal, cheat, or lie under oath about another's goods must return them plus one fifth and bring a ram. The priest makes atonement through this guilt offering, and the person is forgiven. God gives Aaron's family laws for the altar fire, ashes, and grain offerings. The priests eat their holy grain portions without leaven, but their own grain offerings, including those of the anointed successor, must burn in full. Sin offerings have strict rules for food, clothes, and pots, and must not be eaten if their blood was brought inside for atonement.",
     "themes": [
       "Sacrifice and atonement",
       "Priestly service",
@@ -238,33 +219,29 @@
       "clean"
     ],
     "key_points": [
-      "The LORD spoke unto Moses, saying,.",
-      "He shall bring his trespass-offering unto the LORD.",
-      "It shall not be baken with leaven. I have given it as their portion of my offerings made by fire.",
-      "Speak unto Aaron and to his sons, saying, This is the law of the sin-offering."
+      "Wrongdoing involving a neighbor's property requires full repayment plus one fifth, followed by a ram for atonement and forgiveness.",
+      "Priests must remove ashes as commanded and keep the altar fire burning without interruption.",
+      "Aaron's male descendants may eat the grain offering's remainder without leaven in a holy place.",
+      "Aaron's offering and that of his anointed successor are burned completely, as are all priests' grain offerings.",
+      "Sin offerings require holy handling, and any whose blood enters the sanctuary for atonement must be burned rather than eaten."
     ],
     "supporting_verses": [
-      "Leviticus 6:1",
-      "Leviticus 6:6",
-      "Leviticus 6:17",
-      "Leviticus 6:25",
-      "Leviticus 6:16",
-      "Leviticus 6:30"
+      "Leviticus 6:1-7",
+      "Leviticus 6:8-13",
+      "Leviticus 6:14-18",
+      "Leviticus 6:19-23",
+      "Leviticus 6:24-30"
     ],
-    "evidence_phrases": [
-      "The LORD spoke unto Moses, saying",
-      "He shall bring his trespass-offering unto the LORD, a ram without blemish out of",
-      "It shall not be baken with leaven",
-      "it is most holy",
-      "it shall be burnt with fire"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 3,
     "chapter": 7,
-    "title": "Burnt offering instructions",
-    "summary_text": "This is the law of the trespass-offering: it is most holy. As is the sin-offering, so is the trespass-offering; there is one law for them: the priest that makes atonement therewith, he shall have it. When any one shall touch any unclean thing, the uncleanness of man, or an unclean beast, or any unclean abomination, and eat of the flesh of the sacrifice of peace-offerings, which pertain unto the LORD, that soul shall be cut off from his people. This is the law of the burnt-offering, of the meal-offering, and of the sin-offering, and of the trespass-offering, and of the consecration, and of the sacrifice of peace-offerings;.",
+    "title": "Holy Portions and Rules for Peace Offerings",
+    "summary_text": "God's law gives priests shares of guilt offerings, which are most holy, as well as hides and grain. Peace offerings of thanks must be eaten that day, while vow and freewill sacrifices may be eaten the next day too. Eating any on the third day brings iniquity, and unclean meat must be burned. Those who eat peace-offering meat while unclean, or eat forbidden fat or blood, must be cut off from the people. The breast and right thigh become lasting shares for Aaron's family, closing the offering laws God gave Moses at Sinai.",
     "themes": [
       "Sacrifice and atonement",
       "Priestly service",
@@ -284,33 +261,29 @@
       "atonement"
     ],
     "key_points": [
-      "This is the law of the trespass-offering: it is most holy.",
-      "As is the sin-offering, so is the trespass-offering.",
-      "When any one shall touch any unclean thing.",
-      "This is the law of the burnt-offering."
+      "Priests receive holy portions from guilt offerings, which follow the sin offering's law, while other offerings supply hides and grain.",
+      "Thanksgiving sacrifices must be eaten that day, while vow and freewill offerings allow a second day, with third-day meat burned.",
+      "Only ceremonially clean people may eat peace-offering meat, and eating it while unclean brings exclusion from the people.",
+      "Eating the forbidden fat of cattle, sheep, or goats, or any animal or bird blood, brings exclusion from Israel.",
+      "The breast and right thigh provide lasting priestly portions within the offering laws given to Moses at Sinai."
     ],
     "supporting_verses": [
-      "Leviticus 7:1",
-      "Leviticus 7:7",
-      "Leviticus 7:21",
-      "Leviticus 7:37",
-      "Leviticus 7:20",
-      "Leviticus 7:38"
+      "Leviticus 7:1-10",
+      "Leviticus 7:11-18",
+      "Leviticus 7:19-21",
+      "Leviticus 7:22-27",
+      "Leviticus 7:28-38"
     ],
-    "evidence_phrases": [
-      "This is the law of the trespass-offering",
-      "there is one law for them",
-      "When any one shall touch any unclean thing, the uncleanness of man, or an unclea",
-      "This is the law of the burnt-offering, of the meal-offering, and of the sin-offe",
-      "on the morrow that which remaineth of it shall be eaten"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 3,
     "chapter": 8,
-    "title": "Burnt offering instructions",
-    "summary_text": "The LORD spoke unto Moses, saying,. Take Aaron and his sons with him, and the garments, and the anointing oil, and the bullock of the sin-offering, and the two rams, and the basket of unleavened bread;. He slew it; and Moses took the blood, and put it upon the horns of the altar round about with his finger, and purified the altar, and poured out the blood at the base of the altar, and sanctified it, to make atonement for it. Moses took them from off their hands, and burnt them on the altar upon the burnt-offering: they were a consecration for a sweet savor: it was an offering made by fire unto the LORD.",
+    "title": "Moses Sets Apart Aaron and His Sons",
+    "summary_text": "Before the gathered people, Moses washes and clothes Aaron and his sons as the LORD commands. He anoints Aaron and the tabernacle with oil to set them apart for God. Moses uses blood to prepare the altar, then brings the required offerings for their ordination, setting them apart for service. These acts make atonement for Aaron and his sons. They obey the command to stay at the meeting tent's entrance for seven days.",
     "themes": [
       "Sacrifice and atonement",
       "Priestly service",
@@ -329,33 +302,29 @@
       "holy"
     ],
     "key_points": [
-      "The LORD spoke unto Moses, saying,.",
-      "Take Aaron and his sons with him.",
-      "He slew it; and Moses took the blood.",
-      "Moses took them from off their hands, and burnt them on the altar upon the burnt-offering."
+      "Moses gathers the people, washes Aaron and his sons, and dresses them as the LORD commands.",
+      "Anointing oil sets apart the tabernacle, its equipment, and Aaron for God.",
+      "Moses prepares the altar with blood and presents the sin offering and burnt offering.",
+      "Blood from the ordination ram marks Aaron and his sons, and oil and blood are sprinkled on their clothes.",
+      "Aaron and his sons must remain at the entrance for seven days as commanded for their atonement."
     ],
     "supporting_verses": [
-      "Leviticus 8:1",
-      "Leviticus 8:2",
-      "Leviticus 8:15",
-      "Leviticus 8:28",
-      "Leviticus 8:19",
-      "Leviticus 8:36"
+      "Leviticus 8:1-13",
+      "Leviticus 8:10-13",
+      "Leviticus 8:14-21",
+      "Leviticus 8:22-30",
+      "Leviticus 8:31-36"
     ],
-    "evidence_phrases": [
-      "The LORD spoke unto Moses, saying",
-      "Take Aaron and his sons with him, and the garments, and the anointing oil, and t",
-      "He slew it",
-      "they were a consecration for a sweet savor",
-      "as the LORD commanded Moses"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06, fix 1",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 3,
     "chapter": 9,
-    "title": "Burnt offering instructions",
-    "summary_text": "It came to pass on the eighth day, that Moses called Aaron and his sons, and the elders of Israel;. Moses said unto Aaron, Draw near unto the altar, and offer thy sin-offering, and thy burnt-offering, and make atonement for thyself, and for the people; and offer the oblation of the people, and make atonement for them; as the LORD commanded. He presented the meal-offering, and filled his hand therefrom, and burnt it upon the altar, besides the burnt-offering of the morning. Aaron lifted up his hands toward the people, and blessed them; and he came down from offering the sin-offering, and the burnt-offering, and the peace-offerings.",
+    "title": "The LORD's Glory Appears After Aaron's Offerings",
+    "summary_text": "On the eighth day, Moses tells Aaron and the people to bring offerings because the LORD will appear to them. Aaron sacrifices animals to make atonement for himself and the people, beginning with his own sin offering and burnt offering. He then brings the people's sin, burnt, grain, and peace offerings to the altar. After Aaron and Moses bless the people, the LORD's glory appears to everyone. Fire from His presence burns up the offering and fat on the altar, and the people shout with joy and bow facedown.",
     "themes": [
       "Sacrifice and atonement",
       "Annual atonement",
@@ -373,33 +342,27 @@
       "people"
     ],
     "key_points": [
-      "It came to pass on the eighth day, that Moses called Aaron and his sons, and the elders of Israel;.",
-      "Moses said unto Aaron.",
-      "He presented the meal-offering, and filled his hand therefrom, and burnt it upon the altar, besides the burnt-offering of the morning.",
-      "Aaron lifted up his hands toward the people, and blessed them."
+      "Moses calls for offerings and says the LORD's glory will appear to the people.",
+      "Aaron begins by making his own sin offering and burnt offering with help from his sons.",
+      "Aaron presents the people's offerings, including the peace offering, as Moses commands.",
+      "The leaders bless the people, and fire from the LORD burns up the altar's offering before the joyful crowd."
     ],
     "supporting_verses": [
-      "Leviticus 9:1",
-      "Leviticus 9:7",
-      "Leviticus 9:17",
-      "Leviticus 9:22",
-      "Leviticus 9:13",
-      "Leviticus 9:24"
+      "Leviticus 9:1-7",
+      "Leviticus 9:8-14",
+      "Leviticus 9:15-21",
+      "Leviticus 9:22-24"
     ],
-    "evidence_phrases": [
-      "Aaron and his sons, and the elders of Israel",
-      "Draw near unto the altar, and offer thy sin-offering, and",
-      "He presented the meal-offering, and filled his hand therefrom, and burnt it upon",
-      "the burnt-offering, and the peace-offerings",
-      "a calf and a lamb, both a year old, without blemish, for a burnt-offering"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 3,
     "chapter": 10,
-    "title": "Burnt offering instructions",
-    "summary_text": "Nadab and Abihu, the sons of Aaron, took each of them his censer, and put fire therein, and laid incense thereon, and offered strange fire before the LORD, which he had not commanded them. There came forth fire from before the LORD, and devoured them, and they died before the LORD. And that ye may make a distinction between the holy and the common, and between the unclean and the clean;. Wherefore have ye not eaten the sin-offering in the place of the sanctuary, seeing it is most holy, and he has given it you to bear the iniquity of the congregation, to make atonement for them before the LORD?",
+    "title": "Nadab and Abihu Die Before the LORD",
+    "summary_text": "Nadab and Abihu bring fire the LORD has not commanded, and fire from His presence kills them. Moses speaks of God's holiness and glory, while Aaron stays silent and his surviving sons remain at their post. Priests must avoid alcohol when entering the meeting tent, teach God's laws, and distinguish clean from unclean. Moses explains their food shares, then objects that a sin offering for the people's atonement was burned instead of eaten. Aaron questions whether eating it after these deaths would please the LORD, and Moses accepts his answer.",
     "themes": [
       "Sacrifice and atonement",
       "Purity and defilement",
@@ -417,33 +380,29 @@
       "altar"
     ],
     "key_points": [
-      "Nadab and Abihu, the sons of Aaron, took each of them his censer, and put fire therein, and laid incense thereon, and.",
-      "There came forth fire from before the LORD, and devoured them, and they died before the LORD.",
-      "And that ye may make a distinction between the holy and the common, and between the unclean and the clean;.",
-      "Wherefore have ye not eaten the sin-offering in the place of the sanctuary."
+      "The LORD kills Nadab and Abihu with fire after they bring fire contrary to His command.",
+      "Aaron and his surviving sons must stay at the meeting tent because the LORD's anointing oil is on them.",
+      "The priests must avoid alcohol when entering, distinguish clean from unclean, and teach Israel the LORD's commands.",
+      "Moses explains where Aaron's family may eat the grain and peace offerings assigned to them.",
+      "Moses accepts Aaron's explanation for not eating the sin offering after the day's deaths."
     ],
     "supporting_verses": [
-      "Leviticus 10:1",
-      "Leviticus 10:2",
-      "Leviticus 10:10",
-      "Leviticus 10:17",
-      "Leviticus 10:11",
-      "Leviticus 10:20"
+      "Leviticus 10:1-3",
+      "Leviticus 10:4-7",
+      "Leviticus 10:8-11",
+      "Leviticus 10:12-15",
+      "Leviticus 10:16-20"
     ],
-    "evidence_phrases": [
-      "Nadab and Abihu, the sons of Aaron, took each of them his censer, and put fire t",
-      "There came forth fire from before the LORD, and devoured them, and they died bef",
-      "that ye may make a distinction between the holy and the common, and between the ",
-      "Wherefore have ye not eaten the sin-offering in the place of the sanctuary, seei",
-      "there have befallen me such things as these"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 3,
     "chapter": 11,
-    "title": "Clean and unclean",
-    "summary_text": "The LORD spoke unto Moses and to Aaron, saying unto them,. Nevertheless these shall ye not eat of them that chew the cud, or of them that part the hoof: the camel, because he cheweth the cud but parteth not the hoof, he is unclean unto you. Upon whatsoever any of them, when they are dead, doth fall, it shall be unclean; whether it be any vessel of wood, or raiment, or skin, or sack, whatsoever vessel it be, wherewith any work is done, it must be put into water, and it shall be unclean until the even; then shall it be clean. Every thing whereupon [any part] of their carcass falleth shall be unclean; whether oven, or range for pots, it shall be broken in pieces: they are unclean, and shall be unclean unto you.",
+    "title": "Israel Must Distinguish Clean and Unclean Animals",
+    "summary_text": "Israel receives a law about which animals may be eaten. The LORD tells Moses and Aaron which land and water creatures, birds, and insects are allowed or forbidden. Touching dead animals can make people and objects unclean, with rules for washing, waiting, or breaking certain pots. Israel must distinguish clean animals from unclean ones. The LORD calls His people to be holy because He is holy and brought them out of Egypt.",
     "themes": [
       "Purity and defilement",
       "Holiness before the LORD",
@@ -462,33 +421,27 @@
       "holy"
     ],
     "key_points": [
-      "The LORD spoke unto Moses and to Aaron, saying unto them,.",
-      "Nevertheless these shall ye not eat of them that chew the cud, or of them that part the hoof.",
-      "Upon whatsoever any of them, when they are dead, doth fall, it shall be unclean.",
-      "Every thing whereupon [any part] of their carcass falleth shall be unclean."
+      "Permitted land animals must chew the cud and have fully divided hooves; permitted water creatures need fins and scales.",
+      "The LORD forbids certain birds and flying insects but allows several kinds of hopping insects.",
+      "Dead animals can make people, food, and objects unclean, with different rules for cleansing or disposal.",
+      "Israel must avoid forbidden creatures and be holy because the LORD who rescued them is holy."
     ],
     "supporting_verses": [
-      "Leviticus 11:1",
-      "Leviticus 11:4",
-      "Leviticus 11:32",
-      "Leviticus 11:35",
-      "Leviticus 11:24",
-      "Leviticus 11:47"
+      "Leviticus 11:1-12",
+      "Leviticus 11:13-23",
+      "Leviticus 11:24-40",
+      "Leviticus 11:41-47"
     ],
-    "evidence_phrases": [
-      "The LORD spoke unto Moses and to Aaron, saying unto them",
-      "the camel, because he cheweth the cud but parteth not the hoof, he is unclean un",
-      "then shall it be clean",
-      "they are unclean, and shall be unclean unto you",
-      "To make a distinction between the unclean and the clean, and between the living "
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 3,
     "chapter": 12,
-    "title": "Burnt offering instructions",
-    "summary_text": "The LORD spoke unto Moses, saying,. Speak unto the children of Israel, saying, If a woman conceive seed, and bear a man-child, then she shall be unclean seven days; as in the days of the impurity of her sickness shall she be unclean. When the days of her purifying are fulfilled, for a son, or for a daughter, she shall bring a lamb a year old for a burnt-offering, and a young pigeon, or a turtle-dove, for a sin-offering, unto the door of the tent of meeting, unto the priest:. And he shall offer it before the LORD, and make atonement for her; and she shall be cleansed from the fountain of her blood. This is the law for her that beareth, whether a male or a female.",
+    "title": "Purification and Offerings After Childbirth",
+    "summary_text": "After childbirth, a mother must pass through the purification periods the LORD sets for Israel. The time is longer after a daughter than a son, and she must avoid sacred things and the sanctuary until it ends. A son must be circumcised on day eight. The mother then brings burnt and sin offerings, and a priest makes atonement so she is clean. If she cannot afford a lamb, she may bring two birds instead.",
     "themes": [
       "Sacrifice and atonement",
       "Priestly service",
@@ -506,33 +459,27 @@
       "sanctuary"
     ],
     "key_points": [
-      "The LORD spoke unto Moses, saying,.",
-      "Speak unto the children of Israel, saying, If a woman conceive seed, and bear a man-child, then she shall be unclean seven days.",
-      "When the days of her purifying are fulfilled.",
-      "And he shall offer it before the LORD, and make atonement for her."
+      "After bearing a son, a woman has seven unclean days and thirty-three further purification days; the boy is circumcised on day eight.",
+      "After bearing a daughter, a woman has fourteen unclean days and sixty-six further purification days.",
+      "Under this law, a priest presents the mother's burnt and sin offerings to make atonement, and she becomes ceremonially clean.",
+      "A mother unable to afford a lamb may bring two turtledoves or two young pigeons."
     ],
     "supporting_verses": [
-      "Leviticus 12:1",
-      "Leviticus 12:2",
-      "Leviticus 12:6",
-      "Leviticus 12:7",
+      "Leviticus 12:1-4",
       "Leviticus 12:5",
+      "Leviticus 12:6-7",
       "Leviticus 12:8"
     ],
-    "evidence_phrases": [
-      "The LORD spoke unto Moses, saying",
-      "as in the days of the impurity of her sickness shall she be unclean",
-      "When the days of her purifying are fulfilled, for a son, or for a daughter, she ",
-      "she shall be cleansed from the fountain of her blood",
-      "the one for a burnt-offering, and the other for a sin-offering"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 3,
     "chapter": 13,
-    "title": "Clean and unclean",
-    "summary_text": "The LORD spoke unto Moses and unto Aaron, saying,. And the priest shall look on the plague in the skin of the flesh: and if the hair in the plague be turned white, and the appearance of the plague be deeper than the skin of his flesh, it is the plague of leprosy; and the priest shall look on him, and pronounce him unclean. And the priest shall look; and, behold, if the appearance thereof be lower than the skin, and the hair thereof be turned white, then the priest shall pronounce him unclean: it is the plague of leprosy, it has broken out in the boil. And he shall look on the plague on the seventh day: if the plague be spread in the garment, either in the warp, or in the woof, or in the skin, whatever service skin is used for; the plague is a fretting leprosy; it is unclean.",
+    "title": "Priests Examine Skin Diseases and Mildew",
+    "summary_text": "Priests must inspect skin sores to decide whether a person is clean or unclean under the LORD's rules. Spreading sores, changed hair, and raw flesh guide the decision, while some cases need time apart for further checks. Some rashes and normal hair loss are clean. People with an unclean skin disease must warn others and live outside the camp. The law also covers mildew in cloth and leather, which may need washing, cutting out, or burning.",
     "themes": [
       "Priestly service",
       "Purity and defilement",
@@ -550,33 +497,29 @@
       "camp"
     ],
     "key_points": [
-      "The LORD spoke unto Moses and unto Aaron, saying,.",
-      "And the priest shall look on the plague in the skin of the flesh.",
-      "And the priest shall look.",
-      "And he shall look on the plague on the seventh day."
+      "Priests examine skin changes and isolate uncertain cases before declaring a person clean or unclean.",
+      "Sores following boils or burns and infections of the head or chin require careful inspection and sometimes further isolation.",
+      "Harmless white spots and ordinary baldness are clean, but a diseased sore on a bald head makes someone unclean.",
+      "People with an unclean skin disease must identify their condition and live alone outside the camp.",
+      "Priests inspect mildew in fabric and leather to determine whether washing, cutting, or burning is required."
     ],
     "supporting_verses": [
-      "Leviticus 13:1",
-      "Leviticus 13:3",
-      "Leviticus 13:20",
-      "Leviticus 13:51",
-      "Leviticus 13:30",
-      "Leviticus 13:59"
+      "Leviticus 13:1-17",
+      "Leviticus 13:18-37",
+      "Leviticus 13:38-44",
+      "Leviticus 13:45-46",
+      "Leviticus 13:47-59"
     ],
-    "evidence_phrases": [
-      "The LORD spoke unto Moses and unto Aaron, saying",
-      "the priest shall look on him, and pronounce him unclean",
-      "the priest shall look",
-      "the plague is a fretting leprosy",
-      "thou shalt burn it in the fire"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 3,
     "chapter": 14,
-    "title": "Burnt offering instructions",
-    "summary_text": "The LORD spoke unto Moses, saying,. And he shall kill the he-lamb in the place where they kill the sin-offering and the burnt-offering, in the place of the sanctuary: for as the sin-offering is the priest`s, so is the trespass-offering: it is most holy:. And the priest shall offer the burnt-offering and the meal-offering upon the altar: and the priest shall make atonement for him, and he shall be clean. If the priest shall come in, and look, and, behold, the plague has not spread in the house, after the house was plastered; then the priest shall pronounce the house clean, because the plague is healed.",
+    "title": "Cleansing After Skin Disease and House Mildew",
+    "summary_text": "A priest checks someone healed of skin disease outside the camp and uses two birds in a cleansing ceremony. The person must wash, shave, wait seven days, and bring offerings for atonement. Poor people may bring less costly offerings, including birds for the priest to sacrifice. The LORD also gives a law for unclean houses with mildew He puts in them in Canaan, requiring checks, repairs, or tearing them down. Once mildew is gone, a priest uses birds and other materials to purify the house.",
     "themes": [
       "Sacrifice and atonement",
       "Priestly service",
@@ -596,33 +539,29 @@
       "unclean"
     ],
     "key_points": [
-      "The LORD spoke unto Moses, saying,.",
-      "And he shall kill the he-lamb in the place where they kill the sin-offering and the burnt-offering, in the place of the sanctuary.",
-      "And the priest shall offer the burnt-offering and the meal-offering upon the altar.",
-      "If the priest shall come in, and look, and, behold, the plague has not spread in the house, after the house was plastered."
+      "A priest confirms healing, uses two birds in cleansing, and requires the person to wash, shave, and wait.",
+      "On day eight, offerings and the use of blood and oil accompany atonement for the person being cleansed.",
+      "Poor people may bring fewer lambs and substitute birds for the sin and burnt offerings.",
+      "A house with spreading mildew needs affected stones removed; destructive mildew returning after repairs requires the house's demolition.",
+      "When mildew is gone, the priest declares the house clean and performs a ceremony to make atonement for it."
     ],
     "supporting_verses": [
-      "Leviticus 14:1",
-      "Leviticus 14:13",
-      "Leviticus 14:20",
-      "Leviticus 14:48",
-      "Leviticus 14:29",
-      "Leviticus 14:57"
+      "Leviticus 14:1-9",
+      "Leviticus 14:10-20",
+      "Leviticus 14:21-32",
+      "Leviticus 14:33-47",
+      "Leviticus 14:48-57"
     ],
-    "evidence_phrases": [
-      "The LORD spoke unto Moses, saying",
-      "it is most holy",
-      "the priest shall offer the burnt-offering and the meal-offering upon the altar",
-      "then the priest shall pronounce the house clean, because the plague is healed",
-      "the priest shall make atonement for him that is to be cleansed before the LORD"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 3,
     "chapter": 15,
-    "title": "Burnt offering instructions",
-    "summary_text": "The LORD spoke unto Moses and to Aaron, saying,. If he that has the issue spit upon him that is clean, then he shall wash his clothes, and bathe himself in water, and be unclean until the even. And the priest shall offer them, the one for a sin-offering, and the other for a burnt-offering; and the priest shall make atonement for him before the LORD for his issue. The priest shall offer the one for a sin-offering, and the other for a burnt-offering; and the priest shall make atonement for her before the LORD for the issue of her uncleanness.",
+    "title": "Uncleanness and Cleansing From Bodily Discharges",
+    "summary_text": "The LORD gives rules for men and women with discharges that make them unclean. He sets times for waiting and washing after semen or a woman's period. A man's ongoing discharge or a woman's unusual bleeding requires a further wait, then offerings through a priest. The priest must sacrifice sin and burnt offerings to make atonement so they become clean. The law keeps Israel from defiling God's tabernacle and dying.",
     "themes": [
       "Sacrifice and atonement",
       "Priestly service",
@@ -640,33 +579,29 @@
       "unclean"
     ],
     "key_points": [
-      "The LORD spoke unto Moses and to Aaron, saying,.",
-      "If he that has the issue spit upon him that is clean.",
-      "And the priest shall offer them, the one for a sin-offering, and the other for a burnt-offering.",
-      "The priest shall offer the one for a sin-offering, and the other for a burnt-offering."
+      "A man's continuing discharge makes his bed, seats, and certain contacts unclean; cleansing ends with sin and burnt offerings.",
+      "An emission of semen makes affected people and materials unclean until evening and requires washing.",
+      "Menstruation brings seven days of uncleanness, with rules for people who touch the woman or her bedding and seats.",
+      "After unusual bleeding stops, a woman waits seven days before bringing birds for offerings on day eight.",
+      "Keeping Israel separate from uncleanness protects the tabernacle from defilement and the people from death."
     ],
     "supporting_verses": [
-      "Leviticus 15:1",
-      "Leviticus 15:8",
-      "Leviticus 15:15",
-      "Leviticus 15:30",
-      "Leviticus 15:17",
-      "Leviticus 15:33"
+      "Leviticus 15:1-15",
+      "Leviticus 15:16-18",
+      "Leviticus 15:19-24",
+      "Leviticus 15:25-30",
+      "Leviticus 15:31-33"
     ],
-    "evidence_phrases": [
-      "The LORD spoke unto Moses and to Aaron, saying",
-      "If he that has the issue spit upon him that is clean, then he shall wash his clo",
-      "the priest shall make atonement for him before the LORD for his issue",
-      "The priest shall offer the one for a sin-offering, and the other for a burnt-off",
-      "Whosoever toucheth those things shall be unclean, and shall wash his clothes, an"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 3,
     "chapter": 16,
-    "title": "Day of atonement",
-    "summary_text": "The LORD spoke unto Moses, after the death of the two sons of Aaron, when they drew near before the LORD, and died;. Aaron shall present the bullock of the sin-offering, which is for himself, and shall make atonement for himself, and for his house, and shall kill the bullock of the sin-offering which is for himself:. There shall be no man in the tent of meeting when he goeth in to make atonement in the holy place, until he come out, and have made atonement for himself, and for his household, and for all the assembly of Israel. The bullock of the sin-offering, and the goat of the sin-offering, whose blood was brought in to make atonement in the holy place, shall be carried forth without the camp; and they shall burn in the fire their skins, and their flesh, and their dung.",
+    "title": "The LORD Commands the Day of Atonement",
+    "summary_text": "Aaron may enter the Most Holy Place only as the LORD commands. He must wash, wear linen, and bring sacrifices, using incense and blood at the mercy seat. He makes atonement for the people, holy places, and altar because of Israel's sins and uncleanness. Aaron must confess their iniquities over a live goat, then send it into the wilderness. The high priest must repeat this each year while Israel and resident foreigners keep a Sabbath and humble themselves.",
     "themes": [
       "Sacrifice and atonement",
       "Priestly service",
@@ -686,33 +621,29 @@
       "atonement"
     ],
     "key_points": [
-      "The LORD spoke unto Moses, after the death of the two sons of Aaron, when they drew near before the LORD, and died.",
-      "Aaron shall present the bullock of the sin-offering.",
-      "There shall be no man in the tent of meeting when he goeth in to make atonement in the holy place.",
-      "The bullock of the sin-offering."
+      "Aaron may not enter behind the veil freely; he must approach in holy garments with the required offerings.",
+      "Incense covers the mercy seat, and Aaron brings sacrificial blood inside to make atonement and leave the people and holy places clean.",
+      "Aaron must confess Israel's sins over the live goat, which carries their iniquities away into the wilderness.",
+      "Further sacrifices, bathing, and washing follow, while the bull and goat remains are burned outside the camp.",
+      "On the seventh month's tenth day, Israel must rest and humble themselves as the high priest makes yearly atonement."
     ],
     "supporting_verses": [
-      "Leviticus 16:1",
-      "Leviticus 16:11",
-      "Leviticus 16:17",
-      "Leviticus 16:27",
-      "Leviticus 16:18",
-      "Leviticus 16:34"
+      "Leviticus 16:1-10",
+      "Leviticus 16:11-19",
+      "Leviticus 16:20-22",
+      "Leviticus 16:23-28",
+      "Leviticus 16:29-34"
     ],
-    "evidence_phrases": [
-      "The LORD spoke unto Moses, after the death of the two sons of Aaron, when they d",
-      "Aaron shall present the bullock of the sin-offering, which is for himself, and s",
-      "There shall be no man in the tent of meeting when he goeth in to make atonement ",
-      "they shall burn in the fire their skins, and their flesh, and their dung",
-      "he shall bathe his flesh in water in a holy place, and put on his garments, and "
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 3,
     "chapter": 17,
-    "title": "Burnt offering instructions",
-    "summary_text": "The LORD spoke unto Moses, saying,. To the end that the children of Israel may bring their sacrifices, which they sacrifice in the open field, even that they may bring them unto the LORD, unto the door of the tent of meeting, unto the priest, and sacrifice them for sacrifices of peace-offerings unto the LORD. The life of the flesh is in the blood; and I have given it to you upon the altar to make atonement for your souls: for it is the blood that makes atonement by reason of the life. Every soul that eateth that which dieth of itself, or that which is torn of beasts, whether he be home-born or a sojourner, he shall wash his clothes, and bathe himself in water, and be unclean until the even: then shall he be clean.",
+    "title": "Sacrifices Belong to the LORD, Blood Forbidden",
+    "summary_text": "Israel must bring cattle, sheep, and goats to the LORD's tabernacle for slaughter. A priest receives their peace offerings, and sacrifices to goat demons must stop. Israelites and resident foreigners must not sacrifice elsewhere or eat blood. Blood is the life of flesh and makes atonement for souls on the altar, so hunters must drain and cover it with dirt. Anyone eating an animal found dead or mauled is unclean until evening and must wash to become clean, or bear his iniquity.",
     "themes": [
       "Sacrifice and atonement",
       "Priestly service",
@@ -730,33 +661,29 @@
       "clean"
     ],
     "key_points": [
-      "The LORD spoke unto Moses, saying,.",
-      "To the end that the children of Israel may bring their sacrifices.",
-      "The life of the flesh is in the blood.",
-      "Every soul that eateth that which dieth of itself."
+      "Israelites must bring slaughtered cattle, sheep, and goats to the LORD's tabernacle rather than incur bloodguilt.",
+      "Field sacrifices must become peace offerings brought to the priest, ending sacrifices to goat demons.",
+      "Sacrificing away from the meeting tent and eating blood bring exclusion for Israelites and resident foreigners alike.",
+      "Blood must be drained from hunted animals because it is the life of flesh.",
+      "Eating animals found dead or mauled requires washing; anyone refusing it bears his iniquity."
     ],
     "supporting_verses": [
-      "Leviticus 17:1",
-      "Leviticus 17:5",
-      "Leviticus 17:11",
-      "Leviticus 17:15",
-      "Leviticus 17:9",
-      "Leviticus 17:16"
+      "Leviticus 17:1-4",
+      "Leviticus 17:5-7",
+      "Leviticus 17:8-12",
+      "Leviticus 17:13-14",
+      "Leviticus 17:15-16"
     ],
-    "evidence_phrases": [
-      "The LORD spoke unto Moses, saying",
-      "To the end that the children of Israel may bring their sacrifices, which they sa",
-      "The life of the flesh is in the blood",
-      "then shall he be clean",
-      "blood shall be imputed unto that man"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 3,
     "chapter": 18,
-    "title": "LORD spoke Moses saying",
-    "summary_text": "The LORD spoke unto Moses, saying,. Speak unto the children of Israel, and say unto them, I am the LORD your God. The nakedness of thy father`s wife`s daughter, begotten of thy father, she is thy sister, thou shalt not uncover her nakedness. Thou shalt not give any of thy seed to make them pass through [the fire] to Molech; neither shalt thou profane the name of thy God: I am the LORD.",
+    "title": "The LORD Forbids Defiling Sexual Practices",
+    "summary_text": "Israel must follow the LORD's judgments rather than the ways of Egypt and Canaan. He forbids sex with close relatives, a living wife's sister as a rival wife, sex during menstruation, and adultery. Child sacrifice to Molech, sex between men, and sex with animals are also forbidden. These acts have defiled the nations and their land, which the LORD is punishing for its sin. Israelites and resident foreigners who do such things face being cut off, and the land will expel Israel if they defile it.",
     "themes": [
       "God at work",
       "Moses and leadership",
@@ -769,33 +696,27 @@
       "people"
     ],
     "key_points": [
-      "The LORD spoke unto Moses, saying,.",
-      "Speak unto the children of Israel, and say unto them, I am the LORD your God.",
-      "The nakedness of thy father`s wife`s daughter, begotten of thy father, she is thy sister, thou shalt not uncover her nakedness.",
-      "Thou shalt not give any of thy seed to make them pass through [the fire] to Molech."
+      "Israel must follow the LORD's judgments and commands instead of the customs of Egypt and Canaan.",
+      "Sexual relations with close relatives are forbidden, as is taking a living wife's sister as a rival wife.",
+      "The LORD forbids sex during menstruation, adultery, child sacrifice to Molech, sexual relations between men, and sex with animals.",
+      "These practices defile people and land; Israel and resident foreigners face exclusion and expulsion if they do them."
     ],
     "supporting_verses": [
-      "Leviticus 18:1",
-      "Leviticus 18:2",
-      "Leviticus 18:11",
-      "Leviticus 18:21",
-      "Leviticus 18:16",
-      "Leviticus 18:30"
+      "Leviticus 18:1-5",
+      "Leviticus 18:6-18",
+      "Leviticus 18:19-23",
+      "Leviticus 18:24-30"
     ],
-    "evidence_phrases": [
-      "The LORD spoke unto Moses, saying",
-      "Speak unto the children of Israel, and say unto them, I am the LORD your God",
-      "The nakedness of thy father`s wife`s daughter, begotten of thy father, she is th",
-      "I am the LORD",
-      "I am the LORD your God"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 3,
     "chapter": 19,
-    "title": "Peace offering",
-    "summary_text": "The LORD spoke unto Moses, saying,. Speak unto all the congregation of the children of Israel, and say unto them, Ye shall be holy; for I the LORD your God am holy. The priest shall make atonement for him with the ram of the trespass-offering before the LORD for his sin which he has sinned: and the sin which he has sinned shall be forgiven him. The stranger that sojourneth with you shall be unto you as the home-born among you, and thou shalt love him as thyself; for ye were sojourners in the land of Egypt: I am the LORD your God.",
+    "title": "Holiness in Worship and Love for Neighbors",
+    "summary_text": "Israel must be holy because the LORD is holy. He commands respect for parents and Sabbaths, proper peace sacrifices, and love for neighbors. His people must care for the poor and foreigners, judge fairly, and deal honestly. Rules also cover crops, clothing, and sex, including an offering through which a man's sin is forgiven. They must reject idols, honor older people, and love resident foreigners as themselves.",
     "themes": [
       "Sacrifice and atonement",
       "Priestly service",
@@ -813,33 +734,29 @@
       "people"
     ],
     "key_points": [
-      "The LORD spoke unto Moses, saying,.",
-      "Speak unto all the congregation of the children of Israel, and say unto them, Ye shall be holy.",
-      "The priest shall make atonement for him with the ram of the trespass-offering before the LORD for his sin which he has sinned.",
-      "The stranger that sojourneth with you shall be unto you as the home-born among you, and thou shalt love him as thyself."
+      "Israel must be holy, respect parents, keep Sabbaths, reject idols, and observe the rules for peace offerings.",
+      "Care for the poor, honesty, impartial justice, and love for neighbors must govern dealings with others.",
+      "Rules cover mixed materials, fruit trees, and a priest's atonement for a man's sin involving an enslaved woman promised to another man.",
+      "The LORD forbids blood consumption, divination, certain bodily markings, prostituting daughters, and consulting mediums, while requiring respect for His sanctuary.",
+      "Israel must honor the elderly, love resident foreigners, and keep honest weights and measures."
     ],
     "supporting_verses": [
-      "Leviticus 19:1",
-      "Leviticus 19:2",
-      "Leviticus 19:22",
-      "Leviticus 19:34",
-      "Leviticus 19:19",
-      "Leviticus 19:37"
+      "Leviticus 19:1-8",
+      "Leviticus 19:9-18",
+      "Leviticus 19:19-25",
+      "Leviticus 19:26-31",
+      "Leviticus 19:32-37"
     ],
-    "evidence_phrases": [
-      "The LORD spoke unto Moses, saying",
-      "for I the LORD your God am holy",
-      "the sin which he has sinned shall be forgiven him",
-      "I am the LORD your God",
-      "He shall bring his trespass-offering unto the LORD, unto the door of the tent of"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 3,
     "chapter": 20,
-    "title": "Clean and unclean",
-    "summary_text": "The LORD spoke unto Moses, saying,. I also will set my face against that man, and will cut him off from among his people; because he has given of his seed unto Molech, to defile my sanctuary, and to profane my holy name. The man that lieth with his father`s wife has uncovered his father`s nakedness: both of them shall surely be put to death; their blood shall be upon them. Ye shall therefore make a distinction between the clean beast and the unclean, and between the unclean fowl and the clean: and ye shall not make your souls abominable by beast, or by bird, or by anything wherewith the ground teemeth, which I have separated from you as unclean.",
+    "title": "Penalties for Acts That Defile Israel",
+    "summary_text": "Giving children to Molech brings death, and the LORD will act even if the people fail to punish it. Israel must be holy, obeying the LORD who sets them apart. Cursing parents, adultery, sex between men, sex with animals, and some forms of incest carry death penalties. Other forbidden acts bring exclusion, bearing iniquity or sin, or having no children. Israel must distinguish clean from unclean and avoid the nations' ways to remain in its inheritance; mediums and spiritists must also be put to death.",
     "themes": [
       "Purity and defilement",
       "Holiness before the LORD",
@@ -859,33 +776,29 @@
       "people"
     ],
     "key_points": [
-      "The LORD spoke unto Moses, saying,.",
-      "I also will set my face against that man, and will cut him off from among his people.",
-      "The man that lieth with his father`s wife has uncovered his father`s nakedness: both of them shall surely be put to death.",
-      "Ye shall therefore make a distinction between the clean beast and the unclean, and between the unclean fowl and the clean."
+      "Giving children to Molech requires stoning, and the LORD will act against those who follow this worship.",
+      "Israel must avoid consulting spirits, be holy, and obey the LORD; cursing parents carries a death penalty.",
+      "Adultery, certain sexual relations within families, sex between men, and sex with animals receive death penalties.",
+      "Other prohibited relations bring exclusion, bearing iniquity or sin, and childlessness, depending on the offense.",
+      "Israel must stay holy and distinguish clean from unclean to remain in its inheritance; mediums and spiritists must be stoned."
     ],
     "supporting_verses": [
-      "Leviticus 20:1",
-      "Leviticus 20:3",
-      "Leviticus 20:11",
-      "Leviticus 20:25",
-      "Leviticus 20:14",
-      "Leviticus 20:27"
+      "Leviticus 20:1-5",
+      "Leviticus 20:6-9",
+      "Leviticus 20:10-16",
+      "Leviticus 20:17-21",
+      "Leviticus 20:22-27"
     ],
-    "evidence_phrases": [
-      "The LORD spoke unto Moses, saying",
-      "I also will set my face against that man, and will cut him off from among his pe",
-      "their blood shall be upon them",
-      "Ye shall therefore make a distinction between the clean beast and the unclean, a",
-      "Ye shall be holy unto me"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 3,
     "chapter": 21,
-    "title": "Aaron and his sons consecrated",
-    "summary_text": "The LORD said unto Moses, Speak unto the priests, the sons of Aaron, and say unto them, There shall none defile himself for the dead among his people;. They shall be holy unto their God, and not profane the name of their God; for the offerings of the LORD made by fire, the bread of their God, they do offer: therefore they shall be holy. The daughter of any priest, if she profane herself by playing the harlot, she profaneth her father: she shall be burnt with fire. He shall eat the bread of his God, both of the most holy, and of the holy:.",
+    "title": "Holiness and Restrictions for Aaron's Priests",
+    "summary_text": "Priests must be holy as those who bring the LORD's offerings. He sets rules for contact with the dead, marriage, and bodily marks, and requires death for a priest's daughter who becomes a prostitute. The highest priest, marked by anointing oil, must avoid all dead bodies and marry a virgin from his people. Aaron's descendants with listed physical defects may eat holy food. They may not bring offerings or approach the veil and altar, so they do not defile God's holy places.",
     "themes": [
       "Priestly service",
       "Holiness before the LORD",
@@ -905,33 +818,27 @@
       "people"
     ],
     "key_points": [
-      "The LORD said unto Moses.",
-      "They shall be holy unto their God, and not profane the name of their God.",
-      "The daughter of any priest, if she profane herself by playing the harlot, she profaneth her father.",
-      "He shall eat the bread of his God, both of the most holy, and of the holy:."
+      "Priests may become defiled by death only for specified relatives, and must observe rules for their appearance and marriage.",
+      "A priest's daughter who prostitutes herself profanes her father and must be burned.",
+      "The highest priest must avoid contact with any dead body, remain at the sanctuary, and marry a virgin from his people.",
+      "Aaron's descendants with listed physical defects may eat holy food but cannot approach the veil or altar to serve."
     ],
     "supporting_verses": [
-      "Leviticus 21:1",
-      "Leviticus 21:6",
+      "Leviticus 21:1-8",
       "Leviticus 21:9",
-      "Leviticus 21:22",
-      "Leviticus 21:13",
-      "Leviticus 21:24"
+      "Leviticus 21:10-15",
+      "Leviticus 21:16-24"
     ],
-    "evidence_phrases": [
-      "Speak unto the priests, the sons of Aaron, and say",
-      "therefore they shall be holy",
-      "she shall be burnt with fire",
-      "He shall eat the bread of his God, both of the most holy, and of the holy",
-      "he shall be holy unto thee"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 3,
     "chapter": 22,
-    "title": "Burnt offering instructions",
-    "summary_text": "The LORD spoke unto Moses, saying,. What man soever of the seed of Aaron is a leper, or has an issue; he shall not eat of the holy things, until he be clean. And whoso toucheth anything that is unclean by the dead, or a man whose seed goeth from him;. If a priest`s daughter be married unto a stranger, she shall not eat of the heave-offering of the holy things. When ye sacrifice a sacrifice of thanksgiving unto the LORD, ye shall sacrifice it that ye may be accepted.",
+    "title": "Respecting Sacred Food and Acceptable Sacrifices",
+    "summary_text": "Aaron and his sons must not eat sacred offerings while unclean, and only certain members of a priest's household may share them. The LORD explains how to become clean and repay food eaten in error. Animals for burnt and peace offerings must meet His rules, with some differences for vows and freewill gifts. Young animals must stay with their mothers seven days, and mothers and young must not be killed on the same day. Thank sacrifices must be eaten that day, and Israel must keep these commandments to honor the LORD's holy name.",
     "themes": [
       "Sacrifice and atonement",
       "Priestly service",
@@ -951,33 +858,29 @@
       "unclean"
     ],
     "key_points": [
-      "The LORD spoke unto Moses, saying,.",
-      "What man soever of the seed of Aaron is a leper, or has an issue.",
-      "If a priest`s daughter be married unto a stranger, she shall not eat of the heave-offering of the holy things.",
-      "When ye sacrifice a sacrifice of thanksgiving unto the LORD, ye shall sacrifice it that ye may be accepted."
+      "Priests must avoid sacred food while unclean and follow the required cleansing before eating it.",
+      "Only eligible household members may eat sacred food; accidental misuse requires repayment with an added fifth.",
+      "Burnt and peace offerings must meet the LORD's standards, with a limited allowance for deformed limbs in freewill offerings.",
+      "Animals become acceptable offerings from day eight; mothers and young must not be slaughtered on the same day.",
+      "Thank sacrifices must be eaten the same day, and Israel must honor the LORD's holy name by obeying His commandments."
     ],
     "supporting_verses": [
-      "Leviticus 22:1",
-      "Leviticus 22:4",
-      "Leviticus 22:12",
-      "Leviticus 22:29",
-      "Leviticus 22:17",
-      "Leviticus 22:33"
+      "Leviticus 22:1-9",
+      "Leviticus 22:10-16",
+      "Leviticus 22:17-25",
+      "Leviticus 22:26-28",
+      "Leviticus 22:29-33"
     ],
-    "evidence_phrases": [
-      "The LORD spoke unto Moses, saying",
-      "he shall not eat of the holy things, until he be clean",
-      "If a priest`s daughter be married unto a stranger, she shall not eat of the heav",
-      "When ye sacrifice a sacrifice of thanksgiving unto the LORD, ye shall sacrifice ",
-      "there shall be no blemish therein"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 3,
     "chapter": 23,
-    "title": "The feasts of the LORD",
-    "summary_text": "The LORD spoke unto Moses, saying,. Six days shall work be done: but on the seventh day is a sabbath of solemn rest, a holy convocation; ye shall do no manner of work: it is a sabbath unto the LORD in all your dwellings. Howbeit on the tenth day of this seventh month is the day of atonement: it shall be a holy convocation unto you, and ye shall afflict your souls; and ye shall offer an offering made by fire unto the LORD. These are the set feasts of the LORD, which ye shall proclaim to be holy convocations, to offer an offering made by fire unto the LORD, a burnt-offering, and a meal-offering, a sacrifice, and drink-offerings, each on its own day;.",
+    "title": "The LORD Sets Israel's Sacred Feast Days",
+    "summary_text": "The LORD sets days for Israel to rest, meet, and bring offerings. Along with the Sabbath, He names yearly feasts and times to bring firstfruits, the first part of the harvest. Field leftovers belong to the poor and foreigners. Trumpet blasts mark a seventh-month rest day, and the Day of Atonement requires rest and humble hearts under threat of death or exclusion. At the Feast of Tabernacles, Israel must bring sacrifices, rejoice, and live in shelters to recall the shelters used after leaving Egypt.",
     "themes": [
       "Sacrifice and atonement",
       "Priestly service",
@@ -996,33 +899,29 @@
       "vows"
     ],
     "key_points": [
-      "The LORD spoke unto Moses, saying,.",
-      "Six days shall work be done: but on the seventh day is a sabbath of solemn rest, a holy convocation.",
-      "Howbeit on the tenth day of this seventh month is the day of atonement.",
-      "These are the set feasts of the LORD."
+      "The LORD appoints the Sabbath, Passover, and the Feast of Unleavened Bread, with gatherings, rest, and offerings.",
+      "A priest presents the harvest's firstfruits before Israel may eat the new grain.",
+      "After fifty days, another harvest gathering requires offerings and rest; field leftovers must remain for poor people and foreigners.",
+      "The seventh month includes trumpet blasts and the Day of Atonement, when work and refusal to humble oneself bring severe penalties.",
+      "At the Feast of Tabernacles, Israel must rejoice and live in shelters to remember the journey out of Egypt."
     ],
     "supporting_verses": [
-      "Leviticus 23:1",
-      "Leviticus 23:3",
-      "Leviticus 23:27",
-      "Leviticus 23:37",
-      "Leviticus 23:23",
-      "Leviticus 23:44"
+      "Leviticus 23:1-8",
+      "Leviticus 23:9-14",
+      "Leviticus 23:15-22",
+      "Leviticus 23:23-32",
+      "Leviticus 23:33-44"
     ],
-    "evidence_phrases": [
-      "The LORD spoke unto Moses, saying",
-      "Six days shall work be done",
-      "ye shall offer an offering made by fire unto the LORD",
-      "These are the set feasts of the LORD, which ye shall proclaim to be holy convoca",
-      "ye shall do no servile work"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 3,
     "chapter": 24,
-    "title": "Day of atonement",
-    "summary_text": "The LORD spoke unto Moses, saying,. Thou shalt put pure frankincense upon each row, that it may be to the bread for a memorial, even an offering made by fire unto the LORD. It shall be for Aaron and his sons; and they shall eat it in a holy place: for it is most holy unto him of the offerings of the LORD made by fire by a perpetual statute. He that blasphemeth the name of the LORD, he shall surely be put to death; all the congregation shall certainly stone him: as well the sojourner, as the home-born, when he blasphemeth the name [of the LORD], shall be put to death.",
+    "title": "Sacred Lamps, Bread, and Judgment for Blasphemy",
+    "summary_text": "Aaron must tend the lamps with Israel's olive oil, and twelve loaves must be set before the LORD each Sabbath. This covenant offering belongs to Aaron's family as holy food. A man with an Israelite mother and Egyptian father curses God's name during a fight and is held for a ruling. The LORD orders death for this blasphemy and gives laws about sin, killing, and injuries, with one standard for natives and foreigners. The people obey by stoning the man outside the camp.",
     "themes": [
       "Sacrifice and atonement",
       "Holiness before the LORD",
@@ -1042,33 +941,29 @@
       "holy"
     ],
     "key_points": [
-      "The LORD spoke unto Moses, saying,.",
-      "Thou shalt put pure frankincense upon each row.",
-      "It shall be for Aaron and his sons.",
-      "He that blasphemeth the name of the LORD, he shall surely be put to death."
+      "Israel must provide pure olive oil, and Aaron must tend the lamps outside the veil before the LORD through the night.",
+      "Twelve loaves are renewed each Sabbath as a covenant offering and belong to Aaron's family as holy food.",
+      "A man blasphemes the LORD's name during a fight and is held until the LORD gives His decision.",
+      "The LORD orders death for blasphemy and killing people, restitution for animals, and penalties matching injuries under one law for all.",
+      "The Israelites take the man outside the camp and stone him as the LORD commands."
     ],
     "supporting_verses": [
-      "Leviticus 24:1",
-      "Leviticus 24:7",
-      "Leviticus 24:9",
-      "Leviticus 24:16",
-      "Leviticus 24:12",
+      "Leviticus 24:1-4",
+      "Leviticus 24:5-9",
+      "Leviticus 24:10-12",
+      "Leviticus 24:13-22",
       "Leviticus 24:23"
     ],
-    "evidence_phrases": [
-      "The LORD spoke unto Moses, saying",
-      "Thou shalt put pure frankincense upon each row, that it may be to the bread for ",
-      "It shall be for Aaron and his sons",
-      "all the congregation shall certainly stone him",
-      "Every sabbath day he shall set it in order before the LORD continually"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 3,
     "chapter": 25,
-    "title": "Day of atonement",
-    "summary_text": "The LORD spoke unto Moses in mount Sinai, saying,. It is a jubilee; it shall be holy unto you: ye shall eat the increase thereof out of the field. If he be not able to get it back for himself, then that which he has sold shall remain in the hand of him that has bought it until the year of jubilee: and in the jubilee it shall go out, and he shall return unto his possession. As a hired servant, and as a sojourner, he shall be with thee; he shall serve with thee unto the year of jubilee:.",
+    "title": "Sabbath Years, Jubilee, and Redemption",
+    "summary_text": "The LORD commands a Sabbath for the land each seventh year and a holy Jubilee in year fifty. People return to their property and clans at Jubilee, and prices must reflect the harvests left before it. His land must allow redemption, being bought back, with distinct rules for houses and Levite property. Poor Israelites must receive fair treatment and release at Jubilee, even from foreign owners. Foreign slaves may be owned for life and passed to heirs, but Israelites belong to the LORD as His servants.",
     "themes": [
       "Holiness before the LORD",
       "Annual atonement",
@@ -1087,32 +982,29 @@
       "holy"
     ],
     "key_points": [
-      "The LORD spoke unto Moses in mount Sinai, saying,.",
-      "It is a jubilee; it shall be holy unto you: ye shall eat the increase thereof out of the field.",
-      "If he be not able to get it back for himself.",
-      "As a hired servant, and as a sojourner, he shall be with thee."
+      "The land rests every seventh year, and the fiftieth-year Jubilee brings liberty and return to property and clans.",
+      "Land prices must reflect remaining harvests, and the LORD promises a sixth-year blessing to supply food during the rest.",
+      "Land belongs to the LORD and must allow redemption, with separate rules for city houses and Levite property.",
+      "Poor Israelites must be supported and released at Jubilee; foreign slaves may remain lifelong property for owners and their heirs.",
+      "An Israelite sold to a foreigner may be redeemed and must be released with his children at Jubilee."
     ],
     "supporting_verses": [
-      "Leviticus 25:1",
-      "Leviticus 25:12",
-      "Leviticus 25:28",
-      "Leviticus 25:40",
-      "Leviticus 25:55"
+      "Leviticus 25:1-13",
+      "Leviticus 25:14-22",
+      "Leviticus 25:23-34",
+      "Leviticus 25:35-46",
+      "Leviticus 25:47-55"
     ],
-    "evidence_phrases": [
-      "The LORD spoke unto Moses in mount Sinai, saying",
-      "it shall be holy unto you",
-      "in the jubilee it shall go out, and he shall return unto his possession",
-      "he shall serve with thee unto the year of jubilee",
-      "Shalt thou send abroad the loud trumpet on the tenth day of the seventh month"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 3,
     "chapter": 26,
-    "title": "I set my tabernacle among you",
-    "summary_text": "Ye shall make you no idols, neither shall ye rear you up a graven image, or a pillar, neither shall ye place any figured stone in your land, to bow down unto it: for I am the LORD your God. I will have respect unto you, and make you fruitful, and multiply you, and will establish my covenant with you. I also will do this unto you: I will appoint terror over you, even consumption and fever, that shall consume the eyes, and make the soul to pine away; and ye shall sow your seed in vain, for your enemies shall eat it. Then will I remember my covenant with Jacob; and also my covenant with Isaac, and also my covenant with Abraham will I remember; and I will remember the land.",
+    "title": "Obedience Brings Peace, Rebellion Brings Ruin",
+    "summary_text": "The LORD forbids idols and tells Israel to honor His Sabbaths and holy place. Keeping His commandments brings food, peace, growth, victory, and His presence among them in covenant. Rejecting His rule brings worse punishments for sin, ending in hunger so severe they eat their children, ruined cities, and exile. The empty land will get its missed Sabbath rest. If they confess their iniquity and humble themselves, He will remember His covenant; even in exile, He will not destroy them all.",
     "themes": [
       "God at work",
       "Moses and leadership",
@@ -1128,33 +1020,29 @@
       "tabernacle"
     ],
     "key_points": [
-      "Ye shall make you no idols.",
-      "I will have respect unto you, and make you fruitful, and multiply you, and will establish my covenant with you.",
-      "I also will do this unto you.",
-      "Then will I remember my covenant with Jacob."
+      "Israel must reject idols and honor the LORD's Sabbaths and sanctuary.",
+      "Obedience brings harvests, peace, victory, growth, and the LORD living among His people under His covenant.",
+      "Persistent rebellion brings increasing punishments, including disease, poor harvests, wild animals, war, and famine.",
+      "Further rebellion leads to eating their children's flesh, ruined cities, rejected sacrifices, and exile while the land receives its Sabbath rest.",
+      "If Israel confesses iniquity and humbles its uncircumcised hearts, the LORD remembers His covenant; even in exile, He will not destroy them completely."
     ],
     "supporting_verses": [
-      "Leviticus 26:1",
-      "Leviticus 26:9",
-      "Leviticus 26:16",
-      "Leviticus 26:42",
-      "Leviticus 26:24",
-      "Leviticus 26:46"
+      "Leviticus 26:1-2",
+      "Leviticus 26:3-13",
+      "Leviticus 26:14-26",
+      "Leviticus 26:27-39",
+      "Leviticus 26:40-46"
     ],
-    "evidence_phrases": [
-      "for I am the LORD your God",
-      "I will have respect unto you, and make you fruitful, and multiply you, and will ",
-      "I also will do this unto you",
-      "I will remember the land",
-      "I will set my tabernacle among you"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 3,
     "chapter": 27,
-    "title": "Jubilee and release",
-    "summary_text": "The LORD spoke unto Moses, saying,. If it be any unclean beast, of which they do not offer an oblation unto the LORD, then he shall set the beast before the priest;. But the field, when it goeth out in the jubilee, shall be holy unto the LORD, as a field devoted; the possession thereof shall be the priest`s. Then the priest shall reckon unto him the worth of thy estimation unto the year of jubilee: and he shall give thine estimation in that day, as a holy thing unto the LORD.",
+    "title": "Valuations, Redemption, and What Belongs to God",
+    "summary_text": "Vows to the LORD have set values for people, animals, houses, and fields. A priest sets what poor people can afford, and rules explain when things may be redeemed, bought back at added cost. Field values change with the years left before Jubilee. Firstborn livestock already belong to the LORD, devoted property cannot be redeemed, and people set apart for destruction cannot be ransomed. Crop and livestock tithes, the tenth owed to Him, are holy and have rules for redemption and exchanges.",
     "themes": [
       "Priestly service",
       "Purity and defilement",
@@ -1171,25 +1059,21 @@
       "holy"
     ],
     "key_points": [
-      "The LORD spoke unto Moses, saying,.",
-      "If it be any unclean beast, of which they do not offer an oblation unto the LORD, then he shall set the beast before the priest.",
-      "But the field, when it goeth out in the jubilee, shall be holy unto the LORD, as a field devoted.",
-      "Then the priest shall reckon unto him the worth of thy estimation unto the year of jubilee."
+      "Vows involving people have set valuations, but a priest adjusts the amount if the person making the vow is poor.",
+      "Animals fit for offerings cannot be exchanged, while unclean animals and houses have valuation and redemption rules.",
+      "A field's value depends on time until Jubilee, with different outcomes for inherited and purchased land.",
+      "Firstborn livestock belong to the LORD; devoted property cannot be redeemed, and people set apart for destruction cannot be ransomed.",
+      "Crop and livestock tithes belong to the LORD, with added cost for redeeming crops and no exchanging livestock."
     ],
     "supporting_verses": [
-      "Leviticus 27:1",
-      "Leviticus 27:11",
-      "Leviticus 27:21",
-      "Leviticus 27:23",
-      "Leviticus 27:18",
-      "Leviticus 27:34"
+      "Leviticus 27:1-8",
+      "Leviticus 27:9-15",
+      "Leviticus 27:16-25",
+      "Leviticus 27:26-29",
+      "Leviticus 27:30-34"
     ],
-    "evidence_phrases": [
-      "The LORD spoke unto Moses, saying",
-      "If it be any unclean beast, of which they do not offer an oblation unto the LORD",
-      "the possession thereof shall be the priest`s",
-      "he shall give thine estimation in that day, as a holy thing unto the LORD",
-      "an abatement shall be made from thy estimation"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   }
 ]

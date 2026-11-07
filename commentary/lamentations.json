@@ -1,10 +1,10 @@
 [
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 25,
     "chapter": 1,
-    "title": "The ruined city and its tears",
-    "summary_text": "Jerusalem is pictured as a widow, lonely and weeping because her lovers have failed her and her enemies have prevailed. The poem remembers former greatness while confessing that sin has brought the city down. Even in grief, the speaker asks the Lord to see the suffering and judge the oppressor.",
+    "title": "Jerusalem Weeps with No One to Comfort",
+    "summary_text": "Jerusalem is pictured as a lonely widow, betrayed by friends while Judah goes into exile. People hunger and enemies seize her treasures because the LORD has judged her sins and transgressions. The city speaks as a woman, asking others to see her pain under God's fierce anger. She calls the LORD righteous and admits her own rebellion, while her people face hunger, captivity, and death. With no one to comfort her, she asks God to see her grief and judge her enemies' wickedness.",
     "themes": [
       "Desolation",
       "Weeping",
@@ -17,32 +17,29 @@
       "Her enemies"
     ],
     "key_points": [
-      "The city is lonely and abandoned after judgment.",
-      "Former splendor has become public shame.",
-      "Sin is acknowledged as part of the ruin.",
-      "The poem still appeals to God's justice."
+      "The once-great city is lonely and betrayed, and the LORD has brought grief because of her many transgressions.",
+      "Jerusalem remembers her treasures amid humiliation, uncleanness, a plundered sanctuary, and hunger caused by her downfall after sin.",
+      "The city describes her suffering under God's fierce anger and weeps because no comforter can restore her.",
+      "Jerusalem confesses rebellion against the righteous LORD as young people are captured and priests and elders die seeking food.",
+      "Jerusalem asks God to judge her rejoicing enemies for their wickedness as He judged her transgressions."
     ],
     "supporting_verses": [
-      "Lamentations 1:1",
-      "Lamentations 1:5",
-      "Lamentations 1:12",
-      "Lamentations 1:18",
-      "Lamentations 1:20"
+      "Lamentations 1:1-6",
+      "Lamentations 1:7-11",
+      "Lamentations 1:12-16",
+      "Lamentations 1:17-20",
+      "Lamentations 1:21-22"
     ],
-    "evidence_phrases": [
-      "how does the city sit solitary",
-      "she weeps sore in the night",
-      "the Lord has afflicted her",
-      "my virgins and my young men",
-      "behold my affliction"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 25,
     "chapter": 2,
-    "title": "The Lord's anger against Zion",
-    "summary_text": "The second poem describes the Lord as the one who has thrown down the beauty of Zion in fierce anger. Temple, wall, and king alike are shown as fallen, while mothers and children suffer in the streets. The lament presses the reader to see judgment as divine and not accidental.",
+    "title": "Zion Cries Out Under the LORD's Wrath",
+    "summary_text": "The Lord pours His wrath on Zion like an enemy, destroying homes, defenses, rulers, and His own sanctuary. Feasts and Sabbaths cease, leaders are exiled, and prophets find no vision from Him. The poet weeps for starving children and exposes the prophets' lies, while enemies mock the city's fall. He says the LORD has carried out His decree and urges Zion to pray for her children. The closing plea asks God to look on mothers eating their children and the deaths of young and old, priests and prophets.",
     "themes": [
       "Divine anger",
       "Temple ruin",
@@ -55,32 +52,29 @@
       "Children"
     ],
     "key_points": [
-      "The fall of the city is attributed directly to God's wrath.",
-      "Holy structures and royal power are no longer protection.",
-      "The suffering of children and mothers is part of the horror.",
-      "The poem insists that the destruction was not random."
+      "The Lord casts down Israel's glory, pours out wrath like fire, and destroys Judah's homes, strongholds, and rulers like an enemy.",
+      "The LORD rejects His altar and tabernacle, ends feasts and Sabbaths, and leaves Zion without law or prophetic vision.",
+      "The poet grieves for starving children and says the prophets' deceptive visions failed to reveal the city's guilt.",
+      "Enemies mock Jerusalem, while the LORD has carried out His decree and allowed them to triumph.",
+      "Zion is urged to pray for her children, and the final plea describes hunger, slaughter, and the LORD's anger."
     ],
     "supporting_verses": [
-      "Lamentations 2:1",
-      "Lamentations 2:6",
-      "Lamentations 2:11",
-      "Lamentations 2:18",
-      "Lamentations 2:22"
+      "Lamentations 2:1-5",
+      "Lamentations 2:6-9",
+      "Lamentations 2:10-14",
+      "Lamentations 2:15-17",
+      "Lamentations 2:18-22"
     ],
-    "evidence_phrases": [
-      "the Lord has covered",
-      "his anger",
-      "the wall",
-      "the children faint",
-      "thou hast slain"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 25,
     "chapter": 3,
-    "title": "Affliction, hope, and the Lord's faithful love",
-    "summary_text": "The longest poem speaks from deep personal suffering, yet it repeatedly turns toward hope in the Lord's mercy. The speaker remembers affliction, waits quietly, and confesses that God's steadfast love and compassion are the only reason grief does not become despair. The chapter is the book's center because it moves from pain to trust without denying either one.",
+    "title": "Hope Amid Affliction and Wrath",
+    "summary_text": "A suffering man describes God's wrath as darkness, wounds, and unanswered prayer. Yet remembering the LORD's loving devotion and faithfulness gives him hope to wait for salvation. He says the Lord does not reject forever or approve injustice, and calls the people to examine their ways and confess their sin, though they remain unforgiven. Through tears over his people's ruin, he recalls how the Lord heard his cry and redeemed his life. He ends by asking God to judge his enemies and place His curse on them.",
     "themes": [
       "Personal suffering",
       "Hope",
@@ -93,33 +87,29 @@
       "The afflicted"
     ],
     "key_points": [
-      "The speaker feels surrounded by darkness and pain.",
-      "Hope is rooted in the Lord's mercies, not circumstances.",
-      "Quiet waiting becomes an act of faith.",
-      "The Lord's compassion is renewed every morning."
+      "The speaker describes crushing suffering under God's wrath and the loss of peace and hope.",
+      "The LORD's loving devotion and faithfulness renew the speaker's hope as he waits for salvation.",
+      "The Lord rejects injustice, and the people confess that they have sinned but have not been forgiven.",
+      "While grieving his people's destruction, the speaker remembers that the Lord heard him and redeemed his life.",
+      "He asks the LORD to see his enemies' plots and repay their attacks with judgment."
     ],
     "supporting_verses": [
-      "Lamentations 3:19",
-      "Lamentations 3:21",
-      "Lamentations 3:22",
-      "Lamentations 3:24",
-      "Lamentations 3:31",
-      "Lamentations 3:32"
+      "Lamentations 3:1-20",
+      "Lamentations 3:21-33",
+      "Lamentations 3:34-47",
+      "Lamentations 3:48-58",
+      "Lamentations 3:59-66"
     ],
-    "evidence_phrases": [
-      "my soul has them still in remembrance",
-      "great is your faithfulness",
-      "the Lord is my portion",
-      "it is good that a man should hope",
-      "he will not cast off forever"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 25,
     "chapter": 4,
-    "title": "The siege and the horrors of collapse",
-    "summary_text": "The poem compares the former glory of Jerusalem with the blackened reality of a city starved by siege. Children, nobles, and priests all suffer in ways that expose how complete the collapse has become. The chapter refuses to soften the horror, making the reader feel the weight of covenant judgment in human bodies.",
+    "title": "Zion's Ruin and Edom's Coming Judgment",
+    "summary_text": "Zion's people, once precious and well fed, now starve in the streets, and mothers have cooked their children for food. The LORD has poured out His wrath on Jerusalem because of the sins of prophets and priests who killed the righteous. The people describe waiting in vain for help as enemies hunted them and captured the LORD's anointed. The poem ends by announcing that Zion's punishment is complete, while Edom will face punishment for its iniquity.",
     "themes": [
       "Siege",
       "Collapse",
@@ -132,32 +122,27 @@
       "Priests"
     ],
     "key_points": [
-      "Once-precious people are now treated like broken pottery.",
-      "Famine and violence have overturned ordinary life.",
-      "Priests and nobles share the humiliation.",
-      "The city cannot hide the price of its rebellion."
+      "Hunger leaves children without food and reduces once wealthy people to misery.",
+      "The LORD's wrath falls on Jerusalem, whose prophets and priests shed the blood of righteous people.",
+      "Help never arrives, enemies pursue the people, and the LORD's anointed is captured.",
+      "Zion's punishment ends, but Edom will have its sins exposed and its iniquity punished."
     ],
     "supporting_verses": [
-      "Lamentations 4:1",
-      "Lamentations 4:4",
-      "Lamentations 4:7",
-      "Lamentations 4:10",
-      "Lamentations 4:13"
+      "Lamentations 4:1-10",
+      "Lamentations 4:11-16",
+      "Lamentations 4:17-20",
+      "Lamentations 4:21-22"
     ],
-    "evidence_phrases": [
-      "the gold has become dim",
-      "the tongue of the sucking child",
-      "the iniquity of her prophets",
-      "the anointed of the Lord",
-      "our end is near"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 25,
     "chapter": 5,
-    "title": "Remember us, Lord, and restore us",
-    "summary_text": "The final poem turns from description to prayer, listing the people's shame, labor, and humiliation under foreign rule. The speaker asks God to remember, renew, and restore because the land is still his and the suffering has gone on too long. The book ends without instant relief, but with a plea that keeps faith alive.",
+    "title": "A Ruined People Plead for Restoration",
+    "summary_text": "The people ask the LORD to see their disgrace as strangers hold their inheritance and hunger makes daily life dangerous. They describe women being raped, leaders abused, and young people forced into hard labor. Their joy has become mourning, and they confess their own sin while also bearing punishment for their fathers' sins. They affirm that the LORD reigns forever and ask Him to restore them, ending with the fear that He has rejected them in lasting anger.",
     "themes": [
       "Prayer",
       "Shame",
@@ -170,24 +155,19 @@
       "The remnant"
     ],
     "key_points": [
-      "The poem lists the city's shame before asking for help.",
-      "Foreign domination is felt in daily life and work.",
-      "Only God can turn the situation back.",
-      "The closing question is really a hope for renewal."
+      "The people ask God to see their lost inheritance, exhaustion, hunger, and helplessness under foreign rule.",
+      "Sexual violence, abuse of leaders, and forced labor replace the community's former life and joy.",
+      "The people admit their sin and grieve over deserted Mount Zion.",
+      "They acknowledge the LORD's lasting reign and plead for restoration while fearing His rejection."
     ],
     "supporting_verses": [
-      "Lamentations 5:1",
-      "Lamentations 5:5",
-      "Lamentations 5:15",
-      "Lamentations 5:19",
-      "Lamentations 5:21"
+      "Lamentations 5:1-10",
+      "Lamentations 5:11-15",
+      "Lamentations 5:16-18",
+      "Lamentations 5:19-22"
     ],
-    "evidence_phrases": [
-      "remember, O Lord",
-      "our inheritance is turned",
-      "we have borne our iniquities",
-      "turn you us to you",
-      "renew our days"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   }
 ]

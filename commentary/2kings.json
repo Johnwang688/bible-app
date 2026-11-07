@@ -1,10 +1,10 @@
 [
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 12,
     "chapter": 1,
-    "title": "Ahaziah rebuked by Elijah",
-    "summary_text": "After Ahaziah falls and seeks help from Baal-zebub, Elijah confronts the king's messengers and announces that this is not a minor accident but a sign of rebellion against the LORD. Fire falls on the captains who try to seize the prophet, but mercy is shown when the third captain humbles himself. The chapter opens Kings with a sharp reminder that Israel's God speaks over every throne.",
+    "title": "Ahaziah Seeks Baal-zebub and Faces Death",
+    "summary_text": "After a serious fall, Ahaziah sends messengers to ask Baal-zebub whether he will recover. The LORD's angel sends Elijah to stop them and announce that the king will die because he has ignored Israel's God. Fire from heaven kills two captains and their companies when they order Elijah to come down. A third captain begs for their lives, and the angel tells Elijah to accompany him. Elijah repeats the LORD's word to Ahaziah, who dies and is succeeded by Jehoram because he has no son.",
     "themes": [
       "Prophetic authority",
       "False gods",
@@ -18,32 +18,27 @@
       "Baal-zebub"
     ],
     "key_points": [
-      "Ahaziah seeks counsel from a pagan god.",
-      "Elijah declares the king will not recover.",
-      "Fire consumes the first two hostile captains.",
-      "The third captain survives by pleading for mercy."
+      "Ahaziah seeks an answer from Baal-zebub, but Elijah sends back the LORD's announcement of his death.",
+      "Fire from heaven consumes two captains and their companies after Elijah answers their demands.",
+      "The third captain pleads for his men's lives, and the LORD's angel tells Elijah to go with him.",
+      "Ahaziah dies as the LORD declared, and Jehoram takes the throne because Ahaziah has no son."
     ],
     "supporting_verses": [
-      "2 Kings 1:3",
-      "2 Kings 1:6",
-      "2 Kings 1:10",
-      "2 Kings 1:15",
-      "2 Kings 1:17"
+      "2 Kings 1:1-8",
+      "2 Kings 1:9-12",
+      "2 Kings 1:13-15",
+      "2 Kings 1:16-18"
     ],
-    "evidence_phrases": [
-      "Is it because there is no God in Israel?",
-      "a man of God",
-      "let fire come down",
-      "the king is saying this",
-      "he shall surely die"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 12,
     "chapter": 2,
-    "title": "Elijah taken up and Elisha receives the mantle",
-    "summary_text": "Elijah and Elisha travel from place to place as the younger prophet refuses to leave his master. The Jordan is parted, Elijah is taken up by a whirlwind, and Elisha receives a double portion of the prophetic spirit. The chapter marks a real transfer of ministry and confirms that the LORD's work continues after Elijah's departure.",
+    "title": "Elijah Is Taken Up and Elisha Continues",
+    "summary_text": "Elisha refuses to leave Elijah and asks to inherit a double portion of his spirit. After fiery horses and a chariot separate them, Elijah is taken into heaven by a whirlwind. Elisha picks up Elijah's cloak and parts the Jordan, and the watching prophets recognize that Elijah's spirit rests on him. At Jericho, the LORD heals the water through Elisha. Later, Elisha curses boys who mock him, and two bears maul forty-two of them.",
     "themes": [
       "Prophetic succession",
       "Double portion",
@@ -57,32 +52,29 @@
       "the LORD"
     ],
     "key_points": [
-      "Elijah tests Elisha's resolve at several stops.",
-      "The Jordan opens before the prophets.",
-      "Elijah is taken up in a whirlwind.",
-      "Elisha begins ministry with the same power at work."
+      "Elisha stays with Elijah as they travel, and Elijah parts the Jordan with his cloak.",
+      "Elisha asks for a double portion of Elijah's spirit and sees him taken into heaven.",
+      "Elisha parts the river, and the prophets recognize Elijah's spirit on him but search unsuccessfully for Elijah.",
+      "Elisha brings the LORD's word of healing and puts salt into Jericho's spring, making its water safe.",
+      "Bears maul forty-two boys after Elisha pronounces a curse on those mocking him."
     ],
     "supporting_verses": [
-      "2 Kings 2:1",
-      "2 Kings 2:8",
-      "2 Kings 2:11",
-      "2 Kings 2:13",
-      "2 Kings 2:14"
+      "2 Kings 2:1-8",
+      "2 Kings 2:9-12",
+      "2 Kings 2:13-18",
+      "2 Kings 2:19-22",
+      "2 Kings 2:23-25"
     ],
-    "evidence_phrases": [
-      "I will not leave you",
-      "a chariot of fire",
-      "my father, my father",
-      "the spirit of Elijah",
-      "the waters were divided"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 12,
     "chapter": 3,
-    "title": "Water in the wilderness and Moab's defeat",
-    "summary_text": "Jehoram, Jehoshaphat, and the king of Edom march against Moab, but the campaign stalls until Elisha is consulted. God provides water without wind or rain and then grants victory over Moab. The chapter shows that military plans only succeed when the LORD provides the way.",
+    "title": "Water and Victory in the Moab Campaign",
+    "summary_text": "Jehoram removes his father's Baal pillar but continues Jeroboam's sins. He joins Judah and Edom against rebellious Moab, but their armies run out of water. The prophet Elisha gives the LORD's word that He will supply water and give them victory. Mistaking the water for blood, the Moabites approach Israel's camp and are defeated, and the allies destroy their land. Moab's king offers his firstborn son as a burnt offering on the wall; great fury rises against Israel, and the Israelites withdraw.",
     "themes": [
       "Military dependence",
       "Provision of water",
@@ -96,32 +88,29 @@
       "Moab"
     ],
     "key_points": [
-      "The allied kings face water shortage in the wilderness.",
-      "Elisha promises water and victory.",
-      "The valley fills with water in an unexpected way.",
-      "Moab is driven back under divine help."
+      "Jehoram continues Israel's sins and recruits Jehoshaphat to fight Moab after its rebellion.",
+      "With three armies short of water, Jehoshaphat seeks the LORD through Elisha.",
+      "The LORD promises water without visible rain and victory over Moab, and water arrives the next morning.",
+      "The Moabites mistake water for blood, walk into Israel's attack, and suffer the destruction of their land.",
+      "After Moab's king offers his firstborn son as a burnt offering, great fury arises and Israel withdraws."
     ],
     "supporting_verses": [
-      "2 Kings 3:13",
-      "2 Kings 3:16",
-      "2 Kings 3:17",
-      "2 Kings 3:20",
-      "2 Kings 3:24"
+      "2 Kings 3:1-8",
+      "2 Kings 3:9-15",
+      "2 Kings 3:16-20",
+      "2 Kings 3:21-25",
+      "2 Kings 3:26-27"
     ],
-    "evidence_phrases": [
-      "make this valley full of trenches",
-      "you shall not see wind",
-      "the water came by the way of Edom",
-      "the king of Moab",
-      "great wrath"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 12,
     "chapter": 4,
-    "title": "Oil, bread, and life through Elisha",
-    "summary_text": "Elisha helps a widow pay her debts, multiplies oil, and later provides for the Shunammite woman and her child. He also purifies a deadly pot of stew and feeds a hundred men with a small amount of bread. The chapter presents Elisha as a prophet through whom God gives life, provision, and hope.",
+    "title": "Elisha Helps Families and Provides Food",
+    "summary_text": "A prophet's widow faces losing her sons to a creditor, but oil keeps flowing into borrowed jars until she has enough to pay her debt and live. A woman in Shunem welcomes Elisha as a holy man of God, and he promises her a son. The child is born but later dies, and his mother urgently seeks Elisha. After Elisha prays and stretches himself over the boy, the child returns to life. Elisha also makes harmful stew safe and feeds a hundred men with twenty loaves, with food remaining as the LORD's word promised.",
     "themes": [
       "Provision",
       "Life from death",
@@ -135,32 +124,29 @@
       "Gehazi"
     ],
     "key_points": [
-      "Oil is multiplied to rescue a widow from debt.",
-      "A promised son is given to the Shunammite woman.",
-      "The boy later dies and is restored to life.",
-      "A small meal feeds many people under God's hand."
+      "A widow fills borrowed jars with oil and can pay her debt without losing her sons.",
+      "The Shunammite woman gives Elisha a room, and his promise that she will bear a son comes true.",
+      "When her son dies, the woman seeks Elisha and refuses to leave without him.",
+      "Gehazi's use of Elisha's staff brings no response, but the boy revives after Elisha prays and tends him.",
+      "Elisha removes harm from stew and feeds a hundred men with a small supply of bread."
     ],
     "supporting_verses": [
-      "2 Kings 4:1",
-      "2 Kings 4:17",
-      "2 Kings 4:32",
-      "2 Kings 4:35",
-      "2 Kings 4:44"
+      "2 Kings 4:1-7",
+      "2 Kings 4:8-17",
+      "2 Kings 4:18-30",
+      "2 Kings 4:31-37",
+      "2 Kings 4:38-44"
     ],
-    "evidence_phrases": [
-      "the oil stopped",
-      "according to the word of Elisha",
-      "the child revived",
-      "the deadly thing is in the pot",
-      "they ate and had some left"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 12,
     "chapter": 5,
-    "title": "Naaman healed and Gehazi judged",
-    "summary_text": "Naaman, a Syrian commander, comes for healing and learns that cleansing comes through humble obedience rather than spectacle. Elisha's instruction leads to Naaman's restoration, but Gehazi's greed brings leprosy upon himself and his descendants. The chapter contrasts faith that receives grace with a servant who turns ministry into profit.",
+    "title": "Naaman Is Cleansed and Gehazi Is Exposed",
+    "summary_text": "Naaman has leprosy, and a captive girl points him to Elisha. Though angry at first, he follows the prophet's word, dips seven times in the Jordan, and is cleansed. He vows to sacrifice only to the LORD and asks forgiveness for bowing with his master in Rimmon's temple. Elisha refuses gifts, but Gehazi lies to gain silver and clothes. The prophet exposes him and says Naaman's disease will cling to him and his family, and Gehazi leaves with leprosy.",
     "themes": [
       "Humility and healing",
       "Gentile grace",
@@ -174,32 +160,29 @@
       "the servant girl"
     ],
     "key_points": [
-      "Naaman is told to wash in the Jordan.",
-      "He is cleansed when he obeys the word of God.",
-      "Elisha refuses payment for the miracle.",
-      "Gehazi's deception leaves him with Naaman's leprosy."
+      "A captive girl points Naaman toward Elisha, while Israel's king fears the request for healing is a provocation.",
+      "Naaman overcomes his anger, follows Elisha's instructions, and is cleansed in the Jordan.",
+      "Naaman pledges offerings to the LORD alone and asks forgiveness concerning his duties in Rimmon's temple.",
+      "Gehazi falsely claims Elisha needs supplies and accepts silver and clothing that Elisha had refused.",
+      "Elisha confronts Gehazi's deception and declares that Naaman's leprosy will cling to Gehazi and his descendants."
     ],
     "supporting_verses": [
-      "2 Kings 5:10",
-      "2 Kings 5:14",
-      "2 Kings 5:15",
-      "2 Kings 5:16",
-      "2 Kings 5:27"
+      "2 Kings 5:1-8",
+      "2 Kings 5:9-14",
+      "2 Kings 5:15-19",
+      "2 Kings 5:20-24",
+      "2 Kings 5:25-27"
     ],
-    "evidence_phrases": [
-      "Wash, and be clean",
-      "his flesh was restored",
-      "as the LORD lives",
-      "my heart went with you",
-      "Naaman's leprosy"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 12,
     "chapter": 6,
-    "title": "The axe head, the army, and the blinded host",
-    "summary_text": "Elisha restores a lost axe head and then protects Israel when the Aramean army comes against Dothan. God opens the eyes of Elisha's servant, blinds the enemy troops, and leads them into Samaria. The chapter reveals that unseen divine power can defend God's people more effectively than weapons.",
+    "title": "Elisha's Deliverances and Samaria's Terrible Siege",
+    "summary_text": "Elisha makes a borrowed axe head float, then later sends word to warn Israel's king of enemy movements. Aram's king sends troops to seize the prophet. The LORD shows Elisha's servant fiery horses and chariots, then blinds the enemy at Elisha's prayer. Elisha leads them to Samaria, where they are fed and freed. Later, a siege brings such hunger that a woman reports eating her son, and Israel's king threatens Elisha and questions waiting for the LORD.",
     "themes": [
       "Hidden power",
       "Sight and blindness",
@@ -213,32 +196,29 @@
       "the king of Israel"
     ],
     "key_points": [
-      "A borrowed axe head is made to float.",
-      "The servant sees the mountain full of horses and chariots.",
-      "The enemy army is blinded and led away.",
-      "God protects his prophet and his people."
+      "Elisha makes a lost iron axe head float while the prophets are building a larger home.",
+      "Elisha's warnings protect Israel's king, and Aram sends troops to capture the prophet at Dothan.",
+      "The LORD shows Elisha's servant fiery forces and blinds the Aramean troops in answer to Elisha's prayers.",
+      "Elisha leads the troops into Samaria and tells the king to feed and release them instead of killing them.",
+      "A later siege brings famine and cannibalism, and Israel's king blames the LORD and threatens Elisha."
     ],
     "supporting_verses": [
-      "2 Kings 6:5",
-      "2 Kings 6:17",
-      "2 Kings 6:18",
-      "2 Kings 6:20",
-      "2 Kings 6:23"
+      "2 Kings 6:1-7",
+      "2 Kings 6:8-14",
+      "2 Kings 6:15-18",
+      "2 Kings 6:19-23",
+      "2 Kings 6:24-33"
     ],
-    "evidence_phrases": [
-      "the axe head floated",
-      "the mountain was full",
-      "open his eyes",
-      "struck them with blindness",
-      "set bread and water before them"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 12,
     "chapter": 7,
-    "title": "Four lepers discover deliverance",
-    "summary_text": "Samaria is trapped by famine until four lepers stumble into the abandoned Aramean camp and find the enemy has fled. Their news reaches the king, the city is supplied, and the famine ends exactly as Elisha predicted. The chapter shows that God can turn despair into abundance through the most unlikely witnesses.",
+    "title": "The LORD Ends Samaria's Famine",
+    "summary_text": "Elisha gives the LORD's word that grain will be cheap the next day, but a royal officer doubts it. Four men with leprosy enter the Aramean camp and find it deserted because the Lord has made the army hear an approaching force and flee. After eating and hiding valuables, they decide that keeping this good news secret would be sin and report it. Scouts confirm the retreat, and the people gather supplies, bringing grain prices down as promised. The doubting officer sees the relief but is trampled to death before eating any of it, as Elisha predicted.",
     "themes": [
       "Unexpected deliverance",
       "Famine ended",
@@ -252,32 +232,29 @@
       "Samaria"
     ],
     "key_points": [
-      "The city is starving under siege.",
-      "The lepers discover an empty camp full of supplies.",
-      "The king confirms that the Arameans have fled.",
-      "Food becomes plentiful and the prophet's word is fulfilled."
+      "Elisha predicts cheap grain and tells a doubting officer he will see it but not eat it.",
+      "Four men with leprosy find the enemy camp empty after the Lord frightens the army into flight.",
+      "The men report the good news rather than risk sin by remaining silent.",
+      "Scouts confirm the Aramean retreat, and the people plunder the camp, fulfilling the LORD's word about grain prices.",
+      "The officer dies beneath the crowd in the gateway, just as Elisha had warned."
     ],
     "supporting_verses": [
-      "2 Kings 7:3",
-      "2 Kings 7:6",
-      "2 Kings 7:9",
-      "2 Kings 7:16",
-      "2 Kings 7:18"
+      "2 Kings 7:1-2",
+      "2 Kings 7:3-8",
+      "2 Kings 7:9-11",
+      "2 Kings 7:12-16",
+      "2 Kings 7:17-20"
     ],
-    "evidence_phrases": [
-      "a measure of fine flour",
-      "we do not do well",
-      "the LORD has made",
-      "the word of the man of God",
-      "the Arameans fled"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 12,
     "chapter": 8,
-    "title": "Shunammite restoration and Hazael foreseen",
-    "summary_text": "The Shunammite woman returns and finds her land restored after Elisha's earlier warning. Elisha then meets Hazael, who will become king of Syria, and the chapter records the troubled reign of Jehoram of Judah. The story ties personal restoration to the larger political shifts that are unfolding across the region.",
+    "title": "Hazael Takes Power and Judah Loses Control",
+    "summary_text": "A woman returns after a seven-year famine, and the king restores her land and its income. Elisha weeps over the harm Hazael will do to Israel, including killing children and pregnant women. Hazael smothers Ben-hadad and takes Aram's throne. In Judah, Jehoram does evil and faces revolt, yet the LORD keeps His promise to David and spares Judah. His son Ahaziah also does evil and joins Joram in war, then visits him after he is wounded.",
     "themes": [
       "Restoration",
       "Prophetic foresight",
@@ -291,33 +268,29 @@
       "Jehoram"
     ],
     "key_points": [
-      "The Shunammite's property is returned to her.",
-      "Elisha foretells Hazael's rise.",
-      "Hazael's future brutality is exposed.",
-      "Jehoram's reign in Judah is marked by evil."
+      "The king restores the woman's property after hearing Gehazi's account of Elisha restoring her son to life.",
+      "Elisha says Hazael will rule Aram and weeps over the brutal harm he will do to Israel.",
+      "Hazael tells Ben-hadad he will recover, then smothers him and takes the throne.",
+      "Despite Jehoram's evil and rebellions against Judah, the LORD keeps His promise to preserve David's line.",
+      "Ahaziah follows Ahab's family's evil example and allies with Joram against Hazael."
     ],
     "supporting_verses": [
-      "2 Kings 8:1",
-      "2 Kings 8:5",
-      "2 Kings 8:11",
-      "2 Kings 8:13",
-      "2 Kings 8:18"
+      "2 Kings 8:1-6",
+      "2 Kings 8:7-13",
+      "2 Kings 8:14-15",
+      "2 Kings 8:16-24",
+      "2 Kings 8:25-29"
     ],
-    "evidence_phrases": [
-      "the king restored to her",
-      "go, say to him",
-      "you will be king over Syria",
-      "Jehoram walked in the way",
-      "the LORD was not willing"
-    ]
-  }
-,
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
+  },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 12,
     "chapter": 9,
-    "title": "Jehu anointed and the house of Ahab falls",
-    "summary_text": "Jehu is anointed in secret and immediately begins the violent overthrow of Ahab's dynasty. Joram and Ahaziah are killed, and Jezebel's downfall fulfills the prophetic word spoken long before. The chapter displays God's judgment on entrenched idolatry and the end of a corrupt royal house.",
+    "title": "Jehu Becomes King and Strikes Ahab's House",
+    "summary_text": "Elisha sends a young prophet to anoint Jehu king and declare the LORD's judgment against Ahab's family for bloodshed. With the commanders' support, Jehu rides to Jezreel and rejects Joram's talk of peace while Jezebel's idolatry and witchcraft continue. He kills Joram and has his body thrown onto Naboth's land in keeping with the LORD's word. Ahaziah of Judah is wounded during his escape and dies. At Jehu's command, Jezebel is thrown from a window, and dogs consume her remains as the LORD had foretold.",
     "themes": [
       "Judgment on Ahab's house",
       "Anointing of Jehu",
@@ -331,32 +304,29 @@
       "Jezebel"
     ],
     "key_points": [
-      "Jehu is anointed to strike Ahab's house.",
-      "Joram and Ahaziah are both killed.",
-      "Jezebel is thrown down and destroyed.",
-      "The prophecy against Ahab begins to come true."
+      "A young prophet anoints Jehu and declares that the LORD will avenge His servants' blood on Ahab's household.",
+      "Army commanders proclaim Jehu king, and he heads to Jezreel without allowing advance warning.",
+      "Jehu rejects peace, kills Joram, and orders his body thrown onto Naboth's land to fulfill the LORD's word.",
+      "Jehu's men wound Ahaziah as he flees, and he dies at Megiddo.",
+      "Jezebel is thrown down and trampled, and her remains confirm the LORD's warning about dogs consuming her."
     ],
     "supporting_verses": [
-      "2 Kings 9:3",
-      "2 Kings 9:10",
-      "2 Kings 9:24",
-      "2 Kings 9:33",
-      "2 Kings 9:36"
+      "2 Kings 9:1-10",
+      "2 Kings 9:11-20",
+      "2 Kings 9:21-26",
+      "2 Kings 9:27-29",
+      "2 Kings 9:30-37"
     ],
-    "evidence_phrases": [
-      "I have anointed you king",
-      "What peace, so long as",
-      "Throw her down",
-      "the blood of Naboth",
-      "the LORD spoke by Elijah"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 12,
     "chapter": 10,
-    "title": "Jehu destroys Baal worship",
-    "summary_text": "Jehu continues his purge by eliminating Ahab's sons, the Baal priests, and the remaining symbols of idolatry. He acts with ruthless zeal, but the chapter also notes that he does not fully turn from Jeroboam's sins. The result is a judgment on evil without a complete return to covenant faithfulness.",
+    "title": "Jehu Destroys Ahab's House and Baal Worship",
+    "summary_text": "Jehu has Ahab's seventy sons killed and destroys the rest of his house, fulfilling the LORD's word. He also kills Ahaziah's relatives and gains Jehonadab's support. Claiming he will serve Baal, he gathers Baal's servants for a sacrifice, has them killed, and destroys their temple. The LORD promises the throne to four generations of Jehu's sons, but Jehu keeps the sin of calf worship. Hazael takes land from Israel, and Jehoahaz becomes king after Jehu dies.",
     "themes": [
       "Religious purge",
       "Zeal against idolatry",
@@ -370,32 +340,29 @@
       "Jehonadab"
     ],
     "key_points": [
-      "Jehu destroys the house of Ahab.",
-      "He gathers and kills the prophets of Baal.",
-      "The temple of Baal is turned into a ruin.",
-      "Jehu's zeal is real, but not complete."
+      "Samaria's leaders kill Ahab's seventy sons at Jehu's command, and Jehu destroys Ahab's remaining supporters in Jezreel.",
+      "Jehu kills Ahaziah's relatives and the rest of Ahab's house in Samaria, with Jehonadab joining him.",
+      "Jehu gathers Baal's prophets, priests, and servants for offerings, then orders their deaths and destroys Baal's temple.",
+      "The LORD promises Jehu a lasting royal line for four generations, but Jehu continues Jeroboam's sins.",
+      "Hazael takes Israelite territory, and Jehoahaz succeeds Jehu after his death."
     ],
     "supporting_verses": [
-      "2 Kings 10:11",
-      "2 Kings 10:18",
-      "2 Kings 10:25",
-      "2 Kings 10:28",
-      "2 Kings 10:31"
+      "2 Kings 10:1-11",
+      "2 Kings 10:12-17",
+      "2 Kings 10:18-28",
+      "2 Kings 10:29-31",
+      "2 Kings 10:32-36"
     ],
-    "evidence_phrases": [
-      "Jehu did what was right",
-      "the temple of Baal",
-      "let no one escape",
-      "made it a latrine",
-      "he did not depart from"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 12,
     "chapter": 11,
-    "title": "Joash preserved and Athaliah removed",
-    "summary_text": "Athaliah seizes power in Judah, but Joash is hidden and then crowned through the faithful work of Jehoiada the priest. The false queen is executed, and the covenant is renewed when the people turn back to the LORD. The chapter shows that God's promise to David survives even the darkest usurpation.",
+    "title": "Joash Is Crowned and Athaliah Falls",
+    "summary_text": "Athaliah kills the royal heirs, but Jehosheba rescues Joash and hides him in the LORD's house for six years. In the seventh year, Jehoiada the priest organizes guards around the boy during the Sabbath change of duty, and Joash is crowned and anointed king. Athaliah cries treason, but she is taken outside the temple and killed. Jehoiada establishes a covenant binding king and people to the LORD, as well as one between king and people. The people destroy Baal's temple, altars, and idols and kill its priest, then bring Joash to the throne amid public rejoicing.",
     "themes": [
       "Davidic preservation",
       "False rule removed",
@@ -409,32 +376,29 @@
       "the people"
     ],
     "key_points": [
-      "Athaliah rules by murder and fear.",
-      "Joash is hidden in the temple for protection.",
-      "Jehoiada crowns the rightful king.",
-      "Athaliah is removed and the covenant is renewed."
+      "Jehosheba rescues Joash from Athaliah's killing of the royal heirs and hides him in the LORD's house.",
+      "Jehoiada organizes armed protection for Joash using the guards changing duty on the Sabbath.",
+      "Joash is crowned and anointed, and Athaliah is taken outside the temple and executed.",
+      "Jehoiada establishes covenants, and the people destroy Baal's temple and idols and kill its priest.",
+      "Seven-year-old Joash takes the royal throne, and the people rejoice as the city becomes quiet."
     ],
     "supporting_verses": [
-      "2 Kings 11:2",
-      "2 Kings 11:4",
-      "2 Kings 11:12",
-      "2 Kings 11:17",
-      "2 Kings 11:20"
+      "2 Kings 11:1-3",
+      "2 Kings 11:4-11",
+      "2 Kings 11:12-16",
+      "2 Kings 11:17-18",
+      "2 Kings 11:19-21"
     ],
-    "evidence_phrases": [
-      "hid him in the house of the LORD",
-      "the king's son",
-      "the king stood by the pillar",
-      "Athaliah was slain",
-      "a covenant between the LORD"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 12,
     "chapter": 12,
-    "title": "Joash repairs the temple",
-    "summary_text": "Joash begins well by directing temple repairs and organizing generous contributions from the people. The work restores the sanctuary, though later the king is pressured into poor decisions. The chapter presents the hope of reform alongside the fragility of a king who depends too much on others.",
+    "title": "Joash Repairs the Temple but Is Murdered",
+    "summary_text": "Joash follows the LORD while Jehoiada the priest instructs him, though the people continue to sacrifice at the high places. When the priests fail to repair the temple, Joash changes how the repair money is handled. Donations go into a chest, and the royal scribe and high priest count them so supervisors can pay trusted workers for the repairs. Joash later sends sacred objects and treasury gold to Hazael, who withdraws from Jerusalem. Joash's servants murder him, and his son Amaziah takes the throne.",
     "themes": [
       "Temple restoration",
       "Generous giving",
@@ -448,32 +412,29 @@
       "the people"
     ],
     "key_points": [
-      "Funds are collected to repair the temple.",
-      "The work is completed with care and honesty.",
-      "Joash's early reforms are positive.",
-      "Later political pressure reveals his weakness."
+      "Joash does right under Jehoiada's instruction, but worship at the high places continues.",
+      "Joash ends the priests' original collection system because the temple remains unrepaired.",
+      "The high priest and royal scribe count donations that fund workers and materials for temple repairs.",
+      "Joash gives Hazael sacred objects and gold from the temple and palace, and Hazael withdraws.",
+      "Joash's servants conspire to kill him, and Amaziah succeeds him."
     ],
     "supporting_verses": [
-      "2 Kings 12:4",
-      "2 Kings 12:9",
-      "2 Kings 12:11",
-      "2 Kings 12:14",
-      "2 Kings 12:19"
+      "2 Kings 12:1-3",
+      "2 Kings 12:4-8",
+      "2 Kings 12:9-15",
+      "2 Kings 12:17-18",
+      "2 Kings 12:19-21"
     ],
-    "evidence_phrases": [
-      "the money that is brought",
-      "for the repair of the house",
-      "the work was not done",
-      "the house of the LORD",
-      "they acted honestly"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 12,
     "chapter": 13,
-    "title": "Jehoahaz, Jehoash, and Elisha's final sign",
-    "summary_text": "Israel suffers under Aramean oppression, but the LORD still gives deliverance when kings cry out. Elisha's dying prophecy about victory is symbolized by the arrows, and his bones later bring life to a dead man. The chapter closes Elisha's ministry with a final testimony that God's power outlasts the prophet's lifetime.",
+    "title": "Israel Receives Help Despite Its Continuing Sin",
+    "summary_text": "Jehoahaz leads Israel into sin, so the LORD in His anger hands them over to Aram, but He answers Jehoahaz's plea for help. His son Jehoash becomes king and keeps the same sins. As Elisha nears death, he uses a bow and arrows to show the king's coming victories, limited to three by his three strikes. A dead man later comes to life when he touches Elisha's bones. The LORD shows care for Israel because of His covenant with Abraham, Isaac, and Jacob, and Jehoash wins back cities from Aram.",
     "themes": [
       "Suffering and rescue",
       "Prophetic farewell",
@@ -487,32 +448,29 @@
       "the king of Aram"
     ],
     "key_points": [
-      "Israel suffers because of repeated sin.",
-      "Elisha gives a final victory sign to Jehoash.",
-      "The prophet dies after a long ministry.",
-      "A dead man revives when touched by Elisha's bones."
+      "The LORD hears Jehoahaz and rescues Israel from oppression, though the nation keeps its sins.",
+      "Jehoash follows Jeroboam's sinful ways and visits Elisha during the prophet's final illness.",
+      "Elisha announces victory over Aram but limits it to three victories after the king strikes the ground three times.",
+      "A dead man returns to life when his body touches Elisha's bones.",
+      "The LORD honors His covenant with compassion, and Jehoash recovers Israel's cities through three victories over Ben-hadad."
     ],
     "supporting_verses": [
-      "2 Kings 13:3",
-      "2 Kings 13:14",
-      "2 Kings 13:17",
-      "2 Kings 13:20",
-      "2 Kings 13:21"
+      "2 Kings 13:1-9",
+      "2 Kings 13:10-14",
+      "2 Kings 13:15-19",
+      "2 Kings 13:20-21",
+      "2 Kings 13:22-25"
     ],
-    "evidence_phrases": [
-      "the LORD gave Israel a savior",
-      "the arrow of the LORD's victory",
-      "My father, my father",
-      "Elisha died",
-      "he revived and stood up"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06, fix 1",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 12,
     "chapter": 14,
-    "title": "Amaziah and Jeroboam II",
-    "summary_text": "Amaziah wins an early victory but later makes foolish choices, and Judah is humbled by Israel's military strength. In the north, Jeroboam II expands Israel's borders, yet his success does not mean spiritual health. The chapter shows that national strength can coexist with deep covenant weakness.",
+    "title": "Amaziah Falls and Israel Regains Territory",
+    "summary_text": "Amaziah kills his father's murderers but spares their sons as the Law commands. Proud of his victory over Edom, he ignores a warning and challenges Israel's king. Israel defeats Judah, captures him, breaks Jerusalem's wall, and takes its treasure and hostages. After a plot brings his death, his son Azariah takes the throne. In Israel, the LORD uses Jeroboam to save the suffering people and restore their borders despite his sin, fulfilling His word through the prophet Jonah.",
     "themes": [
       "Mixed success",
       "National pride",
@@ -526,32 +484,29 @@
       "Judah"
     ],
     "key_points": [
-      "Amaziah begins with some obedience.",
-      "His pride leads to defeat and humiliation.",
-      "Jeroboam II restores Israel's territory.",
-      "Political success does not equal faithfulness."
+      "Amaziah follows his father's example, though sacrifices continue at the high places, and obeys the Law when punishing murderers.",
+      "After victory over Edom, Amaziah challenges Jehoash, who warns that his pride will bring disaster.",
+      "Jehoash defeats Judah, captures Amaziah, damages Jerusalem's wall, and takes treasure and hostages.",
+      "Conspirators kill Amaziah at Lachish, and Judah makes his son Azariah king.",
+      "Despite Jeroboam's sin, the LORD uses him to save Israel from its bitter suffering and restore its borders."
     ],
     "supporting_verses": [
-      "2 Kings 14:3",
-      "2 Kings 14:8",
-      "2 Kings 14:11",
-      "2 Kings 14:23",
-      "2 Kings 14:27"
+      "2 Kings 14:1-6",
+      "2 Kings 14:7-10",
+      "2 Kings 14:11-16",
+      "2 Kings 14:17-22",
+      "2 Kings 14:23-29"
     ],
-    "evidence_phrases": [
-      "did that which was right",
-      "your heart has lifted you up",
-      "the LORD saw the affliction",
-      "he restored the border",
-      "he did not depart"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 12,
     "chapter": 15,
-    "title": "Kings fall and multiply in Israel and Judah",
-    "summary_text": "Azariah, Zechariah, Shallum, Menahem, Pekahiah, and Pekah show how quickly both kingdoms can unravel when sin is entrenched. Assyria begins to press harder on the region, and internal murder becomes a way of life in the north. The chapter reads like a collapse of leadership without the healing of repentance.",
+    "title": "Israel's Throne Changes Hands Through Violence",
+    "summary_text": "Azariah follows the LORD, who later gives him leprosy, while Jotham governs Judah. Israel's throne changes hands through murder, and Jehu's line ends as the LORD's word had said. Menahem keeps Israel's sins, kills pregnant women at Tiphsah, and pays Assyria for support with a tax on the rich. Further coups follow, and Assyria takes land and captives. Jotham rules Judah rightly but leaves the high places where people sacrifice, and Ahaz becomes king after him.",
     "themes": [
       "Rapid turnover",
       "Assyrian pressure",
@@ -565,32 +520,29 @@
       "Pekah"
     ],
     "key_points": [
-      "Judah and Israel both drift further from the LORD.",
-      "Kings are assassinated or deposed in quick succession.",
-      "Assyria begins to dominate regional politics.",
-      "The chapter shows the cost of national unfaithfulness."
+      "Azariah follows the LORD but leaves the high places, and Jotham governs while his father lives with leprosy.",
+      "Shallum kills Zechariah and is killed by Menahem, ending Jehu's dynasty as the LORD had said.",
+      "Menahem brutally attacks Tiphsah and pays Assyria with money taken from Israel's wealthy men.",
+      "Pekah kills Pekahiah, Assyria takes captives and territory, and Hoshea kills Pekah.",
+      "Jotham follows the LORD without removing the high places, as Aram and Israel begin attacking Judah."
     ],
     "supporting_verses": [
-      "2 Kings 15:7",
-      "2 Kings 15:12",
-      "2 Kings 15:16",
-      "2 Kings 15:19",
-      "2 Kings 15:29"
+      "2 Kings 15:1-7",
+      "2 Kings 15:8-15",
+      "2 Kings 15:16-22",
+      "2 Kings 15:23-31",
+      "2 Kings 15:32-38"
     ],
-    "evidence_phrases": [
-      "did that which was evil",
-      "there was a conspiracy",
-      "the king of Assyria",
-      "the LORD began to send",
-      "he reigned in his stead"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 12,
     "chapter": 16,
-    "title": "Ahaz turns to Assyria",
-    "summary_text": "Ahaz rejects the ways of David and copies the nations around him, even altering the temple's worship to fit Assyrian pressure. He appeals to foreign power instead of trusting the LORD. The chapter shows a king who trades covenant identity for political convenience.",
+    "title": "Ahaz Seeks Assyria and Changes Temple Worship",
+    "summary_text": "Ahaz does evil and sacrifices his son in fire. When Aram and Israel attack, he sends temple and palace treasure to Assyria and asks its king to save him. Assyria takes Damascus and kills Rezin. Ahaz has Uriah the priest copy an altar from Damascus and moves regular offerings to it, keeping the bronze altar to seek guidance. He changes other temple fittings on account of Assyria's king, and Hezekiah takes the throne after his death.",
     "themes": [
       "Idolatrous imitation",
       "Foreign alliances",
@@ -604,32 +556,29 @@
       "Judah"
     ],
     "key_points": [
-      "Ahaz copies the worship practices of the nations.",
-      "He reshapes the altar and temple setting.",
-      "Assyria becomes Judah's false security.",
-      "Covenant faith is replaced by political fear."
+      "Ahaz rejects David's example, sacrifices his son, and worships at the high places.",
+      "Ahaz sends treasure to Assyria for help, and its king captures Damascus and kills Rezin.",
+      "Uriah copies the Damascus altar, and Ahaz uses it for offerings after returning home.",
+      "Ahaz moves the bronze altar aside and orders Uriah to use the new altar for regular worship.",
+      "Ahaz changes temple fittings and removes the Sabbath canopy on account of Assyria's king."
     ],
     "supporting_verses": [
-      "2 Kings 16:3",
-      "2 Kings 16:7",
-      "2 Kings 16:10",
-      "2 Kings 16:15",
-      "2 Kings 16:18"
+      "2 Kings 16:1-4",
+      "2 Kings 16:5-9",
+      "2 Kings 16:10-13",
+      "2 Kings 16:14-16",
+      "2 Kings 16:17-20"
     ],
-    "evidence_phrases": [
-      "walked in the way of the kings of Israel",
-      "made his son pass through the fire",
-      "the altar",
-      "the king of Assyria",
-      "for help"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 12,
     "chapter": 17,
-    "title": "Samaria falls and Israel is exiled",
-    "summary_text": "Israel's long rebellion finally ends when Assyria conquers Samaria and carries the people away. The chapter explains the exile as the result of persistent idolatry, rejected warnings, and counterfeit worship. Even as foreign settlers arrive, the land remains spiritually fractured because the people do not truly fear the LORD.",
+    "title": "Israel Goes Into Exile for Rejecting God",
+    "summary_text": "Assyria takes Samaria and sends Israel's people into exile after Hoshea rebels. Israel's sin brings this loss: the people serve idols, sacrifice children, and reject the LORD's covenant, commandments, and prophets. Judah also follows Israel's wicked ways. Assyria brings new settlers, and the LORD sends lions because they do not worship Him. A priest returns to teach them, but they serve their own gods as well as the LORD, contrary to His Law.",
     "themes": [
       "Exile",
       "Covenant judgment",
@@ -643,33 +592,29 @@
       "the LORD"
     ],
     "key_points": [
-      "Israel persists in the sins of the northern kingdom.",
-      "Assyria captures Samaria and sends the people away.",
-      "Foreign settlers bring blended worship practices.",
-      "The chapter explains exile as covenant judgment."
+      "Assyria imprisons Hoshea, captures Samaria after a three-year siege, and deports the Israelites.",
+      "Israel rejects the LORD's covenant and prophetic warnings, worships idols, and sacrifices children.",
+      "The LORD removes Israel from His presence for persistent sin, while Judah also follows Israel's practices.",
+      "After lions kill settlers brought by Assyria, a returned priest teaches them to worship the LORD.",
+      "The settlers and their descendants combine worship of the LORD with service to their own gods."
     ],
     "supporting_verses": [
-      "2 Kings 17:6",
-      "2 Kings 17:13",
-      "2 Kings 17:18",
-      "2 Kings 17:23",
-      "2 Kings 17:33"
+      "2 Kings 17:1-6",
+      "2 Kings 17:7-17",
+      "2 Kings 17:18-23",
+      "2 Kings 17:24-28",
+      "2 Kings 17:29-41"
     ],
-    "evidence_phrases": [
-      "they served idols",
-      "removed Israel out of his sight",
-      "the king of Assyria brought people",
-      "they feared the LORD",
-      "served their own gods"
-    ]
-  }
-,
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
+  },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 12,
     "chapter": 18,
-    "title": "Hezekiah trusts the LORD against Assyria",
-    "summary_text": "Hezekiah stands apart from many earlier kings by removing idols and trusting the LORD in the face of Assyrian pressure. Sennacherib's threats expose the weakness of human confidence, but Hezekiah's reforms and faith set the stage for divine deliverance. The chapter frames Hezekiah as a reforming king who seeks God before battle and siege.",
+    "title": "Hezekiah Trusts the LORD Amid Assyrian Threats",
+    "summary_text": "Hezekiah stays faithful to the LORD's commandments and destroys the high places and the bronze snake people had worshiped. Israel goes into exile for breaking the LORD's covenant. Assyria takes Judah's strong cities, and the king pays it with temple and palace treasure. Yet an army comes to Jerusalem, and the Rabshakeh claims the LORD sent him and urges peace through surrender. He says the LORD cannot save the city, but the people obey Hezekiah and stay silent.",
     "themes": [
       "Reform",
       "Trust in God",
@@ -683,32 +628,29 @@
       "the LORD"
     ],
     "key_points": [
-      "Hezekiah destroys idols and high places.",
-      "Assyria begins to pressure Judah directly.",
-      "The Rabshakeh mocks Judah's trust in God.",
-      "Hezekiah's reforms distinguish him from other kings."
+      "Hezekiah removes false worship, trusts the LORD, and refuses to serve Assyria.",
+      "The Assyrians exile Israel because the people have rejected the LORD's covenant.",
+      "Hezekiah pays Sennacherib with royal and temple treasure, but Assyria sends an army to Jerusalem.",
+      "The Rabshakeh mocks reliance on Egypt and the LORD and claims divine authorization for his attack.",
+      "The Rabshakeh urges surrender and denies the LORD can rescue Jerusalem, while the people remain silent."
     ],
     "supporting_verses": [
-      "2 Kings 18:3",
-      "2 Kings 18:5",
-      "2 Kings 18:13",
-      "2 Kings 18:19",
-      "2 Kings 18:37"
+      "2 Kings 18:1-8",
+      "2 Kings 18:9-12",
+      "2 Kings 18:13-18",
+      "2 Kings 18:19-25",
+      "2 Kings 18:26-37"
     ],
-    "evidence_phrases": [
-      "he trusted in the LORD",
-      "removed the high places",
-      "the king of Assyria",
-      "Do not let Hezekiah deceive you",
-      "the living God"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 12,
     "chapter": 19,
-    "title": "Hezekiah prays and God delivers Jerusalem",
-    "summary_text": "Hezekiah spreads the enemy threats before the LORD, and Isaiah brings the promise that Jerusalem will not fall to Assyria. God answers with judgment on Sennacherib's army and then with the king's defeat at home. The chapter pairs prayer and prophecy to show that Jerusalem is preserved by divine action, not by human strength.",
+    "title": "The LORD Saves Jerusalem From Assyria",
+    "summary_text": "Hezekiah seeks the LORD and asks the prophet Isaiah to pray about Assyria's threats. He brings a threatening letter before God and asks Him to save the city and show that He alone is God. The LORD condemns Assyria's king for blasphemy against Israel's Holy One and says He controlled the king's victories. He promises to protect Jerusalem and Judah's remnant for His own sake and David's. The LORD's angel kills 185,000 Assyrians; their king goes home, where two sons later kill him.",
     "themes": [
       "Prayer",
       "Prophetic assurance",
@@ -722,32 +664,29 @@
       "the LORD"
     ],
     "key_points": [
-      "Hezekiah prays with the threat laid before God.",
-      "Isaiah promises that the city will be spared.",
-      "The Assyrian army is struck down.",
-      "Sennacherib later falls by violence in his own land."
+      "Isaiah tells Hezekiah that the LORD will make Assyria's king return home and die there by the sword.",
+      "Hezekiah brings Sennacherib's renewed threats before the LORD and asks Him to show that He alone is God.",
+      "The LORD's word exposes Sennacherib's arrogance and declares that his victories happened according to God's purpose.",
+      "The LORD promises recovery for Judah's remnant and says Assyria's king will not enter Jerusalem.",
+      "The LORD's angel devastates the Assyrian camp, and Sennacherib later dies at his sons' hands in Nineveh."
     ],
     "supporting_verses": [
-      "2 Kings 19:14",
-      "2 Kings 19:19",
-      "2 Kings 19:28",
-      "2 Kings 19:35",
-      "2 Kings 19:37"
+      "2 Kings 19:1-7",
+      "2 Kings 19:8-19",
+      "2 Kings 19:20-28",
+      "2 Kings 19:29-34",
+      "2 Kings 19:35-37"
     ],
-    "evidence_phrases": [
-      "spread it before the LORD",
-      "the zeal of the LORD",
-      "I will defend this city",
-      "the angel of the LORD",
-      "he was killed with the sword"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 12,
     "chapter": 20,
-    "title": "Hezekiah's illness and Babylonian visitors",
-    "summary_text": "Hezekiah is healed after prayer, and God gives him an added sign that his life will be prolonged. Yet the arrival of Babylonian envoys reveals another danger: pride in what God has given. The chapter ends with a warning that blessing can become a test if gratitude gives way to self-display.",
+    "title": "Hezekiah Is Healed but Babylon Is Foretold",
+    "summary_text": "The prophet Isaiah tells Hezekiah he will die, but the king prays and weeps. The LORD hears him, promises fifteen more years, and moves a shadow backward ten steps as a sign. Later, the king shows visitors from Babylon all his wealth and weapons. Isaiah gives the LORD's word that these treasures and some of the king's descendants will go to Babylon. Hezekiah accepts the word and thinks of peace in his own lifetime, and Manasseh rules after his death.",
     "themes": [
       "Healing",
       "Sign from God",
@@ -761,32 +700,29 @@
       "the LORD"
     ],
     "key_points": [
-      "Hezekiah is healed after turning to God.",
-      "The shadow moves backward as a sign.",
-      "Hezekiah displays his treasures to Babylon.",
-      "Isaiah warns that the day will come when they are carried off."
+      "Hezekiah appeals to his faithful service when Isaiah tells him that his illness will be fatal.",
+      "The LORD answers Hezekiah's prayer with healing, fifteen more years of life, and protection from Assyria.",
+      "At Isaiah's prayer, the LORD moves the shadow backward ten steps as a sign of His promise.",
+      "After Hezekiah shows Babylon's envoys his treasures, Isaiah predicts their removal and the captivity of some royal descendants.",
+      "Hezekiah accepts the LORD's word while thinking of peace in his lifetime, and Manasseh eventually succeeds him."
     ],
     "supporting_verses": [
-      "2 Kings 20:5",
-      "2 Kings 20:7",
-      "2 Kings 20:9",
-      "2 Kings 20:13",
-      "2 Kings 20:17"
+      "2 Kings 20:1-3",
+      "2 Kings 20:4-7",
+      "2 Kings 20:8-11",
+      "2 Kings 20:12-18",
+      "2 Kings 20:19-21"
     ],
-    "evidence_phrases": [
-      "I have heard your prayer",
-      "the shadow went backward",
-      "all that is in my house",
-      "nothing shall be left",
-      "the LORD's word"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 12,
     "chapter": 21,
-    "title": "Manasseh and Amon deepen Judah's guilt",
-    "summary_text": "Manasseh fills Judah with idolatry, violence, and innocent blood, and Amon follows the same path until he is assassinated. The chapter explains that Judah's coming judgment is not sudden but built on years of stubborn rebellion. Even so, the record of these kings makes clear that the LORD still speaks before final collapse.",
+    "title": "Manasseh's Sin Brings a Warning of Disaster",
+    "summary_text": "Manasseh builds pagan altars, puts an Asherah pole in the LORD's temple, and sacrifices his son. His sorcery and sin lead Judah into greater evil than the nations God removed. Through His prophets, the LORD says He will wipe Jerusalem clean like a bowl and hand His people to enemies. Manasseh also sheds much innocent blood, and his son Amon follows him in serving idols. Servants murder Amon, but the people kill the plotters and make his son Josiah king.",
     "themes": [
       "Idolatry",
       "Violence",
@@ -800,32 +736,29 @@
       "the LORD"
     ],
     "key_points": [
-      "Manasseh commits widespread evil and idolatry.",
-      "Jerusalem is stained with innocent blood.",
-      "Amon follows his father's sin and dies by conspiracy.",
-      "Judah's future judgment is being stored up."
+      "Manasseh promotes false worship, sacrifices his son, and brings pagan altars into the LORD's house.",
+      "Manasseh's Asherah pole defiles the temple, and Judah rejects the obedience required by the Law of Moses.",
+      "The LORD declares that Judah's sin will bring ruin to Jerusalem and expose the remnant of His inheritance to enemies.",
+      "Manasseh sheds innocent blood throughout Jerusalem, and Amon succeeds him after his death.",
+      "Amon abandons the LORD for idols, is murdered by servants, and is succeeded by Josiah after the conspirators are killed."
     ],
     "supporting_verses": [
-      "2 Kings 21:2",
-      "2 Kings 21:6",
-      "2 Kings 21:10",
-      "2 Kings 21:16",
-      "2 Kings 21:20"
+      "2 Kings 21:1-6",
+      "2 Kings 21:7-9",
+      "2 Kings 21:10-15",
+      "2 Kings 21:16-18",
+      "2 Kings 21:19-26"
     ],
-    "evidence_phrases": [
-      "did evil in the sight of the LORD",
-      "made his son pass through the fire",
-      "shed innocent blood",
-      "worshiped all the host of heaven",
-      "he forsook the LORD"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 12,
     "chapter": 22,
-    "title": "The book of the law found in Josiah's day",
-    "summary_text": "Josiah's repair work leads to the discovery of the book of the law, and its reading cuts him to the heart. He seeks the word of the LORD through Huldah, who confirms both judgment and mercy. The chapter shows that reform begins when God's written word is heard again.",
+    "title": "Josiah Hears the Newly Found Law",
+    "summary_text": "Josiah follows the LORD and arranges funding for repairs to the temple. Hilkiah the high priest finds the Book of the Law, and Shaphan reads it to the king. Josiah tears his clothes and sends men to ask the LORD about His wrath, His fierce anger over Judah's failure to obey the book's words. Through Huldah, the LORD confirms that disaster will come because the people abandoned Him for other gods. He also says He has heard Josiah's humble response and that Josiah will be gathered to his grave in peace without seeing the coming disaster.",
     "themes": [
       "Scripture rediscovered",
       "Conviction",
@@ -839,32 +772,29 @@
       "Shaphan"
     ],
     "key_points": [
-      "The temple repair uncovers the book of the law.",
-      "Josiah tears his clothes in repentance.",
-      "Huldah confirms coming judgment.",
-      "The king's humility sets the stage for reform."
+      "Josiah follows David's example and directs that collected money pay trustworthy workers to repair the temple.",
+      "Hilkiah finds the Book of the Law, and Shaphan reads it aloud to Josiah.",
+      "Josiah tears his clothes and seeks the LORD because Judah's disobedience has brought His wrath.",
+      "Huldah gives the LORD's warning of disaster because the people have forsaken Him and worshiped other gods.",
+      "The LORD hears Josiah's humble grief and promises he will not witness the coming disaster."
     ],
     "supporting_verses": [
-      "2 Kings 22:8",
-      "2 Kings 22:11",
-      "2 Kings 22:13",
-      "2 Kings 22:16",
-      "2 Kings 22:19"
+      "2 Kings 22:1-7",
+      "2 Kings 22:8-10",
+      "2 Kings 22:11-14",
+      "2 Kings 22:15-17",
+      "2 Kings 22:18-20"
     ],
-    "evidence_phrases": [
-      "the book of the law",
-      "his heart was tender",
-      "the LORD's words",
-      "great is the wrath",
-      "because your heart was tender"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 12,
     "chapter": 23,
-    "title": "Josiah's covenant reform and Passover",
-    "summary_text": "Josiah leads Judah in covenant renewal by tearing down idols, cleansing the land, and restoring proper worship. He keeps a Passover unlike any since the judges, but the chapter also notes that Judah's judgment is still coming because earlier sins were so deep. The reform is sincere, yet it cannot erase the accumulated guilt of the nation.",
+    "title": "Josiah Renews the Covenant and Removes Idols",
+    "summary_text": "Josiah reads the book's words, and the people join his covenant to obey the LORD's commandments. He removes idols and pagan altars, stops child sacrifice, and kills the high-place priests in Samaria. He keeps the Passover and follows the Law with all his heart. Yet the LORD still declares Judah's coming ruin because of Manasseh's evil. Egypt's king kills Josiah, takes Jehoahaz captive, and makes Jehoiakim king, who taxes the people to pay Egypt.",
     "themes": [
       "Covenant renewal",
       "Purging idolatry",
@@ -878,32 +808,29 @@
       "Judah"
     ],
     "key_points": [
-      "Josiah destroys idolatrous sites and shrines.",
-      "He renews the covenant before the LORD.",
-      "The Passover is celebrated with unusual faithfulness.",
-      "Judah's doom is delayed, but not removed."
+      "Josiah reads the covenant book publicly, and the people join his commitment to obey the LORD.",
+      "Josiah orders the high priest to remove pagan objects from the temple and destroys shrines, altars, and places of child sacrifice.",
+      "Josiah defiles Bethel's altar as foretold and kills the high-place priests in Samaria.",
+      "Judah observes the Passover, but Josiah's reforms do not turn away the LORD's declared anger against Judah.",
+      "Neco kills Josiah, takes Jehoahaz to Egypt, and installs Jehoiakim, who raises taxes to pay him."
     ],
     "supporting_verses": [
-      "2 Kings 23:3",
-      "2 Kings 23:4",
-      "2 Kings 23:21",
-      "2 Kings 23:24",
-      "2 Kings 23:25"
+      "2 Kings 23:1-3",
+      "2 Kings 23:4-14",
+      "2 Kings 23:15-20",
+      "2 Kings 23:21-27",
+      "2 Kings 23:28-37"
     ],
-    "evidence_phrases": [
-      "made a covenant before the LORD",
-      "put away the idolatrous priests",
-      "there was no Passover like that",
-      "turned to the LORD",
-      "the LORD did not turn"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 12,
     "chapter": 24,
-    "title": "Judah begins its final fall",
-    "summary_text": "Jehoiakim, Jehoiachin, and the first Babylonian deportation show Judah slipping into the final stage of collapse. Babylon strips away leaders, treasures, and strength while the prophets' warnings become reality. The chapter records the beginning of exile and the unraveling of David's city.",
+    "title": "Babylon Takes Jehoiachin and Jerusalem's People",
+    "summary_text": "The LORD sends raiders after Judah's king rebels against Babylon, as His word through the prophets had said. He will not forgive Manasseh's sin and bloodshed and removes Judah from His presence. The next king, Jehoiachin, gives himself up to Babylon. His captors take temple and palace treasures and send him, his leaders, troops, and skilled workers into exile. They leave the poorest people and make his uncle king under the name Zedekiah, who also does evil and rebels.",
     "themes": [
       "Exile begins",
       "Foreign domination",
@@ -917,32 +844,29 @@
       "Judah"
     ],
     "key_points": [
-      "Babylon begins to control Judah's fate.",
-      "Jehoiakim rebels and suffers the consequences.",
-      "Jehoiachin is carried away into exile.",
-      "The temple treasures are removed from Jerusalem."
+      "Jehoiakim rebels after three years of service to Babylon, and the LORD sends raiders against Judah.",
+      "Judah's punishment follows Manasseh's sins and innocent bloodshed, which the LORD is unwilling to forgive.",
+      "Jehoiachin follows his father's evil example and surrenders with his household and officials to Nebuchadnezzar.",
+      "Babylon takes sacred and royal treasures and deports Jerusalem's leading people, soldiers, and skilled workers.",
+      "Nebuchadnezzar installs Zedekiah, who does evil and rebels as Judah faces the LORD's anger."
     ],
     "supporting_verses": [
-      "2 Kings 24:2",
-      "2 Kings 24:10",
-      "2 Kings 24:12",
-      "2 Kings 24:14",
-      "2 Kings 24:16"
+      "2 Kings 24:1-2",
+      "2 Kings 24:3-7",
+      "2 Kings 24:8-12",
+      "2 Kings 24:13-16",
+      "2 Kings 24:17-20"
     ],
-    "evidence_phrases": [
-      "the king of Babylon",
-      "became his servant",
-      "carried away captive",
-      "all the treasures",
-      "he reigned eleven years"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 12,
     "chapter": 25,
-    "title": "Jerusalem falls and exile is sealed",
-    "summary_text": "Babylon finally breaches Jerusalem, burns the temple, and takes the remaining people into exile. Gedaliah's short administration ends in violence, and the chapter closes with Jehoiachin released from prison as a faint sign of future hope. Judgment is complete, but the story leaves a small opening for restoration.",
+    "title": "Jerusalem Falls and Judah Goes Into Exile",
+    "summary_text": "Babylon starves Jerusalem into defeat and seizes Zedekiah as he flees. His captors kill his sons, blind him, and take him away. They burn the temple and palace, break down the walls, take people and treasures, and kill captured priests and officials. Some poor farmers stay, but after Ishmael kills their governor Gedaliah, the people flee to Egypt. Years later, Babylon's new king frees Jehoiachin from prison and gives him honor and daily support for life.",
     "themes": [
       "Covenant judgment",
       "Temple destruction",
@@ -956,24 +880,21 @@
       "Jehoiachin"
     ],
     "key_points": [
-      "Jerusalem is breached and the temple burned.",
-      "The people are carried off into exile.",
-      "Gedaliah's appointment ends in murder and flight.",
-      "Jehoiachin is released from prison in Babylon."
+      "Babylon captures Zedekiah and passes judgment: his sons are killed before him, and he is blinded and taken away.",
+      "The Babylonians burn Jerusalem's major buildings, demolish its walls, and deport its people, leaving some poor farmers.",
+      "Babylon removes the temple's metalwork and executes captured priests, officials, and other men at Riblah.",
+      "After Ishmael kills the Babylonian-appointed governor Gedaliah, the remaining people flee to Egypt.",
+      "Evil-merodach releases Jehoiachin, gives him honor among other kings, and provides regular meals and an allowance."
     ],
     "supporting_verses": [
-      "2 Kings 25:4",
-      "2 Kings 25:8",
-      "2 Kings 25:11",
-      "2 Kings 25:22",
-      "2 Kings 25:27"
+      "2 Kings 25:1-7",
+      "2 Kings 25:8-12",
+      "2 Kings 25:13-21",
+      "2 Kings 25:22-26",
+      "2 Kings 25:27-30"
     ],
-    "evidence_phrases": [
-      "the city was broken up",
-      "burned the house of the LORD",
-      "carried away captive",
-      "he lifted up the head",
-      "all the people"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06, fix 1",
+    "spec_version": "summary-1.0"
   }
 ]

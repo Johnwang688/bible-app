@@ -113,7 +113,7 @@ describe('the people list', () => {
     const { onBack } = await renderList('person');
     expect(screen.getByTestId('screen-entity-list')).toBeTruthy();
     expect(screen.getByTestId('entity-list-title')).toHaveTextContent('People');
-    expect(screen.getByTestId('entity-list-count')).toHaveTextContent('467 people');
+    expect(screen.getByTestId('entity-list-count')).toHaveTextContent('480 people');
     const filter = screen.getByTestId('entity-filter');
     expect(filter.props.placeholder).toBe('Find a person');
     expect(filter.props.accessibilityLabel).toBe('Find a person');
@@ -152,7 +152,7 @@ describe('the people list', () => {
     expect(onOpenEntity).toHaveBeenCalledWith('/entities/person/john-mark');
     await fireEvent.press(screen.getByTestId('entity-filter-clear'));
     expect(screen.getByTestId('entity-filter').props.value).toBe('');
-    expect(screen.getByTestId('entity-list-count')).toHaveTextContent('467 people');
+    expect(screen.getByTestId('entity-list-count')).toHaveTextContent('480 people');
   });
 
   it('opens already filtered (from Explore’s See all)', async () => {
@@ -228,7 +228,7 @@ describe('list states', () => {
   it('Chinese: Chinese labels, English names with the 英文 badge', async () => {
     await renderList('person', { locales: [ZH] });
     expect(screen.getByTestId('entity-list-title')).toHaveTextContent('人物');
-    expect(screen.getByTestId('entity-list-count')).toHaveTextContent('467 位人物');
+    expect(screen.getByTestId('entity-list-count')).toHaveTextContent('480 位人物');
     expect(screen.getByTestId('entity-filter').props.placeholder).toBe('查找人物');
     expect(screen.getAllByText('英文').length).toBeGreaterThan(0);
     await fireEvent.changeText(screen.getByTestId('entity-filter'), '亚伯拉罕');

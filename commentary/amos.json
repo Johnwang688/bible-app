@@ -1,10 +1,10 @@
 [
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 30,
     "chapter": 1,
-    "title": "The roar from Zion",
-    "summary_text": "The LORD roars from Zion and judges Damascus, Gaza, Tyre, Edom, Ammon, and Moab for cruelty. Each oracle strips away the idea that pagan violence is hidden from God. His voice over the nations frames the book's warning to Israel.",
+    "title": "The LORD Announces Judgment on Five Nations",
+    "summary_text": "Amos, a sheepherder from Tekoa, reports what he saw about Israel as the LORD roars from Zion. The LORD declares judgment for the repeated transgressions of five nations. They have attacked with cruelty, sent whole groups into exile, broken a covenant of brotherhood, and shown no mercy to a brother. The Ammonites even killed pregnant women to gain land. The LORD will burn these nations' strongholds and remove rulers, also declaring exile or death for several of them.",
     "themes": [
       "Pronounced judgment",
       "The nations",
@@ -22,35 +22,29 @@
       "the people"
     ],
     "key_points": [
-      "The LORD roars from Zion and judges Damascus, Gaza, Tyre, Edom, Ammon, and Moab for cruelty.",
-      "Each oracle strips away the idea that pagan violence is hidden from God.",
-      "His voice over the nations frames the book's warning to Israel.",
-      "words of Amos who was among the herdsmen."
+      "The LORD will burn Damascus's strongholds and exile Aram because of its brutal treatment of Gilead.",
+      "Gaza sent an entire population to Edom, so the LORD will punish the Philistine cities and destroy their remnant.",
+      "Tyre delivered exiles to Edom and broke a covenant of brotherhood, bringing fire on its strongholds.",
+      "Edom pursued his brother without compassion, so fire will consume the strongholds of Bozrah.",
+      "The Ammonites killed pregnant women to expand their land, so Rabbah will burn and its rulers will be exiled."
     ],
     "supporting_verses": [
-      "Amos 1:1",
-      "Amos 1:2",
-      "Amos 1:3",
-      "Amos 1:4",
-      "Amos 1:5",
-      "Amos 1:8",
-      "Amos 1:15"
+      "Amos 1:3-5",
+      "Amos 1:6-8",
+      "Amos 1:9-10",
+      "Amos 1:11-12",
+      "Amos 1:13-15"
     ],
-    "evidence_phrases": [
-      "words of Amos who was among the herdsmen",
-      "pastures of the shepherds will mourn and the top",
-      "Yahweh says",
-      "I will send a fire into the house of",
-      "Eden and the people of Syria shall go",
-      "perish says the Lord Yahweh"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 30,
     "chapter": 2,
-    "title": "Judgment on Judah and Israel",
-    "summary_text": "Judah and Israel are judged for rejecting the LORD's law and oppressing the poor. Their privilege heightens their guilt because they knew better and still turned aside. Election becomes a burden of responsibility.",
+    "title": "Judgment Reaches Judah and Israel",
+    "summary_text": "The LORD will punish Moab for burning a king's bones and Judah for rejecting His law. Israel's transgressions include selling the righteous and poor and profaning His holy name when a father and son have relations with the same girl. They use goods seized from others in worship. God led Israel from Egypt, drove out the Amorites, and gave them prophets and Nazirites, yet they stopped the prophets' speech and made the Nazirites drink wine. Now He will crush them, and even the swift and strong will not escape.",
     "themes": [
       "Covenant judgment",
       "Sin exposed",
@@ -67,35 +61,29 @@
       "the king"
     ],
     "key_points": [
-      "Judah and Israel are judged for rejecting the LORD's law and oppressing the poor.",
-      "Their privilege heightens their guilt because they knew better and still turned aside.",
-      "Election becomes a burden of responsibility.",
-      "bones of the king of Edom into lime."
+      "Moab will lose its strongholds and rulers because it burned the bones of Edom's king.",
+      "Judah rejected the LORD's law and followed lies, bringing fire on Jerusalem's strongholds.",
+      "Israel sells the righteous and poor, commits sexual wrongs, and uses seized garments and wine from fines in worship.",
+      "Despite God's deliverance and provision, Israel made Nazirites drink wine and ordered prophets to stop prophesying.",
+      "The LORD's coming punishment will defeat every attempt to escape through speed, strength, courage, or weapons."
     ],
     "supporting_verses": [
-      "Amos 2:1",
-      "Amos 2:4",
-      "Amos 2:5",
-      "Amos 2:6",
-      "Amos 2:7",
-      "Amos 2:11",
-      "Amos 2:12"
+      "Amos 2:1-3",
+      "Amos 2:4-5",
+      "Amos 2:6-8",
+      "Amos 2:9-12",
+      "Amos 2:13-16"
     ],
-    "evidence_phrases": [
-      "bones of the king of Edom into lime",
-      "transgressions of Judah yes for four I will",
-      "fire on Judah and it will devour",
-      "transgressions of Israel yes for four I will",
-      "head of the poor and deny justice",
-      "I raised up some of your sons for prophets"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 30,
     "chapter": 3,
-    "title": "Israel under scrutiny",
-    "summary_text": "Israel is the only family the LORD has known, so its sin receives special scrutiny. Disaster will come, yet God still speaks through prophets before the blow falls. The chapter ties revelation to accountability.",
+    "title": "Israel's Privilege Does Not Prevent Punishment",
+    "summary_text": "The LORD tells Israel that He will punish its iniquities because He has known this family above all others. Amos asks about lions, traps, and alarm horns, then says he must prophesy because the LORD has spoken. Witnesses from other lands are called to see the unrest and cruel acts in Samaria. An enemy will plunder its strongholds, leaving only scraps like those pulled from a lion's mouth. The LORD will punish Israel's transgressions by destroying Bethel's altars and the people's grand houses.",
     "themes": [
       "Repentance",
       "Urgency",
@@ -111,35 +99,29 @@
       "the prophets"
     ],
     "key_points": [
-      "Israel is the only family the LORD has known, so its sin receives special scrutiny.",
-      "Disaster will come, yet God still speaks through prophets before the blow falls.",
-      "The chapter ties revelation to accountability.",
-      "children of Israel against the whole family which."
+      "The LORD will punish Israel's iniquities precisely because He has known this family above all others.",
+      "As a lion's roar causes fear, the LORD's word compels prophecy; He reveals His plans to His prophets.",
+      "Foreign witnesses are summoned to observe Samaria's oppression, violence, and failure to do right.",
+      "An enemy will plunder the strongholds, leaving only fragments, like pieces rescued from a lion.",
+      "Punishment for Israel's transgressions will destroy Bethel's altars along with winter, summer, and ivory houses."
     ],
     "supporting_verses": [
-      "Amos 3:1",
-      "Amos 3:7",
-      "Amos 3:8",
-      "Amos 3:11",
-      "Amos 3:12",
-      "Amos 3:13",
-      "Amos 3:14"
+      "Amos 3:1-2",
+      "Amos 3:3-8",
+      "Amos 3:9-10",
+      "Amos 3:11-12",
+      "Amos 3:13-15"
     ],
-    "evidence_phrases": [
-      "children of Israel against the whole family which",
-      "Surely the Lord Yahweh will do nothing unless",
-      "not fear' The Lord Yahweh has spoken Who can",
-      "Lord Yahweh says An adversary will",
-      "children of Israel be rescued who sit",
-      "Jacob says the Lord Yahweh the God of Armies"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 30,
     "chapter": 4,
-    "title": "Prepare to meet your God",
-    "summary_text": "The wealthy women of Samaria are condemned for crushing the poor while demanding comfort. God had already disciplined them by drought, blight, and plague, yet they would not return. Israel is told to prepare to meet its God.",
+    "title": "Israel Refuses to Return to the LORD",
+    "summary_text": "The LORD swears by His holiness that the women who crush the poor and demand drink will be taken away with hooks. He mocks Israel's love of sacrifices and offerings at Bethel and Gilgal, where they keep adding to their transgression. He sent hunger, drought, ruined crops, plague, war, and ruin. Yet Israel did not return to Him through any of these blows. Now Israel must prepare to meet its God, the LORD of Hosts, who made the mountains and wind and reveals His thoughts.",
     "themes": [
       "Repentance",
       "Urgency",
@@ -154,35 +136,29 @@
       "the poor"
     ],
     "key_points": [
-      "The wealthy women of Samaria are condemned for crushing the poor while demanding comfort.",
-      "God had already disciplined them by drought, blight, and plague, yet they would not return.",
-      "Israel is told to prepare to meet its God.",
-      "who oppress the poor who crush the needy who."
+      "The LORD's holiness guarantees punishment for Samaria's women who oppress the poor while demanding more drink.",
+      "The LORD mocks Israel's celebrated sacrifices and offerings, calling its worship at Bethel and Gilgal rebellion.",
+      "Hunger, withheld rain, failed crops, and locusts did not lead Israel to return to the LORD.",
+      "Even plague, war, and devastating overthrow failed to bring Israel back to Him.",
+      "Israel must prepare to meet the LORD of Hosts, the Creator who reveals His thoughts and strides over the earth."
     ],
     "supporting_verses": [
-      "Amos 4:1",
-      "Amos 4:2",
-      "Amos 4:4",
-      "Amos 4:5",
-      "Amos 4:11",
-      "Amos 4:12",
-      "Amos 4:13"
+      "Amos 4:1-3",
+      "Amos 4:4-5",
+      "Amos 4:6-9",
+      "Amos 4:10-11",
+      "Amos 4:12-13"
     ],
-    "evidence_phrases": [
-      "who oppress the poor who crush the needy who",
-      "Lord Yahweh has sworn",
-      "more Bring your sacrifices every morning your tithes",
-      "Israel says the Lord Yahweh",
-      "as when God overthrew Sodom and Gomorrah",
-      "you prepare to meet your God Israel"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 30,
     "chapter": 5,
-    "title": "Seek the LORD and live",
-    "summary_text": "The prophet sings a lament over fallen Israel and calls the people to seek the LORD and live. Sacrifices are worthless without justice, and judgment will overtake those who hate reproof. The day of the LORD is darkness for empty religion.",
+    "title": "Seek the LORD and Let Justice Flow",
+    "summary_text": "Amos laments Israel's fall, and the LORD warns that few of its troops will survive. He calls Israel to seek Him for life, turn from evil, and restore justice instead of trusting worship sites. He condemns their sins of taking bribes and crushing the poor, calls for righteousness, and warns of grief across the land. The Day of the LORD will bring darkness and danger to those who long for it. God rejects their feasts, offerings, and songs, demands justice and righteousness, and declares exile beyond Damascus for a people carrying idols.",
     "themes": [
       "Justice",
       "Care for the poor",
@@ -197,35 +173,29 @@
       "the poor"
     ],
     "key_points": [
-      "The prophet sings a lament over fallen Israel and calls the people to seek the LORD and live.",
-      "Sacrifices are worthless without justice, and judgment will overtake those who hate reproof.",
-      "The day of the LORD is darkness for empty religion.",
-      "house of Israel."
+      "Israel's fall brings lament, but the LORD calls His people to seek Him for life rather than visit doomed worship sites.",
+      "The LORD condemns bribes and oppression of the poor and calls for restored justice, perhaps showing grace to Joseph's remnant.",
+      "The LORD's passage through the people will bring mourning, and His day will be dark and inescapable.",
+      "The LORD refuses their feasts, offerings, and songs, demanding justice and righteousness instead.",
+      "The LORD confronts Israel over its sacrifices and idols and announces exile beyond Damascus."
     ],
     "supporting_verses": [
-      "Amos 5:1",
-      "Amos 5:3",
-      "Amos 5:4",
-      "Amos 5:5",
-      "Amos 5:6",
-      "Amos 5:14",
-      "Amos 5:16"
+      "Amos 5:1-6",
+      "Amos 5:7-15",
+      "Amos 5:16-20",
+      "Amos 5:21-24",
+      "Amos 5:25-27"
     ],
-    "evidence_phrases": [
-      "house of Israel",
-      "Lord Yahweh says The city that",
-      "Israel Seek me and you will live",
-      "don t seek Bethel nor enter into Gilgal",
-      "Seek Yahweh and you will live",
-      "Seek good and not evil that"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 30,
     "chapter": 6,
-    "title": "Woe to the complacent",
-    "summary_text": "The elite of Zion and Samaria trust in luxury and military strength. Their feasting will end in exile, and their first place among the nations will become shame. Secure living detached from compassion is condemned.",
+    "title": "Comfortable Leaders Will Be First Into Exile",
+    "summary_text": "Amos warns the secure leaders of Zion and Samaria, who dismiss coming disaster while violence grows. They enjoy rich food, wine, music, and fine furnishings without grieving over Joseph's ruin, so they will be the first taken into exile. The LORD swears that He hates Jacob's pride and will surrender the city, with death filling houses and buildings smashed. Israel has turned justice and the fruit of righteousness into poison while boasting of military strength. The LORD will raise a nation to oppress Israel across the land.",
     "themes": [
       "Repentance",
       "Urgency",
@@ -240,35 +210,27 @@
       "David"
     ],
     "key_points": [
-      "The elite of Zion and Samaria trust in luxury and military strength.",
-      "Their feasting will end in exile, and their first place among the nations will become shame.",
-      "Secure living detached from compassion is condemned.",
-      "chief of the nations to whom the house."
+      "The leaders feel secure and dismiss disaster while allowing violence to draw near.",
+      "Their luxury and indifference to Joseph's ruin will end when they are taken into exile first.",
+      "The LORD detests Jacob's pride and will surrender the city, bringing widespread death and ruined houses.",
+      "Israel poisons justice and righteousness and boasts of victories, but the LORD will send a nation to oppress it."
     ],
     "supporting_verses": [
-      "Amos 6:1",
-      "Amos 6:2",
-      "Amos 6:3",
-      "Amos 6:4",
-      "Amos 6:5",
-      "Amos 6:8",
-      "Amos 6:14"
+      "Amos 6:1-3",
+      "Amos 6:4-7",
+      "Amos 6:8-11",
+      "Amos 6:12-14"
     ],
-    "evidence_phrases": [
-      "chief of the nations to whom the house",
-      "Go to Calneh, and see",
-      "Those who put far away the evil day, and",
-      "Who lie on beds of ivory, and stretch themselves",
-      "music like David",
-      "Lord Yahweh has sworn by himself"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 30,
     "chapter": 7,
-    "title": "Locusts, fire, and the plumb line",
-    "summary_text": "Two visions of judgment show locusts and fire, but Amos intercedes and God relents. A plumb line then reveals that Israel is out of true and will not be spared. Amaziah opposes the prophet and receives a hard word of exile.",
+    "title": "Amos Pleads for Israel and Faces Opposition",
+    "summary_text": "The Lord shows Amos locusts and fire, but spares Jacob after Amos pleads for Him to forgive and stop. A plumb-line vision then brings word that He will no longer spare Israel, its holy sites, or Jeroboam's house. Amaziah, Bethel's priest, accuses Amos of plotting against the king and tells him to leave. Amos says he was tending flocks and fig trees when the LORD sent him to prophesy to Israel. He declares that Amaziah will lose his land, his children will die, his wife will become a prostitute, and he will die abroad as Israel goes into exile.",
     "themes": [
       "Prophetic vision",
       "Divine glory",
@@ -287,35 +249,29 @@
       "the king"
     ],
     "key_points": [
-      "Two visions of judgment show locusts and fire, but Amos intercedes and God relents.",
-      "A plumb line then reveals that Israel is out of true and will not be spared.",
-      "Amaziah opposes the prophet and receives a hard word of exile.",
-      "Lord Yahweh showed me and behold."
+      "Amos asks the Lord to forgive and spare small Jacob, and the Lord relents from the locust and fire judgments.",
+      "The Lord's plumb-line vision brings a declaration that Israel will no longer be spared and its sanctuaries will be ruined.",
+      "Amaziah reports Amos to Jeroboam and orders him away from Bethel, the king's sanctuary.",
+      "Amos says the LORD took him from tending animals and commanded him to prophesy to Israel.",
+      "Amos announces disaster for Amaziah's family, loss of his land, death on pagan soil, and Israel's exile."
     ],
     "supporting_verses": [
-      "Amos 7:1",
-      "Amos 7:7",
-      "Amos 7:8",
-      "Amos 7:10",
-      "Amos 7:11",
-      "Amos 7:12",
-      "Amos 7:17"
+      "Amos 7:1-6",
+      "Amos 7:7-9",
+      "Amos 7:10-13",
+      "Amos 7:14-15",
+      "Amos 7:16-17"
     ],
-    "evidence_phrases": [
-      "Lord Yahweh showed me and behold",
-      "behold the Lord stood beside a wall made",
-      "line Then the Lord said Behold I will set",
-      "Amaziah the priest of Bethel sent",
-      "Amos says Jeroboam will die",
-      "Amaziah also said to Amos You"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 30,
     "chapter": 8,
-    "title": "A basket of summer fruit",
-    "summary_text": "A basket of summer fruit signals that the end has come for Israel's ripe corruption. Greedy merchants cheat with false weights and cannot wait for the Sabbath and new moon to pass. God will send a famine of hearing his words.",
+    "title": "Israel's End and a Famine of Words",
+    "summary_text": "A basket of summer fruit signals to Amos that Israel's end has come. The LORD condemns traders who wait impatiently for the Sabbath to end so they can cheat and exploit the poor. He promises darkness and grief, turning feasts and temple songs into mourning. A different famine will follow: people will search for the LORD's words and fail to find them. Those who swear by other gods will fall without rising again.",
     "themes": [
       "Repentance",
       "Urgency",
@@ -330,35 +286,27 @@
       "the poor"
     ],
     "key_points": [
-      "A basket of summer fruit signals that the end has come for Israel's ripe corruption.",
-      "Greedy merchants cheat with false weights and cannot wait for the Sabbath and new moon to pass.",
-      "God will send a famine of hearing his words.",
-      "Lord Yahweh showed me behold."
+      "The LORD shows Amos summer fruit and announces that He will no longer spare Israel.",
+      "Traders resent the Sabbath and plan dishonest sales that crush the poor.",
+      "The LORD will bring darkness at noon and turn celebrations into bitter grief.",
+      "People will search without success for the LORD's words, while those trusting other gods will fall."
     ],
     "supporting_verses": [
-      "Amos 8:1",
-      "Amos 8:2",
-      "Amos 8:3",
-      "Amos 8:6",
-      "Amos 8:9",
-      "Amos 8:11",
-      "Amos 8:14"
+      "Amos 8:1-3",
+      "Amos 8:4-6",
+      "Amos 8:7-10",
+      "Amos 8:11-14"
     ],
-    "evidence_phrases": [
-      "Lord Yahweh showed me behold",
-      "said A basket of summer fruit Then Yahweh",
-      "day says the Lord Yahweh The dead bodies will",
-      "may buy the poor for silver and the needy",
-      "day says the Lord Yahweh that I will cause",
-      "come says the Lord Yahweh that I will send"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 30,
     "chapter": 9,
-    "title": "The fallen altar and final hope",
-    "summary_text": "The altar is struck and no sinner can hide from the falling house. Yet the book ends with restoration: David's booth will be raised, the nations will be gathered, and Israel will be planted again. Judgment is real, but mercy has the last word.",
+    "title": "Judgment Gives Way to Israel's Restoration",
+    "summary_text": "Amos sees the Lord beside the altar, ordering destruction from which no hiding place offers escape. The LORD rules earth and sea, and He will destroy Israel's sinful kingdom without wiping out Jacob's whole house. Sinners who deny that disaster can reach them will die. Yet the LORD promises to rebuild David's fallen tent and restore His captive people. Israel will enjoy rich harvests and live in its land without being uprooted again.",
     "themes": [
       "Hope",
       "Gathering",
@@ -373,27 +321,19 @@
       "David"
     ],
     "key_points": [
-      "The altar is struck and no sinner can hide from the falling house.",
-      "Yet the book ends with restoration: David's booth will be raised, the nations will be gathered, and Israel will be planted again.",
-      "Judgment is real, but mercy has the last word.",
-      "I saw the Lord standing beside the altar."
+      "The Lord orders destruction, and neither the depths nor the heights can hide people from Him.",
+      "The LORD commands earth and sea and has moved other peoples as well as Israel.",
+      "God will judge the sinful kingdom and its careless sinners without destroying all of Jacob's house.",
+      "The LORD promises to rebuild David's fallen tent and give His people lasting homes and fruitful land."
     ],
     "supporting_verses": [
-      "Amos 9:1",
-      "Amos 9:5",
-      "Amos 9:8",
-      "Amos 9:9",
-      "Amos 9:11",
-      "Amos 9:12",
-      "Amos 9:15"
+      "Amos 9:1-4",
+      "Amos 9:5-7",
+      "Amos 9:8-10",
+      "Amos 9:11-15"
     ],
-    "evidence_phrases": [
-      "I saw the Lord standing beside the altar",
-      "Lord Yahweh of Armies is he",
-      "eyes of the Lord Yahweh are on the sinful",
-      "among all the nations as grain is sifted",
-      "who is fallen and close up its breaches",
-      "all the nations who are called by my"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   }
 ]

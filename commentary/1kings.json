@@ -1,10 +1,10 @@
 [
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 11,
     "chapter": 1,
-    "title": "Solomon anointed amid succession crisis",
-    "summary_text": "As David grows old, Adonijah tries to seize the throne, but Nathan, Bathsheba, Zadok, and Benaiah move quickly to secure Solomon's anointing. David publicly confirms Solomon as his chosen successor, and the people celebrate the new king. The chapter closes with Adonijah seeking mercy as Solomon begins his reign with legitimacy and peace.",
+    "title": "David Makes Solomon King",
+    "summary_text": "David is old, and Abishag cares for him while his son Adonijah claims the throne. Nathan and Bathsheba warn David and recall his oath to make Solomon king. David keeps his oath and has Zadok anoint Solomon as king. The people cheer so loudly that the sound reaches Adonijah's feast, where news of Solomon's rule sends the guests fleeing. Adonijah clings to the altar in fear, but Solomon sends him home with a warning against evil.",
     "themes": [
       "Royal succession",
       "David's final days",
@@ -18,32 +18,29 @@
       "Bathsheba"
     ],
     "key_points": [
-      "Adonijah attempts to claim the throne without David's approval.",
-      "Nathan and Bathsheba appeal to David to act before the crisis grows.",
-      "Solomon is anointed king and proclaimed by the people.",
-      "Adonijah's bid fails, and he seeks refuge at the altar."
+      "Adonijah prepares to become king and holds a feast with sacrifices, excluding Solomon and several of David's loyal servants.",
+      "Bathsheba and Nathan warn David about Adonijah's claim and remind him of his promise concerning Solomon.",
+      "David confirms Solomon as his successor and sends Zadok the priest and Nathan the prophet to anoint him.",
+      "Solomon is anointed, the people celebrate, and news of his rule breaks up Adonijah's gathering.",
+      "Adonijah clings to the altar, but Solomon allows him home with a warning against further evil."
     ],
     "supporting_verses": [
-      "1 Kings 1:5",
-      "1 Kings 1:11",
-      "1 Kings 1:29",
-      "1 Kings 1:39",
-      "1 Kings 1:48"
+      "1 Kings 1:1-10",
+      "1 Kings 1:11-27",
+      "1 Kings 1:28-37",
+      "1 Kings 1:38-49",
+      "1 Kings 1:50-53"
     ],
-    "evidence_phrases": [
-      "Let Solomon my son reign",
-      "Zadok the priest",
-      "Nathan the prophet",
-      "the king said, Call Bathsheba",
-      "Solomon is king"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 11,
     "chapter": 2,
-    "title": "David's charge and Solomon's first judgments",
-    "summary_text": "David gives Solomon final instructions to walk faithfully, guard the kingdom, and deal wisely with unresolved matters in the court. Solomon secures his throne by removing threats from Adonijah, Abiathar, Joab, and Shimei. The chapter shows that the new king's rule must be rooted in obedience, justice, and discernment.",
+    "title": "Solomon Establishes His Rule after David's Death",
+    "summary_text": "As death draws near, David urges Solomon to obey God's law and gives orders about friends and foes. After David dies, Adonijah asks to marry Abishag, but Solomon sees a claim to the throne and has him killed. Solomon removes Abiathar from the priesthood but spares his life. He has Joab killed for shedding innocent blood, then puts Benaiah over the army and Zadok in Abiathar's place. Shimei breaks his oath to stay in Jerusalem and is killed, leaving Solomon's rule secure.",
     "themes": [
       "David's farewell",
       "Kingly wisdom",
@@ -57,32 +54,29 @@
       "Shimei"
     ],
     "key_points": [
-      "David charges Solomon to keep the LORD's commandments.",
-      "Solomon acts decisively to secure the throne.",
-      "Adonijah's request becomes another threat to the kingdom.",
-      "Shimei's disobedience brings the sentence David had warned about."
+      "David urges faithful obedience to God's commandments, recalls His promise, commands loving devotion to Barzillai's sons, and orders action against Joab and Shimei.",
+      "Solomon has Adonijah executed after interpreting his request for Abishag as a request for the kingdom.",
+      "Abiathar loses his priesthood, fulfilling the LORD's word against Eli's house.",
+      "Joab is killed at the altar for murdering more righteous men; Benaiah replaces him, and Zadok replaces Abiathar.",
+      "Shimei leaves Jerusalem to recover runaway slaves, breaking his oath and bringing Solomon's death sentence upon himself."
     ],
     "supporting_verses": [
-      "1 Kings 2:2",
-      "1 Kings 2:3",
-      "1 Kings 2:10",
-      "1 Kings 2:24",
-      "1 Kings 2:46"
+      "1 Kings 2:1-12",
+      "1 Kings 2:13-25",
+      "1 Kings 2:26-27",
+      "1 Kings 2:28-35",
+      "1 Kings 2:36-46"
     ],
-    "evidence_phrases": [
-      "be strong, and show yourself a man",
-      "keep the charge of the LORD",
-      "Adonijah feared",
-      "Solomon reigned",
-      "the kingdom was established"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 11,
     "chapter": 3,
-    "title": "Solomon asks for wisdom",
-    "summary_text": "At Gibeon, Solomon asks God for a listening heart rather than riches, long life, or victory over enemies. God grants him unmatched wisdom along with wealth and honor because he asked for discernment to govern well. His first judgment between two women proves that the gift is real and that the people can trust his rule.",
+    "title": "Solomon Asks for Wisdom to Judge",
+    "summary_text": "Solomon marries Pharaoh's daughter and loves the LORD, though he still makes sacrifices at the high places. In a dream, God asks what he wants, and Solomon asks for wisdom to judge God's people. God grants his request and adds riches and honor, with long life if he obeys. When two prostitutes claim the same baby, Solomon orders the child cut in two. The true mother begs him to spare the boy, so he gives her the child, and Israel sees God's wisdom in his judgment.",
     "themes": [
       "Wisdom over wealth",
       "Humility in prayer",
@@ -96,32 +90,29 @@
       "a living child"
     ],
     "key_points": [
-      "Solomon asks for an understanding heart to judge the people.",
-      "God grants wisdom, riches, and honor beyond all kings.",
-      "The dispute over the child reveals Solomon's discernment.",
-      "Israel sees that the king's wisdom is from God."
+      "Solomon forms an alliance through marriage and makes sacrifices at Gibeon, where the LORD appears in a dream.",
+      "Solomon recalls God's loving devotion toward David, who walked in faithfulness and righteousness, and asks for an understanding heart.",
+      "God grants wisdom, wealth, and honor, and promises long life if Solomon obeys His commandments.",
+      "Two women dispute which is the mother of a living child after another baby dies.",
+      "Solomon's order to divide the baby reveals the true mother's compassion, and Israel respects his judgment."
     ],
     "supporting_verses": [
-      "1 Kings 3:5",
-      "1 Kings 3:9",
-      "1 Kings 3:12",
-      "1 Kings 3:16",
-      "1 Kings 3:28"
+      "1 Kings 3:1-5",
+      "1 Kings 3:6-9",
+      "1 Kings 3:10-15",
+      "1 Kings 3:16-23",
+      "1 Kings 3:24-28"
     ],
-    "evidence_phrases": [
-      "an understanding heart",
-      "I have given you a wise and understanding heart",
-      "there was no one like you",
-      "Bring me a sword",
-      "they feared the king"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 11,
     "chapter": 4,
-    "title": "Prosperity, administration, and wisdom",
-    "summary_text": "Solomon's kingdom is organized through a wide network of officials, districts, and provisions that keep the royal court well supplied. Peace extends throughout the land, and the king's wisdom surpasses that of the surrounding sages. His rule is marked by order, abundance, and a reputation that draws admiration from every direction.",
+    "title": "Solomon's Officials, Prosperity, and Wisdom",
+    "summary_text": "Solomon rules Israel with priests, army leaders, and other officials to help him. Twelve governors take turns sending food for his court and feed for his horses. Other kingdoms pay him tribute, while Judah and Israel live in peace with plenty to eat. God gives Solomon wisdom greater than that of other wise men. He writes many proverbs and songs and teaches about plants and animals, drawing people sent by kings from many lands.",
     "themes": [
       "Administrative order",
       "National abundance",
@@ -135,32 +126,29 @@
       "Ben-Abinadab"
     ],
     "key_points": [
-      "Solomon appoints officials over the kingdom's needs.",
-      "Each district provides food for the royal household.",
-      "The land enjoys peace under Solomon's rule.",
-      "His wisdom exceeds the wisdom of others."
+      "Solomon's officials include Azariah the priest, Benaiah over the army, and Adoniram over forced labor.",
+      "Twelve named governors supply the royal household, each responsible for one month of the year.",
+      "Solomon receives tribute from surrounding kingdoms, while Judah and Israel live securely with peace on every side.",
+      "The governors provide the food and animal feed needed by Solomon's court and horses.",
+      "God gives Solomon exceptional wisdom, and rulers send people to hear his teaching about the natural world."
     ],
     "supporting_verses": [
-      "1 Kings 4:7",
-      "1 Kings 4:20",
-      "1 Kings 4:25",
-      "1 Kings 4:29",
-      "1 Kings 4:34"
+      "1 Kings 4:1-6",
+      "1 Kings 4:7-19",
+      "1 Kings 4:20-25",
+      "1 Kings 4:26-28",
+      "1 Kings 4:29-34"
     ],
-    "evidence_phrases": [
-      "one officer in the land",
-      "Judah and Israel were many",
-      "Solomon's wisdom excelled",
-      "he was wiser than all men",
-      "from all peoples"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 11,
     "chapter": 5,
-    "title": "Temple preparations with Hiram",
-    "summary_text": "Solomon secures peace with Hiram of Tyre and begins gathering cedar, labor, and supplies for the temple. Israel and Lebanon cooperate so that a house for the LORD can be built without war or distraction. The chapter emphasizes orderly preparation and international partnership under God's blessing.",
+    "title": "Solomon Gathers Materials for the Temple",
+    "summary_text": "With the LORD giving him rest from enemies, Solomon prepares to build the temple as the LORD said David's son would do. He asks Hiram of Tyre for timber and skilled workers. Hiram agrees to supply cedar and cypress in return for food for his household, and the two kings make a treaty of peace. Solomon raises a forced labor force from Israel to work in rotating shifts in Lebanon. Large teams also quarry and prepare stone for the temple's foundation.",
     "themes": [
       "Peaceful cooperation",
       "Temple preparation",
@@ -174,32 +162,27 @@
       "Tyrians"
     ],
     "key_points": [
-      "Hiram supplies cedar and skilled labor.",
-      "Solomon organizes a large workforce for the project.",
-      "The LORD gives Solomon rest on every side.",
-      "Materials are gathered for a worthy house for God."
+      "Solomon tells Hiram that peace from enemies allows him to build the house the LORD promised David's son would build.",
+      "Hiram agrees to send timber by sea in exchange for food for his household.",
+      "The LORD gives Solomon wisdom as promised, and Solomon and Hiram make a peaceful treaty.",
+      "Solomon organizes forced labor in rotating shifts and large teams to prepare timber and temple foundation stones."
     ],
     "supporting_verses": [
-      "1 Kings 5:3",
-      "1 Kings 5:5",
-      "1 Kings 5:6",
+      "1 Kings 5:1-6",
+      "1 Kings 5:7-11",
       "1 Kings 5:12",
-      "1 Kings 5:17"
+      "1 Kings 5:13-18"
     ],
-    "evidence_phrases": [
-      "the LORD gave him rest",
-      "there is no adversary",
-      "cedar trees",
-      "Solomon's servants",
-      "for the house of the LORD"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 11,
     "chapter": 6,
-    "title": "The temple takes shape",
-    "summary_text": "Solomon begins building the temple in careful obedience to the pattern he has received. The measurements, chambers, and inner structure stress holiness, precision, and permanence. The chapter presents the house of God as a place built with reverence and order from the foundation upward.",
+    "title": "Solomon Builds the LORD's Temple",
+    "summary_text": "Solomon begins building the LORD's temple in the fourth year of his reign, using stones prepared away from the site. The LORD promises to live among Israel and fulfill His promise to David if Solomon keeps His commandments. Inside, wood panels cover the stone walls, and gold covers the rooms, floors, and altar. The Most Holy Place is prepared for the ark of the covenant, with two large gold-covered cherubim whose wings reach across the room. Carved cherubim, palms, and flowers decorate the temple, which takes seven years to finish.",
     "themes": [
       "Holy architecture",
       "Ordered worship",
@@ -213,32 +196,29 @@
       "priests"
     ],
     "key_points": [
-      "The temple is built according to exact measurements.",
-      "The inner sanctuary is set apart as the holiest place.",
-      "Stones are prepared quietly before they are set in place.",
-      "The house is shaped for God's dwelling among his people."
+      "Solomon builds the temple with a main hall, side rooms, and stone finished before reaching the site.",
+      "The LORD links His promise to dwell among Israel with Solomon's obedience to His commandments.",
+      "Solomon prepares the Most Holy Place for the ark of the covenant and overlays the interior and altar with gold.",
+      "Two large olive-wood cherubim stand in the inner room, and carvings decorate the walls and doors.",
+      "The temple and its courtyard are completed, with temple construction lasting seven years."
     ],
     "supporting_verses": [
-      "1 Kings 6:1",
-      "1 Kings 6:7",
-      "1 Kings 6:11",
-      "1 Kings 6:14",
-      "1 Kings 6:38"
+      "1 Kings 6:1-10",
+      "1 Kings 6:11-13",
+      "1 Kings 6:14-22",
+      "1 Kings 6:23-35",
+      "1 Kings 6:36-38"
     ],
-    "evidence_phrases": [
-      "in the fourth year",
-      "the house, when it was in building",
-      "the inner sanctuary",
-      "the word of the LORD",
-      "the house was finished"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 11,
     "chapter": 7,
-    "title": "Palace work and temple furnishings",
-    "summary_text": "Solomon spends years building his own palace complex and then details the bronze artistry that equips the temple. Hiram's work produces pillars, the bronze sea, stands, and vessels that make worship possible. The chapter highlights both royal magnificence and the careful furnishing of the sacred house.",
+    "title": "Solomon's Palace and the Temple Furnishings",
+    "summary_text": "Solomon spends thirteen years building his palace, royal halls, and a house for Pharaoh's daughter. Huram comes from Tyre to make bronze items for the temple, including two great pillars named Jachin and Boaz. He makes the huge basin called the Sea on twelve oxen, plus ten wheeled stands with basins and carved cherubim. A golden altar and many gold items also furnish the temple. When the work is done, Solomon brings in the treasures that David had set apart for the LORD.",
     "themes": [
       "Royal splendor",
       "Bronze craftsmanship",
@@ -252,32 +232,29 @@
       "craftsmen"
     ],
     "key_points": [
-      "Solomon's palace complex takes much longer to describe than the temple furnishings.",
-      "Hiram fashions the bronze work for sacred use.",
-      "The temple is supplied with stands, basins, and vessels.",
-      "The chapter closes with a finished inventory of holy objects."
+      "Solomon builds royal halls, his own residence, and a house for Pharaoh's daughter over thirteen years.",
+      "Huram makes two decorated bronze pillars and sets them at the temple entrance as Jachin and Boaz.",
+      "The great bronze Sea rests on twelve oxen, and ten wheeled stands hold smaller basins.",
+      "Huram completes the bronze equipment, which is too abundant to weigh.",
+      "Golden furnishings equip the temple, and David's dedicated treasures are brought into its storerooms."
     ],
     "supporting_verses": [
-      "1 Kings 7:13",
-      "1 Kings 7:15",
-      "1 Kings 7:23",
-      "1 Kings 7:40",
-      "1 Kings 7:48"
+      "1 Kings 7:1-12",
+      "1 Kings 7:13-22",
+      "1 Kings 7:23-39",
+      "1 Kings 7:40-47",
+      "1 Kings 7:48-51"
     ],
-    "evidence_phrases": [
-      "bronze work",
-      "the molten sea",
-      "two pillars",
-      "all these vessels",
-      "the house of the LORD"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 11,
     "chapter": 8,
-    "title": "Ark brought in and temple dedicated",
-    "summary_text": "The ark is brought into the completed temple with sacrifice, singing, and a solemn procession of priests. Solomon then prays that God will hear from heaven in every kind of distress and forgive his people when they turn toward this house. The chapter climaxes with the glory of the LORD filling the temple and confirming his presence among Israel.",
+    "title": "Solomon Dedicates the Temple and Prays",
+    "summary_text": "The priests bring the ark into the temple, and a cloud fills it with the LORD's glory. Solomon blesses the people and praises God for keeping His promises to David. He says even heaven cannot contain God, yet asks Him to hear prayers made toward this house. He asks God to forgive sin when His people confess and repent, hear foreigners, and show mercy to captives. After calling Israel to obey God's commandments, Solomon joins them in sacrifices and peace offerings, then sends them home full of joy.",
     "themes": [
       "Ark and presence",
       "Dedication prayer",
@@ -291,32 +268,29 @@
       "Israel"
     ],
     "key_points": [
-      "The ark is placed in the most holy place.",
-      "Solomon blesses the assembly and recalls God's faithfulness.",
-      "He prays that God will hear from heaven and forgive.",
-      "The glory of the LORD fills the house."
+      "The priests place the ark of the covenant in the Most Holy Place under the cherubim, and God's glory fills the temple.",
+      "Solomon praises God's loving devotion and fulfilled word to David, asking Him to keep His promise concerning David's descendants.",
+      "Praying before the altar, Solomon asks God to condemn the wicked, uphold the righteous, and forgive His people's sin.",
+      "He asks God to hear foreigners and show mercy to repentant captives, forgiving the transgressions of Israel, His inheritance.",
+      "Solomon blesses Israel, urges wholehearted obedience, and joins the people in sacrifices and a fourteen-day celebration."
     ],
     "supporting_verses": [
-      "1 Kings 8:1",
-      "1 Kings 8:10",
-      "1 Kings 8:22",
-      "1 Kings 8:27",
-      "1 Kings 8:56"
+      "1 Kings 8:1-11",
+      "1 Kings 8:12-26",
+      "1 Kings 8:27-40",
+      "1 Kings 8:41-53",
+      "1 Kings 8:54-66"
     ],
-    "evidence_phrases": [
-      "the ark of the covenant",
-      "the glory of the LORD",
-      "hear in heaven",
-      "forgive your people",
-      "My eyes and my heart"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 11,
     "chapter": 9,
-    "title": "God's warning and Solomon's building works",
-    "summary_text": "The LORD appears to Solomon again, confirming blessing for obedience and warning of judgment if the king or his descendants turn aside. Solomon's other building projects, trade routes, and labor systems show the scale of his power. The chapter balances privilege with warning, reminding Israel that success cannot replace covenant faithfulness.",
+    "title": "God Warns Solomon as His Kingdom Grows",
+    "summary_text": "The LORD appears to Solomon again and says He has heard his prayer and sanctified the temple. He promises lasting rule if Solomon obeys, but warns that worship of other gods will cost Israel its land and ruin the temple. Solomon gives Hiram twenty towns, but Hiram does not like them. Solomon uses forced labor from other peoples to build cities and forts, while Israelites serve as soldiers and officials. He also makes regular offerings, and his ships sail with Hiram's men to bring gold from Ophir.",
     "themes": [
       "Covenant warning",
       "Royal expansion",
@@ -330,32 +304,29 @@
       "Israel"
     ],
     "key_points": [
-      "God again appears to Solomon and speaks plainly about obedience.",
-      "Solomon completes major building projects.",
-      "Trade and labor extend his influence widely.",
-      "The chapter warns that disobedience would bring ruin."
+      "The LORD accepts the temple and links His promise of an enduring throne to Solomon's obedience.",
+      "If Solomon or his sons abandon His commandments for other gods, the LORD will reject Israel and the sanctified temple.",
+      "Solomon gives Hiram twenty towns, but Hiram is displeased when he inspects them.",
+      "Solomon rebuilds cities and fortifications, using surviving non-Israelite peoples as forced laborers while Israelites serve in other roles.",
+      "Solomon offers burnt offerings and peace offerings, while a joint fleet with Hiram brings gold from Ophir."
     ],
     "supporting_verses": [
-      "1 Kings 9:3",
-      "1 Kings 9:6",
-      "1 Kings 9:7",
-      "1 Kings 9:11",
-      "1 Kings 9:15"
+      "1 Kings 9:1-5",
+      "1 Kings 9:6-9",
+      "1 Kings 9:10-14",
+      "1 Kings 9:15-24",
+      "1 Kings 9:25-28"
     ],
-    "evidence_phrases": [
-      "I have heard your prayer",
-      "if you shall walk before me",
-      "this house, which I have consecrated",
-      "forced labor",
-      "Hiram's fleet"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 11,
     "chapter": 10,
-    "title": "The queen of Sheba visits Solomon",
-    "summary_text": "The queen of Sheba comes to test Solomon with hard questions and leaves convinced that his wisdom and prosperity exceed every report. She praises the God who has set him on the throne and observes the order and abundance of his court. The chapter celebrates Solomon's international fame while also showing the splendor of his kingdom.",
+    "title": "Sheba's Queen Marvels at Solomon's Wisdom",
+    "summary_text": "The queen of Sheba visits Solomon with difficult questions and finds that he can answer them all. His wisdom, court, and wealth exceed what she has heard, and she blesses the LORD for making him king to uphold justice and righteousness. They exchange rich gifts before she returns home. Solomon's gold, ships, throne, and furnishings display great wealth, while visitors from many lands seek the wisdom God has given him. He also gathers chariots and horses and trades them with other kings.",
     "themes": [
       "Wisdom tested",
       "International fame",
@@ -369,32 +340,29 @@
       "the LORD"
     ],
     "key_points": [
-      "The queen comes with difficult questions.",
-      "Solomon answers all her questions.",
-      "She recognizes that God has delighted in Solomon.",
-      "The chapter records the wealth and grandeur of his reign."
+      "The queen of Sheba tests Solomon with questions and is overwhelmed by his wisdom and royal court.",
+      "She blesses the LORD for making Solomon king to carry out justice and righteousness, and they exchange gifts.",
+      "Gold shields, a gold-covered ivory throne, golden cups, and overseas trade display Solomon's wealth.",
+      "People from across the world seek Solomon's God-given wisdom and bring annual gifts.",
+      "Solomon accumulates chariots and horses and trades imported horses and chariots with foreign kings."
     ],
     "supporting_verses": [
-      "1 Kings 10:1",
-      "1 Kings 10:4",
-      "1 Kings 10:6",
-      "1 Kings 10:14",
-      "1 Kings 10:23"
+      "1 Kings 10:1-7",
+      "1 Kings 10:8-13",
+      "1 Kings 10:14-22",
+      "1 Kings 10:23-25",
+      "1 Kings 10:26-29"
     ],
-    "evidence_phrases": [
-      "the report that I heard",
-      "there was no more spirit in her",
-      "the wisdom of Solomon",
-      "all the earth sought the presence of Solomon",
-      "the king made silver to be in Jerusalem"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 11,
     "chapter": 11,
-    "title": "Solomon's heart turns after other gods",
-    "summary_text": "Solomon's foreign marriages lead his heart away from exclusive loyalty to the LORD, and he begins to serve the gods of his wives. Because of this compromise, God raises adversaries against him and announces that the kingdom will be torn from his house. The chapter shows how a gifted king can still fall when covenant loyalty is neglected.",
+    "title": "Solomon Turns Away and Faces Adversaries",
+    "summary_text": "Solomon's wives turn his heart to other gods, and he builds places for their worship. The LORD says he has broken His covenant and will lose most of his kingdom when his son rules. God raises Hadad and Rezon as foes. Ahijah the prophet tears his cloak to show that Jeroboam will receive ten tribes, with a lasting house if he keeps God's commandments. Jeroboam flees to Egypt when Solomon tries to kill him, and Solomon later dies after forty years as king, leaving Rehoboam to rule.",
     "themes": [
       "Idolatry",
       "Divided loyalty",
@@ -408,32 +376,29 @@
       "Hadad"
     ],
     "key_points": [
-      "Solomon's many wives turn his heart after other gods.",
-      "The LORD announces judgment on the kingdom.",
-      "Adversaries rise up against Solomon in his later years.",
-      "Jeroboam is marked out as a future ruler over part of Israel."
+      "Solomon's wives turn him toward other gods, and he builds high places where they burn incense and sacrifice.",
+      "The LORD condemns Solomon's broken covenant and promises division, preserving one tribe for David and Jerusalem, His chosen city.",
+      "The LORD raises Hadad of Edom and Rezon of Aram as adversaries against Solomon.",
+      "Ahijah tears his cloak into twelve pieces and tells Jeroboam that the LORD will give him ten tribes.",
+      "Jeroboam escapes Solomon's attempt to kill him, and Solomon's death leaves Rehoboam on the throne."
     ],
     "supporting_verses": [
-      "1 Kings 11:4",
-      "1 Kings 11:6",
-      "1 Kings 11:9",
-      "1 Kings 11:11",
-      "1 Kings 11:31"
+      "1 Kings 11:1-8",
+      "1 Kings 11:9-13",
+      "1 Kings 11:14-25",
+      "1 Kings 11:26-39",
+      "1 Kings 11:40-43"
     ],
-    "evidence_phrases": [
-      "his wives turned away his heart",
-      "the LORD was angry with Solomon",
-      "I will surely tear the kingdom",
-      "I will give one tribe",
-      "raise up an adversary"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 11,
     "chapter": 12,
-    "title": "The kingdom divides under Rehoboam",
-    "summary_text": "Rehoboam rejects the elders' counsel and answers the people with harsher demands than his father had imposed. The northern tribes rebel, crowning Jeroboam and breaking the united kingdom in two. The chapter marks the turning point from Solomon's glory to long division between Israel and Judah.",
+    "title": "The Kingdom Divides and Jeroboam Makes Calves",
+    "summary_text": "Israel asks Rehoboam to ease its hard service, but he follows his young friends' advice and threatens to make it worse. The people rebel and make Jeroboam king, as the LORD's word foretold. Rehoboam gathers troops, but God tells him not to fight Israel. Fearing that worship in Jerusalem will turn the people back to David's house, Jeroboam sets up gold calves at Bethel and Dan. He leads the people into sin with his own feast and sacrifices and with priests who are not Levites.",
     "themes": [
       "Prideful leadership",
       "National division",
@@ -447,32 +412,29 @@
       "Israel"
     ],
     "key_points": [
-      "Rehoboam refuses wise counsel from the elders.",
-      "The people reject the house of David's harsh reply.",
-      "Jeroboam becomes king over the northern tribes.",
-      "The kingdom is permanently divided."
+      "Israel asks for relief from heavy service, but Rehoboam rejects older advisers in favor of his young companions.",
+      "Rehoboam's harsh answer drives Israel into rebellion, fulfilling the LORD's word through Ahijah.",
+      "Israel makes Jeroboam king, and the LORD stops Rehoboam from attacking to reunite the kingdom.",
+      "Jeroboam sets up golden calves to keep his people from returning to Jerusalem, and this becomes sin.",
+      "Jeroboam installs priests who are not Levites and makes offerings at his own altar during a feast he devises."
     ],
     "supporting_verses": [
-      "1 Kings 12:4",
-      "1 Kings 12:10",
-      "1 Kings 12:16",
-      "1 Kings 12:20",
-      "1 Kings 12:28"
+      "1 Kings 12:1-11",
+      "1 Kings 12:12-19",
+      "1 Kings 12:20-24",
+      "1 Kings 12:25-30",
+      "1 Kings 12:31-33"
     ],
-    "evidence_phrases": [
-      "my little finger is thicker",
-      "what portion have we in David?",
-      "Jeroboam returned",
-      "the king did not listen",
-      "make two calves of gold"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 11,
     "chapter": 13,
-    "title": "A prophet confronts Bethel's altar",
-    "summary_text": "A man of God from Judah confronts Jeroboam's altar at Bethel and announces that idolatrous worship will be judged. The sign of the broken altar and the withered hand confirms that God's word stands above royal religion. Jeroboam's stubbornness begins a pattern of resistance that will haunt the northern kingdom.",
+    "title": "The Man of God Disobeys and Dies",
+    "summary_text": "The LORD's word comes through a man of God who condemns Bethel's altar and foretells Josiah's actions against its priests. Jeroboam's hand withers when he orders the man's arrest, but prayer restores it. The man refuses food as God commanded, yet an old prophet's false claim about an angel persuades him to return and eat. The LORD then speaks through that prophet to announce his punishment, and a lion kills him on his way. The old prophet buries him and affirms his warning, while Jeroboam does not repent of the sin that will destroy his house.",
     "themes": [
       "Prophetic warning",
       "False worship",
@@ -486,32 +448,29 @@
       "the LORD"
     ],
     "key_points": [
-      "The man of God condemns the altar at Bethel.",
-      "A sign confirms the truth of the prophecy.",
-      "Jeroboam's hand is restored only after appeal.",
-      "Disobedience ends in death for the man of God."
+      "A man of God announces that Josiah will sacrifice high-place priests on Bethel's altar and burn human bones there.",
+      "The altar splits, Jeroboam's hand withers, and the man's intercession restores it before he refuses the king's hospitality.",
+      "An old prophet lies about an angel's message and persuades the man to eat against God's command.",
+      "The LORD announces punishment for breaking His commandment; a lion kills the man, and the old prophet buries him.",
+      "Jeroboam does not repent but keeps appointing high-place priests, continuing the sin that brings his house to destruction."
     ],
     "supporting_verses": [
-      "1 Kings 13:2",
-      "1 Kings 13:3",
-      "1 Kings 13:4",
-      "1 Kings 13:5",
-      "1 Kings 13:24"
+      "1 Kings 13:1-3",
+      "1 Kings 13:4-10",
+      "1 Kings 13:11-19",
+      "1 Kings 13:20-32",
+      "1 Kings 13:33-34"
     ],
-    "evidence_phrases": [
-      "altar, altar",
-      "the altar was split apart",
-      "the king's hand dried up",
-      "you shall surely die",
-      "the word of the LORD"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 11,
     "chapter": 14,
-    "title": "Judgment on Jeroboam's house",
-    "summary_text": "Jeroboam sends his wife to Ahijah, but the prophet announces that their dynasty will be cut off because Jeroboam led Israel into sin. In Judah, Rehoboam's reign is also marked by evil and spiritual decline. The chapter makes clear that both kingdoms are already bearing the cost of unfaithfulness.",
+    "title": "Judgment on Jeroboam's House and Judah's Sin",
+    "summary_text": "Jeroboam sends his wife in disguise to ask Ahijah about their sick son, but God tells the prophet who she is. The LORD says Jeroboam's house will be destroyed and Israel scattered from its land because of sin. The boy dies as foretold but receives burial because the LORD found good in him. In Judah, false worship and male shrine prostitutes stir God's anger, and Shishak takes the temple and palace treasures. Both kings later die, with Nadab taking Jeroboam's place and Abijam taking Rehoboam's.",
     "themes": [
       "Dynastic judgment",
       "Prophetic certainty",
@@ -525,32 +484,29 @@
       "Jeroboam's wife"
     ],
     "key_points": [
-      "Ahijah announces the fall of Jeroboam's house.",
-      "Jeroboam's son Abijah dies as foretold.",
-      "Rehoboam also leads Judah into sin.",
-      "Both kingdoms show the fruit of covenant rebellion."
+      "The LORD identifies Jeroboam's disguised wife to the blind prophet Ahijah before she arrives.",
+      "The LORD announces the destruction of Jeroboam's house and Israel's removal from its land because of sin.",
+      "Abijah dies when his mother returns, as the LORD's word foretold, and Nadab later succeeds Jeroboam.",
+      "Under Rehoboam, Judah provokes the LORD through false worship, Asherah poles, and male shrine prostitutes.",
+      "Shishak takes Jerusalem's treasures; Rehoboam's reign includes continuing war with Jeroboam and ends with Abijam succeeding him."
     ],
     "supporting_verses": [
-      "1 Kings 14:10",
-      "1 Kings 14:14",
-      "1 Kings 14:17",
-      "1 Kings 14:22",
-      "1 Kings 14:31"
+      "1 Kings 14:1-6",
+      "1 Kings 14:7-16",
+      "1 Kings 14:17-20",
+      "1 Kings 14:21-24",
+      "1 Kings 14:25-31"
     ],
-    "evidence_phrases": [
-      "I will cut off",
-      "because you have done evil",
-      "there was found in him some good thing",
-      "high places",
-      "the kingdom was divided"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 11,
     "chapter": 15,
-    "title": "Asa reforms Judah",
-    "summary_text": "Abijam follows the pattern of his father, but Asa brings a measure of reform by removing idols and strengthening Judah. He seeks the LORD in his trouble and is given victory and stability. The chapter contrasts fragile monarchy with the blessing that comes from covenant renewal.",
+    "title": "Asa Reforms Judah as Israel Changes Kings",
+    "summary_text": "Abijam follows his father's sins, yet the LORD preserves his line for David's sake. Asa succeeds him in Judah and removes idols and shrine prostitutes, though the high places remain. When Baasha blocks Judah's border, Asa pays Ben-hadad to attack Israel, forcing Baasha to withdraw. In Israel, Baasha kills Nadab and destroys Jeroboam's family, fulfilling the LORD's word against its sin. Baasha then follows the same sinful path.",
     "themes": [
       "Partial reform",
       "Covenant faithfulness",
@@ -564,32 +520,29 @@
       "Azariah"
     ],
     "key_points": [
-      "Abijam continues the sins of his father.",
-      "Asa removes idols and seeks the LORD.",
-      "Judah and Israel remain in conflict.",
-      "God's help strengthens Asa's kingdom."
+      "The LORD preserves Abijam's royal line for David's sake despite Abijam's sins.",
+      "Asa removes idols and dismisses Maacah as queen mother because of her Asherah pole.",
+      "Asa pays Ben-hadad to attack Israel, and Baasha abandons his work at Ramah.",
+      "Baasha kills Nadab and destroys Jeroboam's family as the LORD had declared.",
+      "Baasha leads Israel in the same sin as Jeroboam."
     ],
     "supporting_verses": [
-      "1 Kings 15:11",
-      "1 Kings 15:13",
-      "1 Kings 15:15",
-      "1 Kings 15:22",
-      "1 Kings 15:34"
+      "1 Kings 15:1-8",
+      "1 Kings 15:9-15",
+      "1 Kings 15:16-22",
+      "1 Kings 15:25-30",
+      "1 Kings 15:33-34"
     ],
-    "evidence_phrases": [
-      "Asa did what was right",
-      "removed the idols",
-      "the LORD gave him rest",
-      "there was war",
-      "did evil in the sight of the LORD"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 11,
     "chapter": 16,
-    "title": "Israel's unstable kings",
-    "summary_text": "Baasha, Elah, Zimri, Omri, and Ahab rise and fall in quick succession, showing the instability of the northern throne. The LORD's word against Baasha is fulfilled, and Ahab's reign introduces even deeper idolatry. Political success cannot hide the spiritual collapse that is taking hold in Israel.",
+    "title": "Israel's Kings Persist in Sin",
+    "summary_text": "The LORD's word through the prophet Jehu condemns Baasha's family for leading Israel into sin. Zimri kills Elah and destroys that family, but rules for only seven days. As Omri takes Tirzah, Zimri sets fire to the palace and dies inside. Omri wins the throne, builds Samaria, and keeps Israel serving idols. His son Ahab does still greater evil, serving Baal with a temple, an altar, and an Asherah pole.",
     "themes": [
       "Political instability",
       "Prophetic fulfillment",
@@ -603,32 +556,29 @@
       "Ahab"
     ],
     "key_points": [
-      "Baasha's house is judged for sin.",
-      "Zimri's brief reign ends in self-destruction.",
-      "Omri stabilizes the throne through force.",
-      "Ahab becomes king and worsens Israel's idolatry."
+      "The LORD sends Jehu to announce judgment against Baasha and his family.",
+      "Zimri kills Elah and destroys Baasha's household because of the sins that provoked the LORD.",
+      "After seven days as king, Zimri dies in the palace fire as Omri takes Tirzah.",
+      "Omri gains the throne, builds Samaria, and leads Israel in worshiping idols.",
+      "Ahab promotes Baal worship, and Hiel's rebuilding of Jericho costs him his firstborn and youngest sons."
     ],
     "supporting_verses": [
-      "1 Kings 16:3",
-      "1 Kings 16:7",
-      "1 Kings 16:11",
-      "1 Kings 16:18",
-      "1 Kings 16:30"
+      "1 Kings 16:1-7",
+      "1 Kings 16:8-14",
+      "1 Kings 16:15-20",
+      "1 Kings 16:21-28",
+      "1 Kings 16:29-34"
     ],
-    "evidence_phrases": [
-      "did evil in the sight of the LORD",
-      "Zimri conspired",
-      "Omri did what was evil",
-      "Ahab did more to provoke",
-      "made the Asherah"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 11,
     "chapter": 17,
-    "title": "Elijah fed by ravens and widow's oil",
-    "summary_text": "Elijah suddenly appears during a drought and is sustained first by ravens and then by a widow in Zarephath whose flour and oil do not fail. When her son dies, Elijah prays and God restores the child to life. The chapter proves that the LORD can preserve life and provide for his servant even in famine and death.",
+    "title": "The LORD Sustains Elijah and a Widow",
+    "summary_text": "Elijah tells Ahab that rain and dew will stop until he gives the word. The LORD sends ravens to feed Elijah, then directs him to a widow in Zarephath when his brook dries up. She shares her last supplies, and the LORD keeps her flour and oil from running out. When her son dies, she asks whether Elijah has brought punishment for her iniquity. The LORD answers Elijah's prayer and restores the boy's life, leading the widow to affirm that the LORD's word through Elijah is true.",
     "themes": [
       "Divine provision",
       "Faith in famine",
@@ -642,32 +592,29 @@
       "the LORD"
     ],
     "key_points": [
-      "Elijah is sustained by ravens at the brook Cherith.",
-      "A widow in Zarephath feeds Elijah by God's word.",
-      "Her flour and oil are miraculously preserved.",
-      "The child's life is restored through Elijah's prayer."
+      "Elijah announces a drought, and the LORD provides him with food through ravens.",
+      "A widow shares her remaining food after Elijah gives her the LORD's promise of continuing supplies.",
+      "The widow questions whether her son's death is connected to her iniquity.",
+      "The LORD restores the boy's life in answer to Elijah's prayer.",
+      "The widow recognizes Elijah as God's man and accepts the truth of the LORD's word through him."
     ],
     "supporting_verses": [
-      "1 Kings 17:1",
-      "1 Kings 17:6",
-      "1 Kings 17:14",
-      "1 Kings 17:17",
+      "1 Kings 17:1-7",
+      "1 Kings 17:8-16",
+      "1 Kings 17:17-18",
+      "1 Kings 17:19-23",
       "1 Kings 17:24"
     ],
-    "evidence_phrases": [
-      "ravens brought him bread",
-      "the jar of meal did not waste",
-      "the LORD heard Elijah's voice",
-      "give me your son",
-      "the life of the child"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 11,
     "chapter": 18,
-    "title": "Fire on Carmel and rain returns",
-    "summary_text": "Elijah confronts Ahab, gathers Israel at Carmel, and exposes the futility of Baal worship. The LORD answers Elijah with fire, and then the prophet prays until the long drought breaks in a rushing rainstorm. The chapter shows that covenant loyalty belongs to the LORD alone and that he alone brings life to a dry land.",
+    "title": "The LORD Answers Elijah With Fire",
+    "summary_text": "The LORD sends Elijah to Ahab with His word that rain will return, and Obadiah arranges their meeting. Elijah gathers Israel and Baal's prophets on Mount Carmel to see who will answer by fire. Baal gives no answer, but the LORD's fire burns Elijah's soaked offering and altar. The people name the LORD as God, and Elijah kills Baal's captured prophets. He sends his servant to look toward the sea, and heavy rain follows.",
     "themes": [
       "Exclusive worship",
       "Prophetic confrontation",
@@ -681,32 +628,29 @@
       "the LORD"
     ],
     "key_points": [
-      "Elijah calls Israel to choose between the LORD and Baal.",
-      "Baal does not answer, but the LORD sends fire.",
-      "The people confess that the LORD is God.",
-      "Rain finally returns after Elijah's prayer."
+      "Obadiah, who has hidden the LORD's prophets from Jezebel, carries Elijah's announcement to Ahab.",
+      "Elijah says Ahab has abandoned the LORD's commandments and calls Israel to see which god answers with fire.",
+      "Baal's prophets cry out and injure themselves, but their god gives no answer.",
+      "The LORD consumes Elijah's sacrifice with fire, and Elijah kills Baal's captured prophets.",
+      "Rain returns, and the LORD empowers Elijah to run ahead of Ahab to Jezreel."
     ],
     "supporting_verses": [
-      "1 Kings 18:1",
-      "1 Kings 18:21",
-      "1 Kings 18:24",
-      "1 Kings 18:36",
-      "1 Kings 18:41"
+      "1 Kings 18:1-16",
+      "1 Kings 18:17-24",
+      "1 Kings 18:25-29",
+      "1 Kings 18:30-40",
+      "1 Kings 18:41-46"
     ],
-    "evidence_phrases": [
-      "How long will you waver",
-      "the LORD, he is God",
-      "fire of the LORD fell",
-      "the hand of the LORD",
-      "there is the sound of abundance of rain"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 11,
     "chapter": 19,
-    "title": "Elijah at Horeb",
-    "summary_text": "After Jezebel's threat, Elijah flees in exhaustion and despair, but God meets him in wilderness provision and quiet speech. At Horeb the LORD recommissions Elijah and reveals that he is not alone, preserving a faithful remnant and appointing future leaders. The chapter moves from fear to renewed purpose under God's gentle yet sovereign care.",
+    "title": "The LORD Gives Elijah New Work",
+    "summary_text": "Fleeing Jezebel's threat, Elijah enters the wilderness and asks the LORD to let him die. An angel feeds him, and he travels to Horeb, where he says Israel has abandoned God's covenant and he alone remains. The LORD is not in the wind, earthquake, or fire; a quiet voice follows. He tells Elijah to anoint Hazael, Jehu, and Elisha for their roles in judgment and says seven thousand Israelites have not worshiped Baal. Elijah finds Elisha, who leaves his farming work to serve him.",
     "themes": [
       "Prophetic exhaustion",
       "God's quiet voice",
@@ -720,32 +664,29 @@
       "Elisha"
     ],
     "key_points": [
-      "Elijah collapses under fear and fatigue.",
-      "God strengthens him for the journey to Horeb.",
-      "The LORD speaks in a gentle voice, not in the storm.",
-      "Elijah is sent back with a new commission."
+      "Jezebel threatens Elijah, who flees and asks the LORD to end his life.",
+      "An angel provides food, strengthening Elijah for his journey to Horeb.",
+      "Elijah reports Israel's broken covenant and ruined altars, and a quiet voice follows the wind, earthquake, and fire.",
+      "The LORD's word directs Elijah to anoint two kings and a prophet and declares seven thousand Israelites free of Baal worship.",
+      "Elisha shares a meal from his slaughtered oxen, then follows Elijah as his servant."
     ],
     "supporting_verses": [
-      "1 Kings 19:4",
-      "1 Kings 19:8",
-      "1 Kings 19:11",
-      "1 Kings 19:15",
-      "1 Kings 19:19"
+      "1 Kings 19:1-4",
+      "1 Kings 19:5-8",
+      "1 Kings 19:9-14",
+      "1 Kings 19:15-18",
+      "1 Kings 19:19-21"
     ],
-    "evidence_phrases": [
-      "a still small voice",
-      "What are you doing here, Elijah?",
-      "you are not alone",
-      "anoint Elisha",
-      "the LORD had not left"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 11,
     "chapter": 20,
-    "title": "Ahab and Ben-hadad",
-    "summary_text": "Ben-hadad attacks Israel, but God delivers the Syrians into Ahab's hand twice, showing mercy to a flawed king. Ahab then spares Ben-hadad contrary to God's word, and a prophet announces judgment for that disobedience. The chapter warns that victory means little when obedience is neglected.",
+    "title": "Ahab Wins Battles but Faces Judgment",
+    "summary_text": "Ahab refuses Ben-hadad's demand to search and plunder Samaria's homes. The LORD gives His word through a prophet and grants two victories so Israel will know He is the LORD. The second victory answers Aram's claim that His power is limited to the hills. Ben-hadad seeks mercy, and Ahab frees him under a treaty. A prophet draws Ahab into passing judgment, then says Ahab and his people will pay for freeing the man the LORD had condemned.",
     "themes": [
       "Divine deliverance",
       "Mercy and disobedience",
@@ -759,32 +700,29 @@
       "Israel"
     ],
     "key_points": [
-      "The LORD gives victory over a superior enemy.",
-      "Ahab spares the enemy king against God's command.",
-      "The prophet exposes the king's disobedience.",
-      "Ahab is told that his life will answer for his decision."
+      "Ahab rejects Ben-hadad's expanded demands after consulting Israel's elders.",
+      "The LORD promises victory through a prophet, and Israel defeats the army outside Samaria.",
+      "Israel wins again after the Arameans claim the LORD cannot give victory in the valleys.",
+      "Hoping for mercy, Ben-hadad seeks his life, and Ahab releases him through a treaty.",
+      "A prophet announces that Ahab's release of Ben-hadad brings judgment on Ahab and his people."
     ],
     "supporting_verses": [
-      "1 Kings 20:13",
-      "1 Kings 20:18",
-      "1 Kings 20:28",
-      "1 Kings 20:31",
-      "1 Kings 20:42"
+      "1 Kings 20:1-12",
+      "1 Kings 20:13-22",
+      "1 Kings 20:23-30",
+      "1 Kings 20:31-34",
+      "1 Kings 20:35-43"
     ],
-    "evidence_phrases": [
-      "I will deliver it into your hand",
-      "the LORD is a God of the hills",
-      "your life shall go for his life",
-      "the king of Israel",
-      "let your brother live"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 11,
     "chapter": 21,
-    "title": "Naboth's vineyard and Ahab's guilt",
-    "summary_text": "Ahab covets Naboth's vineyard, and Jezebel arranges Naboth's murder so the king can seize it. Elijah confronts Ahab with a sentence of doom on both the king and his house, yet Ahab humbles himself enough to delay immediate disaster. The chapter exposes how greed and abuse of power invite the judgment of God.",
+    "title": "Naboth's Murder Brings Judgment on Ahab",
+    "summary_text": "Naboth refuses to sell Ahab the vineyard that is his family's inheritance. Jezebel arranges false charges of cursing God and the king, and the city's leaders stone Naboth. Ahab takes the land, but Elijah brings the LORD's word against him for murder and leading Israel into sin. The LORD condemns Ahab's family and Jezebel, and the account notes his worship of idols. Ahab humbles himself, so God delays his family's ruin until his son's reign.",
     "themes": [
       "Covetousness",
       "Abuse of power",
@@ -798,32 +736,29 @@
       "Elijah"
     ],
     "key_points": [
-      "Ahab wants Naboth's vineyard for himself.",
-      "Jezebel engineers Naboth's death.",
-      "Elijah announces judgment on Ahab's house.",
-      "Ahab's humility delays the sentence temporarily."
+      "Naboth refuses Ahab's offer because the vineyard is his family's inheritance.",
+      "Jezebel arranges false testimony that Naboth cursed God and the king, leading to his execution.",
+      "Ahab takes Naboth's vineyard, and the LORD sends Elijah to confront him about murder and theft.",
+      "The LORD declares disaster for Ahab's family and Jezebel because of Ahab's evil and Israel's sin.",
+      "The LORD postpones the disaster against Ahab's household after Ahab humbles himself."
     ],
     "supporting_verses": [
-      "1 Kings 21:3",
-      "1 Kings 21:7",
-      "1 Kings 21:19",
-      "1 Kings 21:22",
-      "1 Kings 21:29"
+      "1 Kings 21:1-4",
+      "1 Kings 21:5-14",
+      "1 Kings 21:15-19",
+      "1 Kings 21:20-26",
+      "1 Kings 21:27-29"
     ],
-    "evidence_phrases": [
-      "Naboth's vineyard",
-      "You have killed and also taken possession",
-      "dogs will lick your blood",
-      "the LORD spoke",
-      "he humbled himself"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 11,
     "chapter": 22,
-    "title": "Micaiah's warning and Ahab's death",
-    "summary_text": "Jehoshaphat joins Ahab in battle, but Micaiah alone speaks the truth that the campaign will fail. Ahab disguises himself, yet a random arrow fulfills God's word and the king dies in the fight. The closing summary leaves Israel and Judah still entangled in compromise, but God's word has not failed.",
+    "title": "Ahab Rejects Micaiah's Warning and Dies",
+    "summary_text": "Ahab and Jehoshaphat plan an attack, and prophets promise victory. Micaiah warns that Israel will lose its shepherd and reports the LORD sending a lying spirit to draw Ahab into battle. Ahab jails him and fights in disguise, but an arrow wounds him and he dies. Dogs lick his blood as the LORD had said. The account also records Jehoshaphat's good rule, with sacrifices still made at the high places, and Ahaziah's sin of Baal worship after succeeding Ahab.",
     "themes": [
       "True prophecy",
       "Foolish alliance",
@@ -837,24 +772,21 @@
       "the LORD"
     ],
     "key_points": [
-      "Micaiah warns that defeat is certain.",
-      "Ahab ignores the prophecy and goes to battle.",
-      "An arrow strikes Ahab despite his disguise.",
-      "The king dies exactly as God had said."
+      "Jehoshaphat agrees to join Ahab's attack but first asks to hear the LORD's word.",
+      "Micaiah reports that the LORD has allowed a lying spirit to entice Ahab through his prophets.",
+      "Ahab imprisons Micaiah, who says Ahab's safe return would prove the LORD had not spoken through him.",
+      "Despite his disguise, Ahab is fatally wounded, and dogs lick his blood as the LORD had declared.",
+      "Jehoshaphat follows Asa's example, while Ahaziah follows his parents into Baal worship."
     ],
     "supporting_verses": [
-      "1 Kings 22:5",
-      "1 Kings 22:17",
-      "1 Kings 22:19",
-      "1 Kings 22:28",
-      "1 Kings 22:34"
+      "1 Kings 22:1-12",
+      "1 Kings 22:13-23",
+      "1 Kings 22:24-28",
+      "1 Kings 22:29-40",
+      "1 Kings 22:41-53"
     ],
-    "evidence_phrases": [
-      "I saw all Israel scattered",
-      "the LORD has spoken evil",
-      "the word of the LORD",
-      "a certain man drew his bow",
-      "the dogs licked his blood"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   }
 ]

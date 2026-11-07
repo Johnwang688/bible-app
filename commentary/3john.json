@@ -1,10 +1,10 @@
 [
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 64,
     "chapter": 1,
-    "title": "Hospitality and Diotrephes",
-    "summary_text": "Elder to beloved Gaius—pray prosper health soul—joy brethren testify truth—strangers entertained—send forth worthily of God—Diotrephes loves preeminence refuses—do not imitate evil good.",
+    "title": "Gaius Welcomes Workers While Diotrephes Rejects Them",
+    "summary_text": "The elder rejoices that Gaius lives by the truth and faithfully helps traveling brothers, even those he did not know. These workers went out for the Name without support from Gentiles, so helping them makes believers partners in the truth. Diotrephes seeks first place, rejects the elder's instruction, spreads slander, and drives out people who welcome the brothers. The elder urges Gaius to imitate good rather than evil and commends Demetrius's trustworthy reputation. He hopes to visit soon and speak face to face.",
     "themes": [
       "Walk in truth",
       "Strangers entertained",
@@ -18,25 +18,21 @@
       "Demetrius"
     ],
     "key_points": [
-      "The elder to the beloved Gaius, whom I love in truth.",
-      "I pray that you may prosper in all things and be healthy, even as your soul prospers.",
-      "For they went out for the sake of the Name.",
-      "We therefore ought to receive such, that we may be fellow workers for the truth.",
-      "Don’t imitate what is evil, but that which is good."
+      "Reports of Gaius's life in the truth bring the elder great joy.",
+      "Gaius faithfully welcomes traveling brothers, and supporting such workers makes believers partners in their work for the truth.",
+      "Diotrephes rejects the elder, slanders him, refuses hospitality, and expels people who welcome the brothers.",
+      "The elder urges imitation of good and supports the favorable testimony about Demetrius.",
+      "The elder hopes for a personal visit and sends greetings of peace from friends."
     ],
     "supporting_verses": [
-      "3 John 1:1",
-      "3 John 1:2",
-      "3 John 1:7",
-      "3 John 1:8",
-      "3 John 1:11"
+      "3 John 1:1-4",
+      "3 John 1:5-8",
+      "3 John 1:9-10",
+      "3 John 1:11-12",
+      "3 John 1:13-14"
     ],
-    "evidence_phrases": [
-      "whom I love in truth",
-      "prosper in all things",
-      "they went out for the sake of the Name",
-      "fellow workers for the truth",
-      "Don’t imitate what is evil"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   }
 ]

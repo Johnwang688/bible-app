@@ -55,6 +55,11 @@ def _curated(path: Path, kind: str) -> dict[str, dict]:
     return result
 
 
+def _profile(entry: dict) -> dict:
+    """What the entity row keeps from a curated entry. Person cards carry a `card` too."""
+    return {field: entry[field] for field in ("overview", "timeline", "card") if field in entry}
+
+
 def rebuild(source: Path, people: Path, places: Path) -> dict:
     curated = {"person": _curated(people, "person"), "place": _curated(places, "place")}
     manifest_path = source / "MANIFEST.json"
@@ -85,7 +90,7 @@ def rebuild(source: Path, people: Path, places: Path) -> dict:
             if slug not in curated[kind]:
                 dropped_rows[kind] += 1
                 continue
-            profile = {field: curated[kind][slug][field] for field in ("overview", "timeline")}
+            profile = _profile(curated[kind][slug])
             if row.get("profile") != profile:
                 row = {**row, "profile": profile}
                 raw = _json_line(row)
@@ -102,7 +107,7 @@ def rebuild(source: Path, people: Path, places: Path) -> dict:
         entry = curated[kind][slug]
         row = {"id": next_id, "kind": kind, "slug": slug, "label": entry["label"],
                "created_at": CREATED_AT,
-               "profile": {field: entry[field] for field in ("overview", "timeline")}}
+               "profile": _profile(entry)}
         kept.append((row, _json_line(row)))
         next_id += 1
 

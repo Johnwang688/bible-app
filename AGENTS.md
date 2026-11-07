@@ -18,3 +18,8 @@ files.
 
 The plan of record is `docs/plans/app-rebuild.md`. The claims file says who holds what
 right now. The client has its own notes in `client/AGENTS.md`.
+
+## Bulk content
+
+Anything generated, tagged or imported at scale follows `docs/content-workflow.md`: summaries,
+people and places, themes, key words, the question bank, imported texts. Read it before you start.

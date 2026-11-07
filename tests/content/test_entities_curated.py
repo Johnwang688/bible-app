@@ -166,13 +166,13 @@ def test_commentary_shards_and_already_missing_entities(tiny):
 
 def test_real_source_matches_curated_profiles_and_unchanged_themes():
     entities = rows(SOURCE / r.ENTITIES)
-    assert Counter(row["kind"] for row in entities) == {"person": 284, "place": 89, "theme": 2989}
+    assert Counter(row["kind"] for row in entities) == {"person": 297, "place": 89, "theme": 2989}
     for kind, path in (("person", PEOPLE), ("place", PLACES)):
         expected = curated(path)
         actual = {row["slug"]: row for row in entities if row["kind"] == kind}
         assert actual.keys() == expected.keys()
         for slug, row in actual.items():
-            assert row["profile"] == {field: expected[slug][field] for field in ("overview", "timeline")}
+            assert row["profile"] == r._profile(expected[slug])
     themes = b"".join(line for line in (SOURCE / r.ENTITIES).read_bytes().splitlines(keepends=True)
                       if json.loads(line)["kind"] == "theme")
     assert hashlib.sha256(themes).hexdigest() == THEME_SHA256

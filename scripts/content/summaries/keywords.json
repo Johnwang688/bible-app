@@ -1,0 +1,1638 @@
+[
+  {
+    "slug": "abyss",
+    "word": "Abyss",
+    "gloss": "A deep realm associated with the dead or the confinement of evil spirits.",
+    "forms": [
+      "abyss"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "hole"
+    ],
+    "bsb_verses": 9,
+    "note": "Romans 10 uses it in speaking of bringing Christ up from the dead."
+  },
+  {
+    "slug": "adoption",
+    "word": "adoption",
+    "gloss": "Being received into a family with the standing of a son or daughter.",
+    "forms": [
+      "adoption",
+      "adopted"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "welcomed"
+    ],
+    "bsb_verses": 7,
+    "note": "Paul applies this to belonging to God's family; it does not imply physical birth."
+  },
+  {
+    "slug": "adultery",
+    "word": "adultery",
+    "gloss": "Sexual unfaithfulness that breaks a marriage commitment.",
+    "forms": [
+      "adultery",
+      "adulterer",
+      "adulterers",
+      "adulteress"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "affair"
+    ],
+    "bsb_verses": 58,
+    "note": "Also used as a picture of unfaithfulness to God."
+  },
+  {
+    "slug": "altar",
+    "word": "altar",
+    "gloss": "A structure on which offerings are presented to God or to a god.",
+    "forms": [
+      "altar",
+      "altars"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "table"
+    ],
+    "bsb_verses": 377,
+    "note": "An altar can serve true worship or false worship."
+  },
+  {
+    "slug": "amen",
+    "word": "Amen",
+    "gloss": "Truly, or let it be so.",
+    "forms": [
+      "amen"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "the end"
+    ],
+    "bsb_verses": 52,
+    "note": "Used to affirm a statement or prayer; Revelation also uses it as a title."
+  },
+  {
+    "slug": "angel",
+    "word": "angel",
+    "gloss": "A heavenly messenger or servant of God.",
+    "forms": [
+      "angel",
+      "angels"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "spirit"
+    ],
+    "bsb_verses": 293,
+    "note": "Some passages describe fallen angels; the word does not mean a person becomes an angel after death."
+  },
+  {
+    "slug": "anointed",
+    "word": "anointed",
+    "gloss": "Marked with oil or set apart for a particular role.",
+    "forms": [
+      "anointed",
+      "anoint",
+      "anointing"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "appointed"
+    ],
+    "bsb_verses": 147,
+    "note": "Can mean ordinary application of oil or consecration; anointing eyes with mud is physical application."
+  },
+  {
+    "slug": "apostle",
+    "word": "apostle",
+    "gloss": "A messenger sent with authority, especially someone commissioned by Jesus.",
+    "forms": [
+      "apostle",
+      "apostles",
+      "apostleship"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "helper"
+    ],
+    "bsb_verses": 84,
+    "note": "The title concerns a commission, not simply any follower."
+  },
+  {
+    "slug": "atonement",
+    "word": "atonement",
+    "gloss": "Dealing with sin and guilt so a relationship with God can be restored.",
+    "forms": [
+      "atonement",
+      "atone",
+      "atoned",
+      "atoning"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "apology",
+      "making amends"
+    ],
+    "bsb_verses": 91,
+    "note": "The BSB uses atoning sacrifice, not propitiation; this gloss does not choose one atonement theory."
+  },
+  {
+    "slug": "baptism",
+    "word": "baptism",
+    "gloss": "A washing with water marking repentance or identification with Jesus.",
+    "forms": [
+      "baptism",
+      "baptisms",
+      "baptize",
+      "baptized",
+      "baptizing"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "ceremony",
+      "washing"
+    ],
+    "bsb_verses": 74,
+    "note": "The BSB also speaks of baptism with the Spirit and figurative baptism into suffering."
+  },
+  {
+    "slug": "blasphemy",
+    "word": "blasphemy",
+    "gloss": "Speech that insults God or dishonors what belongs to Him.",
+    "forms": [
+      "blasphemy",
+      "blasphemies",
+      "blaspheme",
+      "blasphemed"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "rudeness"
+    ],
+    "bsb_verses": 26,
+    "note": "An accusation of blasphemy does not mean the accused person actually committed it."
+  },
+  {
+    "slug": "blessed",
+    "word": "blessed",
+    "gloss": "Favored with good, spoken well of, or worthy of praise.",
+    "forms": [
+      "blessed",
+      "bless",
+      "blesses",
+      "blessing",
+      "blessings",
+      "blessedness"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "lucky",
+      "happy"
+    ],
+    "bsb_verses": 480,
+    "note": "Can mean God's favor, a person's blessing, praising God, or even misguided human praise."
+  },
+  {
+    "slug": "born-again",
+    "word": "born again",
+    "gloss": "Given a new beginning and life through God's Spirit.",
+    "forms": [
+      "born again"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "start over"
+    ],
+    "bsb_verses": 3,
+    "note": "John 3 contrasts this with physical birth; no particular account of baptism is assumed."
+  },
+  {
+    "slug": "bread-of-life",
+    "word": "bread of life",
+    "gloss": "Jesus' description of Himself as the one who gives true life.",
+    "forms": [
+      "bread of life"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "spiritual food"
+    ],
+    "bsb_verses": 2,
+    "note": "Retained despite two BSB verses because the phrase is central to John 6."
+  },
+  {
+    "slug": "called",
+    "word": "called",
+    "gloss": "Summoned, invited, or named, depending on the passage.",
+    "forms": [
+      "called",
+      "call",
+      "calls",
+      "calling"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "selected"
+    ],
+    "bsb_verses": 701,
+    "note": "Can mean God's summons, calling out, naming, or describing someone; not every call is election."
+  },
+  {
+    "slug": "cherubim",
+    "word": "cherubim",
+    "gloss": "Heavenly beings associated with God's presence, also represented in sanctuary artwork.",
+    "forms": [
+      "cherub",
+      "cherubim"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "winged babies"
+    ],
+    "bsb_verses": 71,
+    "note": "The singular is cherub; the BSB also describes carved representations."
+  },
+  {
+    "slug": "christ",
+    "word": "Christ",
+    "gloss": "The Messiah, God's anointed one.",
+    "forms": [
+      "christ",
+      "messiah"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "appointed leader"
+    ],
+    "bsb_verses": 517,
+    "note": "A title, not Jesus' surname; Messiah and Christ express the same title."
+  },
+  {
+    "slug": "circumcision",
+    "word": "circumcision",
+    "gloss": "Removal of the foreskin, given to Abraham as a sign of God's covenant.",
+    "forms": [
+      "circumcision",
+      "circumcised",
+      "circumcise"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "physical mark",
+      "outward sign"
+    ],
+    "bsb_verses": 71,
+    "note": "Also used figuratively for the heart; uncircumcision is kept as a separate, opposite term."
+  },
+  {
+    "slug": "clean",
+    "word": "clean",
+    "gloss": "Free from dirt, moral wrongdoing, or ritual restrictions, as the passage specifies.",
+    "forms": [
+      "clean",
+      "cleansed",
+      "cleansing"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "tidy"
+    ],
+    "bsb_verses": 141,
+    "note": "Ritual cleanness concerns eligibility for worship or permitted use, not simply hygiene or sinlessness."
+  },
+  {
+    "slug": "commandment",
+    "word": "commandment",
+    "gloss": "An instruction given with authority, especially by God.",
+    "forms": [
+      "commandment",
+      "commandments"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "suggestion"
+    ],
+    "bsb_verses": 197,
+    "note": ""
+  },
+  {
+    "slug": "condemnation",
+    "word": "condemnation",
+    "gloss": "A verdict declaring someone guilty and liable to punishment.",
+    "forms": [
+      "condemnation",
+      "condemn",
+      "condemned",
+      "condemning"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "criticism"
+    ],
+    "bsb_verses": 61,
+    "note": "Can describe divine or human verdicts; a denial of condemnation still uses the term."
+  },
+  {
+    "slug": "confess",
+    "word": "confess",
+    "gloss": "To acknowledge openly what is true, including sin or faith in Jesus.",
+    "forms": [
+      "confess",
+      "confessed",
+      "confession"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "say"
+    ],
+    "bsb_verses": 42,
+    "note": "Can mean admitting wrongdoing or declaring belief, not only a private religious practice."
+  },
+  {
+    "slug": "covenant",
+    "word": "covenant",
+    "gloss": "A binding commitment that establishes a relationship and its promises or duties.",
+    "forms": [
+      "covenant",
+      "covenants"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "deal",
+      "arrangement"
+    ],
+    "bsb_verses": 289,
+    "note": ""
+  },
+  {
+    "slug": "covet",
+    "word": "covet",
+    "gloss": "To desire something belonging to someone else in a wrongful way.",
+    "forms": [
+      "covet",
+      "coveting",
+      "covetous"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "want"
+    ],
+    "bsb_verses": 10,
+    "note": "Not every desire is coveting."
+  },
+  {
+    "slug": "credited",
+    "word": "credited",
+    "gloss": "Counted to someone's account or regarded as theirs.",
+    "forms": [
+      "credited",
+      "credits",
+      "credit"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "accepted",
+      "counts right"
+    ],
+    "bsb_verses": 23,
+    "note": "An accounting word used for righteousness in Romans 4; may concern ordinary financial credit elsewhere."
+  },
+  {
+    "slug": "crucified",
+    "word": "crucified",
+    "gloss": "Put to death on a cross.",
+    "forms": [
+      "crucified",
+      "crucify"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "killed"
+    ],
+    "bsb_verses": 47,
+    "note": "Also used figuratively for the believer's old self or sinful desires."
+  },
+  {
+    "slug": "curse",
+    "word": "curse",
+    "gloss": "A declaration or wish that harm or judgment will fall on someone or something.",
+    "forms": [
+      "curse",
+      "curses",
+      "cursed",
+      "cursing"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "bad luck"
+    ],
+    "bsb_verses": 184,
+    "note": "Can mean God's judgment, hostile human speech, or abusive language."
+  },
+  {
+    "slug": "demon",
+    "word": "demon",
+    "gloss": "An evil spiritual being opposed to God.",
+    "forms": [
+      "demon",
+      "demons",
+      "demon-possessed"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "illness"
+    ],
+    "bsb_verses": 73,
+    "note": "An accusation of having a demon need not be true; demon-possessed is a compound adjective."
+  },
+  {
+    "slug": "disciple",
+    "word": "disciple",
+    "gloss": "A learner who follows a teacher and their teaching.",
+    "forms": [
+      "disciple",
+      "disciples"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "fan"
+    ],
+    "bsb_verses": 280,
+    "note": "Can describe followers of Jesus, John, Moses, or other teachers."
+  },
+  {
+    "slug": "elect",
+    "word": "elect",
+    "gloss": "Chosen for a particular purpose or relationship.",
+    "forms": [
+      "elect",
+      "election",
+      "chosen",
+      "chose"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "favorites"
+    ],
+    "bsb_verses": 171,
+    "note": "May describe God's choosing or ordinary human choices; no theory of election is assumed."
+  },
+  {
+    "slug": "eternal-life",
+    "word": "eternal life",
+    "gloss": "Life with God that never ends, given through Jesus.",
+    "forms": [
+      "eternal life"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "lasting life",
+      "long life"
+    ],
+    "bsb_verses": 43,
+    "note": ""
+  },
+  {
+    "slug": "faith",
+    "word": "faith",
+    "gloss": "Trust or belief, especially trust in God and His promises.",
+    "forms": [
+      "faith"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "positive thinking"
+    ],
+    "bsb_verses": 241,
+    "note": "Can describe personal trust or the shared belief Christians hold; faithful has its own entry."
+  },
+  {
+    "slug": "faithfulness",
+    "word": "faithfulness",
+    "gloss": "Being trustworthy and keeping promises.",
+    "forms": [
+      "faithfulness",
+      "faithful",
+      "faithfully"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "reliability"
+    ],
+    "bsb_verses": 156,
+    "note": "Can describe God or people; it is distinct from having faith."
+  },
+  {
+    "slug": "firstborn",
+    "word": "firstborn",
+    "gloss": "The child born first, or someone holding the firstborn's special rank and rights.",
+    "forms": [
+      "firstborn"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "oldest"
+    ],
+    "bsb_verses": 111,
+    "note": "Can describe birth order or supreme rank; read the surrounding passage."
+  },
+  {
+    "slug": "firstfruits",
+    "word": "firstfruits",
+    "gloss": "The first part of a harvest, offered to God or pointing to more to come.",
+    "forms": [
+      "firstfruits"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "first taste"
+    ],
+    "bsb_verses": 31,
+    "note": "Also used figuratively for people, the Spirit, or resurrection."
+  },
+  {
+    "slug": "flesh",
+    "word": "flesh",
+    "gloss": "The body, human kinship or weakness, or human nature opposed to God.",
+    "forms": [
+      "flesh"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "body",
+      "selfishness"
+    ],
+    "bsb_verses": 181,
+    "note": "Genesis 2 concerns bodily kinship; Romans 8 contrasts flesh with the Spirit; Jesus truly became flesh."
+  },
+  {
+    "slug": "foreknew",
+    "word": "foreknew",
+    "gloss": "Knew beforehand.",
+    "forms": [
+      "foreknew",
+      "foreknowledge"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "predicted",
+      "noticed"
+    ],
+    "bsb_verses": 4,
+    "note": "God's prior knowledge is stated without deciding among Christian accounts of its meaning."
+  },
+  {
+    "slug": "forgive",
+    "word": "forgive",
+    "gloss": "To release someone from guilt or a debt rather than hold it against them.",
+    "forms": [
+      "forgive",
+      "forgiven",
+      "forgives",
+      "forgiving",
+      "forgiveness"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "ignore",
+      "overlook"
+    ],
+    "bsb_verses": 117,
+    "note": "Can concern sins or debts; forgiveness does not say the wrongdoing was acceptable."
+  },
+  {
+    "slug": "gentile",
+    "word": "Gentile",
+    "gloss": "A person belonging to a nation other than Israel.",
+    "forms": [
+      "gentile",
+      "gentiles"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "outsider"
+    ],
+    "bsb_verses": 89,
+    "note": "A covenant identity term, not a list of people; Gentile does not simply mean unbeliever."
+  },
+  {
+    "slug": "glorified",
+    "word": "glorified",
+    "gloss": "Given glory or shown to be worthy of honor.",
+    "forms": [
+      "glorify",
+      "glorified",
+      "glorifies",
+      "glorifying"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "made famous"
+    ],
+    "bsb_verses": 62,
+    "note": "Can mean honoring God or receiving glory; not identical to the noun glory."
+  },
+  {
+    "slug": "glory",
+    "word": "glory",
+    "gloss": "Greatness, beauty, and honor made known or recognized.",
+    "forms": [
+      "glory"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "fame",
+      "brightness"
+    ],
+    "bsb_verses": 298,
+    "note": "May describe God's majesty, human honor, or the honor God shares with His people."
+  },
+  {
+    "slug": "godly",
+    "word": "godly",
+    "gloss": "Living in devotion to God.",
+    "forms": [
+      "godly",
+      "godliness"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "nice"
+    ],
+    "bsb_verses": 33,
+    "note": "Different from being God; it describes devotion and conduct."
+  },
+  {
+    "slug": "gospel",
+    "word": "gospel",
+    "gloss": "The good news of God's saving work through Jesus Christ.",
+    "forms": [
+      "gospel",
+      "good news"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "positive message"
+    ],
+    "bsb_verses": 133,
+    "note": "Good news can also mean ordinary welcome news; identify its sense from the passage."
+  },
+  {
+    "slug": "grace",
+    "word": "grace",
+    "gloss": "God's freely given kindness and help, which people cannot earn.",
+    "forms": [
+      "grace"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "freely given favor",
+      "kindness"
+    ],
+    "bsb_verses": 127,
+    "note": ""
+  },
+  {
+    "slug": "hades",
+    "word": "Hades",
+    "gloss": "The realm of the dead in New Testament language.",
+    "forms": [
+      "hades"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "hell"
+    ],
+    "bsb_verses": 10,
+    "note": "Do not collapse Hades, the lake of fire, and the Abyss into one term."
+  },
+  {
+    "slug": "harden",
+    "word": "harden",
+    "gloss": "To become, or make someone, stubborn and unwilling to listen.",
+    "forms": [
+      "harden",
+      "hardened",
+      "hardens",
+      "hardening"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "make bad"
+    ],
+    "bsb_verses": 38,
+    "note": "May describe hearts, people, or physical things; the passage identifies who acts."
+  },
+  {
+    "slug": "high-priest",
+    "word": "high priest",
+    "gloss": "The chief priest who represents the people before God.",
+    "forms": [
+      "high priest",
+      "high priests"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "religious leader"
+    ],
+    "bsb_verses": 77,
+    "note": "In Israel the high priest had special worship duties; Hebrews applies the title to Jesus."
+  },
+  {
+    "slug": "holy",
+    "word": "holy",
+    "gloss": "Set apart for God, who is completely pure and unlike all others.",
+    "forms": [
+      "holy",
+      "holiness"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "special",
+      "good"
+    ],
+    "bsb_verses": 571,
+    "note": ""
+  },
+  {
+    "slug": "hope",
+    "word": "hope",
+    "gloss": "Expectation or trust directed toward something still to come.",
+    "forms": [
+      "hope",
+      "hopes",
+      "hoped",
+      "hoping"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "wishful thinking"
+    ],
+    "bsb_verses": 172,
+    "note": "May mean ordinary expectation or confident trust in God's promise."
+  },
+  {
+    "slug": "idols",
+    "word": "idols",
+    "gloss": "Images or other things treated as gods or given worship owed to God.",
+    "forms": [
+      "idol",
+      "idols",
+      "idolatry"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "decoration"
+    ],
+    "bsb_verses": 194,
+    "note": "Includes false worship; not every image is an idol."
+  },
+  {
+    "slug": "immortality",
+    "word": "immortality",
+    "gloss": "Life that is not subject to death.",
+    "forms": [
+      "immortality",
+      "immortal"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "long life"
+    ],
+    "bsb_verses": 7,
+    "note": ""
+  },
+  {
+    "slug": "inheritance",
+    "word": "inheritance",
+    "gloss": "What someone receives as an heir, including what God promises His people.",
+    "forms": [
+      "inheritance",
+      "inherit",
+      "heir",
+      "heirs",
+      "co-heirs"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "prize"
+    ],
+    "bsb_verses": 281,
+    "note": "Can mean family property, land, or blessings God promises."
+  },
+  {
+    "slug": "iniquity",
+    "word": "iniquity",
+    "gloss": "Serious wrongdoing or the guilt it brings.",
+    "forms": [
+      "iniquity",
+      "iniquities"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "imperfection"
+    ],
+    "bsb_verses": 209,
+    "note": ""
+  },
+  {
+    "slug": "intercedes",
+    "word": "intercedes",
+    "gloss": "Speaks or appeals on someone else's behalf.",
+    "forms": [
+      "intercede",
+      "intercedes",
+      "interceding",
+      "intercession"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "helps"
+    ],
+    "bsb_verses": 10,
+    "note": "Can concern the Spirit, Christ, or people appealing for others."
+  },
+  {
+    "slug": "judgment",
+    "word": "judgment",
+    "gloss": "A decision about right and wrong, including the outcome God declares.",
+    "forms": [
+      "judgment",
+      "judgments"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "opinion"
+    ],
+    "bsb_verses": 224,
+    "note": "Can mean God's verdict, human decisions, or commands; do not assume every use means punishment."
+  },
+  {
+    "slug": "justified",
+    "word": "justified",
+    "gloss": "Put in right standing with God.",
+    "forms": [
+      "justify",
+      "justified",
+      "justifies",
+      "justification"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "accepted",
+      "put right",
+      "counts right"
+    ],
+    "bsb_verses": 38,
+    "note": "God puts people in right standing with Himself; other passages use justify for proving a claim right."
+  },
+  {
+    "slug": "kingdom-of-god",
+    "word": "kingdom of God",
+    "gloss": "God's rule and the life of those who belong under His reign.",
+    "forms": [
+      "kingdom of god",
+      "kingdom of heaven"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "heaven",
+      "better world"
+    ],
+    "bsb_verses": 97,
+    "note": "Kingdom of heaven is a related BSB expression; neither simply means a geographical place."
+  },
+  {
+    "slug": "lamb-of-god",
+    "word": "Lamb of God",
+    "gloss": "John's title for Jesus, who takes away the world's sin.",
+    "forms": [
+      "lamb of god"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "gentle teacher"
+    ],
+    "bsb_verses": 2,
+    "note": "Retained despite two BSB verses because this title is central to John 1."
+  },
+  {
+    "slug": "law",
+    "word": "law",
+    "gloss": "An authoritative instruction or rule, often God's teaching given through Moses.",
+    "forms": [
+      "law",
+      "laws"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "advice"
+    ],
+    "bsb_verses": 451,
+    "note": "Can mean Moses' Law, Scripture more broadly, a civil rule, or a working principle."
+  },
+  {
+    "slug": "lawlessness",
+    "word": "lawlessness",
+    "gloss": "Disregard for God's law or rightful authority.",
+    "forms": [
+      "lawlessness",
+      "lawless"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "independence"
+    ],
+    "bsb_verses": 15,
+    "note": "Lawless acts are a phrase using the adjective, not a form of the word law."
+  },
+  {
+    "slug": "living-water",
+    "word": "living water",
+    "gloss": "Fresh flowing water, used by Jesus as a picture of the life God gives.",
+    "forms": [
+      "living water"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "refreshment"
+    ],
+    "bsb_verses": 7,
+    "note": "Can mean literal flowing water; John 7 explicitly connects Jesus' picture with the Spirit."
+  },
+  {
+    "slug": "loving-devotion",
+    "word": "loving devotion",
+    "gloss": "Steady, faithful love that does not give up on its commitments.",
+    "forms": [
+      "loving devotion"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "warm feelings"
+    ],
+    "bsb_verses": 186,
+    "note": ""
+  },
+  {
+    "slug": "manna",
+    "word": "manna",
+    "gloss": "Food God provided for Israel in the wilderness.",
+    "forms": [
+      "manna"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "ordinary bread"
+    ],
+    "bsb_verses": 17,
+    "note": "John 6 contrasts manna eaten by Israel's ancestors with Jesus, the bread of life."
+  },
+  {
+    "slug": "mercy",
+    "word": "mercy",
+    "gloss": "Compassion shown to someone in need or deserving punishment.",
+    "forms": [
+      "mercy",
+      "merciful"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "niceness"
+    ],
+    "bsb_verses": 140,
+    "note": ""
+  },
+  {
+    "slug": "offering",
+    "word": "offering",
+    "gloss": "Something presented to God in worship.",
+    "forms": [
+      "offering",
+      "offerings"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "present"
+    ],
+    "bsb_verses": 705,
+    "note": "Can concern true or false worship; ordinary acts of offering have a wider meaning."
+  },
+  {
+    "slug": "patriarch",
+    "word": "patriarch",
+    "gloss": "An ancestral father of a family or people, especially Israel's early ancestors.",
+    "forms": [
+      "patriarch",
+      "patriarchs"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "old man"
+    ],
+    "bsb_verses": 8,
+    "note": ""
+  },
+  {
+    "slug": "peace",
+    "word": "peace",
+    "gloss": "Wholeness, well-being, or the end of hostility.",
+    "forms": [
+      "peace"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "quiet"
+    ],
+    "bsb_verses": 329,
+    "note": "Can describe peace with God, peace between people, personal well-being, or absence of war."
+  },
+  {
+    "slug": "predestined",
+    "word": "predestined",
+    "gloss": "Decided beforehand by God.",
+    "forms": [
+      "predestined"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "appointed",
+      "planned"
+    ],
+    "bsb_verses": 4,
+    "note": "The gloss does not settle how God's purpose relates to human choice."
+  },
+  {
+    "slug": "priest",
+    "word": "priest",
+    "gloss": "A person appointed to serve in worship and present offerings for others.",
+    "forms": [
+      "priest",
+      "priests",
+      "priesthood"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "religious worker"
+    ],
+    "bsb_verses": 846,
+    "note": "Includes priests of Israel, priests of other gods, and figurative priesthood."
+  },
+  {
+    "slug": "promise",
+    "word": "promise",
+    "gloss": "A commitment to do or give what has been said.",
+    "forms": [
+      "promise",
+      "promises",
+      "promised"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "possibility",
+      "plan"
+    ],
+    "bsb_verses": 179,
+    "note": "May be God's commitment or a human promise."
+  },
+  {
+    "slug": "prophet",
+    "word": "prophet",
+    "gloss": "Someone who speaks a message from God.",
+    "forms": [
+      "prophet",
+      "prophets",
+      "prophecy",
+      "prophesied",
+      "prophesy"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "fortune teller"
+    ],
+    "bsb_verses": 553,
+    "note": "Can include false claimants; prophecy is the message or activity, not merely predicting the future."
+  },
+  {
+    "slug": "purification",
+    "word": "purification",
+    "gloss": "The removal of what makes a person or object unclean.",
+    "forms": [
+      "purification",
+      "purify",
+      "purified"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "washing"
+    ],
+    "bsb_verses": 50,
+    "note": "May concern ritual cleanness or moral purification."
+  },
+  {
+    "slug": "ransom",
+    "word": "ransom",
+    "gloss": "The price paid to set someone free.",
+    "forms": [
+      "ransom",
+      "ransomed"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "help",
+      "payment"
+    ],
+    "bsb_verses": 16,
+    "note": "Do not assume a recipient of the ransom where the passage names none."
+  },
+  {
+    "slug": "reconciled",
+    "word": "reconciled",
+    "gloss": "Brought back into a peaceful relationship after being enemies or separated.",
+    "forms": [
+      "reconcile",
+      "reconciled",
+      "reconciliation",
+      "reconciling"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "made friendly"
+    ],
+    "bsb_verses": 15,
+    "note": ""
+  },
+  {
+    "slug": "redeemed",
+    "word": "redeemed",
+    "gloss": "Bought back or set free at a cost.",
+    "forms": [
+      "redeem",
+      "redeemed",
+      "redemption",
+      "redeemer"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "helped",
+      "rescued"
+    ],
+    "bsb_verses": 146,
+    "note": "Can concern property, release from slavery, or God's saving work."
+  },
+  {
+    "slug": "remnant",
+    "word": "remnant",
+    "gloss": "The smaller group left after others are lost, scattered, or judged.",
+    "forms": [
+      "remnant"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "leftovers"
+    ],
+    "bsb_verses": 85,
+    "note": "Can also describe what remains of objects or nations, without implying faithfulness."
+  },
+  {
+    "slug": "repent",
+    "word": "repent",
+    "gloss": "To turn away from wrongdoing and turn toward God.",
+    "forms": [
+      "repent",
+      "repented",
+      "repentance"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "feel bad"
+    ],
+    "bsb_verses": 67,
+    "note": "Regretting wrongdoing alone is not the whole meaning of repentance."
+  },
+  {
+    "slug": "resurrection",
+    "word": "resurrection",
+    "gloss": "Being raised from death to life.",
+    "forms": [
+      "resurrection"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "recovery",
+      "return"
+    ],
+    "bsb_verses": 40,
+    "note": "The passage identifies whose resurrection is meant and whether life or judgment follows."
+  },
+  {
+    "slug": "righteousness",
+    "word": "righteousness",
+    "gloss": "Being right before God or acting in ways that are right in His sight.",
+    "forms": [
+      "righteous",
+      "righteousness",
+      "righteously"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "acceptance",
+      "goodness"
+    ],
+    "bsb_verses": 538,
+    "note": "Can describe God's justice, right conduct, or standing before Him; keep the passage's distinction."
+  },
+  {
+    "slug": "sabbath",
+    "word": "Sabbath",
+    "gloss": "The seventh day set apart for rest and worship.",
+    "forms": [
+      "sabbath",
+      "sabbaths"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "day off"
+    ],
+    "bsb_verses": 145,
+    "note": ""
+  },
+  {
+    "slug": "sacrifice",
+    "word": "sacrifice",
+    "gloss": "An offering given to God, often involving an animal's death.",
+    "forms": [
+      "sacrifice",
+      "sacrifices",
+      "sacrificed",
+      "sacrificing"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "gift"
+    ],
+    "bsb_verses": 301,
+    "note": "Also used figuratively for devotion or service and of offerings to false gods."
+  },
+  {
+    "slug": "saints",
+    "word": "saints",
+    "gloss": "People set apart as belonging to God.",
+    "forms": [
+      "saints"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "heroes",
+      "especially good people"
+    ],
+    "bsb_verses": 85,
+    "note": "In these biblical uses this is not limited to people later formally recognized by a church."
+  },
+  {
+    "slug": "salvation",
+    "word": "salvation",
+    "gloss": "Rescue from danger or from sin and its consequences.",
+    "forms": [
+      "salvation",
+      "save",
+      "saved",
+      "saves",
+      "saving",
+      "savior"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "self-improvement"
+    ],
+    "bsb_verses": 472,
+    "note": "Can mean physical deliverance or God's saving work; not every saved thing concerns eternal life."
+  },
+  {
+    "slug": "sanctified",
+    "word": "sanctified",
+    "gloss": "Set apart for God and His purposes.",
+    "forms": [
+      "sanctify",
+      "sanctified",
+      "sanctification"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "improved",
+      "made special"
+    ],
+    "bsb_verses": 30,
+    "note": "Can concern people, objects, or days; the context may emphasize growth in holiness."
+  },
+  {
+    "slug": "seal",
+    "word": "seal",
+    "gloss": "A mark that confirms ownership, authority, or that something is genuine.",
+    "forms": [
+      "seal",
+      "seals",
+      "sealed"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "decoration"
+    ],
+    "bsb_verses": 62,
+    "note": "Also a device or closure; Romans 4 uses it for circumcision confirming righteousness by faith."
+  },
+  {
+    "slug": "sheol",
+    "word": "Sheol",
+    "gloss": "The realm of the dead, often pictured as the depths below.",
+    "forms": [
+      "sheol"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "hell"
+    ],
+    "bsb_verses": 64,
+    "note": "An Old Testament term; do not automatically equate every use with final punishment."
+  },
+  {
+    "slug": "sin",
+    "word": "sin",
+    "gloss": "Doing, wanting, or failing to do what goes against God's will.",
+    "forms": [
+      "sin",
+      "sins",
+      "sinned",
+      "sinning",
+      "sinner",
+      "sinners",
+      "sinful"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "mistake",
+      "bad choice"
+    ],
+    "bsb_verses": 729,
+    "note": "Can describe particular wrongs or sin as a ruling power; sin offerings are ritual uses."
+  },
+  {
+    "slug": "son-of-god",
+    "word": "Son of God",
+    "gloss": "A title identifying Jesus' unique relationship with God the Father.",
+    "forms": [
+      "son of god",
+      "sons of god"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "godly man"
+    ],
+    "bsb_verses": 53,
+    "note": "Plural sons of God has other contexts: heavenly beings or people belonging to God."
+  },
+  {
+    "slug": "son-of-man",
+    "word": "Son of Man",
+    "gloss": "A human being; also Jesus' title for Himself, echoing Daniel's vision.",
+    "forms": [
+      "son of man"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "ordinary man"
+    ],
+    "bsb_verses": 186,
+    "note": "Psalm 8 uses the phrase for humanity; Jesus' title must be read in its own context."
+  },
+  {
+    "slug": "soul",
+    "word": "soul",
+    "gloss": "A living person or their inner life.",
+    "forms": [
+      "soul",
+      "souls"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "ghost"
+    ],
+    "bsb_verses": 227,
+    "note": "Can refer to the whole person, life itself, or the inward self; avoid imposing one body-soul theory."
+  },
+  {
+    "slug": "spirit",
+    "word": "Spirit",
+    "gloss": "God's Spirit, a person's inner life, or a spiritual being, depending on context.",
+    "forms": [
+      "spirit",
+      "spirits"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "feeling",
+      "force"
+    ],
+    "bsb_verses": 546,
+    "note": "Capitalization and context distinguish God's Spirit from human spirits and other spiritual beings."
+  },
+  {
+    "slug": "tabernacle",
+    "word": "tabernacle",
+    "gloss": "A tent or dwelling, especially Israel's portable sanctuary for worship.",
+    "forms": [
+      "tabernacle",
+      "tabernacles"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "tent"
+    ],
+    "bsb_verses": 126,
+    "note": "Plural Tabernacles can name the feast of shelters; do not confuse it with the sanctuary."
+  },
+  {
+    "slug": "temple",
+    "word": "temple",
+    "gloss": "A sacred building used for worship.",
+    "forms": [
+      "temple",
+      "temples"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "building"
+    ],
+    "bsb_verses": 369,
+    "note": "Can mean God's temple or a pagan temple; also used for Jesus' body and God's people."
+  },
+  {
+    "slug": "transgression",
+    "word": "transgression",
+    "gloss": "Breaking a command or crossing a boundary God has set.",
+    "forms": [
+      "transgression",
+      "transgressions",
+      "transgressed",
+      "transgress"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "mistake"
+    ],
+    "bsb_verses": 89,
+    "note": ""
+  },
+  {
+    "slug": "trespass",
+    "word": "trespass",
+    "gloss": "A wrongdoing that violates a duty or God's command.",
+    "forms": [
+      "trespass",
+      "trespasses"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "slipup"
+    ],
+    "bsb_verses": 17,
+    "note": "Often overlaps sin and transgression; it does not only mean entering another person's land."
+  },
+  {
+    "slug": "uncircumcision",
+    "word": "uncircumcision",
+    "gloss": "The state of not being circumcised.",
+    "forms": [
+      "uncircumcision",
+      "uncircumcised"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "unmarked"
+    ],
+    "bsb_verses": 44,
+    "note": "Can describe physical status or figuratively an unresponsive heart or ears."
+  },
+  {
+    "slug": "unclean",
+    "word": "unclean",
+    "gloss": "Defiled or not permitted for holy use under the passage's requirements.",
+    "forms": [
+      "unclean",
+      "uncleanness"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "dirty"
+    ],
+    "bsb_verses": 185,
+    "note": "Ritual uncleanness is not automatically moral guilt; unclean spirits are another use."
+  },
+  {
+    "slug": "ungodly",
+    "word": "ungodly",
+    "gloss": "Without reverence for God or opposed to His ways.",
+    "forms": [
+      "ungodly",
+      "ungodliness"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "imperfect"
+    ],
+    "bsb_verses": 19,
+    "note": "The opposite of godly; not a form of godliness."
+  },
+  {
+    "slug": "unrighteousness",
+    "word": "unrighteousness",
+    "gloss": "Being or acting against what is right in God's sight.",
+    "forms": [
+      "unrighteousness",
+      "unrighteous"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "unpopularity"
+    ],
+    "bsb_verses": 11,
+    "note": "Opposite of righteousness; never count these forms as righteousness."
+  },
+  {
+    "slug": "veil",
+    "word": "veil",
+    "gloss": "A covering or curtain that conceals or separates.",
+    "forms": [
+      "veil",
+      "veils"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "cloth"
+    ],
+    "bsb_verses": 45,
+    "note": "Can mean a face covering, a sanctuary curtain, or a figurative barrier to understanding."
+  },
+  {
+    "slug": "wickedness",
+    "word": "wickedness",
+    "gloss": "Serious moral evil expressed in a person's desires or actions.",
+    "forms": [
+      "wickedness",
+      "wicked"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "naughtiness"
+    ],
+    "bsb_verses": 416,
+    "note": ""
+  },
+  {
+    "slug": "word",
+    "word": "Word",
+    "gloss": "A spoken message; as Jesus' title, God's self-expression made known in Him.",
+    "forms": [
+      "word",
+      "words"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "message"
+    ],
+    "bsb_verses": 1075,
+    "note": "Usually ordinary speech or God's message; John 1 uses Word as a title for Jesus."
+  },
+  {
+    "slug": "works",
+    "word": "works",
+    "gloss": "Actions people do, including deeds considered in relation to God's law and faith.",
+    "forms": [
+      "works"
+    ],
+    "keep_rule": "when-central",
+    "avoid": [
+      "effort"
+    ],
+    "bsb_verses": 123,
+    "note": "Can also describe God's acts, miracles, or ordinary work; it is not always earning salvation."
+  },
+  {
+    "slug": "wrath",
+    "word": "wrath",
+    "gloss": "Deep anger, especially God's just anger against evil.",
+    "forms": [
+      "wrath"
+    ],
+    "keep_rule": "always",
+    "avoid": [
+      "annoyance",
+      "displeasure"
+    ],
+    "bsb_verses": 163,
+    "note": ""
+  }
+]

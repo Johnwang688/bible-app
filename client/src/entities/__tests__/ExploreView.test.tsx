@@ -95,7 +95,7 @@ describe('Explore', () => {
     expect(field.props.accessibilityHint).toBe('Names match when they, or a word in them, start with what you type.');
     const people = screen.getByTestId('explore-card-person');
     expect(people).toHaveTextContent(/People/);
-    expect(people).toHaveTextContent(/467/);
+    expect(people).toHaveTextContent(/480/);
     expect(people).toHaveTextContent(/Who’s who, with overviews and timelines/);
     expect(people.props.accessibilityRole).toBe('button');
     expect(screen.getByTestId('explore-card-place')).toHaveTextContent(/91/);

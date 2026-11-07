@@ -1,10 +1,10 @@
 [
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 1,
-    "title": "Genealogy, Joseph, and the virgin birth",
-    "summary_text": "The book opens with Jesus Christ’s genealogy from Abraham through David to Joseph, highlighting women such as Tamar, Rahab, Ruth, and Bathsheba’s story. Mary, engaged to Joseph, is found with child by the Holy Spirit; an angel tells Joseph in a dream not to fear to take her as wife, for the child will save his people and fulfill Immanuel. Joseph obeys, names him Jesus at birth, and keeps her as his wife without knowing her intimately until she bore her firstborn son.",
+    "title": "Jesus' Ancestry and Birth Through the Spirit",
+    "summary_text": "Jesus Christ's family line runs from Abraham through David and the exile to Joseph, Mary's husband. Mary becomes pregnant through the Holy Spirit before she and Joseph come together. Joseph is righteous and plans a quiet divorce, but an angel tells him to take Mary as his wife. Her Son must be named Jesus because He will save His people from sins, fulfilling the prophecy of a virgin's Son, Immanuel, God with us. Joseph obeys and has no union with Mary before she gives birth.",
     "themes": [
       "Son of David, son of Abraham",
       "Joseph’s righteousness",
@@ -25,35 +25,29 @@
       "Uriah"
     ],
     "key_points": [
-      "The genealogy frames Jesus as heir of Abraham and David.",
-      "Joseph planned to put Mary away secretly until the angel intervened.",
-      "The child is from the Holy Spirit and will save his people from their sins.",
-      "A virgin shall conceive—God with us.",
-      "Joseph named him Jesus as commanded."
+      "Jesus Christ's genealogy runs from Abraham through King David, naming Tamar, Rahab, Ruth, and Uriah's wife along the way.",
+      "The line continues through the exile to Joseph, Mary's husband, with the genealogy arranged in three groups of fourteen generations.",
+      "Mary conceives through the Holy Spirit, and righteous Joseph plans to divorce her without public disgrace.",
+      "An angel tells Joseph to marry Mary and name her Son Jesus, who will save His people from sins.",
+      "Joseph follows the angel's command, takes Mary as his wife, and names her Son Jesus after His birth."
     ],
     "supporting_verses": [
-      "Matthew 1:1",
-      "Matthew 1:16",
-      "Matthew 1:18",
-      "Matthew 1:20",
-      "Matthew 1:21",
-      "Matthew 1:23",
-      "Matthew 1:25"
+      "Matthew 1:1-6",
+      "Matthew 1:7-17",
+      "Matthew 1:18-19",
+      "Matthew 1:20-23",
+      "Matthew 1:24-25"
     ],
-    "evidence_phrases": [
-      "The book of the genealogy of Jesus Christ",
-      "Joseph, her husband, being a righteous man",
-      "she was found with child by the Holy Spirit",
-      "you shall call his name Jesus",
-      "they shall call his name Immanuel"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 2,
-    "title": "Magi, Herod, Egypt, and Nazareth",
-    "summary_text": "Magi from the east come to Jerusalem seeking the born King of the Jews; Herod and Jerusalem are troubled. Priests and scribes point to Bethlehem; the star leads the magi to the child, and they worship with gifts. Warned in dreams, they avoid Herod, Joseph flees to Egypt with Mary and Jesus, and Herod slaughters the infants in Bethlehem. After Herod’s death another dream sends the family to Galilee, and they settle in Nazareth to fulfill the prophets.",
+    "title": "Magi Worship Jesus as Herod Seeks Him",
+    "summary_text": "Magi follow a star to seek the newborn King of the Jews, and Herod learns the Christ is to be born in Bethlehem. They worship Jesus with gifts, then heed a dream and avoid Herod on their return. An angel warns Joseph to take Jesus and Mary to Egypt before Herod can kill the child. Herod orders the killing of boys two and under around Bethlehem. After Herod dies, Joseph returns but avoids Judea and settles in Nazareth, fulfilling the prophets' words.",
     "themes": [
       "King of the Jews",
       "Scripture and Bethlehem",
@@ -73,36 +67,29 @@
       "Rachel"
     ],
     "key_points": [
-      "Wise men sought the newborn king of the Jews.",
-      "Micah’s Bethlehem is cited as Messiah’s birthplace.",
-      "Joseph fled to Egypt until Herod died.",
-      "Herod’s massacre fulfilled Rachel weeping at Ramah.",
-      "Jesus was called a Nazarene in Galilee."
+      "The Magi seek the newborn King, and Herod's priests and scribes identify Bethlehem as the Christ's birthplace from prophecy.",
+      "The star leads the Magi to Jesus, whom they worship with gifts before returning home by a different route.",
+      "An angel warns Joseph of Herod's plan, and he takes Jesus and Mary to Egypt by night.",
+      "Herod orders boys two and under killed around Bethlehem, fulfilling Jeremiah's words about mourning children.",
+      "After Herod's death, Joseph returns but avoids Archelaus in Judea and settles in Nazareth, fulfilling the prophets' words."
     ],
     "supporting_verses": [
-      "Matthew 2:1",
-      "Matthew 2:2",
-      "Matthew 2:6",
-      "Matthew 2:11",
-      "Matthew 2:13",
-      "Matthew 2:15",
-      "Matthew 2:16",
-      "Matthew 2:23"
+      "Matthew 2:1-8",
+      "Matthew 2:9-12",
+      "Matthew 2:13-15",
+      "Matthew 2:16-18",
+      "Matthew 2:19-23"
     ],
-    "evidence_phrases": [
-      "Where is he who is born King of the Jews?",
-      "You, Bethlehem, land of Judah",
-      "Rachel weeping for her children",
-      "out of Egypt I called my son",
-      "He came and lived in a city called Nazareth"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 3,
-    "title": "John the Baptist and Jesus’ baptism",
-    "summary_text": "John preaches repentance in the wilderness, baptizing in the Jordan as crowds confess sins; he warns religious leaders they cannot rely on ancestry and calls for fruit worthy of repentance, announcing one mightier whose sandals he is unworthy to carry, who will baptize with the Holy Spirit and fire. Jesus comes to be baptized; the heavens open, the Spirit descends like a dove, and the voice declares this is God’s beloved Son in whom he is well pleased.",
+    "title": "John Calls for Repentance and Baptizes Jesus",
+    "summary_text": "John the Baptist preaches that the kingdom of heaven is near and baptizes people who confess their sins. He warns religious leaders of coming wrath and demands actions that show repentance, not reliance on Abraham as their ancestor. John says a greater One will baptize with the Holy Spirit and fire, gathering wheat and burning chaff. Jesus comes for baptism, saying it is right to fulfill all righteousness. Afterward, God's Spirit rests on Him like a dove, and a voice from heaven declares Him God's beloved Son.",
     "themes": [
       "Repentance",
       "Brood of vipers",
@@ -118,35 +105,27 @@
       "crowds"
     ],
     "key_points": [
-      "John’s baptism was for repentance in the Jordan wilderness.",
-      "He demanded fruit, not pride in Abraham as father.",
-      "He pointed to the stronger one who would baptize with the Spirit and fire.",
-      "Jesus insisted on fulfilling all righteousness at his baptism.",
-      "The Father’s voice affirmed Jesus as his beloved Son."
+      "John fulfills the prophet Isaiah's words by preparing the Lord's way and calling people to repent.",
+      "John warns the Pharisees and Sadducees that ancestry cannot protect them from judgment without the fruit of repentance.",
+      "The One coming after John will baptize with the Holy Spirit and fire and separate wheat from chaff.",
+      "John baptizes Jesus, the Spirit descends, and the heavenly voice expresses delight in His Son."
     ],
     "supporting_verses": [
-      "Matthew 3:1",
-      "Matthew 3:2",
-      "Matthew 3:7",
-      "Matthew 3:8",
-      "Matthew 3:11",
-      "Matthew 3:16",
-      "Matthew 3:17"
+      "Matthew 3:1-6",
+      "Matthew 3:7-10",
+      "Matthew 3:11-12",
+      "Matthew 3:13-17"
     ],
-    "evidence_phrases": [
-      "Repent, for the Kingdom of Heaven is at hand!",
-      "You offspring of vipers",
-      "I indeed baptize you in water",
-      "he will baptize you in the Holy Spirit",
-      "This is my beloved Son, with whom I am well pleased"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 4,
-    "title": "Temptation, Galilee, and first disciples",
-    "summary_text": "The Spirit leads Jesus into the wilderness forty days where the devil tempts him with bread, temple pinnacle, and kingdoms; Jesus answers each from Scripture. John’s arrest moves Jesus to Capernaum in Galilee of the Gentiles, fulfilling light-dawning prophecy. He calls Simon Peter, Andrew, James, and John from their nets to follow him, and his fame spreads as he teaches, preaches the good news of the Kingdom, and heals every disease and sickness among the people.",
+    "title": "Jesus Resists Temptation and Begins Preaching",
+    "summary_text": "Led by the Spirit into the wilderness, Jesus fasts for forty days and faces the devil's temptations. The devil challenges Him as the Son of God, but Jesus answers with Scripture and refuses to test God or worship Satan. After John is imprisoned, Jesus settles in Capernaum, fulfilling Isaiah's prophecy of light in darkness. He calls people to repent because the kingdom of heaven is near, and four fishermen leave their work to follow Him. Jesus teaches, preaches the gospel of the kingdom, and heals the sick as crowds gather.",
     "themes": [
       "Scripture against the tempter",
       "Kingdom of Heaven proclaimed",
@@ -165,34 +144,27 @@
       "Isaiah"
     ],
     "key_points": [
-      "Jesus resisted temptation by quoting Deuteronomy.",
-      "He began preaching repentance because the Kingdom of Heaven was at hand.",
-      "His move to Capernaum fulfilled Isaiah’s prophecy about Zebulun and Naphtali.",
-      "He called disciples to fish for people.",
-      "He healed the sick and his report spread through Syria."
+      "Jesus answers temptation with God's word, refusing to misuse His power, test God, or worship the devil.",
+      "Jesus moves to Capernaum and begins preaching repentance as Isaiah's words about light are fulfilled.",
+      "Peter, Andrew, James, and John answer Jesus's call by leaving their fishing work to follow Him.",
+      "Jesus teaches and heals people with many kinds of suffering, including those possessed by demons."
     ],
     "supporting_verses": [
-      "Matthew 4:1",
-      "Matthew 4:4",
-      "Matthew 4:10",
-      "Matthew 4:17",
-      "Matthew 4:19",
-      "Matthew 4:23"
+      "Matthew 4:1-11",
+      "Matthew 4:12-17",
+      "Matthew 4:18-22",
+      "Matthew 4:23-25"
     ],
-    "evidence_phrases": [
-      "Man shall not live by bread alone",
-      "Repent, for the Kingdom of Heaven is at hand",
-      "The people who sat in darkness saw a great light",
-      "Follow me, and I will make you fishers for men",
-      "healing all kinds of sickness"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 5,
-    "title": "Sermon on the Mount: Beatitudes and the law’s depth",
-    "summary_text": "Jesus teaches the crowds on the mountain: the Beatitudes bless the poor in spirit, mourners, meek, hungry for righteousness, merciful, pure, peacemakers, and persecuted. He calls disciples salt and light, warns against law’s least commands, and intensifies the law’s heart—anger, lust, divorce, oaths, retaliation—commanding love for enemies and prayer for persecutors, summoning perfection like the heavenly Father.",
+    "title": "Jesus Teaches Righteousness from the Heart",
+    "summary_text": "On a mountain, Jesus teaches His disciples who is blessed, including those who seek righteousness, show mercy, and suffer for His sake. He calls them salt and light, whose deeds lead others to honor their Father. Jesus says He fulfills the Law and the Prophets and requires righteousness beyond that of the scribes and Pharisees. His teaching reaches from murder to anger and reconciliation, and from adultery to lust, with strong warnings about sin and hell. He also addresses divorce and oaths, rejects revenge, and commands love for enemies after the Father's example.",
     "themes": [
       "Beatitudes",
       "Salt and light",
@@ -206,38 +178,29 @@
       "crowds"
     ],
     "key_points": [
-      "The blessed are those who hunger for righteousness and are persecuted for righteousness’ sake.",
-      "Disciples are salt of the earth and light of the world.",
-      "Jesus came to fulfill the law and prophets, not destroy them.",
-      "Anger and lust are judged at the heart level.",
-      "Love your enemies and pray for those who persecute you."
+      "Jesus blesses the poor in spirit and says peacemakers will be called sons of God.",
+      "Disciples must let their deeds glorify the Father and practice God's commandments as people of the kingdom of heaven.",
+      "Jesus warns of judgment for anger and commands people to be reconciled before bringing their gifts to God.",
+      "Jesus condemns lust as adultery in the heart, addresses divorce, and requires plain, truthful speech without oaths.",
+      "Jesus commands generosity instead of revenge and love for enemies, pointing to the Father's care even for evil people."
     ],
     "supporting_verses": [
-      "Matthew 5:3",
-      "Matthew 5:6",
-      "Matthew 5:13",
-      "Matthew 5:17",
-      "Matthew 5:28",
-      "Matthew 5:32",
-      "Matthew 5:44",
-      "Matthew 5:48"
+      "Matthew 5:3-12",
+      "Matthew 5:13-20",
+      "Matthew 5:21-26",
+      "Matthew 5:27-37",
+      "Matthew 5:38-48"
     ],
-    "evidence_phrases": [
-      "Blessed are the poor in spirit",
-      "You are the salt of the earth",
-      "one jot or one tittle",
-      "everyone who is angry with his brother",
-      "whoever looks at a woman to lust after her",
-      "love your enemies",
-      "You shall therefore be perfect"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 6,
-    "title": "Prayer, fasting, treasure, and anxiety",
-    "summary_text": "Jesus warns against practicing righteousness before people to be seen, teaches the Lord’s Prayer with God as Father in secret, and forbids vain repetition. Fasting and treasure in heaven replace earthly show; the eye as lamp and serving God alone oppose mammon. He forbids anxiety about life, food, and clothing, pointing to birds and lilies and urging seeking first God’s Kingdom and righteousness with tomorrow left to God.",
+    "title": "Seeking the Father Instead of Human Praise",
+    "summary_text": "Jesus warns against giving, praying, or fasting to win praise, because the Father sees what people do in secret. His model prayer asks for the Father's name to be honored, His rule and will to prevail, daily bread, forgiveness, and rescue from evil. Jesus says those who refuse to forgive others' trespasses will not receive the Father's forgiveness. He teaches people to store treasure in heaven and says serving God cannot be combined with serving money. Pointing to God's care for birds and flowers, He challenges their little faith and tells them to seek the kingdom of God and His righteousness before worrying about their needs.",
     "themes": [
       "Secret reward",
       "Our Father in heaven",
@@ -251,37 +214,29 @@
       "heavenly Father"
     ],
     "key_points": [
-      "Give, pray, and fast for God who sees in secret.",
-      "The model prayer hallows God’s name and seeks daily bread and forgiveness.",
-      "Forgiving others is tied to receiving forgiveness.",
-      "You cannot serve God and mammon.",
-      "Seek first the Kingdom and his righteousness."
+      "Giving and prayer are to seek the Father's attention, without a public show or empty repetition.",
+      "Jesus teaches prayer for God's purposes and daily needs, and links receiving forgiveness with forgiving others.",
+      "Those who fast must avoid displaying it to others and trust the Father who sees them.",
+      "Heavenly treasure and clear sight belong with devotion to God, while money demands a rival loyalty.",
+      "The Father knows people's needs, so Jesus tells them to seek His kingdom instead of worrying about tomorrow."
     ],
     "supporting_verses": [
-      "Matthew 6:1",
-      "Matthew 6:6",
-      "Matthew 6:9",
-      "Matthew 6:14",
-      "Matthew 6:19",
-      "Matthew 6:24",
-      "Matthew 6:33",
-      "Matthew 6:34"
+      "Matthew 6:1-8",
+      "Matthew 6:9-15",
+      "Matthew 6:16-18",
+      "Matthew 6:19-24",
+      "Matthew 6:25-34"
     ],
-    "evidence_phrases": [
-      "your Father who sees in secret",
-      "Our Father in heaven",
-      "forgive us our debts",
-      "no one can serve two masters",
-      "don’t be anxious for your life",
-      "Seek first God’s Kingdom"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 7,
-    "title": "Judging, asking, and the two foundations",
-    "summary_text": "Jesus forbids hypocritical judgment with the speck and beam, commands holy things to the holy and persistence in asking, seeking, and knocking, and states the golden rule sums the law and prophets. The narrow gate, false prophets as wolves in sheep’s clothing known by fruit, and lip-service lords who do not obey end with the wise man who builds on the rock versus the foolish on sand when storms come.",
+    "title": "Hearing Jesus and Doing His Words",
+    "summary_text": "Jesus warns against judging others while ignoring one's own faults, and urges people to ask their Father for good things. He sums up the Law and the Prophets in treating others as they want to be treated. He contrasts the narrow way to life with the broad way to destruction and says false prophets are known by their fruit. Calling Him Lord or claiming mighty works will not bring entry into the kingdom of heaven without doing the Father's will; He will reject those who practice lawlessness. Jesus compares obeying His words to building on rock, and the crowds marvel at His authority.",
     "themes": [
       "Judge not hypocritically",
       "Ask and receive",
@@ -294,37 +249,29 @@
       "disciples"
     ],
     "key_points": [
-      "Take the beam from your own eye first.",
-      "Keep asking, seeking, and knocking; the Father gives good gifts.",
-      "Do to others what you would have them do to you.",
-      "Many will say Lord Lord yet not enter.",
-      "Hearing and doing builds on the rock."
+      "Jesus says judgment returns on the judge and one's own faults must be addressed before correcting others.",
+      "Jesus warns against giving dogs what is holy, then encourages asking the Father and treating others well.",
+      "The road to life is narrow, and false prophets can be recognized by the fruit they produce.",
+      "Jesus says obedience to His Father matters more than calling Him Lord or claiming miracles in His name.",
+      "Those who act on Jesus's words resemble a house that survives a storm because it stands on rock."
     ],
     "supporting_verses": [
-      "Matthew 7:1",
-      "Matthew 7:7",
-      "Matthew 7:12",
-      "Matthew 7:13",
-      "Matthew 7:15",
-      "Matthew 7:21",
-      "Matthew 7:24",
-      "Matthew 7:26"
+      "Matthew 7:1-5",
+      "Matthew 7:6-12",
+      "Matthew 7:13-20",
+      "Matthew 7:21-23",
+      "Matthew 7:24-29"
     ],
-    "evidence_phrases": [
-      "don’t judge, so that you won’t be judged",
-      "Ask, and it will be given you",
-      "whatever you desire for people to do to you",
-      "Enter in by the narrow gate",
-      "by their fruits you will know them",
-      "like a wise man who built his house on a rock"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 8,
-    "title": "Healing the sick and calming the storm",
-    "summary_text": "Jesus cleanses a leper, heals a centurion’s servant at a word marveling at Gentile faith, heals Peter’s mother-in-law and many demoniacs and sick that evening, and stills a storm the disciples feared would drown them. On the other side he meets fierce demoniacs; the demons enter a herd of swine that rush into the sea, and the town asks him to leave while the healed man is sent to proclaim what the Lord did.",
+    "title": "Jesus Heals and Commands Storms and Demons",
+    "summary_text": "A man with leprosy is made clean, and Jesus heals a centurion's servant with a word, praising the officer's faith. He speaks of people joining the kingdom of heaven's banquet while sons of the kingdom face darkness. Jesus heals Peter's mother-in-law and many others, fulfilling Isaiah's words, then warns would-be followers about following Him. When a storm threatens His disciples, He rebukes their little faith and calms the sea. In the Gadarenes' region, demons recognize Him as the Son of God; He sends them into pigs that drown, and the townspeople beg Him to leave.",
     "themes": [
       "Authority over disease",
       "Great faith",
@@ -342,35 +289,29 @@
       "Gadarene townspeople"
     ],
     "key_points": [
-      "Jesus touched the leper and he was cleansed.",
-      "The centurion’s faith exceeded what Jesus found in Israel.",
-      "Jesus rebuked the wind and the sea became calm.",
-      "Demons named Legion begged to enter swine.",
-      "The delivered man was told to show his friends what the Lord had done."
+      "Jesus cleanses a man with leprosy and directs him to the priest with the gift Moses commanded.",
+      "The centurion trusts Jesus's authority to heal at a distance, and Jesus contrasts his faith with what He has found in Israel.",
+      "Jesus heals Peter's mother-in-law and drives out evil spirits, fulfilling the prophet Isaiah's words about sickness.",
+      "The Son of Man lacks a settled resting place, calls for immediate following, and saves His frightened disciples from a storm.",
+      "Demons leave two men for a herd of pigs, and the townspeople ask Jesus to leave."
     ],
     "supporting_verses": [
-      "Matthew 8:2",
-      "Matthew 8:8",
-      "Matthew 8:10",
-      "Matthew 8:13",
-      "Matthew 8:26",
-      "Matthew 8:28",
-      "Matthew 8:32"
+      "Matthew 8:1-4",
+      "Matthew 8:5-13",
+      "Matthew 8:14-17",
+      "Matthew 8:18-27",
+      "Matthew 8:28-34"
     ],
-    "evidence_phrases": [
-      "I am willing. Be cleansed",
-      "I haven’t found so great a faith",
-      "Why are you fearful, you of little faith?",
-      "What is it to us, Jesus, Son of God?",
-      "Go to your friends, and tell them what great things the Lord has done"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 9,
-    "title": "Forgiveness, calling Matthew, and harvest workers",
-    "summary_text": "Jesus forgives and heals a paralytic carried through the roof, proving Son of Man authority on earth to forgive sins, and calls Matthew from the tax office, eating with sinners as physicians for the sick. A ruler’s daughter and a woman with bleeding are healed; blind men and a mute demoniac are restored, yet Pharisees blaspheme the Spirit. Jesus has compassion on harassed crowds like sheep without a shepherd and tells disciples to pray for laborers for a plentiful harvest.",
+    "title": "Jesus Forgives Sins and Shows Mercy",
+    "summary_text": "Jesus heals a paralyzed man to show that the Son of Man has authority to forgive sins. He calls Matthew to follow Him, eats with sinners, and says He seeks mercy rather than sacrifice and calls sinners rather than the righteous. Answering a question about fasting, He compares His presence to a wedding and speaks of new cloth and new wine. Jesus honors faith as He heals a bleeding woman, raises a leader's daughter, restores blind men's sight, and frees a mute man from a demon, drawing both wonder and accusation. As He preaches the gospel and heals, compassion for the helpless crowds leads Him to urge prayer for more harvest workers.",
     "themes": [
       "Authority to forgive",
       "Physician for sinners",
@@ -389,39 +330,29 @@
       "mute demoniac"
     ],
     "key_points": [
-      "The paralytic walked to show the Son of Man forgives sins on earth.",
-      "Jesus ate with tax collectors and sinners.",
-      "He raised a ruler’s daughter saying she was not dead but sleeping.",
-      "The woman touched his garment and was healed by faith.",
-      "The harvest is plentiful but the laborers are few."
+      "Seeing the faith of those bringing a paralyzed man, Jesus forgives his sins and heals him despite the scribes' objections.",
+      "Jesus welcomes Matthew and other sinners, defending His purpose through the call for mercy rather than sacrifice.",
+      "Jesus says His disciples will fast when the bridegroom is taken away and uses pictures of cloth and wineskins.",
+      "Jesus heals a woman who has bled for twelve years, raises a dead girl, and restores two blind men's sight.",
+      "After Jesus frees a mute man, the Pharisees accuse Him, while His compassion for crowds leads to prayer for workers."
     ],
     "supporting_verses": [
-      "Matthew 9:2",
-      "Matthew 9:6",
-      "Matthew 9:9",
-      "Matthew 9:13",
-      "Matthew 9:18",
-      "Matthew 9:22",
-      "Matthew 9:27",
-      "Matthew 9:35",
-      "Matthew 9:38"
+      "Matthew 9:1-8",
+      "Matthew 9:9-13",
+      "Matthew 9:14-17",
+      "Matthew 9:18-31",
+      "Matthew 9:32-38"
     ],
-    "evidence_phrases": [
-      "your sins are forgiven",
-      "Follow me",
-      "I desire mercy, and not sacrifice",
-      "the girl arose",
-      "your faith has made you well",
-      "the Son of Man has authority on earth to forgive sins",
-      "pray that the Lord of the harvest will send out laborers"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 10,
-    "title": "The Twelve sent with warnings",
-    "summary_text": "Jesus names the twelve apostles and sends them to Israel’s lost sheep with authority over unclean spirits and disease, instructing them on provision, peace, shaking dust, sheep among wolves, Spirit-given words before courts, loving God more than family, taking up the cross, losing life to find it, and receiving prophets and little ones. He promises a prophet’s reward and that even a cup of cold water will not lose its reward.",
+    "title": "Jesus Sends the Twelve and Warns Them",
+    "summary_text": "Jesus gives His twelve apostles power to heal and drive out demons, sending them to Israel to announce that the kingdom of heaven is near. They must give freely, depend on welcome for their needs, and warn places that reject them of judgment. Jesus prepares His disciples for persecution, family betrayal, and testimony before rulers, promising that the Father's Spirit will speak through them. They must fear God, who can destroy soul and body in hell, rather than their attackers, while trusting the Father's care. Jesus demands loyalty above family and life itself, and promises that receiving His messengers brings a reward.",
     "themes": [
       "Twelve apostles",
       "Lost sheep of Israel",
@@ -445,39 +376,29 @@
       "Judas Iscariot"
     ],
     "key_points": [
-      "The twelve were given power to heal and cast out demons.",
-      "They were sent only to the lost sheep of Israel at this stage.",
-      "They would face councils and scourging but the Spirit would speak.",
-      "Whoever denies Jesus before others will be denied before the Father.",
-      "Whoever gives a cup of cold water will not lose reward."
+      "The twelve apostles receive authority over unclean spirits and sickness and are sent to Israel rather than Gentile or Samaritan towns.",
+      "Jesus tells them to travel without extra supplies, offer peace to welcoming homes, and leave those who reject their words.",
+      "Persecution brings testimony before rulers; the Spirit will speak, those enduring will be saved, and the Son of Man will come.",
+      "Jesus tells His disciples to confess Him openly, fear God over people, and trust their Father's detailed care.",
+      "Following Jesus requires taking up one's cross, while welcoming a prophet, righteous person, or disciple brings a reward."
     ],
     "supporting_verses": [
-      "Matthew 10:1",
-      "Matthew 10:5",
-      "Matthew 10:6",
-      "Matthew 10:16",
-      "Matthew 10:19",
-      "Matthew 10:22",
-      "Matthew 10:28",
-      "Matthew 10:32",
-      "Matthew 10:38",
-      "Matthew 10:42"
+      "Matthew 10:1-8",
+      "Matthew 10:9-15",
+      "Matthew 10:16-23",
+      "Matthew 10:24-33",
+      "Matthew 10:34-42"
     ],
-    "evidence_phrases": [
-      "these twelve Jesus sent out",
-      "lost sheep of the house of Israel",
-      "I send you out as sheep among wolves",
-      "don’t be afraid of those who kill the body",
-      "Whoever denies me before men",
-      "whoever gives one of these little ones just a cup of cold water"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 11,
-    "title": "John’s question and rest for the weary",
-    "summary_text": "John’s disciples ask if Jesus is the coming one; Jesus points to his healings and good news to the poor as Isaiah’s signs. He honors John as more than a prophet yet least in the Kingdom is greater than he. Chorazin, Bethsaida, and Capernaum are warned for unrepentance; the Father hides things from the wise and reveals them to infants. Jesus invites the weary to take his yoke and learn gentleness for rest.",
+    "title": "Jesus Answers John and Offers Rest",
+    "summary_text": "From prison, John sends disciples to ask whether Jesus is the coming One, and Jesus points to His healings and the good news reaching the poor. Jesus calls John more than a prophet, yet says the least in the kingdom of heaven is greater than he. He compares a generation that rejects both John and Himself to children who refuse each other's games. Jesus warns cities that did not repent despite His miracles of severe judgment, saying Capernaum will descend to Hades. He praises the Father for revealing truth to little children, says He reveals the Father to those He chooses, and invites the weary to learn from Him and receive rest.",
     "themes": [
       "Signs of the Messiah",
       "John the greatest born of women",
@@ -495,38 +416,29 @@
       "the Father"
     ],
     "key_points": [
-      "Jesus answered John with deeds matching messianic prophecy.",
-      "John was Elijah who was to come for those with ears to hear.",
-      "Tyre and Sidon would have repented more than Galilean towns.",
-      "The Father has entrusted all things to the Son.",
-      "Come to me all who labor and are heavily burdened."
+      "John hears of Christ's works and receives a report of healing, raised dead, and good news for the poor.",
+      "Jesus identifies John as the promised messenger and, for those willing to accept it, the Elijah who was to come.",
+      "People accuse John of having a demon and the Son of Man of gluttony and friendship with sinners.",
+      "Jesus says cities that saw His miracles but refused repentance face worse judgment than Tyre, Sidon, and Sodom.",
+      "The Father and Son uniquely know each other, and Jesus offers rest for souls under His gentle teaching."
     ],
     "supporting_verses": [
-      "Matthew 11:4",
-      "Matthew 11:5",
-      "Matthew 11:11",
-      "Matthew 11:14",
-      "Matthew 11:20",
-      "Matthew 11:25",
-      "Matthew 11:27",
-      "Matthew 11:28",
-      "Matthew 11:29"
+      "Matthew 11:1-6",
+      "Matthew 11:7-15",
+      "Matthew 11:16-19",
+      "Matthew 11:20-24",
+      "Matthew 11:25-30"
     ],
-    "evidence_phrases": [
-      "the dead are raised up",
-      "Among those who are born of women",
-      "if the mighty works had been done in Tyre and Sidom",
-      "no one knows the Son, except the Father",
-      "Come to me, all you who labor",
-      "you will find rest for your souls"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 12,
-    "title": "Lord of the Sabbath and the sign of Jonah",
-    "summary_text": "Jesus defends eating grain and healing on the Sabbath as mercy over sacrifice; Pharisees plot to destroy him. He heals a withered hand, withdraws, and warns against blasphemy of the Spirit while all sin and speech against the Son may be forgiven. He refuses a sign except Jonah three days in the great fish as Son of Man three days in the earth. When told his mother and brothers seek him, he defines family as whoever does God’s will.",
+    "title": "Jesus Faces Accusations and Warns His Generation",
+    "summary_text": "Defending His disciples on the Sabbath, Jesus calls the Son of Man its Lord and calls for mercy rather than sacrifice. He heals a man's hand, the Pharisees plot His death, and His quiet healing work fulfills Isaiah's picture of God's chosen Servant. After freeing a demon-possessed man, Jesus rejects an accusation of Satan's power, says the kingdom of God has come, and warns that blasphemy against the Holy Spirit will not be forgiven. He warns of judgment for words, promises Jonah's sign, and compares His wicked generation to a man whose returning unclean spirit brings worse companions. Jesus ends by calling those who do His Father's will His family.",
     "themes": [
       "Sabbath mercy",
       "Blasphemy of the Spirit",
@@ -542,37 +454,29 @@
       "Jesus’s brothers"
     ],
     "key_points": [
-      "The Son of Man is Lord of the Sabbath.",
-      "Blasphemy against the Spirit will not be forgiven.",
-      "Jonah’s sign prefigured Jesus’s burial and resurrection.",
-      "Nineveh and the queen of the south will judge this generation.",
-      "Whoever does the will of God is Jesus’s brother and sister and mother."
+      "Appealing to the Law, Jesus defends His disciples and heals on the Sabbath, declaring Himself greater than the temple.",
+      "Jesus's healing without seeking publicity fulfills the prophet's words about God's Spirit-filled Servant bringing justice and hope to the nations.",
+      "Jesus distinguishes forgivable sin from blasphemy against the Spirit and says people's words will leave them acquitted or condemned.",
+      "Jesus promises Jonah's sign and says Nineveh's people, who repented, will condemn His generation at judgment.",
+      "With His mother and brothers outside, Jesus points to His disciples and calls those obeying His Father His family."
     ],
     "supporting_verses": [
-      "Matthew 12:1",
-      "Matthew 12:8",
-      "Matthew 12:12",
-      "Matthew 12:14",
-      "Matthew 12:31",
-      "Matthew 12:32",
-      "Matthew 12:40",
-      "Matthew 12:41",
-      "Matthew 12:50"
+      "Matthew 12:1-14",
+      "Matthew 12:15-21",
+      "Matthew 12:22-37",
+      "Matthew 12:38-45",
+      "Matthew 12:46-50"
     ],
-    "evidence_phrases": [
-      "it is lawful to do good on the Sabbath",
-      "the Son of Man is Lord of even the Sabbath",
-      "whoever speaks against the Holy Spirit",
-      "no sign will be given … but the sign of Jonah",
-      "whoever does the will of my Father"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 13,
-    "title": "Parables of the Kingdom",
-    "summary_text": "Jesus teaches by the sea: the sower, weeds among wheat, mustard seed, and leaven, explaining to disciples why he speaks in parables and interpreting the sower and weeds. He compares the Kingdom to treasure, a pearl, and a net sorting fish, and asks if scribes understand old and new treasure. At Nazareth he is amazed at unbelief and does few mighty works.",
+    "title": "Jesus Teaches the Kingdom Through Parables",
+    "summary_text": "Speaking from a boat, Jesus tells a parable of seed falling on different soils and explains the different responses to the word of the kingdom. He tells His disciples that they receive understanding of the kingdom of heaven's mysteries, while others hear without understanding, fulfilling Isaiah's prophecy. Pictures of wheat and weeds, a mustard seed, leaven, treasure, a pearl, and a fishing net describe the kingdom. Jesus explains that angels will separate the wicked from the righteous at the end of the age, bringing fiery punishment to the wicked. In His hometown, people take offense at Him, and their unbelief is followed by few miracles.",
     "themes": [
       "Sower and soils",
       "Weeds and harvest",
@@ -587,39 +491,29 @@
       "Nazareth townspeople"
     ],
     "key_points": [
-      "The word meets path, rock, thorns, and good soil.",
-      "An enemy sowed weeds; wait until harvest to separate.",
-      "The Kingdom starts small yet fills the earth.",
-      "The net gathers all kinds for final sorting.",
-      "Jesus marveled at their unbelief in his hometown."
+      "Jesus contrasts hearers who lose, abandon, or choke the word with those who understand it and bear fruit.",
+      "Weeds remain with wheat until harvest, while mustard seed and leaven provide further pictures of the kingdom.",
+      "The Son of Man sends angels to remove sin and lawlessness from His kingdom, while the righteous shine.",
+      "Treasure and a pearl prompt selling everything, a net brings a separation, and a trained scribe brings out old and new treasures.",
+      "Jesus's hometown questions His wisdom because they know His family, and He speaks of a prophet lacking honor at home."
     ],
     "supporting_verses": [
-      "Matthew 13:3",
-      "Matthew 13:9",
-      "Matthew 13:11",
-      "Matthew 13:24",
-      "Matthew 13:31",
-      "Matthew 13:33",
-      "Matthew 13:44",
-      "Matthew 13:45",
-      "Matthew 13:47",
-      "Matthew 13:57"
+      "Matthew 13:1-23",
+      "Matthew 13:24-35",
+      "Matthew 13:36-43",
+      "Matthew 13:44-52",
+      "Matthew 13:53-58"
     ],
-    "evidence_phrases": [
-      "A sower went out to sow",
-      "An enemy has done this",
-      "a grain of mustard seed",
-      "leaven … hid in three measures of meal",
-      "the kingdom of heaven is like a treasure",
-      "A prophet is not without honor, except in his own country"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 14,
-    "title": "John’s death, feeding five thousand, walking on water",
-    "summary_text": "Herod fears Jesus is John raised; the narrative recounts John’s rebuke of Herod’s marriage, imprisonment, Salome’s dance, and John’s beheading. Jesus withdraws and feeds five thousand with five loaves and two fish, then sends disciples ahead while he prays. He walks on the sea; Peter sinks when doubting but is caught; they worship him as God’s Son.",
+    "title": "Jesus Feeds Thousands and Walks on Water",
+    "summary_text": "Herod hears about Jesus and thinks John the Baptist has risen, after having John beheaded at Herodias's daughter's request. Jesus withdraws on hearing of John's death, but has compassion on the crowds and feeds about five thousand men, besides women and children, with five loaves and two fish. After praying alone, He walks across the sea to His disciples. Peter walks toward Him but begins to sink in fear, and Jesus saves him while questioning his little faith. The wind stops when they enter the boat, those aboard worship Jesus as the Son of God, and later sick people at Gennesaret are healed by touching His cloak.",
     "themes": [
       "John’s martyrdom",
       "Compassion and feeding",
@@ -638,38 +532,29 @@
       "five thousand"
     ],
     "key_points": [
-      "Herod executed John though he feared the crowd.",
-      "Jesus healed the sick and fed the multitude with twelve baskets left over.",
-      "He went alone to pray on the mountain.",
-      "Peter walked on water until he saw the wind.",
-      "Those in the boat worshiped him as the Son of God."
+      "John opposed Herod's taking his brother's wife, and Herod later orders John's death to keep his promise to Herodias's daughter.",
+      "Jesus heals the crowd, speaks a blessing over five loaves and two fish, and feeds thousands with twelve baskets left over.",
+      "After sending the disciples ahead and praying alone, Jesus approaches their wave-battered boat by walking on the sea.",
+      "Jesus catches Peter as he sinks, challenges his doubt, and receives worship when the wind stops.",
+      "People at Gennesaret bring their sick, and everyone who touches the fringe of Jesus's cloak is healed."
     ],
     "supporting_verses": [
-      "Matthew 14:1",
-      "Matthew 14:10",
-      "Matthew 14:13",
-      "Matthew 14:19",
-      "Matthew 14:23",
-      "Matthew 14:28",
-      "Matthew 14:31",
-      "Matthew 14:33"
+      "Matthew 14:1-12",
+      "Matthew 14:13-21",
+      "Matthew 14:22-27",
+      "Matthew 14:28-33",
+      "Matthew 14:34-36"
     ],
-    "evidence_phrases": [
-      "This is John the Baptizer",
-      "Bring them here to me",
-      "five thousand men",
-      "in the fourth watch of the night",
-      "Lord, save me!",
-      "You of little faith, why did you doubt?",
-      "Truly you are the Son of God"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 15,
-    "title": "Traditions, the Canaanite woman, and four thousand fed",
-    "summary_text": "Pharisees challenge unwashed hands; Jesus teaches that what defiles comes from the heart—evil thoughts, murder, adultery—not unwashed hands. A Canaanite woman’s faith wins healing for her daughter despite initial silence and the children’s bread metaphor. Jesus feeds four thousand in the wilderness with seven loaves and gathers seven baskets of fragments.",
+    "title": "Jesus Challenges Tradition and Honors Faith",
+    "summary_text": "Challenged about His disciples' unwashed hands, Jesus accuses religious leaders of using tradition to cancel God's command to honor parents. He says the evil coming from the heart defiles a person, not food eaten with unwashed hands. A Canaanite woman asks for mercy for her demon-possessed daughter; though Jesus speaks of His mission to Israel and the children's bread, she persists by speaking of crumbs for dogs. Jesus praises her great faith and heals her daughter. After healing many others, He has compassion on a hungry crowd and feeds four thousand men, besides women and children, with seven loaves and a few fish, leaving seven baskets of pieces.",
     "themes": [
       "Heart defilement",
       "Children’s bread",
@@ -685,35 +570,29 @@
       "crowds"
     ],
     "key_points": [
-      "Isaiah’s prophecy applied to lip-honor void of heart.",
-      "Evil from within defiles, not food without ceremonial washing.",
-      "The woman’s persistence led Jesus to praise her faith.",
-      "Her daughter was healed instantly.",
-      "Four thousand were fed with abundant leftovers."
+      "As Isaiah prophesied, Jesus says tradition that withholds support from parents cancels God's word and makes worship empty.",
+      "Jesus calls the offended Pharisees blind guides and explains that evil thoughts, adultery, and other wrongs from the heart defile people.",
+      "The Canaanite woman accepts Jesus's picture of children and dogs but asks for crumbs, and He grants her request.",
+      "Crowds bring people with many disabilities to Jesus, and His healings lead them to glorify Israel's God.",
+      "After the crowd stays three days, Jesus feeds them through His disciples and leaves by boat for Magadan."
     ],
     "supporting_verses": [
-      "Matthew 15:8",
-      "Matthew 15:11",
-      "Matthew 15:22",
-      "Matthew 15:26",
-      "Matthew 15:28",
-      "Matthew 15:32",
-      "Matthew 15:37"
+      "Matthew 15:1-9",
+      "Matthew 15:10-20",
+      "Matthew 15:21-28",
+      "Matthew 15:29-31",
+      "Matthew 15:32-39"
     ],
-    "evidence_phrases": [
-      "This people honors me with their lips",
-      "the things which proceed out of the mouth",
-      "even the dogs eat the crumbs",
-      "woman, great is your faith",
-      "They all ate and were filled"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 16,
-    "title": "Peter’s confession and taking up the cross",
-    "summary_text": "Pharisees and Sadducees seek a sign; Jesus points to weather signs yet refuses their evil generation except Jonah. Disciples forget bread; Jesus warns of leaven of Pharisees and Sadducees as teaching. At Caesarea Philippi Peter confesses Jesus as Christ; Jesus blesses him, promises keys of the Kingdom, and foretells his suffering, death, and resurrection. He calls disciples to deny self, take the cross, and lose life to save it, promising some will see the Son of Man coming in glory before they taste death.",
+    "title": "Peter Confesses Christ and Resists His Suffering",
+    "summary_text": "Jesus refuses the religious leaders' demand for a sign beyond Jonah's sign and warns His disciples against the leaders' teaching. Peter identifies Him as the Christ and God's Son, and Jesus says the Father revealed this to him. Jesus promises to build His church on this rock, which the gates of Hades cannot overcome, and gives Peter the keys of the kingdom of heaven. When He announces His coming suffering, death, and resurrection, Peter objects, and Jesus rebukes him as a stumbling block concerned with human things. Jesus calls His followers to deny themselves, carry their cross, and lose life for His sake, promising to repay deeds when He comes in glory.",
     "themes": [
       "Sign of Jonah",
       "Christ, Son of the living God",
@@ -729,37 +608,29 @@
       "disciples"
     ],
     "key_points": [
-      "Peter received revelation that Jesus is the Christ.",
-      "Jesus began to show he must suffer, die, and rise the third day.",
-      "Peter rebuked him and was called Satan for minding human things.",
-      "Taking up the cross follows Jesus for life found in losing it.",
-      "Some standing there would see the Son of Man coming in his Kingdom."
+      "Jesus says the leaders cannot read the signs of the times and offers only Jonah's sign.",
+      "Jesus challenges His disciples' little faith and explains that the leaven warning concerns teaching rather than forgotten bread.",
+      "Peter's confession comes from the Father, and Jesus speaks of building His church and Peter's authority to bind and loose.",
+      "Jesus predicts being killed and raised on the third day, then rejects Peter's attempt to prevent His suffering.",
+      "Gaining the world cannot recover a lost soul, and the Son of Man will come with angels to repay each person's deeds."
     ],
     "supporting_verses": [
-      "Matthew 16:4",
-      "Matthew 16:16",
-      "Matthew 16:18",
-      "Matthew 16:21",
-      "Matthew 16:23",
-      "Matthew 16:24",
-      "Matthew 16:26",
-      "Matthew 16:28"
+      "Matthew 16:1-4",
+      "Matthew 16:5-12",
+      "Matthew 16:13-20",
+      "Matthew 16:21-23",
+      "Matthew 16:24-28"
     ],
-    "evidence_phrases": [
-      "no sign will be given … but the sign of Jonah",
-      "You are the Christ, the Son of the living God",
-      "on this rock I will build my assembly",
-      "Get behind me, Satan!",
-      "If anyone desires to come after me, let him deny himself",
-      "there are some standing here who will in no way taste of death"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 17,
-    "title": "Transfiguration, boy healed, temple tax",
-    "summary_text": "Six days later Jesus is transfigured before Peter, James, and John with Moses and Elijah; the Father commands listening to his Son. Coming down, they learn Elijah came in John. Jesus heals a boy the disciples could not cast out, teaching prayer and fasting and faith as a mustard seed. In Capernaum he pays the temple tax from a coin in a fish’s mouth to avoid offense.",
+    "title": "Jesus Shines Before Three Disciples",
+    "summary_text": "On a high mountain, Jesus's face shines like the sun and His clothes become bright as Moses and Elijah speak with Him. A voice from a cloud calls Him the beloved Son and commands the three disciples to listen to Him. Jesus forbids telling the vision until His resurrection and explains that Elijah has already come, which they understand as John the Baptist. He frees a suffering boy from a demon after the disciples fail, challenges their little faith, and later predicts the Son of Man's death and resurrection. In Capernaum, Jesus explains that sons are free from tax but tells Peter to find a coin in a fish to pay for them both without causing offense.",
     "themes": [
       "Transfiguration",
       "Listen to him",
@@ -778,37 +649,29 @@
       "father"
     ],
     "key_points": [
-      "Jesus shone like the sun on the mountain.",
-      "A voice said this is my beloved Son; hear him.",
-      "John the Baptist fulfilled Elijah’s coming in a sense.",
-      "The boy’s demon left after Jesus rebuked it.",
-      "The coin in the fish’s mouth paid temple tax for Peter and Jesus."
+      "Peter, James, and John see Jesus transformed with Moses and Elijah, then fall in fear at the voice from the cloud.",
+      "Jesus connects the unrecognized Elijah's suffering with His own, and the disciples understand Him to mean John the Baptist.",
+      "A father asks mercy for his son, Jesus drives out a demon, and He teaches about faith like a mustard seed.",
+      "The disciples grieve when Jesus says He will be handed over, killed, and raised on the third day.",
+      "Jesus directs Peter to a fish with a four-drachma coin to cover both their payments to the tax collectors."
     ],
     "supporting_verses": [
-      "Matthew 17:2",
-      "Matthew 17:5",
-      "Matthew 17:9",
-      "Matthew 17:11",
-      "Matthew 17:17",
-      "Matthew 17:20",
-      "Matthew 17:24",
-      "Matthew 17:27"
+      "Matthew 17:1-8",
+      "Matthew 17:9-13",
+      "Matthew 17:14-20",
+      "Matthew 17:22-23",
+      "Matthew 17:24-27"
     ],
-    "evidence_phrases": [
-      "he was transfigured before them",
-      "This is my beloved Son, in whom I am well pleased. Listen to him.",
-      "Elijah indeed comes first",
-      "if you have faith as a grain of mustard seed",
-      "cast the demon out of him",
-      "give to them for me and you"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 18,
-    "title": "Greatness, discipline, and forgiveness",
-    "summary_text": "Jesus says the greatest must become like a little child; millstones await those who cause little ones to stumble. Cut off hand or eye if it makes you stumble. The shepherd seeks one lost sheep. If a brother sins, go alone then with witnesses then the assembly; binding and loosing in agreed prayer. Peter asks forgiveness limits; Jesus answers seventy times seven with the parable of the unforgiving servant whose lord forgave a huge debt yet he choked a fellow servant.",
+    "title": "Humility, Care, and Forgiveness Among Disciples",
+    "summary_text": "Asked about greatness in the kingdom of heaven, Jesus places a child before His disciples and requires childlike humility. He warns against causing little ones who believe in Him to sin and pictures the Father's care through a shepherd's search for one lost sheep. Jesus gives steps for confronting a sinning brother and promises His presence when people gather in His name. Answering Peter about forgiveness, He tells of a servant whose huge debt is forgiven but who refuses mercy to a fellow servant with a smaller debt. The master hands the wicked servant over for torture, and Jesus says His Father will likewise punish those who refuse heartfelt forgiveness.",
     "themes": [
       "Childlike greatness",
       "Stumbling blocks",
@@ -824,38 +687,29 @@
       "servants"
     ],
     "key_points": [
-      "Whoever humbles like a child is greatest in the Kingdom.",
-      "Woe to the world’s stumbling traps.",
-      "The Father does not desire one little one to perish.",
-      "Two or three gathered agree in prayer are heard.",
-      "The unforgiving servant was delivered to tormentors until he paid all."
+      "Jesus makes a child's humility the measure of greatness and warns severely against causing little believers to stumble.",
+      "Jesus warns of eternal fire for sin and compares the Father's care for little ones to finding a lost sheep.",
+      "Confronting a sinning brother begins privately, then involves witnesses and the church if he refuses to listen.",
+      "Jesus speaks of binding and loosing, answered prayer in agreement, and His presence among those gathered in His name.",
+      "Jesus answers Peter with seventy-seven times and a parable warning that receiving forgiveness requires showing mercy to others."
     ],
     "supporting_verses": [
-      "Matthew 18:3",
-      "Matthew 18:6",
-      "Matthew 18:10",
-      "Matthew 18:15",
-      "Matthew 18:18",
-      "Matthew 18:19",
-      "Matthew 18:21",
-      "Matthew 18:22",
-      "Matthew 18:35"
+      "Matthew 18:1-6",
+      "Matthew 18:7-14",
+      "Matthew 18:15-17",
+      "Matthew 18:18-20",
+      "Matthew 18:21-35"
     ],
-    "evidence_phrases": [
-      "unless you turn and become as little children",
-      "woe to that person through whom the stumbling block comes",
-      "it is not desirable that one of these little ones should perish",
-      "if two of you will agree on earth",
-      "seventy times seven",
-      "forgive your brother from your hearts"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 19,
-    "title": "Marriage, children, and the rich young man",
-    "summary_text": "Jesus teaches God’s creation design for marriage against hard-hearted divorce; disciples marvel at marriage’s bond. He blesses little children, saying the Kingdom belongs to such. A rich young ruler asks eternal life; Jesus tests him with commandments and selling all to follow; the man leaves sorrowful. Jesus says riches make salvation hard yet with God all things are possible. Peter’s leaving all is met with promise of renewal and inheritance, with many first last and last first.",
+    "title": "Marriage, Children, and the Rich Young Man",
+    "summary_text": "In Judea, Jesus answers a test about divorce by saying that God joins husband and wife as one flesh. He says Moses allowed divorce because of hard hearts, and that remarriage after divorce is adultery except where sexual immorality is involved. Jesus explains that some live unmarried for the kingdom of heaven, then welcomes children despite His disciples' objections. A wealthy young man asks about eternal life but leaves sorrowful when Jesus tells him to sell his possessions, give to the poor, and follow Him. Jesus says being saved is impossible for humans but possible for God, and promises His followers thrones, a hundredfold return, and eternal life as first and last change places.",
     "themes": [
       "One flesh",
       "Kingdom and children",
@@ -872,40 +726,29 @@
       "Peter"
     ],
     "key_points": [
-      "What God joined man must not separate.",
-      "The Kingdom belongs to children like these.",
-      "The rich young man went away grieved, owning much.",
-      "With God salvation is possible for the rich.",
-      "Those who left all will judge Israel’s twelve tribes in renewal."
+      "Jesus points to the Creator's joining male and female in marriage and explains that Moses permitted divorce because of hard hearts.",
+      "Jesus describes different reasons people live as eunuchs and says this way of life is for those able to accept it.",
+      "Jesus welcomes children and places His hands on them, saying the kingdom belongs to people like them.",
+      "The rich young man says he keeps the commandments but cannot accept Jesus's call to give up wealth and follow Him.",
+      "The Son of Man promises His followers thrones to judge Israel, and those leaving things for Him will inherit eternal life."
     ],
     "supporting_verses": [
-      "Matthew 19:4",
-      "Matthew 19:6",
-      "Matthew 19:14",
-      "Matthew 19:16",
-      "Matthew 19:17",
-      "Matthew 19:21",
-      "Matthew 19:24",
-      "Matthew 19:26",
-      "Matthew 19:28",
-      "Matthew 19:30"
+      "Matthew 19:1-9",
+      "Matthew 19:10-12",
+      "Matthew 19:13-15",
+      "Matthew 19:16-22",
+      "Matthew 19:23-30"
     ],
-    "evidence_phrases": [
-      "What therefore God has joined together",
-      "the Kingdom of Heaven belongs to such as these",
-      "Why do you call me good?",
-      "sell all that you have",
-      "It is easier for a camel to go through a needle’s eye",
-      "With God all things are possible",
-      "many who are first will be last"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 20,
-    "title": "Vineyard laborers, cup of suffering, and Bartimaeus",
-    "summary_text": "The vineyard parable pays late workers the same as early, teaching God’s generosity and reversing grumbling about fairness. Jesus again foretells his suffering in Jerusalem and asks if disciples can drink his cup; they say yes yet greatness is service not ruling. Two blind men by the road cry for mercy; Jesus heals them by faith as the crowd had rebuked them.",
+    "title": "Jesus Teaches Generosity and Greatness Through Service",
+    "summary_text": "Jesus compares the kingdom of heaven to a landowner who pays the same wage to workers hired at different times. When early workers complain, the owner defends his generosity, and Jesus says first and last will change places. On the way to Jerusalem, He tells the twelve that He will be condemned, mocked, flogged, and crucified, then raised on the third day. A mother's request for her sons' places of honor leads Jesus to teach that greatness means serving, as the Son of Man gives His life as a ransom, the price of release, for many. Leaving Jericho, He hears two blind men's cries for mercy, restores their sight, and they follow Him.",
     "themes": [
       "First hired, last paid",
       "Son of Man to be mocked and killed",
@@ -924,36 +767,29 @@
       "crowd"
     ],
     "key_points": [
-      "The master asked, is it not lawful to do what I want with my own?",
-      "Jesus predicted mockery, scourging, crucifixion, and resurrection on the third day.",
-      "The Son of Man came to serve and give his life a ransom.",
-      "The blind called Jesus Son of David and were healed by faith."
+      "The vineyard owner pays each worker a denarius, rejecting complaints that his generosity to late workers is unfair.",
+      "Jesus tells His disciples that chief priests and scribes will condemn Him and Gentiles will crucify Him before His resurrection.",
+      "Zebedee's sons say they can drink Jesus's cup, but places beside Him belong to those the Father has prepared them for.",
+      "Jesus contrasts Gentile rulers' power with His followers' service and presents His own life as a ransom for many.",
+      "Two blind men keep calling to the Son of David despite the crowd, and Jesus compassionately heals them."
     ],
     "supporting_verses": [
-      "Matthew 20:1",
-      "Matthew 20:15",
-      "Matthew 20:18",
-      "Matthew 20:19",
-      "Matthew 20:22",
-      "Matthew 20:28",
-      "Matthew 20:32",
-      "Matthew 20:34"
+      "Matthew 20:1-16",
+      "Matthew 20:17-19",
+      "Matthew 20:20-23",
+      "Matthew 20:24-28",
+      "Matthew 20:29-34"
     ],
-    "evidence_phrases": [
-      "Didn’t you agree with me for a denarius?",
-      "the last will be first",
-      "the Son of Man will be delivered to the chief priests",
-      "Can you drink the cup that I am about to drink?",
-      "whoever desires to be first among you shall be your servant",
-      "Lord, Son of David, have mercy on us!"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 21,
-    "title": "Entry, temple, fig tree, and parables of the tenants",
-    "summary_text": "Jesus enters Jerusalem on a donkey with Hosanna cries; he drives money-changers from the temple and heals the blind and lame there. The cursed fig tree withers; he teaches mountain-moving faith and authority-questioning answers. The two sons and wicked tenants parables expose rejection of John and the Son; the stone the builders rejected becomes the cornerstone; the Kingdom is taken from Israel’s leaders and given to a nation producing fruit.",
+    "title": "Jerusalem Welcomes Jesus as Leaders Challenge Him",
+    "summary_text": "Jesus enters Jerusalem as the gentle King described by the prophet, welcomed by crowds praising the Son of David. He drives traders from the temple courts, heals there, and defends children's praise. After a fruitless fig tree withers at His word, He teaches His disciples about faith and prayer. When leaders challenge His authority, He asks about John's baptism and uses two sons' responses to their father to show that tax collectors and prostitutes believed John while the leaders refused. Through a story of tenants who kill an owner's servants and son, Jesus warns that the kingdom of God will pass from these leaders to people who bear its fruit.",
     "themes": [
       "Zechariah’s king",
       "House of prayer",
@@ -972,39 +808,29 @@
       "landowner’s son"
     ],
     "key_points": [
-      "Tell the daughter of Zion her king comes humble on a donkey.",
-      "My house shall be called a house of prayer.",
-      "The fig tree withered overnight after Jesus cursed it.",
-      "Tax collectors and prostitutes enter the Kingdom before religious leaders.",
-      "The rejected stone has become the head of the corner."
+      "Jesus has His disciples bring a donkey and colt, enters Jerusalem to praise, and is identified by crowds as a prophet.",
+      "Jesus drives commerce from the temple's place of prayer and defends children praising Him despite the religious leaders' anger.",
+      "A fig tree withers when Jesus declares it will never bear fruit, and He teaches about believing prayer.",
+      "Jesus contrasts the leaders' refusal to repent with tax collectors and prostitutes who believed John when he came in righteousness.",
+      "The chief priests and Pharisees recognize themselves in Jesus's parables but fear arresting Him because the crowds see Him as a prophet."
     ],
     "supporting_verses": [
-      "Matthew 21:5",
-      "Matthew 21:9",
-      "Matthew 21:12",
-      "Matthew 21:13",
-      "Matthew 21:21",
-      "Matthew 21:28",
-      "Matthew 21:31",
-      "Matthew 21:32",
-      "Matthew 21:42",
-      "Matthew 21:43"
+      "Matthew 21:1-11",
+      "Matthew 21:12-17",
+      "Matthew 21:18-22",
+      "Matthew 21:23-32",
+      "Matthew 21:33-46"
     ],
-    "evidence_phrases": [
-      "Hosanna to the son of David!",
-      "My house shall be called a house of prayer",
-      "if you have faith, and don’t doubt",
-      "tax collectors and the prostitutes are entering into God’s Kingdom",
-      "The stone which the builders rejected",
-      "God’s Kingdom will be taken away from you"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 22,
-    "title": "Wedding feast, taxes, resurrection, and the great commandment",
-    "summary_text": "The wedding feast parable shows invited guests rejecting the king’s son; the hall is filled with good and bad for final examination. Pharisees and Herodians test the tribute coin; Jesus gives Caesar’s and God’s. Sadducees lose the resurrection argument about seven brothers’ wife. A lawyer’s question draws love for God and neighbor as the great commandment; Jesus then asks how David’s son is Lord, silencing the Pharisees.",
+    "title": "Jesus Answers Tests and Questions His Opponents",
+    "summary_text": "A wedding parable pictures the kingdom of heaven: invited guests refuse to come, and a king replaces them but has a guest without wedding clothes bound and thrown into outer darkness to weep and grind his teeth. When opponents try to trap Jesus over taxes, He points to Caesar's image on a coin and distinguishes what is owed to Caesar from what belongs to God. The Sadducees challenge the resurrection with a marriage puzzle, but Jesus says raised people do not marry and God is God of the living. He names loving God and neighbor as the greatest commandments, on which the Law and the Prophets depend. Jesus then asks how the Christ can be David's son when David calls Him Lord, leaving His opponents unable to answer.",
     "themes": [
       "Many called, few chosen",
       "Render to Caesar",
@@ -1022,39 +848,29 @@
       "David"
     ],
     "key_points": [
-      "The man without a wedding garment was cast out.",
-      "Give Caesar what is Caesar’s and God what is God’s.",
-      "God is not God of the dead but of the living.",
-      "The great commandment sums law and prophets.",
-      "David calls his son Lord—how then is he his son?"
+      "The king punishes murderous guests, fills the banquet with others, and expels one guest; many are called but few chosen.",
+      "Seeing through the tax trap, Jesus uses Caesar's coin to distinguish obligations to Caesar and to God.",
+      "Jesus says people in the resurrection resemble angels in not marrying, and appeals to God's words about Abraham, Isaac, and Jacob.",
+      "Jesus says loving God with heart, soul, and mind comes first, followed by loving one's neighbor as oneself.",
+      "Jesus points out that David, speaking in the Spirit, calls the Christ Lord, and no one can answer His question."
     ],
     "supporting_verses": [
-      "Matthew 22:2",
-      "Matthew 22:12",
-      "Matthew 22:14",
-      "Matthew 22:21",
-      "Matthew 22:29",
-      "Matthew 22:32",
-      "Matthew 22:37",
-      "Matthew 22:40",
-      "Matthew 22:43",
-      "Matthew 22:46"
+      "Matthew 22:1-14",
+      "Matthew 22:15-22",
+      "Matthew 22:23-33",
+      "Matthew 22:34-40",
+      "Matthew 22:41-46"
     ],
-    "evidence_phrases": [
-      "many are called, but few chosen",
-      "Render therefore to Caesar",
-      "He is not the God of the dead, but of the living",
-      "You shall love the Lord your God",
-      "You shall love your neighbor as yourself",
-      "David in Spirit called him Lord"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06, fix 1",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 23,
-    "title": "Woes on the scribes and Pharisees",
-    "summary_text": "Jesus warns the crowds and disciples not to imitate scribes and Pharisees who bind heavy burdens, love titles and places of honor, devour widows’ houses, and make proselytes twice children of hell. Seven woes expose hypocrisy: shut Kingdom, convert to child of Gehenna, blind guides on oaths, tithe neglecting justice, whitewashed tombs, serpent brood who kill prophets. He laments Jerusalem who kills prophets and stoners sent to her, unwilling under his wings as a hen gathers chicks.",
+    "title": "Jesus Denounces Hypocrisy and Grieves over Jerusalem",
+    "summary_text": "Jesus tells the crowds and disciples to follow the scribes' and Pharisees' teaching but reject their example of seeking honor and burdening others. He calls for humble service under the one Instructor, the Christ. His woes accuse the leaders of shutting people out of the kingdom of heaven, twisting oaths, and neglecting the Law's justice, mercy, and faithfulness. He compares their outward righteousness and inward wickedness to clean-looking cups and whitewashed tombs, warning that they will persecute His messengers and face hell. Jesus grieves over Jerusalem's refusal of His care, declares its house desolate, and says it will not see Him until it blesses the One coming in the Lord's name.",
     "themes": [
       "Heavy burdens",
       "Love of honor",
@@ -1071,37 +887,29 @@
       "Jerusalem"
     ],
     "key_points": [
-      "Do not be called Rabbi, Father, or teacher—one is your teacher, Christ.",
-      "They strain gnats and swallow camels.",
-      "Inside they are full of extortion and self-indulgence.",
-      "You build tombs of prophets your fathers killed.",
-      "Your house is left to you desolate until you say blessed is he who comes."
+      "The leaders seek titles and public honor, while Jesus teaches His followers that greatness comes through humble service.",
+      "Jesus accuses the leaders of blocking others' entry to the kingdom and using false distinctions in oaths about temple and altar.",
+      "The leaders tithe herbs but neglect weightier duties, and Jesus tells them to clean the inside rather than merely appear righteous.",
+      "Jesus says they complete their fathers' sin by persecuting His messengers, some of whom they will crucify, bringing righteous blood upon this generation.",
+      "Jesus compares His wish to gather Jerusalem's children with a hen sheltering chicks, but the city refuses Him."
     ],
     "supporting_verses": [
-      "Matthew 23:4",
-      "Matthew 23:5",
-      "Matthew 23:13",
-      "Matthew 23:15",
-      "Matthew 23:23",
-      "Matthew 23:27",
-      "Matthew 23:33",
-      "Matthew 23:37"
+      "Matthew 23:1-12",
+      "Matthew 23:13-22",
+      "Matthew 23:23-28",
+      "Matthew 23:29-36",
+      "Matthew 23:37-39"
     ],
-    "evidence_phrases": [
-      "they bind heavy burdens",
-      "All their works they do to be seen by men",
-      "woe to you, scribes and Pharisees, hypocrites!",
-      "You blind Pharisee",
-      "You serpents, you offspring of vipers",
-      "Jerusalem, Jerusalem, who kills the prophets"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 24,
-    "title": "Olivet discourse: signs and the coming Son of Man",
-    "summary_text": "Jesus foretells temple destruction; disciples ask when and the sign of his coming and the age’s end. He warns of false christs, wars, famines, earthquakes, hatred, lawlessness, and gospel preached worldwide as birth pains. The abomination of desolation triggers Judean flight; those days are shortened for the elect’s sake. After tribulation the Son of Man appears with cosmic signs and gathers elect by angels. The fig tree lesson and Noah comparison urge watchfulness; the day and hour are unknown, so stay ready as faithful servants.",
+    "title": "Jesus Describes Trouble and Commands Readiness",
+    "summary_text": "After predicting the temple's destruction, Jesus answers His disciples' questions about His coming and the end of the age. He warns of false claims to be the Christ, wars, persecution, and fading love, while saying the gospel will reach all nations. The abomination of desolation in the holy place must prompt flight from Judea, and a great tribulation will be shortened for the elect. Afterward, the Son of Man will appear on clouds in glory, and His angels will gather the elect. Jesus says this generation will not pass before these things happen, but only the Father knows the day and hour, so His followers must stay ready and serve faithfully.",
     "themes": [
       "Temple stones thrown down",
       "Birth pains",
@@ -1116,43 +924,29 @@
       "elect"
     ],
     "key_points": [
-      "Not one stone here will be left on another.",
-      "Many will come in Jesus’s name deceiving.",
-      "The gospel will be preached in the whole world as witness.",
-      "Let those in Judea flee to the mountains when they see the abomination.",
-      "The Son of Man will come on clouds with power and great glory.",
-      "No one knows the day or hour except the Father."
+      "Jesus warns of deception, persecution, and false prophets, promises that those enduring will be saved, and says the gospel precedes the end.",
+      "Daniel's abomination signals urgent flight, great tribulation is shortened for the elect, and false Christs must not be believed.",
+      "After the sun and moon darken and stars fall, the Son of Man appears and sends angels to gather His elect.",
+      "Jesus affirms His words' permanence and compares the unexpected coming to the flood, while saying only the Father knows the time.",
+      "The returning master rewards a faithful servant but cuts apart a wicked servant who abuses others."
     ],
     "supporting_verses": [
-      "Matthew 24:2",
-      "Matthew 24:5",
-      "Matthew 24:9",
-      "Matthew 24:14",
-      "Matthew 24:15",
-      "Matthew 24:21",
-      "Matthew 24:29",
-      "Matthew 24:30",
-      "Matthew 24:31",
-      "Matthew 24:35",
-      "Matthew 24:42",
-      "Matthew 24:44"
+      "Matthew 24:1-14",
+      "Matthew 24:15-28",
+      "Matthew 24:29-31",
+      "Matthew 24:32-41",
+      "Matthew 24:42-51"
     ],
-    "evidence_phrases": [
-      "not one stone here will be left on another",
-      "many will come in my name",
-      "this Good News of the Kingdom will be preached",
-      "when you see the abomination of desolation",
-      "they will see the Son of Man coming on the clouds",
-      "no one knows the day and hour",
-      "you also must be ready"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 25,
-    "title": "Virgins, talents, and sheep and goats",
-    "summary_text": "The kingdom of heaven is like ten virgins: five wise with oil meet the bridegroom; five foolish are shut out. Talents are entrusted; faithful servants multiply and enter joy; the one-talent servant is cast out. The Son of Man judges nations as shepherd separating sheep who served the least of his brothers from goats who did not, with eternal life or punishment.",
+    "title": "Readiness, Faithful Service, and the King's Judgment",
+    "summary_text": "Jesus warns of readiness through ten virgins awaiting a bridegroom, with only five prepared to enter the feast. He then describes a master rewarding two faithful servants and casting out one who hid his money. The Son of Man will come in glory and separate the nations like sheep and goats. He counts their care for the least of His brothers as care for Himself. The righteous inherit the kingdom and eternal life, while those who failed to care face eternal punishment.",
     "themes": [
       "Watch with oil",
       "Talents and faithfulness",
@@ -1171,41 +965,29 @@
       "goats"
     ],
     "key_points": [
-      "The bridegroom came at midnight; the foolish had no oil.",
-      "Well done, good and faithful servant—enter into the joy of your lord.",
-      "The wicked servant was cast into outer darkness.",
-      "Inasmuch as you did it to one of the least of these, you did it to me.",
-      "These will go away into eternal punishment; the righteous into eternal life."
+      "In Jesus' kingdom of heaven parable, virgins with extra oil enter the wedding feast, while others arrive too late.",
+      "Two servants increase the money entrusted to them and receive their master's praise, greater responsibility, and shared joy.",
+      "The fearful servant who hides his master's money is called wicked and lazy, loses the money, and faces outer darkness with weeping and grinding teeth.",
+      "Coming with angels, the Son of Man welcomes the blessed who cared for His least brothers as serving Him.",
+      "The cursed who failed to care face eternal punishment, while the righteous receive eternal life."
     ],
     "supporting_verses": [
-      "Matthew 25:1",
-      "Matthew 25:10",
-      "Matthew 25:13",
-      "Matthew 25:21",
-      "Matthew 25:23",
-      "Matthew 25:30",
-      "Matthew 25:31",
-      "Matthew 25:34",
-      "Matthew 25:40",
-      "Matthew 25:41",
-      "Matthew 25:46"
+      "Matthew 25:1-13",
+      "Matthew 25:14-23",
+      "Matthew 25:24-30",
+      "Matthew 25:31-40",
+      "Matthew 25:41-46"
     ],
-    "evidence_phrases": [
-      "the bridegroom came",
-      "Lord, Lord, open to us",
-      "Well done, good and faithful servant",
-      "you wicked and slothful servant",
-      "Inasmuch as you did it to one of the least of these",
-      "Depart from me, you cursed",
-      "these will go away into eternal punishment"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06, fix 1",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 26,
-    "title": "Last supper, Gethsemane, and trial",
-    "summary_text": "The chief priests plot to seize Jesus by stealth; a woman anoints him for burial amid disciple objection. Judas agrees to betray for silver. Jesus eats Passover, institutes the cup and bread as his blood and body, predicts betrayal and denial, and prays in Gethsemane if the cup may pass yet not his will but the Father’s. Judas betrays with a kiss; disciples flee; trials before Caiaphas and Pilate follow with Peter’s denials and Judas’s remorse.",
+    "title": "Jesus Shares Passover and Faces Betrayal",
+    "summary_text": "Jesus says He will be crucified, accepts perfume as burial preparation, and Judas agrees to betray Him. At Passover, He identifies the bread as His body and the cup as His covenant blood for forgiveness of sins. In Gethsemane, He submits to His Father's will while His disciples sleep, then accepts arrest as they flee. Asked if He is the Christ and Son of God, Jesus speaks of coming on clouds and is condemned for blasphemy. Peter denies knowing Him three times, then weeps when the rooster crows.",
     "themes": [
       "Anointing for burial",
       "This is my blood",
@@ -1225,41 +1007,29 @@
       "elders"
     ],
     "key_points": [
-      "She has done a good work for me in preparing for my burial.",
-      "This is my blood of the new covenant shed for many.",
-      "Jesus knew who would betray him.",
-      "He prayed three times in Gethsemane for the Father’s will.",
-      "Peter denied Jesus thrice before the rooster crowed."
+      "Jesus praises a woman's perfume as burial preparation to be remembered with the gospel, while Judas bargains to betray Him.",
+      "At Passover, Jesus speaks of betrayal, gives bread and the cup, and later predicts His disciples' flight and Peter's denials.",
+      "Jesus prays for His Father's will, urges prayer against temptation despite a willing spirit and weak body, and repeatedly finds His disciples sleeping.",
+      "Jesus accepts arrest after Judas' kiss, refuses sword resistance or rescue by angels to fulfill the prophets, and His disciples flee.",
+      "The high priest charges Jesus with blasphemy after His words about the Son of Man seated in power, while Peter denies Him three times."
     ],
     "supporting_verses": [
-      "Matthew 26:6",
-      "Matthew 26:12",
-      "Matthew 26:15",
-      "Matthew 26:26",
-      "Matthew 26:28",
-      "Matthew 26:34",
-      "Matthew 26:39",
-      "Matthew 26:41",
-      "Matthew 26:49",
-      "Matthew 26:56",
-      "Matthew 26:69",
-      "Matthew 26:75"
+      "Matthew 26:1-16",
+      "Matthew 26:17-35",
+      "Matthew 26:36-46",
+      "Matthew 26:47-56",
+      "Matthew 26:57-75"
     ],
-    "evidence_phrases": [
-      "she has done a good work for me",
-      "one of you will betray me",
-      "this is my blood of the new covenant",
-      "not as I will, but as you will",
-      "Judas, do you betray the Son of Man with a kiss?",
-      "Before a rooster crows, you will deny me three times"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 27,
-    "title": "Crucifixion and burial",
-    "summary_text": "Judas returns silver; Jesus is delivered to Pilate; Judas hangs. Pilate’s wife warns him; the crowd chooses Barabbas and cries crucifixion. Soldiers mock, scourge, and crucify Jesus between thieves with a divided garment cast lots; darkness covers the land; Jesus cries forsaken and yields his spirit; the veil tears, earth quakes, saints raised. The centurion confesses God’s Son; women watch; Joseph buries Jesus in a new tomb sealed by Pilate’s guard.",
+    "title": "Jesus Is Crucified, Buried, and Guarded",
+    "summary_text": "Judas admits his sin, returns the silver, and hangs himself after seeing Jesus condemned. Pilate frees Barabbas at the crowd's demand and hands Jesus, called Christ, over to be crucified. Soldiers and onlookers mock Jesus, who cries to God about being forsaken before dying. The temple veil tears, an earthquake strikes, and the guards declare Him the Son of God. Joseph places Him in a new tomb, and the leaders seal and guard it, fearing His disciples will steal the body.",
     "themes": [
       "Blood money",
       "King of the Jews",
@@ -1278,43 +1048,29 @@
       "centurion"
     ],
     "key_points": [
-      "Judas confessed betraying innocent blood.",
-      "Pilate washed his hands; the crowd took responsibility.",
-      "They crucified him and parted his garments.",
-      "From the sixth hour darkness until the ninth.",
-      "The temple veil tore top to bottom.",
-      "Joseph wrapped Jesus in clean linen in his own new tomb."
+      "Judas returns his betrayal money and hangs himself; the priests buy a burial field, fulfilling the prophet's words.",
+      "Despite his wife's warning and Jesus' silence before accusations, Pilate releases Barabbas and gives Jesus over to be crucified.",
+      "Soldiers mock Jesus, Simon is forced to carry His cross, and people challenge Him to save Himself between two robbers.",
+      "Jesus dies in darkness, the veil tears, and tombs open; raised saints later appear in the holy city after His resurrection.",
+      "Joseph buries Jesus in his new tomb, watched by two women, and the leaders later seal it and post guards."
     ],
     "supporting_verses": [
-      "Matthew 27:4",
-      "Matthew 27:11",
-      "Matthew 27:22",
-      "Matthew 27:24",
-      "Matthew 27:35",
-      "Matthew 27:37",
-      "Matthew 27:45",
-      "Matthew 27:46",
-      "Matthew 27:51",
-      "Matthew 27:54",
-      "Matthew 27:59",
-      "Matthew 27:60"
+      "Matthew 27:1-10",
+      "Matthew 27:11-26",
+      "Matthew 27:27-44",
+      "Matthew 27:45-56",
+      "Matthew 27:57-66"
     ],
-    "evidence_phrases": [
-      "I have sinned in that I have betrayed innocent blood",
-      "His blood be on us, and on our children",
-      "They crucified him",
-      "My God, my God, why have you forsaken me?",
-      "Jesus cried out again with a loud voice, and yielded up his spirit",
-      "the veil of the temple was torn in two",
-      "Truly this was the Son of God"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   },
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 40,
     "chapter": 28,
-    "title": "Resurrection and Great Commission",
-    "summary_text": "Mary Magdalene and the other Mary find the empty tomb as the angel announces Jesus has risen; they meet Jesus who tells them not to fear but go tell the disciples he goes before them to Galilee. The guard report is bribed as risen rumor spreads. On the mountain Jesus claims all authority in heaven and earth, commands baptizing and teaching obedience in every nation, and promises presence to the world’s end.",
+    "title": "Jesus Rises and Sends His Disciples",
+    "summary_text": "An angel tells Mary Magdalene and the other Mary that Jesus, who was crucified, has risen. Jesus meets the women as they run to tell His disciples, and they worship Him. The chief priests pay the guards to spread a story that His disciples stole His body. In Galilee, the eleven worship Jesus, though some doubt. Jesus declares His authority and sends them to make disciples among all nations, baptizing them in the name of the Father, Son, and Holy Spirit and teaching obedience to His commands, with His presence promised always.",
     "themes": [
       "Empty tomb",
       "Fear not",
@@ -1332,29 +1088,19 @@
       "chief priests"
     ],
     "key_points": [
-      "The angel rolled back the stone and sat on it.",
-      "Jesus had risen as he said.",
-      "The women clasped his feet and worshiped.",
-      "Some doubted among the eleven in Galilee.",
-      "Baptize in the name of the Father, Son, and Holy Spirit.",
-      "I am with you always, even to the end of the age."
+      "An angel opens the tomb and tells the women that Jesus has risen.",
+      "Jesus meets the women, who worship Him, and sends His brothers word to meet Him in Galilee.",
+      "The chief priests pay the guards to claim that the disciples stole Jesus's body.",
+      "Jesus sends His disciples to baptize and teach all nations, promising to remain with them."
     ],
     "supporting_verses": [
-      "Matthew 28:2",
-      "Matthew 28:5",
-      "Matthew 28:6",
-      "Matthew 28:9",
-      "Matthew 28:10",
-      "Matthew 28:18",
-      "Matthew 28:19",
-      "Matthew 28:20"
+      "Matthew 28:1-7",
+      "Matthew 28:8-10",
+      "Matthew 28:11-15",
+      "Matthew 28:16-20"
     ],
-    "evidence_phrases": [
-      "He is not here, for he has risen",
-      "Don’t be afraid",
-      "All authority has been given to me in heaven and on earth",
-      "make disciples of all nations",
-      "I am with you always, even to the end of the age"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   }
 ]

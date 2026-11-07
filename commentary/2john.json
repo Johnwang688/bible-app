@@ -1,10 +1,10 @@
 [
   {
-    "translation": "WEB",
+    "translation": "BSB",
     "book_number": 63,
     "chapter": 1,
-    "title": "Truth and love; deceivers; abide",
-    "summary_text": "Elder to elect lady and children—truth in us forever—grace mercy peace—walk in commandment love one another—many deceivers confess not Jesus flesh—watch lose reward—abide doctrine have Father and Son.",
+    "title": "Walk in Love and Remain in Christ's Teaching",
+    "summary_text": "The elder writes to the chosen lady and her children, rejoicing that some of them are living by the truth. He urges them to keep the commandment they have known from the beginning: to love one another by obeying God. Deceivers deny that Jesus Christ has come in the flesh, and those who leave Christ's teaching do not have God. The elder warns against welcoming or greeting such teachers, since doing so shares in their evil deeds. He hopes to visit and speak face to face so their joy can be complete.",
     "themes": [
       "Walk in truth",
       "Love one another",
@@ -17,28 +17,21 @@
       "Father"
     ],
     "key_points": [
-      "The elder, to the chosen lady and her children, whom I love in truth.",
-      "Now I beg you, dear lady, not as though I wrote to you a new commandment, but that which we have had from the beginning, that we love one another.",
-      "For many deceivers have gone out into the world, those who don’t confess that Jesus Christ came in the flesh.",
-      "Watch yourselves, that we don’t lose the things we have accomplished.",
-      "Whoever transgresses and doesn’t remain in the teaching of Christ, doesn’t have God."
+      "The elder loves the lady and her children in truth and rejoices that some follow the Father's command.",
+      "Love means living by God's commandments, including the command to love one another.",
+      "Deceivers refuse to confess Jesus Christ coming in the flesh, while remaining in His teaching means having the Father and Son.",
+      "Welcoming teachers who reject Christ's teaching shares in their evil deeds.",
+      "The elder hopes for a joyful visit and passes on greetings from the children of the lady's elect sister."
     ],
     "supporting_verses": [
-      "2 John 1:1",
-      "2 John 1:3",
-      "2 John 1:5",
-      "2 John 1:6",
-      "2 John 1:7",
-      "2 John 1:8",
-      "2 John 1:9"
+      "2 John 1:1-4",
+      "2 John 1:5-6",
+      "2 John 1:7-9",
+      "2 John 1:10-11",
+      "2 John 1:12-13"
     ],
-    "evidence_phrases": [
-      "whom I love in truth",
-      "that we love one another",
-      "many deceivers have gone out",
-      "Jesus Christ came in the flesh",
-      "Watch yourselves",
-      "doesn’t remain in the teaching of Christ"
-    ]
+    "evidence_phrases": [],
+    "generated_by": "gpt-6.1-sol via Codex, summaries full run, 2026-11-06",
+    "spec_version": "summary-1.0"
   }
 ]

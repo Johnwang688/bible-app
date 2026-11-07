@@ -16,7 +16,7 @@ test.describe('Explore and entities (English)', () => {
     await mockEntities(page);
     await page.goto('/study');
     await page.getByTestId('study-tab-explore').click();
-    await expect(page.getByTestId('explore-card-person')).toContainText('467');
+    await expect(page.getByTestId('explore-card-person')).toContainText('480');
     await page.getByTestId('explore-find').fill('jo');
     await page.getByTestId('explore-see-all-person').click();
     await expect(page).toHaveURL(/\/entities\/person\?q=jo$/);
