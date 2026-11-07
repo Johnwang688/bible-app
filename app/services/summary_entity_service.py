@@ -666,10 +666,13 @@ def list_summary_entities(kind: str) -> list[dict[str, Any]]:
     if kind == "place" and not _PLACE_ENTITY_INDEXING_ENABLED:
         items, _ = _build_place_fallback_index()
         return items
-    rows = fetch_all("SELECT id, kind, slug, label FROM summary_entities WHERE kind = ?", (kind,))
+    rows = fetch_all("SELECT id, kind, slug, label, profile FROM summary_entities WHERE kind = ?", (kind,))
     rows.sort(key=lambda r: (_label_sort_key(r["label"]), r["label"], r["id"]))
+    curated = {r["id"] for r in rows if r.get("profile")}
+    rows = [{k: v for k, v in r.items() if k != "profile"} for r in rows]
     if kind == "person":
-        return [r for r in rows if _is_valid_person_label(str(r.get("label") or ""))]
+        # A curated entry is a real person, whatever its label looks like: "James (son of Zebedee)".
+        return [r for r in rows if r["id"] in curated or _is_valid_person_label(str(r.get("label") or ""))]
     if kind == "place":
         return [r for r in rows if _is_valid_place_label(str(r.get("label") or ""))]
     return rows
