@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 from fastapi import Depends, FastAPI, HTTPException, Query, Request, Response, status
@@ -9,7 +10,7 @@ from app.core.config import get_settings
 from app.core.content_db import fetch_all
 from app.core.security import get_current_user
 from app.feedback.router import router as feedback_router
-from app.memory.transcribe import router as memory_router
+from app.memory.transcribe import require_memory_user, router as memory_router
 from app.schemas.account import (
     AuthResponse as AccountAuthResponse,
     ReadingProgressIn,
@@ -413,6 +414,17 @@ async def put_user_settings(
     return upsert_user_settings(current_user["id"], payload)
 
 
+def require_ai_user(user_id: str = Depends(require_memory_user)) -> str:
+    """A confirmed reader, while the AI routes are switched on.
+
+    No released client uses these routes, and each call spends paid API money, so they stay off until
+    the study agent ships. Set AI_ROUTES_ENABLED=true to turn them on.
+    """
+    if os.environ.get("AI_ROUTES_ENABLED", "").strip().lower() != "true":
+        raise HTTPException(status_code=503, detail="AI features aren't available yet.")
+    return user_id
+
+
 @app.get("/api/v1/ai/guided-chapter/sections", response_model=GuidedChapterSectionsOut, tags=["ai"])
 async def read_guided_chapter_sections(
     request: Request,
@@ -437,7 +449,10 @@ async def read_guided_chapter_sections(
 
 
 @app.post("/api/v1/ai/guided-chapter", response_model=GuidedChapterResponse, tags=["ai"])
-async def post_guided_chapter(request: Request, payload: GuidedChapterRequest) -> GuidedChapterResponse:
+async def post_guided_chapter(
+    payload: GuidedChapterRequest,
+    user_id: str = Depends(require_ai_user),
+) -> GuidedChapterResponse:
     if payload.verse_start < 1 or payload.verse_end < payload.verse_start:
         raise HTTPException(status_code=400, detail="Invalid verse range.")
     if payload.action == GuidedChapterAction.DIVE_DEEPER and len(payload.section_summary_text.strip()) < 12:
@@ -446,7 +461,7 @@ async def post_guided_chapter(request: Request, payload: GuidedChapterRequest) -
             detail="section_summary_text is required for dive_deeper (paste the section walkthrough).",
         )
     try:
-        check_rate_limit(get_request_identity(request))
+        check_rate_limit(user_id)
         return await run_guided_chapter_step(payload)
     except RateLimitExceeded as exc:
         raise HTTPException(
@@ -459,7 +474,7 @@ async def post_guided_chapter(request: Request, payload: GuidedChapterRequest) -
 
 
 @app.post("/api/v1/ai/chat", response_model=AIChatResponse, tags=["ai"])
-async def ai_chat(request: Request, payload: AIChatRequest) -> AIChatResponse:
+async def ai_chat(payload: AIChatRequest, user_id: str = Depends(require_ai_user)) -> AIChatResponse:
     message = payload.message.strip()
     if not message:
         raise HTTPException(status_code=400, detail="Please enter a question for the AI assistant.")
@@ -470,7 +485,7 @@ async def ai_chat(request: Request, payload: AIChatRequest) -> AIChatResponse:
         )
 
     try:
-        check_rate_limit(get_request_identity(request))
+        check_rate_limit(user_id)
         return await chat_with_ai(payload)
     except RateLimitExceeded as exc:
         raise HTTPException(
@@ -483,7 +498,10 @@ async def ai_chat(request: Request, payload: AIChatRequest) -> AIChatResponse:
 
 
 @app.post("/api/v1/ai/entity-content", response_model=EntityContentResponse, tags=["ai"])
-async def ai_entity_content(request: Request, payload: EntityContentRequest) -> EntityContentResponse:
+async def ai_entity_content(
+    payload: EntityContentRequest,
+    user_id: str = Depends(require_ai_user),
+) -> EntityContentResponse:
     """Generate free-form entity page content (descriptions, timelines) without chat schema constraints."""
     prompt = payload.prompt.strip()
     if not prompt:
@@ -491,7 +509,7 @@ async def ai_entity_content(request: Request, payload: EntityContentRequest) -> 
     if len(prompt) > 5000:
         raise HTTPException(status_code=400, detail="Prompt too long.")
     try:
-        check_rate_limit(get_request_identity(request))
+        check_rate_limit(user_id)
         content = await generate_entity_text(prompt, max_tokens=payload.max_tokens)
         return EntityContentResponse(content=content)
     except RateLimitExceeded as exc:

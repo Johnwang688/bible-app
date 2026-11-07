@@ -9,6 +9,13 @@ from app.schemas.bible import ChapterOut, VerseOut
 from app.services import ai_service
 
 
+@pytest.fixture(autouse=True)
+def signed_in_reader():
+    app_main.app.dependency_overrides[app_main.require_ai_user] = lambda: "user-1"
+    yield
+    app_main.app.dependency_overrides.pop(app_main.require_ai_user, None)
+
+
 def make_verse(book: str, chapter: int, verse: int, text: str) -> VerseOut:
     return VerseOut(
         id=chapter * 100 + verse,
