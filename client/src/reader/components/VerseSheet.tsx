@@ -16,6 +16,8 @@ import type { VerseRef } from '../../storage/keys';
 import { formatReference, shareText, type StudyItemsApi } from '../../study';
 import { HIGHLIGHT_IDS, HIGHLIGHTS, type HighlightId } from '../../theme/highlights';
 import { useTheme } from '../../theme/ThemeProvider';
+import { ChapterSummaryView } from '../../summary/ChapterSummaryView';
+import type { ReaderTarget } from '../target';
 import { bookName } from '../books';
 import { clearNoteDraft, keepNoteDraft, noteDraftOf } from '../noteDrafts';
 import { isChineseTranslation, TRANSLATIONS, type TranslationId } from '../translations';
@@ -41,6 +43,7 @@ type SheetView =
   | { name: 'actions' }
   | { name: 'note'; verse: number }
   | { name: 'commentary'; verse: number }
+  | { name: 'summary'; verse: number }
   | { name: 'words'; verse: number }
   | { name: 'word'; verse: number; row: WordRow };
 
@@ -58,6 +61,7 @@ export interface VerseSheetProps {
   onHeight?(height: number): void;
   /** Take the reader to a reference from a word card (the screen closes the sheet). */
   onGoTo(bookNumber: number, chapter: number, verse: number): void;
+  onOpenRange(target: ReaderTarget): void;
   /**
    * A modal sheet (the book picker, version picker or reading settings) is open above this one. The topmost
    * sheet handles Escape and the back button, so this sheet ignores them while covered.
@@ -65,7 +69,7 @@ export interface VerseSheetProps {
   covered?: boolean;
 }
 
-export function VerseSheet({ book, chapter, translation, start, end, study, onClose, onHeight, onGoTo, covered = false }: VerseSheetProps) {
+export function VerseSheet({ book, chapter, translation, start, end, study, onClose, onHeight, onGoTo, onOpenRange, covered = false }: VerseSheetProps) {
   const t = useT();
   const [view, setView] = useState<SheetView>({ name: 'actions' });
   // Coming back from a word card: where the list was scrolled to, and the row that was open.
@@ -96,6 +100,9 @@ export function VerseSheet({ book, chapter, translation, start, end, study, onCl
       case 'word':
         setRestore({ y: listScrollY.current, key: view.row.key });
         setView({ name: 'words', verse: view.verse });
+        return;
+      case 'summary':
+        setView({ name: 'commentary', verse: view.verse });
         return;
       default:
         setView({ name: 'actions' });
@@ -201,8 +208,12 @@ export function VerseSheet({ book, chapter, translation, start, end, study, onCl
     }
     case 'commentary':
       content = (
-        <CommentaryView book={book} chapter={chapter} translation={translation} verse={view.verse} onBack={back} onClose={onClose} />
+        <CommentaryView book={book} chapter={chapter} translation={translation} verse={view.verse} onBack={back} onClose={onClose}
+          onSummary={() => setView({ name: 'summary', verse: view.verse })} />
       );
+      break;
+    case 'summary':
+      content = <ChapterSummaryView book={book} chapter={chapter.chapter} translation={translation} onBack={back} onClose={onClose} onOpenRange={onOpenRange} />;
       break;
     case 'words': {
       const verse = view.verse;

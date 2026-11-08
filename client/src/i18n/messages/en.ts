@@ -1,4 +1,5 @@
 import { readAloudEn } from './readAloud';
+import { summaryEn } from './summary';
 // The English message catalogue. Every UI string goes through a key here (R-0 string ratchet).
 // Keys are flat and dotted. Placeholders are {name}.
 import { feedbackEn } from './feedback';
@@ -513,6 +514,7 @@ export const en = {
   'commentary.credit': 'Matthew Henry’s Concise Commentary (public domain)',
   'commentary.readAll': 'Read all',
   'commentary.error': 'Couldn’t load the commentary.',
+  ...summaryEn,
   // R-5 part 2: search, Study → Explore, the people, places and themes pages (design/proposed/r5-*.html).
   'reader.search': 'Search',
   'search.back': 'Back to the Bible',
