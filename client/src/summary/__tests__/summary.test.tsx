@@ -127,7 +127,7 @@ it('uses Chinese chrome, badge, punctuation and whole-sentence reference labels'
   await setup('ready', { chinese: true });
   expect(screen.getByText('章节概要')).toBeTruthy();
   expect(screen.getByText('英文')).toBeTruthy();
-  expect(screen.getByTestId('summary-footnote')).toHaveTextContent('AI 撰写的章节概要。 已对照圣经经文核查，仍可能有错误。');
+  expect(screen.getByTestId('summary-footnote')).toHaveTextContent('AI 撰写的章节概要。已对照圣经经文核查，仍可能有错误。');
   expect(screen.getByTestId('summary-reference-0').props.accessibilityLabel).toBe('阅读约翰福音 3:16–18，从第 16 节开始');
 });
 

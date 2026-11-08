@@ -3,7 +3,7 @@ import { ActivityIndicator, Platform, Text, View } from 'react-native';
 
 import type { BookInfo } from '../api/schemas';
 import { scriptureFace, uiFace } from '../fonts/fonts';
-import { useT } from '../i18n/I18nProvider';
+import { useI18n, useT } from '../i18n/I18nProvider';
 import { bookName, useBooks } from '../reader/books';
 import { announce, programmaticFocus, useFocusOnMount } from '../reader/components/a11y';
 import { EnglishBadge, SheetFrame } from '../reader/components/sheetParts';
@@ -23,6 +23,7 @@ export function ChapterSummaryView({ book, chapter, translation, backLabel, onBa
 }) {
   const theme = useTheme();
   const t = useT();
+  const { locale } = useI18n();
   const heading = useFocusOnMount();
   const query = useChapterSummary(book, chapter);
   const books = useBooks();
@@ -57,7 +58,7 @@ export function ChapterSummaryView({ book, chapter, translation, backLabel, onBa
           const ref = point.target && targetBook ? formatReference(bookName(targetBook, translation), point.target.chapter,
             Array.from({ length: point.target.end - point.target.start + 1 }, (_, n) => point.target!.start + n)) : null;
           return <View key={i} testID={`summary-point-${i}`} style={{ gap: 5, paddingLeft: 12 }}>
-            <Text {...english} style={{ color: theme.colors.text, fontFamily: scriptureFace(theme.type.scripture), fontSize: 16, lineHeight: 26 }}>• {point.text}</Text>
+            <Text {...english} style={{ color: theme.colors.text, fontFamily: scriptureFace(theme.type.scripture), fontSize: 16, lineHeight: 26 }}><Text accessible={false} aria-hidden>• </Text>{point.text}</Text>
             {ref && point.target ? <SummaryButton testID={`summary-reference-${i}`} link label={ref}
               accessibilityLabel={t('summary.readReference', { ref, verse: point.target.start })}
               onPress={() => { announce(t('summary.opened', { ref })); onOpenRange(point.target!); }} /> : null}
@@ -65,7 +66,7 @@ export function ChapterSummaryView({ book, chapter, translation, backLabel, onBa
         })}
       </View> : null}
       <Text testID="summary-footnote" style={{ marginTop: 6, paddingTop: 14, borderTopWidth: 1, borderTopColor: theme.colors.muted, color: theme.colors.muted, fontFamily: regular, fontSize: 13, lineHeight: 21 }}>
-        <Text style={{ color: theme.colors.text, fontFamily: bold }}>{t('summary.ai')}</Text>{' '}{t('summary.disclaimer')}
+        <Text style={{ color: theme.colors.text, fontFamily: bold }}>{t('summary.ai')}</Text>{locale === 'zh-Hans' ? '' : ' '}{t('summary.disclaimer')}
       </Text>
     </> : <View testID={`summary-${state}`} style={{ gap: 12, paddingVertical: 8, alignItems: 'flex-start' }}>
       {state === 'loading' ? <ActivityIndicator accessible={false} color={theme.colors.muted} /> : null}

@@ -4,6 +4,7 @@ import { Platform, Pressable, Text, type View } from 'react-native';
 import { uiFace } from '../fonts/fonts';
 import { Icon, type IconName } from '../reader/components/icons';
 import { buttonStyle } from '../reader/components/ui';
+import { ctaStyle } from '../readAloud/components/parts';
 import { useTheme } from '../theme/ThemeProvider';
 
 /** Commentary's pill CTA, with the app's outset text-colour focus ring at every width. */
@@ -17,8 +18,8 @@ export function SummaryButton({ testID, label, accessibilityLabel, onPress, icon
   const plain = !!icon || link;
   return <Pressable ref={nodeRef} testID={testID} accessibilityRole={link ? 'link' : 'button'} accessibilityLabel={accessibilityLabel ?? label}
     onPress={onPress} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
-    style={({ pressed }) => [plain ? buttonStyle(theme) : { backgroundColor: theme.colors.cta },
-      { minHeight: 44, minWidth: 44, paddingHorizontal: icon ? 0 : 20, borderRadius: 999,
+    style={({ pressed }) => [plain ? buttonStyle(theme) : ctaStyle(theme),
+      { minHeight: 44, minWidth: 44, paddingHorizontal: icon ? 0 : 20, ...(plain ? { borderRadius: 999 } : null),
         alignItems: 'center', justifyContent: 'center', alignSelf: plain ? 'flex-start' : undefined, opacity: pressed ? 0.7 : 1 },
       !icon && { margin: 5 },
       icon && { width: 44, height: 44 },

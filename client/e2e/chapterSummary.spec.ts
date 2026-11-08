@@ -100,7 +100,7 @@ test('Chinese chrome and English badge keep the footnote punctuation and sentenc
   await tools(page);
   await expect(page.getByTestId('summary-chapter')).toHaveText('约翰福音 3');
   await expect(page.getByTestId('summary-view').getByText('英文', { exact: true })).toBeVisible();
-  await expect(page.getByTestId('summary-footnote')).toHaveText('AI 撰写的章节概要。 已对照圣经经文核查，仍可能有错误。');
+  await expect(page.getByTestId('summary-footnote')).toHaveText('AI 撰写的章节概要。已对照圣经经文核查，仍可能有错误。');
   await expect(page.getByTestId('summary-reference-0')).toHaveAccessibleName('阅读约翰福音 3:16–18，从第 16 节开始');
   await expect(page.getByTestId('summary-content-title')).toHaveAttribute('lang', 'en');
 });
