@@ -441,8 +441,8 @@
       "table": "commentaries"
     },
     "commentary_entity_mentions.jsonl": {
-      "rows": 9108,
-      "sha256": "f116090d64aa2c351ad3889dc2f28a8cc112b50e41119fc7765c8e75799951f2",
+      "rows": 8141,
+      "sha256": "3802d934da47633c5cc16e724d24c584b30b7087155aa059ae40ec56d29102e5",
       "table": "commentary_entity_mentions"
     },
     "commentary_sources.jsonl": {
@@ -466,8 +466,8 @@
       "table": "quiz_question_bank"
     },
     "summary_entities.jsonl": {
-      "rows": 4082,
-      "sha256": "6b764c95083ccfccb9a45ec29ff757efcacd4f6020e644cb74891f57a23c4fdc",
+      "rows": 3375,
+      "sha256": "ddabb101c739997536a763cb99ecf96eab1e6eb8a1715dba34799ec1cd047e59",
       "table": "summary_entities"
     },
     "translations.jsonl": {
@@ -506,12 +506,12 @@
     "books": 66,
     "bsb_words": 443625,
     "commentaries": 25012,
-    "commentary_entity_mentions": 9108,
+    "commentary_entity_mentions": 8141,
     "commentary_sources": 4,
     "cross_references": 383331,
     "lexicon": 18085,
     "quiz_question_bank": 22715,
-    "summary_entities": 4082,
+    "summary_entities": 3375,
     "translations": 6,
     "verses": 155491
   },
