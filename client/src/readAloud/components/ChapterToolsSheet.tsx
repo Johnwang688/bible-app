@@ -33,7 +33,7 @@ export function ChapterToolsSheet({ title, translation, fromVerse, ready, onStar
     if (!summary && returning.current) { returning.current = false; focusSoon(row.current); }
   }, [summary, focusSoon]);
   return summary ? <SheetModal testID="chapter-tools-sheet" onClose={onClose} onRequestClose={back}>
-    <ChapterSummaryView book={book} chapter={chapter} translation={readerTranslation} onBack={back} onClose={onClose} onOpenRange={onOpenRange} />
+    <ChapterSummaryView book={book} chapter={chapter} translation={readerTranslation} backLabel={t('summary.backToTools')} onBack={back} onClose={onClose} onOpenRange={onOpenRange} />
   </SheetModal> : <SheetModal testID="chapter-tools-sheet" onClose={onClose} onRequestClose={back}
     header={<SheetHeading title={title} caps={t('readAloud.tools')} onClose={onClose} />}>
     <Pressable ref={row} testID="chapter-summary-open" accessibilityRole="button" onPress={() => setSummary(true)}

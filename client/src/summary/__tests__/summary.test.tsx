@@ -66,7 +66,7 @@ async function setup(state: State, opts: { entry?: 'tools' | 'fallback'; chinese
     <ApiProvider client={api} queryClient={queryClient}>
       <I18nProvider storage={storage} locales={[opts.chinese ? ZH : EN]}>
         <ThemeProvider storage={storage} systemScheme="light">
-          {opts.entry ? <ReaderScreen storage={storage} /> : <ChapterSummaryView book={BOOKS[42]!} chapter={3} translation={opts.chinese ? 'CUV-SIMP' : 'WEB'} onBack={onBack} onClose={onClose} onOpenRange={onOpenRange} />}
+          {opts.entry ? <ReaderScreen storage={storage} /> : <ChapterSummaryView book={BOOKS[42]!} chapter={3} translation={opts.chinese ? 'CUV-SIMP' : 'WEB'} backLabel="Back to chapter tools" onBack={onBack} onClose={onClose} onOpenRange={onOpenRange} />}
         </ThemeProvider>
       </I18nProvider>
     </ApiProvider>
@@ -136,6 +136,8 @@ describe.each(['tools', 'fallback'] as const)('%s entry', (entry) => {
     await setup(state, { entry });
     const sheetID = entry === 'tools' ? 'chapter-tools-sheet' : 'verse-sheet';
     expect(screen.getAllByTestId(sheetID)).toHaveLength(1);
+    expect(screen.getByTestId('summary-back').props.accessibilityLabel)
+      .toBe(entry === 'tools' ? 'Back to chapter tools' : 'Back to the commentary');
     await fireEvent.press(screen.getByTestId('summary-back'));
     expect(screen.queryByTestId('summary-view')).toBeNull();
     const parent = entry === 'tools' ? 'chapter-summary-open' : 'commentary-summary';

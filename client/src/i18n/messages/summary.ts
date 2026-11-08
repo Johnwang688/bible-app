@@ -12,6 +12,8 @@ export const summaryEn = {
   'summary.empty': 'No summary is available for this chapter yet.',
   'summary.readReference': 'Read {ref}, starting at verse {verse}',
   'summary.opened': 'Opened {ref} in the reader.',
+  'summary.backToTools': 'Back to chapter tools',
+  'summary.backToCommentary': 'Back to the commentary',
 } as const;
 
 export const summaryZhHans = {
@@ -28,4 +30,6 @@ export const summaryZhHans = {
   'summary.empty': '本章暂时还没有概要。',
   'summary.readReference': '阅读{ref}，从第 {verse} 节开始',
   'summary.opened': '已在圣经阅读器中打开{ref}。',
+  'summary.backToTools': '返回章节工具',
+  'summary.backToCommentary': '返回注释',
 } as const;

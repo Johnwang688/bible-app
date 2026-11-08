@@ -15,8 +15,10 @@ import { parseSummary } from './parseSummary';
 import { SummaryButton } from './SummaryButton';
 import { useChapterSummary } from './useChapterSummary';
 
-export function ChapterSummaryView({ book, chapter, translation, onBack, onClose, onOpenRange }: {
+export function ChapterSummaryView({ book, chapter, translation, backLabel, onBack, onClose, onOpenRange }: {
   book: BookInfo; chapter: number; translation: TranslationId;
+  /** Where Back goes, for screen readers: the tools list or the commentary. */
+  backLabel: string;
   onBack(): void; onClose(): void; onOpenRange(target: ReaderTarget): void;
 }) {
   const theme = useTheme();
@@ -36,7 +38,7 @@ export function ChapterSummaryView({ book, chapter, translation, onBack, onClose
   const bold = uiFace(theme.type.ui, '700');
   const english = Platform.OS === 'web' ? { lang: 'en' } : {};
   const header = <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-    <SummaryButton testID="summary-back" label={t('note.back')} icon="chevronLeft" onPress={onBack} />
+    <SummaryButton testID="summary-back" label={backLabel} icon="chevronLeft" onPress={onBack} />
     <View style={{ flex: 1, minWidth: 0, gap: 1 }}>
       <Text ref={heading} {...programmaticFocus} accessibilityRole="header" style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.head, '700'), fontSize: 19 }}>{t('summary.title')}</Text>
       <Text testID="summary-chapter" style={{ color: theme.colors.muted, fontFamily: regular, fontSize: 13, flexShrink: 1 }}>{t('reader.chapterTitle', { book: bookName(book, translation), chapter })}</Text>

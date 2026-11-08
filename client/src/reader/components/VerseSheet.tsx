@@ -213,7 +213,7 @@ export function VerseSheet({ book, chapter, translation, start, end, study, onCl
       );
       break;
     case 'summary':
-      content = <ChapterSummaryView book={book} chapter={chapter.chapter} translation={translation} onBack={back} onClose={onClose} onOpenRange={onOpenRange} />;
+      content = <ChapterSummaryView book={book} chapter={chapter.chapter} translation={translation} backLabel={t('summary.backToCommentary')} onBack={back} onClose={onClose} onOpenRange={onOpenRange} />;
       break;
     case 'words': {
       const verse = view.verse;
