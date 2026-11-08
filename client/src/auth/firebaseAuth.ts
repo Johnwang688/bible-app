@@ -1,9 +1,11 @@
 // The AuthBackend over Firebase Auth's modular SDK (R-6b). Every rejection is an AuthError (through
-// mapFirebaseAuthError). Emails are trimmed; passwords and tokens are never logged. Google and Apple
-// join later as new SignInMethod kinds in `credentialFor` and `signIn`.
+// mapFirebaseAuthError). Emails are trimmed; passwords and tokens are never logged. Google (GOOGLE, web only)
+// goes through Google's window (googlePopup.ts), which is injectable for tests; Apple joins later the same way.
 import {
   createUserWithEmailAndPassword,
+  deleteUser,
   EmailAuthProvider,
+  getAdditionalUserInfo,
   getIdToken as firebaseGetIdToken,
   onAuthStateChanged as firebaseOnAuthStateChanged,
   onIdTokenChanged as firebaseOnIdTokenChanged,
@@ -20,15 +22,36 @@ import {
 } from 'firebase/auth';
 
 import { firebaseAuthCode, mapFirebaseAuthError } from './firebaseErrors';
-import { AuthError, type AuthBackend, type AuthUser, type EmailActionOptions, type SignInMethod } from './types';
+import { googlePopupFlow, type GoogleFlow } from './googlePopup';
+import { AuthError, type AuthBackend, type AuthProviderKind, type AuthUser, type EmailActionOptions, type SignInMethod } from './types';
 
 /** Deliberately lenient: something@something, no spaces. The server does the real check. */
 const LOOKS_LIKE_EMAIL = /^[^\s@]+@[^\s@]+$/;
 
+const PROVIDER_KINDS: Record<string, AuthProviderKind> = { password: 'password', 'google.com': 'google' };
+
+function providersOf(user: User): AuthProviderKind[] {
+  const kinds = new Set<AuthProviderKind>();
+  for (const info of user.providerData ?? []) {
+    const kind = PROVIDER_KINDS[info?.providerId ?? ''];
+    if (kind) kinds.add(kind);
+  }
+  return [...kinds].sort();
+}
+
 function toAuthUser(user: User): AuthUser {
+  const providers = providersOf(user);
   const created = Date.parse(user.metadata?.creationTime ?? '');
-  // emailVerified is always a boolean here (anything but true is unconfirmed): this backend verifies emails.
-  return { uid: user.uid, email: user.email, emailVerified: user.emailVerified === true, ...(Number.isFinite(created) ? { createdAt: created } : {}) };
+  // emailVerified is always a boolean here (anything but true is unconfirmed): this backend verifies emails. A Google
+  // sign-in of a Gmail address comes back true (Firebase marks a trusted provider's email verified, and its new ID
+  // token carries the claim).
+  return {
+    uid: user.uid,
+    email: user.email,
+    ...(providers.length > 0 ? { providers } : {}),
+    emailVerified: user.emailVerified === true,
+    ...(Number.isFinite(created) ? { createdAt: created } : {}),
+  };
 }
 
 /** Firebase's settings for an email action: the continue URL, and the email's language. */
@@ -38,10 +61,15 @@ function actionSettings(auth: Auth, options: EmailActionOptions) {
 }
 
 function credentialFor(method: SignInMethod): AuthCredential {
-  switch (method.kind) {
-    case 'password':
-      return EmailAuthProvider.credential(method.email.trim(), method.password);
-  }
+  return EmailAuthProvider.credential(method.email.trim(), method.password);
+}
+
+/** How many times `existingOnly` tries to remove an account Google's window just created. */
+const NEW_ACCOUNT_REMOVE_TRIES = 3;
+
+/** The browser says it is offline: Google's window would only open onto an error, so it is not opened. */
+function offline(): boolean {
+  return typeof navigator !== 'undefined' && (navigator as { onLine?: boolean }).onLine === false;
 }
 
 /** Runs `fn`, turning any rejection into an AuthError. */
@@ -53,7 +81,8 @@ async function mapped<T>(fn: () => Promise<T>): Promise<T> {
   }
 }
 
-export function createFirebaseAuthBackend(auth: Auth): AuthBackend {
+/** `google`: Google's window (default: the popup on the web; refused on iOS and Android). */
+export function createFirebaseAuthBackend(auth: Auth, google: GoogleFlow = googlePopupFlow): AuthBackend {
   return {
     currentUser() {
       return auth.currentUser ? toAuthUser(auth.currentUser) : null;
@@ -112,6 +141,34 @@ export function createFirebaseAuthBackend(auth: Auth): AuthBackend {
       });
     },
 
+    signInWithGoogle(options) {
+      return mapped(async () => {
+        if (offline()) throw new AuthError('network', 'offline: Google sign-in not started');
+        // Nothing may wait before this call: the window must open from the press itself (popup blockers).
+        const cred = await google.signIn(auth, options?.loginHint);
+        if (options?.existingOnly && getAdditionalUserInfo(cred)?.isNewUser) {
+          // Firebase has just created an account for a Google account that had none. This sign-in exists only to
+          // prove an existing account (the Under 13 offer), so undo it: delete that empty account, then sign out.
+          // A few tries (security review G-4): a dropped connection right after the window must not leave it behind.
+          for (let attempt = 1; attempt <= NEW_ACCOUNT_REMOVE_TRIES; attempt++) {
+            try {
+              await deleteUser(cred.user);
+              break;
+            } catch (e) {
+              console.warn(`[account] removing the account a Google re-auth created failed (try ${attempt} of ${NEW_ACCOUNT_REMOVE_TRIES})`, firebaseAuthCode(e));
+            }
+          }
+          try {
+            await firebaseSignOut(auth);
+          } catch {
+            // the caller signs out again in every outcome
+          }
+          throw new AuthError('wrong-credentials', 'that Google account has no account here');
+        }
+        return toAuthUser(cred.user);
+      });
+    },
+
     signUp(email, password) {
       return mapped(async () => {
         const cred = await createUserWithEmailAndPassword(auth, email.trim(), password);
@@ -142,6 +199,17 @@ export function createFirebaseAuthBackend(auth: Auth): AuthBackend {
         const user = auth.currentUser;
         if (!user) throw new AuthError('unknown', 'reauthenticate: nobody is signed in');
         await reauthenticateWithCredential(user, credentialFor(method));
+      });
+    },
+
+    reauthenticateWithGoogle(loginHint) {
+      return mapped(async () => {
+        const user = auth.currentUser;
+        if (!user) throw new AuthError('unknown', 'reauthenticate: nobody is signed in');
+        if (offline()) throw new AuthError('network', 'offline: Google re-auth not started');
+        const cred = await google.reauthenticate(user, loginHint);
+        // Firebase already refuses another Google account (auth/user-mismatch); this checks it again.
+        if (cred.user.uid !== user.uid) throw new AuthError('wrong-credentials', 'Google proved another account');
       });
     },
 

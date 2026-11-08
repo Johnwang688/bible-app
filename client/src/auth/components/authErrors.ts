@@ -2,8 +2,8 @@
 import type { MessageKey } from '../../i18n/translate';
 import { AuthError } from '../types';
 
-/** Where a message is drawn. */
-export type ErrorPlace = 'email' | 'password' | 'form';
+/** Where a message is drawn. `notice`: a quiet, non-error line (Google's window closed: nothing failed). */
+export type ErrorPlace = 'email' | 'password' | 'form' | 'notice';
 
 export interface ShownError {
   key: MessageKey;
@@ -38,8 +38,41 @@ export function authError(e: unknown): ShownError {
       return { key: 'auth.error.tooManyRequests', place: 'form' };
     case 'network':
       return { key: 'auth.error.network', place: 'form' };
+    case 'cancelled':
+      return { key: 'account.google.cancelled', place: 'notice' };
+    case 'popup-blocked':
+      return { key: 'account.google.blocked', place: 'form' };
+    case 'account-exists':
+      return { key: 'account.google.exists', place: 'form' };
     default:
       return { key: 'auth.error.unknown', place: 'form' };
+  }
+}
+
+/** The email an 'account-exists' failure carries (Google's account email), to fill in the email form. */
+export function existingEmail(e: unknown): string | undefined {
+  const email = typeof e === 'object' && e !== null ? (e as { email?: unknown }).email : undefined;
+  return typeof email === 'string' && email !== '' ? email : undefined;
+}
+
+/**
+ * A failed delete confirmed with Google: another Google account picked ('wrong-credentials': Firebase's
+ * user-mismatch, or the offer's existingOnly refusal), the window closed or the wait cancelled, the window blocked,
+ * no connection, or anything else. Nothing was deleted in any of these but the last two may be ambiguous (as for
+ * the password delete). `deleteMismatch` takes `{email}`.
+ */
+export function googleDeleteError(e: unknown): { key: MessageKey; quiet: boolean } {
+  switch (kindOf(e)) {
+    case 'wrong-credentials':
+      return { key: 'account.google.deleteMismatch', quiet: false };
+    case 'cancelled':
+      return { key: 'account.google.deleteCancelled', quiet: true };
+    case 'popup-blocked':
+      return { key: 'account.google.deleteBlocked', quiet: false };
+    case 'network':
+      return { key: 'delete.error.network', quiet: false };
+    default:
+      return { key: 'delete.error.server', quiet: false };
   }
 }
 

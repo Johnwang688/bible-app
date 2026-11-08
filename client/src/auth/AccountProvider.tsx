@@ -58,6 +58,17 @@
 // it instead of signing out underneath it, and the view keeps showing "signed out" while the re-auth is signed
 // in (the flow's own step, not a sign-in the person made). It always ends signed out.
 //
+// Google (GOOGLE, board 11-03 row 7; web only, behind EXPO_PUBLIC_GOOGLE_SIGN_IN): a Google sign-in is
+// `signIn({ kind: 'google' })`, the same path as an email sign-in: the gate check before (nothing reaches Google while
+// sign-in is off), and afterSignIn, the offer and the closing dropped after, as for any sign-in. A first Google sign-in
+// creates the account (no separate sign-up). An account with Google and no password proves itself for a delete through
+// Google's window instead of a password (`reauthKindFor`); its closing and offer carry `method: 'google'`, and the
+// offered delete's re-auth then uses Google's window with `existingOnly` (it never creates an account, and must land
+// on the offered uid, like the password re-auth). While Google's window is open the person can give up (`signal`):
+// the delete rejects 'cancelled' at once, before the engine stops or anything is sent, and stops holding the provider
+// (security review G-2); the window's late result is ignored. The offered delete does not start while a sign-in waits
+// on the backend (G-3).
+//
 // Email verification (11-03, prototype design/proposed/r6b-verify.html): with a backend that verifies emails (Firebase),
 // sync runs only for a user whose email is confirmed. `target()` wants no engine while `emailVerified` is anything but
 // true, so the Firestore rules (which refuse unverified tokens) never see a request from an unconfirmed account. Sign-up
@@ -79,6 +90,14 @@
 // true. A confirmation seen outside a check (another tab) starts one. An account already confirmed when first
 // reported (a restored session, a sign-in) is not held.
 //
+// Google meets email verification: Firebase marks a Gmail address that signs in with Google verified (a trusted
+// provider), and the popup's new ID token already carries email_verified: true. So a Google sign-in reports the user
+// confirmed and never sees "Confirm your email". Sync follows the rules above unchanged: confirmed when first reported,
+// it is not held; landing on an account this run saw unconfirmed (the same uid), it is held by `tokenStale` until a
+// forced refresh succeeds (googleVerify.unit.test.tsx). A Google sign-in that came back unconfirmed would be held like
+// any other (fail closed). Not here yet: the backend "seal" that ends a squatter's older sessions (r6b-verify.html),
+// which must land before the flag is turned on.
+//
 // The injected dependencies are read once, when the provider mounts; the defaults (Firebase, device
 // storage, the Firestore remote, the account API) are created on first use, never at import.
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
@@ -96,13 +115,17 @@ import { syncStateKey } from '../sync/state';
 import { SIGN_IN_OFF, type SignInGate } from './signInGate';
 import {
   AuthError,
+  reauthKindFor,
   type AccountNotice,
   type AccountState,
   type AccountStatus,
   type AuthBackend,
+  type AuthProviderKind,
+  type AccountSignIn,
   type AuthUser,
+  type DeleteOptions,
+  type DeleteProof,
   type EmailActionOptions,
-  type SignInMethod,
   type SignUpResult,
   type VerifyState,
 } from './types';
@@ -338,11 +361,81 @@ function isAllowed(gate: SignInGate): boolean {
 /** How many times the offered delete tries to sign its re-auth out before leaving it to enforceGate. */
 const OFFER_SIGN_OUT_TRIES = 3;
 
+function sameProviders(a: AuthUser, b: AuthUser): boolean {
+  return (a.providers ?? []).join(',') === (b.providers ?? []).join(',');
+}
+
 function sameUser(a: AuthUser | null, b: AuthUser | null): boolean {
   return (
     a === b ||
-    (a !== null && b !== null && a.uid === b.uid && a.email === b.email && a.emailVerified === b.emailVerified && a.createdAt === b.createdAt)
+    (a !== null &&
+      b !== null &&
+      a.uid === b.uid &&
+      a.email === b.email &&
+      sameProviders(a, b) &&
+      a.emailVerified === b.emailVerified &&
+      a.createdAt === b.createdAt)
   );
+}
+
+/** The sign-in that proves `email`'s account with `proof`. */
+function proofMethod(proof: DeleteProof, email: string, existingOnly = false): AccountSignIn {
+  if (typeof proof === 'string') return { kind: 'password', email, password: proof };
+  return { kind: 'google', ...(email ? { loginHint: email } : {}), ...(existingOnly ? { existingOnly: true } : {}) };
+}
+
+function proofKind(proof: DeleteProof): AuthProviderKind {
+  return typeof proof === 'string' ? 'password' : 'google';
+}
+
+/**
+ * `p`, or a 'cancelled' rejection as soon as `signal` aborts (security review G-2: giving up must not wait for Google's
+ * window). The late result of `p` is ignored.
+ */
+function abortable<T>(p: Promise<T>, signal: DeleteOptions['signal'], onAbandoned?: (late: Promise<T>) => void): Promise<T> {
+  if (!signal || typeof signal.addEventListener !== 'function') return p;
+  const cancelled = () => new AuthError('cancelled', 'the delete was cancelled');
+  if (signal.aborted) {
+    p.catch(() => undefined);
+    onAbandoned?.(p);
+    return Promise.reject(cancelled());
+  }
+  return new Promise<T>((resolve, reject) => {
+    const onAbort = () => {
+      p.catch(() => undefined);
+      onAbandoned?.(p);
+      reject(cancelled());
+    };
+    signal.addEventListener!('abort', onAbort);
+    const off = () => signal.removeEventListener?.('abort', onAbort);
+    p.then(
+      (v) => {
+        off();
+        resolve(v);
+      },
+      (e: unknown) => {
+        off();
+        reject(e);
+      },
+    );
+  });
+}
+
+/** Signs in through the backend: a password, or Google's window (refused by a backend without it). */
+function backendSignIn(auth: AuthBackend, method: AccountSignIn): Promise<AuthUser> {
+  if (method.kind === 'password') return auth.signIn(method);
+  if (!auth.signInWithGoogle) return Promise.reject(new AuthError('unknown', 'Google sign-in is not available'));
+  return auth.signInWithGoogle({
+    ...(method.loginHint !== undefined ? { loginHint: method.loginHint } : {}),
+    ...(method.existingOnly ? { existingOnly: true } : {}),
+  });
+}
+
+/** Proves the signed-in user again: a password, or Google's window. */
+function backendReauth(auth: AuthBackend, method: AccountSignIn): Promise<void> {
+  if (method.kind === 'password') return auth.reauthenticate(method);
+  if (!auth.reauthenticateWithGoogle) return Promise.reject(new AuthError('unknown', 'Google sign-in is not available'));
+  return auth.reauthenticateWithGoogle(method.loginHint);
 }
 
 /** A copy of `u` with only its own fields (undefined ones left out). */
@@ -350,6 +443,7 @@ function copyUser(u: AuthUser): AuthUser {
   return {
     uid: u.uid,
     email: u.email,
+    ...(u.providers ? { providers: [...u.providers] } : {}),
     ...(u.emailVerified !== undefined ? { emailVerified: u.emailVerified } : {}),
     ...(u.createdAt !== undefined ? { createdAt: u.createdAt } : {}),
   };
@@ -391,6 +485,22 @@ function createController(deps: Deps): Controller {
   let deleting = false;
   /** `deleteOfferedAccount` is running: its re-auth's user is not shown, and enforceGate leaves it alone. */
   let offerRun = false;
+  /**
+   * Sign-ins and sign-ups waiting on the backend (Google's window can stay open for minutes, with the sheet closed).
+   * The offered delete refuses to start meanwhile: the sign-in would end the offer under it, and the delete would sign
+   * the new session out (security review G-3).
+   */
+  let signingIn = 0;
+  /** Counts every sign-in and sign-up the person starts (the abandoned re-auth below compares against it). */
+  let signInGen = 0;
+  /**
+   * An offered delete given up while Google's window was open (security review delta D-1): until that window's late
+   * result settles, whatever it signs in is the abandoned re-auth's, not a sign-in the person made. While it is pending
+   * and no sign-in has started since (`gen`), nobody is shown signed in and no engine starts; when it settles, its
+   * account is signed out (whether or not the gate reopened meanwhile).
+   */
+  let abandoned: { gen: number } | null = null;
+  const abandonedNow = () => abandoned !== null && abandoned.gen === signInGen;
   /**
    * An account whose delete may have reached the server (see the header): sync stays off for it until
    * a probe settles it. `hadData`: whether the remote held anything before the request (null: unknown).
@@ -451,7 +561,7 @@ function createController(deps: Deps): Controller {
 
   /** Stores the closing for `who` (synchronously: a close of the app right after must not lose it). Never throws. */
   function setClosing(who: Under13Closing): void {
-    closing = { uid: who.uid, email: who.email };
+    closing = { uid: who.uid, email: who.email, ...(who.method === 'google' ? { method: 'google' as const } : {}) };
     try {
       recordUnder13Closing(deps.storage(), closing);
       closingUnstored = false;
@@ -538,13 +648,13 @@ function createController(deps: Deps): Controller {
 
   const emitView = () => {
     // While the offered delete runs, its re-auth is signed in only for the delete: the person stays signed out.
-    const shown = offerRun ? null : user;
+    const shown = offerRun || abandonedNow() ? null : user;
     const offer = offerNow();
     listeners?.onView({
       status: known ? (shown ? 'signedIn' : 'signedOut') : 'loading',
       user: shown,
       signInAllowed: gateAllowed(),
-      under13Offer: offer ? { email: offer.email } : null,
+      under13Offer: offer ? (offer.method === 'google' ? { email: offer.email, method: 'google' } : { email: offer.email }) : null,
       verify: gateAllowed() ? verifyStateFor(shown) : null,
       notice,
     });
@@ -554,6 +664,7 @@ function createController(deps: Deps): Controller {
   /** The user sync should run for right now, or null. */
   function target(): AuthUser | null {
     if (!listeners || holds > 0 || !user || user.uid === blockedUid || user.uid === unconfirmed?.uid) return null;
+    if (abandonedNow()) return null; // the abandoned re-auth's late sign-in (D-1) never syncs
     if (!gateAllowed()) return null;
     // An unconfirmed email: nothing syncs (the rules would refuse it) until checkVerified sees it confirmed.
     if (needsVerify(user)) return null;
@@ -687,10 +798,12 @@ function createController(deps: Deps): Controller {
    * The gate signed `who` out: offer to delete the account (if it has an email to re-auth with, and is not an
    * account already deleted on this device). Never throws.
    */
-  function offerDelete(who: AuthUser): void {
+  function offerDelete(who: AuthUser | Under13Closing): void {
     if (!who.email || deletedUids.has(who.uid)) return;
+    // A closing carries its method; a user's comes from its sign-in methods.
+    const method = 'method' in who ? who.method : 'providers' in who ? reauthKindFor(who) : undefined;
     try {
-      recordUnder13Offer(deps.storage(), { uid: who.uid, email: who.email });
+      recordUnder13Offer(deps.storage(), { uid: who.uid, email: who.email, ...(method === 'google' ? { method } : {}) });
     } catch (e) {
       console.warn('[account] recording the Under 13 offer failed', e);
     }
@@ -727,7 +840,7 @@ function createController(deps: Deps): Controller {
     // Open → closed with someone signed in (not the offered delete's own re-auth): Under 13 picked while signed in.
     // Stored now, in the same turn as the gate change, before the sign-out waits for anything.
     if (gateWasOpen && !open && user && !offerRun) {
-      if (user.email) setClosing({ uid: user.uid, email: user.email });
+      if (user.email) setClosing({ uid: user.uid, email: user.email, ...(reauthKindFor(user) === 'google' ? { method: 'google' as const } : {}) });
       else dropClosing(); // no email: nothing could re-auth for the offer
     }
     if (open) dropClosing();
@@ -941,14 +1054,20 @@ function createController(deps: Deps): Controller {
   }
 
   const actions: Actions = {
-    async signIn(method: SignInMethod) {
+    async signIn(method: AccountSignIn) {
       requireAllowed();
       requireNoOfferRun();
       const auth = requireAuth();
+      // An ordinary Google sign-in may create the account; only the offered delete's re-auth uses existingOnly.
+      const how: AccountSignIn = method.kind === 'google' ? { kind: 'google' } : method;
+      signingIn++;
+      signInGen++;
       try {
-        await auth.signIn(method);
+        await backendSignIn(auth, how);
       } catch (e) {
         throw asAuthError(e);
+      } finally {
+        signingIn--;
       }
       blockedUid = null;
       unconfirmed = null;
@@ -963,10 +1082,14 @@ function createController(deps: Deps): Controller {
       requireAllowed();
       requireNoOfferRun();
       const auth = requireAuth();
+      signingIn++;
+      signInGen++;
       try {
         await auth.signUp(email, password);
       } catch (e) {
         throw asAuthError(e);
+      } finally {
+        signingIn--;
       }
       blockedUid = null;
       unconfirmed = null;
@@ -1071,12 +1194,12 @@ function createController(deps: Deps): Controller {
 
     syncNow,
 
-    deleteAccount(password: string) {
-      return holding(() => deleteAccount(password));
+    deleteAccount(proof: DeleteProof, options?: DeleteOptions) {
+      return holding(() => deleteAccount(proof, options));
     },
 
-    deleteOfferedAccount(password: string) {
-      return holding(() => deleteOfferedAccount(password));
+    deleteOfferedAccount(proof: DeleteProof, options?: DeleteOptions) {
+      return holding(() => deleteOfferedAccount(proof, options));
     },
 
     dismissUnder13Offer() {
@@ -1189,18 +1312,27 @@ function createController(deps: Deps): Controller {
     }
   }
 
-  async function deleteAccount(password: string): Promise<void> {
+  /** After the re-auth: an abort asked for while Google's window was open ends the delete here, before anything. */
+  function provenOrAborted(options: DeleteOptions | undefined): void {
+    if (options?.signal?.aborted) throw new AuthError('cancelled', 'the delete was cancelled');
+    options?.onProven?.();
+  }
+
+  async function deleteAccount(proof: DeleteProof, options?: DeleteOptions): Promise<void> {
     const auth = requireAuth();
     const who = auth.currentUser() ?? user;
     if (!who) throw new AuthError('unknown', 'nobody is signed in');
     if (deleting) throw new AuthError('unknown', 'a delete is already in progress');
+    // Google proves only an account that signs in with Google (a password-only account keeps its password).
+    if (proofKind(proof) === 'google' && !who.providers?.includes('google')) throw new AuthError('unknown', 'this account does not sign in with Google');
     deleting = true;
     try {
       try {
-        await auth.reauthenticate({ kind: 'password', email: who.email ?? '', password });
+        await abortable(backendReauth(auth, proofMethod(proof, who.email ?? '')), options?.signal);
       } catch (e) {
         throw asAuthError(e);
       }
+      provenOrAborted(options);
       holds++;
       let requested = false;
       let hadData: boolean | null = null;
@@ -1257,10 +1389,13 @@ function createController(deps: Deps): Controller {
    * then drop the offer. Any failure deletes nothing locally, keeps the offer and ends signed out. A delete that
    * succeeded drops the offer whatever fails after it, and still ends signed out.
    */
-  async function deleteOfferedAccount(password: string): Promise<void> {
+  async function deleteOfferedAccount(proof: DeleteProof, options?: DeleteOptions): Promise<void> {
     const offer = offerNow();
     if (!offer) throw new AuthError('not-allowed', 'there is no Under 13 offer on this device');
     if (deleting) throw new AuthError('unknown', 'a delete is already in progress');
+    if (signingIn > 0) throw new AuthError('unknown', 'a sign-in is in progress');
+    // The proof must be the offer's own method: Google proves only an offer recorded for a Google-only account.
+    if (proofKind(proof) !== (offer.method ?? 'password')) throw new AuthError('unknown', 'that is not how the offered account signs in');
     const auth = requireAuth();
     const before = auth.currentUser();
     // The panel shows only while signed out; never sign someone else out (or in over them) to delete this one.
@@ -1275,11 +1410,15 @@ function createController(deps: Deps): Controller {
         await enqueue(reconcile); // whatever ran stops; the hold keeps every engine off until the end
         let reauthed: AuthUser;
         try {
-          // Straight to the backend: sign-in is off (the gate), and this sign-in exists only to delete.
-          reauthed = await auth.signIn({ kind: 'password', email: offer.email, password });
+          // Straight to the backend: sign-in is off (the gate), and this sign-in exists only to delete. Google's window
+          // may never create an account here (existingOnly).
+          reauthed = await abortable(backendSignIn(auth, proofMethod(proof, offer.email, true)), options?.signal, (late) =>
+            watchAbandoned(auth, late),
+          );
         } catch (e) {
           throw asAuthError(e);
         }
+        provenOrAborted(options);
         // The password must have proven the offered account itself. The sign-in's own result says whom it
         // authenticated; currentUser does not: the email may now sign in to another account while another tab
         // restores the offered uid's older session. Never delete on a password that proved someone else.
@@ -1317,6 +1456,36 @@ function createController(deps: Deps): Controller {
       setUser(auth.currentUser()); // shows the real state again; kicks; asks enforceGate if still signed in
     }
     if (failure) throw failure;
+  }
+
+  /**
+   * The offered delete was given up while Google's window was open (D-1): when the window's late result arrives, sign
+   * out what it signed in, unless the person has started a sign-in of their own since. Until then `abandonedNow()`
+   * keeps that account hidden and unsynced. Never rejects.
+   */
+  function watchAbandoned(auth: AuthBackend, late: Promise<AuthUser>): void {
+    const mark = { gen: signInGen };
+    abandoned = mark;
+    void late
+      .then(
+        (u) => u,
+        () => null,
+      )
+      .then(async (u) => {
+        if (mark.gen === signInGen && u && auth.currentUser()?.uid === u.uid) {
+          try {
+            await holding(() => signOut());
+          } catch (e) {
+            console.warn('[account] signing out the abandoned Google re-auth failed', e);
+          }
+        }
+      })
+      .finally(() => {
+        if (abandoned === mark) abandoned = null;
+        emitView();
+        kick();
+        if (user && !gateAllowed()) void enforceGate();
+      });
   }
 
   /**
@@ -1402,6 +1571,7 @@ export function AccountProvider({ children, ...props }: AccountProviderProps) {
             sameUser(prev.user, next.user) &&
             prev.signInAllowed === next.signInAllowed &&
             prev.under13Offer?.email === next.under13Offer?.email &&
+            prev.under13Offer?.method === next.under13Offer?.method &&
             sameVerify(prev.verify, next.verify) &&
             sameNotice(prev.notice, next.notice)
               ? prev
