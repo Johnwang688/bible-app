@@ -17,6 +17,7 @@ import type { TranslationId } from '../reader/translations';
 import { useScriptureFont } from '../study/components/scriptureFont';
 import { formatReference } from '../study/share';
 import { useTheme } from '../theme/ThemeProvider';
+import { SummaryButton } from '../summary/SummaryButton';
 import { commentaryParagraphs, commentaryPreview, entryRange, useVerseCommentary } from './useVerseCommentary';
 
 export interface CommentaryViewProps {
@@ -27,9 +28,10 @@ export interface CommentaryViewProps {
   verse: number;
   onBack(): void;
   onClose(): void;
+  onSummary?(): void;
 }
 
-export function CommentaryView({ book, chapter, translation, verse, onBack, onClose }: CommentaryViewProps) {
+export function CommentaryView({ book, chapter, translation, verse, onBack, onClose, onSummary }: CommentaryViewProps) {
   const theme = useTheme();
   const t = useT();
   const titleRef = useFocusOnMount();
@@ -97,14 +99,11 @@ export function CommentaryView({ book, chapter, translation, verse, onBack, onCl
     body = (
       <View testID="commentary-error" style={styles.state}>
         <Text style={{ color: theme.colors.text, fontFamily: regular, fontSize: 16 }}>{t('commentary.error')}</Text>
-        <Pressable
+        <SummaryButton
           testID="commentary-retry"
-          accessibilityRole="button"
+          label={t('common.retry')}
           onPress={() => void query.refetch()}
-          style={[styles.retry, { backgroundColor: theme.colors.cta }]}
-        >
-          <Text style={{ color: theme.colors.onCta, fontFamily: bold, fontSize: 15 }}>{t('common.retry')}</Text>
-        </Pressable>
+        />
       </View>
     );
   } else if (loading) {
@@ -135,7 +134,8 @@ export function CommentaryView({ book, chapter, translation, verse, onBack, onCl
         <Text style={{ color: theme.colors.text, fontFamily: uiFace(theme.type.head, '700'), fontSize: 17, textAlign: 'center' }}>
           {t('commentary.emptyTitle')}
         </Text>
-        <Text style={[muted, { fontSize: 14, lineHeight: 21, textAlign: 'center' }]}>{t('commentary.emptyBody')}</Text>
+        <Text style={[muted, { fontSize: 14, lineHeight: 21, textAlign: 'center' }]}>{t(onSummary ? 'summary.fallback' : 'commentary.emptyBody')}</Text>
+        {onSummary ? <SummaryButton testID="commentary-summary" label={t('summary.read')} onPress={onSummary} /> : null}
       </View>
     );
   } else {
@@ -194,7 +194,6 @@ const styles = StyleSheet.create({
   footer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 },
   readAll: { minHeight: 44, paddingHorizontal: 16, alignItems: 'center', justifyContent: 'center' },
   state: { gap: 12, paddingVertical: 8, alignItems: 'flex-start' },
-  retry: { minHeight: 44, paddingHorizontal: 20, borderRadius: 999, alignItems: 'center', justifyContent: 'center' },
   empty: { marginTop: 16, alignItems: 'center', gap: 10, paddingHorizontal: 24 },
   disc: { width: 56, height: 56, alignItems: 'center', justifyContent: 'center' },
 });

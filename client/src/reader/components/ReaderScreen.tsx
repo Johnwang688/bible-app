@@ -34,7 +34,7 @@ import { useTheme } from '../../theme/ThemeProvider';
 import { bookName, findBook, useBooks } from '../books';
 import { clampPosition, nextPosition, prevPosition } from '../navigation';
 import { useReaderPosition, useReadingSettings } from '../state';
-import { readerTargets, usePendingReaderTarget } from '../target';
+import { readerTargets, usePendingReaderTarget, type ReaderTarget } from '../target';
 import { TRANSLATIONS, type TranslationId } from '../translations';
 import { usePrefetchAdjacent, useChapter } from '../useChapter';
 import { focusNode, useFocusNodeSoon } from './a11y';
@@ -301,6 +301,12 @@ export function ReaderScreen(props: {
     const key = `${bookNumber}:${chapter}:${here.translation}`;
     setSelection({ key, anchor: verse, start: verse, end: verse, open: false });
     pendingScroll.current = { key, verse };
+  };
+
+  const openSummaryRange = (target: ReaderTarget) => {
+    setSheet(null);
+    readerTargets.set(target);
+    moveTo({ bookNumber: target.bookNumber, chapter: target.chapter, translation: positionRef.current.translation });
   };
 
   const hideDistance = insets.top + HEADER_BODY_HEIGHT + 4;
@@ -642,7 +648,8 @@ export function ReaderScreen(props: {
         onBack={() => { read.backToVerse(); setFocusToggleRequest((n) => n + 1); }} onHeight={setBarHeight}
         onPlayNext={() => { read.playNextChapter(); setFocusToggleRequest((n) => n + 1); }}
         toggleRef={toggleRef} speedRef={speedRef} focusToggleRequest={focusToggleRequest} />
-      {sheet === 'tools' ? <ChapterToolsSheet title={chapterTitle} translation={translationName} fromVerse={fromVerse} ready={!!chapter} onStart={startRead} onClose={closeReadSheet} /> : null}
+      {sheet === 'tools' && book ? <ChapterToolsSheet key={`${book.book_number}:${position.chapter}`} title={chapterTitle} translation={translationName} fromVerse={fromVerse} ready={!!chapter} onStart={startRead} onClose={closeReadSheet}
+        book={book} chapter={position.chapter} readerTranslation={first} onOpenRange={openSummaryRange} /> : null}
       {sheet === 'voice' ? <VoiceSpeedSheet read={read} translation={translationName} sampleText={sampleText} onClose={closeReadSheet} /> : null}
       {noVoiceVisible ? <NoVoiceSheet read={read} translation={translationName} fromVerse={fromVerse} onClose={stopRead} /> : null}
       {sheet === 'book' && books.data ? (
@@ -669,6 +676,7 @@ export function ReaderScreen(props: {
           onClose={closeVerseSheet}
           onHeight={setSheetHeight}
           onGoTo={goToReference}
+          onOpenRange={openSummaryRange}
           covered={sheet !== null}
         />
       ) : null}

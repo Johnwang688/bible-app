@@ -1,4 +1,5 @@
 import { readAloudZhHans } from './readAloud';
+import { summaryZhHans } from './summary';
 // 简体中文 message catalogue. Drafted with the English; John and Chinese-speaking friends
 // review it before launch (R-7). Terms follow CUV-style church usage.
 import type { MessageKey } from './en';
@@ -514,6 +515,7 @@ export const zhHans: Record<MessageKey, string> = {
   'commentary.credit': '马太·亨利《圣经简明注释》（公有领域），目前只有英文',
   'commentary.readAll': '阅读全文',
   'commentary.error': '无法加载注释。',
+  ...summaryZhHans,
   // R-5 part 2: search, Study → Explore, the people, places and themes pages (design/proposed/r5-*.html).
   'reader.search': '搜索',
   'search.back': '返回圣经',
